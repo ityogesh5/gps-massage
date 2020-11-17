@@ -1,4 +1,4 @@
-package com.nexware.gps_massageapp
+package com.healingmatch.gpsmassageapp
 
 import io.flutter.embedding.android.FlutterActivity
 
