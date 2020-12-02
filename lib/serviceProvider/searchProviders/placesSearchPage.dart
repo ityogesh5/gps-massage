@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/searchProviders/address_search.dart';
-import 'package:gps_massageapp/searchProviders/place_service.dart';
+import 'address_search.dart';
+import 'place_service.dart';
 import 'package:uuid/uuid.dart';
 
 void main() {

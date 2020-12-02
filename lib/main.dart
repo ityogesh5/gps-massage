@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/searchProviders/placesSearchPage.dart';
+import 'package:gps_massageapp/serviceProvider/searchProviders/placesSearchPage.dart';
+
 
 void main() {
   runApp(MyApp());
