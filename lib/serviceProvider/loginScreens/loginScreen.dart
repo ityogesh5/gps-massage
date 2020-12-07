@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -33,16 +34,18 @@ class _LoginState extends State<Login> {
                     ),
                     TextFormField(
                       decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
+                          enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
                             ),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0.0,
+                            ),
                           ),
                           filled: true,
-                          hintStyle: TextStyle(color: Colors.black12),
+                          hintStyle:
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "Therapist",
                           fillColor: Colors.grey[200]),
                     ),
@@ -51,12 +54,13 @@ class _LoginState extends State<Login> {
                     ),
                     TextFormField(
                       decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                            ),
+                          enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
+                            ),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0.0,
                             ),
                           ),
                           suffixIcon: IconButton(
@@ -69,7 +73,8 @@ class _LoginState extends State<Login> {
                                 });
                               }),
                           filled: true,
-                          hintStyle: TextStyle(color: Colors.black12),
+                          hintStyle:
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "Password",
                           fillColor: Colors.grey[200]),
                     ),
@@ -81,11 +86,11 @@ class _LoginState extends State<Login> {
                       children: [
                         InkWell(
                           onTap: () {
-                            /* Navigator.push(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        ResetPassword()));*/
+                                        ForgetPassword()));
                           },
                           child: Text(
                             'パスワードを忘れた方はこちら',
