@@ -1,5 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
+import 'OTPScreen/otp_field.dart';
+import 'OTPScreen/style.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -7,6 +13,9 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  Timer _timer;
+  int _start = 10;
+  String userOTP;
   TextEditingController pin = TextEditingController();
   TextEditingController createPassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
@@ -17,6 +26,34 @@ class _ChangePasswordState extends State<ChangePassword> {
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confrimPasswordFocus = FocusNode();
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,29 +97,57 @@ class _ChangePasswordState extends State<ChangePassword> {
                     SizedBox(
                       height: 25,
                     ),
-                    /*    PinCodeTextField(
-                      controller: pin,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.number,
-                      appContext: context,
-                      length: 4,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      onSubmitted: (val) {},
-                      onChanged: (val) {},
-                      onCompleted: (val) {},
-                      textStyle: TextStyle(fontSize: 20, color: Colors.white),
-                      enableActiveFill: true,
-                      pinTheme: PinTheme(
-                          borderRadius: BorderRadius.circular(10.0),
-                          selectedFillColor: Colors.grey[300],
-                          selectedColor: Colors.grey[300],
-                          inactiveFillColor: Colors.grey[300],
-                          inactiveColor: Colors.grey[300],
-                          activeColor: Colors.orange,
-                          fieldWidth: 50.0,
-                          activeFillColor: Colors.orange,
-                          shape: PinCodeFieldShape.box),
-                    ),*/
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 5.0,
+                      ),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              stops: [
+                                0.3,
+                                1
+                              ],
+                              colors: [
+                                Colors.grey[200],
+                                Colors.grey[200],
+                              ]),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10))),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: OTPTextField(
+                              length: 4,
+                              keyboardType: TextInputType.number,
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
+                              textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                              fieldStyle: FieldStyle.underline,
+                              onCompleted: (pin) {
+                                print("Completed: " + pin);
+                                userOTP = pin;
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: 30,
+                            width: MediaQuery.of(context).size.width * 0.14,
+                            color: Colors.white,
+                            child: Center(child: Text("$_start")),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: 12,
                     ),
