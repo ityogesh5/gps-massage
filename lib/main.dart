@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/splashScreen.dart';
+import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
+import 'package:gps_massageapp/serviceProvider/popup.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen()
+      home: Popup()
     );
   }
 }
