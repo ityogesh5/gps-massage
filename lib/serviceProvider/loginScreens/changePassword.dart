@@ -13,8 +13,6 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  Timer _timer;
-  int _start = 10;
   String userOTP;
   TextEditingController pin = TextEditingController();
   TextEditingController createPassword = TextEditingController();
@@ -26,33 +24,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confrimPasswordFocus = FocusNode();
-  void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
-    );
-  }
-
-  void initState() {
-    super.initState();
-    startTimer();
-  }
-
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,30 +93,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                               bottomRight: Radius.circular(10),
                               topRight: Radius.circular(10),
                               topLeft: Radius.circular(10))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: OTPTextField(
-                              length: 4,
-                              keyboardType: TextInputType.number,
-                              width: MediaQuery.of(context).size.width * 0.75,
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.black),
-                              textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                              fieldStyle: FieldStyle.underline,
-                              onCompleted: (pin) {
-                                print("Completed: " + pin);
-                                userOTP = pin;
-                              },
-                            ),
-                          ),
-                          Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.14,
-                            color: Colors.white,
-                            child: Center(child: Text("$_start")),
-                          ),
-                        ],
+                      child: OTPTextField(
+                        length: 4,
+                        keyboardType: TextInputType.number,
+                        width: MediaQuery.of(context).size.width,
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                        textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                        fieldStyle: FieldStyle.underline,
+                        onCompleted: (pin) {
+                          print("Completed: " + pin);
+                          userOTP = pin;
+                        },
                       ),
                     ),
                     SizedBox(
@@ -223,7 +181,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     Container(
                       width: double.infinity,
@@ -243,6 +201,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    InkWell(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Text(
+                          '認証コードを再送する',
+                          style: TextStyle(),
                         ),
                       ),
                     ),
