@@ -15,6 +15,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Stack(
@@ -22,13 +23,13 @@ class _LoginState extends State<Login> {
               Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 5,
-                    right: MediaQuery.of(context).size.height / 13,
-                    left: MediaQuery.of(context).size.height / 13),
+                    right: MediaQuery.of(context).size.height / 15,
+                    left: MediaQuery.of(context).size.height / 15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
-                        child: Text('サービスのログイン',
+                        child: Text('セラピストのログイン',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold))),
                     SizedBox(
@@ -48,7 +49,7 @@ class _LoginState extends State<Login> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "Therapist",
+                          hintText: "電話番号",
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -77,7 +78,7 @@ class _LoginState extends State<Login> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "Password",
+                          hintText: "パスワード",
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -111,7 +112,7 @@ class _LoginState extends State<Login> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'ログイン',
+                          'パスワード',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.greenAccent,
@@ -130,6 +131,69 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 20,
                     ),
+                    Row(children: <Widget>[
+                      Expanded(
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 15.0),
+                            child: Divider(
+                              // height: 50,
+                              color: Colors.black,
+                            )),
+                      ),
+                      Text("または"),
+                      Expanded(
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.only(left: 15.0, right: 10.0),
+                            child: Divider(
+                              color: Colors.black,
+                              // height: 50,
+                            )),
+                      ),
+                    ]),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              /*  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MyHomePage()));*/
+                            },
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.black12,
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage:
+                                    AssetImage('assets/images/line.jpg'),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.black12,
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage:
+                                    AssetImage('assets/images/apple2.jpg'),
+                              ),
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     InkWell(
                       onTap: () {
                         /* Navigator.push(
@@ -139,7 +203,7 @@ class _LoginState extends State<Login> {
                                         ResetPassword()));*/
                       },
                       child: Text(
-                        'New Registration',
+                        '新規の方はこちら',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold),
@@ -151,7 +215,7 @@ class _LoginState extends State<Login> {
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
               Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 1.15),
+                    top: MediaQuery.of(context).size.height / 1.1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -164,7 +228,7 @@ class _LoginState extends State<Login> {
                                         ResetPassword()));*/
                       },
                       child: Text(
-                        'Service User Login',
+                        'サービス利用者のログイン',
                         style: TextStyle(
 //                            decoration: TextDecoration.underline,
                             ),

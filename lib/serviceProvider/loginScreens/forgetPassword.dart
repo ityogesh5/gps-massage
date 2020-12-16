@@ -46,7 +46,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        "パスワードを再設定するための認証コードを送信\n しますので、ご登録いただいている電話番号を\n ご入力の上「送信」ボタンをクリックしてください。",
+                        'パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
