@@ -8,22 +8,19 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
+      title: 'ヒーリングマッチ',
+      home: RegisterSecondScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class RegisterSecondScreen extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _RegisterSecondScreenState createState() => _RegisterSecondScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RegisterSecondScreenState extends State<RegisterSecondScreen> {
 
   @override
   Widget build(BuildContext context) {
