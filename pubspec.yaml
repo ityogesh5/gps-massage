@@ -37,6 +37,9 @@ dev_dependencies:
   uuid: ^2.0.4
   flutter_google_places: ^0.2.6
   dropdown_formfield: ^0.1.3
+  font_awesome_flutter: ^8.10.0
+  google_fonts: ^1.1.1
+  image_picker:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

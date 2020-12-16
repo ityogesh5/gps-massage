@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 
 void main() {
   runApp(Popup());
@@ -15,9 +16,6 @@ class Popup extends StatefulWidget {
 class _PopupState extends State<Popup> {
   List<String> _locations = ['A', 'B', 'C', 'D']; // Option 2
   String _selectedLocation; // Option 2
-
-  var currentSelectedValue;
-  List<String> deviceTypes = ["Mac", "Windows", "Mobile"];
 
   List<ListItem> _dropdownItems = [
     ListItem(1, "First Value"),
@@ -79,7 +77,12 @@ class _PopupState extends State<Popup> {
           child: Text("Show PopUp"),
           onPressed: () {
             //showChooseServiceAlert(context);
-            showDropDownAlert1(context);
+            //showDropDownAlert1(context);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterFirstScreen()),
+            );
           },
         ),
       ),
