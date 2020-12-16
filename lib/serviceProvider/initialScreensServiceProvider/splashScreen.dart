@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceUser/initialScreenServiceUser/registerUser/registerUserScreen.dart';
 
 void main() {
   runApp(SplashScreen());
@@ -14,7 +15,8 @@ class SplashScreen extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: RegisterUserScreen(),
+      //home: MyHomePage(),
     );
   }
 }
