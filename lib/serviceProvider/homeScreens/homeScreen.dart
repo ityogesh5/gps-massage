@@ -143,6 +143,81 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      height: 100,
+                      child: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Image.asset(
+                                'assets/images/car.jpg',
+                                width: 15.0,
+                                height: 15.0,
+                                fit: BoxFit.fill,
+                              ),
+                              Text('今週の売り上げ'),
+                              Text('¥150,00'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      child: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Image.asset(
+                                'assets/images/car.jpg',
+                                width: 15.0,
+                                height: 15.0,
+                                fit: BoxFit.fill,
+                              ),
+                              Text('今月の売り上げ'),
+                              Text('¥ 500,000'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      color: Colors.white,
+                      child: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Image.asset(
+                                'assets/images/car.jpg',
+                                width: 15.0,
+                                height: 15.0,
+                                fit: BoxFit.fill,
+                              ),
+                              Text('本年度の売り上げ'),
+                              Text('¥10,876,68'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             )

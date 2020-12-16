@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/homeScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 
@@ -119,7 +120,7 @@ class _LoginState extends State<Login> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      HomeScreen()));
+                                      MyHomePage()));
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
