@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:intl/intl.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   @override
@@ -29,6 +31,9 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController _date = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  Position _currentPosition;
+  String _currentAddress;
   double age = 0.0;
   var selectedYear;
   final ageController = TextEditingController();
@@ -42,6 +47,21 @@ class _RegisterUserState extends State<RegisterUser> {
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
   final _genderKey = new GlobalKey<FormState>();
+  final _occupationKey = new GlobalKey<FormState>();
+  final _addressTypeKey = new GlobalKey<FormState>();
+  final _placeOfAddressKey = new GlobalKey<FormState>();
+  final _perfectureKey = new GlobalKey<FormState>();
+  final _cityKey = new GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final userNameController = new TextEditingController();
+  final phoneNumberController = new TextEditingController();
+  final emailController = new TextEditingController();
+  final passwordController = new TextEditingController();
+  final buildingNumberController = new TextEditingController();
+  final gpsAddressController = new TextEditingController();
+  final roomNumberController = new TextEditingController();
+
+  //final gpsAddressController = new TextEditingController();
 
   _dismissKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(new FocusNode());
@@ -84,8 +104,14 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -149,10 +175,35 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    maxRadius: 40,
-                    child: Icon(Icons.person, size: 60, color: Colors.black),
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[200],
+                        maxRadius: 40,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                              'assets/images_gps/profile_pic_user.svg',
+                              height: 70,
+                              width: 70,
+                              color: Colors.black),
+                          onPressed: () {},
+                        ),
+                      ),
+                      Positioned(
+                        right: 15.0,
+                        top: 40,
+                        left: 45,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white70,
+                          maxRadius: 15,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white60,
+                            child: Icon(Icons.upload_outlined,
+                                color: Colors.grey[500], size: 20.0),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(height: 10),
                   Container(
@@ -161,7 +212,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     child: TextFormField(
                       //enableInteractiveSelection: false,
                       autofocus: false,
-                      //controller: emailController,
+                      controller: userNameController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           filled: true,
@@ -270,39 +321,42 @@ class _RegisterUserState extends State<RegisterUser> {
                       SizedBox(
                         width: 130,
                       ),
-                      Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.40,
-                          child: DropDownFormField(
-                            hintText: '性別 *',
-                            value: _myGender,
-                            onSaved: (value) {
-                              setState(() {
-                                _myGender = value;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                _myGender = value;
-                                //print(_myBldGrp.toString());
-                              });
-                            },
-                            dataSource: [
-                              {
-                                "display": "男性",
-                                "value": "男性",
+                      Form(
+                        key: _genderKey,
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.40,
+                            child: DropDownFormField(
+                              hintText: '性別 *',
+                              value: _myGender,
+                              onSaved: (value) {
+                                setState(() {
+                                  _myGender = value;
+                                });
                               },
-                              {
-                                "display": "女性",
-                                "value": "女性",
+                              onChanged: (value) {
+                                setState(() {
+                                  _myGender = value;
+                                  //print(_myBldGrp.toString());
+                                });
                               },
-                              {
-                                "display": "どちらでもない",
-                                "value": "どちらでもない",
-                              },
-                            ],
-                            textField: 'display',
-                            valueField: 'value',
+                              dataSource: [
+                                {
+                                  "display": "男性",
+                                  "value": "男性",
+                                },
+                                {
+                                  "display": "女性",
+                                  "value": "女性",
+                                },
+                                {
+                                  "display": "どちらでもない",
+                                  "value": "どちらでもない",
+                                },
+                              ],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
                           ),
                         ),
                       ),
@@ -313,6 +367,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   ),
                   // Drop down occupation user
                   Form(
+                    key: _occupationKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -390,7 +445,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     child: TextFormField(
                       //enableInteractiveSelection: false,
                       autofocus: false,
-                      //controller: emailController,
+                      controller: phoneNumberController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           filled: true,
@@ -415,7 +470,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     child: TextFormField(
                       //enableInteractiveSelection: false,
                       autofocus: false,
-                      //controller: emailController,
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           filled: true,
@@ -441,7 +496,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       //enableInteractiveSelection: false,
                       autofocus: false,
                       obscureText: _secureText,
-                      //controller: emailController,
+                      controller: passwordController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           filled: true,
@@ -500,6 +555,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   SizedBox(height: 15),
                   // Drop down address input type
                   Form(
+                    key: _addressTypeKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -520,6 +576,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   if (_myAddressInputType != null &&
                                       _myAddressInputType
                                           .contains('現在地を取得する')) {
+                                    gpsAddressController.clear();
                                     _showCurrentLocationInput =
                                         !_showCurrentLocationInput;
                                   } else {
@@ -555,6 +612,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
+                        controller: gpsAddressController,
                         readOnly: true,
                         decoration: new InputDecoration(
                             filled: true,
@@ -564,6 +622,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               icon: Icon(Icons.location_on),
                               onPressed: () {
                                 print('location getting....');
+                                _getCurrentLocation();
                               },
                             ),
                             labelStyle: TextStyle(
@@ -582,6 +641,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   SizedBox(height: 10),
                   // Drop down address input type
                   Form(
+                    key: _placeOfAddressKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -628,38 +688,75 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                   SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Center(
-                        child: Container(
+                  Form(
+                    key: _perfectureKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.38,
+                            child: DropDownFormField(
+                              hintText: 'エリア *',
+                              value: _myPrefecture,
+                              onSaved: (value) {
+                                setState(() {
+                                  _myPrefecture = value;
+                                });
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  _myPrefecture = value;
+                                  //print(_myBldGrp.toString());
+                                });
+                              },
+                              dataSource: [
+                                {
+                                  "display": "名古屋市",
+                                  "value": "男性",
+                                },
+                                {
+                                  "display": "豊橋市",
+                                  "value": "女性",
+                                },
+                                {
+                                  "display": "岡崎市",
+                                  "value": "どちらでもない",
+                                },
+                              ],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                        Container(
                           width: MediaQuery.of(context).size.width * 0.38,
                           child: DropDownFormField(
-                            hintText: 'エリア *',
-                            value: _myPrefecture,
+                            hintText: '市 *',
+                            value: _myCity,
                             onSaved: (value) {
                               setState(() {
-                                _myPrefecture = value;
+                                _myCity = value;
                               });
                             },
                             onChanged: (value) {
                               setState(() {
-                                _myPrefecture = value;
+                                _myCity = value;
                                 //print(_myBldGrp.toString());
                               });
                             },
                             dataSource: [
                               {
-                                "display": "男性",
+                                "display": "名古屋市",
                                 "value": "男性",
                               },
                               {
-                                "display": "女性",
+                                "display": "豊橋市",
                                 "value": "女性",
                               },
                               {
-                                "display": "どちらでもない",
+                                "display": "一宮市",
                                 "value": "どちらでもない",
                               },
                             ],
@@ -667,42 +764,8 @@ class _RegisterUserState extends State<RegisterUser> {
                             valueField: 'value',
                           ),
                         ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: DropDownFormField(
-                          hintText: '市 *',
-                          value: _myCity,
-                          onSaved: (value) {
-                            setState(() {
-                              _myCity = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _myCity = value;
-                              //print(_myBldGrp.toString());
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "男性",
-                              "value": "男性",
-                            },
-                            {
-                              "display": "女性",
-                              "value": "女性",
-                            },
-                            {
-                              "display": "どちらでもない",
-                              "value": "どちらでもない",
-                            },
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
 
                   SizedBox(height: 15),
@@ -717,7 +780,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           child: TextFormField(
                             //enableInteractiveSelection: false,
                             autofocus: false,
-                            //controller: emailController,
+                            controller: buildingNumberController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: new InputDecoration(
                                 filled: true,
@@ -769,7 +832,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     child: TextFormField(
                       //enableInteractiveSelection: false,
                       autofocus: false,
-                      //controller: emailController,
+                      controller: roomNumberController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           filled: true,
@@ -842,5 +905,40 @@ class _RegisterUserState extends State<RegisterUser> {
         ),
       ),
     );
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      Placemark place = p[0];
+      setState(() {
+        _currentAddress =
+            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
+        print('Place Json : ${place.toJson()}');
+        if (_currentAddress != null && _currentAddress.isNotEmpty) {
+          print('Current address : $_currentAddress');
+          gpsAddressController.value = TextEditingValue(text: _currentAddress);
+        } else {
+          return null;
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
