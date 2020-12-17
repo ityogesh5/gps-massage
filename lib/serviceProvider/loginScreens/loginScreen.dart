@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/homeScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registrationScreens/RegistrationSecondPage.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -115,7 +117,7 @@ class _LoginState extends State<Login> {
                           'パスワード',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        color: Colors.greenAccent,
+                        color: Colors.lime,
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -196,11 +198,11 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ResetPassword()));*/
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    RegistrationSecondPage()));
                       },
                       child: Text(
                         '新規の方はこちら',
