@@ -41,6 +41,10 @@ dev_dependencies:
   http: ^0.12.1
   uuid: ^2.0.4
   flutter_google_places: ^0.2.6
+  dropdown_formfield: ^0.1.3
+  font_awesome_flutter: ^8.10.0
+  google_fonts: ^1.1.1
+  image_picker:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -54,8 +58,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -67,6 +70,9 @@ flutter:
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
+  #Saravanakumar added this assets
+  assets:
+    - assets/images/
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:

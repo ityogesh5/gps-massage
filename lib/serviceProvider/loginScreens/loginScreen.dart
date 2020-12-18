@@ -4,7 +4,6 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/homeScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registrationScreens/RegistrationSecondPage.dart';
 
 class Login extends StatefulWidget {
   @override

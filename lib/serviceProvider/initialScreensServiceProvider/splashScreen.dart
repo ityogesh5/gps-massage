@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'file:///D:/Gps/lib/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
+
+import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 
 void main() {
   runApp(SplashScreen());
@@ -21,7 +24,7 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+/*class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -35,4 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
 }
+
+}*/

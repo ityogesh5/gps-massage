@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
 
-import 'OTPScreen/otpScreen.dart';
 import 'loginScreen.dart';
 
 class ForgetPassword extends StatefulWidget {

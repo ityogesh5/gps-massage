@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
+import 'forgetPassword.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
