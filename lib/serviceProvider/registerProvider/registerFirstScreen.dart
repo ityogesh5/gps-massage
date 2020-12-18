@@ -2,15 +2,12 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/utils/widgets.dart';
 import 'package:gps_massageapp/utils/password-input.dart';
 import 'package:gps_massageapp/utils/rounded-button.dart';
 import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:image_picker/image_picker.dart';
-
-void main() {
-  runApp(RegisterFirstScreen());
-}
 
 /*class SplashScreen extends StatelessWidget {
   @override
@@ -29,7 +26,6 @@ class RegisterFirstScreen extends StatefulWidget {
 }
 
 class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
-
   File _image;
   final picker = ImagePicker();
   bool passwordVisibility = true;
@@ -103,7 +99,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Center(
                       child: Text(
                         "計算したい日付を選択し",
-                        style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -116,7 +115,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Center(
                       child: Text(
                         "日付を選択し",
-                        style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -221,29 +223,30 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             },
                             child: CircleAvatar(
                               radius: size.width * 0.14,
-                              backgroundColor: Colors.grey[400].withOpacity(0.4),
+                              backgroundColor:
+                                  Colors.grey[400].withOpacity(0.4),
                               child: _image != null
                                   ? ClipRRect(
-                                //borderRadius: BorderRadius.circular(50),
-                                child: Image.file(
-                                  _image,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              )
+                                      //borderRadius: BorderRadius.circular(50),
+                                      child: Image.file(
+                                        _image,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    )
                                   : Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                ),
-                                width: 100,
-                                height: 100,
-                                child: Icon(
-                                  FontAwesomeIcons.user,
-                                  color: kWhite,
-                                  size: size.width * 0.1,
-                                ),
-                              ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                      ),
+                                      width: 100,
+                                      height: 100,
+                                      child: Icon(
+                                        FontAwesomeIcons.user,
+                                        color: kWhite,
+                                        size: size.width * 0.1,
+                                      ),
+                                    ),
                               /*child: Icon(
                                 FontAwesomeIcons.user,
                                 color: kWhite,
@@ -280,8 +283,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       width: 280,
                       child: Center(
                         child: Text(
-                          "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し", textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                          "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -372,12 +379,18 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       margin: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Row(
                         children: [
-                          Expanded(child: Text(
-                            "計算したい日付を選択し",
-                            style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              "計算したい日付を選択し",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
+                          SizedBox(
+                            width: 10.0,
                           ),
-                          SizedBox(width: 10.0,),
                           Container(
                             //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             decoration: BoxDecoration(
@@ -412,12 +425,18 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       margin: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Row(
                         children: [
-                          Expanded(child: Text(
-                            "計算したい日付を選択し",
-                            style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              "計算したい日付を選択し",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
+                          SizedBox(
+                            width: 10.0,
                           ),
-                          SizedBox(width: 10.0,),
                           Container(
                             //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             decoration: BoxDecoration(
@@ -498,8 +517,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し", textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -508,33 +531,32 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                 Stack(
                   children: [
                     Container(
-                      height: size.height * 0.06,
-                      width: size.width * 0.9,
-                      child: Theme(
-                        data: Theme.of(context).copyWith(splashColor: Colors.black12),
-                        child: TextFormField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              labelText: "その他",
-                              filled: true,
-                              fillColor: Colors.black12,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
+                        height: size.height * 0.06,
+                        width: size.width * 0.9,
+                        child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: TextFormField(
+                              controller: _controller,
+                              decoration: InputDecoration(
+                                labelText: "その他",
+                                filled: true,
+                                fillColor: Colors.black12,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
                                 ),
-                              ),
-                            )
-                        ),
-                      )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -543,8 +565,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し", textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -553,33 +579,32 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                 Stack(
                   children: [
                     Container(
-                      height: size.height * 0.06,
-                      width: size.width * 0.9,
-                      child: Theme(
-                        data: Theme.of(context).copyWith(splashColor: Colors.black12),
-                        child: TextFormField(
-                            controller: _controller1,
-                            decoration: InputDecoration(
-                              labelText: "その他",
-                              filled: true,
-                              fillColor: Colors.black12,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
+                        height: size.height * 0.06,
+                        width: size.width * 0.9,
+                        child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: TextFormField(
+                              controller: _controller1,
+                              decoration: InputDecoration(
+                                labelText: "その他",
+                                filled: true,
+                                fillColor: Colors.black12,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
                                 ),
-                              ),
-                            )
-                        ),
-                      )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -592,37 +617,39 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       margin: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Row(
                         children: [
-                          Expanded(child: Theme(
-                            data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          Expanded(
+                              child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
                             child: TextFormField(
                                 controller: _controller2,
                                 decoration: InputDecoration(
-                                  labelText: "その他",
-                                  filled: true,
-                                  fillColor: Colors.black12,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
+                                    labelText: "その他",
+                                    filled: true,
+                                    fillColor: Colors.black12,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                      ),
                                     ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
                                     ),
-                                  ),
                                     suffixIcon: IconButton(
-                                        icon: Icon(Icons.calendar_today,size: 28),
+                                        icon: Icon(Icons.calendar_today,
+                                            size: 28),
                                         onPressed: () {
                                           debugPrint('222');
-                                        })
-                                )
-                            ),
-                          )
+                                        }))),
+                          )),
+                          SizedBox(
+                            width: 10.0,
                           ),
-                          SizedBox(width: 10.0,),
                           Container(
                             height: size.height * 0.06,
                             decoration: BoxDecoration(
@@ -636,7 +663,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               onPressed: () {},
                               child: Text(
                                 "計算",
-                                style: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
                                 //kBodyText.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -656,12 +686,18 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       margin: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Row(
                         children: [
-                          Expanded(child: Text(
-                            "計算したい日付を選択し",
-                            style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              "計算したい日付を選択し",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
+                          SizedBox(
+                            width: 10.0,
                           ),
-                          SizedBox(width: 10.0,),
                           Container(
                             //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             decoration: BoxDecoration(
@@ -693,7 +729,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.9,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               decoration: InputDecoration(
@@ -713,10 +750,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     width: 1.0,
                                   ),
                                 ),
-                              )
-                          ),
-                        )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -725,8 +760,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し", textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -738,7 +777,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.9,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               decoration: InputDecoration(
@@ -758,10 +798,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     width: 1.0,
                                   ),
                                 ),
-                              )
-                          ),
-                        )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -771,7 +809,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.9,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               decoration: InputDecoration(
@@ -791,10 +830,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     width: 1.0,
                                   ),
                                 ),
-                              )
-                          ),
-                        )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -804,7 +841,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.9,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               obscureText: passwordVisibility,
@@ -831,13 +869,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                         : Icon(Icons.visibility),
                                     onPressed: () {
                                       setState(() {
-                                        passwordVisibility = !passwordVisibility;
+                                        passwordVisibility =
+                                            !passwordVisibility;
                                       });
                                     }),
-                              )
-                          ),
-                        )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -846,8 +883,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し", textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -859,7 +900,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.9,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               obscureText: passwordConfirmVisibility,
@@ -886,13 +928,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                         : Icon(Icons.visibility),
                                     onPressed: () {
                                       setState(() {
-                                        passwordConfirmVisibility = !passwordConfirmVisibility;
+                                        passwordConfirmVisibility =
+                                            !passwordConfirmVisibility;
                                       });
                                     }),
-                              )
-                          ),
-                        )
-                    ),
+                              )),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -926,8 +967,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ", textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -939,7 +984,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         height: size.height * 0.06,
                         width: size.width * 0.8,
                         child: Theme(
-                          data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
                               controller: _controller,
                               decoration: InputDecoration(
@@ -960,14 +1006,13 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     ),
                                   ),
                                   suffixIcon: IconButton(
-                                      icon: Icon(Icons.add_location_alt_outlined,size: 28),
+                                      icon: Icon(
+                                          Icons.add_location_alt_outlined,
+                                          size: 28),
                                       onPressed: () {
                                         debugPrint('222');
-                                      })
-                              )
-                          ),
-                        )
-                    ),
+                                      }))),
+                        )),
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
@@ -980,8 +1025,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       //margin: EdgeInsets.only(left: 30.0, right: 30.0),
                       child: Row(
                         children: [
-                          Expanded(child: Theme(
-                            data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                          Expanded(
+                              child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
                             child: TextFormField(
                                 controller: _controller,
                                 decoration: InputDecoration(
@@ -1001,37 +1048,37 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                       width: 1.0,
                                     ),
                                   ),
-                                )
-                            ),
+                                )),
                           )),
-                          SizedBox(width: 10.0,),
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           Expanded(
                             child: Container(
                                 child: Theme(
-                                  data: Theme.of(context).copyWith(splashColor: Colors.black12),
-                                  child: TextFormField(
-                                      controller: _controller,
-                                      decoration: InputDecoration(
-                                        labelText: "その他",
-                                        filled: true,
-                                        fillColor: Colors.black12,
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.blue,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          borderSide: BorderSide(
-                                            color: Colors.grey,
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                      )
-                                  ),
-                                )
-                            ),
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFormField(
+                                  controller: _controller,
+                                  decoration: InputDecoration(
+                                    labelText: "その他",
+                                    filled: true,
+                                    fillColor: Colors.black12,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                  )),
+                            )),
                           ),
                         ],
                       ),
@@ -1044,8 +1091,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ", textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -1062,18 +1113,21 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       ),
                       child: RaisedButton(
                         //padding: EdgeInsets.all(15.0),
-                        child: Text("OK",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                        child: Text(
+                          "OK",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
                         color: Colors.lime,
                         textColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text('Dialog Title'),
-                                content: Text('This is my content'),
-                              )
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      RegistrationSecondPage()));
                         },
                       ),
                     ),
@@ -1090,8 +1144,13 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           print("User onTapped");
                         },
                         child: Text(
-                          "日付を選択し日付を選択し日付を選択し日", textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                          "日付を選択し日付を選択し日付を選択し日",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline),
                         ),
                       ),
                     ),
@@ -1133,14 +1192,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 
   _imgFromCamera() async {
     File image = await ImagePicker.pickImage(
-        source: ImageSource.camera, imageQuality: 50
-    );
+        source: ImageSource.camera, imageQuality: 50);
 
     setState(() {
       _image = image;
@@ -1148,9 +1205,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   }
 
   _imgFromGallery() async {
-    File image = await  ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50
-    );
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       _image = image;

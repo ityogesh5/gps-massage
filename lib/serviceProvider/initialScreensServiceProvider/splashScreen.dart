@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'file:///D:/Gps/lib/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
