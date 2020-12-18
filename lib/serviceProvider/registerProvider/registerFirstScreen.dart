@@ -35,6 +35,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
 
+  bool visible = false;
+
   List<ListItem> _dropdownItems = [
     ListItem(1, "First Value"),
     ListItem(2, "Second Item"),
@@ -317,6 +319,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   _selectedItem = value;
                                 });
@@ -342,6 +345,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem1,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   _selectedItem1 = value;
                                 });
@@ -367,6 +371,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem2,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   _selectedItem2 = value;
                                 });
@@ -404,6 +409,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     value: _selectedItem3,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
+                                      print(value);
                                       setState(() {
                                         _selectedItem3 = value;
                                       });
@@ -444,6 +450,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     value: _selectedItem4,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
+                                      print(value);
                                       setState(() {
                                         _selectedItem4 = value;
                                       });
@@ -472,6 +479,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem5,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   _selectedItem5 = value;
                                 });
@@ -497,6 +505,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem6,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   _selectedItem6 = value;
                                 });
@@ -688,6 +697,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     value: _selectedItem7,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
+                                      print(value);
                                       setState(() {
                                         _selectedItem7 = value;
                                       });
@@ -925,9 +935,21 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               value: _selectedItem8,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
-                                setState(() {
+                                print(value);
+                                if (value == "Second Item") {
+                                  setState(() {
+                                    _selectedItem8 = value;
+                                    visible = true; // !visible;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _selectedItem8 = value;
+                                    visible = false;
+                                  });
+                                }
+                                /*setState(() {
                                   _selectedItem8 = value;
-                                });
+                                });*/
                               }),
                         ),
                       ),
@@ -935,6 +957,13 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
+
+                Visibility(
+                  visible: visible,
+                  child: Column(children: [],
+                      ),
+                ),
+
                 Stack(
                   children: [
                     Container(

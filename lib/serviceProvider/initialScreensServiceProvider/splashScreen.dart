@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'file:///D:/Gps/lib/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
+import 'package:gps_massageapp/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
-
 import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 
 void main() {

@@ -115,6 +115,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       hintStyle: TextStyle(color: Colors.black, fontSize: 13),
                       hintText: "本人確認書のアップロード",
                       fillColor: Colors.white),
+
                 ),
                 SizedBox(
                   height: 5,
