@@ -48,6 +48,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   ListItem _selectedItem2;
   ListItem _selectedItem3;
   ListItem _selectedItem4;
+  ListItem _selectedItem5;
+  ListItem _selectedItem6;
+  ListItem _selectedItem7;
+  ListItem _selectedItem8;
 
   void initState() {
     super.initState();
@@ -57,6 +61,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
     _selectedItem2 = _dropdownMenuItems[0].value;
     _selectedItem3 = _dropdownMenuItems[0].value;
     _selectedItem4 = _dropdownMenuItems[0].value;
+    _selectedItem5 = _dropdownMenuItems[0].value;
+    _selectedItem6 = _dropdownMenuItems[0].value;
+    _selectedItem7 = _dropdownMenuItems[0].value;
+    _selectedItem8 = _dropdownMenuItems[0].value;
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -77,6 +85,12 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   final _controller2 = new TextEditingController();
   final _controller3 = new TextEditingController();
   final _controller4 = new TextEditingController();
+  final _controller5 = new TextEditingController();
+  final _controller6 = new TextEditingController();
+  final _controller7 = new TextEditingController();
+  final _controller8 = new TextEditingController();
+  final _controller9 = new TextEditingController();
+  final _controller10 = new TextEditingController();
 
   bool _validate = false;
 
@@ -325,11 +339,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: Expanded(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                              value: _selectedItem,
+                              value: _selectedItem1,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedItem = value;
+                                  _selectedItem1 = value;
                                 });
                               }),
                         ),
@@ -350,11 +364,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: Expanded(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                              value: _selectedItem,
+                              value: _selectedItem2,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedItem = value;
+                                  _selectedItem2 = value;
                                 });
                               }),
                         ),
@@ -387,11 +401,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             child: Expanded(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                    value: _selectedItem,
+                                    value: _selectedItem3,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
                                       setState(() {
-                                        _selectedItem = value;
+                                        _selectedItem3 = value;
                                       });
                                     }),
                               ),
@@ -427,11 +441,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             child: Expanded(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                    value: _selectedItem,
+                                    value: _selectedItem4,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
                                       setState(() {
-                                        _selectedItem = value;
+                                        _selectedItem4 = value;
                                       });
                                     }),
                               ),
@@ -455,11 +469,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: Expanded(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                              value: _selectedItem,
+                              value: _selectedItem5,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedItem = value;
+                                  _selectedItem5 = value;
                                 });
                               }),
                         ),
@@ -480,11 +494,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: Expanded(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                              value: _selectedItem,
+                              value: _selectedItem6,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedItem = value;
+                                  _selectedItem6 = value;
                                 });
                               }),
                         ),
@@ -671,11 +685,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             child: Expanded(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
-                                    value: _selectedItem,
+                                    value: _selectedItem7,
                                     items: _dropdownMenuItems,
                                     onChanged: (value) {
                                       setState(() {
-                                        _selectedItem = value;
+                                        _selectedItem7 = value;
                                       });
                                     }),
                               ),
@@ -695,7 +709,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller3,
                               decoration: InputDecoration(
                                 labelText: "その他",
                                 filled: true,
@@ -740,7 +754,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller4,
                               decoration: InputDecoration(
                                 labelText: "その他",
                                 filled: true,
@@ -773,7 +787,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller5,
                               decoration: InputDecoration(
                                 labelText: "その他",
                                 filled: true,
@@ -806,7 +820,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller6,
                               obscureText: passwordVisibility,
                               decoration: InputDecoration(
                                 labelText: "その他",
@@ -861,7 +875,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller7,
                               obscureText: passwordConfirmVisibility,
                               decoration: InputDecoration(
                                 labelText: "その他",
@@ -908,11 +922,11 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: Expanded(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
-                              value: _selectedItem,
+                              value: _selectedItem8,
                               items: _dropdownMenuItems,
                               onChanged: (value) {
                                 setState(() {
-                                  _selectedItem = value;
+                                  _selectedItem8 = value;
                                 });
                               }),
                         ),
@@ -941,7 +955,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         child: Theme(
                           data: Theme.of(context).copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              controller: _controller,
+                              controller: _controller8,
                               decoration: InputDecoration(
                                   labelText: "その他",
                                   filled: true,
@@ -983,7 +997,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           Expanded(child: Theme(
                             data: Theme.of(context).copyWith(splashColor: Colors.black12),
                             child: TextFormField(
-                                controller: _controller,
+                                controller: _controller9,
                                 decoration: InputDecoration(
                                   labelText: "その他",
                                   filled: true,
@@ -1010,7 +1024,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                 child: Theme(
                                   data: Theme.of(context).copyWith(splashColor: Colors.black12),
                                   child: TextFormField(
-                                      controller: _controller,
+                                      controller: _controller10,
                                       decoration: InputDecoration(
                                         labelText: "その他",
                                         filled: true,
