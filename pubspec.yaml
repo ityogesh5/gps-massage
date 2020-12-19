@@ -33,7 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  http: ^0.12.1
+  http: ^0.12.2
   uuid: ^2.0.4
   flutter_google_places: ^0.2.6
   intl: any

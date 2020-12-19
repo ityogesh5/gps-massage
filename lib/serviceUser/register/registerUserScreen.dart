@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterUserScreen extends StatefulWidget {
   @override
@@ -48,10 +49,8 @@ class _RegisterUserState extends State<RegisterUser> {
   var _myCategoryPlaceForMassage;
   var _myPrefecture;
   var _myCity;
-  var _myBuildingNumber;
-
+  var _myBuildingName;
   var _myArea;
-
   var _myRoomNumber;
 
   bool _showCurrentLocationInput = false;
@@ -75,6 +74,8 @@ class _RegisterUserState extends State<RegisterUser> {
   final userAreaController = new TextEditingController();
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
+
+  List<String> serviceUserDetails = [];
 
   //final gpsAddressController = new TextEditingController();
 
@@ -688,6 +689,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   color: Colors.grey, width: 1.0),
                               borderRadius: BorderRadius.circular(0),
                             )),
+                        style: TextStyle(color: Colors.black54),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
@@ -935,7 +937,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       ),
                       color: Colors.lime,
                       onPressed: () {
-                        print('Register User');
+                        //print('Register User');
                         _registerUserDetails();
                       },
                       child: new Text(
@@ -989,10 +991,10 @@ class _RegisterUserState extends State<RegisterUser> {
         print('Place Json : ${place.toJson()}');
         if (_currentAddress != null && _currentAddress.isNotEmpty) {
           print('Current address : $_currentAddress');
+          gpsAddressController.value = TextEditingValue(text: _currentAddress);
           setState(() {
             _isGPSLocation = true;
           });
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
         } else {
           return null;
         }
@@ -1010,7 +1012,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var confirmPassword = confirmPasswordController.text.toString();
 
     var userDOB = _userDOBController.text.toString();
-    var userAge = ageController.text.toString();
+    var userAge = ageController.text.toString().trim();
     int ageOfUser = int.tryParse(userAge);
     print('User Age : $ageOfUser');
 
@@ -1018,21 +1020,17 @@ class _RegisterUserState extends State<RegisterUser> {
     var userOccupation = _myOccupation.toString();
     var userAddressType = _myAddressInputType.toString();
     var placeForMassage = _myCategoryPlaceForMassage.toString();
-    var city = _myCity.toString();
-    var _userPrefecture = _myPrefecture.toString();
+    var userCity = _myCity.toString();
+    var userPrefecture = _myPrefecture.toString();
     var buildingName = buildingNameController.text.toString();
     var userArea = userAreaController.text.toString();
-    var roomNumber = roomNumberController.text.toString();
+    var roomNumber = roomNumberController.text.toString().trim();
     int userRoomNumber = int.tryParse(roomNumber);
     print('Room number : $userRoomNumber');
 
-    var userGPSAddress = gpsAddressController.text.toString();
-    if (_isGPSLocation) {
-      HealingMatchConstants.gpsAddress = userGPSAddress;
-    } else {}
+    var userGPSAddress = gpsAddressController.text.toString().trim();
 
     if (userName.length > 20) {
-      //print('en 1');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.redAccent,
         content: Text('ユーザー名は20文字以内で入力してください。',
@@ -1047,7 +1045,6 @@ class _RegisterUserState extends State<RegisterUser> {
       return;
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
-      //print('en 2');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.redAccent,
         content: Text('有効なユーザー名を入力してください。',
@@ -1136,7 +1133,6 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // Combination password
 
-    // print('Password regex value : $password');
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.redAccent,
@@ -1180,5 +1176,201 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return;
     }
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text('11文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+    // user DOB validation
+    if (userDOB.isEmpty || userDOB == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text('有効な生年月日を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user gender validation
+    if (userGender.isEmpty || userGender == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content:
+            Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user Occupation validation
+    if (userOccupation.isEmpty || userOccupation == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content:
+            Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user place for massage validation
+    if (placeForMassage.isEmpty || placeForMassage == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text('有効な登録する地点のカテゴリーを選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user perfecture validation
+    if (userPrefecture.isEmpty || userPrefecture == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content:
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user city validation
+    if (userCity.isEmpty || userCity == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content:
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user area validation
+    if (userArea.isEmpty || userArea == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text('有効な都、県選 を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // user building name validation
+    if (buildingName.isEmpty || buildingName == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content:
+            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // room number validation
+    if (roomNumber.isEmpty || roomNumber == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Colors.redAccent,
+        content: Text('有効な部屋番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'Ok',
+        ),
+      ));
+      return;
+    }
+
+    // Getting user GPS Address value
+    if (userAddressType.contains('現在地を取得する') && _isGPSLocation) {
+      HealingMatchConstants.gpsAddress = userGPSAddress;
+      serviceUserDetails.add(userGPSAddress);
+    }
+
+    //adding service user details into List of String for HTTP Request to server
+    serviceUserDetails.add(userName);
+    serviceUserDetails.add(userDOB);
+    serviceUserDetails.add(userAge);
+    serviceUserDetails.add(userGender);
+    serviceUserDetails.add(userOccupation);
+    serviceUserDetails.add(userPhoneNumber);
+    serviceUserDetails.add(email);
+    serviceUserDetails.add(password);
+    serviceUserDetails.add(confirmPassword);
+    //serviceUserDetails.add(userAddressType);
+    serviceUserDetails.add(placeForMassage);
+    serviceUserDetails.add(userPrefecture);
+    serviceUserDetails.add(userCity);
+    serviceUserDetails.add(userArea);
+    serviceUserDetails.add(buildingName);
+    serviceUserDetails.add(roomNumber);
+
+    print('User details length in array : ${serviceUserDetails.length}');
+
+    final url = '';
+    http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer ${'token'}"
+        },
+        body: json.encode({
+          "serviceUserDetails": serviceUserDetails,
+        }));
   }
 }
