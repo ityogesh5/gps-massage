@@ -74,16 +74,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            /*    stops: [
                                 0.3,
                                 1
                               ],
                               colors: [
                                 Colors.grey[200],
                                 Colors.grey[200],
-                              ]),
+                              ] */
+                          ),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),

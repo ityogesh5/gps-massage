@@ -1,7 +1,7 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
-
 import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 
 void main() {
