@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerScreenSecond.dart';
 
 void main() {
   runApp(Popup());
@@ -81,7 +82,7 @@ class _PopupState extends State<Popup> {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RegisterFirstScreen()),
+              MaterialPageRoute(builder: (context) => RegisterScreenSecond()),
             );
           },
         ),
