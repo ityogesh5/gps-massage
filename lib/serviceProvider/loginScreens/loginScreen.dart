@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/homeScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 
 class Login extends StatefulWidget {
@@ -201,7 +201,7 @@ class _LoginState extends State<Login> {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    RegistrationSecondPage()));
+                                    RegisterFirstScreen()));
                       },
                       child: Text(
                         '新規の方はこちら',

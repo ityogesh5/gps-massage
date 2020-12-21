@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/services%20And%20Pricing.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
 
 class RegistrationSecondPage extends StatefulWidget {
@@ -68,24 +69,36 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           },
                           dataSource: [
                             {
-                              "display": "賃貸",
-                              "value": "賃貸",
+                              "display": "運転免許証",
+                              "value": "運転免許証",
                             },
                             {
-                              "display": "販売（売買）",
-                              "value": "販売（売買）",
+                              "display": "運転経歴証明書",
+                              "value": "運転経歴証明書",
                             },
                             {
-                              "display": "企画開発",
-                              "value": "企画開発",
+                              "display": "パスポート",
+                              "value": "パスポート",
                             },
                             {
-                              "display": "資産運用",
-                              "value": "資産運用",
+                              "display": "個人番号カー",
+                              "value": "個人番号カー",
                             },
                             {
-                              "display": "賃貸管理",
-                              "value": "賃貸管理",
+                              "display": "住民基本台帳カード",
+                              "value": "住民基本台帳カード",
+                            },
+                            {
+                              "display": "マイナンバーカード",
+                              "value": "マイナンバーカード",
+                            },
+                            {
+                              "display": "運転経歴証明書",
+                              "value": "運転経歴証明書",
+                            },
+                            {
+                              "display": "学生証",
+                              "value": "学生証",
                             },
                           ],
                           textField: 'display',
@@ -127,13 +140,14 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       '保有資格の種類を選択し、\n証明書をアップロードしてください。',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Container(
-                      color: Colors.grey[200],
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[200],
                       child: Center(
                         child: IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.add,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -169,24 +183,36 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           },
                           dataSource: [
                             {
-                              "display": "賃貸",
-                              "value": "賃貸",
+                              "display": "はり師",
+                              "value": "はり師",
                             },
                             {
-                              "display": "販売（売買）",
-                              "value": "販売（売買）",
+                              "display": "きゅう師",
+                              "value": "きゅう師",
                             },
                             {
-                              "display": "企画開発",
-                              "value": "企画開発",
+                              "display": "鍼灸師",
+                              "value": "鍼灸師",
                             },
                             {
-                              "display": "資産運用",
-                              "value": "資産運用",
+                              "display": "あん摩マッサージ指圧師",
+                              "value": "あん摩マッサージ指圧師",
                             },
                             {
-                              "display": "賃貸管理",
-                              "value": "賃貸管理",
+                              "display": "柔道整復師",
+                              "value": "柔道整復師",
+                            },
+                            {
+                              "display": "理学療法士",
+                              "value": "理学療法士",
+                            },
+                            {
+                              "display": "国家資格取得予定（学生）",
+                              "value": "国家資格取得予定（学生）",
+                            },
+                            {
+                              "display": "民間資格",
+                              "value": "民間資格",
                             },
                           ],
                           textField: 'display',
@@ -199,31 +225,70 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  height: 75,
-                  width: 75,
-                  color: Colors.red,
-                  child: Card(),
+                Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('asdghsd'),
+                      Text('aschbxsxcbc'),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.file_upload),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'ファイルをアップロードする',
+                        style: TextStyle(fontSize: 10),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
-                TextFormField(
-                  decoration: new InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.0,
-                        ),
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: RaisedButton(
+                    child: Text(
+                      '提供サービスと料金設定',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                      hintText: "電話番号",
-                      fillColor: Colors.white),
+                    ),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ServiceAndPricing()));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                 ),
+                /*  InkWell(
+                  onTap: () {},
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: double.infinity,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)),
+                      child: Text(
+                        'hello',
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ),*/
                 SizedBox(
                   height: 5,
                 ),
@@ -242,7 +307,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         onPressed: () {}, icon: Icon(Icons.file_upload)),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                    hintText: "本人確認書のアップロード",
+                    hintText: "掲載写真のアップロード",
                     fillColor: Colors.white,
                   ),
                 ),
@@ -269,7 +334,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             color: Colors.transparent,
                             child: DropDownFormField(
                               titleText: null,
-                              hintText: readonly ? bankname : '保有資*',
+                              hintText: readonly ? bankname : '銀行名*',
                               onSaved: (value) {
                                 setState(() {
                                   bankname = value;
@@ -289,18 +354,6 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                                 {
                                   "display": "販売（売買）",
                                   "value": "販売（売買）",
-                                },
-                                {
-                                  "display": "企画開発",
-                                  "value": "企画開発",
-                                },
-                                {
-                                  "display": "資産運用",
-                                  "value": "資産運用",
-                                },
-                                {
-                                  "display": "賃貸管理",
-                                  "value": "賃貸管理",
                                 },
                               ],
                               textField: 'display',
@@ -326,7 +379,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "本人確認書のアップロード",
+                          hintText: "支店コード",
                           fillColor: Colors.white,
                         ),
                       ),
@@ -337,7 +390,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   height: 10,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width * 0.38,
@@ -355,7 +408,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "本人確認書のアップロード",
+                          hintText: "支店番号",
                           fillColor: Colors.white,
                         ),
                       ),
@@ -376,7 +429,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "本人確認書のアップロード",
+                          hintText: "口座番号",
                           fillColor: Colors.white,
                         ),
                       ),
@@ -398,7 +451,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           color: Colors.transparent,
                           child: DropDownFormField(
                             titleText: null,
-                            hintText: readonly ? accountnumber : '口座番号*',
+                            hintText: readonly ? accountnumber : '口座種類*',
                             onSaved: (value) {
                               setState(() {
                                 accountnumber = value;
@@ -412,24 +465,16 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             },
                             dataSource: [
                               {
-                                "display": "賃貸",
-                                "value": "賃貸",
+                                "display": "普通",
+                                "value": "普通",
                               },
                               {
-                                "display": "販売（売買）",
-                                "value": "販売（売買）",
+                                "display": "当座",
+                                "value": "当座",
                               },
                               {
-                                "display": "企画開発",
-                                "value": "企画開発",
-                              },
-                              {
-                                "display": "資産運用",
-                                "value": "資産運用",
-                              },
-                              {
-                                "display": "賃貸管理",
-                                "value": "賃貸管理",
+                                "display": "貯蓄",
+                                "value": "貯蓄",
                               },
                             ],
                             textField: 'display',
@@ -448,21 +493,27 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   height: 50,
                   child: RaisedButton(
                     child: Text(
-                      'パスワード',
+                      '登録完了',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     color: Colors.lime,
-                    onPressed: () {
-                      /*   Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  MyHomePage()));*/
-                    },
+                    onPressed: () {},
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'すでにアカウントをお持ちの方',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ],
             ),
