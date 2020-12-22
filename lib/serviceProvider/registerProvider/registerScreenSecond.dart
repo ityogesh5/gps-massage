@@ -300,6 +300,67 @@ class _RegisterScreenSecondState extends State<RegisterScreenSecond> {
             child: Row(
               children: [
                 Expanded(
+                    child: Container(
+                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black12,
+                          border: Border.all(color: Colors.black12)),
+                      child: Expanded(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              value: _selectedItem3,
+                              items: _dropdownMenuItems,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _selectedItem3 = value;
+                                });
+                              }),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Expanded(
+                  child: Container(
+                      child: Theme(
+                        data: Theme.of(context).copyWith(splashColor: Colors.black12),
+                        child: TextFormField(
+                            controller: _controller4,
+                            decoration: InputDecoration(
+                              labelText: "その他",
+                              filled: true,
+                              fillColor: Colors.black12,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                            )
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ), SizedBox(height: size.width * 0.04),
+          Container(
+            height: size.height * 0.06,
+            width: size.width * 0.8,
+            //margin: EdgeInsets.all(16.0),
+            //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+            child: Row(
+              children: [
+                Expanded(
                     child: Theme(
                       data: Theme.of(context)
                           .copyWith(splashColor: Colors.black12),
@@ -357,6 +418,90 @@ class _RegisterScreenSecondState extends State<RegisterScreenSecond> {
               ],
             ),
           ), SizedBox(height: size.width * 0.04),
+          Container(
+            height: size.height * 0.06,
+            width: size.width * 0.8,
+            //margin: EdgeInsets.all(16.0),
+            //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+            child: Row(
+              children: [
+                Expanded(
+                    child: Container(
+                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black12,
+                          border: Border.all(color: Colors.black12)),
+                      child: Expanded(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              value: _selectedItem3,
+                              items: _dropdownMenuItems,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _selectedItem3 = value;
+                                });
+                              }),
+                        ),
+                      ),
+                    )),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Expanded(
+                  child: Container(
+                      ),
+                ),
+              ],
+            ),
+          ), SizedBox(height: size.width * 0.04),
+          Container(
+            height: size.height * 0.06,
+            width: size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.lime,
+            ),
+            child: RaisedButton(
+              //padding: EdgeInsets.all(15.0),
+              child: Text(
+                "日付を選択し日付",
+                style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              color: Colors.lime,
+              textColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0)),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            RegistrationSecondPage()));
+              },
+            ),
+          ),
+          SizedBox(height: size.width * 0.04),
+          Container(
+            width: size.width * 0.9,
+            child: InkWell(
+              onTap: () {
+                print("User onTapped");
+              },
+              child: Text(
+                "日付を選択し日付を選択し日付を選択し日",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline),
+              ),
+            ),
+          ),
+          SizedBox(height: size.width * 0.04),
         ],
         ),
         ),
