@@ -15,13 +15,23 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
   final accountnumberkey = new GlobalKey<FormState>();
   bool readonly = false;
   String identificationverify, qualification, bankname, accountnumber;
+
+  void initState() {
+    super.initState();
+    identificationverify = '';
+    qualification = '';
+    bankname = '';
+    accountnumber = '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(14),
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -30,18 +40,24 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   children: [
                     Text(
                       'セラピスト情報の入力',
-                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('*は必項目です'),
                   ],
                 ),
                 SizedBox(
                   height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '*は必項目です',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Form(
                   key: identityverification,
@@ -50,12 +66,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     children: [
                       Container(
                         margin: EdgeInsets.all(0.0),
-                        color: Colors.transparent,
+                        color: Colors.grey[200],
                         child: DropDownFormField(
                           titleText: null,
-                          hintText: readonly
-                              ? identificationverify
-                              : '登録する本人確認証の種類を選択して\nください。*',
+                          hintText: readonly ? identificationverify : '本人確認証。*',
                           onSaved: (value) {
                             setState(() {
                               identificationverify = value;
@@ -127,10 +141,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       filled: true,
                       hintStyle: TextStyle(color: Colors.black, fontSize: 13),
                       hintText: "本人確認書のアップロード",
-                      fillColor: Colors.white),
+                      fillColor: Colors.grey[200]),
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,7 +177,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     children: [
                       Container(
                         margin: EdgeInsets.all(0.0),
-                        color: Colors.transparent,
+                        color: Colors.grey[200],
                         child: DropDownFormField(
                           titleText: null,
                           hintText: readonly
@@ -224,7 +238,9 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Card(
+                Container(
+                  padding: EdgeInsets.all(8),
+                  color: Colors.grey[200],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -235,7 +251,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         icon: Icon(Icons.file_upload),
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       Text(
                         'ファイルをアップロードする',
@@ -250,8 +266,9 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.08,
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  // decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(10.0),
+                  //     color: Colors.black),
                   child: RaisedButton(
                     child: Text(
                       '提供サービスと料金設定',
@@ -260,7 +277,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         color: Colors.black,
                       ),
                     ),
-                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.grey[200],
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -268,9 +288,6 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                               builder: (BuildContext context) =>
                                   ServiceAndPricing()));
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
                   ),
                 ),
                 /*  InkWell(
@@ -289,7 +306,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   ),
                 ),*/
                 SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextFormField(
                   decoration: new InputDecoration(
@@ -307,7 +324,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     filled: true,
                     hintStyle: TextStyle(color: Colors.black, fontSize: 13),
                     hintText: "掲載写真のアップロード",
-                    fillColor: Colors.white,
+                    fillColor: Colors.grey[200],
                   ),
                 ),
                 SizedBox(
@@ -330,7 +347,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width * 0.38,
-                            color: Colors.transparent,
+                            color: Colors.grey[200],
                             child: DropDownFormField(
                               titleText: null,
                               hintText: readonly ? bankname : '銀行名*',
@@ -379,7 +396,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "支店コード",
-                          fillColor: Colors.white,
+                          fillColor: Colors.grey[200],
                         ),
                       ),
                     ),
@@ -408,7 +425,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "支店番号",
-                          fillColor: Colors.white,
+                          fillColor: Colors.grey[200],
                         ),
                       ),
                     ),
@@ -429,7 +446,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "口座番号",
-                          fillColor: Colors.white,
+                          fillColor: Colors.grey[200],
                         ),
                       ),
                     ),
@@ -438,58 +455,84 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Form(
-                    key: accountnumberkey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.38,
-                          color: Colors.transparent,
-                          child: DropDownFormField(
-                            titleText: null,
-                            hintText: readonly ? accountnumber : '口座種類*',
-                            onSaved: (value) {
-                              setState(() {
-                                accountnumber = value;
-                              });
-                            },
-                            value: accountnumber,
-                            onChanged: (value) {
-                              setState(() {
-                                accountnumber = value;
-                              });
-                            },
-                            dataSource: [
-                              {
-                                "display": "普通",
-                                "value": "普通",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Form(
+                      key: accountnumberkey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.38,
+                            color: Colors.transparent,
+                            child: DropDownFormField(
+                              titleText: null,
+                              hintText: readonly ? accountnumber : '口座種類*',
+                              onSaved: (value) {
+                                setState(() {
+                                  accountnumber = value;
+                                });
                               },
-                              {
-                                "display": "当座",
-                                "value": "当座",
+                              value: accountnumber,
+                              onChanged: (value) {
+                                setState(() {
+                                  accountnumber = value;
+                                });
                               },
-                              {
-                                "display": "貯蓄",
-                                "value": "貯蓄",
-                              },
-                            ],
-                            textField: 'display',
-                            valueField: 'value',
+                              dataSource: [
+                                {
+                                  "display": "普通",
+                                  "value": "普通",
+                                },
+                                {
+                                  "display": "当座",
+                                  "value": "当座",
+                                },
+                                {
+                                  "display": "貯蓄",
+                                  "value": "貯蓄",
+                                },
+                              ],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.38,
+                      child: Visibility(
+                        visible: false,
+                        child: TextFormField(
+                          decoration: new InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(10),
+                              ),
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                                width: 0.0,
+                              ),
+                            ),
+                            filled: true,
+                            hintStyle:
+                                TextStyle(color: Colors.black, fontSize: 13),
+                            hintText: "",
+                            fillColor: Colors.white,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
                   width: double.infinity,
-                  height: 50,
+                  height: MediaQuery.of(context).size.height * 0.08,
                   child: RaisedButton(
                     child: Text(
                       '登録完了',
