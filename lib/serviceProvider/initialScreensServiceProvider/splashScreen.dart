@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/initialScreensServiceProvider/termsAndConditions.dart';
+import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 
