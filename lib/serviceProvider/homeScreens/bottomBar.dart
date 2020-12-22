@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
         buttonBackgroundColor: Colors.lightGreenAccent,
         backgroundColor: Colors.white,
         color: Colors.white,
-        animationCurve: Curves.bounceIn,
+        animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
           Icon(

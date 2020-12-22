@@ -24,8 +24,8 @@ class _LoginState extends State<Login> {
               Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 5,
-                    right: MediaQuery.of(context).size.height / 15,
-                    left: MediaQuery.of(context).size.height / 15),
+                    right: MediaQuery.of(context).size.height / 25,
+                    left: MediaQuery.of(context).size.height / 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
                               const Radius.circular(10),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.transparent,
+                              color: Colors.black,
                               width: 0.0,
                             ),
                           ),
@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                               const Radius.circular(10),
                             ),
                             borderSide: BorderSide(
-                              color: Colors.transparent,
+                              color: Colors.black,
                               width: 0.0,
                             ),
                           ),
