@@ -38,8 +38,11 @@ dev_dependencies:
   flutter_google_places: ^0.2.6
   intl: any
   geolocator: ^5.3.1
-  flutter_spinkit: any
-  flutter_svg: ^0.18.1
+  flutter_spinkit: ^4.1.2
+  animated_text_kit: ^1.1.0
+  shimmer_animation: ^1.0.0
+  getwidget: ^1.2.4
+  flutter_svg: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/initialScreensServiceProvider/splashScreen.dart';
+import 'file:///C:/Users/user1/Documents/gps-massage/lib/initialScreens/splashScreen.dart';
 
 
 

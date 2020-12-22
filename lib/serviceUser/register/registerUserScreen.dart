@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:intl/intl.dart';
@@ -9,12 +10,13 @@ import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:http/http.dart' as http;
 
-class RegisterUserScreen extends StatefulWidget {
+class RegisterServiceUserScreen extends StatefulWidget {
   @override
-  _RegisterUserScreenState createState() => _RegisterUserScreenState();
+  _RegisterServiceUserScreenState createState() =>
+      _RegisterServiceUserScreenState();
 }
 
-class _RegisterUserScreenState extends State<RegisterUserScreen> {
+class _RegisterServiceUserScreenState extends State<RegisterServiceUserScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,9 +51,6 @@ class _RegisterUserState extends State<RegisterUser> {
   var _myCategoryPlaceForMassage;
   var _myPrefecture;
   var _myCity;
-  var _myBuildingName;
-  var _myArea;
-  var _myRoomNumber;
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
@@ -190,495 +189,381 @@ class _RegisterUserState extends State<RegisterUser> {
           )
         ],
       ),
-      body: Container(
-        child: Form(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            physics: BouncingScrollPhysics(),
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('サービスセラピストに関する情報を入力する',
-                      style: new TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w100)),
-                  SizedBox(height: 5),
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: new TextSpan(
-                      text: '* ',
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: '値は必須です',
-                            style: new TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w100)),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          child: Form(
+            key: _registerUserFormKey,
+            autovalidateMode: AutovalidateMode.always,
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('サービスセラピストに関する情報を入力する',
+                        style: new TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w100)),
+                    SizedBox(height: 5),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: new TextSpan(
+                        text: '* ',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                          new TextSpan(
+                              text: '値は必須です',
+                              style: new TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w100)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.grey[200],
+                          maxRadius: 40,
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                                'assets/images_gps/profile_pic_user.svg',
+                                height: 70,
+                                width: 70,
+                                color: Colors.black),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Positioned(
+                          right: 15.0,
+                          top: 40,
+                          left: 45,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white70,
+                            maxRadius: 15,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white60,
+                              child: Icon(Icons.upload_outlined,
+                                  color: Colors.grey[500], size: 20.0),
+                            ),
+                          ),
+                        )
                       ],
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        maxRadius: 40,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                              'assets/images_gps/profile_pic_user.svg',
-                              height: 70,
-                              width: 70,
-                              color: Colors.black),
-                          onPressed: () {},
-                        ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        //enableInteractiveSelection: false,
+                        maxLength: 20,
+                        autofocus: false,
+                        controller: userNameController,
+                        decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: '名前 *',
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(0),
+                            )),
+                        // validator: (value) => _validateEmail(value),
                       ),
-                      Positioned(
-                        right: 15.0,
-                        top: 40,
-                        left: 45,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white70,
-                          maxRadius: 15,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white60,
-                            child: Icon(Icons.upload_outlined,
-                                color: Colors.grey[500], size: 20.0),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      //enableInteractiveSelection: false,
-                      maxLength: 20,
-                      autofocus: false,
-                      controller: userNameController,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: '名前 *',
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.63,
-                            alignment: Alignment.topCenter,
-                            child: GestureDetector(
-                              onTap: () => _selectDate(context),
-                              child: AbsorbPointer(
-                                child: TextFormField(
-                                  //enableInteractiveSelection: false,
-                                  controller: _userDOBController,
-                                  keyboardType: TextInputType.text,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'Open Sans'),
-                                  cursorColor: Colors.redAccent,
-                                  readOnly: true,
-                                  decoration: new InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      labelText: '生年月日 *',
-                                      labelStyle: TextStyle(
-                                        color: Colors.grey[400],
-                                      ),
-                                      suffixIcon: Icon(
-                                        Icons.calendar_today,
-                                        color: Color.fromRGBO(211, 211, 211, 1),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.red, width: 1.0),
-                                        borderRadius: BorderRadius.circular(1),
-                                      )),
+                    SizedBox(height: 15),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.63,
+                              alignment: Alignment.topCenter,
+                              child: GestureDetector(
+                                onTap: () => _selectDate(context),
+                                child: AbsorbPointer(
+                                  child: TextFormField(
+                                    //enableInteractiveSelection: false,
+                                    controller: _userDOBController,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Open Sans'),
+                                    cursorColor: Colors.redAccent,
+                                    readOnly: true,
+                                    decoration: new InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        labelText: '生年月日 *',
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.calendar_today,
+                                          color: Color.fromRGBO(211, 211, 211, 1),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.red, width: 1.0),
+                                          borderRadius: BorderRadius.circular(1),
+                                        )),
+                                  ),
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            //age
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.20,
+                              alignment: Alignment.topCenter,
+                              child: TextFormField(
+                                //enableInteractiveSelection: false,
+                                controller: ageController,
+                                autofocus: false,
+                                readOnly: true,
+                                decoration: new InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    labelText: '年齢',
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey[400],
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1.0),
+                                      borderRadius: BorderRadius.circular(1),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Drop down gender user
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '性別 *',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w300),
+                        ),
+                        SizedBox(
+                          width: 130,
+                        ),
+                        Form(
+                          key: _genderKey,
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.40,
+                              child: DropDownFormField(
+                                hintText: '性別 *',
+                                value: _myGender,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myGender = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "男性",
+                                    "value": "男性",
+                                  },
+                                  {
+                                    "display": "女性",
+                                    "value": "女性",
+                                  },
+                                  {
+                                    "display": "どちらでもない",
+                                    "value": "どちらでもない",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          //age
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.20,
-                            alignment: Alignment.topCenter,
-                            child: TextFormField(
-                              //enableInteractiveSelection: false,
-                              controller: ageController,
-                              autofocus: false,
-                              readOnly: true,
-                              decoration: new InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  labelText: '年齢',
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.red, width: 1.0),
-                                    borderRadius: BorderRadius.circular(1),
-                                  )),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Drop down occupation user
+                    Form(
+                      key: _occupationKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropDownFormField(
+                                hintText: '職業 *',
+                                value: _myOccupation,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myOccupation = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myOccupation = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "会社員",
+                                    "value": "会社員",
+                                  },
+                                  {
+                                    "display": "公務員",
+                                    "value": "公務員",
+                                  },
+                                  {
+                                    "display": "自営業",
+                                    "value": "自営業",
+                                  },
+                                  {
+                                    "display": "会社役員",
+                                    "value": "会社役員",
+                                  },
+                                  {
+                                    "display": "会社経営",
+                                    "value": "会社経営",
+                                  },
+                                  {
+                                    "display": "自由業",
+                                    "value": "自由業",
+                                  },
+                                  {
+                                    "display": "専業主婦（夫）",
+                                    "value": "専業主婦（夫）",
+                                  },
+                                  {
+                                    "display": "学生",
+                                    "value": "学生",
+                                  },
+                                  {
+                                    "display": "パート・アルバイト",
+                                    "value": "パート・アルバイト",
+                                  },
+                                  {
+                                    "display": "無職",
+                                    "value": "無職",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  // Drop down gender user
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        '性別 *',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w300),
-                      ),
-                      SizedBox(
-                        width: 130,
-                      ),
-                      Form(
-                        key: _genderKey,
-                        child: Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.40,
-                            child: DropDownFormField(
-                              hintText: '性別 *',
-                              value: _myGender,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myGender = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myGender = value;
-                                  //print(_myBldGrp.toString());
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "男性",
-                                  "value": "男性",
-                                },
-                                {
-                                  "display": "女性",
-                                  "value": "女性",
-                                },
-                                {
-                                  "display": "どちらでもない",
-                                  "value": "どちらでもない",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  // Drop down occupation user
-                  Form(
-                    key: _occupationKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: DropDownFormField(
-                              hintText: '職業 *',
-                              value: _myOccupation,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myOccupation = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myOccupation = value;
-                                  //print(_myBldGrp.toString());
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "会社員",
-                                  "value": "会社員",
-                                },
-                                {
-                                  "display": "公務員",
-                                  "value": "公務員",
-                                },
-                                {
-                                  "display": "自営業",
-                                  "value": "自営業",
-                                },
-                                {
-                                  "display": "会社役員",
-                                  "value": "会社役員",
-                                },
-                                {
-                                  "display": "会社経営",
-                                  "value": "会社経営",
-                                },
-                                {
-                                  "display": "自由業",
-                                  "value": "自由業",
-                                },
-                                {
-                                  "display": "専業主婦（夫）",
-                                  "value": "専業主婦（夫）",
-                                },
-                                {
-                                  "display": "学生",
-                                  "value": "学生",
-                                },
-                                {
-                                  "display": "パート・アルバイト",
-                                  "value": "パート・アルバイト",
-                                },
-                                {
-                                  "display": "無職",
-                                  "value": "無職",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      //enableInteractiveSelection: false,
-                      autofocus: false,
-                      maxLength: 11,
-                      controller: phoneNumberController,
-                      keyboardType:
-                          TextInputType.numberWithOptions(signed: true),
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: '電話番号 *',
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      maxLength: 50,
-                      //enableInteractiveSelection: false,
-                      autofocus: false,
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: 'メールアドレス',
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      //enableInteractiveSelection: false,
-                      autofocus: false,
-                      maxLength: 14,
-                      obscureText: _secureText,
-                      controller: passwordController,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: 'パスワード *',
-                          suffixIcon: IconButton(
-                            onPressed: showHide,
-                            icon: Icon(_secureText
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      maxLength: 14,
-                      //enableInteractiveSelection: false,
-                      autofocus: false,
-                      controller: confirmPasswordController,
-                      obscureText: _secureText,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: 'パスワード (確認用) *',
-                          suffixIcon: IconButton(
-                            onPressed: showHide,
-                            icon: Icon(_secureText
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  // Drop down address input type
-                  Form(
-                    key: _addressTypeKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: DropDownFormField(
-                              hintText: '検索地点の登録 *',
-                              value: _myAddressInputType,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myAddressInputType = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myAddressInputType = value;
-                                  if (_myAddressInputType != null &&
-                                      _myAddressInputType
-                                          .contains('現在地を取得する')) {
-                                    gpsAddressController.clear();
-                                    _showCurrentLocationInput =
-                                        !_showCurrentLocationInput;
-                                  } else {
-                                    _showCurrentLocationInput =
-                                        !_showCurrentLocationInput;
-                                  }
-                                  print(
-                                      'Address type : ${_myAddressInputType.toString()}');
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "現在地を取得する",
-                                  "value": "現在地を取得する",
-                                },
-                                {
-                                  "display": "直接入力する",
-                                  "value": "直接入力する",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Visibility(
-                    visible: _showCurrentLocationInput,
-                    child: Container(
+                    SizedBox(height: 15),
+                    Container(
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
-                        controller: gpsAddressController,
-                        readOnly: true,
+                        //enableInteractiveSelection: false,
+                        autofocus: false,
+                        maxLength: 11,
+                        controller: phoneNumberController,
+                        keyboardType:
+                            TextInputType.numberWithOptions(signed: true),
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '現在地を取得する *',
+                            labelText: '電話番号 *',
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(0),
+                            )),
+                        // validator: (value) => _validateEmail(value),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        //enableInteractiveSelection: false,
+                        autofocus: false,
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'メールアドレス',
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(0),
+                            )),
+                        // validator: (value) => _validateEmail(value),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        //enableInteractiveSelection: false,
+                        autofocus: false,
+                        maxLength: 14,
+                        obscureText: _secureText,
+                        controller: passwordController,
+                        decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'パスワード *',
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.location_on),
-                              onPressed: () {
-                                print('location getting....');
-                                _getCurrentLocation();
-                              },
+                              onPressed: showHide,
+                              icon: Icon(_secureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
                             ),
                             labelStyle: TextStyle(
                               color: Colors.grey[400],
@@ -689,161 +574,302 @@ class _RegisterUserState extends State<RegisterUser> {
                                   color: Colors.grey, width: 1.0),
                               borderRadius: BorderRadius.circular(0),
                             )),
-                        style: TextStyle(color: Colors.black54),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  // Drop down address input type
-                  Form(
-                    key: _placeOfAddressKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: DropDownFormField(
-                              hintText: '登録する地点のカテゴリー *',
-                              value: _myCategoryPlaceForMassage,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myCategoryPlaceForMassage = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myCategoryPlaceForMassage = value;
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "自宅",
-                                  "value": "自宅",
+                    SizedBox(height: 15),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        maxLength: 14,
+                        //enableInteractiveSelection: false,
+                        autofocus: false,
+                        controller: confirmPasswordController,
+                        obscureText: _secureText,
+                        decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'パスワード (確認用) *',
+                            suffixIcon: IconButton(
+                              onPressed: showHide,
+                              icon: Icon(_secureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                            ),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(0),
+                            )),
+                        // validator: (value) => _validateEmail(value),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    // Drop down address input type
+                    Form(
+                      key: _addressTypeKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropDownFormField(
+                                hintText: '検索地点の登録 *',
+                                value: _myAddressInputType,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myAddressInputType = value;
+                                  });
                                 },
-                                {
-                                  "display": "オフィス",
-                                  "value": "オフィス",
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myAddressInputType = value;
+                                    if (_myAddressInputType != null &&
+                                        _myAddressInputType
+                                            .contains('現在地を取得する')) {
+                                      gpsAddressController.clear();
+                                      _showCurrentLocationInput =
+                                          !_showCurrentLocationInput;
+                                    } else {
+                                      _showCurrentLocationInput =
+                                          !_showCurrentLocationInput;
+                                    }
+                                    print(
+                                        'Address type : ${_myAddressInputType.toString()}');
+                                  });
                                 },
-                                {
-                                  "display": "実家",
-                                  "value": "実家",
-                                },
-                                {
-                                  "display": "その他（直接入力",
-                                  "value": "その他（直接入力",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
+                                dataSource: [
+                                  {
+                                    "display": "現在地を取得する",
+                                    "value": "現在地を取得する",
+                                  },
+                                  {
+                                    "display": "直接入力する",
+                                    "value": "直接入力する",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Form(
-                    key: _perfectureKey,
-                    child: Row(
+                    SizedBox(height: 10),
+                    Visibility(
+                      visible: _showCurrentLocationInput,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: TextFormField(
+                          controller: gpsAddressController,
+                          readOnly: true,
+                          decoration: new InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              labelText: '現在地を取得する *',
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.location_on),
+                                onPressed: () {
+                                  print('location getting....');
+                                  _getCurrentLocation();
+                                },
+                              ),
+                              labelStyle: TextStyle(
+                                color: Colors.grey[400],
+                              ),
+                              focusColor: Colors.grey[100],
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(0),
+                              )),
+                          style: TextStyle(color: Colors.black54),
+                          // validator: (value) => _validateEmail(value),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    // Drop down address input type
+                    Form(
+                      key: _placeOfAddressKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: DropDownFormField(
+                                hintText: '登録する地点のカテゴリー *',
+                                value: _myCategoryPlaceForMassage,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myCategoryPlaceForMassage = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myCategoryPlaceForMassage = value;
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "自宅",
+                                    "value": "自宅",
+                                  },
+                                  {
+                                    "display": "オフィス",
+                                    "value": "オフィス",
+                                  },
+                                  {
+                                    "display": "実家",
+                                    "value": "実家",
+                                  },
+                                  {
+                                    "display": "その他（直接入力",
+                                    "value": "その他（直接入力",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Form(
+                      key: _perfectureKey,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: DropDownFormField(
+                                hintText: '府県 *',
+                                value: _myPrefecture,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myPrefecture = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myPrefecture = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "名古屋市",
+                                    "value": "男性",
+                                  },
+                                  {
+                                    "display": "豊橋市",
+                                    "value": "女性",
+                                  },
+                                  {
+                                    "display": "岡崎市",
+                                    "value": "どちらでもない",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ),
+                          Form(
+                            key: _cityKey,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: DropDownFormField(
+                                hintText: '市 *',
+                                value: _myCity,
+                                onSaved: (value) {
+                                  setState(() {
+                                    _myCity = value;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _myCity = value;
+                                    //print(_myBldGrp.toString());
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "名古屋市",
+                                    "value": "男性",
+                                  },
+                                  {
+                                    "display": "豊橋市",
+                                    "value": "女性",
+                                  },
+                                  {
+                                    "display": "一宮市",
+                                    "value": "どちらでもない",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 15),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Center(
                           child: Container(
+                            height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.38,
-                            child: DropDownFormField(
-                              hintText: '府県 *',
-                              value: _myPrefecture,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myPrefecture = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myPrefecture = value;
-                                  //print(_myBldGrp.toString());
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "名古屋市",
-                                  "value": "男性",
-                                },
-                                {
-                                  "display": "豊橋市",
-                                  "value": "女性",
-                                },
-                                {
-                                  "display": "岡崎市",
-                                  "value": "どちらでもない",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
+                            child: TextFormField(
+                              //enableInteractiveSelection: false,
+                              autofocus: false,
+                              controller: buildingNameController,
+                              decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  labelText: 'ビル名 *',
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                  ),
+                                  focusColor: Colors.grey[100],
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(0),
+                                  )),
+                              // validator: (value) => _validateEmail(value),
                             ),
                           ),
                         ),
-                        Form(
-                          key: _cityKey,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.38,
-                            child: DropDownFormField(
-                              hintText: '市 *',
-                              value: _myCity,
-                              onSaved: (value) {
-                                setState(() {
-                                  _myCity = value;
-                                });
-                              },
-                              onChanged: (value) {
-                                setState(() {
-                                  _myCity = value;
-                                  //print(_myBldGrp.toString());
-                                });
-                              },
-                              dataSource: [
-                                {
-                                  "display": "名古屋市",
-                                  "value": "男性",
-                                },
-                                {
-                                  "display": "豊橋市",
-                                  "value": "女性",
-                                },
-                                {
-                                  "display": "一宮市",
-                                  "value": "どちらでもない",
-                                },
-                              ],
-                              textField: 'display',
-                              valueField: 'value',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Center(
-                        child: Container(
+                        Container(
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: MediaQuery.of(context).size.width * 0.38,
                           child: TextFormField(
                             //enableInteractiveSelection: false,
                             autofocus: false,
-                            controller: buildingNameController,
+                            controller: userAreaController,
                             decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: 'ビル名 *',
+                                labelText: '都、県選 *',
                                 labelStyle: TextStyle(
                                   color: Colors.grey[400],
                                 ),
@@ -856,110 +882,87 @@ class _RegisterUserState extends State<RegisterUser> {
                             // validator: (value) => _validateEmail(value),
                           ),
                         ),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: TextFormField(
-                          //enableInteractiveSelection: false,
-                          autofocus: false,
-                          controller: userAreaController,
-                          decoration: new InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              labelText: '都、県選 *',
-                              labelStyle: TextStyle(
-                                color: Colors.grey[400],
-                              ),
-                              focusColor: Colors.grey[100],
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(0),
-                              )),
-                          // validator: (value) => _validateEmail(value),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: TextFormField(
-                      //enableInteractiveSelection: false,
-                      autofocus: false,
-                      controller: roomNumberController,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: '部屋番号 *',
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
-                          focusColor: Colors.grey[100],
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(0),
-                          )),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: new TextSpan(
-                      text: '* ',
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
-                      children: <TextSpan>[
-                        new TextSpan(
-                            text: '登録した場所周辺のセラピストが表示されます',
-                            style: new TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[500],
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w300)),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  ButtonTheme(
-                    minWidth: MediaQuery.of(context).size.width * 0.85,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    child: new RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        //side: BorderSide(color: Colors.black),
-                      ),
-                      color: Colors.lime,
-                      onPressed: () {
-                        //print('Register User');
-                        _registerUserDetails();
-                      },
-                      child: new Text(
-                        '入力完了',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
+                    SizedBox(height: 15),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        //enableInteractiveSelection: false,
+                        autofocus: false,
+                        controller: roomNumberController,
+                        decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: '部屋番号 *',
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(0),
+                            )),
+                        // validator: (value) => _validateEmail(value),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Text('すでにアカウントをお持ちの方',
-                      style: new TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w100,
-                          decoration: TextDecoration.underline)),
-                ],
-              )
-            ],
+                    SizedBox(height: 15),
+                    RichText(
+                      textAlign: TextAlign.start,
+                      text: new TextSpan(
+                        text: '* ',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                          new TextSpan(
+                              text: '登録した場所周辺のセラピストが表示されます',
+                              style: new TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[500],
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w300)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: new RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.black),
+                        ),
+                        color: Colors.lime,
+                        onPressed: () {
+                          //print('Register User');
+                          _registerUserDetails();
+                        },
+                        child: new Text(
+                          '入力完了',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Text('すでにアカウントをお持ちの方',
+                        style: new TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w100,
+                            decoration: TextDecoration.underline)),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -985,12 +988,14 @@ class _RegisterUserState extends State<RegisterUser> {
       List<Placemark> p = await geolocator.placemarkFromCoordinates(
           _currentPosition.latitude, _currentPosition.longitude);
       Placemark place = p[0];
+      var latitude = _currentPosition.latitude;
+      var longitude = _currentPosition.longitude;
       setState(() {
         _currentAddress =
             '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
         print('Place Json : ${place.toJson()}');
         if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress');
+          print('Current address : $_currentAddress : $latitude : $longitude');
           gpsAddressController.value = TextEditingValue(text: _currentAddress);
           setState(() {
             _isGPSLocation = true;
@@ -1032,101 +1037,101 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('ユーザー名は20文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効なユーザー名を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     if (!(email.contains(regexMail))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効なメールアドレスを入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     if (email.length > 50) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスは100文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     if ((email.contains(regexEmojis))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text("有効なメールアドレスを入力してください。",
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
 
     if (password.length < 8 || confirmPassword.length < 8) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
 
     if (password.length > 14 || confirmPassword.length > 14) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは15文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1135,14 +1140,14 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1150,29 +1155,29 @@ class _RegisterUserState extends State<RegisterUser> {
     if (password != confirmPassword) {
       //print("Entering password state");
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードと確認パスワードの入力が一致しません。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な文字でパスワードを入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1181,30 +1186,30 @@ class _RegisterUserState extends State<RegisterUser> {
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('11文字以上の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
     // user DOB validation
     if (userDOB.isEmpty || userDOB == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1212,15 +1217,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user gender validation
     if (userGender.isEmpty || userGender == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1228,15 +1233,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user Occupation validation
     if (userOccupation.isEmpty || userOccupation == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1244,15 +1249,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user place for massage validation
     if (placeForMassage.isEmpty || placeForMassage == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な登録する地点のカテゴリーを選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1260,15 +1265,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user perfecture validation
     if (userPrefecture.isEmpty || userPrefecture == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1276,15 +1281,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user city validation
     if (userCity.isEmpty || userCity == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1292,15 +1297,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user area validation
     if (userArea.isEmpty || userArea == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な都、県選 を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1308,15 +1313,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // user building name validation
     if (buildingName.isEmpty || buildingName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
@@ -1324,15 +1329,15 @@ class _RegisterUserState extends State<RegisterUser> {
     // room number validation
     if (roomNumber.isEmpty || roomNumber == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な部屋番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
-          onPressed: () {
-            _scaffoldKey.currentState.hideCurrentSnackBar();
-          },
-          label: 'Ok',
-        ),
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
       ));
       return;
     }
