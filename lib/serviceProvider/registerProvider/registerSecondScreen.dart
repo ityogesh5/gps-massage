@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/services%20And%20Pricing.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 
 class RegistrationSecondPage extends StatefulWidget {
   @override
@@ -539,7 +540,13 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     color: Colors.lime,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  RegistrationSuccessOtpScreen()));
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

@@ -320,18 +320,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem = value;
-                                });
-                              }),
-                        ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -346,18 +344,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem1,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem1 = value;
-                                });
-                              }),
-                        ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem1,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem1 = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -372,18 +368,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem2,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem2 = value;
-                                });
-                              }),
-                        ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem2,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem2 = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -416,18 +410,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: Colors.black12,
                                 border: Border.all(color: Colors.black12)),
-                            child: Expanded(
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedItem3,
-                                    items: _dropdownMenuItems,
-                                    onChanged: (value) {
-                                      print(value);
-                                      setState(() {
-                                        _selectedItem3 = value;
-                                      });
-                                    }),
-                              ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                  value: _selectedItem3,
+                                  items: _dropdownMenuItems,
+                                  onChanged: (value) {
+                                    print(value);
+                                    setState(() {
+                                      _selectedItem3 = value;
+                                    });
+                                  }),
                             ),
                           ),
                         ],
@@ -463,18 +455,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: Colors.black12,
                                 border: Border.all(color: Colors.black12)),
-                            child: Expanded(
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedItem4,
-                                    items: _dropdownMenuItems,
-                                    onChanged: (value) {
-                                      print(value);
-                                      setState(() {
-                                        _selectedItem4 = value;
-                                      });
-                                    }),
-                              ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                  value: _selectedItem4,
+                                  items: _dropdownMenuItems,
+                                  onChanged: (value) {
+                                    print(value);
+                                    setState(() {
+                                      _selectedItem4 = value;
+                                    });
+                                  }),
                             ),
                           ),
                         ],
@@ -492,18 +482,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem5,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem5 = value;
-                                });
-                              }),
-                        ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem5,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem5 = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -518,18 +506,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem6,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem6 = value;
-                                });
-                              }),
-                        ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem6,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem6 = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -727,18 +713,16 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 color: Colors.black12,
                                 border: Border.all(color: Colors.black12)),
-                            child: Expanded(
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedItem7,
-                                    items: _dropdownMenuItems,
-                                    onChanged: (value) {
-                                      print(value);
-                                      setState(() {
-                                        _selectedItem7 = value;
-                                      });
-                                    }),
-                              ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                  value: _selectedItem7,
+                                  items: _dropdownMenuItems,
+                                  onChanged: (value) {
+                                    print(value);
+                                    setState(() {
+                                      _selectedItem7 = value;
+                                    });
+                                  }),
                             ),
                           ),
                         ],
@@ -970,29 +954,27 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.black12,
                           border: Border.all(color: Colors.black12)),
-                      child: Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              value: _selectedItem8,
-                              items: _dropdownMenuItems,
-                              onChanged: (value) {
-                                print(value);
-                                if (value == "Second Item") {
-                                  setState(() {
-                                    _selectedItem8 = value;
-                                    visible = true; // !visible;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _selectedItem8 = value;
-                                    visible = false;
-                                  });
-                                }
-                                /*setState(() {
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem8,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              if (value == "Second Item") {
+                                setState(() {
                                   _selectedItem8 = value;
-                                });*/
-                              }),
-                        ),
+                                  visible = true; // !visible;
+                                });
+                              } else {
+                                setState(() {
+                                  _selectedItem8 = value;
+                                  visible = false;
+                                });
+                              }
+                              /*setState(() {
+                                _selectedItem8 = value;
+                              });*/
+                            }),
                       ),
                     ),
                   ],
