@@ -227,7 +227,7 @@ packages:
     source: hosted
     version: "5.3.2+2"
   getwidget:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: getwidget
       url: "https://pub.dartlang.org"

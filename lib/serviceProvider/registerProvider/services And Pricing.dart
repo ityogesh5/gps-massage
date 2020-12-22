@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/utils/customAccordan.dart';
 
 class ServiceAndPricing extends StatefulWidget {
   @override
@@ -6,71 +7,85 @@ class ServiceAndPricing extends StatefulWidget {
 }
 
 class _ServiceAndPricingState extends State<ServiceAndPricing> {
+  final esthetickey = new GlobalKey<FormState>();
+
+  Map<String, bool> numbers = {
+    'One': false,
+    'Two': false,
+    'Three': false,
+    'Four': false,
+    'Five': false,
+    'Six': false,
+    'Seven': false,
+  };
+  var holder_1 = [];
+  getItems() {
+    numbers.forEach((key, value) {
+      if (value == true) {
+        holder_1.add(key);
+      }
+    });
+
+    // Printing all selected items on Terminal screen.
+    print(holder_1);
+    // Here you will get all your selected Checkbox items.
+
+    // Clear array after use.
+    holder_1.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            child: Column(
+      body: Container(
+        color: Color.fromRGBO(243, 249, 250, 1),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('提供するサービスを選択し料金を設定してください。')],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                /*    Form(
-                  key: bankkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        color: Colors.transparent,
-                        child: DropDownFormField(
-                          titleText: null,
-                          hintText: readonly ? bankname : 'サービス分類*',
-                          onSaved: (value) {
-                            setState(() {
-                              bankname = value;
-                            });
-                          },
-                          value: bankname,
-                          onChanged: (value) {
-                            setState(() {
-                              bankname = value;
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "賃貸",
-                              "value": "賃貸",
-                            },
-                            {
-                              "display": "販売（売買）",
-                              "value": "販売（売買）",
-                            },
-                            {
-                              "display": "賃貸",
-                              "value": "賃貸",
-                            },
-                            {
-                              "display": "販売（売買）",
-                              "value": "販売（売買）",
-                            },
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),*/
+                Text('提供するサービスを選択し料金を設定してください。'),
               ],
             ),
-          ),
+            Column(
+              children: [
+                GFAccordion(
+                  title: 'エステ',
+                  titlePadding:
+                      EdgeInsets.only(left: 13, top: 10, bottom: 10, right: 12),
+                  customdecoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromRGBO(0, 229, 250, 1),
+                            Color.fromRGBO(0, 187, 255, 1)
+                          ]),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(12.0)),
+                  contentChild: Container(
+                    height: 400,
+                    color: Colors.white,
+                    child: ListView(
+                      children: numbers.keys.map((String key) {
+                        return new CheckboxListTile(
+                          title: new Text(key),
+                          value: numbers[key],
+                          activeColor: Colors.pink,
+                          checkColor: Colors.white,
+                          onChanged: (bool value) {
+                            setState(() {
+                              numbers[key] = value;
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
