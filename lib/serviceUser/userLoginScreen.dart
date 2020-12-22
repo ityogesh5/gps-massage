@@ -173,7 +173,7 @@ class _UserLoginState extends State<UserLogin> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                AssetImage('assets/images/line.jpg'),
+                                AssetImage('assets/images_gps/line.jpg'),
                               ),
                             )),
                         SizedBox(
@@ -187,7 +187,7 @@ class _UserLoginState extends State<UserLogin> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                AssetImage('assets/images/apple2.jpg'),
+                                AssetImage('assets/images_gps/apple2.jpg'),
                               ),
                             )),
                       ],

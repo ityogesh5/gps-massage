@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
+import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 
 class NavigationRouter {
@@ -12,5 +13,12 @@ class NavigationRouter {
   static void switchToTermsandConditions(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => IntroTermsAndPolicy()));
+  }
+
+  static void switchToUserDefineLogin(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => UserDefineScreen()));
   }
 }

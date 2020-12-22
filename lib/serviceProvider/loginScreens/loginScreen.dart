@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/images/logo.svg',
+                        SvgPicture.asset('assets/images_gps/logo.svg',
                             height: 100, width: 140),
                         Padding(
                           padding: EdgeInsets.all(20),
@@ -191,7 +191,7 @@ class _LoginState extends State<Login> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/line.jpg'),
+                                    AssetImage('assets/images_gps/line.jpg'),
                               ),
                             )),
                         SizedBox(
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                    AssetImage('assets/images/apple2.jpg'),
+                                    AssetImage('assets/images_gps/apple2.jpg'),
                               ),
                             )),
                       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
@@ -114,7 +115,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Container(
-                 child: Checkbox(
+                  child: Checkbox(
                     activeColor: Colors.lime,
                     checkColor: Colors.lime,
                     value: _value,
@@ -143,10 +144,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
               color: _value ? Colors.lime : Colors.lime[200],
               onPressed: () {
                 if (_value) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => Login()));
+                  NavigationRouter.switchToUserDefineLogin(context);
                 }
               },
               child: Padding(
