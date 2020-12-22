@@ -106,10 +106,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                               "display": "マイナンバーカード",
                               "value": "マイナンバーカード",
                             },
-                            {
-                              "display": "運転経歴証明書",
-                              "value": "運転経歴証明書",
-                            },
+                            // {
+                            //   "display": "運転経歴証明書",
+                            //   "value": "運転経歴証明書",
+                            // },
                             {
                               "display": "学生証",
                               "value": "学生証",
@@ -126,6 +126,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   height: 13,
                 ),
                 TextFormField(
+                  readOnly: true,
                   decoration: new InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: const BorderRadius.all(
@@ -180,18 +181,17 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         color: Colors.grey[200],
                         child: DropDownFormField(
                           titleText: null,
-                          hintText: readonly
-                              ? identificationverify
-                              : '保有資格を選択してください。*',
+                          hintText:
+                              readonly ? qualification : '保有資格を選択してください。*',
                           onSaved: (value) {
                             setState(() {
-                              identificationverify = value;
+                              qualification = value;
                             });
                           },
-                          value: identificationverify,
+                          value: qualification,
                           onChanged: (value) {
                             setState(() {
-                              identificationverify = value;
+                              qualification = value;
                             });
                           },
                           dataSource: [
@@ -240,6 +240,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(8),
+                  width: MediaQuery.of(context).size.width * 0.38,
+                  height: MediaQuery.of(context).size.height * 0.19,
                   color: Colors.grey[200],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

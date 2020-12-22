@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 
 class Login extends StatefulWidget {
@@ -24,15 +24,32 @@ class _LoginState extends State<Login> {
               Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 5,
-                    right: MediaQuery.of(context).size.height / 25,
-                    left: MediaQuery.of(context).size.height / 25),
+                    right: MediaQuery.of(context).size.width / 25,
+                    left: MediaQuery.of(context).size.width / 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                        child: Text('セラピストのログイン',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/images/logo.svg',
+                            height: 100, width: 140),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('セラピストのログイン',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold))),
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -210,34 +227,34 @@ class _LoginState extends State<Login> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            /* Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ResetPassword()));*/
+                          },
+                          child: Text(
+                            'サービス利用者のログイン',
+                            style: TextStyle(
+//                            decoration: TextDecoration.underline,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 1.1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ResetPassword()));*/
-                      },
-                      child: Text(
-                        'サービス利用者のログイン',
-                        style: TextStyle(
-//                            decoration: TextDecoration.underline,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ),
