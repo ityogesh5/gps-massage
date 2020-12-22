@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:getwidget/colors/gf_color.dart';
 
 class GFAccordion extends StatefulWidget {
   const GFAccordion(
       {Key key,
       this.titleChild,
       this.content,
-      this.collapsedTitlebackgroundColor = Colors.white,
+      this.collapsedTitlebackgroundColor = GFColors.WHITE,
       this.expandedTitlebackgroundColor = const Color(0xFFE0E0E0),
       this.collapsedIcon =
           const Icon(Icons.keyboard_arrow_down, color: Colors.white),

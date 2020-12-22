@@ -98,6 +98,6 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-    NavigationRouter.switchToRegistration(context);
+    NavigationRouter.switchToLogin(context);
   }
 }
