@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 
 main() {
   runApp(SplashScreen());
@@ -98,6 +100,9 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-    NavigationRouter.switchToRegistration(context);
+    //NavigationRouter.switchToRegistration(context);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => RegisterFirstScreen()),
+        (Route<dynamic> route) => false);
   }
 }

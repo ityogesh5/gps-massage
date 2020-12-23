@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'file:///C:/Users/user1/Documents/gps-massage/lib/initialScreens/splashScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 
 
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ヒーリングマッチ',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen()
+      home: RegisterFirstScreen()
     );
   }
 }
