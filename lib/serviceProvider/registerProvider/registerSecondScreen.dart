@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/services%20And%20Pricing.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
@@ -18,6 +19,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
   final bankkey = new GlobalKey<FormState>();
   final accountnumberkey = new GlobalKey<FormState>();
   bool readonly = false;
+  bool visible = false;
   String identificationverify, qualification, bankname, accountnumber;
 
   void initState() {
@@ -43,7 +45,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'セラピスト情報の入力',
+                      HealingMatchConstants.registrationFirstText,
                       style: TextStyle(fontSize: 15),
                     ),
                   ],
@@ -55,7 +57,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '*は必項目です',
+                      HealingMatchConstants.registrationSecondText,
                       style: TextStyle(fontSize: 15),
                     ),
                   ],
@@ -73,7 +75,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         color: Colors.grey[200],
                         child: DropDownFormField(
                           titleText: null,
-                          hintText: readonly ? identificationverify : '本人確認証。*',
+                          hintText: readonly
+                              ? identificationverify
+                              : HealingMatchConstants
+                                  .registrationIdentityVerification,
                           onSaved: (value) {
                             setState(() {
                               identificationverify = value;
@@ -129,24 +134,28 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 13,
                 ),
-                TextFormField(
-                  readOnly: true,
-                  decoration: new InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10),
+                InkWell(
+                  onTap: () {},
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: new InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.0,
+                          ),
                         ),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.0,
-                        ),
-                      ),
-                      suffixIcon: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.file_upload)),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                      hintText: "本人確認書のアップロード",
-                      fillColor: Colors.grey[200]),
+                        suffixIcon: IconButton(
+                            onPressed: () {}, icon: Icon(Icons.file_upload)),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                        hintText:
+                            HealingMatchConstants.registrationIdentityUpload,
+                        fillColor: Colors.grey[200]),
+                  ),
                 ),
                 SizedBox(
                   height: 10,
@@ -155,14 +164,18 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '保有資格の種類を選択し、\n証明書をアップロードしてください。',
+                      HealingMatchConstants.registrationAdd,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       child: Center(
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              visible = true;
+                            });
+                          },
                           icon: Icon(
                             Icons.add,
                             color: Colors.black,
@@ -175,68 +188,73 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 15,
                 ),
-                Form(
-                  key: qualificationupload,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(0.0),
-                        color: Colors.grey[200],
-                        child: DropDownFormField(
-                          titleText: null,
-                          hintText:
-                              readonly ? qualification : '保有資格を選択してください。*',
-                          onSaved: (value) {
-                            setState(() {
-                              qualification = value;
-                            });
-                          },
-                          value: qualification,
-                          onChanged: (value) {
-                            setState(() {
-                              qualification = value;
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "はり師",
-                              "value": "はり師",
+                Visibility(
+                  visible: visible,
+                  child: Form(
+                    key: qualificationupload,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(0.0),
+                          color: Colors.grey[200],
+                          child: DropDownFormField(
+                            titleText: null,
+                            hintText: readonly
+                                ? qualification
+                                : HealingMatchConstants
+                                    .registrationQualificationDropdown,
+                            onSaved: (value) {
+                              setState(() {
+                                qualification = value;
+                              });
                             },
-                            {
-                              "display": "きゅう師",
-                              "value": "きゅう師",
+                            value: qualification,
+                            onChanged: (value) {
+                              setState(() {
+                                qualification = value;
+                              });
                             },
-                            {
-                              "display": "鍼灸師",
-                              "value": "鍼灸師",
-                            },
-                            {
-                              "display": "あん摩マッサージ指圧師",
-                              "value": "あん摩マッサージ指圧師",
-                            },
-                            {
-                              "display": "柔道整復師",
-                              "value": "柔道整復師",
-                            },
-                            {
-                              "display": "理学療法士",
-                              "value": "理学療法士",
-                            },
-                            {
-                              "display": "国家資格取得予定（学生）",
-                              "value": "国家資格取得予定（学生）",
-                            },
-                            {
-                              "display": "民間資格",
-                              "value": "民間資格",
-                            },
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
+                            dataSource: [
+                              {
+                                "display": "はり師",
+                                "value": "はり師",
+                              },
+                              {
+                                "display": "きゅう師",
+                                "value": "きゅう師",
+                              },
+                              {
+                                "display": "鍼灸師",
+                                "value": "鍼灸師",
+                              },
+                              {
+                                "display": "あん摩マッサージ指圧師",
+                                "value": "あん摩マッサージ指圧師",
+                              },
+                              {
+                                "display": "柔道整復師",
+                                "value": "柔道整復師",
+                              },
+                              {
+                                "display": "理学療法士",
+                                "value": "理学療法士",
+                              },
+                              {
+                                "display": "国家資格取得予定（学生）",
+                                "value": "国家資格取得予定（学生）",
+                              },
+                              {
+                                "display": "民間資格",
+                                "value": "民間資格",
+                              },
+                            ],
+                            textField: 'display',
+                            valueField: 'value',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -260,7 +278,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                         height: 10,
                       ),
                       Text(
-                        'ファイルをアップロードする',
+                        HealingMatchConstants.registrationQualificationUpload,
                         style: TextStyle(fontSize: 10),
                       ),
                     ],
@@ -277,7 +295,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   //     color: Colors.black),
                   child: RaisedButton(
                     child: Text(
-                      '提供サービスと料金設定',
+                      HealingMatchConstants.registrationChooseServiceNavBtn,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         color: Colors.black,
@@ -314,30 +332,35 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  decoration: new InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                        const Radius.circular(10),
+                InkWell(
+                  onTap: () {},
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: new InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(8),
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 0.0,
+                        ),
                       ),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                        width: 0.0,
-                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.file_upload)),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                      hintText:
+                          HealingMatchConstants.registrationMultiPhotoUpload,
+                      fillColor: Colors.grey[200],
                     ),
-                    suffixIcon: IconButton(
-                        onPressed: () {}, icon: Icon(Icons.file_upload)),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                    hintText: "掲載写真のアップロード",
-                    fillColor: Colors.grey[200],
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  '売上振込先銀行口座',
+                  HealingMatchConstants.registrationBankDetails,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -356,7 +379,9 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             color: Colors.grey[200],
                             child: DropDownFormField(
                               titleText: null,
-                              hintText: readonly ? bankname : '銀行名*',
+                              hintText: readonly
+                                  ? bankname
+                                  : HealingMatchConstants.registrationBankName,
                               onSaved: (value) {
                                 setState(() {
                                   bankname = value;
@@ -389,6 +414,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       width: MediaQuery.of(context).size.width * 0.38,
                       child: TextFormField(
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -401,7 +427,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "支店コード",
+                          hintText:
+                              HealingMatchConstants.registrationBankBranchCode,
                           fillColor: Colors.grey[200],
                         ),
                       ),
@@ -418,6 +445,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       width: MediaQuery.of(context).size.width * 0.38,
                       child: TextFormField(
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -430,7 +458,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "支店番号",
+                          hintText: HealingMatchConstants
+                              .registrationBankBranchNumber,
                           fillColor: Colors.grey[200],
                         ),
                       ),
@@ -439,6 +468,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       width: MediaQuery.of(context).size.width * 0.38,
                       child: TextFormField(
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -451,7 +481,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "口座番号",
+                          hintText: HealingMatchConstants
+                              .registrationBankAccountNumber,
                           fillColor: Colors.grey[200],
                         ),
                       ),
@@ -474,7 +505,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             color: Colors.transparent,
                             child: DropDownFormField(
                               titleText: null,
-                              hintText: readonly ? accountnumber : '口座種類*',
+                              hintText: readonly
+                                  ? accountnumber
+                                  : HealingMatchConstants
+                                      .registrationBankAccountType,
                               onSaved: (value) {
                                 setState(() {
                                   accountnumber = value;
@@ -538,10 +572,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.07,
                   child: RaisedButton(
                     child: Text(
-                      '登録完了',
+                      HealingMatchConstants.registrationCompleteBtn,
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     color: Colors.lime,
@@ -564,7 +598,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'すでにアカウントをお持ちの方',
+                      HealingMatchConstants.registrationAlreadyActTxt,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
