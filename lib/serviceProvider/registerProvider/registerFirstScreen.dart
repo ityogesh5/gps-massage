@@ -343,7 +343,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
 /*class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   File _image;
   final picker = ImagePicker();
