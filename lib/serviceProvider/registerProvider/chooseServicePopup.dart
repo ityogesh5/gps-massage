@@ -134,17 +134,15 @@ class _ChooseServicePopupState extends State<ChooseServicePopup> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.grey,
                                   border: Border.all()),
-                              child: Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                      value: _selectedItem,
-                                      items: _dropdownMenuItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedItem = value;
-                                        });
-                                      }),
-                                ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedItem = value;
+                                      });
+                                    }),
                               ),
                             ),
                           ],
@@ -188,17 +186,15 @@ class _ChooseServicePopupState extends State<ChooseServicePopup> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.grey,
                                   border: Border.all()),
-                              child: Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                      value: _selectedItem1,
-                                      items: _dropdownMenuItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedItem1 = value;
-                                        });
-                                      }),
-                                ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem1,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedItem1 = value;
+                                      });
+                                    }),
                               ),
                             ),
                           ],
@@ -242,17 +238,15 @@ class _ChooseServicePopupState extends State<ChooseServicePopup> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.grey,
                                   border: Border.all()),
-                              child: Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                      value: _selectedItem2,
-                                      items: _dropdownMenuItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedItem2 = value;
-                                        });
-                                      }),
-                                ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem2,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedItem2 = value;
+                                      });
+                                    }),
                               ),
                             ),
                           ],
@@ -296,17 +290,15 @@ class _ChooseServicePopupState extends State<ChooseServicePopup> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.grey,
                                   border: Border.all()),
-                              child: Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                      value: _selectedItem3,
-                                      items: _dropdownMenuItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedItem3 = value;
-                                        });
-                                      }),
-                                ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem3,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedItem3 = value;
+                                      });
+                                    }),
                               ),
                             ),
                           ],
@@ -350,17 +342,15 @@ class _ChooseServicePopupState extends State<ChooseServicePopup> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.grey,
                                   border: Border.all()),
-                              child: Expanded(
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                      value: _selectedItem4,
-                                      items: _dropdownMenuItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedItem4 = value;
-                                        });
-                                      }),
-                                ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem4,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedItem4 = value;
+                                      });
+                                    }),
                               ),
                             ),
                           ],
