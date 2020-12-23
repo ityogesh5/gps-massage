@@ -64,7 +64,6 @@ class _ServiceAndPricingState extends State<ServiceAndPricing> {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(12.0)),
                   contentChild: Container(
-                    height: 400,
                     color: Colors.white,
                     child: ListView(
                       children: numbers.keys.map((String key) {
