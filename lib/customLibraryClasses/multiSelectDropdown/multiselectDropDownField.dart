@@ -98,7 +98,8 @@ class MultiSelectDropDownField extends FormField<dynamic> {
                         initialSelected = List();
                       }
 
-                      final items = List<MultiSelectDropDownDialogItem<dynamic>>();
+                      final items =
+                          List<MultiSelectDropDownDialogItem<dynamic>>();
                       dataSource.forEach((item) {
                         items.add(MultiSelectDropDownDialogItem(
                             item[valueField], item[textField]));

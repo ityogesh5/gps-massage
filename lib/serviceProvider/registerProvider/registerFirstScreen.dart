@@ -20,10 +20,10 @@ class RegisterFirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Checked Listview',
       debugShowCheckedModeBanner: false,
+      title: 'Flutter Checked Listview',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.lime,
       ),
       home: MyHomePage(title: 'Flutter Checked Listview'),
     );
@@ -39,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List _myActivities;
   List _esteticActivities,
       _relaxationActivities,
       _OsteopathicActivities,
@@ -69,280 +70,98 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('提供するサービスを選択し料金を設定してください。')],
+      appBar: AppBar(
+        title: Text(''),
+      ),
+      body: Center(
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(16),
+                child: MultiSelectDropDownField(
+                  autovalidate: false,
+                  chipBackGroundColor: Colors.lime,
+                  chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                  checkBoxActiveColor: Colors.lime,
+                  checkBoxCheckColor: Colors.lime,
+                  dialogShapeBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  title: Text(
+                    "Aesthetic",
+                    style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MultiSelectDropDownField(
-                    autovalidate: false,
-                    chipBackGroundColor: Colors.lime,
-                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: Colors.lime,
-                    checkBoxCheckColor: Colors.lime,
-                    dialogShapeBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    title: Text(
-                      "エステ",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    /*validator: (value) {
-                      if (value == null || value.length == 0) {
-                        return 'Please select one or more options';
-                      }
-                      return null;
-                    },*/
-                    dataSource: [
-                      {
-                        "display": "ブライダル",
-                        "value": "ブライダル",
-                      },
-                      {
-                        "display": "フェイシャル（毛穴・美白）",
-                        "value": "フェイシャル（毛穴・美白）",
-                      },
-                      {
-                        "display": "脱毛（男性・デリケート）",
-                        "value": "脱毛（男性・デリケート）",
-                      },
-                      {
-                        "display": "アロマテラピー（顔）",
-                        "value": "アロマテラピー（顔）",
-                      },
-                      {
-                        "display": "ロミロミ（ボディ）",
-                        "value": "ロミロミ（ボディ）",
-                      },
-                      {
-                        "display": "ホットストーン（顔）",
-                        "value": "ホットストーン（顔）",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                    okButtonLabel: 'OK',
-                    cancelButtonLabel: 'CANCEL',
-                    initialValue: _esteticActivities,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _esteticActivities = value;
-                      });
+                  /*validator: (value) {
+                    if (value == null || value.length == 0) {
+                      return 'Please select one or more options';
+                    }
+                    return null;
+                  },*/
+                  dataSource: [
+                    {
+                      "display": "Running #120/120分",
+                      "value": "Running #120/120分",
                     },
-                  ),
-                  /*    Container(
-                    padding: EdgeInsets.all(8),
-                    child: RaisedButton(
-                      child: Text('Save'),
-                      onPressed: _saveForm,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    child: Text(_myActivitiesResult),
-                  )*/
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MultiSelectDropDownField(
-                    autovalidate: false,
-                    chipBackGroundColor: Colors.lime,
-                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: Colors.lime,
-                    checkBoxCheckColor: Colors.lime,
-                    dialogShapeBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    title: Text(
-                      "リラクゼーション",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    /*validator: (value) {
-                      if (value == null || value.length == 0) {
-                        return 'Please select one or more options';
-                      }
-                      return null;
-                    },*/
-                    dataSource: [
-                      {
-                        "display": "もみほぐし（全身）",
-                        "value": "もみほぐし（全身）",
-                      },
-                      {
-                        "display": "リンパ（全身",
-                        "value": "リンパ（全身",
-                      },
-                      {
-                        "display": "カイロプラクティック（全身）　　　　（→利用者画面の表示は『カイロ（全身）』）",
-                        "value": "カイロプラクティック（全身）　　　　（→利用者画面の表示は『カイロ（全身）』）",
-                      },
-                      {
-                        "display": "コルギ（顔）",
-                        "value": "コルギ（顔）",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                    okButtonLabel: 'OK',
-                    cancelButtonLabel: 'CANCEL',
-                    initialValue: _relaxationActivities,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _relaxationActivities = value;
-                      });
+                    {
+                      "display": "Running ell #120/120分",
+                      "value": "Running ell #120/120分",
                     },
-                  ),
-                  MultiSelectDropDownField(
-                    autovalidate: false,
-                    chipBackGroundColor: Colors.lime,
-                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: Colors.lime,
-                    checkBoxCheckColor: Colors.lime,
-                    dialogShapeBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    title: Text(
-                      "整骨・整体",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    /*validator: (value) {
-                      if (value == null || value.length == 0) {
-                        return 'Please select one or more options';
-                      }
-                      return null;
-                    },*/
-                    dataSource: [
-                      {
-                        "display": "はり（全身）",
-                        "value": "はり（全身）",
-                      },
-                      {
-                        "display": "きゅう（全身）",
-                        "value": "きゅう（全身）",
-                      },
-                      {
-                        "display": "マッサージ（全身）",
-                        "value": "マッサージ（全身）",
-                      },
-                      {
-                        "display": "ストレッチ（全身）",
-                        "value": "ストレッチ（全身）",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                    okButtonLabel: 'OK',
-                    cancelButtonLabel: 'CANCEL',
-                    initialValue: _OsteopathicActivities,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _OsteopathicActivities = value;
-                      });
+                    {
+                      "display": "Running half #120/120分",
+                      "value": "Running half #120/120分",
                     },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  MultiSelectDropDownField(
-                    autovalidate: false,
-                    chipBackGroundColor: Colors.lime,
-                    chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                    checkBoxActiveColor: Colors.lime,
-                    checkBoxCheckColor: Colors.lime,
-                    dialogShapeBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    title: Text(
-                      "フィットネス",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    /*validator: (value) {
-                      if (value == null || value.length == 0) {
-                        return 'Please select one or more options';
-                      }
-                      return null;
-                    },*/
-                    dataSource: [
-                      {
-                        "display": "ヨガ",
-                        "value": "ヨガ",
-                      },
-                      {
-                        "display": "ホットヨガ",
-                        "value": "ホットヨガ",
-                      },
-                      {
-                        "display": "ピラティス",
-                        "value": "ピラティス",
-                      },
-                      {
-                        "display": "トレーニング",
-                        "value": "トレーニング",
-                      },
-                      {
-                        "display": "エクササイズ",
-                        "value": "エクササイズ",
-                      },
-                    ],
-                    textField: 'display',
-                    valueField: 'value',
-                    okButtonLabel: 'OK',
-                    cancelButtonLabel: 'CANCEL',
-                    initialValue: _fitnessActivities,
-                    onSaved: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _fitnessActivities = value;
-                      });
+                    {
+                      "display": "Running full #120/120分",
+                      "value": "Running full #120/120分",
                     },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    child: RaisedButton(
-                      child: Text(
-                        '保存',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      color: Colors.lime,
-                      onPressed: () {
-                        /*  Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MyHomePage())); */
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ],
+                    {
+                      "display": "Soccer Practice #120/120分",
+                      "value": "Soccer Practice #120/120分",
+                    },
+                    {
+                      "display": "Baseball Practice #120/120分",
+                      "value": "Baseball Practice #120/120分",
+                    },
+                    {
+                      "display": "Football Practice #120/120分",
+                      "value": "Football Practice #120/120分",
+                    },
+                  ],
+                   textField: 'display',
+                  valueField: 'value',
+                  okButtonLabel: 'OK',
+                  cancelButtonLabel: 'CANCEL',
+                  initialValue: _myActivities,
+                  onSaved: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      _myActivities = value;
+                    });
+                  },
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: RaisedButton(
+                  child: Text('Save'),
+                  onPressed: _saveForm,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Text(_myActivitiesResult),
+              )
+            ],
           ),
         ),
       ),
     );
   }
 }
+
 /*class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   File _image;
   final picker = ImagePicker();

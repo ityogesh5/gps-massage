@@ -98,14 +98,13 @@ class _MultiSelectDropDownDialogState<V>
       value: checked,
       checkColor: widget.checkBoxCheckColor,
       activeColor: widget.checkBoxActiveColor,
-      secondary: IconButton(
-        icon: Icon(Icons.edit_rounded),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => ChooseServicePopup()));
-        },
+      secondary: CircleAvatar(
+        backgroundColor: Colors.grey[100],
+        maxRadius: 20,
+        child: IconButton(
+          icon: Icon(Icons.edit_rounded,color: Colors.grey),
+          onPressed: () {},
+        ),
       ),
       title: Text(
         item.label,
