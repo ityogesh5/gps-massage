@@ -9,9 +9,10 @@ class RegisterFirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Checked Listview',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.lime,
       ),
       home: MyHomePage(title: 'Flutter Checked Listview'),
     );
@@ -52,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MultiSelect Formfield Example'),
+        title: Text(''),
       ),
       body: Center(
         child: Form(
@@ -83,32 +84,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   },*/
                   dataSource: [
                     {
-                      "display": "Running",
-                      "value": "Running",
+                      "display": "Running #120/120分",
+                      "value": "Running #120/120分",
                     },
                     {
-                      "display": "Climbing",
-                      "value": "Climbing",
+                      "display": "Running ell #120/120分",
+                      "value": "Running ell #120/120分",
                     },
                     {
-                      "display": "Walking",
-                      "value": "Walking",
+                      "display": "Running half #120/120分",
+                      "value": "Running half #120/120分",
                     },
                     {
-                      "display": "Swimming",
-                      "value": "Swimming",
+                      "display": "Running full #120/120分",
+                      "value": "Running full #120/120分",
                     },
                     {
-                      "display": "Soccer Practice",
-                      "value": "Soccer Practice",
+                      "display": "Soccer Practice #120/120分",
+                      "value": "Soccer Practice #120/120分",
                     },
                     {
-                      "display": "Baseball Practice",
-                      "value": "Baseball Practice",
+                      "display": "Baseball Practice #120/120分",
+                      "value": "Baseball Practice #120/120分",
                     },
                     {
-                      "display": "Football Practice",
-                      "value": "Football Practice",
+                      "display": "Football Practice #120/120分",
+                      "value": "Football Practice #120/120分",
                     },
                   ],
                   textField: 'display',
