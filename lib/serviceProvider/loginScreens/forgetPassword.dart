@@ -80,7 +80,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           '送信',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        color: Colors.greenAccent,
+                        color: Colors.lime,
                         onPressed: () {
                           Navigator.push(
                               context,
