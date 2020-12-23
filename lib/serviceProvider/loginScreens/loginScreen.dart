@@ -138,12 +138,7 @@ class _LoginState extends State<Login> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                           NavigationRouter.switchToProviderHome(context);
-                          /*Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ProviderHome()));*/
+                          NavigationRouter.switchToProviderHome(context);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -218,11 +213,12 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
+                        NavigationRouter.switchToChooseServiceScreen(context);
+                        /*  Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    RegisterFirstScreen()));
+                                    RegisterFirstScreen())); */
                       },
                       child: Text(
                         '新規の方はこちら',

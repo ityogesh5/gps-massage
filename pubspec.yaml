@@ -51,7 +51,6 @@ dev_dependencies:
 #  dropdown_formfield: ^0.1.3
   font_awesome_flutter: ^8.10.0
   google_fonts: ^1.1.1
-  image_picker:
   intl: any
   geolocator: ^5.3.1
   flutter_spinkit: ^4.1.2

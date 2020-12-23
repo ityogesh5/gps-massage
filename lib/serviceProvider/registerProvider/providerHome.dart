@@ -183,6 +183,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                                               height: 18.0,
                                               width: 18.0,
                                               child: new IconButton(
+                                                onPressed: (){},
                                                 padding: new EdgeInsets.all(0.0),
                                                 color: Colors.black,
                                                 icon: new Icon(Icons.star, size: 12.0),
