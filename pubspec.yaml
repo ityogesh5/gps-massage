@@ -58,6 +58,7 @@ dev_dependencies:
   animated_text_kit: ^1.1.0
   shimmer_animation: ^1.0.0
   flutter_svg: any
+  multiselect_formfield: ^0.1.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

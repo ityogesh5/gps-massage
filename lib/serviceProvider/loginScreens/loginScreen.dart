@@ -4,7 +4,7 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
+import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -136,11 +136,11 @@ class _LoginState extends State<Login> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          Navigator.push(
+                         /*  Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      MyHomePage()));
+                                      MyHomePage())); */
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
