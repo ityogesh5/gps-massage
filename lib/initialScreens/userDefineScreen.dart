@@ -25,7 +25,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
       }
     });
     return Container(
-      color: Colors.grey,
+      color: Colors.white30,
     );
   }
 
