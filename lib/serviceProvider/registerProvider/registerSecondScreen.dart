@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-
 import 'package:gps_massageapp/utils/dropdown.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
-import 'dart:async';
 
 import 'chooseServiceScreen.dart';
 

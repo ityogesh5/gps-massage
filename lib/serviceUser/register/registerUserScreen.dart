@@ -1,14 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:intl/intl.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:io';
-import 'dart:convert';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class RegisterUser extends StatefulWidget {
   @override

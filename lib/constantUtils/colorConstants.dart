@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-class ColorConstants{
+class ColorConstants {
   static final snackBarColor = Colors.redAccent;
 }

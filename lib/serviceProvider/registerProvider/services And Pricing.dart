@@ -19,6 +19,7 @@ class _ServiceAndPricingState extends State<ServiceAndPricing> {
     'Seven': false,
   };
   var holder_1 = [];
+
   getItems() {
     numbers.forEach((key, value) {
       if (value == true) {

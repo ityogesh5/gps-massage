@@ -6,7 +6,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +15,9 @@ class _MyHomePageState extends State<MyHomePage> {
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                  title: Text('Dialog Title'),
-                  content: Text('This is my content'),
-                )
-            );
+                      title: Text('Dialog Title'),
+                      content: Text('This is my content'),
+                    ));
           },
           color: Colors.blue,
           child: Text('Show PopUp'),

@@ -27,6 +27,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
@@ -251,87 +252,6 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
             SizedBox(
               height: size.width * 0.1,
             ),
-            /*Stack(
-              children: [
-                Center(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Center(
-                      child: Container(
-                        height: 100,
-                        width:
-                        MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.75,
-                        margin: EdgeInsets.only(top: 45),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(16.0),
-                            border: Border.all(
-                                color: Colors.grey.shade300)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 1, bottom: 1, left: 10, right: 10),
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              activeTrackColor:
-                              Color.fromRGBO(251, 72, 227, 1),
-                              inactiveTrackColor:
-                              Color.fromRGBO(169, 233, 250, 1),
-                              trackShape:
-                              RoundedRectSliderTrackShape(),
-                              trackHeight: 2.0,
-                              thumbShape: RoundSliderThumbShape(
-                                  enabledThumbRadius: 8.0),
-                              thumbColor:
-                              Color.fromRGBO(251, 72, 227, 1),
-                              overlayColor: Colors.red.withAlpha(32),
-                              overlayShape: RoundSliderOverlayShape(
-                                  overlayRadius: 28.0),
-                              tickMarkShape:
-                              RoundSliderTickMarkShape(),
-                              activeTickMarkColor: Colors.red[700],
-                              inactiveTickMarkColor: Colors.red[100],
-                              valueIndicatorShape:
-                              PaddleSliderValueIndicatorShape(),
-                              valueIndicatorColor: Colors.redAccent,
-                              valueIndicatorTextStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Open Sans'),
-                            ),
-                            child: RangeSlider(
-                              min: 1,
-                              max: 100,
-                              values: values,
-                              divisions: 1,
-                              labels: labels,
-                              activeColor:
-                              Color.fromRGBO(253, 99, 232, 100),
-                              inactiveColor:
-                              Color.fromRGBO(169, 233, 250, 1),
-                              onChanged: (value) {
-                                //print('START: ${value.start}, END: ${value.end}');
-                                setState(() {
-                                  values = null;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),*/
             SizedBox(
               height: size.width * 0.1,
             ),
@@ -371,11 +291,6 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                     size: size.width * 0.1,
                                   ),
                                 ),
-                          /*child: Icon(
-                            FontAwesomeIcons.user,
-                            color: kWhite,
-                            size: size.width * 0.1,
-                          ),*/
                         ),
                       ),
                     ),

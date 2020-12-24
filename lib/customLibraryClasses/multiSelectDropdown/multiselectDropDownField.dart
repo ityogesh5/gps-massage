@@ -1,7 +1,6 @@
 library multiselect_formfield;
 
 import 'package:flutter/material.dart';
-import 'package:multiselect_formfield/multiselect_dialog.dart';
 
 import 'multiSelectDropDownDialog.dart';
 

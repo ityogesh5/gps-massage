@@ -130,12 +130,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                               onPressed: () {
                                 setState(() {
                                   createPasswordVisibility =
-                                  !createPasswordVisibility;
+                                      !createPasswordVisibility;
                                 });
                               }),
                           filled: true,
                           hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "新しいパスワード *",
                           fillColor: Colors.grey[200]),
                     ),
@@ -167,12 +167,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                               onPressed: () {
                                 setState(() {
                                   confirmPasswordVisibility =
-                                  !confirmPasswordVisibility;
+                                      !confirmPasswordVisibility;
                                 });
                               }),
                           filled: true,
                           hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "新しいパスワード(確認) *",
                           fillColor: Colors.grey[200]),
                     ),

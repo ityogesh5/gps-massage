@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 
 class NavigationRouter {
   static void switchToRegistration(BuildContext context) {

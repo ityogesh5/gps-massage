@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServicePopup.dart';
 
 class MultiSelectDropDownDialogItem<V> {
   const MultiSelectDropDownDialogItem(this.value, this.label);
@@ -102,7 +101,7 @@ class _MultiSelectDropDownDialogState<V>
         backgroundColor: Colors.grey[100],
         maxRadius: 20,
         child: IconButton(
-          icon: Icon(Icons.edit_rounded,color: Colors.grey),
+          icon: Icon(Icons.edit_rounded, color: Colors.grey),
           onPressed: () {},
         ),
       ),

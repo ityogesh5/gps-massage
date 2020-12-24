@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'initialScreens/splashScreen.dart';
 
 void main() {
@@ -10,9 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ヒーリングマッチ',
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen()
-    );
+        title: 'ヒーリングマッチ',
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen());
   }
 }
