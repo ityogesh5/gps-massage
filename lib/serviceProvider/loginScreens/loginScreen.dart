@@ -215,12 +215,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToChooseServiceScreen(context);
-                        /*  Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    RegisterFirstScreen())); */
+                        NavigationRouter.switchToRegisterFirstScreen(context);
                       },
                       child: Text(
                         HealingMatchConstants.loginNewRegistrationText,

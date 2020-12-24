@@ -3,6 +3,7 @@ import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 
@@ -18,7 +19,7 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => IntroTermsAndPolicy()));
   }
 
-  static void switchToUserDefineLogin(BuildContext context) {
+  static void switchToUserDefineScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -40,5 +41,10 @@ class NavigationRouter {
   static void switchToChooseServiceScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
+  }
+
+ static void switchToRegisterFirstScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RegisterFirstScreen()));
   }
 }

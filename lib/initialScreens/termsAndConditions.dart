@@ -144,7 +144,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
               color: _value ? Colors.lime : Colors.lime[200],
               onPressed: () {
                 if (_value) {
-                  NavigationRouter.switchToUserDefineLogin(context);
+                  NavigationRouter.switchToUserDefineScreen(context);
                 }
               },
               child: Padding(
