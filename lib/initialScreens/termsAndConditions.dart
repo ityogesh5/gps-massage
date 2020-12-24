@@ -76,7 +76,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
             Container(
               child: FutureBuilder(
                   future: rootBundle
-                      .loadString("assets/privacy_policy/service_provider.md"),
+                      .loadString("assets/privacy_policy/service_user.md"),
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.hasData) {

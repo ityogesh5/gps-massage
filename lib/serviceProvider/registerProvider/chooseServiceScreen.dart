@@ -126,6 +126,30 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 SizedBox(
                   height: 20.0,
                 ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 50.0,
+                        child: RaisedButton(
+                          child: Text(
+                            "賃貸管理",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          color: Colors.lime,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
