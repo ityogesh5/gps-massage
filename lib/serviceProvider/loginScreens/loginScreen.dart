@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -48,7 +50,7 @@ class _LoginState extends State<Login> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('セラピストのログイン',
+                        Text(HealingMatchConstants.loginText,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
@@ -70,7 +72,7 @@ class _LoginState extends State<Login> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "電話番号",
+                          hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -99,7 +101,7 @@ class _LoginState extends State<Login> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "パスワード",
+                          hintText: HealingMatchConstants.loginPassword,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -117,7 +119,7 @@ class _LoginState extends State<Login> {
                                         ForgetPassword()));
                           },
                           child: Text(
-                            'パスワードを忘れた方はこちら',
+                            HealingMatchConstants.loginForgetPassword,
                             style: TextStyle(
 //                    decoration: TextDecoration.underline,
                                 ),
@@ -133,7 +135,7 @@ class _LoginState extends State<Login> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'パスワード',
+                          HealingMatchConstants.loginButton,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.lime,
@@ -221,7 +223,7 @@ class _LoginState extends State<Login> {
                                     RegisterFirstScreen())); */
                       },
                       child: Text(
-                        '新規の方はこちら',
+                        HealingMatchConstants.loginNewRegistrationText,
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.bold),
@@ -243,7 +245,7 @@ class _LoginState extends State<Login> {
                                       ResetPassword()));*/
                           },
                           child: Text(
-                            'サービス利用者のログイン',
+                            HealingMatchConstants.loginServiceUser,
                             style: TextStyle(
 //                            decoration: TextDecoration.underline,
                                 ),
