@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/services%20And%20Pricing.dart';
+
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'dart:async';
-import 'package:gps_massageapp/customLibraryClasses/expandable/customAccordan.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'chooseServiceScreen.dart';
 
@@ -16,8 +14,8 @@ class RegistrationSecondPage extends StatefulWidget {
 }
 
 class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
-  final formkey = new GlobalKey<FormState>()
-  final identityverification = new GlobalKey<FormState>()
+  final formkey = new GlobalKey<FormState>();
+  final identityverification = new GlobalKey<FormState>();
 
   final qualificationupload = new GlobalKey<FormState>();
   final bankkey = new GlobalKey<FormState>();
@@ -96,7 +94,6 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                               setState(() {
                                 identificationverify = value;
                               });
-
                             },
                             dataSource: [
                               {
@@ -159,7 +156,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           suffixIcon: IconButton(
                               onPressed: () {}, icon: Icon(Icons.file_upload)),
                           filled: true,
-                          hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                          hintStyle:
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText:
                               HealingMatchConstants.registrationIdentityUpload,
                           fillColor: Colors.grey[200]),
@@ -276,8 +274,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('asdghsd'),
-                        Text('aschbxsxcbc'),
+                        Text('アップロード'),
+                        Text('証明書'),
                         IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.file_upload),
@@ -389,7 +387,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                                 titleText: null,
                                 hintText: readonly
                                     ? bankname
-                                    : HealingMatchConstants.registrationBankName,
+                                    : HealingMatchConstants
+                                        .registrationBankName,
                                 onSaved: (value) {
                                   setState(() {
                                     bankname = value;
@@ -435,8 +434,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                             filled: true,
                             hintStyle:
                                 TextStyle(color: Colors.black, fontSize: 13),
-                            hintText:
-                                HealingMatchConstants.registrationBankBranchCode,
+                            hintText: HealingMatchConstants
+                                .registrationBankBranchCode,
                             fillColor: Colors.grey[200],
                           ),
                         ),
