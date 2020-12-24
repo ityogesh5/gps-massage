@@ -29,7 +29,7 @@ class DropDownFormField extends FormField<dynamic> {
       this.valueField,
       this.onChanged,
       this.filled = true,
-      this.contentPadding = const EdgeInsets.fromLTRB(10, 10, 5, 0)})
+      this.contentPadding = const EdgeInsets.fromLTRB(4, 4, 5, 0)})
       : super(
           onSaved: onSaved,
           validator: validator,
