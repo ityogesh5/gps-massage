@@ -4,6 +4,7 @@ import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
@@ -47,6 +48,11 @@ class NavigationRouter {
   static void switchToRegisterFirstScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => RegisterFirstScreen()));
+  }
+
+  static void switchToRegisterSecondScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RegistrationSecondPage()));
   }
 
   static void switchToProviderForgetPasswordScreen(BuildContext context) {

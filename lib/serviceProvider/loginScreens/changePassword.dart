@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
@@ -345,7 +346,9 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    final url = '';
+    NavigationRouter.switchToLogin(context);
+
+   /*  final url = '';
     http.post(url,
         headers: {
           "Accept": "application/json",
@@ -353,7 +356,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         },
         body: json.encode({
           "serviceUserDetails": changePasswordDetails,
-        }));
+        })); */
 
   }
 }

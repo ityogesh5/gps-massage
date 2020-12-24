@@ -301,12 +301,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                         ),
                                         suffixIcon: Icon(
                                           Icons.calendar_today,
-                                          color: Color.fromRGBO(211, 211, 211, 1),
+                                          color:
+                                              Color.fromRGBO(211, 211, 211, 1),
                                         ),
                                         border: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Colors.red, width: 1.0),
-                                          borderRadius: BorderRadius.circular(1),
+                                          borderRadius:
+                                              BorderRadius.circular(1),
                                         )),
                                   ),
                                 ),
@@ -1166,6 +1168,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

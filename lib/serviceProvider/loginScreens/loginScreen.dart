@@ -279,6 +279,7 @@ class _LoginState extends State<Login> {
 
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -362,14 +363,14 @@ class _LoginState extends State<Login> {
     print('User details length in array : ${serviceProviderLoginDetails.length}');
 
     final url = '';
-    http.post(url,
+    /* http.post(url,
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer ${'token'}"
         },
         body: json.encode({
           "serviceUserDetails": serviceProviderLoginDetails,
-        }));
+        })); */
   }
 
 }

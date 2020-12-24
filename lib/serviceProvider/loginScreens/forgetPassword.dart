@@ -7,7 +7,6 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 class ForgetPassword extends StatefulWidget {
   @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
@@ -118,6 +117,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -138,7 +138,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
     print('User details length in array : ${forgetPasswordDetails.length}');
 
-    final url = '';
+    /*   final url = '';
     http.post(url,
         headers: {
           "Accept": "application/json",
@@ -146,7 +146,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         },
         body: json.encode({
           "serviceUserDetails": forgetPasswordDetails,
-        }));
+        })); */
 
     NavigationRouter.switchToProviderChangePasswordScreen(context);
   }
