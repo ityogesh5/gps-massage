@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
+
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class ServicePriceModel {
   String _name;
@@ -49,116 +52,217 @@ class ChooseServiceScreen extends StatefulWidget {
 }
 
 class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
-  List<String> dropdownValues = List<String>();
-  List<String> selectedDropdownValues = List<String>();
-  List<ServicePriceModel> servicePriceModel = List<ServicePriceModel>();
-  int status = 0;
+  List<String> selectedEstheticDropdownValues = List<String>();
+  List<String> selectedRelaxationDropdownValues = List<String>();
+  List<String> selectedTreatmentDropdownValues = List<String>();
+  List<String> selectedFitnessDropdownValues = List<String>();
+  List<ServicePriceModel> estheticServicePriceModel = List<ServicePriceModel>();
+  List<ServicePriceModel> relaxationServicePriceModel =
+      List<ServicePriceModel>();
+  List<ServicePriceModel> treatmentServicePriceModel =
+      List<ServicePriceModel>();
+  List<ServicePriceModel> fitnessServicePriceModel = List<ServicePriceModel>();
+  List<int> status = List<int>();
+  List<bool> otherSelected = List<bool>();
+  bool estheticOtherSelected = false;
+  bool relaxtionOtherSelected = false;
+  bool tratmentOtherSelected = false;
+  bool fitnessOtherSelected = false;
   TextEditingController sampleOthersController = TextEditingController();
-  bool otherSelected = false;
+  List<String> dropDownValues = List<String>();
+  List<String> dropDownMenuItems = List<String>();
 
   @override
   void initState() {
     super.initState();
-    dropdownValues = ['one', 'two', 'three', 'four', 'other'];
+    dropDownValues = [
+      'はり（足）',
+      '美容鍼（顔）',
+      'きゅう（足）',
+      'マッサージ（全身）',
+      HealingMatchConstants.chooseServiceOtherDropdownFiled
+    ];
+    dropDownMenuItems = [
+      HealingMatchConstants.chooseServiceEstheticDropDown,
+      HealingMatchConstants.chooseServiceRelaxationDropDown,
+      HealingMatchConstants.chooseServiceTreatmentDropDown,
+      HealingMatchConstants.chooseServiceFitnessDropDown
+    ];
+    status = [0, 0, 0, 0];
+    otherSelected = [false, false, false, false];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          '提供するサービスを選択し料金を設定してください。',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    status == 0 ? status = 1 : status = 0;
-                  });
-                },
-                child: TextFormField(
-                  enabled: false,
-                  initialValue: "sample",
-                  decoration: new InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10),
-                        ),
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.0,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          primary: true,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  HealingMatchConstants.chooseServiceFirstText,
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                Container(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: dropDownMenuItems.length,
+                      itemBuilder: (BuildContext ctxt, int index) {
+                        return buildDropDown(dropDownMenuItems[index], index);
+                      }),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 50.0,
+                        child: RaisedButton(
+                          child: Text(
+                            "賃貸管理",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          color: Colors.lime,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
-                      suffixIcon: IconButton(
-                          icon: status == 0
-                              ? Icon(Icons.arrow_drop_down_sharp)
-                              : Icon(Icons.arrow_drop_up_sharp),
-                          onPressed: () {
-                            setState(() {
-                              status == 0 ? status = 1 : status = 0;
-                            });
-                          }),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                      hintText: "パスワード",
-                      fillColor: Colors.grey[200]),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              status == 1
-                  ? Container(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: dropdownValues.length,
-                          itemBuilder: (BuildContext ctxt, int index) {
-                            return buildCheckBoxContent(
-                                dropdownValues[index], index);
-                          }),
-                    )
-                  : Container(),
-              /* Checkbox(
-                    activeColor: Colors.lime,
-                    checkColor: Colors.lime,
-                    value: _value,
-                    onChanged: (bool newValue) {
-                      setState(() {
-                        _value = newValue;
-                      });
-                    },
-                  ), */
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  buildCheckBoxContent(String val, int index) {
+  buildDropDown(String dropDownMenu, int mindex) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            setState(() {
+              status[mindex] == 0 ? status[mindex] = 1 : status[mindex] = 0;
+            });
+          },
+          child: TextFormField(
+            enabled: false,
+            initialValue: dropDownMenu,
+            decoration: new InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    const Radius.circular(10),
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                    width: 0.0,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                    icon: status[mindex] == 0
+                        ? Transform.rotate(
+                            angle: 270 * math.pi / 180,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        : Transform.rotate(
+                            angle: 270 * math.pi / 180,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        status[mindex] == 0
+                            ? status[mindex] = 1
+                            : status[mindex] = 0;
+                      });
+                    }),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                hintText: "パスワード",
+                fillColor: Colors.grey[200]),
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        status[mindex] == 1
+            ? Container(
+                child: ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: dropDownValues.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return buildCheckBoxContent(
+                          dropDownValues[index], index, mindex);
+                    }),
+              )
+            : Container(),
+      ],
+    );
+  }
+
+  buildCheckBoxContent(String val, int index, int mindex) {
     bool checkValue = false;
     int indexPos = 0;
-    if (val == "other") {
-      checkValue = otherSelected;
+    List<String> selectedDropdownValues = List<String>();
+    List<ServicePriceModel> servicePriceModel = List<ServicePriceModel>();
+    if (mindex == 0) {
+      selectedDropdownValues.addAll(selectedEstheticDropdownValues);
+      servicePriceModel.addAll(estheticServicePriceModel);
+    } else if (mindex == 1) {
+      selectedDropdownValues.addAll(selectedRelaxationDropdownValues);
+      servicePriceModel.addAll(relaxationServicePriceModel);
+    } else if (mindex == 2) {
+      selectedDropdownValues.addAll(selectedTreatmentDropdownValues);
+      servicePriceModel.addAll(treatmentServicePriceModel);
+    } else if (mindex == 3) {
+      selectedDropdownValues.addAll(selectedFitnessDropdownValues);
+      servicePriceModel.addAll(fitnessServicePriceModel);
+    }
+    if (val == HealingMatchConstants.chooseServiceOtherDropdownFiled) {
+      checkValue = otherSelected[mindex];
     } else {
       checkValue = selectedDropdownValues.contains(val.toLowerCase());
       if (checkValue) {
-        indexPos = getIndex(val);
+        indexPos = getIndex(val, servicePriceModel);
       }
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           children: [
@@ -174,18 +278,52 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       setState(() {
                         if (newValue == null) {
                           checkValue = false;
-                          if (val != "other") {
+                          if (val !=
+                              HealingMatchConstants
+                                  .chooseServiceOtherDropdownFiled) {
                             selectedDropdownValues.remove(val.toLowerCase());
                             servicePriceModel.removeAt(indexPos);
+                            if (mindex == 0) {
+                              selectedEstheticDropdownValues.clear();
+                              estheticServicePriceModel.clear();
+                              selectedEstheticDropdownValues
+                                  .addAll(selectedDropdownValues);
+                              estheticServicePriceModel
+                                  .addAll(servicePriceModel);
+                            } else if (mindex == 1) {
+                              selectedRelaxationDropdownValues.clear();
+                              relaxationServicePriceModel.clear();
+                              selectedRelaxationDropdownValues
+                                  .addAll(selectedDropdownValues);
+                              relaxationServicePriceModel
+                                  .addAll(servicePriceModel);
+                            } else if (mindex == 2) {
+                              selectedTreatmentDropdownValues.clear();
+                              treatmentServicePriceModel.clear();
+                              selectedTreatmentDropdownValues
+                                  .addAll(selectedDropdownValues);
+                              treatmentServicePriceModel
+                                  .addAll(servicePriceModel);
+                            } else if (mindex == 3) {
+                              selectedFitnessDropdownValues.clear();
+                              fitnessServicePriceModel.clear();
+                              selectedFitnessDropdownValues
+                                  .addAll(selectedDropdownValues);
+                              fitnessServicePriceModel
+                                  .addAll(servicePriceModel);
+                            }
                           } else {
-                            otherSelected = false;
+                            otherSelected[mindex] = false;
                           }
                         } else {
-                          if (val == "other") {
+                          if (val ==
+                              HealingMatchConstants
+                                  .chooseServiceOtherDropdownFiled) {
                             checkValue = true;
-                            otherSelected = true;
+                            otherSelected[mindex] = true;
                           } else {
-                            showTimeandPriceDialog(val, checkValue, indexPos);
+                            showTimeandPriceDialog(
+                                val, checkValue, indexPos, mindex);
                           }
                         }
                       });
@@ -195,7 +333,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 ],
               ),
             ),
-            val != "other" && checkValue == true
+            val != HealingMatchConstants.chooseServiceOtherDropdownFiled &&
+                    checkValue == true
                 ? Expanded(
                     child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -208,7 +347,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              showTimeandPriceDialog(val, checkValue, indexPos);
+                              showTimeandPriceDialog(
+                                  val, checkValue, indexPos, mindex);
                             }),
                       )
                     ],
@@ -216,14 +356,19 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 : Container()
           ],
         ),
-        (checkValue == true && val == "other")
+        (checkValue == true &&
+                val == HealingMatchConstants.chooseServiceOtherDropdownFiled)
             ? Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 18.0, right: 8.0),
-                    child: TextFormField(
-                      controller: sampleOthersController,
-                      decoration: new InputDecoration(
+                    child: Container(
+                      margin: const EdgeInsets.all(8.0),
+                      height: 50.0,
+                      child: TextFormField(
+                        controller: sampleOthersController,
+                        decoration: new InputDecoration(
+                          fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -234,26 +379,38 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             ),
                           ),
                           suffixIcon: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(
+                                left: 4.0, right: 8.0, top: 8.0, bottom: 8.0),
                             child: FlatButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(10.0)),
                               onPressed: () {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
-                                  dropdownValues.insert(
+                                  dropDownValues.insert(
                                       index, sampleOthersController.text);
                                   sampleOthersController.clear();
                                 });
                               },
-                              child: Text("Add"),
+                              child: Text(
+                                HealingMatchConstants
+                                    .chooseServiceAddtoDropdownButton,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               color: Colors.lime,
                             ),
                           ),
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "add others",
-                          fillColor: Colors.grey[200]),
+                          hintText: HealingMatchConstants
+                              .chooseServiceAddTextFormField,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -262,39 +419,16 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 ],
               )
             : Container(),
-        (checkValue == true && val != "other")
+        (checkValue == true &&
+                val != HealingMatchConstants.chooseServiceOtherDropdownFiled)
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Wrap(
-                  spacing: 8.0, runSpacing: 8.0,
-                  children: checkAddedPrice(indexPos), // [
-                  //buildCheckBoxTimePriceChip(),
-
-                  /*  (servicePriceModel[indexPos].sixtyMin) != 0
-                      ? buildCheckBoxChip(
-                          servicePriceModel[indexPos].sixtyMin, 60)
-                      : Container(),
-
-                  (servicePriceModel[indexPos].nintyMin) != 0
-                      ? buildCheckBoxChip(
-                          servicePriceModel[indexPos].nintyMin, 90)
-                      : Container(),
-
-                  (servicePriceModel[indexPos].oneTwentyMin) != 0
-                      ? buildCheckBoxChip(
-                          servicePriceModel[indexPos].oneTwentyMin, 120)
-                      : Container(),
-
-                  (servicePriceModel[indexPos].oneFiftyMin) != 0
-                      ? buildCheckBoxChip(
-                          servicePriceModel[indexPos].oneFiftyMin, 150)
-                      : Container(),
-
-                  (servicePriceModel[indexPos].oneEightyMin) != 0
-                      ? buildCheckBoxChip(
-                          servicePriceModel[indexPos].oneEightyMin, 180)
-                      : Container(), */
-                  // ]
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.start,
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: checkAddedPrice(indexPos, servicePriceModel),
                 ),
               )
             : Container(),
@@ -302,7 +436,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     );
   }
 
-  checkAddedPrice(int indexPos) {
+  checkAddedPrice(int indexPos, List<ServicePriceModel> servicePriceModel) {
     List<Widget> values = List<Widget>();
     if ((servicePriceModel[indexPos].sixtyMin) != 0) {
       values.add(buildCheckBoxChip(servicePriceModel[indexPos].sixtyMin, 60));
@@ -322,6 +456,15 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       values.add(
           buildCheckBoxChip(servicePriceModel[indexPos].oneEightyMin, 180));
     }
+    //For Alignment Purposes
+    /*   if (values.length < 3) {
+      if (values.length == 1) {
+        values.add(Container());
+      } else {
+        values.add(Container());
+        values.add(Container());
+      }
+    } */
     return values;
   }
 
@@ -345,97 +488,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     );
   }
 
-  buildCheckBoxTimePriceChip() {
-    List<Widget> values = List<Widget>();
-    values.add(Container(
-      padding: EdgeInsets.all(10.0),
-      height: 40.0,
-      width: 100.0,
-      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: Colors.grey,
-          )),
-      child: Center(
-        child: Text(
-          "¥100/60分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-    values.add(Container(
-      padding: EdgeInsets.all(10.0),
-      height: 40.0,
-      width: 100.0,
-      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: Colors.grey,
-          )),
-      child: Center(
-        child: Text(
-          "¥100/90分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-    values.add(Container(
-      padding: EdgeInsets.all(10.0),
-      height: 40.0, width: 100.0,
-      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: Colors.grey,
-          )),
-      child: Center(
-        child: Text(
-          "¥100/120分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-    values.add(Container(
-      width: 100.0,
-      padding: EdgeInsets.all(10.0),
-      height: 40.0,
-      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: Colors.grey,
-          )),
-      child: Center(
-        child: Text(
-          "¥100/150分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-    values.add(Container(
-      width: 100.0,
-      padding: EdgeInsets.all(10.0),
-      height: 40.0,
-      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(
-            color: Colors.grey,
-          )),
-      child: Center(
-        child: Text(
-          "¥100/180分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-
-    return values;
-  }
-
-  showTimeandPriceDialog(String val, bool selected, int indexPos) {
+  showTimeandPriceDialog(String val, bool selected, int indexPos, int mindex) {
     TextEditingController sixtyMinutesController = new TextEditingController();
     TextEditingController nintyMinuteController = new TextEditingController();
     TextEditingController oneTwentyMinuteController =
@@ -443,6 +496,21 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     TextEditingController oneFiftyController = new TextEditingController();
     TextEditingController oneEightyMinuteController =
         new TextEditingController();
+    List<String> selectedDropdownValues = List<String>();
+    List<ServicePriceModel> servicePriceModel = List<ServicePriceModel>();
+    if (mindex == 0) {
+      selectedDropdownValues.addAll(selectedEstheticDropdownValues);
+      servicePriceModel.addAll(estheticServicePriceModel);
+    } else if (mindex == 1) {
+      selectedDropdownValues.addAll(selectedRelaxationDropdownValues);
+      servicePriceModel.addAll(relaxationServicePriceModel);
+    } else if (mindex == 2) {
+      selectedDropdownValues.addAll(selectedTreatmentDropdownValues);
+      servicePriceModel.addAll(treatmentServicePriceModel);
+    } else if (mindex == 3) {
+      selectedDropdownValues.addAll(selectedFitnessDropdownValues);
+      servicePriceModel.addAll(fitnessServicePriceModel);
+    }
 
     if (selected) {
       sixtyMinutesController.text =
@@ -846,9 +914,50 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                                     : 0,
                                               ),
                                             );
+                                            selectedDropdownValues
+                                                .add(val.toLowerCase());
                                             setState(() {
-                                              selectedDropdownValues
-                                                  .add(val.toLowerCase());
+                                              if (mindex == 0) {
+                                                selectedEstheticDropdownValues
+                                                    .clear();
+                                                estheticServicePriceModel
+                                                    .clear();
+                                                selectedEstheticDropdownValues
+                                                    .addAll(
+                                                        selectedDropdownValues);
+                                                estheticServicePriceModel
+                                                    .addAll(servicePriceModel);
+                                              } else if (mindex == 1) {
+                                                selectedRelaxationDropdownValues
+                                                    .clear();
+                                                relaxationServicePriceModel
+                                                    .clear();
+                                                selectedRelaxationDropdownValues
+                                                    .addAll(
+                                                        selectedDropdownValues);
+                                                relaxationServicePriceModel
+                                                    .addAll(servicePriceModel);
+                                              } else if (mindex == 2) {
+                                                selectedTreatmentDropdownValues
+                                                    .clear();
+                                                treatmentServicePriceModel
+                                                    .clear();
+                                                selectedTreatmentDropdownValues
+                                                    .addAll(
+                                                        selectedDropdownValues);
+                                                treatmentServicePriceModel
+                                                    .addAll(servicePriceModel);
+                                              } else if (mindex == 3) {
+                                                selectedFitnessDropdownValues
+                                                    .clear();
+                                                fitnessServicePriceModel
+                                                    .clear();
+                                                selectedFitnessDropdownValues
+                                                    .addAll(
+                                                        selectedDropdownValues);
+                                                fitnessServicePriceModel
+                                                    .addAll(servicePriceModel);
+                                              }
                                             });
                                           }
                                         } else {
@@ -886,7 +995,27 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                                       oneEightyMinuteController
                                                           .text)
                                                   : 0;
-                                          setState(() {});
+                                          setState(() {
+                                            if (mindex == 0) {
+                                              estheticServicePriceModel.clear();
+                                              estheticServicePriceModel
+                                                  .addAll(servicePriceModel);
+                                            } else if (mindex == 1) {
+                                              relaxationServicePriceModel
+                                                  .clear();
+                                              relaxationServicePriceModel
+                                                  .addAll(servicePriceModel);
+                                            } else if (mindex == 2) {
+                                              treatmentServicePriceModel
+                                                  .clear();
+                                              treatmentServicePriceModel
+                                                  .addAll(servicePriceModel);
+                                            } else if (mindex == 3) {
+                                              fitnessServicePriceModel.clear();
+                                              fitnessServicePriceModel
+                                                  .addAll(servicePriceModel);
+                                            }
+                                          });
                                         }
                                         Navigator.pop(context);
                                       },
@@ -910,7 +1039,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     );
   }
 
-  int getIndex(String val) {
+  int getIndex(String val, List<ServicePriceModel> servicePriceModel) {
     int indexPos;
     for (int i = 0; i < servicePriceModel.length; i++) {
       if (servicePriceModel[i].name == val.toLowerCase()) {

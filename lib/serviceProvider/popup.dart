@@ -90,6 +90,7 @@ class _PopupState extends State<Popup> {
     );
   }
 
+  //Choose User PopUp
   showChooseServiceAlert(BuildContext context) {
     showDialog(
       context: context,
@@ -191,6 +192,7 @@ class _PopupState extends State<Popup> {
     );
   }
 
+  // Success Popup
   showSuccessAlert(BuildContext context) {
     showDialog(
       context: context,
@@ -280,6 +282,7 @@ class _PopupState extends State<Popup> {
     super.dispose();
   }
 
+  //DropDown in Popup
   showDropDownAlert1(BuildContext context) {
     showDialog(
         context: context,
@@ -613,6 +616,7 @@ class _PopupState extends State<Popup> {
     );
   }
 
+  //DropDown in Popup
   showDropDownAlert(BuildContext context) {
     showDialog(
       context: context,

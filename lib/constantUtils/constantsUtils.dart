@@ -87,6 +87,17 @@ class HealingMatchConstants {
   static const String registrationCompleteBtn = '登録完了';
   static const String registrationAlreadyActTxt = 'すでにアカウントをお持ちの方';
 
+
+  //ChooseServiceScreen
+  static const String chooseServiceFirstText = "提供するサービスを選択し料金を設定してください。";
+  static const String chooseServiceEstheticDropDown ="エステ";
+  static const String chooseServiceRelaxationDropDown = "リラクゼーション";
+  static const String chooseServiceTreatmentDropDown ="整骨・整体";
+  static const String chooseServiceFitnessDropDown ="フィットネス";
+  static const String chooseServiceOtherDropdownFiled ="その他";
+  static const String chooseServiceAddTextFormField ="入力してください";
+  static const String chooseServiceAddtoDropdownButton ="追加";
+
   //FontStyle
   static const headersText = TextStyle(
     fontFamily: 'Open Sans',

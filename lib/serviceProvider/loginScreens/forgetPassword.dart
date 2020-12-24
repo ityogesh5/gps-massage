@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
-
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'loginScreen.dart';
+
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 
 class ForgetPassword extends StatefulWidget {
   @override
@@ -9,12 +14,17 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  TextEditingController emailaddress = TextEditingController();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final phoneNumberController = new TextEditingController();
+  FocusNode phoneNumberFocus = FocusNode();
+  List<String> forgetPasswordDetails = [];
+
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -53,6 +63,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       height: 18,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
+                      focusNode: phoneNumberFocus,
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
@@ -82,11 +96,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ChangePassword()));
+                          _providerForgetPasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -101,5 +111,43 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         ),
       ),
     );
+  }
+
+  _providerForgetPasswordDetails() async {
+    var userPhoneNumber = phoneNumberController.text.toString();
+
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('11文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    forgetPasswordDetails.add(userPhoneNumber);
+
+    print('User details length in array : ${forgetPasswordDetails.length}');
+
+    final url = '';
+    http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer ${'token'}"
+        },
+        body: json.encode({
+          "serviceUserDetails": forgetPasswordDetails,
+        }));
+
+    NavigationRouter.switchToProviderChangePasswordScreen(context);
   }
 }
