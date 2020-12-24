@@ -96,6 +96,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                               setState(() {
                                 identificationverify = value;
                               });
+
                             },
                             dataSource: [
                               {
