@@ -289,7 +289,7 @@ class _LoginState extends State<Login> {
     var password = passwordController.text.toString();
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length < 11 || userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
