@@ -133,7 +133,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                         height: 50.0,
                         child: RaisedButton(
                           child: Text(
-                            "賃貸管理",
+                            "更新",
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
@@ -859,7 +859,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     height: 40.0,
                                     child: RaisedButton(
                                       child: Text(
-                                        "賃貸管理",
+                                        "保存",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),

@@ -26,7 +26,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   bool visible = false;
 
   List<ListItem> _dropdownItems = [
-    ListItem(1, "施術店"),
+    ListItem(1, "施術店舗あり施術従業員あり"),
     ListItem(2, "施術店舗あり 施術従業員なし（個人経営）"),
     ListItem(3, "施術店舗なし 施術従業員あり（出張のみ"),
     ListItem(4, "施術店舗なし 施術従業員なし（個人")
