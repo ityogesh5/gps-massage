@@ -26,12 +26,45 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   bool visible = false;
 
   List<ListItem> _dropdownItems = [
-    ListItem(1, "First Value"),
-    ListItem(2, "Second Item"),
-    ListItem(3, "Third Item"),
-    ListItem(4, "Fourth Item")
+    ListItem(1, "施術店舗あり"),
+    ListItem(2, "施術店舗あり 施術従業員なし（個人経営）"),
+    ListItem(3, "施術店舗なし 施術従業員あり（出張のみ"),
+    ListItem(4, "施術店舗なし 施術従業員なし（個人")
+  ];
+  List<ListItem> _numberOfEmployees = [
+    ListItem(1, "　1　"),
+    ListItem(2, "　2　"),
+    ListItem(3, "　3　　"),
+    ListItem(4, "4")
+  ];
+  List<ListItem> _businessTrip = [
+    ListItem(1, "　はい　"),
+    ListItem(2, "　いいえ　"),
+  ];
+  List<ListItem> _coronaTest = [
+    ListItem(1, "　はい　"),
+    ListItem(2, "　いいえ　"),
   ];
 
+  List<ListItem> _childrenTest = [
+    ListItem(1, "　キッズスペースの完備　"),
+    ListItem(2, "　保育士の常駐　"),
+    ListItem(3, "　子供同伴OK　"),
+  ];
+  List<ListItem> _genderTreatment = [
+    ListItem(1, "　男性女性両方　"),
+    ListItem(2, "　女性のみ　"),
+    ListItem(3, "　男性のみ　"),
+  ];
+  List<ListItem> _gender = [
+    ListItem(1, "　男性　"),
+    ListItem(2, "　女性　"),
+    ListItem(3, "　どちらでもない　"),
+  ];
+  List<ListItem> _address = [
+    ListItem(1, "　現在地を取得する　"),
+    ListItem(2, "　直接入力　"),
+  ];
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
   ListItem _selectedItem;
   ListItem _selectedItem1;
@@ -46,7 +79,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   void initState() {
     super.initState();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
-    _selectedItem = _dropdownMenuItems[1].value;
+    _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems[0].value;
     _selectedItem2 = _dropdownMenuItems[0].value;
     _selectedItem3 = _dropdownMenuItems[0].value;
@@ -584,7 +617,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller1,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText:
+                                    HealingMatchConstants.registrationStoreName,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -621,7 +655,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             child: TextFormField(
                                 controller: _controller2,
                                 decoration: InputDecoration(
-                                    labelText: "その他",
+                                    labelText:
+                                        HealingMatchConstants.registrationDob,
                                     filled: true,
                                     fillColor: Colors.black12,
                                     focusedBorder: OutlineInputBorder(
@@ -659,7 +694,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               //disabledTextColor: Colors.grey,
                               onPressed: () {},
                               child: Text(
-                                "計算",
+                                HealingMatchConstants.registrationAge,
                                 style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 14,
@@ -674,46 +709,37 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
-                Stack(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Expanded(
+                      child: Text(
+                        HealingMatchConstants.registrationGender,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
                     Container(
-                      height: size.height * 0.06,
-                      width: size.width * 0.9,
-                      //margin: EdgeInsets.all(16.0),
-                      margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "計算したい日付を選択し",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Container(
-                            //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black12,
-                                border: Border.all(color: Colors.black12)),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                  value: _selectedItem7,
-                                  items: _dropdownMenuItems,
-                                  onChanged: (value) {
-                                    print(value);
-                                    setState(() {
-                                      _selectedItem7 = value;
-                                    });
-                                  }),
-                            ),
-                          ),
-                        ],
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.black12,
+                          border: Border.all(color: Colors.black12)),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: _selectedItem7,
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              print(value);
+                              setState(() {
+                                _selectedItem7 = value;
+                              });
+                            }),
                       ),
                     ),
                   ],
@@ -730,7 +756,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller3,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText:
+                                    HealingMatchConstants.registrationPhnNum,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -756,10 +783,10 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し",
+                        HealingMatchConstants.registrationStorePhnText,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Colors.grey,
                             fontWeight: FontWeight.bold),
                       ),
@@ -778,7 +805,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller4,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText: HealingMatchConstants
+                                    .registrationStorePhnNum,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -810,7 +838,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller5,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText: HealingMatchConstants
+                                    .registrationMailAdress,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -843,7 +872,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               controller: _controller6,
                               obscureText: passwordVisibility,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText:
+                                    HealingMatchConstants.registrationPassword,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -874,7 +904,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                   ],
                 ),
                 SizedBox(height: size.width * 0.04),
-                Stack(
+                /*   Stack(
                   children: [
                     Container(
                       width: size.width * 0.9,
@@ -889,7 +919,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: size.width * 0.04),
+                SizedBox(height: size.width * 0.04),*/
                 Stack(
                   children: [
                     Container(
@@ -902,7 +932,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               controller: _controller7,
                               obscureText: passwordConfirmVisibility,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText: HealingMatchConstants
+                                    .registrationConfirmPassword,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -979,7 +1010,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ",
+                        HealingMatchConstants.registrationIndividualText,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 14,
@@ -1001,7 +1032,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller8,
                               decoration: InputDecoration(
-                                  labelText: "その他",
+                                  labelText: "♪101-0041東京都千代田区",
                                   filled: true,
                                   fillColor: Colors.black12,
                                   focusedBorder: OutlineInputBorder(
@@ -1044,7 +1075,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                             child: TextFormField(
                                 controller: _controller9,
                                 decoration: InputDecoration(
-                                  labelText: "その他",
+                                  labelText: HealingMatchConstants
+                                      .registrationBuildingName,
                                   filled: true,
                                   fillColor: Colors.black12,
                                   focusedBorder: OutlineInputBorder(
@@ -1073,7 +1105,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               child: TextFormField(
                                   controller: _controller10,
                                   decoration: InputDecoration(
-                                    labelText: "その他",
+                                    labelText: HealingMatchConstants
+                                        .registrationRoomNo,
                                     filled: true,
                                     fillColor: Colors.black12,
                                     focusedBorder: OutlineInputBorder(
@@ -1103,7 +1136,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し ",
+                        HealingMatchConstants.registrationPointTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 14,
@@ -1126,7 +1159,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       child: RaisedButton(
                         //padding: EdgeInsets.all(15.0),
                         child: Text(
-                          "OK",
+                          HealingMatchConstants.registrationNextBtn,
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold),
                         ),
@@ -1156,7 +1189,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           print("User onTapped");
                         },
                         child: Text(
-                          "日付を選択し日付を選択し日付を選択し日",
+                          HealingMatchConstants.registrationAlreadyActTxt,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,

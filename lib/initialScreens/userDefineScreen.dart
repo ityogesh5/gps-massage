@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 import 'package:gps_massageapp/serviceUser/userLoginScreen.dart';
 
@@ -52,7 +53,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                     SizedBox(height: 20),
                     Center(
                       child: Text(
-                        "計算したい日付を選択し",
+                        HealingMatchConstants.UserSelectFirtTxt,
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -122,7 +123,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "不動産カレンダー不動産カレンダー \n証明書をアップロードしてください。",
+                        HealingMatchConstants.UserSelectLastTxt,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 14.0),
                       ),
