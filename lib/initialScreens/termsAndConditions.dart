@@ -40,7 +40,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
               ),
               Tab(
                 child: Text(
-                  "サービスユーザー",
+                  "サービス利用者",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),

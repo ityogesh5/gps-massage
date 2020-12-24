@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
@@ -16,13 +18,13 @@ class RegistrationSecondPage extends StatefulWidget {
 class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
   final formkey = new GlobalKey<FormState>();
   final identityverification = new GlobalKey<FormState>();
-
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final qualificationupload = new GlobalKey<FormState>();
   final bankkey = new GlobalKey<FormState>();
   final accountnumberkey = new GlobalKey<FormState>();
   bool readonly = false;
   bool visible = false;
-  String identificationverify, qualification, bankname, accountnumber;
+  var identificationverify, qualification, bankname, accountnumber;
 
   void initState() {
     super.initState();
@@ -35,6 +37,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -295,7 +298,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.08,
+                    height: MediaQuery.of(context).size.height * 0.065,
                     // decoration: BoxDecoration(
                     //     borderRadius: BorderRadius.circular(10.0),
                     //     color: Colors.black),
@@ -587,11 +590,12 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                       ),
                       color: Colors.lime,
                       onPressed: () {
-                        Navigator.push(
+                        /*  Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    RegistrationSuccessOtpScreen()));
+                                    RegistrationSuccessOtpScreen()));*/
+                        _providerRegistrationDetails();
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -617,5 +621,44 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
         ),
       ),
     );
+  }
+
+  _providerRegistrationDetails() {
+    var _myidentificationverify = identificationverify.toString().trim();
+    var _myqualification = qualification.toString().trim();
+
+    if (_myidentificationverify.isEmpty || _myidentificationverify == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('本人確認証を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+    if (/*_myqualification ==
+            HealingMatchConstants.registrationQualificationDropdown ||
+        _myqualification.contains(
+            HealingMatchConstants.registrationQualificationDropdown)*/
+        _myqualification.isEmpty || _myqualification == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('保有資格を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+    NavigationRouter.switchToProviderOtpScreen(context);
   }
 }

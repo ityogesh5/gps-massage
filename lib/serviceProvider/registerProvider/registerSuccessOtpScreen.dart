@@ -7,10 +7,12 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 
 class RegistrationSuccessOtpScreen extends StatefulWidget {
   @override
-  _RegistrationSuccessOtpScreenState createState() => _RegistrationSuccessOtpScreenState();
+  _RegistrationSuccessOtpScreenState createState() =>
+      _RegistrationSuccessOtpScreenState();
 }
 
-class _RegistrationSuccessOtpScreenState extends State<RegistrationSuccessOtpScreen> {
+class _RegistrationSuccessOtpScreenState
+    extends State<RegistrationSuccessOtpScreen> {
   String userOTP;
   TextEditingController pin = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -35,7 +37,8 @@ class _RegistrationSuccessOtpScreenState extends State<RegistrationSuccessOtpScr
             Navigator.pop(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => RegistrationSecondPage()));
+                    builder: (BuildContext context) =>
+                        RegistrationSecondPage()));
           },
         ),
       ),
@@ -56,7 +59,7 @@ class _RegistrationSuccessOtpScreenState extends State<RegistrationSuccessOtpScr
                   children: [
                     FittedBox(
                       child: Text(
-                        "+81****に届いた認証コード及び\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。",
+                        "+81***に届いた認証コードを入力し、\n「確認」ボタンをクリックしてください。",
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -109,7 +112,7 @@ class _RegistrationSuccessOtpScreenState extends State<RegistrationSuccessOtpScr
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'パスワードを再設定する',
+                          '確認',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.lime,
