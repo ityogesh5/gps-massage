@@ -29,6 +29,10 @@ class HealingMatchConstants {
   static int serviceUserRoomNumber = 0; //gpsAddress
   static String gpsAddress = '';
 
+  //userDefinedScreens
+  static const String UserSelectFirtTxt = 'どちらで利用しますか？';
+  static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者と\nしてもログイン可能です。';
+
   //LoginServiceProvider
   static const String loginText = 'セラピストのログイン';
   static const String loginPhoneNumber = '電話番号';
@@ -62,14 +66,14 @@ class HealingMatchConstants {
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に開示されることはありません。';
-  static const String registrationIdentityVerification = '本人確認証';
   static const String registrationBuildingName = '建物名*';
   static const String registrationRoomNo = '部屋番号*';
   static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
-  static const String registrationIdentityUpload = '本人確認書のアップロード';
-  static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
+  static const String registrationIdentityVerification = '本人確認証*';
+  static const String registrationIdentityUpload = '本人確認書のアップロード*';
+  static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。*';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
