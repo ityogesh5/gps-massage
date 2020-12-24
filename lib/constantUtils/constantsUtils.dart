@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
-  static const String ON_PREMISE_USER_BASE_URL = "http://106.51.49.160:9094/api/user";
-  static const String REGISTER_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/register';
+  static const String ON_PREMISE_USER_BASE_URL =
+      "http://106.51.49.160:9094/api/user";
+  static const String REGISTER_PROVIDER_URL =
+      ON_PREMISE_USER_BASE_URL + '/register';
 
   // DOMAIN URL'S
   //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";
@@ -39,7 +41,17 @@ class HealingMatchConstants {
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
   static const String registrationSecondText = '*は必項目です';
+  static const String registrationFacePhtoText =
+      '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
+  static const String registrationBuisnessForm = '事業形態';
+  static const String registrationBuisnessTrip = '出張でサービス提供可能';
+  static const String registrationCoronaTxt = 'コロナ対策実施有無';
+  static const String registrationJapanAssociationTxt =
+      'マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
+  static const String registrationName = 'お名前*';
+  static const String registrationStoreTxt = '店舗として登録の場合は代表者の氏名を入力してください';
   static const String registrationIdentityVerification = '本人確認証';
+
   static const String registrationIdentityUpload = '本人確認書のアップロード';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';

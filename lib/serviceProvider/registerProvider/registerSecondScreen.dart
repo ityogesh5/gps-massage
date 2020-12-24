@@ -8,6 +8,8 @@ import 'dart:async';
 import 'package:gps_massageapp/customLibraryClasses/expandable/customAccordan.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'chooseServiceScreen.dart';
+
 class RegistrationSecondPage extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
@@ -310,7 +312,7 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  ServiceAndPricing()));
+                                  ChooseServiceScreen()));
                     },
                   ),
                 ),

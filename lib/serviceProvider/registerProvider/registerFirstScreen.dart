@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/utils/widgets.dart';
 import 'package:gps_massageapp/utils/password-input.dart';
@@ -45,7 +46,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   void initState() {
     super.initState();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
-    _selectedItem = _dropdownMenuItems[0].value;
+    _selectedItem = _dropdownMenuItems[1].value;
     _selectedItem1 = _dropdownMenuItems[0].value;
     _selectedItem2 = _dropdownMenuItems[0].value;
     _selectedItem3 = _dropdownMenuItems[0].value;
@@ -100,7 +101,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                   children: [
                     Center(
                       child: Text(
-                        "計算したい日付を選択し",
+                        HealingMatchConstants.registrationFirstText,
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -116,7 +117,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                   children: [
                     Center(
                       child: Text(
-                        "日付を選択し",
+                        HealingMatchConstants.registrationSecondText,
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -285,7 +286,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                       width: 280,
                       child: Center(
                         child: Text(
-                          "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し",
+                          HealingMatchConstants.registrationFacePhtoText,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14,
@@ -380,7 +381,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              "計算したい日付を選択し",
+                              HealingMatchConstants.registrationBuisnessTrip,
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -425,7 +426,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              "計算したい日付を選択し",
+                              HealingMatchConstants.registrationCoronaTxt,
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -512,7 +513,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し日付を選択し 日付を選択し日付を選択し日付を選択し日付を選択し",
+                        HealingMatchConstants.registrationJapanAssociationTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 14,
@@ -534,7 +535,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                           child: TextFormField(
                               controller: _controller,
                               decoration: InputDecoration(
-                                labelText: "その他",
+                                labelText:
+                                    HealingMatchConstants.registrationName,
                                 filled: true,
                                 fillColor: Colors.black12,
                                 focusedBorder: OutlineInputBorder(
@@ -560,7 +562,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                     Container(
                       width: size.width * 0.9,
                       child: Text(
-                        "日付を選択し日付を選択し日付を選択し日付を選択し",
+                        HealingMatchConstants.registrationStoreTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: 14,
