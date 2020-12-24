@@ -48,26 +48,15 @@ class _LoginState extends State<Login> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 5,
+                    top: MediaQuery.of(context).size.height / 7,
                     right: MediaQuery.of(context).size.width / 25,
                     left: MediaQuery.of(context).size.width / 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset('assets/images_gps/logo.svg',
-                            height: 100, width: 140),
-                        Padding(
-                          padding: EdgeInsets.all(20),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+                    SvgPicture.asset('assets/images_gps/logo.svg',
+                        height: 100, width: 140),
+                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(HealingMatchConstants.loginText,

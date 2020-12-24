@@ -10,23 +10,6 @@ import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:http/http.dart' as http;
 
-class RegisterServiceUserScreen extends StatefulWidget {
-  @override
-  _RegisterServiceUserScreenState createState() =>
-      _RegisterServiceUserScreenState();
-}
-
-class _RegisterServiceUserScreenState extends State<RegisterServiceUserScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ヒーリングマッチ',
-      debugShowCheckedModeBanner: false,
-      home: RegisterUser(),
-    );
-  }
-}
-
 class RegisterUser extends StatefulWidget {
   @override
   State createState() => _RegisterUserState();

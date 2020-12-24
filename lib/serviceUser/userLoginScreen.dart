@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
 import 'package:gps_massageapp/serviceUser//UserforgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
@@ -49,7 +50,7 @@ class _UserLoginState extends State<UserLogin> {
                           ),
                           filled: true,
                           hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "電話番号",
                           fillColor: Colors.grey[200]),
                     ),
@@ -78,7 +79,7 @@ class _UserLoginState extends State<UserLogin> {
                               }),
                           filled: true,
                           hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "パスワード",
                           fillColor: Colors.grey[200]),
                     ),
@@ -100,7 +101,7 @@ class _UserLoginState extends State<UserLogin> {
                             'パスワードを忘れた方はこちら',
                             style: TextStyle(
 //                    decoration: TextDecoration.underline,
-                            ),
+                                ),
                           ),
                         ),
                       ],
@@ -118,7 +119,7 @@ class _UserLoginState extends State<UserLogin> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                        /*   Navigator.push(
+                          /*   Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
@@ -136,7 +137,7 @@ class _UserLoginState extends State<UserLogin> {
                       Expanded(
                         child: new Container(
                             margin:
-                            const EdgeInsets.only(left: 10.0, right: 15.0),
+                                const EdgeInsets.only(left: 10.0, right: 15.0),
                             child: Divider(
                               // height: 50,
                               color: Colors.black,
@@ -146,7 +147,7 @@ class _UserLoginState extends State<UserLogin> {
                       Expanded(
                         child: new Container(
                             margin:
-                            const EdgeInsets.only(left: 15.0, right: 10.0),
+                                const EdgeInsets.only(left: 15.0, right: 10.0),
                             child: Divider(
                               color: Colors.black,
                               // height: 50,
@@ -173,7 +174,7 @@ class _UserLoginState extends State<UserLogin> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                AssetImage('assets/images_gps/line.jpg'),
+                                    AssetImage('assets/images_gps/line.jpg'),
                               ),
                             )),
                         SizedBox(
@@ -187,7 +188,7 @@ class _UserLoginState extends State<UserLogin> {
                               child: CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
-                                AssetImage('assets/images_gps/apple2.jpg'),
+                                    AssetImage('assets/images_gps/apple2.jpg'),
                               ),
                             )),
                       ],
@@ -197,11 +198,7 @@ class _UserLoginState extends State<UserLogin> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    RegisterFirstScreen()));
+                        NavigationRouter.switchToRegistration(context);
                       },
                       child: Text(
                         '新規の方はこちら',
@@ -232,7 +229,7 @@ class _UserLoginState extends State<UserLogin> {
                         'サービス利用者のログイン',
                         style: TextStyle(
 //                            decoration: TextDecoration.underline,
-                        ),
+                            ),
                       ),
                     ),
                   ],

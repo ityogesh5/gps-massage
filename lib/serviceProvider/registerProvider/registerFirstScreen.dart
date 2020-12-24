@@ -66,6 +66,15 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
     ListItem(2, "　直接入力　"),
   ];
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems1;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems2;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems3;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems4;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems5;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems6;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems7;
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems8;
+
   ListItem _selectedItem;
   ListItem _selectedItem1;
   ListItem _selectedItem2;
@@ -79,6 +88,14 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   void initState() {
     super.initState();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
+    _dropdownMenuItems1 = buildDropDownMenuItems(_numberOfEmployees);
+    _dropdownMenuItems2 = buildDropDownMenuItems(_businessTrip);
+    _dropdownMenuItems3 = buildDropDownMenuItems(_coronaTest);
+    _dropdownMenuItems4 = buildDropDownMenuItems(_childrenTest);
+    _dropdownMenuItems5 = buildDropDownMenuItems(_genderTreatment);
+    _dropdownMenuItems6 = buildDropDownMenuItems(_gender);
+    _dropdownMenuItems7 = buildDropDownMenuItems(_address);
+    _dropdownMenuItems8 = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems[0].value;
     _selectedItem2 = _dropdownMenuItems[0].value;

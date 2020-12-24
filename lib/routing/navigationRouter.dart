@@ -11,9 +11,8 @@ import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart'
 
 class NavigationRouter {
   static void switchToRegistration(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()),
-        (Route<dynamic> route) => false);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => RegisterUser()));
   }
 
   static void switchToTermsandConditions(BuildContext context) {
@@ -45,18 +44,18 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
   }
 
- static void switchToRegisterFirstScreen(BuildContext context) {
+  static void switchToRegisterFirstScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => RegisterFirstScreen()));
   }
 
   static void switchToProviderForgetPasswordScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ForgetPassword()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ForgetPassword()));
   }
 
   static void switchToProviderChangePasswordScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ChangePassword()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ChangePassword()));
   }
 }
