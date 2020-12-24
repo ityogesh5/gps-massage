@@ -6,6 +6,8 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 
 class NavigationRouter {
   static void switchToRegistration(BuildContext context) {
@@ -46,5 +48,15 @@ class NavigationRouter {
  static void switchToRegisterFirstScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => RegisterFirstScreen()));
+  }
+
+  static void switchToProviderForgetPasswordScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ForgetPassword()));
+  }
+
+  static void switchToProviderChangePasswordScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChangePassword()));
   }
 }
