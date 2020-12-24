@@ -16,8 +16,8 @@ class RegistrationSecondPage extends StatefulWidget {
 }
 
 class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
-  final formkey = new GlobalKey<FormState>()
-  final identityverification = new GlobalKey<FormState>()
+  final formkey = new GlobalKey<FormState>();
+  final identityverification = new GlobalKey<FormState>();
 
   final qualificationupload = new GlobalKey<FormState>();
   final bankkey = new GlobalKey<FormState>();
