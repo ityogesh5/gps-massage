@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
-import 'package:gps_massageapp/serviceUser/userLoginScreen.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
 class UserDefineScreen extends StatefulWidget {
   @override

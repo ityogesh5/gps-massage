@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser//UserforgetPassword.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
+
 
 class UserLogin extends StatefulWidget {
   @override
@@ -28,7 +30,7 @@ class _UserLoginState extends State<UserLogin> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
-                        child: Text('セラピストのログイン',
+                        child: Text('サービス利用者のログイン',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold))),
                     SizedBox(
@@ -111,7 +113,7 @@ class _UserLoginState extends State<UserLogin> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'パスワード',
+                          '${HealingMatchConstants.loginButton}',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.lime,
