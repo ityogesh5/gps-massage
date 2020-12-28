@@ -1,20 +1,13 @@
 import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
-import 'package:gps_massageapp/utils/widgets.dart';
-import 'package:gps_massageapp/utils/password-input.dart';
-import 'package:gps_massageapp/utils/rounded-button.dart';
-import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:gps_massageapp/customLibraryClasses/multiSelectDropdown/multiselectDropDownField.dart';
-import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterFirstScreen extends StatefulWidget {
   @override
@@ -129,6 +122,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   bool _isGPSLocation = false;
   bool _showCurrentLocationInput = false;
   TextEditingController gpsAddressController = new TextEditingController();
+  double sizedBoxFormHeight = 15.0;
 
   void initState() {
     super.initState();
@@ -208,913 +202,445 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
   final _controller10 = new TextEditingController();
 
   bool _validate = false;
+  File _profileImage;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double containerHeight = size.height *
+        0.06; //height of Every TextFormField wrapped with container
+    double containerWidth =
+        size.width * 0.9; //width of Every TextFormField wrapped with container
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: size.width * 0.2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  HealingMatchConstants.registrationFirstText,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: size.width * 0.03,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  HealingMatchConstants.registrationSecondText,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: size.width * 0.1,
-            ),
-            /*Stack(
-              children: [
-                Center(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Center(
-                      child: Container(
-                        height: 100,
-                        width:
-                        MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.75,
-                        margin: EdgeInsets.only(top: 45),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(16.0),
-                            border: Border.all(
-                                color: Colors.grey.shade300)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 1, bottom: 1, left: 10, right: 10),
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              activeTrackColor:
-                              Color.fromRGBO(251, 72, 227, 1),
-                              inactiveTrackColor:
-                              Color.fromRGBO(169, 233, 250, 1),
-                              trackShape:
-                              RoundedRectSliderTrackShape(),
-                              trackHeight: 2.0,
-                              thumbShape: RoundSliderThumbShape(
-                                  enabledThumbRadius: 8.0),
-                              thumbColor:
-                              Color.fromRGBO(251, 72, 227, 1),
-                              overlayColor: Colors.red.withAlpha(32),
-                              overlayShape: RoundSliderOverlayShape(
-                                  overlayRadius: 28.0),
-                              tickMarkShape:
-                              RoundSliderTickMarkShape(),
-                              activeTickMarkColor: Colors.red[700],
-                              inactiveTickMarkColor: Colors.red[100],
-                              valueIndicatorShape:
-                              PaddleSliderValueIndicatorShape(),
-                              valueIndicatorColor: Colors.redAccent,
-                              valueIndicatorTextStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Open Sans'),
-                            ),
-                            child: RangeSlider(
-                              min: 1,
-                              max: 100,
-                              values: values,
-                              divisions: 1,
-                              labels: labels,
-                              activeColor:
-                              Color.fromRGBO(253, 99, 232, 100),
-                              inactiveColor:
-                              Color.fromRGBO(169, 233, 250, 1),
-                              onChanged: (value) {
-                                //print('START: ${value.start}, END: ${value.end}');
-                                setState(() {
-                                  values = null;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),*/
-            SizedBox(
-              height: size.width * 0.1,
-            ),
-            Stack(
-              children: [
-                Center(
-                  child: ClipOval(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: InkWell(
-                        onTap: () {
-                          _showPicker(context);
-                          print("User onTapped");
-                        },
-                        child: CircleAvatar(
-                          radius: size.width * 0.14,
-                          backgroundColor: Colors.grey[400].withOpacity(0.4),
-                          child: _image != null
-                              ? ClipRRect(
-                                  //borderRadius: BorderRadius.circular(50),
-                                  child: Image.file(
-                                    _image,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                  ),
-                                  width: 100,
-                                  height: 100,
-                                  child: Icon(
-                                    FontAwesomeIcons.user,
-                                    color: kWhite,
-                                    size: size.width * 0.1,
-                                  ),
-                                ),
-                          /*child: Icon(
-                            FontAwesomeIcons.user,
-                            color: kWhite,
-                            size: size.width * 0.1,
-                          ),*/
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: size.height * 0.08,
-                  left: size.width * 0.56,
-                  child: Container(
-                    height: size.width * 0.1,
-                    width: size.width * 0.1,
-                    decoration: BoxDecoration(
-                      color: kBlue,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: kWhite, width: 2),
-                    ),
-                    child: Icon(
-                      FontAwesomeIcons.arrowUp,
-                      color: kWhite,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: size.width * 0.1),
-            Container(
-              height: size.height * 0.06,
-              width: size.width * 0.9,
-              child: Text(
-                HealingMatchConstants.registrationFacePhtoText,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40.0,
               ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Container(
-              height: size.height * 0.06,
-              width: size.width * 0.9,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.black12,
-                  border: Border.all(color: Colors.black12)),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton(
-                    value: _selectedItem,
-                    items: _dropdownMenuItems,
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        _selectedItem = value;
-                      });
-                    }),
-              ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Container(
-              height: size.height * 0.06,
-              width: size.width * 0.9,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.black12,
-                  border: Border.all(color: Colors.black12)),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton(
-                    value: _selectedItem1,
-                    items: _dropdownMenuItems1,
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        _selectedItem1 = value;
-                      });
-                    }),
-              ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Container(
-              height: size.height * 0.06,
-              width: size.width * 0.9,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.black12,
-                  border: Border.all(color: Colors.black12)),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton(
-                    value: _selectedItem2,
-                    items: _dropdownMenuItems2,
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        _selectedItem2 = value;
-                      });
-                    }),
-              ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-              child: Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Text(
-                      HealingMatchConstants.registrationBuisnessTrip,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.black12)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                            value: _selectedItem3,
-                            items: _dropdownMenuItems3,
-                            onChanged: (value) {
-                              print(value);
-                              setState(() {
-                                _selectedItem3 = value;
-                              });
-                            }),
-                      ),
-                    ),
+                  Text(
+                    HealingMatchConstants.registrationFirstText,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Text(
-                      HealingMatchConstants.registrationCoronaTxt,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    "*",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.black12)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                            value: _selectedItem4,
-                            items: _dropdownMenuItems4,
-                            onChanged: (value) {
-                              print(value);
-                              setState(() {
-                                _selectedItem4 = value;
-                              });
-                            }),
-                      ),
-                    ),
+                  Text(
+                    HealingMatchConstants.registrationSecondText,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.9,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.black12,
-                      border: Border.all(color: Colors.black12)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        value: _selectedItem5,
-                        items: _dropdownMenuItems5,
-                        onChanged: (value) {
-                          print(value);
-                          setState(() {
-                            _selectedItem5 = value;
-                          });
-                        }),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.9,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.black12,
-                      border: Border.all(color: Colors.black12)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        value: _selectedItem6,
-                        items: _dropdownMenuItems6,
-                        onChanged: (value) {
-                          print(value);
-                          setState(() {
-                            _selectedItem6 = value;
-                          });
-                        }),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: Text(
-                    HealingMatchConstants.registrationJapanAssociationTxt,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            labelText: HealingMatchConstants.registrationName,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: Text(
-                    HealingMatchConstants.registrationStoreTxt,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller1,
-                          decoration: InputDecoration(
-                            labelText:
-                                HealingMatchConstants.registrationStoreName,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.9,
-                  //margin: EdgeInsets.all(16.0),
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(splashColor: Colors.black12),
-                        child: InkWell(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: TextFormField(
-                              enabled: false,
-                              controller: _userDOBController,
-                              decoration: InputDecoration(
-                                  labelText:
-                                      HealingMatchConstants.registrationDob,
-                                  filled: true,
-                                  fillColor: Colors.black12,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                    ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Stack(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    maxRadius: 50,
+                    child: _profileImage != null
+                        ? InkWell(
+                            onTap: () {
+                              _showPicker(context);
+                            },
+                            child: new Container(
+                                width: 95.0,
+                                height: 95.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(_profileImage),
                                   ),
-                                  disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
+                                )),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              _showPicker(context);
+                            },
+                            child: new Container(
+                                width: 95.0,
+                                height: 95.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: new AssetImage(
+                                        'assets/images_gps/placeholder.png'),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  suffixIcon: IconButton(
-                                      icon:
-                                          Icon(Icons.calendar_today, size: 28),
-                                      onPressed: () {
-                                        _selectDate(context);
-                                      }))),
-                        ),
-                      )),
-                      SizedBox(
-                        width: 10.0,
+                                )),
+                          ),
+                  ),
+                  Positioned(
+                    right: 25.0,
+                    top: 70,
+                    left: 70,
+                    child:
+                        Icon(Icons.add_a_photo, color: Colors.blue, size: 30.0),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationFacePhtoText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem,
+                      items: _dropdownMenuItems,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          _selectedItem = value;
+                        });
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem1,
+                      items: _dropdownMenuItems1,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          _selectedItem1 = value;
+                        });
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem2,
+                      items: _dropdownMenuItems2,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          _selectedItem2 = value;
+                        });
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        HealingMatchConstants.registrationBuisnessTrip,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Expanded(
-                        child: Container(
-                          height: size.height * 0.06,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
                             color: Colors.black12,
-                            border: Border.all(color: Colors.black12),
-                          ),
-                          child: TextFormField(
-                            controller: ageController,
-                            decoration: InputDecoration(
-                              hintText: "年齢	",
-                            ),
-                            enabled: false,
-                          ),
+                            border: Border.all(color: Colors.black12)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              value: _selectedItem3,
+                              items: _dropdownMenuItems3,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _selectedItem3 = value;
+                                });
+                              }),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: Text(
-                      HealingMatchConstants.registrationGender,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.black12)),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                            value: _selectedItem7,
-                            items: _dropdownMenuItems7,
-                            onChanged: (value) {
-                              print(value);
-                              setState(() {
-                                _selectedItem7 = value;
-                              });
-                            }),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        HealingMatchConstants.registrationCoronaTxt,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black12,
+                            border: Border.all(color: Colors.black12)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              value: _selectedItem4,
+                              items: _dropdownMenuItems4,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _selectedItem4 = value;
+                                });
+                              }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller3,
-                          decoration: InputDecoration(
-                            labelText: HealingMatchConstants.registrationPhnNum,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: Text(
-                    HealingMatchConstants.registrationStorePhnText,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller4,
-                          decoration: InputDecoration(
-                            labelText:
-                                HealingMatchConstants.registrationStorePhnNum,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller5,
-                          decoration: InputDecoration(
-                            labelText:
-                                HealingMatchConstants.registrationMailAdress,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller6,
-                          obscureText: passwordVisibility,
-                          decoration: InputDecoration(
-                            labelText:
-                                HealingMatchConstants.registrationPassword,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: passwordVisibility
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    passwordVisibility = !passwordVisibility;
-                                  });
-                                }),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            /*   Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: Text(
-                    "日付を選択し日付を選択し日付を選択し日付を選択し",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),*/
-            Stack(
-              children: [
-                Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.9,
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller7,
-                          obscureText: passwordConfirmVisibility,
-                          decoration: InputDecoration(
-                            labelText: HealingMatchConstants
-                                .registrationConfirmPassword,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                            suffixIcon: IconButton(
-                                icon: passwordConfirmVisibility
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    passwordConfirmVisibility =
-                                        !passwordConfirmVisibility;
-                                  });
-                                }),
-                          )),
-                    )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.9,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.black12,
-                      border: Border.all(color: Colors.black12)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        value: _selectedItem8,
-                        items: _dropdownMenuItems8,
-                        onChanged: (value) {
-                          print(value);
-                          if (value == "Second Item") {
-                            setState(() {
-                              _selectedItem8 = value;
-                              visible = true; // !visible;
-                            });
-                          } else {
-                            setState(() {
-                              _selectedItem8 = value;
-                              visible = false;
-                            });
-                          }
-                          /*setState(() {
-                            _selectedItem8 = value;
-                          });*/
-                        }),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Visibility(
-              visible: visible,
-              child: Column(
-                children: [],
+              SizedBox(
+                height: sizedBoxFormHeight,
               ),
-            ),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: Text(
-                    HealingMatchConstants.registrationIndividualText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem5,
+                      items: _dropdownMenuItems5,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          _selectedItem5 = value;
+                        });
+                      }),
                 ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                    height: 60.0, // size.height * 0.06,
-                    width: size.width * 0.8,
-                    child: Theme(
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem6,
+                      items: _dropdownMenuItems6,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          _selectedItem6 = value;
+                        });
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationJapanAssociationTxt,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller,
+                        decoration: InputDecoration(
+                          labelText: HealingMatchConstants.registrationName,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationStoreTxt,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller1,
+                        decoration: InputDecoration(
+                          labelText:
+                              HealingMatchConstants.registrationStoreName,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                //margin: EdgeInsets.all(16.0),
+                margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Theme(
                       data: Theme.of(context)
                           .copyWith(splashColor: Colors.black12),
                       child: InkWell(
                         onTap: () {
-                          _getCurrentLocation();
+                          _selectDate(context);
                         },
                         child: TextFormField(
                             enabled: false,
-                            controller: gpsAddressController,
+                            controller: _userDOBController,
                             decoration: InputDecoration(
-                                labelText: "♪101-0041東京都千代田区",
+                                labelText:
+                                    HealingMatchConstants.registrationDob,
                                 filled: true,
                                 fillColor: Colors.black12,
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide(
                                     color: Colors.grey,
+                                  ),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
@@ -1125,34 +651,429 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                   ),
                                 ),
                                 suffixIcon: IconButton(
-                                    icon: Icon(Icons.add_location_alt_outlined,
-                                        size: 28),
+                                    icon: Icon(Icons.calendar_today, size: 28),
                                     onPressed: () {
-                                      _getCurrentLocation();
+                                      _selectDate(context);
                                     }))),
                       ),
                     )),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: containerHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.black12,
+                          border: Border.all(color: Colors.black12),
+                        ),
+                        child: TextFormField(
+                          controller: ageController,
+                          decoration: InputDecoration(
+                            hintText: "年齢	",
+                          ),
+                          enabled: false,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        HealingMatchConstants.registrationGender,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.black12,
+                            border: Border.all(color: Colors.black12)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              value: _selectedItem7,
+                              items: _dropdownMenuItems7,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _selectedItem7 = value;
+                                });
+                              }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller3,
+                        decoration: InputDecoration(
+                          labelText: HealingMatchConstants.registrationPhnNum,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationStorePhnText,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller4,
+                        decoration: InputDecoration(
+                          labelText:
+                              HealingMatchConstants.registrationStorePhnNum,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller5,
+                        decoration: InputDecoration(
+                          labelText:
+                              HealingMatchConstants.registrationMailAdress,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller6,
+                        obscureText: passwordVisibility,
+                        decoration: InputDecoration(
+                          labelText: HealingMatchConstants.registrationPassword,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                              icon: passwordVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisibility = !passwordVisibility;
+                                });
+                              }),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              /*   Stack(
+                children: [
+                  Container(
+                    width: containerWidth,
+                    child: Text(
+                      "日付を選択し日付を選択し日付を選択し日付を選択し",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: size.width * 0.04),*/
+              Container(
+                  height: containerHeight,
+                  width: containerWidth,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: TextFormField(
+                        controller: _controller7,
+                        obscureText: passwordConfirmVisibility,
+                        decoration: InputDecoration(
+                          labelText:
+                              HealingMatchConstants.registrationConfirmPassword,
+                          filled: true,
+                          fillColor: Colors.black12,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                              icon: passwordConfirmVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordConfirmVisibility =
+                                      !passwordConfirmVisibility;
+                                });
+                              }),
+                        )),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.black12,
+                    border: Border.all(color: Colors.black12)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      value: _selectedItem8,
+                      items: _dropdownMenuItems8,
+                      onChanged: (value) {
+                        print(value);
+                        if (value == "Second Item") {
+                          setState(() {
+                            _selectedItem8 = value;
+                            visible = true; // !visible;
+                          });
+                        } else {
+                          setState(() {
+                            _selectedItem8 = value;
+                            visible = false;
+                          });
+                        }
+                        /*setState(() {
+                          _selectedItem8 = value;
+                        });*/
+                      }),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Visibility(
+                visible: visible,
+                child: Column(
+                  children: [],
+                ),
+              ),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationIndividualText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: 60.0, //containerHeight,
                   width: size.width * 0.8,
-                  //margin: EdgeInsets.all(16.0),
-                  //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: Row(
-                    children: [
-                      Expanded(
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: InkWell(
+                      onTap: () {
+                        _getCurrentLocation();
+                      },
+                      child: TextFormField(
+                          enabled: false,
+                          controller: gpsAddressController,
+                          decoration: InputDecoration(
+                              labelText: "♪101-0041東京都千代田区",
+                              filled: true,
+                              fillColor: Colors.black12,
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                              suffixIcon: IconButton(
+                                  icon: Icon(Icons.add_location_alt_outlined,
+                                      size: 28),
+                                  onPressed: () {
+                                    _getCurrentLocation();
+                                  }))),
+                    ),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: size.width * 0.8,
+                //margin: EdgeInsets.all(16.0),
+                //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFormField(
+                          controller: _controller9,
+                          decoration: InputDecoration(
+                            labelText:
+                                HealingMatchConstants.registrationBuildingName,
+                            filled: true,
+                            fillColor: Colors.black12,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                          )),
+                    )),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Container(
                           child: Theme(
                         data: Theme.of(context)
                             .copyWith(splashColor: Colors.black12),
                         child: TextFormField(
-                            controller: _controller9,
+                            controller: _controller10,
                             decoration: InputDecoration(
-                              labelText: HealingMatchConstants
-                                  .registrationBuildingName,
+                              labelText:
+                                  HealingMatchConstants.registrationRoomNo,
                               filled: true,
                               fillColor: Colors.black12,
                               focusedBorder: OutlineInputBorder(
@@ -1170,116 +1091,80 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                               ),
                             )),
                       )),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Expanded(
-                        child: Container(
-                            child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(splashColor: Colors.black12),
-                          child: TextFormField(
-                              controller: _controller10,
-                              decoration: InputDecoration(
-                                labelText:
-                                    HealingMatchConstants.registrationRoomNo,
-                                filled: true,
-                                fillColor: Colors.black12,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                              )),
-                        )),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationPointTxt,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.lime,
+                ),
+                child: RaisedButton(
+                  //padding: EdgeInsets.all(15.0),
                   child: Text(
-                    HealingMatchConstants.registrationPointTxt,
-                    textAlign: TextAlign.left,
+                    HealingMatchConstants.registrationNextBtn,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  color: Colors.lime,
+                  textColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  onPressed: () {
+                    validateFields();
+                    /*    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                RegistrationSecondPage())); */
+                  },
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                width: containerWidth,
+                child: InkWell(
+                  onTap: () {
+                    _showPicker(context);
+                    print("User onTapped");
+                  },
+                  child: Text(
+                    HealingMatchConstants.registrationAlreadyActTxt,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.lime,
-                  ),
-                  child: RaisedButton(
-                    //padding: EdgeInsets.all(15.0),
-                    child: Text(
-                      HealingMatchConstants.registrationNextBtn,
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    color: Colors.lime,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      validateFields();
-                      /*    Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  RegistrationSecondPage())); */
-                    },
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-            Stack(
-              children: [
-                Container(
-                  width: size.width * 0.9,
-                  child: InkWell(
-                    onTap: () {
-                      _showPicker(context);
-                      print("User onTapped");
-                    },
-                    child: Text(
-                      HealingMatchConstants.registrationAlreadyActTxt,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: size.width * 0.04),
-          ],
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+            ],
+          ),
         ),
       ),
     );

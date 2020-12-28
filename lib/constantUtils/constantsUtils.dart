@@ -44,7 +44,7 @@ class HealingMatchConstants {
 
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
-  static const String registrationSecondText = '*は必項目です';
+  static const String registrationSecondText = 'は必項目です';
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
