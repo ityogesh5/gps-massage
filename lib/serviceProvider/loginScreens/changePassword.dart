@@ -341,7 +341,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    NavigationRouter.switchToLogin(context);
+    NavigationRouter.switchToProviderLogin(context);
 
     /*  final url = '';
     http.post(url,

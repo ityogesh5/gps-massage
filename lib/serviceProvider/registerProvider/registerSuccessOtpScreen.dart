@@ -38,7 +38,7 @@ class _RegistrationSuccessOtpScreenState
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        RegistrationSecondPage()));
+                        RegistrationProviderSecondScreen()));
           },
         ),
       ),

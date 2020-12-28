@@ -39,7 +39,7 @@ class HealingMatchConstants {
   static const String loginPhoneNumber = '電話番号';
   static const String loginPassword = 'パスワード';
   static const String loginForgetPassword = 'パスワードを忘れた方はこちら';
-  static const String loginButton = 'パスワード';
+  static const String loginButton = 'ログイン';
   static const String loginNewRegistrationText = '新規の方はこちら';
   static const String loginServiceUser = 'サービス利用者のログイン';
 

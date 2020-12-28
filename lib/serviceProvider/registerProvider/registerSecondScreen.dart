@@ -7,12 +7,12 @@ import 'package:gps_massageapp/utils/dropdown.dart';
 
 import 'chooseServiceScreen.dart';
 
-class RegistrationSecondPage extends StatefulWidget {
+class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
 }
 
-class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
+class _RegistrationSecondPageState extends State<RegistrationProviderSecondScreen> {
   final formkey = new GlobalKey<FormState>();
   final identityverification = new GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

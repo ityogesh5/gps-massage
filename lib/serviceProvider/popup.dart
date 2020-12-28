@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerScreenSecond.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 
 //import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
@@ -82,7 +82,7 @@ class _PopupState extends State<Popup> {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RegisterScreenSecond()),
+              MaterialPageRoute(builder: (context) => RegisterProviderFirstScreen()),
             );
           },
         ),

@@ -10,14 +10,15 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
+import 'package:gps_massageapp/serviceUser/userLoginScreen.dart';
 
 class NavigationRouter {
-  static void switchToRegistration(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterUser()));
+  static void switchToServiceUserRegistration(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()));
   }
 
-  static void switchToTermsandConditions(BuildContext context) {
+  static void switchToTermsAndConditions(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => IntroTermsAndPolicy()));
   }
@@ -29,9 +30,15 @@ class NavigationRouter {
             builder: (BuildContext context) => UserDefineScreen()));
   }
 
-  static void switchToLogin(BuildContext context) {
+  static void switchToProviderLogin(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Login()),
+        MaterialPageRoute(builder: (context) => ProviderLogin()),
+        (Route<dynamic> route) => false);
+  }
+
+  static void switchToUserLogin(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => UserLogin()),
         (Route<dynamic> route) => false);
   }
 
@@ -46,14 +53,16 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
   }
 
-  static void switchToRegisterFirstScreen(BuildContext context) {
+  static void switchToServiceProviderFirstScreen(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => RegisterFirstScreen()));
+        MaterialPageRoute(builder: (context) => RegisterProviderFirstScreen()));
   }
 
-  static void switchToRegisterSecondScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => RegistrationSecondPage()));
+  static void switchToServiceProviderSecondScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RegistrationProviderSecondScreen()));
   }
 
   static void switchToProviderForgetPasswordScreen(BuildContext context) {

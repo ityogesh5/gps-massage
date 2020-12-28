@@ -99,6 +99,6 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-    NavigationRouter.switchToTermsandConditions(context);
+    NavigationRouter.switchToTermsAndConditions(context);
   }
 }

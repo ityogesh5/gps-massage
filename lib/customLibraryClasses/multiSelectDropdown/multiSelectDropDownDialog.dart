@@ -101,7 +101,7 @@ class _MultiSelectDropDownDialogState<V>
         backgroundColor: Colors.grey[100],
         maxRadius: 20,
         child: IconButton(
-          icon: Icon(Icons.edit_rounded, color: Colors.grey),
+          icon: Icon(Icons.edit, color: Colors.grey),
           onPressed: () {},
         ),
       ),

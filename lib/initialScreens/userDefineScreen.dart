@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
+import 'package:gps_massageapp/serviceUser/userLoginScreen.dart';
 
 class UserDefineScreen extends StatefulWidget {
   @override
@@ -70,11 +71,11 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                               InkWell(
                                 onTap: () {
                                   print("User onTapped");
-                                  /*   Navigator.push(
+                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              UserLogin())); */
+                                              UserLogin()));
                                 },
                                 child: Image.asset(
                                   'assets/images_gps/usernew.png',
@@ -101,7 +102,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              Login()));
+                                              ProviderLogin()));
                                 },
                                 child: Image.asset(
                                   'assets/images_gps/providernew.png',

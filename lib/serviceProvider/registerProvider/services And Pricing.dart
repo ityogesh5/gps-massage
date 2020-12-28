@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/utils/customAccordan.dart';
+import 'package:gps_massageapp/customLibraryClasses/expandable/customAccordan.dart';
 
 class ServiceAndPricing extends StatefulWidget {
   @override

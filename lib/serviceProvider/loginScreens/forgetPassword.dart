@@ -32,7 +32,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           onPressed: () {
             Navigator.pop(context,
-                MaterialPageRoute(builder: (BuildContext context) => Login()));
+                MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
           },
         ),
       ),

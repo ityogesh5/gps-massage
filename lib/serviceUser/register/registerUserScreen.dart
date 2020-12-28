@@ -1,13 +1,33 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
+class RegisterServiceUserScreen extends StatefulWidget {
+  @override
+  _RegisterServiceUserScreenState createState() =>
+      _RegisterServiceUserScreenState();
+}
+
+class _RegisterServiceUserScreenState extends State<RegisterServiceUserScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ヒーリングマッチ',
+      debugShowCheckedModeBanner: false,
+      home: RegisterUser(),
+    );
+  }
+}
 
 class RegisterUser extends StatefulWidget {
   @override
@@ -33,6 +53,8 @@ class _RegisterUserState extends State<RegisterUser> {
   var _myCategoryPlaceForMassage;
   var _myPrefecture;
   var _myCity;
+  File _profileImage;
+  final picker = ImagePicker();
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
@@ -59,6 +81,7 @@ class _RegisterUserState extends State<RegisterUser> {
   List<String> serviceUserDetails = [];
 
   //final gpsAddressController = new TextEditingController();
+  ProgressDialog _progressDialog = ProgressDialog();
 
   _dismissKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(new FocusNode());
@@ -176,7 +199,6 @@ class _RegisterUserState extends State<RegisterUser> {
         child: Container(
           child: Form(
             key: _registerUserFormKey,
-            autovalidateMode: AutovalidateMode.always,
             child: ListView(
               scrollDirection: Axis.vertical,
               physics: BouncingScrollPhysics(),
@@ -214,31 +236,48 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 10),
                     Stack(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey[200],
-                          maxRadius: 40,
-                          child: IconButton(
-                            icon: SvgPicture.asset(
-                                'assets/images_gps/profile_pic_user.svg',
-                                height: 70,
-                                width: 70,
-                                color: Colors.black),
-                            onPressed: () {},
-                          ),
-                        ),
+                        _profileImage != null
+                            ? InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: new Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: FileImage(_profileImage),
+                                      ),
+                                    )),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: new Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.fitHeight,
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder.png'),
+                                      ),
+                                    )),
+                              ),
                         Positioned(
-                          right: 15.0,
-                          top: 40,
-                          left: 45,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white70,
-                            maxRadius: 15,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white60,
-                              child: Icon(Icons.upload_outlined,
-                                  color: Colors.grey[500], size: 20.0),
-                            ),
-                          ),
+                          right: 25.0,
+                          top: 65,
+                          left: 70,
+                          child: Icon(Icons.add_a_photo,
+                              color: Colors.blue, size: 30.0),
                         )
                       ],
                     ),
@@ -248,7 +287,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
-                        maxLength: 20,
+                        //maxLength: 20,
                         autofocus: false,
                         controller: userNameController,
                         decoration: new InputDecoration(
@@ -484,7 +523,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        maxLength: 11,
+                        //maxLength: 11,
                         controller: phoneNumberController,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
@@ -536,7 +575,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        maxLength: 14,
+                        //maxLength: 14,
                         obscureText: _secureText,
                         controller: passwordController,
                         decoration: new InputDecoration(
@@ -566,7 +605,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
-                        maxLength: 14,
+                        // maxLength: 14,
                         //enableInteractiveSelection: false,
                         autofocus: false,
                         controller: confirmPasswordController,
@@ -936,13 +975,18 @@ class _RegisterUserState extends State<RegisterUser> {
                       ),
                     ),
                     SizedBox(height: 15),
-                    Text('すでにアカウントをお持ちの方',
-                        style: new TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w100,
-                            decoration: TextDecoration.underline)),
+                    InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToUserLogin(context);
+                      },
+                      child: Text('すでにアカウントをお持ちの方',
+                          style: new TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w100,
+                              decoration: TextDecoration.underline)),
+                    ),
                   ],
                 )
               ],
@@ -955,6 +999,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   // Get current address from Latitude Longitude
   _getCurrentLocation() {
+    showProgressDialog();
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -985,10 +1030,13 @@ class _RegisterUserState extends State<RegisterUser> {
             _isGPSLocation = true;
           });
         } else {
+          hideProgressDialog();
           return null;
         }
       });
+      hideProgressDialog();
     } catch (e) {
+      hideProgressDialog();
       print(e);
     }
   }
@@ -1167,7 +1215,6 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1362,5 +1409,64 @@ class _RegisterUserState extends State<RegisterUser> {
         body: json.encode({
           "serviceUserDetails": serviceUserDetails,
         }));
+  }
+
+  void showProgressDialog() {
+    _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+  }
+
+  void hideProgressDialog() {
+    _progressDialog.dismissProgressDialog(context);
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _imgFromCamera() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+
+    setState(() {
+      _profileImage = image;
+    });
+  }
+
+  _imgFromGallery() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _profileImage = image;
+
+      print('image path : ${_profileImage.path}');
+    });
   }
 }

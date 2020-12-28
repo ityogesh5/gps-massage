@@ -348,7 +348,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                         backgroundColor: Colors.white,
                         child: IconButton(
                             icon: Icon(
-                              Icons.edit_outlined,
+                              Icons.edit,
                               color: Colors.black,
                             ),
                             onPressed: () {

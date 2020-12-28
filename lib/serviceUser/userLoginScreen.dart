@@ -195,7 +195,7 @@ class _UserLoginState extends State<UserLogin> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToRegistration(context);
+                        NavigationRouter.switchToServiceUserRegistration(context);
                       },
                       child: Text(
                         '新規の方はこちら',
