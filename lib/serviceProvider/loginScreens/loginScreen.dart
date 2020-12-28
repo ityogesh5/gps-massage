@@ -153,7 +153,12 @@ class _LoginState extends State<Login> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerLoginDetails();
+                          //_providerLoginDetails();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ProviderHome()));
                           //NavigationRouter.switchToProviderHome(context);
                         },
                         shape: RoundedRectangleBorder(
