@@ -245,8 +245,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     width: 100.0,
                                     height: 100.0,
                                     decoration: new BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.black12),
+                                      border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                         fit: BoxFit.cover,
@@ -262,8 +261,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     width: 95.0,
                                     height: 95.0,
                                     decoration: new BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.black12),
+                                      border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                         fit: BoxFit.fitHeight,
@@ -293,7 +291,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '名前 *',
+                            labelText: '名前',
+                            hintText: '名前 *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
                             labelStyle: TextStyle(
                               color: Colors.grey[400],
                             ),
@@ -333,7 +335,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                     decoration: new InputDecoration(
                                         filled: true,
                                         fillColor: Colors.white,
-                                        labelText: '生年月日 *',
+                                        labelText: '生年月日',
+                                        hintText: '生年月日 *',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                        ),
                                         labelStyle: TextStyle(
                                           color: Colors.grey[400],
                                         ),
@@ -530,7 +536,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '電話番号 *',
+                            labelText: '電話番号',
+                            hintText: '電話番号 *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
                             labelStyle: TextStyle(
                               color: Colors.grey[400],
                             ),
@@ -581,7 +591,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'パスワード *',
+                            labelText: 'パスワード',
+                            hintText: 'パスワード *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
                             suffixIcon: IconButton(
                               onPressed: showHide,
                               icon: Icon(_secureText
@@ -613,7 +627,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'パスワード (確認用) *',
+                            labelText: 'パスワード (確認用)',
+                            hintText: 'パスワード (確認用) *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
                             suffixIcon: IconButton(
                               onPressed: showHide,
                               icon: Icon(_secureText
@@ -697,7 +715,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           decoration: new InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              labelText: '現在地を取得する *',
+                              labelText: '現在地を取得する',
+                              hintText: '現在地を取得する *',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400],
+                              ),
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.location_on),
                                 onPressed: () {
@@ -868,7 +890,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               decoration: new InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  labelText: 'ビル名 *',
+                                  labelText: 'ビル名',
+                                  hintText: 'ビル名 *',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                  ),
                                   labelStyle: TextStyle(
                                     color: Colors.grey[400],
                                   ),
@@ -892,7 +918,11 @@ class _RegisterUserState extends State<RegisterUser> {
                             decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: '都、県選 *',
+                                labelText: '都、県選',
+                                hintText: '都、県選  *',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey[400],
+                                ),
                                 labelStyle: TextStyle(
                                   color: Colors.grey[400],
                                 ),
@@ -918,7 +948,11 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '部屋番号 *',
+                            labelText: '部屋番号',
+                            hintText: '部屋番号 *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
                             labelStyle: TextStyle(
                               color: Colors.grey[400],
                             ),
