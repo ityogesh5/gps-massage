@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/utils/customAccordan.dart';
+import 'package:gps_massageapp/customLibraryClasses/expandable/customAccordan.dart';
 
 class ServiceAndPricing extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _ServiceAndPricingState extends State<ServiceAndPricing> {
     'Seven': false,
   };
   var holder_1 = [];
+
   getItems() {
     numbers.forEach((key, value) {
       if (value == true) {

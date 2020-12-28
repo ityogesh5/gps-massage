@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
 import 'forgetPassword.dart';
-
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -247,9 +244,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     var confirmPassword = confirmpassword.text.toString();
 
     // user phone number validation
-    if (pinCode.length < 4 ||
-        pinCode == null ||
-        pinCode.isEmpty) {
+    if (pinCode.length < 4 || pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('4文字以上の電話番号を入力してください。',
@@ -346,9 +341,9 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    NavigationRouter.switchToLogin(context);
+    NavigationRouter.switchToProviderLogin(context);
 
-   /*  final url = '';
+    /*  final url = '';
     http.post(url,
         headers: {
           "Accept": "application/json",
@@ -357,6 +352,5 @@ class _ChangePasswordState extends State<ChangePassword> {
         body: json.encode({
           "serviceUserDetails": changePasswordDetails,
         })); */
-
   }
 }

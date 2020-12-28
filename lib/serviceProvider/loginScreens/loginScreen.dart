@@ -1,24 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
-import 'package:gps_massageapp/serviceProvider/MyHomePage.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
-class Login extends StatefulWidget {
+class ProviderLogin extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _ProviderLoginState createState() => _ProviderLoginState();
 }
 
-class _LoginState extends State<Login> {
+class _ProviderLoginState extends State<ProviderLogin> {
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
@@ -56,7 +48,7 @@ class _LoginState extends State<Login> {
                   children: [
                     SvgPicture.asset('assets/images_gps/logo.svg',
                         height: 100, width: 140),
-                   Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(HealingMatchConstants.loginText,
@@ -129,7 +121,8 @@ class _LoginState extends State<Login> {
                       children: [
                         InkWell(
                           onTap: () {
-                            NavigationRouter.switchToProviderForgetPasswordScreen(context);
+                            NavigationRouter
+                                .switchToProviderForgetPasswordScreen(context);
                           },
                           child: Text(
                             HealingMatchConstants.loginForgetPassword,
@@ -229,7 +222,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToRegisterFirstScreen(context);
+                        NavigationRouter.switchToServiceProviderFirstScreen(context);
                       },
                       child: Text(
                         HealingMatchConstants.loginNewRegistrationText,
@@ -359,7 +352,8 @@ class _LoginState extends State<Login> {
     serviceProviderLoginDetails.add(userPhoneNumber);
     serviceProviderLoginDetails.add(password);
 
-    print('User details length in array : ${serviceProviderLoginDetails.length}');
+    print(
+        'User details length in array : ${serviceProviderLoginDetails.length}');
 
     final url = '';
     /* http.post(url,
@@ -371,5 +365,4 @@ class _LoginState extends State<Login> {
           "serviceUserDetails": serviceProviderLoginDetails,
         })); */
   }
-
 }

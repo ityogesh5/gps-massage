@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+
 //import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerScreenSecond.dart';
 
 void main() {
   runApp(Popup());
@@ -82,7 +82,7 @@ class _PopupState extends State<Popup> {
 
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RegisterScreenSecond()),
+              MaterialPageRoute(builder: (context) => RegisterProviderFirstScreen()),
             );
           },
         ),
@@ -96,7 +96,8 @@ class _PopupState extends State<Popup> {
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           elevation: 16,
           child: Container(
             //height: 300.0,
@@ -111,7 +112,10 @@ class _PopupState extends State<Popup> {
                   Center(
                     child: Text(
                       "計算したい日付を選択し",
-                      style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -145,7 +149,7 @@ class _PopupState extends State<Popup> {
                         child: Column(
                           children: [
                             InkWell(
-                              onTap:() {
+                              onTap: () {
                                 print("Provider onTapped");
                               },
                               child: Image.asset(
@@ -198,7 +202,8 @@ class _PopupState extends State<Popup> {
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           elevation: 16,
           child: Container(
             margin: const EdgeInsets.all(0.0),
@@ -221,7 +226,10 @@ class _PopupState extends State<Popup> {
                   Center(
                     child: Text(
                       "計算したい日付を選択し",
-                      style: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 15),
@@ -229,20 +237,24 @@ class _PopupState extends State<Popup> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                          padding:
+                              const EdgeInsets.only(left: 15.0, right: 15.0),
                           child: RaisedButton(
                             padding: EdgeInsets.all(15.0),
-                            child: Text("OK",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                            child: Text(
+                              "OK",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
                             color: Colors.lime,
                             textColor: Colors.white,
                             onPressed: () {
                               showDialog(
                                   context: context,
                                   builder: (_) => AlertDialog(
-                                    title: Text('Dialog Title'),
-                                    content: Text('This is my content'),
-                                  )
-                              );
+                                        title: Text('Dialog Title'),
+                                        content: Text('This is my content'),
+                                      ));
                             },
                           ),
                         ),
@@ -288,332 +300,389 @@ class _PopupState extends State<Popup> {
         context: context,
         builder: (context) {
           return StatefulBuilder(
-              builder: (context, setState) {
-                return Dialog(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  elevation: 16,
-                  child: Container(
-                    //height: 300.0,
-                    //width: 450.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  size: 25.0,
-                                  color: Colors.black,
-                                ),
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                elevation: 16,
+                child: Container(
+                  //height: 300.0,
+                  //width: 450.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.close,
+                                size: 25.0,
+                                color: Colors.black,
                               ),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                          //SizedBox(height: 5),
-                          Center(
-                            child: Text(
-                              "計算したい日付を選択し",
-                              style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
                             ),
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                        //SizedBox(height: 5),
+                        Center(
+                          child: Text(
+                            "計算したい日付を選択し",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 20),
-                          Form(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 40.0,
-                                  //margin: EdgeInsets.all(16.0),
-                                  margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: TextFormField(
-                                          controller: _controller,
-                                          decoration: InputDecoration(
-                                            labelText: "その他",
-                                            fillColor: Colors.white,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          )
-                                      )),
-                                      SizedBox(width: 16.0,),
-                                      Container(
-                                        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.grey,
-                                            border: Border.all()),
-                                        child: Expanded(
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton(
-                                                value: _selectedItem,
-                                                items: _dropdownMenuItems,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _selectedItem = value;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 40.0,
-                                  //margin: EdgeInsets.all(16.0),
-                                  margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: TextFormField(
-                                          controller: _controller1,
-                                          decoration: InputDecoration(
-                                            labelText: "その他",
-                                            fillColor: Colors.white,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          )
-                                      )),
-                                      SizedBox(width: 16.0,),
-                                      Container(
-                                        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.grey,
-                                            border: Border.all()),
-                                        child: Expanded(
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton(
-                                                value: _selectedItem1,
-                                                items: _dropdownMenuItems,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _selectedItem1 = value;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 40.0,
-                                  //margin: EdgeInsets.all(16.0),
-                                  margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: TextFormField(
-                                          controller: _controller2,
-                                          decoration: InputDecoration(
-                                            labelText: "その他",
-                                            fillColor: Colors.white,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          )
-                                      )),
-                                      SizedBox(width: 16.0,),
-                                      Container(
-                                        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.grey,
-                                            border: Border.all()),
-                                        child: Expanded(
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton(
-                                                value: _selectedItem2,
-                                                items: _dropdownMenuItems,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _selectedItem2 = value;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 40.0,
-                                  //margin: EdgeInsets.all(16.0),
-                                  margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: TextFormField(
-                                          controller: _controller3,
-                                          decoration: InputDecoration(
-                                            labelText: "その他",
-                                            fillColor: Colors.white,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          )
-                                      )),
-                                      SizedBox(width: 16.0,),
-                                      Container(
-                                        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.grey,
-                                            border: Border.all()),
-                                        child: Expanded(
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton(
-                                                value: _selectedItem3,
-                                                items: _dropdownMenuItems,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _selectedItem3 = value;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 40.0,
-                                  //margin: EdgeInsets.all(16.0),
-                                  margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(child: TextFormField(
-                                          controller: _controller4,
-                                          decoration: InputDecoration(
-                                            labelText: "その他",
-                                            fillColor: Colors.white,
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          )
-                                      )),
-                                      SizedBox(width: 16.0,),
-                                      Container(
-                                        //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            color: Colors.grey,
-                                            border: Border.all()),
-                                        child: Expanded(
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton(
-                                                value: _selectedItem4,
-                                                items: _dropdownMenuItems,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    _selectedItem4 = value;
-                                                  });
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 15),
-                                Row(
+                        ),
+                        SizedBox(height: 20),
+                        Form(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 40.0,
+                                //margin: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.only(
+                                    left: 30.0,
+                                    right: 30.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Row(
                                   children: [
                                     Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-                                        child: RaisedButton(
-                                          padding: EdgeInsets.all(15.0),
-                                          child: Text("賃貸管理",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                                          color: Colors.lime,
-                                          textColor: Colors.white,
-                                          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-                                          onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (_) => AlertDialog(
-                                                  title: Text('Dialog Title'),
-                                                  content: Text('This is my content'),
-                                                )
-                                            );
-                                          },
+                                        child: TextFormField(
+                                            controller: _controller,
+                                            decoration: InputDecoration(
+                                              labelText: "その他",
+                                              fillColor: Colors.white,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                            ))),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Container(
+                                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey,
+                                          border: Border.all()),
+                                      child: Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: _selectedItem,
+                                              items: _dropdownMenuItems,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _selectedItem = value;
+                                                });
+                                              }),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 15),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                height: 40.0,
+                                //margin: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.only(
+                                    left: 30.0,
+                                    right: 30.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: TextFormField(
+                                            controller: _controller1,
+                                            decoration: InputDecoration(
+                                              labelText: "その他",
+                                              fillColor: Colors.white,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                            ))),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Container(
+                                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey,
+                                          border: Border.all()),
+                                      child: Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: _selectedItem1,
+                                              items: _dropdownMenuItems,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _selectedItem1 = value;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 40.0,
+                                //margin: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.only(
+                                    left: 30.0,
+                                    right: 30.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: TextFormField(
+                                            controller: _controller2,
+                                            decoration: InputDecoration(
+                                              labelText: "その他",
+                                              fillColor: Colors.white,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                            ))),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Container(
+                                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey,
+                                          border: Border.all()),
+                                      child: Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: _selectedItem2,
+                                              items: _dropdownMenuItems,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _selectedItem2 = value;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 40.0,
+                                //margin: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.only(
+                                    left: 30.0,
+                                    right: 30.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: TextFormField(
+                                            controller: _controller3,
+                                            decoration: InputDecoration(
+                                              labelText: "その他",
+                                              fillColor: Colors.white,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                            ))),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Container(
+                                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey,
+                                          border: Border.all()),
+                                      child: Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: _selectedItem3,
+                                              items: _dropdownMenuItems,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _selectedItem3 = value;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 40.0,
+                                //margin: EdgeInsets.all(16.0),
+                                margin: EdgeInsets.only(
+                                    left: 30.0,
+                                    right: 30.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: TextFormField(
+                                            controller: _controller4,
+                                            decoration: InputDecoration(
+                                              labelText: "その他",
+                                              fillColor: Colors.white,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.blue,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                            ))),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Container(
+                                      //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey,
+                                          border: Border.all()),
+                                      child: Expanded(
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              value: _selectedItem4,
+                                              items: _dropdownMenuItems,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _selectedItem4 = value;
+                                                });
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15.0),
+                                      child: RaisedButton(
+                                        padding: EdgeInsets.all(15.0),
+                                        child: Text(
+                                          "賃貸管理",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        color: Colors.lime,
+                                        textColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(
+                                                    10.0)),
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialog(
+                                                    title: Text('Dialog Title'),
+                                                    content: Text(
+                                                        'This is my content'),
+                                                  ));
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 15),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                );
-          },
+                ),
+              );
+            },
           );
-        }
-    );
+        });
   }
 
   //DropDown in Popup
@@ -622,7 +691,8 @@ class _PopupState extends State<Popup> {
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           elevation: 16,
           child: Container(
             //height: 300.0,
@@ -654,7 +724,10 @@ class _PopupState extends State<Popup> {
                   Center(
                     child: Text(
                       "計算したい日付を選択し",
-                      style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -665,30 +738,35 @@ class _PopupState extends State<Popup> {
                         Container(
                           height: 40.0,
                           //margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
+                          margin: EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
                           child: Row(
                             children: [
-                              Expanded(child: TextFormField(
-                                  controller: _controller,
-                                 decoration: InputDecoration(
-                                    labelText: "その他",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )
-                              )),
-                              SizedBox(width: 16.0,),
+                              Expanded(
+                                  child: TextFormField(
+                                      controller: _controller,
+                                      decoration: InputDecoration(
+                                        labelText: "その他",
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ))),
+                              SizedBox(
+                                width: 16.0,
+                              ),
                               Container(
                                 //padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                                 decoration: BoxDecoration(
@@ -714,30 +792,35 @@ class _PopupState extends State<Popup> {
                         Container(
                           height: 40.0,
                           //margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
+                          margin: EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
                           child: Row(
                             children: [
-                              Expanded(child: TextFormField(
-                                  controller: _controller1,
-                                  decoration: InputDecoration(
-                                    labelText: "その他",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )
-                              )),
-                              SizedBox(width: 16.0,),
+                              Expanded(
+                                  child: TextFormField(
+                                      controller: _controller1,
+                                      decoration: InputDecoration(
+                                        labelText: "その他",
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ))),
+                              SizedBox(
+                                width: 16.0,
+                              ),
                               Expanded(
                                 child: Container(
                                   //margin: EdgeInsets.all(0.0),
@@ -746,8 +829,7 @@ class _PopupState extends State<Popup> {
                                   child: DropDownFormField(
                                     //contentPadding: EdgeInsets.all(16.0),
                                     titleText: null,
-                                    hintText:
-                                    readonly ? _myActivity : '部署名 ',
+                                    hintText: readonly ? _myActivity : '部署名 ',
                                     onSaved: (value) {
                                       setState(() {
                                         _myActivity = value;
@@ -812,30 +894,35 @@ class _PopupState extends State<Popup> {
                         Container(
                           height: 40.0,
                           //margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
+                          margin: EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
                           child: Row(
                             children: [
-                              Expanded(child: TextFormField(
-                                  controller: _controller2,
-                                  decoration: InputDecoration(
-                                    labelText: "その他",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )
-                              )),
-                              SizedBox(width: 16.0,),
+                              Expanded(
+                                  child: TextFormField(
+                                      controller: _controller2,
+                                      decoration: InputDecoration(
+                                        labelText: "その他",
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ))),
+                              SizedBox(
+                                width: 16.0,
+                              ),
                               Expanded(
                                 child: Container(
                                   //margin: EdgeInsets.all(0.0),
@@ -844,8 +931,7 @@ class _PopupState extends State<Popup> {
                                   child: DropDownFormField(
                                     //contentPadding: EdgeInsets.all(16.0),
                                     titleText: null,
-                                    hintText:
-                                    readonly ? _myActivity : '部署名 ',
+                                    hintText: readonly ? _myActivity : '部署名 ',
                                     onSaved: (value) {
                                       setState(() {
                                         _myActivity = value;
@@ -910,30 +996,35 @@ class _PopupState extends State<Popup> {
                         Container(
                           height: 40.0,
                           //margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
+                          margin: EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
                           child: Row(
                             children: [
-                              Expanded(child: TextFormField(
-                                  controller: _controller3,
-                                  decoration: InputDecoration(
-                                    labelText: "その他",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )
-                              )),
-                              SizedBox(width: 16.0,),
+                              Expanded(
+                                  child: TextFormField(
+                                      controller: _controller3,
+                                      decoration: InputDecoration(
+                                        labelText: "その他",
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ))),
+                              SizedBox(
+                                width: 16.0,
+                              ),
                               Expanded(
                                 child: Container(
                                   //margin: EdgeInsets.all(0.0),
@@ -942,8 +1033,7 @@ class _PopupState extends State<Popup> {
                                   child: DropDownFormField(
                                     //contentPadding: EdgeInsets.all(16.0),
                                     titleText: null,
-                                    hintText:
-                                    readonly ? _myActivity : '部署名 ',
+                                    hintText: readonly ? _myActivity : '部署名 ',
                                     onSaved: (value) {
                                       setState(() {
                                         _myActivity = value;
@@ -1008,30 +1098,35 @@ class _PopupState extends State<Popup> {
                         Container(
                           height: 40.0,
                           //margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
+                          margin: EdgeInsets.only(
+                              left: 30.0, right: 30.0, top: 5.0, bottom: 5.0),
                           child: Row(
                             children: [
-                              Expanded(child: TextFormField(
-                                  controller: _controller4,
-                                  decoration: InputDecoration(
-                                    labelText: "その他",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )
-                              )),
-                              SizedBox(width: 16.0,),
+                              Expanded(
+                                  child: TextFormField(
+                                      controller: _controller4,
+                                      decoration: InputDecoration(
+                                        labelText: "その他",
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                      ))),
+                              SizedBox(
+                                width: 16.0,
+                              ),
                               Expanded(
                                 child: Container(
                                   //margin: EdgeInsets.all(0.0),
@@ -1040,8 +1135,7 @@ class _PopupState extends State<Popup> {
                                   child: DropDownFormField(
                                     //contentPadding: EdgeInsets.all(16.0),
                                     titleText: null,
-                                    hintText:
-                                    readonly ? _myActivity : '部署名 ',
+                                    hintText: readonly ? _myActivity : '部署名 ',
                                     onSaved: (value) {
                                       setState(() {
                                         _myActivity = value;
@@ -1108,21 +1202,29 @@ class _PopupState extends State<Popup> {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0),
                                 child: RaisedButton(
                                   padding: EdgeInsets.all(15.0),
-                                  child: Text("OK",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   color: Colors.lime,
                                   textColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0)),
                                   onPressed: () {
                                     showDialog(
                                         context: context,
                                         builder: (_) => AlertDialog(
-                                          title: Text('Dialog Title'),
-                                          content: Text('This is my content'),
-                                        )
-                                    );
+                                              title: Text('Dialog Title'),
+                                              content:
+                                                  Text('This is my content'),
+                                            ));
                                   },
                                 ),
                               ),
@@ -1175,8 +1277,8 @@ class _PopupState extends State<Popup> {
   }
 }
 
-void showDateSelectAlert(BuildContext context) {
-}
+void showDateSelectAlert(BuildContext context) {}
+
 class ListItem {
   int value;
   String name;

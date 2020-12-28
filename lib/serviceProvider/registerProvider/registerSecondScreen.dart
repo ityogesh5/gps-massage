@@ -3,19 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-
 import 'package:gps_massageapp/utils/dropdown.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
-import 'dart:async';
 
 import 'chooseServiceScreen.dart';
 
-class RegistrationSecondPage extends StatefulWidget {
+class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
 }
 
-class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
+class _RegistrationSecondPageState extends State<RegistrationProviderSecondScreen> {
   final formkey = new GlobalKey<FormState>();
   final identityverification = new GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();

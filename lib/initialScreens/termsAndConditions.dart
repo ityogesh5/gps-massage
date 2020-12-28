@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
@@ -163,7 +162,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
     );
   }
 
-  /* Color getColorFromHex(String hexColor) {
+/* Color getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll('#', '');
 
     if (hexColor.length == 6) {

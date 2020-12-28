@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class ServicePriceModel {
@@ -15,10 +15,15 @@ class ServicePriceModel {
       this._oneTwentyMin, this._oneFifityMin, this._oneEightyMin);
 
   String get name => _name;
+
   int get sixtyMin => _sixtyMin;
+
   int get nintyMin => _nintyMin;
+
   int get oneTwentyMin => _oneTwentyMin;
+
   int get oneFiftyMin => _oneFifityMin;
+
   int get oneEightyMin => _oneEightyMin;
 
   set name(String name) {
@@ -343,7 +348,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                         backgroundColor: Colors.white,
                         child: IconButton(
                             icon: Icon(
-                              Icons.edit_outlined,
+                              Icons.edit,
                               color: Colors.black,
                             ),
                             onPressed: () {

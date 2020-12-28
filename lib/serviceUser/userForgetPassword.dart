@@ -11,6 +11,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
   TextEditingController emailaddress = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +24,10 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context,
-                MaterialPageRoute(builder: (BuildContext context) => UserLogin()));
+            Navigator.pop(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => UserLogin()));
           },
         ),
       ),
@@ -64,7 +67,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                           ),
                           filled: true,
                           hintStyle:
-                          TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.black, fontSize: 13),
                           hintText: "電話番号",
                           fillColor: Colors.grey[200]),
                     ),

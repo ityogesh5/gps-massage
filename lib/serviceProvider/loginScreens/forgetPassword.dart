@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'loginScreen.dart';
-
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+
+import 'loginScreen.dart';
 
 class ForgetPassword extends StatefulWidget {
   @override
@@ -20,6 +17,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +32,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           onPressed: () {
             Navigator.pop(context,
-                MaterialPageRoute(builder: (BuildContext context) => Login()));
+                MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
           },
         ),
       ),

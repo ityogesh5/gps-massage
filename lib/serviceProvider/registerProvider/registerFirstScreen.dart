@@ -1,25 +1,29 @@
-import 'dart:ui';
 import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class RegisterFirstScreen extends StatefulWidget {
+class RegisterProviderFirstScreen extends StatefulWidget {
   @override
   _RegisterFirstScreenState createState() => _RegisterFirstScreenState();
 }
 
-class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
+class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   File _image;
   final picker = ImagePicker();
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
@@ -1018,7 +1022,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                                 ),
                               ),
                               suffixIcon: IconButton(
-                                  icon: Icon(Icons.add_location_alt_outlined,
+                                  icon: Icon(Icons.location_on,
                                       size: 28),
                                   onPressed: () {
                                     _getCurrentLocation();
@@ -1146,9 +1150,8 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
                 width: containerWidth,
                 child: InkWell(
                   onTap: () {
-                    _showPicker(context);
-                    print("User onTapped");
-                  },
+                    NavigationRouter.switchToProviderLogin(context);
+                 },
                   child: Text(
                     HealingMatchConstants.registrationAlreadyActTxt,
                     textAlign: TextAlign.center,
@@ -1515,7 +1518,7 @@ class _RegisterFirstScreenState extends State<RegisterFirstScreen> {
       return;
     }
 
-    NavigationRouter.switchToRegisterSecondScreen(context);
+    NavigationRouter.switchToServiceProviderSecondScreen(context);
   }
 
   void _showPicker(context) {
@@ -1573,137 +1576,3 @@ class ListItem {
 
   ListItem(this.value, this.name);
 }
-
-/* class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List _myActivities;
-  List _esteticActivities,
-      _relaxationActivities,
-      _OsteopathicActivities,
-      _fitnessActivities;
-  String _myActivitiesResult;
-  final formKey = new GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _esteticActivities = [];
-    _relaxationActivities = [];
-    _OsteopathicActivities = [];
-    _fitnessActivities = [];
-    _myActivitiesResult = '';
-  }
-
-  _saveForm() {
-    var form = formKey.currentState;
-    if (form.validate()) {
-      form.save();
-      setState(() {
-        _myActivitiesResult = _esteticActivities.toString();
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-      ),
-      body: Center(
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(16),
-                child: MultiSelectDropDownField(
-                  autovalidate: false,
-                  chipBackGroundColor: Colors.lime,
-                  chipLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
-                  checkBoxActiveColor: Colors.lime,
-                  checkBoxCheckColor: Colors.lime,
-                  dialogShapeBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  title: Text(
-                    "Aesthetic",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  /*validator: (value) {
-                    if (value == null || value.length == 0) {
-                      return 'Please select one or more options';
-                    }
-                    return null;
-                  },*/
-                  dataSource: [
-                    {
-                      "display": "Running #120/120分",
-                      "value": "Running #120/120分",
-                    },
-                    {
-                      "display": "Running ell #120/120分",
-                      "value": "Running ell #120/120分",
-                    },
-                    {
-                      "display": "Running half #120/120分",
-                      "value": "Running half #120/120分",
-                    },
-                    {
-                      "display": "Running full #120/120分",
-                      "value": "Running full #120/120分",
-                    },
-                    {
-                      "display": "Soccer Practice #120/120分",
-                      "value": "Soccer Practice #120/120分",
-                    },
-                    {
-                      "display": "Baseball Practice #120/120分",
-                      "value": "Baseball Practice #120/120分",
-                    },
-                    {
-                      "display": "Football Practice #120/120分",
-                      "value": "Football Practice #120/120分",
-                    },
-                  ],
-                  textField: 'display',
-                  valueField: 'value',
-                  okButtonLabel: 'OK',
-                  cancelButtonLabel: 'CANCEL',
-                  initialValue: _myActivities,
-                  onSaved: (value) {
-                    if (value == null) return;
-                    setState(() {
-                      _myActivities = value;
-                    });
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-                child: RaisedButton(
-                  child: Text('Save'),
-                  onPressed: _saveForm,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(16),
-                child: Text(_myActivitiesResult),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
- */

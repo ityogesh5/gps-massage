@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class HealingMatchConstants {
   static const String loginPhoneNumber = '電話番号';
   static const String loginPassword = 'パスワード';
   static const String loginForgetPassword = 'パスワードを忘れた方はこちら';
-  static const String loginButton = 'パスワード';
+  static const String loginButton = 'ログイン';
   static const String loginNewRegistrationText = '新規の方はこちら';
   static const String loginServiceUser = 'サービス利用者のログイン';
 
@@ -87,16 +88,15 @@ class HealingMatchConstants {
   static const String registrationCompleteBtn = '登録完了';
   static const String registrationAlreadyActTxt = 'すでにアカウントをお持ちの方';
 
-
   //ChooseServiceScreen
   static const String chooseServiceFirstText = "提供するサービスを選択し料金を設定してください。";
-  static const String chooseServiceEstheticDropDown ="エステ";
+  static const String chooseServiceEstheticDropDown = "エステ";
   static const String chooseServiceRelaxationDropDown = "リラクゼーション";
-  static const String chooseServiceTreatmentDropDown ="整骨・整体";
-  static const String chooseServiceFitnessDropDown ="フィットネス";
-  static const String chooseServiceOtherDropdownFiled ="その他";
-  static const String chooseServiceAddTextFormField ="入力してください";
-  static const String chooseServiceAddtoDropdownButton ="追加";
+  static const String chooseServiceTreatmentDropDown = "整骨・整体";
+  static const String chooseServiceFitnessDropDown = "フィットネス";
+  static const String chooseServiceOtherDropdownFiled = "その他";
+  static const String chooseServiceAddTextFormField = "入力してください";
+  static const String chooseServiceAddtoDropdownButton = "追加";
 
   //FontStyle
   static const headersText = TextStyle(

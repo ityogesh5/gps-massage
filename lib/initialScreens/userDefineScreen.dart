@@ -11,6 +11,7 @@ class UserDefineScreen extends StatefulWidget {
 class _UserDefineScreenState extends State<UserDefineScreen> {
   Size size;
   int state = 0;
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +71,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                               InkWell(
                                 onTap: () {
                                   print("User onTapped");
-                                  Navigator.push(
+                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
@@ -101,7 +102,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              Login()));
+                                              ProviderLogin()));
                                 },
                                 child: Image.asset(
                                   'assets/images_gps/providernew.png',
