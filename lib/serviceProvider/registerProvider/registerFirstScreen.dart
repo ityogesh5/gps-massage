@@ -58,38 +58,38 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     ListItem(1, "　　"),
   ];
   List<ListItem> _numberOfEmployees = [
-    ListItem(1, "　1　"),
-    ListItem(2, "　2　"),
-    ListItem(3, "　3　"),
-    ListItem(4, "　4　"),
+    ListItem(1, "1"),
+    ListItem(2, "2"),
+    ListItem(3, "3"),
+    ListItem(4, "4"),
   ];
   List<ListItem> _businessTrip = [
-    ListItem(1, "　はい　"),
-    ListItem(2, "　いいえ　"),
+    ListItem(1, "はい"),
+    ListItem(2, "いいえ"),
   ];
   List<ListItem> _coronaTest = [
-    ListItem(1, "　はい　"),
-    ListItem(2, "　いいえ　"),
+    ListItem(1, "はい"),
+    ListItem(2, "いいえ"),
   ];
 
   List<ListItem> _childrenTest = [
-    ListItem(1, "　キッズスペースの完備　"),
-    ListItem(2, "　保育士の常駐　"),
-    ListItem(3, "　子供同伴OK　"),
+    ListItem(1, "キッズスペースの完備"),
+    ListItem(2, "保育士の常駐"),
+    ListItem(3, "子供同伴OK"),
   ];
   List<ListItem> _genderTreatment = [
-    ListItem(1, "　男性女性両方　"),
-    ListItem(2, "　女性のみ　"),
-    ListItem(3, "　男性のみ　"),
+    ListItem(1, "男性女性両方"),
+    ListItem(2, "女性のみ"),
+    ListItem(3, "男性のみ"),
   ];
   List<ListItem> _gender = [
-    ListItem(1, "　男性　"),
-    ListItem(2, "　女性　"),
-    ListItem(3, "　どちらでもない　"),
+    ListItem(1, "男性"),
+    ListItem(2, "女性"),
+    ListItem(3, "どちらでもない"),
   ];
   List<ListItem> _address = [
-    ListItem(1, "　現在地を取得する　"),
-    ListItem(2, "　直接入力　"),
+    ListItem(1, "現在地を取得する"),
+    ListItem(2, "直接入力"),
   ];
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
   List<DropdownMenuItem<ListItem>> _dropdownMenuItems1;
@@ -140,7 +140,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     _dropdownMenuItems7 = buildDropDownMenuItems(_gender);
     _dropdownMenuItems8 = buildDropDownMenuItems(_address);
     _dropdownMenuItems9 = buildDropDownMenuItems(_dropdownItems);
-    _selectedItem = _dropdownMenuItems[0].value;
+    /*  _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems1[0].value;
     _selectedItem2 = _dropdownMenuItems2[0].value;
     _selectedItem3 = _dropdownMenuItems3[0].value;
@@ -148,7 +148,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     _selectedItem5 = _dropdownMenuItems5[0].value;
     _selectedItem6 = _dropdownMenuItems6[0].value;
     _selectedItem7 = _dropdownMenuItems7[0].value;
-    _selectedItem8 = _dropdownMenuItems8[0].value;
+    _selectedItem8 = _dropdownMenuItems8[0].value; */
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -339,6 +339,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "事業形態",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem,
                       items: _dropdownMenuItems,
                       onChanged: (value) {
@@ -361,6 +366,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "従業員数",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem1,
                       items: _dropdownMenuItems1,
                       onChanged: (value) {
@@ -383,6 +393,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "お店の種類表示",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem2,
                       items: _dropdownMenuItems2,
                       onChanged: (value) {
@@ -420,6 +435,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             border: Border.all(color: Colors.black12)),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
+                              hint: Text(
+                                "はい",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               value: _selectedItem3,
                               items: _dropdownMenuItems3,
                               onChanged: (value) {
@@ -461,6 +482,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             border: Border.all(color: Colors.black12)),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
+                              hint: Text(
+                                "はい",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               value: _selectedItem4,
                               items: _dropdownMenuItems4,
                               onChanged: (value) {
@@ -487,6 +514,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "子供向け施策有無",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem5,
                       items: _dropdownMenuItems5,
                       onChanged: (value) {
@@ -509,6 +541,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "施術を提供できる利用者の性別",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem6,
                       items: _dropdownMenuItems6,
                       onChanged: (value) {
@@ -711,6 +748,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             border: Border.all(color: Colors.black12)),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton(
+                              hint: Text(
+                                "女",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               value: _selectedItem7,
                               items: _dropdownMenuItems7,
                               onChanged: (value) {
@@ -874,22 +917,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
-              /*   Stack(
-                children: [
-                  Container(
-                    width: containerWidth,
-                    child: Text(
-                      "日付を選択し日付を選択し日付を選択し日付を選択し",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
+              Container(
+                height: containerHeight,
+                width: containerWidth,
+                child: Text(
+                  "*半角英数8~16文字以内",
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              SizedBox(height: size.width * 0.04),*/
               Container(
                   height: containerHeight,
                   width: containerWidth,
@@ -941,12 +979,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     border: Border.all(color: Colors.black12)),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
+                      hint: Text(
+                        "現在地を取得する*",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
                       value: _selectedItem8,
                       items: _dropdownMenuItems8,
-                      onChanged: (value) {
-                        print(value);
-                        if (value == "Second Item") {
+                      onChanged: (ListItem value) {
+                        if (value.name == "現在地を取得する") {
                           setState(() {
+                            print(value.name);
                             _selectedItem8 = value;
                             visible = true; // !visible;
                           });
@@ -968,139 +1011,139 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Visibility(
                 visible: visible,
                 child: Column(
-                  children: [],
-                ),
-              ),
-              Container(
-                width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationIndividualText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                  height: 60.0, //containerHeight,
-                  width: size.width * 0.8,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: InkWell(
-                      onTap: () {
-                        _getCurrentLocation();
-                      },
-                      child: TextFormField(
-                          enabled: false,
-                          controller: gpsAddressController,
-                          decoration: InputDecoration(
-                              labelText: "♪101-0041東京都千代田区",
-                              filled: true,
-                              fillColor: Colors.black12,
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
-                              suffixIcon: IconButton(
-                                  icon: Icon(Icons.location_on,
-                                      size: 28),
-                                  onPressed: () {
-                                    _getCurrentLocation();
-                                  }))),
-                    ),
-                  )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: size.width * 0.8,
-                //margin: EdgeInsets.all(16.0),
-                //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                child: Row(
                   children: [
-                    Expanded(
-                        child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: TextFormField(
-                          controller: _controller9,
-                          decoration: InputDecoration(
-                            labelText:
-                                HealingMatchConstants.registrationBuildingName,
-                            filled: true,
-                            fillColor: Colors.black12,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                          )),
-                    )),
-                    SizedBox(
-                      width: 10.0,
+                    Container(
+                      width: containerWidth,
+                      child: Text(
+                        HealingMatchConstants.registrationIndividualText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    Expanded(
-                      child: Container(
-                          child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(splashColor: Colors.black12),
-                        child: TextFormField(
-                            controller: _controller10,
-                            decoration: InputDecoration(
-                              labelText:
-                                  HealingMatchConstants.registrationRoomNo,
-                              filled: true,
-                              fillColor: Colors.black12,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.blue,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                        height: 60.0, //containerHeight,
+                        width: size.width * 0.8,
+                        child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: InkWell(
+                            onTap: () {
+                              _getCurrentLocation();
+                            },
+                            child: TextFormField(
+                                enabled: false,
+                                controller: gpsAddressController,
+                                decoration: InputDecoration(
+                                    labelText: "♪101-0041東京都千代田区",
+                                    filled: true,
+                                    fillColor: Colors.black12,
+                                    disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                        icon: Icon(Icons.location_on, size: 28),
+                                        onPressed: () {
+                                          _getCurrentLocation();
+                                        }))),
+                          ),
+                        )),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      height: containerHeight,
+                      width: size.width * 0.8,
+                      //margin: EdgeInsets.all(16.0),
+                      //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
+                            child: TextFormField(
+                                controller: _controller9,
+                                decoration: InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationBuildingName,
+                                  filled: true,
+                                  fillColor: Colors.black12,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                )),
+                          )),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            child: Container(
+                                child: Theme(
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFormField(
+                                  controller: _controller10,
+                                  decoration: InputDecoration(
+                                    labelText: HealingMatchConstants
+                                        .registrationRoomNo,
+                                    filled: true,
+                                    fillColor: Colors.black12,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                  )),
                             )),
-                      )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
                     ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
               ),
               Container(
                 width: containerWidth,
@@ -1151,7 +1194,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 child: InkWell(
                   onTap: () {
                     NavigationRouter.switchToProviderLogin(context);
-                 },
+                  },
                   child: Text(
                     HealingMatchConstants.registrationAlreadyActTxt,
                     textAlign: TextAlign.center,

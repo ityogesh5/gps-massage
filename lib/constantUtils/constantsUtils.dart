@@ -69,7 +69,7 @@ class HealingMatchConstants {
       '個人で登録の方は、住所の詳細情報が利用者に開示されることはありません。';
   static const String registrationBuildingName = '建物名*';
   static const String registrationRoomNo = '部屋番号*';
-  static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に検索されるようになります。';
+  static const String registrationPointTxt = '*登録地点周辺のサービス利用者に優先的に検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
   static const String registrationIdentityVerification = '本人確認証*';
