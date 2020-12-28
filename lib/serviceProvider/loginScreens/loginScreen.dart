@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -146,7 +147,12 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerLoginDetails();
+                          //_providerLoginDetails();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ProviderHome()));
                           //NavigationRouter.switchToProviderHome(context);
                         },
                         shape: RoundedRectangleBorder(
