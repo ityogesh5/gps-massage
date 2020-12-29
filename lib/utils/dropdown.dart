@@ -14,6 +14,9 @@ class DropDownFormField extends FormField<dynamic> {
   final Function onChanged;
   final bool filled;
   final EdgeInsets contentPadding;
+  final bool enabled;
+  final dynamic items;
+  final bool islist;
 
   DropDownFormField(
       {FormFieldSetter<dynamic> onSaved,
@@ -24,12 +27,15 @@ class DropDownFormField extends FormField<dynamic> {
       this.required = false,
       this.errorText = 'Please select one option',
       this.value,
+      this.items,
       this.dataSource,
       this.textField,
       this.valueField,
       this.onChanged,
       this.filled = true,
-      this.contentPadding = const EdgeInsets.fromLTRB(4, 4, 5, 0)})
+      this.enabled = true,
+      this.islist = false,
+      this.contentPadding = const EdgeInsets.fromLTRB(0, 0, 0, 0)})
       : super(
           onSaved: onSaved,
           validator: validator,
@@ -39,13 +45,14 @@ class DropDownFormField extends FormField<dynamic> {
             return Align(
               alignment: Alignment.center,
               child: Container(
+                width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     InputDecorator(
                       decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey[200],
+                          fillColor: Colors.transparent,
                           focusColor: Colors.red,
                           contentPadding: contentPadding,
                           border: OutlineInputBorder(
@@ -54,43 +61,60 @@ class DropDownFormField extends FormField<dynamic> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<dynamic>(
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color.fromRGBO(200, 200, 200, 1),
-                          ),
-                          hint: Text(
-                            hintText,
-                            style: TextStyle(
-                                color: Colors.grey.shade500,
-                                fontFamily: 'Open Sans'),
-                          ),
-                          value: value == '' ? null : value,
-                          onChanged: (dynamic newValue) {
-                            state.didChange(newValue);
-                            onChanged(newValue);
-                          },
-                          items: dataSource.map((item) {
-                            return DropdownMenuItem<dynamic>(
-                              value: item[valueField],
-                              child: Text(
-                                item[textField],
-                                style: TextStyle(
-                                    fontFamily: 'Open Sans',
-                                    color: Colors.grey.shade500),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                          child: enabled
+                              ? DropdownButton<dynamic>(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                                  hint: Text(
+                                    hintText,
+                                    style:
+                                        TextStyle(color: Colors.grey.shade500),
+                                  ),
+                                  value: value == '' ? null : value,
+                                  onChanged: (dynamic newValue) {
+                                    state.didChange(newValue);
+                                    onChanged(newValue);
+                                  },
+                                  items: islist
+                                      ? dataSource.map((item) {
+                                          return DropdownMenuItem<dynamic>(
+                                            value: item,
+                                            child: Text(item),
+                                          );
+                                        }).toList()
+                                      : dataSource.map((item) {
+                                          return DropdownMenuItem<dynamic>(
+                                            value: item[valueField],
+                                            child: Text(item[textField]),
+                                          );
+                                        }).toList(),
+                                )
+                              : DropdownButton<dynamic>(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Color.fromRGBO(200, 200, 200, 1),
+                                  ),
+                                  hint: Text(
+                                    hintText,
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  value: value == '' ? null : value,
+                                  style: TextStyle(color: Colors.grey),
+                                  onChanged: (dynamic newValue) {
+                                    state.didChange(newValue);
+                                    onChanged(newValue);
+                                  },
+                                  items: [],
+                                )),
                     ),
                     SizedBox(height: state.hasError ? 5.0 : 0.0),
                     Text(
                       state.hasError ? state.errorText : '',
                       style: TextStyle(
                           color: Colors.redAccent.shade700,
-                          fontSize: state.hasError ? 12.0 : 0.0,
-                          fontFamily: 'Open Sans'),
+                          fontSize: state.hasError ? 12.0 : 0.0),
                     ),
                   ],
                 ),
