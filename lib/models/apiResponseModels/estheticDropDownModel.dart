@@ -1,10 +1,10 @@
-class EstheticList {
+class EstheticDropDownModel {
   String status;
   List<EstheticData> estheticData;
 
-  EstheticList({this.status, this.estheticData});
+  EstheticDropDownModel({this.status, this.estheticData});
 
-  EstheticList.fromJson(Map<String, dynamic> json) {
+  EstheticDropDownModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['estheticData'] != null) {
       estheticData = new List<EstheticData>();

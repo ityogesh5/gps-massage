@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'dart:math' as math;
-
+import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
+import 'package:gps_massageapp/models/apiResponseModels/relaxationDropDownModel.dart';
+import 'package:gps_massageapp/models/apiResponseModels/treatmentDropDownModel.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
@@ -61,21 +66,32 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   List<String> selectedRelaxationDropdownValues = List<String>();
   List<String> selectedTreatmentDropdownValues = List<String>();
   List<String> selectedFitnessDropdownValues = List<String>();
+  List<String> estheticDropDownValues = List<String>();
+  List<String> treatmentDropDownValues = List<String>();
+  List<String> relaxationDropDownValues = List<String>();
+  List<String> fitnessDropDownValues = List<String>();
+  List<String> dropDownMenuItems = List<String>();
   List<ServicePriceModel> estheticServicePriceModel = List<ServicePriceModel>();
   List<ServicePriceModel> relaxationServicePriceModel =
       List<ServicePriceModel>();
   List<ServicePriceModel> treatmentServicePriceModel =
       List<ServicePriceModel>();
   List<ServicePriceModel> fitnessServicePriceModel = List<ServicePriceModel>();
-  List<int> status = List<int>();
   List<bool> otherSelected = List<bool>();
   bool estheticOtherSelected = false;
   bool relaxtionOtherSelected = false;
-  bool tratmentOtherSelected = false;
+  bool treatmentOtherSelected = false;
   bool fitnessOtherSelected = false;
+  int estheticStatus = 0;
+  int relaxtionStatus = 0;
+  int treatmentStatus = 0;
+  int fitnessStatus = 0;
   TextEditingController sampleOthersController = TextEditingController();
   List<String> dropDownValues = List<String>();
-  List<String> dropDownMenuItems = List<String>();
+  EstheticDropDownModel estheticListModel;
+  RelaxationDropDownModel relaxationDropDownModel;
+  TreatmentDropDownModel treatmentDropDownModel;
+  ProgressDialog _progressDialog = ProgressDialog();
 
   @override
   void initState() {
@@ -87,14 +103,30 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       'マッサージ（全身）',
       HealingMatchConstants.chooseServiceOtherDropdownFiled
     ];
+    fitnessDropDownValues = [
+      "ヨガ",
+      "ホットヨガ",
+      "ピラティス",
+      "トレーニング,"
+          "エクササイズ",
+      HealingMatchConstants.chooseServiceOtherDropdownFiled
+    ];
     dropDownMenuItems = [
       HealingMatchConstants.chooseServiceEstheticDropDown,
       HealingMatchConstants.chooseServiceRelaxationDropDown,
       HealingMatchConstants.chooseServiceTreatmentDropDown,
       HealingMatchConstants.chooseServiceFitnessDropDown
     ];
-    status = [0, 0, 0, 0];
     otherSelected = [false, false, false, false];
+  }
+
+  void showProgressDialog() {
+    _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+  }
+
+  void hideProgressDialog() {
+    _progressDialog.dismissProgressDialog(context);
   }
 
   @override
@@ -119,15 +151,333 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 SizedBox(
                   height: 40.0,
                 ),
-                Container(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: dropDownMenuItems.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return buildDropDown(dropDownMenuItems[index], index);
-                      }),
+
+                //Esthetic DropDown
+                InkWell(
+                  onTap: () {
+                    if (estheticDropDownValues.length == 0) {
+                      showProgressDialog();
+                      getEstheticList();
+                    } else {
+                      setState(() {
+                        estheticStatus == 0
+                            ? estheticStatus = 1
+                            : estheticStatus = 0;
+                      });
+                    }
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue:
+                        HealingMatchConstants.chooseServiceEstheticDropDown,
+                    decoration: new InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.0,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: estheticStatus == 0
+                                ? Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                : Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                            onPressed: () {
+                              if (estheticDropDownValues.length == 0) {
+                                showProgressDialog();
+                                getEstheticList();
+                              } else {
+                                setState(() {
+                                  estheticStatus == 0
+                                      ? estheticStatus = 1
+                                      : estheticStatus = 0;
+                                });
+                              }
+                            }),
+                        filled: true,
+                        fillColor: Colors.grey[200]),
+                  ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
+                estheticStatus == 1
+                    ? Container(
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: estheticDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildCheckBoxContent(
+                                  estheticDropDownValues[index], index, 0);
+                            }),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 20.0,
+                ),
+
+                //Relaxation DropDown
+                InkWell(
+                  onTap: () {
+                    if (relaxationDropDownValues.length == 0) {
+                      showProgressDialog();
+                      getRelaxationList();
+                    } else {
+                      setState(() {
+                        relaxtionStatus == 0
+                            ? relaxtionStatus = 1
+                            : relaxtionStatus = 0;
+                      });
+                    }
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue:
+                        HealingMatchConstants.chooseServiceRelaxationDropDown,
+                    decoration: new InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.0,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: relaxtionStatus == 0
+                                ? Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                : Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                            onPressed: () {
+                              if (relaxationDropDownValues.length == 0) {
+                                showProgressDialog();
+                                getRelaxationList();
+                              } else {
+                                setState(() {
+                                  relaxtionStatus == 0
+                                      ? relaxtionStatus = 1
+                                      : relaxtionStatus = 0;
+                                });
+                              }
+                            }),
+                        filled: true,
+                        fillColor: Colors.grey[200]),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                relaxtionStatus == 1
+                    ? Container(
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: relaxationDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildCheckBoxContent(
+                                  relaxationDropDownValues[index], index, 1);
+                            }),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 20.0,
+                ),
+
+                //Treatment DropDown
+                InkWell(
+                  onTap: () {
+                    if (treatmentDropDownValues.length == 0) {
+                      showProgressDialog();
+                      getTreatmentList();
+                    } else {
+                      setState(() {
+                        treatmentStatus == 0
+                            ? treatmentStatus = 1
+                            : treatmentStatus = 0;
+                      });
+                    }
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue:
+                        HealingMatchConstants.chooseServiceTreatmentDropDown,
+                    decoration: new InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.0,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: treatmentStatus == 0
+                                ? Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                : Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                            onPressed: () {
+                              if (treatmentDropDownValues.length == 0) {
+                                showProgressDialog();
+                                getTreatmentList();
+                              } else {
+                                setState(() {
+                                  treatmentStatus == 0
+                                      ? treatmentStatus = 1
+                                      : treatmentStatus = 0;
+                                });
+                              }
+                            }),
+                        filled: true,
+                        fillColor: Colors.grey[200]),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                treatmentStatus == 1
+                    ? Container(
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: treatmentDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildCheckBoxContent(
+                                  treatmentDropDownValues[index], index, 2);
+                            }),
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 20.0,
+                ),
+
+                //Fitness DropDown
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      fitnessStatus == 0
+                          ? fitnessStatus = 1
+                          : fitnessStatus = 0;
+                    });
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue:
+                        HealingMatchConstants.chooseServiceFitnessDropDown,
+                    decoration: new InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10),
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.0,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                            icon: fitnessStatus == 0
+                                ? Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )
+                                : Transform.rotate(
+                                    angle: 270 * math.pi / 180,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                fitnessStatus == 0
+                                    ? fitnessStatus = 1
+                                    : fitnessStatus = 0;
+                              });
+                            }),
+                        filled: true,
+                        fillColor: Colors.grey[200]),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                fitnessStatus == 1
+                    ? Container(
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: fitnessDropDownValues.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return buildCheckBoxContent(
+                                  fitnessDropDownValues[index], index, 3);
+                            }),
+                      )
+                    : Container(),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -160,82 +510,6 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  buildDropDown(String dropDownMenu, int mindex) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            setState(() {
-              status[mindex] == 0 ? status[mindex] = 1 : status[mindex] = 0;
-            });
-          },
-          child: TextFormField(
-            enabled: false,
-            initialValue: dropDownMenu,
-            decoration: new InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(
-                    const Radius.circular(10),
-                  ),
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 0.0,
-                  ),
-                ),
-                suffixIcon: IconButton(
-                    icon: status[mindex] == 0
-                        ? Transform.rotate(
-                            angle: 270 * math.pi / 180,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        : Transform.rotate(
-                            angle: 270 * math.pi / 180,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        status[mindex] == 0
-                            ? status[mindex] = 1
-                            : status[mindex] = 0;
-                      });
-                    }),
-                filled: true,
-                hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                hintText: "パスワード",
-                fillColor: Colors.grey[200]),
-          ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        status[mindex] == 1
-            ? Container(
-                child: ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: dropDownValues.length,
-                    itemBuilder: (BuildContext ctxt, int index) {
-                      return buildCheckBoxContent(
-                          dropDownValues[index], index, mindex);
-                    }),
-              )
-            : Container(),
-      ],
     );
   }
 
@@ -394,8 +668,20 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
-                                  dropDownValues.insert(
-                                      index, sampleOthersController.text);
+                                  estheticDropDownValues = List<String>();
+                                  if (mindex == 0) {
+                                    estheticDropDownValues.insert(
+                                        index, sampleOthersController.text);
+                                  } else if (mindex == 1) {
+                                    relaxationDropDownValues.insert(
+                                        index, sampleOthersController.text);
+                                  } else if (mindex == 2) {
+                                    treatmentDropDownValues.insert(
+                                        index, sampleOthersController.text);
+                                  } else if (mindex == 3) {
+                                    fitnessDropDownValues.insert(
+                                        index, sampleOthersController.text);
+                                  }
                                   sampleOthersController.clear();
                                 });
                               },
@@ -1053,5 +1339,59 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       }
     }
     return indexPos;
+  }
+
+  getEstheticList() async {
+    await http
+        .post(HealingMatchConstants.ESTHETIC_PROVIDER_URL)
+        .then((response) {
+      estheticListModel =
+          EstheticDropDownModel.fromJson(json.decode(response.body));
+      print(estheticListModel.toJson());
+      for (var estheticList in estheticListModel.estheticData) {
+        estheticDropDownValues.add(estheticList.value);
+        print(estheticDropDownValues);
+      }
+      setState(() {
+        hideProgressDialog();
+        estheticStatus == 0 ? estheticStatus = 1 : estheticStatus = 0;
+      });
+    });
+  }
+
+  getRelaxationList() async {
+    await http
+        .post(HealingMatchConstants.RELAXATION_PROVIDER_URL)
+        .then((response) {
+      relaxationDropDownModel =
+          RelaxationDropDownModel.fromJson(json.decode(response.body));
+      print(relaxationDropDownModel.toJson());
+      for (var relaxationList in relaxationDropDownModel.relaxationData) {
+        relaxationDropDownValues.add(relaxationList.value);
+        print(relaxationDropDownValues);
+      }
+      setState(() {
+        hideProgressDialog();
+        relaxtionStatus == 0 ? relaxtionStatus = 1 : relaxtionStatus = 0;
+      });
+    });
+  }
+
+  getTreatmentList() async {
+    await http
+        .post(HealingMatchConstants.TREATMENT_PROVIDER_URL)
+        .then((response) {
+      treatmentDropDownModel =
+          TreatmentDropDownModel.fromJson(json.decode(response.body));
+      print(treatmentDropDownModel.toJson());
+      for (var treatmentList in treatmentDropDownModel.osteopathicData) {
+        treatmentDropDownValues.add(treatmentList.value);
+        print(treatmentDropDownValues);
+      }
+      setState(() {
+        hideProgressDialog();
+        treatmentStatus == 0 ? treatmentStatus = 1 : treatmentStatus = 0;
+      });
+    });
   }
 }
