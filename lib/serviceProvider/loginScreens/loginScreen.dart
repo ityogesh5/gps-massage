@@ -40,6 +40,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: buildBottomBar(),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -56,7 +57,7 @@ class _LoginState extends State<Login> {
                   children: [
                     SvgPicture.asset('assets/images_gps/logo.svg',
                         height: 100, width: 140),
-                   Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(HealingMatchConstants.loginText,
@@ -73,6 +74,7 @@ class _LoginState extends State<Login> {
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -83,8 +85,9 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                          ),
                           hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
@@ -97,6 +100,7 @@ class _LoginState extends State<Login> {
                       controller: passwordController,
                       obscureText: passwordVisibility,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -122,14 +126,15 @@ class _LoginState extends State<Login> {
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
                           onTap: () {
-                            NavigationRouter.switchToProviderForgetPasswordScreen(context);
+                            NavigationRouter
+                                .switchToProviderForgetPasswordScreen(context);
                           },
                           child: Text(
                             HealingMatchConstants.loginForgetPassword,
@@ -141,15 +146,15 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: MediaQuery.of(context).size.height * 0.065,
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.loginButton,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         color: Colors.lime,
                         onPressed: () {
@@ -229,7 +234,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToRegisterFirstScreen(context);
+                        NavigationRouter.switchToRegisterSecondScreen(context);
                       },
                       child: Text(
                         HealingMatchConstants.loginNewRegistrationText,
@@ -238,35 +243,35 @@ class _LoginState extends State<Login> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            /* Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ResetPassword()));*/
-                          },
-                          child: Text(
-                            HealingMatchConstants.loginServiceUser,
-                            style: TextStyle(
-//                            decoration: TextDecoration.underline,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
+
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildBottomBar() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.06,
+      child: InkWell(
+        onTap: () {
+          /* Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ResetPassword()));*/
+        },
+        child: Center(
+          child: Text(
+            HealingMatchConstants.loginServiceUser,
+            style: TextStyle(
+//                            decoration: TextDecoration.underline,
+                ),
           ),
         ),
       ),
@@ -278,7 +283,8 @@ class _LoginState extends State<Login> {
     var password = passwordController.text.toString();
 
     // user phone number validation
-    if (userPhoneNumber.length < 11 || userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length < 11 ||
+        userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -359,7 +365,8 @@ class _LoginState extends State<Login> {
     serviceProviderLoginDetails.add(userPhoneNumber);
     serviceProviderLoginDetails.add(password);
 
-    print('User details length in array : ${serviceProviderLoginDetails.length}');
+    print(
+        'User details length in array : ${serviceProviderLoginDetails.length}');
 
     final url = '';
     /* http.post(url,
@@ -371,5 +378,4 @@ class _LoginState extends State<Login> {
           "serviceUserDetails": serviceProviderLoginDetails,
         })); */
   }
-
 }

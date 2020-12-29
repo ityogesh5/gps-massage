@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import 'chooseServiceScreen.dart';
 
 class RegistrationSecondPage extends StatefulWidget {
@@ -26,12 +29,16 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
   bool visible = false;
   var identificationverify, qualification, bankname, accountnumber;
 
+  List<dynamic> stateDropDownValues = List<dynamic>();
+  StatesList states;
+
   void initState() {
     super.initState();
     identificationverify = '';
     qualification = '';
     bankname = '';
     accountnumber = '';
+    _getState();
   }
 
   @override
@@ -147,7 +154,8 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     child: TextFormField(
                       enabled: false,
                       decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          disabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
                             ),
@@ -346,9 +354,10 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
                     child: TextFormField(
                       enabled: false,
                       decoration: new InputDecoration(
-                        enabledBorder: OutlineInputBorder(
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        disabledBorder: OutlineInputBorder(
                           borderRadius: const BorderRadius.all(
-                            const Radius.circular(8),
+                            const Radius.circular(10),
                           ),
                           borderSide: BorderSide(
                             color: Colors.black,
@@ -660,5 +669,16 @@ class _RegistrationSecondPageState extends State<RegistrationSecondPage> {
       return;
     }
     NavigationRouter.switchToProviderOtpScreen(context);
+  }
+
+  _getState() async {
+    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+      states = StatesList.fromJson(json.decode(response.body));
+      print(states.toJson());
+      for (var stateList in states.prefectureJpData) {
+        stateDropDownValues.add(stateList.prefectureJa);
+        print(stateDropDownValues);
+      }
+    });
   }
 }
