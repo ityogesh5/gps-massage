@@ -186,35 +186,40 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       children: [
                         InkWell(
                             onTap: () {
-                              /*  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MyHomePage()));*/
+                              //_initiateLineLogin();
+                              print('Line login');
                             },
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.black12,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage('assets/images_gps/line.jpg'),
-                              ),
-                            )),
+                            child: Container(
+                                width: 45.0,
+                                height: 45.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: new AssetImage(
+                                        'assets/images_gps/line.jpg'),
+                                  ),
+                                ))),
                         SizedBox(
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.black12,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage('assets/images_gps/apple2.jpg'),
-                              ),
-                            )),
+                            onTap: () {
+                              print('Apple login');
+                              //_initiateAppleSignIn();
+                            },
+                            child: Container(
+                                width: 45.0,
+                                height: 45.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: AssetImage('assets/images_gps/apple2.jpg'),
+                                  ),
+                                ))),
                       ],
                     ),
                     SizedBox(
@@ -222,42 +227,40 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToServiceProviderFirstScreen(context);
+                        NavigationRouter.switchToServiceProviderFirstScreen(
+                            context);
                       },
                       child: Text(
                         HealingMatchConstants.loginNewRegistrationText,
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.w100),
                       ),
                     ),
                     SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            /* Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ResetPassword()));*/
-                          },
-                          child: Text(
-                            HealingMatchConstants.loginServiceUser,
-                            style: TextStyle(
-//                            decoration: TextDecoration.underline,
-                                ),
-                          ),
-                        ),
-                      ],
+                      height: 20,
                     ),
                   ],
                 ),
               ),
+
+              Container(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 1.1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToUserLogin(context);
+                      },
+                      child: Text(
+                        HealingMatchConstants.loginServiceUser,
+                      ),
+                    ),
+                  ],
+                ),
+              )
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
             ],
           ),

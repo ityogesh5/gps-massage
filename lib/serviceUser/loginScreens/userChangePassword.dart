@@ -187,7 +187,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                           'パスワードを再設定する',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        color: Colors.greenAccent,
+                        color: Colors.lime,
                         onPressed: () {
                           Navigator.push(
                               context,
