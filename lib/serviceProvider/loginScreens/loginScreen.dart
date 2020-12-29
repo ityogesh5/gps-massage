@@ -234,7 +234,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToRegisterSecondScreen(context);
+                        NavigationRouter.switchToRegisterFirstScreen(context);
                       },
                       child: Text(
                         HealingMatchConstants.loginNewRegistrationText,

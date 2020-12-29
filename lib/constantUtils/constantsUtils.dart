@@ -10,6 +10,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/register';
   static const String STATE_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/prefectureJp';
+  static const String ESTHETIC_PROVIDER_URL =
+      ON_PREMISE_USER_BASE_URL + '/estheticDropdown';
   // DOMAIN URL'S
   //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
