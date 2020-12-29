@@ -291,7 +291,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '名前',
+                            labelText: '名前 *',
                             hintText: '名前 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -335,7 +335,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     decoration: new InputDecoration(
                                         filled: true,
                                         fillColor: Colors.white,
-                                        labelText: '生年月日',
+                                        labelText: '生年月日 *',
                                         hintText: '生年月日 *',
                                         hintStyle: TextStyle(
                                           color: Colors.grey[400],
@@ -427,11 +427,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                 dataSource: [
                                   {
                                     "display": "男性",
-                                    "value": "男性",
+                                    "value": "M",
                                   },
                                   {
                                     "display": "女性",
-                                    "value": "女性",
+                                    "value": "F",
                                   },
                                   {
                                     "display": "どちらでもない",
@@ -536,7 +536,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '電話番号',
+                            labelText: '電話番号 *',
                             hintText: '電話番号 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -591,7 +591,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'パスワード',
+                            labelText: 'パスワード *',
                             hintText: 'パスワード *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -627,7 +627,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'パスワード (確認用)',
+                            labelText: 'パスワード (確認用) *',
                             hintText: 'パスワード (確認用) *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -715,7 +715,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           decoration: new InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              labelText: '現在地を取得する',
+                              labelText: '現在地を取得する *',
                               hintText: '現在地を取得する *',
                               hintStyle: TextStyle(
                                 color: Colors.grey[400],
@@ -817,15 +817,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                 dataSource: [
                                   {
                                     "display": "名古屋市",
-                                    "value": "男性",
+                                    "value": "名古屋市",
                                   },
                                   {
                                     "display": "豊橋市",
-                                    "value": "女性",
+                                    "value": "豊橋市",
                                   },
                                   {
                                     "display": "岡崎市",
-                                    "value": "どちらでもない",
+                                    "value": "岡崎市",
                                   },
                                 ],
                                 textField: 'display',
@@ -854,15 +854,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                 dataSource: [
                                   {
                                     "display": "名古屋市",
-                                    "value": "男性",
+                                    "value": "名古屋市",
                                   },
                                   {
                                     "display": "豊橋市",
-                                    "value": "女性",
+                                    "value": "豊橋市",
                                   },
                                   {
                                     "display": "一宮市",
-                                    "value": "どちらでもない",
+                                    "value": "一宮市",
                                   },
                                 ],
                                 textField: 'display',
@@ -890,7 +890,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               decoration: new InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
-                                  labelText: 'ビル名',
+                                  labelText: 'ビル名 *',
                                   hintText: 'ビル名 *',
                                   hintStyle: TextStyle(
                                     color: Colors.grey[400],
@@ -918,7 +918,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: '都、県選',
+                                labelText: '都、県選 *',
                                 hintText: '都、県選  *',
                                 hintStyle: TextStyle(
                                   color: Colors.grey[400],
@@ -948,7 +948,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: '部屋番号',
+                            labelText: '部屋番号 *',
                             hintText: '部屋番号 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -1129,6 +1129,73 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return;
     }
+
+    // user DOB validation
+    if (userDOB.isEmpty || userDOB == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な生年月日を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    // user gender validation
+    if (userGender.isEmpty || userGender == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    // user Occupation validation
+    if (userOccupation.isEmpty || userOccupation == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('11文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     if (!(email.contains(regexMail))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1247,70 +1314,6 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return;
     }
-    // user phone number validation
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber == null ||
-        userPhoneNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-    // user DOB validation
-    if (userDOB.isEmpty || userDOB == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    // user gender validation
-    if (userGender.isEmpty || userGender == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    // user Occupation validation
-    if (userOccupation.isEmpty || userOccupation == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
 
     // user place for massage validation
     if (placeForMassage.isEmpty || placeForMassage == null) {
@@ -1326,6 +1329,12 @@ class _RegisterUserState extends State<RegisterUser> {
             textColor: Colors.white),
       ));
       return;
+    }
+
+    // Getting user GPS Address value
+    if (userAddressType.contains('現在地を取得する') && _isGPSLocation) {
+      HealingMatchConstants.gpsAddress = userGPSAddress;
+      serviceUserDetails.add(userGPSAddress);
     }
 
     // user perfecture validation
@@ -1359,13 +1368,12 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return;
     }
-
-    // user area validation
-    if (userArea.isEmpty || userArea == null) {
+// user building name validation
+    if (buildingName.isEmpty || buildingName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な都、県選 を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1375,13 +1383,12 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return;
     }
-
-    // user building name validation
-    if (buildingName.isEmpty || buildingName == null) {
+    // user area validation
+    if (userArea.isEmpty || userArea == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('有効な都、県選 を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1406,12 +1413,6 @@ class _RegisterUserState extends State<RegisterUser> {
             textColor: Colors.white),
       ));
       return;
-    }
-
-    // Getting user GPS Address value
-    if (userAddressType.contains('現在地を取得する') && _isGPSLocation) {
-      HealingMatchConstants.gpsAddress = userGPSAddress;
-      serviceUserDetails.add(userGPSAddress);
     }
 
     //adding service user details into List of String for HTTP Request to server
