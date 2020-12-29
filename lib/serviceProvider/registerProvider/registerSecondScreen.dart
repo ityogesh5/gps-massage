@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/apiResponseModels/estheticList.dart';
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
@@ -38,6 +39,7 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
     bankname = '';
     accountnumber = '';
     _getState();
+    _getesthetic();
   }
 
   @override
@@ -673,10 +675,26 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
   _getState() async {
     await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesList.fromJson(json.decode(response.body));
-      print(states.toJson());
+      // print(states.toJson());
       for (var stateList in states.prefectureJpData) {
         stateDropDownValues.add(stateList.prefectureJa);
-        print(stateDropDownValues);
+        // print(stateDropDownValues);
+      }
+    });
+  }
+
+  List<dynamic> estheticDropDownValues = List<dynamic>();
+  EstheticList esthetic;
+
+  _getesthetic() async {
+    await http
+        .post(HealingMatchConstants.ESTHETIC_PROVIDER_URL)
+        .then((response) {
+      esthetic = EstheticList.fromJson(json.decode(response.body));
+      print(esthetic.toJson());
+      for (var estheticList in esthetic.estheticData) {
+        estheticDropDownValues.add(estheticList.value);
+        print(estheticDropDownValues);
       }
     });
   }
