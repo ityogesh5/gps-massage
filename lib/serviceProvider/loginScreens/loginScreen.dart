@@ -33,6 +33,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: buildBottomBar(),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -66,6 +67,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -76,8 +78,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
                             ),
                           ),
                           filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                          ),
                           hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
@@ -90,6 +93,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       controller: passwordController,
                       obscureText: passwordVisibility,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
@@ -115,7 +119,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -135,15 +139,15 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: MediaQuery.of(context).size.height * 0.065,
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.loginButton,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         color: Colors.lime,
                         onPressed: () {
@@ -237,35 +241,35 @@ class _ProviderLoginState extends State<ProviderLogin> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            /* Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ResetPassword()));*/
-                          },
-                          child: Text(
-                            HealingMatchConstants.loginServiceUser,
-                            style: TextStyle(
-//                            decoration: TextDecoration.underline,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
+
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildBottomBar() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.06,
+      child: InkWell(
+        onTap: () {
+          /* Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ResetPassword()));*/
+        },
+        child: Center(
+          child: Text(
+            HealingMatchConstants.loginServiceUser,
+            style: TextStyle(
+//                            decoration: TextDecoration.underline,
+                ),
           ),
         ),
       ),
@@ -277,7 +281,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
     var password = passwordController.text.toString();
 
     // user phone number validation
-    if (userPhoneNumber.length < 11 || userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length < 11 ||
+        userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
