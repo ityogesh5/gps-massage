@@ -1008,142 +1008,203 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
-              Visibility(
-                visible: visible,
-                child: Column(
-                  children: [
-                    Container(
-                      width: containerWidth,
-                      child: Text(
-                        HealingMatchConstants.registrationIndividualText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                        height: 60.0, //containerHeight,
-                        width: size.width * 0.8,
-                        child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(splashColor: Colors.black12),
-                          child: InkWell(
-                            onTap: () {
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationIndividualText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: 60.0, //containerHeight,
+                  width: size.width * 0.8,
+                  child: Theme(
+                    data:
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
+                    child: InkWell(
+                      onTap: () {
+                        _getCurrentLocation();
+                      },
+                      child: TextFormField(
+                        enabled: false,
+                        controller: gpsAddressController,
+                        decoration: InputDecoration(
+                          labelText: "♪101-0041東京都千代田区",
+                          filled: true,
+                          fillColor: Colors.black12,
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1.0,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.location_on, size: 28),
+                            onPressed: () {
                               _getCurrentLocation();
                             },
-                            child: TextFormField(
-                                enabled: false,
-                                controller: gpsAddressController,
-                                decoration: InputDecoration(
-                                    labelText: "♪101-0041東京都千代田区",
-                                    filled: true,
-                                    fillColor: Colors.black12,
-                                    disabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: Icon(Icons.location_on, size: 28),
-                                        onPressed: () {
-                                          _getCurrentLocation();
-                                        }))),
                           ),
-                        )),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      height: containerHeight,
-                      width: size.width * 0.8,
-                      //margin: EdgeInsets.all(16.0),
-                      //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Theme(
-                            data: Theme.of(context)
-                                .copyWith(splashColor: Colors.black12),
-                            child: TextFormField(
-                                controller: _controller9,
-                                decoration: InputDecoration(
-                                  labelText: HealingMatchConstants
-                                      .registrationBuildingName,
-                                  filled: true,
-                                  fillColor: Colors.black12,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                )),
-                          )),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Theme(
-                              data: Theme.of(context)
-                                  .copyWith(splashColor: Colors.black12),
-                              child: TextFormField(
-                                  controller: _controller10,
-                                  decoration: InputDecoration(
-                                    labelText: HealingMatchConstants
-                                        .registrationRoomNo,
-                                    filled: true,
-                                    fillColor: Colors.black12,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  )),
-                            )),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                  height: containerHeight,
+                  width: size.width * 0.8,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.black12,
+                              border: Border.all(color: Colors.black12)),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                                hint: Text(
+                                  "女",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                value: _selectedItem7,
+                                items: _dropdownMenuItems7,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    _selectedItem7 = value;
+                                  });
+                                }),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.black12,
+                              border: Border.all(color: Colors.black12)),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                                hint: Text(
+                                  "女",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                value: _selectedItem7,
+                                items: _dropdownMenuItems7,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    _selectedItem7 = value;
+                                  });
+                                }),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
+                height: containerHeight,
+                width: size.width * 0.8,
+                //margin: EdgeInsets.all(16.0),
+                //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(splashColor: Colors.black12),
+                      child: TextFormField(
+                          controller: _controller9,
+                          decoration: InputDecoration(
+                            labelText:
+                                HealingMatchConstants.registrationBuildingName,
+                            filled: true,
+                            fillColor: Colors.black12,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                          )),
+                    )),
                     SizedBox(
-                      height: sizedBoxFormHeight,
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                          child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(splashColor: Colors.black12),
+                        child: TextFormField(
+                            controller: _controller10,
+                            decoration: InputDecoration(
+                              labelText:
+                                  HealingMatchConstants.registrationRoomNo,
+                              filled: true,
+                              fillColor: Colors.black12,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                            )),
+                      )),
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
               ),
               Container(
                 width: containerWidth,
