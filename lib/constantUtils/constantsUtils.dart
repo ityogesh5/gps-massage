@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
+// DOMAIN URL'S
+  //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";
+  //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
+
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9094/api/user";
   static const String REGISTER_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/registerUser';
 
-  // DOMAIN URL'S
-  //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";
-  //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
+  static const STATE_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/prefectureJp';
+  static const CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cityJp';
 
   //Common string
   static String progressText = '';
