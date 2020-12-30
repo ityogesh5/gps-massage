@@ -5,8 +5,6 @@ import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
-import 'package:horizontal_center_date_picker/datepicker_controller.dart';
-import 'package:horizontal_center_date_picker/horizontal_date_picker.dart';
 
 class ProviderHome extends StatefulWidget {
   @override

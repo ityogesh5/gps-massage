@@ -18,7 +18,8 @@ class RegistrationProviderSecondScreen extends StatefulWidget {
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
 }
 
-class _RegistrationSecondPageState extends State<RegistrationProviderSecondScreen> {
+class _RegistrationSecondPageState
+    extends State<RegistrationProviderSecondScreen> {
   final formkey = new GlobalKey<FormState>();
   final identityverification = new GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -31,6 +32,9 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
 
   List<dynamic> stateDropDownValues = List<dynamic>();
   StatesList states;
+  final statekey = new GlobalKey<FormState>();
+  final citykey = new GlobalKey<FormState>();
+  var _mystate, _mycity;
 
   void initState() {
     super.initState();
@@ -38,6 +42,8 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
     qualification = '';
     bankname = '';
     accountnumber = '';
+    _mystate = '';
+    _mycity;
     _getState();
   }
 
@@ -589,6 +595,85 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
                   SizedBox(
                     height: 10,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Form(
+                        key: statekey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              // height: containerHeight,
+                              margin: EdgeInsets.all(0.0),
+                              width: MediaQuery.of(context).size.width * 0.33,
+                              color: Colors.grey[200],
+
+                              child: DropDownFormField(
+                                titleText: null,
+                                hintText: readonly ? _mystate : 'state',
+                                onSaved: (value) {
+                                  setState(() {
+                                    _mystate = value;
+                                  });
+                                },
+                                value: _mystate,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _mystate = value;
+                                  });
+                                },
+                                dataSource: stateDropDownValues,
+                                islist: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Form(
+                        key: citykey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              // height: containerHeight,
+                              margin: EdgeInsets.all(0.0),
+                              width: MediaQuery.of(context).size.width * 0.33,
+                              color: Colors.grey[200],
+
+                              child: DropDownFormField(
+                                titleText: null,
+                                hintText: readonly ? _mycity : 'city',
+                                onSaved: (value) {
+                                  setState(() {
+                                    _mycity = value;
+                                  });
+                                },
+                                value: _mycity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _mycity = value;
+                                  });
+                                },
+                                dataSource: stateDropDownValues,
+                                islist: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
                   Container(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.07,
@@ -677,7 +762,7 @@ class _RegistrationSecondPageState extends State<RegistrationProviderSecondScree
       // print(states.toJson());
       for (var stateList in states.prefectureJpData) {
         stateDropDownValues.add(stateList.prefectureJa);
-        // print(stateDropDownValues);
+        print(stateDropDownValues);
       }
     });
   }

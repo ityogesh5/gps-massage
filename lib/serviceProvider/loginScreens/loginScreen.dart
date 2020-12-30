@@ -79,7 +79,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           ),
                           filled: true,
                           hintStyle: TextStyle(
-                            color: Colors.black,
+                            color: Colors.grey,
                           ),
                           hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
@@ -114,7 +114,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                               }),
                           filled: true,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.grey, fontSize: 13),
                           hintText: HealingMatchConstants.loginPassword,
                           fillColor: Colors.grey[200]),
                     ),
@@ -132,8 +132,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           child: Text(
                             HealingMatchConstants.loginForgetPassword,
                             style: TextStyle(
+                              color: Colors.grey,
 //                    decoration: TextDecoration.underline,
-                                ),
+                            ),
                           ),
                         ),
                       ],
@@ -177,7 +178,12 @@ class _ProviderLoginState extends State<ProviderLogin> {
                               color: Colors.black,
                             )),
                       ),
-                      Text("または"),
+                      Text(
+                        "または",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
                       Expanded(
                         child: new Container(
                             margin:
@@ -194,7 +200,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        InkWell(
+                        /* InkWell(
                             onTap: () {
                               //_initiateLineLogin();
                               print('Line login');
@@ -211,6 +217,34 @@ class _ProviderLoginState extends State<ProviderLogin> {
                                         'assets/images_gps/line.jpg'),
                                   ),
                                 ))),
+                        SizedBox(
+                          width: 10,
+                        ),*/
+                        InkWell(
+                            onTap: () {
+                              //_initiateLineLogin();
+                              print('Line login');
+                            },
+                            child: Container(
+                              width: 45.0,
+                              height: 45,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black38),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                  width: 20.0,
+                                  height: 20,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: new AssetImage(
+                                          'assets/images_gps/line1.png'),
+                                    ),
+                                  )),
+                            )),
                         SizedBox(
                           width: 10,
                         ),
@@ -230,6 +264,29 @@ class _ProviderLoginState extends State<ProviderLogin> {
                                     image: AssetImage('assets/images_gps/apple2.jpg'),
                                   ),
                                 ))),
+                              //_initiateLineLogin();
+                            /*   print('Line login');
+                            },
+                            child: Container(
+                              width: 45.0,
+                              height: 45,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black38),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                  width: 20.0,
+                                  height: 20,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: new AssetImage(
+                                          'assets/images_gps/apple2.jpg'),
+                                    ),
+                                  )),
+                            )), */
                       ],
                     ),
                     SizedBox(
@@ -294,8 +351,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
           child: Text(
             HealingMatchConstants.loginServiceUser,
             style: TextStyle(
+              color: Colors.grey,
 //                            decoration: TextDecoration.underline,
-                ),
+            ),
           ),
         ),
       ),

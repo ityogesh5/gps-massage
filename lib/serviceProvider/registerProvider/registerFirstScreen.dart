@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -6,11 +7,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+
+import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
@@ -112,6 +117,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   ListItem _selectedItem7;
   ListItem _selectedItem8;
 
+  List<dynamic> stateDropDownValues = List<dynamic>();
+  StatesList states;
+  final statekey = new GlobalKey<FormState>();
+  final citykey = new GlobalKey<FormState>();
+  var _mystate, _mycity;
+  bool readonly = false;
+
   DateTime selectedDate = DateTime.now();
   TextEditingController _userDOBController = new TextEditingController();
 
@@ -140,6 +152,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     _dropdownMenuItems7 = buildDropDownMenuItems(_gender);
     _dropdownMenuItems8 = buildDropDownMenuItems(_address);
     _dropdownMenuItems9 = buildDropDownMenuItems(_dropdownItems);
+    _mystate = '';
+    _getState();
     /*  _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems1[0].value;
     _selectedItem2 = _dropdownMenuItems2[0].value;
@@ -1071,68 +1085,82 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
-              Container(
-                  height: containerHeight,
-                  width: size.width * 0.8,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.black12,
-                              border: Border.all(color: Colors.black12)),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                                hint: Text(
-                                  "女",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                value: _selectedItem7,
-                                items: _dropdownMenuItems7,
-                                onChanged: (value) {
-                                  print(value);
-                                  setState(() {
-                                    _selectedItem7 = value;
-                                  });
-                                }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Form(
+                    key: statekey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          // height: containerHeight,
+                          margin: EdgeInsets.all(0.0),
+                          width: MediaQuery.of(context).size.width * 0.33,
+                          color: Colors.grey[200],
+
+                          child: DropDownFormField(
+                            titleText: null,
+                            hintText: readonly ? _mystate : 'state',
+                            onSaved: (value) {
+                              setState(() {
+                                _mystate = value;
+                              });
+                            },
+                            value: _mystate,
+                            onChanged: (value) {
+                              setState(() {
+                                _mystate = value;
+                              });
+                            },
+                            dataSource: stateDropDownValues,
+                            islist: true,
+                            textField: 'display',
+                            valueField: 'value',
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.black12,
-                              border: Border.all(color: Colors.black12)),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                                hint: Text(
-                                  "女",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                value: _selectedItem7,
-                                items: _dropdownMenuItems7,
-                                onChanged: (value) {
-                                  print(value);
-                                  setState(() {
-                                    _selectedItem7 = value;
-                                  });
-                                }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Form(
+                    key: citykey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          // height: containerHeight,
+                          margin: EdgeInsets.all(0.0),
+                          width: MediaQuery.of(context).size.width * 0.33,
+                          color: Colors.grey[200],
+
+                          child: DropDownFormField(
+                            titleText: null,
+                            hintText: readonly ? _mycity : 'city',
+                            onSaved: (value) {
+                              setState(() {
+                                _mycity = value;
+                              });
+                            },
+                            value: _mycity,
+                            onChanged: (value) {
+                              setState(() {
+                                _mycity = value;
+                              });
+                            },
+                            dataSource: stateDropDownValues,
+                            islist: true,
+                            textField: 'display',
+                            valueField: 'value',
                           ),
                         ),
-                      ),
-                    ],
-                  )),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -1668,6 +1696,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     setState(() {
       _image = image;
+    });
+  }
+
+  _getState() async {
+    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+      states = StatesList.fromJson(json.decode(response.body));
+      // print(states.toJson());
+      for (var stateList in states.prefectureJpData) {
+        stateDropDownValues.add(stateList.prefectureJa);
+        print(stateDropDownValues);
+      }
     });
   }
 }
