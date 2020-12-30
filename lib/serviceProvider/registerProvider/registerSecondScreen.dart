@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
 import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
@@ -31,6 +32,7 @@ class _RegistrationSecondPageState
   bool readonly = false;
   bool visible = false;
   var identificationverify, qualification, bankname, accountnumber;
+  ProgressDialog _progressDialog = ProgressDialog();
 
   List<dynamic> stateDropDownValues = List<dynamic>();
   List<dynamic> cityDropDownValues = List<dynamic>();
@@ -49,7 +51,7 @@ class _RegistrationSecondPageState
     _mystate = '';
     _mycity;
     _getState();
-    _makePostRequest();
+    _getCityDropDown();
   }
 
   @override
@@ -665,7 +667,7 @@ class _RegistrationSecondPageState
                                     _mycity = value;
                                   });
                                 },
-                                dataSource: stateDropDownValues,
+                                dataSource: cityDropDownValues,
                                 islist: true,
                                 textField: 'display',
                                 valueField: 'value',
@@ -677,11 +679,11 @@ class _RegistrationSecondPageState
                     ],
                   ),
                   SizedBox(
-                    width: 10.0,
+                    height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: MediaQuery.of(context).size.height * 0.065,
                     child: RaisedButton(
                       child: Text(
                         HealingMatchConstants.registrationCompleteBtn,
@@ -773,7 +775,7 @@ class _RegistrationSecondPageState
   }
 
   // CityList cityResponse;
-  _makePostRequest() async {
+  _getCityDropDown() async {
     String url = 'http://106.51.49.160:9094/api/user/cityJp';
     Map<String, String> headers = {"Content-type": "application/json"};
     var value = '{"prefecture_id": 1}';
@@ -788,7 +790,11 @@ class _RegistrationSecondPageState
       print(response.statusCode);
       // city = CityList.fromJson(json.decode(response.body));
       // print(city);
-      print(cityResponse.toJson());
+      // print(cityResponse.toJson());
+      for (var cityList in cityResponse.cityJpData) {
+        cityDropDownValues.add(cityList.cityJa);
+        print(cityDropDownValues);
+      }
     }
     // this API passes back the id of the new item added to the body
     // String body = response.body;
@@ -800,5 +806,14 @@ class _RegistrationSecondPageState
 
     //   "id": 101
     //  }
+  }
+
+  void showProgressDialog() {
+    _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+  }
+
+  void hideProgressDialog() {
+    _progressDialog.dismissProgressDialog(context);
   }
 }
