@@ -1085,81 +1085,85 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Form(
-                    key: statekey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          // height: containerHeight,
-                          margin: EdgeInsets.all(0.0),
-                          width: MediaQuery.of(context).size.width * 0.33,
-                          color: Colors.grey[200],
-
-                          child: DropDownFormField(
-                            titleText: null,
-                            hintText: readonly ? _mystate : 'state',
-                            onSaved: (value) {
-                              setState(() {
-                                _mystate = value;
-                              });
-                            },
-                            value: _mystate,
-                            onChanged: (value) {
-                              setState(() {
-                                _mystate = value;
-                              });
-                            },
-                            dataSource: stateDropDownValues,
-                            islist: true,
-                            textField: 'display',
-                            valueField: 'value',
-                          ),
+              Container(
+                width: size.width * 0.8,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Form(
+                        key: statekey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(0.0),
+                              //    width: MediaQuery.of(context).size.width * 0.33,
+                              color: Colors.grey[200],
+                              child: DropDownFormField(
+                                titleText: null,
+                                hintText: readonly ? _mystate : 'state',
+                                onSaved: (value) {
+                                  setState(() {
+                                    _mystate = value;
+                                  });
+                                },
+                                value: _mystate,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _mystate = value;
+                                  });
+                                },
+                                dataSource: stateDropDownValues,
+                                islist: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Form(
-                    key: citykey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          // height: containerHeight,
-                          margin: EdgeInsets.all(0.0),
-                          width: MediaQuery.of(context).size.width * 0.33,
-                          color: Colors.grey[200],
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Form(
+                        key: citykey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              // height: containerHeight,
+                              margin: EdgeInsets.all(0.0),
+                              // width: MediaQuery.of(context).size.width * 0.33,
+                              color: Colors.grey[200],
 
-                          child: DropDownFormField(
-                            titleText: null,
-                            hintText: readonly ? _mycity : 'city',
-                            onSaved: (value) {
-                              setState(() {
-                                _mycity = value;
-                              });
-                            },
-                            value: _mycity,
-                            onChanged: (value) {
-                              setState(() {
-                                _mycity = value;
-                              });
-                            },
-                            dataSource: stateDropDownValues,
-                            islist: true,
-                            textField: 'display',
-                            valueField: 'value',
-                          ),
+                              child: DropDownFormField(
+                                titleText: null,
+                                hintText: readonly ? _mycity : 'city',
+                                onSaved: (value) {
+                                  setState(() {
+                                    _mycity = value;
+                                  });
+                                },
+                                value: _mycity,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _mycity = value;
+                                  });
+                                },
+                                dataSource: stateDropDownValues,
+                                islist: true,
+                                textField: 'display',
+                                valueField: 'value',
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(
                 height: sizedBoxFormHeight,

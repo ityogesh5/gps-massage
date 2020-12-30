@@ -63,6 +63,7 @@ class DropDownFormField extends FormField<dynamic> {
                       child: DropdownButtonHideUnderline(
                           child: enabled
                               ? DropdownButton<dynamic>(
+                                  isExpanded: true,
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
                                     color: Color.fromRGBO(200, 200, 200, 1),
@@ -92,6 +93,7 @@ class DropDownFormField extends FormField<dynamic> {
                                         }).toList(),
                                 )
                               : DropdownButton<dynamic>(
+                                  isExpanded: true,
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
                                     color: Color.fromRGBO(200, 200, 200, 1),
