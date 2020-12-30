@@ -1705,7 +1705,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       // print(states.toJson());
       for (var stateList in states.prefectureJpData) {
         stateDropDownValues.add(stateList.prefectureJa);
-        print(stateDropDownValues);
+        // print(stateDropDownValues);
       }
     });
   }
