@@ -20,6 +20,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/osteopathicDropdown';
   static const String REGISTER_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/registerUser';
+  static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
+      ON_PREMISE_USER_BASE_URL + '/bannerUpload';
 
   // DOMAIN URL'S
   //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";

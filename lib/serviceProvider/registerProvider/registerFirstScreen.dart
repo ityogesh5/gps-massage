@@ -7,10 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -1114,7 +1114,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   });
                                 },
                                 dataSource: stateDropDownValues,
-                                islist: true,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),
@@ -1153,7 +1153,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   });
                                 },
                                 dataSource: stateDropDownValues,
-                                islist: true,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),

@@ -1,19 +1,22 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
 import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'chooseServiceScreen.dart';
 
 class RegistrationProviderSecondScreen extends StatefulWidget {
@@ -363,7 +366,13 @@ class _RegistrationSecondPageState
                     height: 10,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BannerImageUpload();
+                          });
+                    },
                     child: TextFormField(
                       enabled: false,
                       decoration: new InputDecoration(
@@ -626,12 +635,14 @@ class _RegistrationSecondPageState
                                 },
                                 value: _mystate,
                                 onChanged: (value) {
+                                  print(
+                                      'prefID : ${stateDropDownValues.indexOf(value).toString()}');
                                   setState(() {
                                     _mystate = value;
                                   });
                                 },
                                 dataSource: stateDropDownValues,
-                                islist: true,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),
@@ -668,7 +679,7 @@ class _RegistrationSecondPageState
                                   });
                                 },
                                 dataSource: cityDropDownValues,
-                                islist: true,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),
@@ -815,5 +826,146 @@ class _RegistrationSecondPageState
 
   void hideProgressDialog() {
     _progressDialog.dismissProgressDialog(context);
+  }
+}
+
+class BannerImageUpload extends StatefulWidget {
+  @override
+  _BannerImageUploadState createState() => _BannerImageUploadState();
+}
+
+class _BannerImageUploadState extends State<BannerImageUpload> {
+  List<Asset> images = List<Asset>();
+  String _error = 'No Error Dectected';
+  List<File> files = List<File>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 5,
+        enableCamera: true,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Healing Match App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      if (error != "The user has cancelled the selection") {
+        images = resultList;
+      }
+      _error = error;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomDialog(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Center(child: Text('掲載写真のアップロード')),
+            buildGridView(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton(
+                  onPressed: () {
+                    getFilePath();
+                  },
+                  child: Text("Upload Images"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel"),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildGridView() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 3,
+        childAspectRatio: 1,
+        children: List.generate(images.length + 1, (index) {
+          if (index < images.length) {
+            Asset asset = images[index];
+            return AssetThumb(
+              asset: asset,
+              width: 500,
+              height: 500,
+            );
+          } else {
+            return Card(
+              child: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: loadAssets,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+  }
+
+  getFilePath() async {
+    for (var asset in images) {
+      final filePath =
+          await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+      files.add(File(filePath));
+    }
+    bannerImageUploadApi();
+  }
+
+  bannerImageUploadApi() async {
+    var request = http.MultipartRequest('POST',
+        Uri.parse(HealingMatchConstants.REGISTER_PROVIDER_BANNER_UPLOAD_URL));
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+    request.fields.addAll({'userId': '13'});
+    request.headers.addAll(headers);
+    for (var file in files) {
+      request.files
+          .add(await http.MultipartFile.fromPath('bannerImage', file.path));
+    }
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      Navigator.pop(context);
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 }

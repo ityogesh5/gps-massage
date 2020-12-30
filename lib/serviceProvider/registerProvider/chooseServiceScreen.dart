@@ -610,24 +610,23 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
             //for the Edit option displayed
             val != HealingMatchConstants.chooseServiceOtherDropdownFiled &&
                     checkValue == true
-                ? Expanded(
-                    child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              showTimeandPriceDialog(
-                                  val, checkValue, indexPos, mindex);
-                            }),
-                      )
-                    ],
-                  ))
+                ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          showTimeandPriceDialog(
+                              val, checkValue, indexPos, mindex);
+                        }),
+                  )
+                ],
+                  )
                 : Container()
           ],
         ),
