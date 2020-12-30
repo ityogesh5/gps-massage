@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/serviceUserRegisterResponseModel.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -41,20 +42,20 @@ class _RegisterUserState extends State<RegisterUser> {
   TextEditingController _userDOBController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Position _currentPosition;
-  String _currentAddress;
+  String _currentAddress = '';
   double age = 0.0;
   var selectedYear;
   final ageController = TextEditingController();
-  var _ageOfUser;
-  var _myGender;
-  var _myOccupation;
-  var _myAddressInputType;
-  var _myCategoryPlaceForMassage;
-  var _myPrefecture;
-  var _myCity;
-  File _profileImage;
+  var _ageOfUser = '';
+  String _myGender = '';
+  String _myOccupation = '';
+  String _myAddressInputType = '';
+  String _myCategoryPlaceForMassage = '';
+  String _myPrefecture = '';
+  String _myCity = '';
+  PickedFile _profileImage;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
   Placemark userAddedAddressPlaceMark;
@@ -87,6 +88,14 @@ class _RegisterUserState extends State<RegisterUser> {
   ProgressDialog _progressDialog = ProgressDialog();
 
   bool _changeProgressText = false;
+
+  List<dynamic> stateDropDownValues = List();
+  List<dynamic> cityDropDownValues = List<dynamic>();
+
+  StatesListResponseModel states;
+  int _prefId;
+
+  //CityListResponseModel city;
 
   _dismissKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(new FocusNode());
@@ -167,6 +176,7 @@ class _RegisterUserState extends State<RegisterUser> {
   @override
   void initState() {
     super.initState();
+    _getStates();
   }
 
   @override
@@ -246,17 +256,21 @@ class _RegisterUserState extends State<RegisterUser> {
                                 onTap: () {
                                   _showPicker(context);
                                 },
-                                child: new Container(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    decoration: new BoxDecoration(
-                                      border: Border.all(color: Colors.black12),
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(_profileImage),
-                                      ),
-                                    )),
+                                child: Semantics(
+                                  child: new Container(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      decoration: new BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: FileImage(
+                                              File(_profileImage.path)),
+                                        ),
+                                      )),
+                                ),
                               )
                             : InkWell(
                                 onTap: () {
@@ -275,13 +289,27 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               ),
-                        Positioned(
-                          right: -60.0,
-                          top: 60,
-                          left: 10.0,
-                          child: Icon(Icons.add_a_photo_rounded,
-                              color: Colors.blue, size: 30.0),
-                        ),
+                        _profileImage != null
+                            ? Visibility(
+                                visible: false,
+                                child: Positioned(
+                                  right: -60.0,
+                                  top: 60,
+                                  left: 10.0,
+                                  child: Icon(Icons.add_a_photo_rounded,
+                                      color: Colors.blue, size: 30.0),
+                                ),
+                              )
+                            : Visibility(
+                                visible: true,
+                                child: Positioned(
+                                  right: -60.0,
+                                  top: 60,
+                                  left: 10.0,
+                                  child: Icon(Icons.add_a_photo_rounded,
+                                      color: Colors.blue, size: 30.0),
+                                ),
+                              ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -680,7 +708,10 @@ class _RegisterUserState extends State<RegisterUser> {
                                             .contains('現在地を取得する')) {
                                       gpsAddressController.clear();
                                       _showCurrentLocationInput = true;
-                                    } else {
+                                    } else if (_myAddressInputType != null &&
+                                        _myAddressInputType
+                                            .contains('直接入力する')) {
+                                      _isGPSLocation = false;
                                       _showCurrentLocationInput = false;
                                     }
                                     print(
@@ -805,7 +836,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         children: <Widget>[
                           Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.39,
                               child: DropDownFormField(
                                 hintText: '府県 *',
                                 value: _myPrefecture,
@@ -817,32 +848,23 @@ class _RegisterUserState extends State<RegisterUser> {
                                 onChanged: (value) {
                                   setState(() {
                                     _myPrefecture = value;
-                                    //print(_myBldGrp.toString());
+                                    print(
+                                        'Prefecture value : ${_myPrefecture.toString()}');
+                                    print('prefID : ${stateDropDownValues.indexOf(value).toString()}');
+                                    _prefId = stateDropDownValues.indexOf(value);
                                   });
                                 },
-                                dataSource: [
-                                  {
-                                    "display": "名古屋市",
-                                    "value": "名古屋市",
-                                  },
-                                  {
-                                    "display": "豊橋市",
-                                    "value": "豊橋市",
-                                  },
-                                  {
-                                    "display": "岡崎市",
-                                    "value": "岡崎市",
-                                  },
-                                ],
+                                dataSource: stateDropDownValues,
+                                isList: true,
                                 textField: 'display',
-                                valueField: 'value',
+                                valueField: 'value'
                               ),
                             ),
                           ),
                           Form(
                             key: _cityKey,
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.39,
                               child: DropDownFormField(
                                 hintText: '市 *',
                                 value: _myCity,
@@ -892,7 +914,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             child: TextFormField(
                               //enableInteractiveSelection: false,
                               autofocus: false,
-                              controller: buildingNameController,
+                              controller: userAreaController,
                               decoration: new InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
@@ -920,7 +942,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           child: TextFormField(
                             //enableInteractiveSelection: false,
                             autofocus: false,
-                            controller: userAreaController,
+                            controller: buildingNameController,
                             decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
@@ -1044,7 +1066,7 @@ class _RegisterUserState extends State<RegisterUser> {
   // Get current address from Latitude Longitude
   _getCurrentLocation() {
     showProgressDialog();
-    geolocator
+    geoLocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
@@ -1058,7 +1080,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   _getAddressFromLatLng() async {
     try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
           _currentPosition.latitude, _currentPosition.longitude);
 
       currentLocationPlaceMark = p[0];
@@ -1106,12 +1128,6 @@ class _RegisterUserState extends State<RegisterUser> {
     int ageOfUser = int.tryParse(userAge);
     print('User Age : $ageOfUser');
 
-    var userGender = _myGender.toString();
-    var userOccupation = _myOccupation.toString();
-    var userAddressType = _myAddressInputType.toString();
-    var placeForMassage = _myCategoryPlaceForMassage.toString();
-    var userCity = _myCity.toString();
-    var userPrefecture = _myPrefecture.toString();
     var buildingName = buildingNameController.text.toString();
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
@@ -1166,7 +1182,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user DOB validation
-    if (userDOB.isEmpty || userDOB == null) {
+    if (userDOB == null || userDOB.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
@@ -1182,7 +1198,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user gender validation
-    if (userGender.isEmpty || userGender == null) {
+    if (_myGender == null || _myGender.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1198,7 +1214,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user Occupation validation
-    if (userOccupation.isEmpty || userOccupation == null) {
+    if (_myOccupation == null || _myOccupation.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1293,7 +1309,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (password.length > 14 || confirmPassword.length > 14) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
+        content: Text('パスワードは14文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1351,8 +1367,24 @@ class _RegisterUserState extends State<RegisterUser> {
       return;
     }
 
+    if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な住所の種類を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     // user place for massage validation
-    if (placeForMassage.isEmpty || placeForMassage == null) {
+    if (_myCategoryPlaceForMassage == null ||
+        _myCategoryPlaceForMassage.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な登録する地点のカテゴリーを選択してください。',
@@ -1368,7 +1400,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user perfecture validation
-    if (userPrefecture.isEmpty || userPrefecture == null) {
+    if (_myPrefecture == null || _myPrefecture.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1384,7 +1416,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user city validation
-    if (userCity.isEmpty || userCity == null) {
+    if (_myCity == null || _myCity.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1400,7 +1432,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user area validation
-    if (userArea.isEmpty || userArea == null) {
+    if (userArea == null || userArea.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な都、県選 を入力してください。',
@@ -1415,7 +1447,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return;
     }
     // user building name validation
-    if (buildingName.isEmpty || buildingName == null) {
+    if (buildingName == null || buildingName.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1431,7 +1463,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // room number validation
-    if (roomNumber.isEmpty || roomNumber == null) {
+    if (roomNumber == null || roomNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な部屋番号を入力してください。',
@@ -1447,7 +1479,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // Getting user GPS Address value
-    if (userAddressType.contains('現在地を取得する') && _isGPSLocation) {
+    if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
       HealingMatchConstants.userAddress = userGPSAddress;
       print('GPS Address : ${HealingMatchConstants.userAddress}');
     } else if (HealingMatchConstants.userAddress.isEmpty) {
@@ -1457,12 +1489,12 @@ class _RegisterUserState extends State<RegisterUser> {
           ',' +
           userArea +
           ',' +
-          userCity +
+          _myCity +
           ',' +
-          userPrefecture;
+          _myPrefecture;
 
       List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
+          await geoLocator.placemarkFromAddress(address);
       userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
       HealingMatchConstants.currentLatitude = addressPosition.latitude;
@@ -1498,14 +1530,14 @@ class _RegisterUserState extends State<RegisterUser> {
         "userName": userName,
         "dob": userDOB,
         "age": userAge,
-        "userOccupation": userOccupation,
+        "userOccupation": _myOccupation,
         "phoneNumber": userPhoneNumber,
         "email": email,
-        "gender": userGender,
+        "gender": _myGender,
         "password": password,
         "password_confirmation": confirmPassword,
         "isTherapist": "0",
-        "userPlaceForMassage": placeForMassage,
+        "userPlaceForMassage": _myCategoryPlaceForMassage,
         "address": HealingMatchConstants.userAddress,
         "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
         "city": HealingMatchConstants.serviceUserCity,
@@ -1524,7 +1556,8 @@ class _RegisterUserState extends State<RegisterUser> {
       final serviceUserDetails =
           ServiceUserRegisterModel.fromJson(userDetailsResponse);
       print('Response Json : ${serviceUserDetails.toJson()}');
-      print('Response Fields : ${serviceUserDetails.data.uploadProfileImgUrl}');
+      print(
+          'Response Fields : ${serviceUserDetails.address.buildingName} \n ${serviceUserDetails.address.area}');
     } catch (e) {
       print(e.toString());
     }
@@ -1537,6 +1570,16 @@ class _RegisterUserState extends State<RegisterUser> {
           textToBeDisplayed: '${HealingMatchConstants.progressText}',
           dismissAfter: Duration(seconds: 5));
     } else {
+      /*if (HealingMatchConstants.progressText.contains('府県データを取得中。。。')) {
+        _progressDialog.showProgressDialog(context,
+            textToBeDisplayed: '${HealingMatchConstants.progressText}',
+            dismissAfter: Duration(seconds: 5));
+      } else {
+        HealingMatchConstants.progressText = '登録中...';
+        _progressDialog.showProgressDialog(context,
+            textToBeDisplayed: '${HealingMatchConstants.progressText}',
+            dismissAfter: Duration(seconds: 5));
+      }*/
       HealingMatchConstants.progressText = '登録中...';
       _progressDialog.showProgressDialog(context,
           textToBeDisplayed: '${HealingMatchConstants.progressText}',
@@ -1579,7 +1622,7 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _imgFromCamera() async {
-    File image = await ImagePicker.pickImage(
+    final image = await ImagePicker().getImage(
         source: ImageSource.camera,
         imageQuality: 50,
         preferredCameraDevice: CameraDevice.front);
@@ -1591,12 +1634,33 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _imgFromGallery() async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final image = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       _profileImage = image;
     });
     print('image path : ${_profileImage.path}');
+  }
+
+  _getStates() async {
+    // showProgressDialog();
+    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+      states = StatesListResponseModel.fromJson(json.decode(response.body));
+      print(states.toJson());
+      for (var stateList in states.prefectureJpData) {
+        setState(() {
+          stateDropDownValues.add(stateList.prefectureJa);
+        });
+      }
+    });
+    //hideProgressDialog();
+  }
+
+  // CityList cityResponse;
+  _getCityDropDown() async {
+    String url = 'http://106.51.49.160:9094/api/user/cityJp';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    var value = '{"prefecture_id": 1}';
   }
 }
