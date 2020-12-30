@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
-
 
 class UserLogin extends StatefulWidget {
   @override
@@ -23,12 +23,14 @@ class _UserLoginState extends State<UserLogin> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 5,
+                    top: MediaQuery.of(context).size.height / 7,
                     right: MediaQuery.of(context).size.height / 25,
                     left: MediaQuery.of(context).size.height / 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SvgPicture.asset('assets/images_gps/logo.svg',
+                        height: 100, width: 140),
                     Center(
                         child: Text('サービス利用者のログイン',
                             style: TextStyle(
@@ -161,49 +163,56 @@ class _UserLoginState extends State<UserLogin> {
                       children: [
                         InkWell(
                             onTap: () {
-                              /*  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MyHomePage()));*/
+                              //_initiateLineLogin();
+                              print('Line login');
                             },
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.black12,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage('assets/images_gps/line.jpg'),
-                              ),
-                            )),
+                            child: Container(
+                                width: 45.0,
+                                height: 45.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: new AssetImage(
+                                        'assets/images_gps/line.jpg'),
+                                  ),
+                                ))),
                         SizedBox(
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Colors.black12,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage('assets/images_gps/apple2.jpg'),
-                              ),
-                            )),
+                            onTap: () {
+                              print('Apple login');
+                              //_initiateAppleSignIn();
+                            },
+                            child: Container(
+                                width: 45.0,
+                                height: 45.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: new AssetImage(
+                                        'assets/images_gps/apple2.jpg'),
+                                  ),
+                                ))),
                       ],
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToServiceUserRegistration(context);
+                        NavigationRouter.switchToServiceUserRegistration(
+                            context);
                       },
                       child: Text(
                         '新規の方はこちら',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.w100),
                       ),
                     ),
                   ],
@@ -218,14 +227,10 @@ class _UserLoginState extends State<UserLogin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ResetPassword()));*/
+                        NavigationRouter.switchToProviderLogin(context);
                       },
                       child: Text(
-                        'サービス利用者のログイン',
+                        'セラピストのログイン',
                         style: TextStyle(
 //                            decoration: TextDecoration.underline,
                             ),

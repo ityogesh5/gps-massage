@@ -17,9 +17,15 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/relaxationDropdown';
   static const String TREATMENT_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/osteopathicDropdown';
+  static const String REGISTER_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/registerUser';
+
   // DOMAIN URL'S
   //static const String DOMAIN_BASE_URL = "https://michishirube.rinclick.com/api";
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
+
+  //Common string
+  static String progressText = '';
 
   //Register Service User Screen Constants
   static String serviceUserName = '';
@@ -35,7 +41,9 @@ class HealingMatchConstants {
   static String serviceUserBuildingName = '';
   static String serviceUserArea = '';
   static int serviceUserRoomNumber = 0; //gpsAddress
-  static String gpsAddress = '';
+  static String userAddress = '';
+  static double currentLatitude = 0.0;
+  static double currentLongitude = 0.0;
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
