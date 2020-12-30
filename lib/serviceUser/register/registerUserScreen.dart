@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -309,7 +310,6 @@ class _RegisterUserState extends State<RegisterUser> {
                                   color: Colors.grey, width: 1.0),
                               borderRadius: BorderRadius.circular(0),
                             )),
-                        // validator: (value) => _validateEmail(value),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -1117,6 +1117,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     print('Room number : $userRoomNumber');
+    int phoneNumber = int.tryParse(userPhoneNumber);
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
 
@@ -1215,7 +1216,8 @@ class _RegisterUserState extends State<RegisterUser> {
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
-        userPhoneNumber.isEmpty) {
+        userPhoneNumber.isEmpty ||
+        userPhoneNumber.length < 11) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('11文字以上の電話番号を入力してください。',
@@ -1482,8 +1484,17 @@ class _RegisterUserState extends State<RegisterUser> {
 
     //Calling Service User API for Register
     try {
-      //Map<String, String> headers = {'Content-Type': 'application/json'};
-      final userDetails = {
+      //MultiPart request
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(HealingMatchConstants.REGISTER_USER_URL),
+      );
+      Map<String, String> headers = {"Content-type": "multipart/form-data"};
+      final profileImage = await http.MultipartFile.fromPath(
+          'uploadProfileImgUrl', _profileImage.path);
+      request.files.add(profileImage);
+      request.headers.addAll(headers);
+      request.fields.addAll({
         "userName": userName,
         "dob": userDOB,
         "age": userAge,
@@ -1498,16 +1509,22 @@ class _RegisterUserState extends State<RegisterUser> {
         "address": HealingMatchConstants.userAddress,
         "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
         "city": HealingMatchConstants.serviceUserCity,
-        "uploadProfileImgUrl": _profileImage.path,
         "buildingName": buildingName,
         "area": userArea,
         "userRoomNumber": roomNumber,
         "lat": HealingMatchConstants.currentLatitude.toString(),
         "lon": HealingMatchConstants.currentLongitude.toString()
-      };
-      var response = await http.post(HealingMatchConstants.REGISTER_USER_URL,
-          /*headers: headers,*/ body: userDetails);
-      print('Response status code && body : ${response.statusCode} && ${response.body}');
+      });
+
+      final userDetailsRequest = await request.send();
+      print("This is request : ${userDetailsRequest.request}");
+      final response = await http.Response.fromStream(userDetailsRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
+      final Map userDetailsResponse = json.decode(response.body);
+      final serviceUserDetails =
+          ServiceUserRegisterModel.fromJson(userDetailsResponse);
+      print('Response Json : ${serviceUserDetails.toJson()}');
+      print('Response Fields : ${serviceUserDetails.data.uploadProfileImgUrl}');
     } catch (e) {
       print(e.toString());
     }
@@ -1570,7 +1587,7 @@ class _RegisterUserState extends State<RegisterUser> {
     setState(() {
       _profileImage = image;
     });
-    print('image path : ${_profileImage.uri}');
+    print('image path : ${_profileImage.path}');
   }
 
   _imgFromGallery() async {
@@ -1580,6 +1597,6 @@ class _RegisterUserState extends State<RegisterUser> {
     setState(() {
       _profileImage = image;
     });
-    print('image path : ${_profileImage.uri}');
+    print('image path : ${_profileImage.path}');
   }
 }

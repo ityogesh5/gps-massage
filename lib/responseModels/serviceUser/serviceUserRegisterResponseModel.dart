@@ -2,14 +2,19 @@ class ServiceUserRegisterModel {
   String status;
   Data data;
   Address address;
+  CertificationUpload certificationUpload;
 
-  ServiceUserRegisterModel({this.status, this.data, this.address});
+  ServiceUserRegisterModel(
+      {this.status, this.data, this.address, this.certificationUpload});
 
   ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     address =
     json['address'] != null ? new Address.fromJson(json['address']) : null;
+    certificationUpload = json['certificationUpload'] != null
+        ? new CertificationUpload.fromJson(json['certificationUpload'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -20,6 +25,9 @@ class ServiceUserRegisterModel {
     }
     if (this.address != null) {
       data['address'] = this.address.toJson();
+    }
+    if (this.certificationUpload != null) {
+      data['certificationUpload'] = this.certificationUpload.toJson();
     }
     return data;
   }
@@ -165,6 +173,31 @@ class Address {
     data['userId'] = this.userId;
     data['createdUser'] = this.createdUser;
     data['updatedUser'] = this.updatedUser;
+    data['updatedAt'] = this.updatedAt;
+    data['createdAt'] = this.createdAt;
+    return data;
+  }
+}
+
+class CertificationUpload {
+  int id;
+  int userId;
+  String updatedAt;
+  String createdAt;
+
+  CertificationUpload({this.id, this.userId, this.updatedAt, this.createdAt});
+
+  CertificationUpload.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    updatedAt = json['updatedAt'];
+    createdAt = json['createdAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
     data['updatedAt'] = this.updatedAt;
     data['createdAt'] = this.createdAt;
     return data;
