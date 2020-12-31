@@ -68,19 +68,16 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
+                          labelText: HealingMatchConstants.loginPhoneNumber,
                           hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
@@ -94,14 +91,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       obscureText: passwordVisibility,
                       decoration: new InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: passwordVisibility
@@ -115,6 +108,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.grey, fontSize: 13),
+                          labelText: HealingMatchConstants.loginPassword,
                           hintText: HealingMatchConstants.loginPassword,
                           fillColor: Colors.grey[200]),
                     ),

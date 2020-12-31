@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'OTPScreen/otp_field.dart';
@@ -87,30 +88,27 @@ class _ChangePasswordState extends State<ChangePassword> {
                       height: 25,
                     ),
                     Container(
-                      height: 60,
+                      height: 50,
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 5.0,
                       ),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [
-                                0.3,
-                                1
-                              ],
-                              colors: [
-                                Colors.grey[200],
-                                Colors.grey[200],
-                              ]),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10))),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [
+                              0.3,
+                              1
+                            ],
+                            colors: [
+                              Colors.grey[200],
+                              Colors.grey[200],
+                            ]),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: OTPTextField(
                         length: 4,
                         keyboardType: TextInputType.number,
@@ -135,15 +133,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                       maxLength: 14,
                       controller: createPassword,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           counterText: "",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: createPasswordVisibility
@@ -158,7 +153,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "新しいパスワード *",
+                          labelText:
+                              HealingMatchConstants.changePasswordNewpass,
+                          hintText: HealingMatchConstants.changePasswordNewpass,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -171,15 +168,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                       controller: confirmpassword,
                       maxLength: 14,
                       decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           counterText: "",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: confirmPasswordVisibility
@@ -194,7 +188,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "新しいパスワード(確認) *",
+                          labelText:
+                              HealingMatchConstants.changePasswordConfirmpass,
+                          hintText:
+                              HealingMatchConstants.changePasswordConfirmpass,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(

@@ -10,12 +10,13 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api/user";
+      "http://106.51.49.160:9094/api";
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/register';
   static const String STATE_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/prefectureJp';
-  static const String CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cityJp';
+      ON_PREMISE_USER_BASE_URL + '/prefecture' + '/getAllPrefecture';
+  static const String CITY_PROVIDER_URL =
+      ON_PREMISE_USER_BASE_URL + '/cities' + '/getCitieByPrefectureId';
   static const String ESTHETIC_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/estheticDropdown';
   static const String RELAXATION_PROVIDER_URL =
@@ -26,7 +27,7 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/registerUser';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
       ON_PREMISE_USER_BASE_URL + '/bannerUpload';
-      
+
   //Common string
   static String progressText = '';
 
@@ -54,8 +55,8 @@ class HealingMatchConstants {
 
   //LoginServiceProvider
   static const String loginText = 'セラピストのログイン';
-  static const String loginPhoneNumber = '電話番号';
-  static const String loginPassword = 'パスワード';
+  static const String loginPhoneNumber = '電話番号 *';
+  static const String loginPassword = 'パスワード *';
   static const String loginForgetPassword = 'パスワードを忘れた方はこちら';
   static const String loginButton = 'ログイン';
   static const String loginNewRegistrationText = '新規の方はこちら';
@@ -117,6 +118,12 @@ class HealingMatchConstants {
   static const String chooseServiceAddTextFormField = "入力してください";
   static const String chooseServiceAddtoDropdownButton = "追加";
 
+  //Forget Password
+  static const String forgetPasswordPhn = "電話番号 *";
+
+  //Change Password
+  static const String changePasswordNewpass = "新しいパスワード *";
+  static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
   //FontStyle
   static const headersText = TextStyle(
     fontFamily: 'Open Sans',
