@@ -690,8 +690,7 @@ class _RegistrationSecondPageState
   }
 }
 
-
-//Class for the Banner Image Upload 
+//Class for the Banner Image Upload
 class BannerImageUpload extends StatefulWidget {
   @override
   _BannerImageUploadState createState() => _BannerImageUploadState();
@@ -701,6 +700,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
   List<Asset> images = List<Asset>();
   String error = 'No Error Dectected';
   List<File> files = List<File>();
+  PickedFile _profileImage;
 
   @override
   void initState() {
@@ -714,7 +714,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 5,
-        enableCamera: true,
+        enableCamera: false,
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
@@ -735,7 +735,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     if (!mounted) return;
 
     setState(() {
-      //if Back was pressed 
+      //if Back was pressed
       if (error != "The user has cancelled the selection") {
         images = resultList;
       }
@@ -802,6 +802,48 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
         }),
       ),
     );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('プロフィール画像を選択してください。'),
+                      onTap: () {
+                        loadAssets();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('プロフィール写真を撮ってください。'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _imgFromCamera() async {
+    final image = await ImagePicker().getImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+        preferredCameraDevice: CameraDevice.front);
+
+    setState(() {
+      _profileImage = image;
+    });
+    print('image path : ${_profileImage.path}');
   }
 
   //Get the file Path of the Assets Selected

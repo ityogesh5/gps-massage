@@ -226,7 +226,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   final _controller10 = new TextEditingController();
 
   bool _validate = false;
-  File _profileImage;
+  PickedFile _profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +301,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   shape: BoxShape.circle,
                                   image: new DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: FileImage(_profileImage),
+                                    image: FileImage(File(_profileImage.path)),
                                   ),
                                 )),
                           )
@@ -1671,14 +1671,14 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 children: <Widget>[
                   new ListTile(
                       leading: new Icon(Icons.photo_library),
-                      title: new Text('Photo Library'),
+                      title: new Text('プロフィール画像を選択してください。'),
                       onTap: () {
                         _imgFromGallery();
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
+                    title: new Text('プロフィール写真を撮ってください。'),
                     onTap: () {
                       _imgFromCamera();
                       Navigator.of(context).pop();
@@ -1692,21 +1692,25 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   }
 
   _imgFromCamera() async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.camera, imageQuality: 50);
+    final image = await ImagePicker().getImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+        preferredCameraDevice: CameraDevice.front);
 
     setState(() {
-      _image = image;
+      _profileImage = image;
     });
+    print('image path : ${_profileImage.path}');
   }
 
   _imgFromGallery() async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final image = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
-      _image = image;
+      _profileImage = image;
     });
+    print('image path : ${_profileImage.path}');
   }
 
   _getState() async {
