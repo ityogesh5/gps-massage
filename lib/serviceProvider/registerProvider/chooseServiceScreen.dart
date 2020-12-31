@@ -1363,12 +1363,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
   getEstheticList() async {
     await http
-        .post(HealingMatchConstants.ESTHETIC_PROVIDER_URL)
+        .get(HealingMatchConstants.ESTHETIC_PROVIDER_URL)
         .then((response) {
       estheticListModel =
           EstheticDropDownModel.fromJson(json.decode(response.body));
       print(estheticListModel.toJson());
-      for (var estheticList in estheticListModel.estheticData) {
+      for (var estheticList in estheticListModel.data) {
         estheticDropDownValues.add(estheticList.value);
         print(estheticDropDownValues);
       }
@@ -1381,12 +1381,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
   getRelaxationList() async {
     await http
-        .post(HealingMatchConstants.RELAXATION_PROVIDER_URL)
+        .get(HealingMatchConstants.RELAXATION_PROVIDER_URL)
         .then((response) {
       relaxationDropDownModel =
           RelaxationDropDownModel.fromJson(json.decode(response.body));
       print(relaxationDropDownModel.toJson());
-      for (var relaxationList in relaxationDropDownModel.relaxationData) {
+      for (var relaxationList in relaxationDropDownModel.data) {
         relaxationDropDownValues.add(relaxationList.value);
         print(relaxationDropDownValues);
       }
@@ -1399,12 +1399,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
   getTreatmentList() async {
     await http
-        .post(HealingMatchConstants.TREATMENT_PROVIDER_URL)
+        .get(HealingMatchConstants.TREATMENT_PROVIDER_URL)
         .then((response) {
       treatmentDropDownModel =
           TreatmentDropDownModel.fromJson(json.decode(response.body));
       print(treatmentDropDownModel.toJson());
-      for (var treatmentList in treatmentDropDownModel.osteopathicData) {
+      for (var treatmentList in treatmentDropDownModel.data) {
         treatmentDropDownValues.add(treatmentList.value);
         print(treatmentDropDownValues);
       }

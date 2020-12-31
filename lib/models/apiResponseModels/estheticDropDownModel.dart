@@ -1,15 +1,15 @@
 class EstheticDropDownModel {
   String status;
-  List<EstheticData> estheticData;
+  List<Data> data;
 
-  EstheticDropDownModel({this.status, this.estheticData});
+  EstheticDropDownModel({this.status, this.data});
 
   EstheticDropDownModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['estheticData'] != null) {
-      estheticData = new List<EstheticData>();
-      json['estheticData'].forEach((v) {
-        estheticData.add(new EstheticData.fromJson(v));
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
       });
     }
   }
@@ -17,34 +17,28 @@ class EstheticDropDownModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.estheticData != null) {
-      data['estheticData'] = this.estheticData.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class EstheticData {
+class Data {
   int id;
   String value;
-  String createdAt;
-  String updatedAt;
 
-  EstheticData({this.id, this.value, this.createdAt, this.updatedAt});
+  Data({this.id, this.value});
 
-  EstheticData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     value = json['value'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['value'] = this.value;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }

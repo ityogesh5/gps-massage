@@ -10,22 +10,22 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api/user";
+      "http://106.51.49.160:9094/api";
   static const String REGISTER_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/register';
+      ON_PREMISE_USER_BASE_URL + '/user/register';
   static const String STATE_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/prefectureJp';
   static const String CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cityJp';
   static const String ESTHETIC_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/estheticDropdown';
+      ON_PREMISE_USER_BASE_URL + '/esthetic/getAllEsthetic';
   static const String RELAXATION_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/relaxationDropdown';
+      ON_PREMISE_USER_BASE_URL + '/relaxation/getAllRelaxation';
   static const String TREATMENT_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/osteopathicDropdown';
+      ON_PREMISE_USER_BASE_URL + '/orteopathic/getAllOsteopathic';
   static const String REGISTER_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/registerUser';
+      ON_PREMISE_USER_BASE_URL + '/user/registerUser';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
-      ON_PREMISE_USER_BASE_URL + '/bannerUpload';
+      ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
       
   //Common string
   static String progressText = '';

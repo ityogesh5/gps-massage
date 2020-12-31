@@ -1,15 +1,15 @@
 class RelaxationDropDownModel {
   String status;
-  List<RelaxationData> relaxationData;
+  List<Data> data;
 
-  RelaxationDropDownModel({this.status, this.relaxationData});
+  RelaxationDropDownModel({this.status, this.data});
 
   RelaxationDropDownModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['relaxationData'] != null) {
-      relaxationData = new List<RelaxationData>();
-      json['relaxationData'].forEach((v) {
-        relaxationData.add(new RelaxationData.fromJson(v));
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
       });
     }
   }
@@ -17,35 +17,28 @@ class RelaxationDropDownModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.relaxationData != null) {
-      data['relaxationData'] =
-          this.relaxationData.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class RelaxationData {
+class Data {
   int id;
   String value;
-  String createdAt;
-  String updatedAt;
 
-  RelaxationData({this.id, this.value, this.createdAt, this.updatedAt});
+  Data({this.id, this.value});
 
-  RelaxationData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     value = json['value'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['value'] = this.value;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }
