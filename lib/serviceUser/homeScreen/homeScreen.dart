@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/carouselSliders.dart';
 
 class ServiceUserHomeScreen extends StatefulWidget {
   @override
@@ -12,7 +13,8 @@ class _ServiceUserHomeScreenScreenState extends State<ServiceUserHomeScreen> {
     return MaterialApp(
       title: 'ヒーリングマッチ',
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      //home: HomeScreen(),
+      home: CarouselDemo(),
     );
   }
 }

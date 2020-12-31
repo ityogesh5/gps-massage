@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/cityListResponseModel.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -90,10 +91,11 @@ class _RegisterUserState extends State<RegisterUser> {
   bool _changeProgressText = false;
 
   List<dynamic> stateDropDownValues = List();
-  List<dynamic> cityDropDownValues = List<dynamic>();
+  List<dynamic> cityDropDownValues = List();
 
   StatesListResponseModel states;
-  int _prefId;
+  CitiesListResponseModel cities;
+  var _prefId;
 
   //CityListResponseModel city;
 
@@ -838,27 +840,33 @@ class _RegisterUserState extends State<RegisterUser> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: DropDownFormField(
-                                hintText: '府県 *',
-                                value: _myPrefecture,
-                                onSaved: (value) {
-                                  setState(() {
-                                    _myPrefecture = value;
-                                  });
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _myPrefecture = value;
-                                    print(
-                                        'Prefecture value : ${_myPrefecture.toString()}');
-                                    print('prefID : ${stateDropDownValues.indexOf(value).toString()}');
-                                    _prefId = stateDropDownValues.indexOf(value);
-                                  });
-                                },
-                                dataSource: stateDropDownValues,
-                                isList: true,
-                                textField: 'display',
-                                valueField: 'value'
-                              ),
+                                  hintText: '府県 *',
+                                  value: _myPrefecture,
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _myPrefecture = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _myPrefecture = value;
+                                      print(
+                                          'Prefecture value : ${_myPrefecture.toString()}');
+                                      HealingMatchConstants.progressText =
+                                          '府県の市のデータを取得中。。。';
+                                      _prefId =
+                                          stateDropDownValues.indexOf(value) +
+                                              1;
+                                      print('prefID : ${_prefId.toString()}');
+                                      cityDropDownValues.clear();
+                                      _myCity = '';
+                                      _getCities(_prefId);
+                                    });
+                                  },
+                                  dataSource: stateDropDownValues,
+                                  isList: true,
+                                  textField: 'display',
+                                  valueField: 'value'),
                             ),
                           ),
                           Form(
@@ -866,36 +874,23 @@ class _RegisterUserState extends State<RegisterUser> {
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: DropDownFormField(
-                                hintText: '市 *',
-                                value: _myCity,
-                                onSaved: (value) {
-                                  setState(() {
-                                    _myCity = value;
-                                  });
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _myCity = value;
-                                    //print(_myBldGrp.toString());
-                                  });
-                                },
-                                dataSource: [
-                                  {
-                                    "display": "名古屋市",
-                                    "value": "名古屋市",
+                                  hintText: '市 *',
+                                  value: _myCity,
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _myCity = value;
+                                    });
                                   },
-                                  {
-                                    "display": "豊橋市",
-                                    "value": "豊橋市",
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _myCity = value;
+                                      //print(_myBldGrp.toString());
+                                    });
                                   },
-                                  {
-                                    "display": "一宮市",
-                                    "value": "一宮市",
-                                  },
-                                ],
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
+                                  dataSource: cityDropDownValues,
+                                  isList: true,
+                                  textField: 'display',
+                                  valueField: 'value'),
                             ),
                           ),
                         ],
@@ -1570,7 +1565,7 @@ class _RegisterUserState extends State<RegisterUser> {
           textToBeDisplayed: '${HealingMatchConstants.progressText}',
           dismissAfter: Duration(seconds: 5));
     } else {
-      /*if (HealingMatchConstants.progressText.contains('府県データを取得中。。。')) {
+      if (HealingMatchConstants.progressText.contains('府県の市のデータを取得中。。。')) {
         _progressDialog.showProgressDialog(context,
             textToBeDisplayed: '${HealingMatchConstants.progressText}',
             dismissAfter: Duration(seconds: 5));
@@ -1579,11 +1574,11 @@ class _RegisterUserState extends State<RegisterUser> {
         _progressDialog.showProgressDialog(context,
             textToBeDisplayed: '${HealingMatchConstants.progressText}',
             dismissAfter: Duration(seconds: 5));
-      }*/
-      HealingMatchConstants.progressText = '登録中...';
+      }
+      /*HealingMatchConstants.progressText = '登録中...';
       _progressDialog.showProgressDialog(context,
           textToBeDisplayed: '${HealingMatchConstants.progressText}',
-          dismissAfter: Duration(seconds: 5));
+          dismissAfter: Duration(seconds: 5));*/
     }
   }
 
@@ -1644,23 +1639,31 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _getStates() async {
-    // showProgressDialog();
-    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+    await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
       print(states.toJson());
-      for (var stateList in states.prefectureJpData) {
+      for (var stateList in states.data) {
         setState(() {
           stateDropDownValues.add(stateList.prefectureJa);
         });
       }
     });
-    //hideProgressDialog();
   }
 
   // CityList cityResponse;
-  _getCityDropDown() async {
-    String url = 'http://106.51.49.160:9094/api/user/cityJp';
-    Map<String, String> headers = {"Content-type": "application/json"};
-    var value = '{"prefecture_id": 1}';
+  _getCities(var prefId) async {
+    showProgressDialog();
+    await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
+        body: {'prefecture_id': prefId.toString()}).then((response) {
+      cities = CitiesListResponseModel.fromJson(json.decode(response.body));
+      print(cities.toJson());
+      for (var cityList in cities.data) {
+        setState(() {
+          cityDropDownValues.add(cityList.cityJa);
+        });
+      }
+      hideProgressDialog();
+      print('Response City list : ${response.body}');
+    });
   }
 }

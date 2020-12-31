@@ -10,12 +10,12 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api/user";
+      "http://106.51.49.160:9094/api";
   static const String REGISTER_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/registerUser';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
 
-  static const STATE_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/prefectureJp';
-  static const CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cityJp';
+  static const STATE_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/prefecture' + '/getAllPrefecture';
+  static const CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cities' + '/getCitieByPrefectureId';
 
   //Common string
   static String progressText = '';
