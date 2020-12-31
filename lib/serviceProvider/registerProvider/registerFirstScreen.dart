@@ -7,11 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
 
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
 import 'package:gps_massageapp/utils/pallete.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,7 +120,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   ListItem _selectedItem8;
 
   List<dynamic> stateDropDownValues = List<dynamic>();
+  List<dynamic> cityDropDownValues = List<dynamic>();
   StatesList states;
+
   final statekey = new GlobalKey<FormState>();
   final citykey = new GlobalKey<FormState>();
   var _mystate, _mycity;
@@ -153,7 +157,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     _dropdownMenuItems8 = buildDropDownMenuItems(_address);
     _dropdownMenuItems9 = buildDropDownMenuItems(_dropdownItems);
     _mystate = '';
+    _mycity = '';
     _getState();
+    _getCityDropDown();
     /*  _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems1[0].value;
     _selectedItem2 = _dropdownMenuItems2[0].value;
@@ -1152,7 +1158,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     _mycity = value;
                                   });
                                 },
-                                dataSource: stateDropDownValues,
+                                dataSource: cityDropDownValues,
                                 islist: true,
                                 textField: 'display',
                                 valueField: 'value',
@@ -1707,11 +1713,45 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesList.fromJson(json.decode(response.body));
       // print(states.toJson());
+
       for (var stateList in states.prefectureJpData) {
         stateDropDownValues.add(stateList.prefectureJa);
-        // print(stateDropDownValues);
       }
     });
+  }
+
+  // CityList cityResponse;
+  _getCityDropDown() async {
+    String url = 'http://106.51.49.160:9094/api/user/cityJp';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    var value = '{"prefecture_id": 1}';
+    Response response = await post(url, headers: headers, body: value);
+
+    if (response.statusCode == 200) {
+      // var responseData = json.decode(response.body);
+      // final Map city = responseData;
+      // cityResponse = CityList.fromJson(city);
+
+      CityList cityResponse = CityList.fromJson(json.decode(response.body));
+      print(response.statusCode);
+      // city = CityList.fromJson(json.decode(response.body));
+      // print(city);
+      // print(cityResponse.toJson());
+      for (var cityList in cityResponse.cityJpData) {
+        cityDropDownValues.add(cityList.cityJa);
+        print(cityDropDownValues);
+      }
+    }
+    // this API passes back the id of the new item added to the body
+    // String body = response.body;
+
+    // {
+    //   "title": "Hello",
+    //   "body": "body text",
+    //   "userId": 1,
+
+    //   "id": 101
+    //  }
   }
 }
 
