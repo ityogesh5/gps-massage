@@ -13,20 +13,21 @@ class HealingMatchConstants {
       "http://106.51.49.160:9094/api";
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/register';
-  static const String STATE_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/prefectureJp';
-  static const String CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cityJp';
   static const String ESTHETIC_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/esthetic/getAllEsthetic';
   static const String RELAXATION_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/relaxation/getAllRelaxation';
   static const String TREATMENT_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/orteopathic/getAllOsteopathic';
-  static const String REGISTER_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/registerUser';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
       ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
       
+  static const String REGISTER_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
+
+  static const STATE_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/prefecture' + '/getAllPrefecture';
+  static const CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cities' + '/getCitieByPrefectureId';
+
   //Common string
   static String progressText = '';
 
