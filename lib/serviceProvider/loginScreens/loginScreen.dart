@@ -250,22 +250,31 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),
                         InkWell(
                             onTap: () {
-                              print('Apple login');
-                              //_initiateAppleSignIn();
+                              //_initiateLineLogin();
+                              print('Line login');
                             },
                             child: Container(
-                                width: 45.0,
-                                height: 45.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: AssetImage('assets/images_gps/apple2.jpg'),
-                                  ),
-                                ))),
-                              //_initiateLineLogin();
-                            /*   print('Line login');
+                              width: 45.0,
+                              height: 45,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black38),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                  width: 20.0,
+                                  height: 20,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: new AssetImage(
+                                          'assets/images_gps/apple2.jpg'),
+                                    ),
+                                  )),
+                            )),
+                        //_initiateLineLogin();
+                        /*   print('Line login');
                             },
                             child: Container(
                               width: 45.0,
@@ -310,25 +319,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
                   ],
                 ),
               ),
-
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 1.1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        NavigationRouter.switchToUserLogin(context);
-                      },
-                      child: Text(
-                        HealingMatchConstants.loginServiceUser,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-//              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
             ],
           ),
         ),

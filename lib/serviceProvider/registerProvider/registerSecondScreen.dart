@@ -36,24 +36,12 @@ class _RegistrationSecondPageState
   var identificationverify, qualification, bankname, accountnumber;
   ProgressDialog _progressDialog = ProgressDialog();
 
-  List<dynamic> stateDropDownValues = List<dynamic>();
-  List<dynamic> cityDropDownValues = List<dynamic>();
-  StatesList states;
-  CityList city;
-  final statekey = new GlobalKey<FormState>();
-  final citykey = new GlobalKey<FormState>();
-  var _mystate, _mycity;
-
   void initState() {
     super.initState();
     identificationverify = '';
     qualification = '';
     bankname = '';
     accountnumber = '';
-    _mystate = '';
-    _mycity;
-    _getState();
-    _getCityDropDown();
   }
 
   @override
@@ -542,7 +530,7 @@ class _RegistrationSecondPageState
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.38,
-                              color: Colors.transparent,
+                              color: Colors.grey[200],
                               child: DropDownFormField(
                                 titleText: null,
                                 hintText: readonly
@@ -609,87 +597,6 @@ class _RegistrationSecondPageState
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Form(
-                        key: statekey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              // height: containerHeight,
-                              margin: EdgeInsets.all(0.0),
-                              width: MediaQuery.of(context).size.width * 0.33,
-                              color: Colors.grey[200],
-
-                              child: DropDownFormField(
-                                titleText: null,
-                                hintText: readonly ? _mystate : 'state',
-                                onSaved: (value) {
-                                  setState(() {
-                                    _mystate = value;
-                                  });
-                                },
-                                value: _mystate,
-                                onChanged: (value) {
-                                  print(
-                                      'prefID : ${stateDropDownValues.indexOf(value).toString()}');
-                                  setState(() {
-                                    _mystate = value;
-                                  });
-                                },
-                                dataSource: stateDropDownValues,
-                                isList: true,
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Form(
-                        key: citykey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              // height: containerHeight,
-                              margin: EdgeInsets.all(0.0),
-                              width: MediaQuery.of(context).size.width * 0.33,
-                              color: Colors.grey[200],
-
-                              child: DropDownFormField(
-                                titleText: null,
-                                hintText: readonly ? _mycity : 'city',
-                                onSaved: (value) {
-                                  setState(() {
-                                    _mycity = value;
-                                  });
-                                },
-                                value: _mycity,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _mycity = value;
-                                  });
-                                },
-                                dataSource: cityDropDownValues,
-                                isList: true,
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
                   ),
                   Container(
                     width: double.infinity,
@@ -771,51 +678,6 @@ class _RegistrationSecondPageState
       return;
     }
     NavigationRouter.switchToProviderOtpScreen(context);
-  }
-
-  _getState() async {
-    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
-      states = StatesList.fromJson(json.decode(response.body));
-      // print(states.toJson());
-
-      for (var stateList in states.prefectureJpData) {
-        stateDropDownValues.add(stateList.prefectureJa);
-      }
-    });
-  }
-
-  // CityList cityResponse;
-  _getCityDropDown() async {
-    String url = 'http://106.51.49.160:9094/api/user/cityJp';
-    Map<String, String> headers = {"Content-type": "application/json"};
-    var value = '{"prefecture_id": 1}';
-    Response response = await post(url, headers: headers, body: value);
-
-    if (response.statusCode == 200) {
-      // var responseData = json.decode(response.body);
-      // final Map city = responseData;
-      // cityResponse = CityList.fromJson(city);
-
-      CityList cityResponse = CityList.fromJson(json.decode(response.body));
-      print(response.statusCode);
-      // city = CityList.fromJson(json.decode(response.body));
-      // print(city);
-      // print(cityResponse.toJson());
-      for (var cityList in cityResponse.cityJpData) {
-        cityDropDownValues.add(cityList.cityJa);
-        print(cityDropDownValues);
-      }
-    }
-    // this API passes back the id of the new item added to the body
-    // String body = response.body;
-
-    // {
-    //   "title": "Hello",
-    //   "body": "body text",
-    //   "userId": 1,
-
-    //   "id": 101
-    //  }
   }
 
   void showProgressDialog() {

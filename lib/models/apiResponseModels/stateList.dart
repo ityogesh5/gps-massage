@@ -30,24 +30,15 @@ class PrefectureJpData {
   int prefectureId;
   String prefectureEn;
   String prefectureJa;
-  Null createdAt;
-  Null updatedAt;
 
   PrefectureJpData(
-      {this.id,
-      this.prefectureId,
-      this.prefectureEn,
-      this.prefectureJa,
-      this.createdAt,
-      this.updatedAt});
+      {this.id, this.prefectureId, this.prefectureEn, this.prefectureJa});
 
   PrefectureJpData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     prefectureId = json['prefecture_id'];
     prefectureEn = json['prefecture_en'];
     prefectureJa = json['prefecture_ja'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,8 +47,6 @@ class PrefectureJpData {
     data['prefecture_id'] = this.prefectureId;
     data['prefecture_en'] = this.prefectureEn;
     data['prefecture_ja'] = this.prefectureJa;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }
