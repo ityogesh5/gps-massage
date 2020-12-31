@@ -7,7 +7,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
-import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
@@ -829,6 +828,8 @@ class _RegistrationSecondPageState
   }
 }
 
+
+//Class for the Banner Image Upload 
 class BannerImageUpload extends StatefulWidget {
   @override
   _BannerImageUploadState createState() => _BannerImageUploadState();
@@ -836,7 +837,7 @@ class BannerImageUpload extends StatefulWidget {
 
 class _BannerImageUploadState extends State<BannerImageUpload> {
   List<Asset> images = List<Asset>();
-  String _error = 'No Error Dectected';
+  String error = 'No Error Dectected';
   List<File> files = List<File>();
 
   @override
@@ -872,10 +873,11 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     if (!mounted) return;
 
     setState(() {
+      //if Back was pressed 
       if (error != "The user has cancelled the selection") {
         images = resultList;
       }
-      _error = error;
+      this.error = error;
     });
   }
 
@@ -940,6 +942,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     );
   }
 
+  //Get the file Path of the Assets Selected
   getFilePath() async {
     for (var asset in images) {
       final filePath =
