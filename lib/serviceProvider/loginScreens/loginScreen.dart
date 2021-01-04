@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -12,6 +14,10 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondSc
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -37,6 +43,19 @@ class _LoginState extends State<Login> {
   RegExp passwordRegex = new RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
 
+  UserProfile _userProfile;
+  String _userEmail;
+
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      //check for ios if developing for both android & ios
+      AppleSignIn.onCredentialRevoked.listen((_) {
+        print("Credentials revoked");
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +75,7 @@ class _LoginState extends State<Login> {
                   children: [
                     SvgPicture.asset('assets/images_gps/logo.svg',
                         height: 100, width: 140),
-                   Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(HealingMatchConstants.loginText,
@@ -129,7 +148,8 @@ class _LoginState extends State<Login> {
                       children: [
                         InkWell(
                           onTap: () {
-                            NavigationRouter.switchToProviderForgetPasswordScreen(context);
+                            NavigationRouter
+                                .switchToProviderForgetPasswordScreen(context);
                           },
                           child: Text(
                             HealingMatchConstants.loginForgetPassword,
@@ -198,11 +218,7 @@ class _LoginState extends State<Login> {
                       children: [
                         InkWell(
                             onTap: () {
-                              /*  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MyHomePage()));*/
+                              _linelogin();
                             },
                             child: CircleAvatar(
                               radius: 25,
@@ -217,7 +233,40 @@ class _LoginState extends State<Login> {
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () {},
+                            onTap: () async {
+                              if (await AppleSignIn.isAvailable()) {
+                                final AuthorizationResult result =
+                                    await AppleSignIn.performRequests([
+                                  AppleIdRequest(requestedScopes: [
+                                    Scope.email,
+                                    Scope.fullName
+                                  ])
+                                ]);
+
+                                switch (result.status) {
+                                  case AuthorizationStatus.authorized:
+                                    print("user credentials : ${result.credential.user}");
+                                    print(result.credential.authorizationCode);
+                                    print(result.credential.authorizedScopes);
+                                    print(result.credential.email);
+                                    print(result.credential.fullName);
+                                    print(result.credential.identityToken);
+                                    print(result.credential.realUserStatus);
+                                    print(result.credential.state);
+                                    print(result.credential.user);//All the required credentials
+                                    break;
+                                  case AuthorizationStatus.error:
+                                    print("Sign in failed: ${result.error.localizedDescription}");
+                                    break;
+                                  case AuthorizationStatus.cancelled:
+                                    print('User cancelled');
+                                    break;
+                                }
+                              } else {
+                                print(
+                                    'Apple SignIn is not available for your device');
+                              }
+                            },
                             child: CircleAvatar(
                               radius: 25,
                               backgroundColor: Colors.black12,
@@ -278,12 +327,29 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void _linelogin() async {
+    try {
+      final result = await LineSDK.instance.login();
+      setState(() {
+        _userProfile = result.userProfile;
+        // user id -> result.userProfile.userId
+        // user name -> result.userProfile.displayName
+        // user avatar -> result.userProfile.pictureUrl
+        // etc...
+      });
+    } on PlatformException catch (e) {
+      // Error handling.
+      print(e);
+    }
+  }
+
   _providerLoginDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
 
     // user phone number validation
-    if (userPhoneNumber.length < 11 || userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length < 11 ||
+        userPhoneNumber.length > 11 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -364,7 +430,8 @@ class _LoginState extends State<Login> {
     serviceProviderLoginDetails.add(userPhoneNumber);
     serviceProviderLoginDetails.add(password);
 
-    print('User details length in array : ${serviceProviderLoginDetails.length}');
+    print(
+        'User details length in array : ${serviceProviderLoginDetails.length}');
 
     final url = '';
     /* http.post(url,
@@ -376,5 +443,4 @@ class _LoginState extends State<Login> {
           "serviceUserDetails": serviceProviderLoginDetails,
         })); */
   }
-
 }
