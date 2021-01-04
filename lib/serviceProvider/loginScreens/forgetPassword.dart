@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'loginScreen.dart';
@@ -31,8 +32,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context,
-                MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
+            Navigator.pop(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ProviderLogin()));
           },
         ),
       ),
@@ -65,19 +68,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
+                          labelText: HealingMatchConstants.forgetPasswordPhn,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "電話番号",
+                          hintText: HealingMatchConstants.forgetPasswordPhn,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(

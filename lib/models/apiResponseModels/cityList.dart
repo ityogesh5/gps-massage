@@ -1,15 +1,15 @@
 class CityList {
   String status;
-  List<CityJpData> cityJpData;
+  List<Data> data;
 
-  CityList({this.status, this.cityJpData});
+  CityList({this.status, this.data});
 
   CityList.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['cityJpData'] != null) {
-      cityJpData = new List<CityJpData>();
-      json['cityJpData'].forEach((v) {
-        cityJpData.add(new CityJpData.fromJson(v));
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
       });
     }
   }
@@ -17,34 +17,42 @@ class CityList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    if (this.cityJpData != null) {
-      data['cityJpData'] = this.cityJpData.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class CityJpData {
+class Data {
   int id;
   int prefectureId;
   String cityEn;
   String cityJa;
+  String specialDistrictJa;
 
-  CityJpData({this.id, this.prefectureId, this.cityEn, this.cityJa});
+  Data(
+      {this.id,
+      this.prefectureId,
+      this.cityEn,
+      this.cityJa,
+      this.specialDistrictJa});
 
-  CityJpData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    prefectureId = json['prefecture_id'];
+    prefectureId = json['prefectureId'];
     cityEn = json['city_en'];
     cityJa = json['city_ja'];
+    specialDistrictJa = json['special_district_ja'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['prefecture_id'] = this.prefectureId;
+    data['prefectureId'] = this.prefectureId;
     data['city_en'] = this.cityEn;
     data['city_ja'] = this.cityJa;
+    data['special_district_ja'] = this.specialDistrictJa;
     return data;
   }
 }

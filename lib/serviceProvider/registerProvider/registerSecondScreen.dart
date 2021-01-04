@@ -159,13 +159,9 @@ class _RegistrationSecondPageState
                       decoration: new InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           disabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 0.0,
-                            ),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               onPressed: () {}, icon: Icon(Icons.file_upload)),
@@ -365,13 +361,9 @@ class _RegistrationSecondPageState
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                         disabledBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.0,
-                          ),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         suffixIcon: IconButton(
                             onPressed: () {}, icon: Icon(Icons.file_upload)),
@@ -442,15 +434,13 @@ class _RegistrationSecondPageState
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
                           decoration: new InputDecoration(
+                            labelText: HealingMatchConstants
+                                .registrationBankBranchCode,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10),
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                                width: 0.0,
-                              ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             filled: true,
                             hintStyle:
@@ -473,15 +463,13 @@ class _RegistrationSecondPageState
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
                           decoration: new InputDecoration(
+                            labelText: HealingMatchConstants
+                                .registrationBankBranchNumber,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10),
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                                width: 0.0,
-                              ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             filled: true,
                             hintStyle:
@@ -496,15 +484,13 @@ class _RegistrationSecondPageState
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
                           decoration: new InputDecoration(
+                            labelText: HealingMatchConstants
+                                .registrationBankAccountNumber,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10),
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                                width: 0.0,
-                              ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             filled: true,
                             hintStyle:

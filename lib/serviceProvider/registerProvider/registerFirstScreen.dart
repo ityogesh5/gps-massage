@@ -125,7 +125,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   final statekey = new GlobalKey<FormState>();
   final citykey = new GlobalKey<FormState>();
-  var _mystate, _mycity;
+  var _mystate, _mycity, _prefid;
   bool readonly = false;
 
   DateTime selectedDate = DateTime.now();
@@ -158,8 +158,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     _dropdownMenuItems9 = buildDropDownMenuItems(_dropdownItems);
     _mystate = '';
     _mycity = '';
+    _prefid = '';
     _getState();
-    _getCityDropDown();
+
     /*  _selectedItem = _dropdownMenuItems[0].value;
     _selectedItem1 = _dropdownMenuItems1[0].value;
     _selectedItem2 = _dropdownMenuItems2[0].value;
@@ -1117,6 +1118,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 onChanged: (value) {
                                   setState(() {
                                     _mystate = value;
+
+                                    _prefid =
+                                        stateDropDownValues.indexOf(value) + 1;
+                                    print('prefID : ${_prefid.toString()}');
+                                    cityDropDownValues.clear();
+                                    _mycity = '';
+                                    _getCityDropDown(_prefid);
                                   });
                                 },
                                 dataSource: stateDropDownValues,
@@ -1337,9 +1345,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       setState(() {
         _currentAddress =
             '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
-        print('Place Json : ${place.toJson()}');
+        // print('Place Json : ${place.toJson()}');
         if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress : $latitude : $longitude');
+          // print('Current address : $_currentAddress : $latitude : $longitude');
           gpsAddressController.value = TextEditingValue(text: _currentAddress);
           setState(() {
             _isGPSLocation = true;
@@ -1714,38 +1722,48 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   }
 
   _getState() async {
-    await http.post(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+    await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesList.fromJson(json.decode(response.body));
       // print(states.toJson());
 
-      for (var stateList in states.prefectureJpData) {
+      for (var stateList in states.data) {
         stateDropDownValues.add(stateList.prefectureJa);
+        // print(stateDropDownValues);
       }
+
+      // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
   }
 
   // CityList cityResponse;
-  _getCityDropDown() async {
-    String url = 'http://106.51.49.160:9094/api/user/cityJp';
-    Map<String, String> headers = {"Content-type": "application/json"};
-    var value = '{"prefecture_id": 1}';
-    Response response = await post(url, headers: headers, body: value);
+  _getCityDropDown(var prefid) async {
+    await post(HealingMatchConstants.CITY_PROVIDER_URL,
+        body: {"prefecture_id": prefid.toString()}).then((response) {
+      if (response.statusCode == 200) {
+        CityList cityResponse = CityList.fromJson(json.decode(response.body));
+        print(cityResponse.toJson());
+        for (var cityList in cityResponse.data) {
+          cityDropDownValues.add(cityList.cityJa);
+          print(cityDropDownValues);
+        }
+      }
+    });
 
-    if (response.statusCode == 200) {
+    /* if (response.statusCode == 200) {
       // var responseData = json.decode(response.body);
       // final Map city = responseData;
       // cityResponse = CityList.fromJson(city);
 
       CityList cityResponse = CityList.fromJson(json.decode(response.body));
-      print(response.statusCode);
+      // print(response.statusCode);
       // city = CityList.fromJson(json.decode(response.body));
       // print(city);
-      // print(cityResponse.toJson());
-      for (var cityList in cityResponse.cityJpData) {
+      print(cityResponse.toJson());
+      for (var cityList in cityResponse.data) {
         cityDropDownValues.add(cityList.cityJa);
         print(cityDropDownValues);
       }
-    }
+    }*/
     // this API passes back the id of the new item added to the body
     // String body = response.body;
 
