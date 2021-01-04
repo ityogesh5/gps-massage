@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +7,12 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -29,6 +37,19 @@ class _ProviderLoginState extends State<ProviderLogin> {
   //..updated regex pattern
   RegExp passwordRegex = new RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
+
+  UserProfile _userProfile;
+  String _userEmail;
+
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      //check for ios if developing for both android & ios
+      AppleSignIn.onCredentialRevoked.listen((_) {
+        print("Credentials revoked");
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -216,8 +237,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),*/
                         InkWell(
                             onTap: () {
-                              //_initiateLineLogin();
-                              print('Line login');
+                              _linelogin();
                             },
                             child: Container(
                               width: 45.0,
@@ -243,9 +263,42 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () {
-                              //_initiateLineLogin();
-                              print('Line login');
+                            onTap: () async {
+                              if (await AppleSignIn.isAvailable()) {
+                                final AuthorizationResult result =
+                                    await AppleSignIn.performRequests([
+                                  AppleIdRequest(requestedScopes: [
+                                    Scope.email,
+                                    Scope.fullName
+                                  ])
+                                ]);
+
+                                switch (result.status) {
+                                  case AuthorizationStatus.authorized:
+                                    print(
+                                        "user credentials : ${result.credential.user}");
+                                    print(result.credential.authorizationCode);
+                                    print(result.credential.authorizedScopes);
+                                    print(result.credential.email);
+                                    print(result.credential.fullName);
+                                    print(result.credential.identityToken);
+                                    print(result.credential.realUserStatus);
+                                    print(result.credential.state);
+                                    print(result.credential
+                                        .user); //All the required credentials
+                                    break;
+                                  case AuthorizationStatus.error:
+                                    print(
+                                        "Sign in failed: ${result.error.localizedDescription}");
+                                    break;
+                                  case AuthorizationStatus.cancelled:
+                                    print('User cancelled');
+                                    break;
+                                }
+                              } else {
+                                print(
+                                    'Apple SignIn is not available for your device');
+                              }
                             },
                             child: Container(
                               width: 45.0,
@@ -342,6 +395,22 @@ class _ProviderLoginState extends State<ProviderLogin> {
         ),
       ),
     );
+  }
+
+  void _linelogin() async {
+    try {
+      final result = await LineSDK.instance.login();
+      setState(() {
+        _userProfile = result.userProfile;
+        // user id -> result.userProfile.userId
+        // user name -> result.userProfile.displayName
+        // user avatar -> result.userProfile.pictureUrl
+        // etc...
+      });
+    } on PlatformException catch (e) {
+      // Error handling.
+      print(e);
+    }
   }
 
   _providerLoginDetails() async {

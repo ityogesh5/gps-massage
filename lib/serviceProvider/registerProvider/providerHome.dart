@@ -5,6 +5,9 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
+import 'package:horizontal_center_date_picker/datepicker_controller.dart';
+import 'package:horizontal_center_date_picker/horizontal_date_picker.dart';
+import 'package:date_util/date_util.dart';
 
 class ProviderHome extends StatefulWidget {
   @override
@@ -21,9 +24,11 @@ class _ProviderHomeState extends State<ProviderHome> {
 
   NumberPicker dayPicker;
   int _cyear;
+  int _cmonth;
   int _currentDay;
   var now = DateTime.now();
   int _lastday;
+  int _counter = 0;
 
   void initState() {
     super.initState();
@@ -32,6 +37,7 @@ class _ProviderHomeState extends State<ProviderHome> {
     dateString = '';
 
     _cyear = DateTime.now().year;
+    _cmonth = DateTime.now().month;
     _currentDay = DateTime.now().day;
     _lastday = DateTime(now.year, now.month + 1, 0).day;
   }
@@ -55,6 +61,9 @@ class _ProviderHomeState extends State<ProviderHome> {
                   child: Card(
                     color: Colors.grey[200],
                     elevation: 2,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                        borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
                         SizedBox(height: 10),
@@ -308,6 +317,9 @@ class _ProviderHomeState extends State<ProviderHome> {
                           height: 120,
                           child: Card(
                             elevation: 5,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -335,6 +347,9 @@ class _ProviderHomeState extends State<ProviderHome> {
                           height: 120,
                           child: Card(
                             elevation: 5,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -363,6 +378,9 @@ class _ProviderHomeState extends State<ProviderHome> {
                           color: Colors.white,
                           child: Card(
                             elevation: 5,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -388,109 +406,172 @@ class _ProviderHomeState extends State<ProviderHome> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Form(
-                          key: yearKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                color: Colors.transparent,
-                                child: DropDownFormField(
-                                  titleText: null,
-                                  hintText: readonly
-                                      ? yearString
-                                      : HealingMatchConstants
-                                          .registrationBankAccountType,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      yearString = value;
-                                    });
-                                  },
-                                  value: yearString,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      yearString = value;
-                                    });
-                                  },
-                                  dataSource: [
-                                    {
-                                      "display": "普通",
-                                      "value": "普通",
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Form(
+                            key: yearKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  color: Colors.transparent,
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    hintText: readonly
+                                        ? yearString
+                                        : HealingMatchConstants
+                                            .registrationBankAccountType,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        yearString = value;
+                                        _cyear = value;
+                                      });
                                     },
-                                    {
-                                      "display": "当座",
-                                      "value": "当座",
+                                    value: yearString,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        yearString = value;
+                                        _cyear = value;
+                                      });
                                     },
-                                    {
-                                      "display": "貯蓄",
-                                      "value": "貯蓄",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width * 0.38,
-                            child: Form(
-                              key: monthKey,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.38,
-                                    color: Colors.transparent,
-                                    child: DropDownFormField(
-                                      titleText: null,
-                                      hintText: readonly
-                                          ? monthString
-                                          : HealingMatchConstants
-                                              .registrationBankAccountType,
-                                      onSaved: (value) {
-                                        setState(() {
-                                          monthString = value;
-                                        });
+                                    dataSource: [
+                                      {
+                                        "display": "2020",
+                                        "value": "2020",
                                       },
-                                      value: monthString,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          monthString = value;
-                                        });
+                                      {
+                                        "display": "2021",
+                                        "value": "2021",
                                       },
-                                      dataSource: [
-                                        {
-                                          "display": "普通",
-                                          "value": "普通",
-                                        },
-                                        {
-                                          "display": "当座",
-                                          "value": "当座",
-                                        },
-                                        {
-                                          "display": "貯蓄",
-                                          "value": "貯蓄",
-                                        },
-                                      ],
-                                      textField: 'display',
-                                      valueField: 'value',
-                                    ),
+                                      {
+                                        "display": "2022",
+                                        "value": "2022",
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
                                   ),
-                                ],
-                              ),
-                            )),
-                      ],
-                    ),
-                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: Form(
+                                key: monthKey,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      color: Colors.transparent,
+                                      child: DropDownFormField(
+                                        titleText: null,
+                                        hintText: readonly
+                                            ? monthString
+                                            : HealingMatchConstants
+                                                .registrationBankAccountType,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            monthString = value;
+                                            _cmonth = value;
+                                            _incrementCounter();
+                                          });
+                                        },
+                                        value: monthString,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            monthString = value;
+                                            _cmonth = value;
+                                            _incrementCounter();
+                                          });
+                                        },
+                                        dataSource: [
+                                          {
+                                            "display": "1",
+                                            "value": "1",
+                                          },
+                                          {
+                                            "display": "2",
+                                            "value": "2",
+                                          },
+                                          {
+                                            "display": "3",
+                                            "value": "3",
+                                          },
+                                          {
+                                            "display": "4",
+                                            "value": "4",
+                                          },
+                                          {
+                                            "display": "5",
+                                            "value": "5",
+                                          },
+                                          {
+                                            "display": "6",
+                                            "value": "6",
+                                          },
+                                          {
+                                            "display": "7",
+                                            "value": "7",
+                                          },
+                                          {
+                                            "display": "8",
+                                            "value": "8",
+                                          },
+                                          {
+                                            "display": "9",
+                                            "value": "9",
+                                          },
+                                          {
+                                            "display": "10",
+                                            "value": "10",
+                                          },
+                                          {
+                                            "display": "11",
+                                            "value": "11",
+                                          },
+                                          {
+                                            "display": "12",
+                                            "value": "12",
+                                          },
+                                        ],
+                                        textField: 'display',
+                                        valueField: 'value',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                      SizedBox(width: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+
+                            },
+                            child: Icon(
+                              Icons.calendar_today,
+                              size: 35.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
                 buildDayPicker(),
@@ -561,5 +642,17 @@ class _ProviderHomeState extends State<ProviderHome> {
       // dayPicker.animateInt(_currentDay);
     });
     // print("Changed month: _currentDay");
+  }
+
+  void _incrementCounter() {
+    var dateUtility = DateUtil();
+    var day1 = dateUtility.daysInMonth(_cmonth, _cyear);
+    print(day1);
+    //var day2 = dateUtility.daysInMonth(2, 2018);
+    //print(day2);
+
+    setState(() {
+      _counter++;
+    });
   }
 }
