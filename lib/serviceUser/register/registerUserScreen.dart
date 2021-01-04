@@ -1020,11 +1020,12 @@ class _RegisterUserState extends State<RegisterUser> {
                         color: Colors.lime,
                         onPressed: () {
                           _changeProgressText = false;
-                          _registerUserDetails();
+                          //_registerUserDetails();
                           /*Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) => CarouselDemo()),
                               (Route<dynamic> route) => false);*/
+                          NavigationRouter.switchToServiceUserHomeScreen(context);
                         },
                         child: new Text(
                           '入力完了',
@@ -1547,12 +1548,17 @@ class _RegisterUserState extends State<RegisterUser> {
       print("This is request : ${userDetailsRequest.request}");
       final response = await http.Response.fromStream(userDetailsRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
-      final Map userDetailsResponse = json.decode(response.body);
-      final serviceUserDetails =
-          ServiceUserRegisterModel.fromJson(userDetailsResponse);
-      print('Response Json : ${serviceUserDetails.toJson()}');
-      print(
-          'Response Fields : ${serviceUserDetails.address.buildingName} \n ${serviceUserDetails.address.area}');
+      if (response.statusCode == 200) {
+        final Map userDetailsResponse = json.decode(response.body);
+        final serviceUserDetails =
+            ServiceUserRegisterModel.fromJson(userDetailsResponse);
+        print('Response Json : ${serviceUserDetails.toJson()}');
+        print(
+            'Response Fields : ${serviceUserDetails.address.buildingName} \n ${serviceUserDetails.address.area}');
+      } else {
+        hideProgressDialog();
+        print('Response error occured!');
+      }
     } catch (e) {
       print(e.toString());
     }
