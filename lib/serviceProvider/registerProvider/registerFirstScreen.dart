@@ -1286,8 +1286,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onPressed: () {
                     //!Commented for Dev purposes
                     //validateFields();
-                    NavigationRouter.switchToServiceProviderSecondScreen(
-                        context);
+                    registerProvider();
+                    /*  NavigationRouter.switchToServiceProviderSecondScreen(
+                        context); */
                   },
                 ),
               ),
@@ -1697,6 +1698,51 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             ),
           );
         });
+  }
+
+  registerProvider() async {
+    Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+    var request = http.MultipartRequest('POST',
+        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      'email': 'amala132151435aa1@gmail.com',
+      'phoneNumber': '98765432111',
+      'userName': 'Amala',
+      'gender': 'M',
+      'dob': '1980-12-01',
+      'age': '18',
+      'password': '12345678',
+      'password_confirmation': '12345678',
+      'storeName': 'abc massage',
+      'storePhone': '98765431211',
+      'isTherapist': '1',
+      'buildingName': 'hghfghhh',
+      'address': 'area cyberbunk 2077',
+      'city': 'tokyo',
+      'area': 'Kantō',
+      'lat': '10.210',
+      'lon': '11.255',
+      'userPrefecture': 'tokyo',
+      'userRoomNumber': '103'
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _profileImage.path));
+    request.files.add(await http.MultipartFile.fromPath(
+        'uploadProfileImgUrl', _profileImage.path));
+    request.files.add(await http.MultipartFile.fromPath(
+        'qulaificationCertImgUrl', _profileImage.path));
+
+    final userDetailsRequest = await request.send();
+    print("This is request : ${userDetailsRequest.request}");
+    final response = await http.Response.fromStream(userDetailsRequest);
+    print("This is response: ${response.statusCode}\n${response.body}");
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 
   _imgFromCamera() async {

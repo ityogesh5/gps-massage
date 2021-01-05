@@ -8,6 +8,7 @@ import 'package:gps_massageapp/models/apiResponseModels/treatmentDropDownModel.d
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+
 class ServicePriceModel {
   String _name;
   int _sixtyMin;
@@ -610,21 +611,21 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
             val != HealingMatchConstants.chooseServiceOtherDropdownFiled &&
                     checkValue == true
                 ? Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          showTimeandPriceDialog(
-                              val, checkValue, indexPos, mindex);
-                        }),
-                  )
-                ],
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              showTimeandPriceDialog(
+                                  val, checkValue, indexPos, mindex);
+                            }),
+                      )
+                    ],
                   )
                 : Container()
           ],
