@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/cityListResponseModel.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/serviceUserRegisterResponseModel.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/stateListResponseModel.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/register/cityListResponseModel.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -86,7 +86,6 @@ class _RegisterUserState extends State<RegisterUser> {
   List<String> serviceUserDetails = [];
 
   //final gpsAddressController = new TextEditingController();
-  ProgressDialog _progressDialog = ProgressDialog();
 
   bool _changeProgressText = false;
 
@@ -253,7 +252,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 10),
                     Stack(
                       children: [
-                        _profileImage != null
+                        _profileImage.path != null
                             ? InkWell(
                                 onTap: () {
                                   _showPicker(context);
@@ -291,25 +290,35 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: Icon(Icons.add_a_photo_rounded,
-                                      color: Colors.blue, size: 30.0),
+                        _profileImage.path != null
+                            ? InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: Visibility(
+                                  visible: false,
+                                  child: Positioned(
+                                    right: -60.0,
+                                    top: 60,
+                                    left: 10.0,
+                                    child: Icon(Icons.add_a_photo_rounded,
+                                        color: Colors.blue, size: 30.0),
+                                  ),
                                 ),
                               )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: Icon(Icons.add_a_photo_rounded,
-                                      color: Colors.blue, size: 30.0),
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: Visibility(
+                                  visible: true,
+                                  child: Positioned(
+                                    right: -60.0,
+                                    top: 60,
+                                    left: 10.0,
+                                    child: Icon(Icons.add_a_photo_rounded,
+                                        color: Colors.blue, size: 30.0),
+                                  ),
                                 ),
                               ),
                       ],
@@ -852,7 +861,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       _myPrefecture = value;
                                       print(
                                           'Prefecture value : ${_myPrefecture.toString()}');
-                                      HealingMatchConstants.progressText =
+                                      HealingMatchConstants
+                                              .registerProgressText =
                                           '府県の市のデータを取得中。。。';
                                       _prefId =
                                           stateDropDownValues.indexOf(value) +
@@ -1020,12 +1030,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         color: Colors.lime,
                         onPressed: () {
                           _changeProgressText = false;
-                          //_registerUserDetails();
-                          /*Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => CarouselDemo()),
-                              (Route<dynamic> route) => false);*/
-                          NavigationRouter.switchToServiceUserHomeScreen(context);
+                          _registerUserDetails();
+                          //NavigationRouter.switchToServiceUserHomeScreen(context);
                         },
                         child: new Text(
                           '入力完了',
@@ -1061,7 +1067,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   // Get current address from Latitude Longitude
   _getCurrentLocation() {
-    showProgressDialog();
+    ProgressDialogBuilder.showLocationProgressDialog(context);
     geoLocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -1101,13 +1107,13 @@ class _RegisterUserState extends State<RegisterUser> {
           HealingMatchConstants.serviceUserPrefecture =
               currentLocationPlaceMark.administrativeArea;
         } else {
-          hideProgressDialog();
+          ProgressDialogBuilder.hideLocationProgressDialog(context);
           return null;
         }
       });
-      hideProgressDialog();
+      ProgressDialogBuilder.hideLocationProgressDialog(context);
     } catch (e) {
-      hideProgressDialog();
+      ProgressDialogBuilder.hideLocationProgressDialog(context);
       print(e);
     }
   }
@@ -1508,16 +1514,17 @@ class _RegisterUserState extends State<RegisterUser> {
       print('Manual Address : ${HealingMatchConstants.userAddress}');
     }
 
-    showProgressDialog();
+    ProgressDialogBuilder.showRegisterProgressDialog(context);
 
     //Calling Service User API for Register
     try {
+      print('Image path upload : ${_profileImage.path}');
       //MultiPart request
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(HealingMatchConstants.REGISTER_USER_URL),
       );
-      Map<String, String> headers = {"Content-type": "multipart/form-data"};
+      Map<String, String> headers = {"Content-Type": "application/json"};
       final profileImage = await http.MultipartFile.fromPath(
           'uploadProfileImgUrl', _profileImage.path);
       request.files.add(profileImage);
@@ -1556,40 +1563,12 @@ class _RegisterUserState extends State<RegisterUser> {
         print(
             'Response Fields : ${serviceUserDetails.address.buildingName} \n ${serviceUserDetails.address.area}');
       } else {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
       }
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  void showProgressDialog() {
-    if (_changeProgressText) {
-      HealingMatchConstants.progressText = '現在地を取得中...';
-      _progressDialog.showProgressDialog(context,
-          textToBeDisplayed: '${HealingMatchConstants.progressText}',
-          dismissAfter: Duration(seconds: 5));
-    } else {
-      if (HealingMatchConstants.progressText.contains('府県の市のデータを取得中。。。')) {
-        _progressDialog.showProgressDialog(context,
-            textToBeDisplayed: '${HealingMatchConstants.progressText}',
-            dismissAfter: Duration(seconds: 5));
-      } else {
-        HealingMatchConstants.progressText = '登録中...';
-        _progressDialog.showProgressDialog(context,
-            textToBeDisplayed: '${HealingMatchConstants.progressText}',
-            dismissAfter: Duration(seconds: 5));
-      }
-      /*HealingMatchConstants.progressText = '登録中...';
-      _progressDialog.showProgressDialog(context,
-          textToBeDisplayed: '${HealingMatchConstants.progressText}',
-          dismissAfter: Duration(seconds: 5));*/
-    }
-  }
-
-  void hideProgressDialog() {
-    _progressDialog.dismissProgressDialog(context);
   }
 
   void _showPicker(context) {
@@ -1623,7 +1602,7 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _imgFromCamera() async {
-    final image = await ImagePicker().getImage(
+    final image = await picker.getImage(
         source: ImageSource.camera,
         imageQuality: 50,
         preferredCameraDevice: CameraDevice.front);
@@ -1635,8 +1614,8 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _imgFromGallery() async {
-    final image = await ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 50);
+    final image =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       _profileImage = image;
@@ -1658,7 +1637,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   // CityList cityResponse;
   _getCities(var prefId) async {
-    showProgressDialog();
+    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
@@ -1668,7 +1647,7 @@ class _RegisterUserState extends State<RegisterUser> {
           cityDropDownValues.add(cityList.cityJa);
         });
       }
-      hideProgressDialog();
+      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });
   }

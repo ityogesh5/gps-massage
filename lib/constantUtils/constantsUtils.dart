@@ -11,14 +11,23 @@ class HealingMatchConstants {
 
   static const String ON_PREMISE_USER_BASE_URL =
       "http://106.51.49.160:9094/api";
+
+  // register service user
   static const String REGISTER_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
+
+  // login service user
+  static const String LOGIN_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
 
   static const STATE_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/prefecture' + '/getAllPrefecture';
   static const CITY_PROVIDER_URL = ON_PREMISE_USER_BASE_URL + '/cities' + '/getCitieByPrefectureId';
 
   //Common string
-  static String progressText = '';
+  static String registerProgressText = '登録中...';
+  static String locationProgressText = '現在地を取得中...';
+  static String getCityProgressText = '府県の市のデータを取得中。。。';
+  static String getLoginProgressText = 'ログイン中。。。';
 
   //Register Service User Screen Constants
   static String serviceUserName = '';
@@ -124,4 +133,6 @@ class HealingMatchConstants {
     fontSize: 12.0,
     color: Colors.black,
   );
+
+
 }
