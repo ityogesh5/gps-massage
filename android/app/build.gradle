@@ -44,11 +44,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.healingmatch.gpsmassageapp"
         minSdkVersion 21
-<<<<<<< HEAD
-        targetSdkVersion 29
-=======
         targetSdkVersion 30
->>>>>>> origin/origin/DEV/devYogeshwar
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
