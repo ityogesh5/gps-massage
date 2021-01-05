@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/utils/dropdown.dart';
@@ -406,148 +407,150 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Form(
-                                key: yearKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width * 0.3,
-                                      color: Colors.transparent,
-                                      child: DropDownFormField(
-                                        titleText: null,
-                                        hintText: readonly
-                                            ? yearString
-                                            : HealingMatchConstants
-                                            .registrationBankAccountType,
-                                        onSaved: (value) {
-                                          setState(() {
-                                            yearString = value;
-                                            _cyear = value;
-                                          });
-                                        },
-                                        value: yearString,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            yearString = value;
-                                            _cyear = value;
-                                          });
-                                        },
-                                        dataSource: [
-                                          {
-                                            "display": "2020",
-                                            "value": "2020",
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Form(
+                                  key: yearKey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        color: Colors.transparent,
+                                        child: DropDownFormField(
+                                          titleText: null,
+                                          hintText: readonly
+                                              ? yearString
+                                              : HealingMatchConstants
+                                              .registrationBankAccountType,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              yearString = value;
+                                              _cyear = value;
+                                            });
                                           },
-                                          {
-                                            "display": "2021",
-                                            "value": "2021",
+                                          value: yearString,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              yearString = value;
+                                              _cyear = value;
+                                            });
                                           },
-                                          {
-                                            "display": "2022",
-                                            "value": "2022",
-                                          },
-                                        ],
-                                        textField: 'display',
-                                        valueField: 'value',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Container(
-                                  width: MediaQuery.of(context).size.width * 0.3,
-                                  child: Form(
-                                    key: monthKey,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: MediaQuery.of(context).size.width *
-                                              0.38,
-                                          color: Colors.transparent,
-                                          child: DropDownFormField(
-                                            titleText: null,
-                                            hintText: readonly
-                                                ? monthString
-                                                : HealingMatchConstants
-                                                .registrationBankAccountType,
-                                            onSaved: (value) {
-                                              setState(() {
-                                                monthString = value;
-                                                _cmonth = value;
-                                                _incrementCounter();
-                                              });
+                                          dataSource: [
+                                            {
+                                              "display": "2020",
+                                              "value": "2020",
                                             },
-                                            value: monthString,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                monthString = value;
-                                                _cmonth = value;
-                                                _incrementCounter();
-                                              });
+                                            {
+                                              "display": "2021",
+                                              "value": "2021",
                                             },
-                                            dataSource: [
-                                              {
-                                                "display": "1",
-                                                "value": "1",
-                                              },
-                                              {
-                                                "display": "2",
-                                                "value": "2",
-                                              },
-                                              {
-                                                "display": "3",
-                                                "value": "3",
-                                              },
-                                              {
-                                                "display": "4",
-                                                "value": "4",
-                                              },
-                                              {
-                                                "display": "5",
-                                                "value": "5",
-                                              },
-                                              {
-                                                "display": "6",
-                                                "value": "6",
-                                              },
-                                              {
-                                                "display": "7",
-                                                "value": "7",
-                                              },
-                                              {
-                                                "display": "8",
-                                                "value": "8",
-                                              },
-                                              {
-                                                "display": "9",
-                                                "value": "9",
-                                              },
-                                              {
-                                                "display": "10",
-                                                "value": "10",
-                                              },
-                                              {
-                                                "display": "11",
-                                                "value": "11",
-                                              },
-                                              {
-                                                "display": "12",
-                                                "value": "12",
-                                              },
-                                            ],
-                                            textField: 'display',
-                                            valueField: 'value',
-                                          ),
+                                            {
+                                              "display": "2022",
+                                              "value": "2022",
+                                            },
+                                          ],
+                                          textField: 'display',
+                                          valueField: 'value',
                                         ),
-                                      ],
-                                    ),
-                                  )),
-                            ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Container(
+                                    width: MediaQuery.of(context).size.width * 0.3,
+                                    child: Form(
+                                      key: monthKey,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context).size.width *
+                                                0.38,
+                                            color: Colors.transparent,
+                                            child: DropDownFormField(
+                                              titleText: null,
+                                              hintText: readonly
+                                                  ? monthString
+                                                  : HealingMatchConstants
+                                                  .registrationBankAccountType,
+                                              onSaved: (value) {
+                                                setState(() {
+                                                  monthString = value;
+                                                  _cmonth = value;
+                                                  _incrementCounter();
+                                                });
+                                              },
+                                              value: monthString,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  monthString = value;
+                                                  _cmonth = value;
+                                                  _incrementCounter();
+                                                });
+                                              },
+                                              dataSource: [
+                                                {
+                                                  "display": "1",
+                                                  "value": "1",
+                                                },
+                                                {
+                                                  "display": "2",
+                                                  "value": "2",
+                                                },
+                                                {
+                                                  "display": "3",
+                                                  "value": "3",
+                                                },
+                                                {
+                                                  "display": "4",
+                                                  "value": "4",
+                                                },
+                                                {
+                                                  "display": "5",
+                                                  "value": "5",
+                                                },
+                                                {
+                                                  "display": "6",
+                                                  "value": "6",
+                                                },
+                                                {
+                                                  "display": "7",
+                                                  "value": "7",
+                                                },
+                                                {
+                                                  "display": "8",
+                                                  "value": "8",
+                                                },
+                                                {
+                                                  "display": "9",
+                                                  "value": "9",
+                                                },
+                                                {
+                                                  "display": "10",
+                                                  "value": "10",
+                                                },
+                                                {
+                                                  "display": "11",
+                                                  "value": "11",
+                                                },
+                                                {
+                                                  "display": "12",
+                                                  "value": "12",
+                                                },
+                                              ],
+                                              textField: 'display',
+                                              valueField: 'value',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ],
+                            ),
                           ),
                           SizedBox(width: 20),
                           Row(
@@ -582,163 +585,218 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Column(
                           children: [
-                            SizedBox(height: 20),
-                            Text(
-                              "日付を選択し日付を選択し日付を選択し日",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                            SizedBox(height: 10),
-                            ListTile(
-                              leading:
-                              /*CircleAvatar(
-                            backgroundColor: Colors.grey[400].withOpacity(0.4),
-                            child: Icon(FontAwesomeIcons.user,
-                                color: Colors.grey, size: 20),
-                          ),*/
-                              Text(
-                                ' 09: 00 ',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              title: Row(
-                                children: [
-                                  Text(
-                                    'お店名',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 10),
-                                ],
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FittedBox(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(5),
-                                              color: Colors.white,
-                                            ),
-                                            child: Text(
-                                              ' エステ ',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(5),
-                                              color: Colors.white,
-                                            ),
-                                            child: Text(
-                                              ' フィットネス ',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(5),
-                                              color: Colors.white,
-                                            ),
-                                            child: Text(
-                                              ' リラクゼーション ',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(4),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(14.0),
+                                    height: 50,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.white,
+                                      shape: BoxShape.rectangle,
+                                        color: Colors.black12,
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
                                     ),
                                     child: Text(
-                                      ' リラクゼーション ',
+                                      "日付を選択し日付を選択し日付を選択し日",
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 14,
                                           color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: Colors.white,
-                                          ),
-                                          child: Text(
-                                            ' abcde ',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: Colors.white,
-                                          ),
-                                          child: Text(
-                                            ' fghijk ',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  SizedBox(height: 10),
-                                  SizedBox(height: 10),
-                                ],
-                              ),
-                              isThreeLine: true,
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 10),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              SizedBox(width: 10),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "09: 00",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 50),
+                                    Text(
+                                      "10: 00",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 50),
+                                    Text(
+                                      "11: 00",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 50),
+                                    Text(
+                                      "12: 00",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 50),
+                                  ]
+                              ),
+                              SizedBox(width: 5),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                  Card(
+                                    color: Colors.white,
+                                    elevation: 2,
+                                    shape: RoundedRectangleBorder(
+                                        side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "日付を選",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(5),
+                                                  color: Colors.white,
+                                                ),
+                                                child: Text(
+                                                  ' 日付を選択し日付を選択し ',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.normal),
+                                                )),
+                                            IconButton(
+                                                icon:
+                                                Icon(Icons.access_time_rounded, size: 20, color: Colors.yellow),
+                                                onPressed: () {
+                                                }),
+                                            Text('今月', textAlign: TextAlign.left, style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.yellow,
+                                                fontWeight: FontWeight.w800),),
+                                          ],
+                                        ),
+                                        Row(children: [
+                                          SizedBox(width: 10),
+                                          Icon(
+                                            Icons.location_on_outlined,
+                                            color: Colors.black,
+                                            size: 20,
+                                          ),
+                                          Text('日付を選日付を選', textAlign: TextAlign.left, style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w800),),
+                                        ],),
+                                        SizedBox(height: 15),
+                                        Row(children: [
+                                          SizedBox(width: 10),
+                                          Container(
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(5),
+                                              border: Border.all(color: Colors.grey),
+                                            ),
+                                            child: Text('日付を選日付を選', textAlign: TextAlign.left, style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Text('日付を選日付を選', textAlign: TextAlign.left, style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),),
+                                        ],),
+                                        SizedBox(height: 15),
+                                        Row(
+                                          children: [
+                                            SizedBox(width: 10),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: Colors.black12,
+                                                ),
+                                                child: Text(
+                                                  ' 日付を選 ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold),
+                                                )),
+                                            SizedBox(width: 10),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: Colors.black12,
+                                                ),
+                                                child: Text(
+                                                  ' 日付を選 ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold),
+                                                )),
+                                            SizedBox(width: 10),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: Colors.black12,
+                                                ),
+                                                child: Text(
+                                                  ' 日付を選 ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold),
+                                                )),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  )
+                                ],),
+                              )
+                            ],)
                           ],
                         ),
                       ),
