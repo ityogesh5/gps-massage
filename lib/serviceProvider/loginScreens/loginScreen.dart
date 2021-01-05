@@ -168,12 +168,12 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         color: Colors.lime,
                         onPressed: () {
                           //_providerLoginDetails();
-                          Navigator.push(
+                          /*Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ProviderHome()));
-                          //NavigationRouter.switchToProviderHome(context);
+                                      ProviderHome()));*/
+                          NavigationRouter.switchToProviderHome(context);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
