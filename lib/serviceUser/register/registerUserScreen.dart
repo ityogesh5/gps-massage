@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
+import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
@@ -14,6 +15,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -56,7 +58,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCategoryPlaceForMassage = '';
   String _myPrefecture = '';
   String _myCity = '';
-  PickedFile _profileImage;
+  File _profileImage;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
   Placemark userAddedAddressPlaceMark;
@@ -252,7 +254,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 10),
                     Stack(
                       children: [
-                        _profileImage.path != null
+                        _profileImage != null
                             ? InkWell(
                                 onTap: () {
                                   _showPicker(context);
@@ -290,35 +292,25 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               ),
-                        _profileImage.path != null
-                            ? InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
-                                child: Visibility(
-                                  visible: false,
-                                  child: Positioned(
-                                    right: -60.0,
-                                    top: 60,
-                                    left: 10.0,
-                                    child: Icon(Icons.add_a_photo_rounded,
-                                        color: Colors.blue, size: 30.0),
-                                  ),
+                        _profileImage != null
+                            ? Visibility(
+                                visible: false,
+                                child: Positioned(
+                                  right: -60.0,
+                                  top: 60,
+                                  left: 10.0,
+                                  child: Icon(Icons.add_a_photo_rounded,
+                                      color: Colors.blue, size: 30.0),
                                 ),
                               )
-                            : InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
-                                child: Visibility(
-                                  visible: true,
-                                  child: Positioned(
-                                    right: -60.0,
-                                    top: 60,
-                                    left: 10.0,
-                                    child: Icon(Icons.add_a_photo_rounded,
-                                        color: Colors.blue, size: 30.0),
-                                  ),
+                            : Visibility(
+                                visible: true,
+                                child: Positioned(
+                                  right: -60.0,
+                                  top: 60,
+                                  left: 10.0,
+                                  child: Icon(Icons.add_a_photo_rounded,
+                                      color: Colors.blue, size: 30.0),
                                 ),
                               ),
                       ],
@@ -861,9 +853,6 @@ class _RegisterUserState extends State<RegisterUser> {
                                       _myPrefecture = value;
                                       print(
                                           'Prefecture value : ${_myPrefecture.toString()}');
-                                      HealingMatchConstants
-                                              .registerProgressText =
-                                          '府県の市のデータを取得中。。。';
                                       _prefId =
                                           stateDropDownValues.indexOf(value) +
                                               1;
@@ -1118,7 +1107,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
   }
 
-  _registerUserDetails() async {
+  Future<Map<String, dynamic>> _registerUserDetails() async {
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var userPhoneNumber = phoneNumberController.text.toString();
@@ -1151,7 +1140,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (userName.length > 20) {
@@ -1166,7 +1155,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1180,7 +1169,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user DOB validation
@@ -1196,7 +1185,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user gender validation
@@ -1212,7 +1201,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user Occupation validation
@@ -1228,7 +1217,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user phone number validation
@@ -1247,7 +1236,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (!(email.contains(regexMail))) {
@@ -1262,7 +1251,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
     if (email.length > 50) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1276,7 +1265,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
     if ((email.contains(regexEmojis))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1290,7 +1279,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (password.length < 8 || confirmPassword.length < 8) {
@@ -1305,7 +1294,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (password.length > 14 || confirmPassword.length > 14) {
@@ -1320,7 +1309,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // Combination password
@@ -1336,7 +1325,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (password != confirmPassword) {
@@ -1352,7 +1341,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
     if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1366,7 +1355,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
@@ -1381,7 +1370,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user place for massage validation
@@ -1398,7 +1387,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user perfecture validation
@@ -1414,7 +1403,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user city validation
@@ -1430,7 +1419,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // user area validation
@@ -1446,7 +1435,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
     // user building name validation
     if (buildingName == null || buildingName.isEmpty) {
@@ -1461,7 +1450,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // room number validation
@@ -1477,7 +1466,7 @@ class _RegisterUserState extends State<RegisterUser> {
             label: 'はい',
             textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     // Getting user GPS Address value
@@ -1518,17 +1507,15 @@ class _RegisterUserState extends State<RegisterUser> {
 
     //Calling Service User API for Register
     try {
-      print('Image path upload : ${_profileImage.path}');
       //MultiPart request
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(HealingMatchConstants.REGISTER_USER_URL),
-      );
-      Map<String, String> headers = {"Content-Type": "application/json"};
-      final profileImage = await http.MultipartFile.fromPath(
+      Uri registerUser = Uri.parse(HealingMatchConstants.REGISTER_USER_URL);
+      var request = http.MultipartRequest('POST', registerUser);
+      Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+      var profileImage = await http.MultipartFile.fromPath(
           'uploadProfileImgUrl', _profileImage.path);
-      request.files.add(profileImage);
       request.headers.addAll(headers);
+      request.files.add(profileImage);
+      print('Image upload filename : $_profileImage');
       request.fields.addAll({
         "userName": userName,
         "dob": userDOB,
@@ -1537,6 +1524,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "phoneNumber": userPhoneNumber,
         "email": email,
         "gender": _myGender,
+        "uploadProfileImgUrl": _profileImage.path,
         "password": password,
         "password_confirmation": confirmPassword,
         "isTherapist": "0",
@@ -1552,16 +1540,20 @@ class _RegisterUserState extends State<RegisterUser> {
       });
 
       final userDetailsRequest = await request.send();
-      print("This is request : ${userDetailsRequest.request}");
       final response = await http.Response.fromStream(userDetailsRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
-      if (response.statusCode == 200) {
+      if (StatusCodeHelper.isRegisterSuccess(response.statusCode, context)) {
         final Map userDetailsResponse = json.decode(response.body);
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
-        print('Response Json : ${serviceUserDetails.toJson()}');
-        print(
-            'Response Fields : ${serviceUserDetails.address.buildingName} \n ${serviceUserDetails.address.area}');
+        print('Response Status Message : ${serviceUserDetails.status}');
+        Toast.show("正常にログインしました", context,
+            duration: Toast.LENGTH_SHORT,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.lime,
+            textColor: Colors.white);
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+        //NavigationRouter.switchToServiceUserHomeScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
@@ -1602,25 +1594,33 @@ class _RegisterUserState extends State<RegisterUser> {
   }
 
   _imgFromCamera() async {
-    final image = await picker.getImage(
+    final pickedImage = await picker.getImage(
         source: ImageSource.camera,
         imageQuality: 50,
         preferredCameraDevice: CameraDevice.front);
 
     setState(() {
-      _profileImage = image;
+      if (pickedImage != null) {
+        _profileImage = File(pickedImage.path);
+        print('image camera path : ${_profileImage.path}');
+      } else {
+        print('No camera image selected.');
+      }
     });
-    print('image path : ${_profileImage.path}');
   }
 
   _imgFromGallery() async {
-    final image =
+    final pickedImage =
         await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
-      _profileImage = image;
+      if (pickedImage != null) {
+        _profileImage = File(pickedImage.path);
+        print('image gallery path : ${_profileImage.path}');
+      } else {
+        print('No gallery image selected.');
+      }
     });
-    print('image path : ${_profileImage.path}');
   }
 
   _getStates() async {

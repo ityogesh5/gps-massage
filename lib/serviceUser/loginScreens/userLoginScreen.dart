@@ -6,10 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
+import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -355,20 +357,17 @@ class _UserLoginState extends State<UserLogin> {
           body: json
               .encode({"phoneNumber": userPhoneNumber, "password": password}));
       print('Status code : ${response.statusCode}');
-      if (response.statusCode == 200) {
+      if (StatusCodeHelper.isLoginSuccess(response.statusCode,context)) {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
-        print('Login response : ${loginResponseModel.toJson()}');
-        print('Login token : ${loginResponseModel.accessToken}');
+        print('Login response status message : ${loginResponseModel.status}');
+        print('Login access token : ${loginResponseModel.accessToken}');
+        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         //NavigationRouter.switchToServiceUserHomeScreen(context);
-      } else if (response.statusCode == 400) {
+      } else {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
-        print('User Not found');
-        return;
-      } else if (response.statusCode == 401) {
-        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
-        print('Unauthorized');
+        print('Response Failure !!');
         return;
       }
     } catch (e) {
