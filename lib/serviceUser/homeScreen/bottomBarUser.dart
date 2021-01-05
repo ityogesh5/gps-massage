@@ -16,7 +16,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage = 0; //initial value
 
   final _pageOptions = [
-    HomeScreenUser(),
+    ServiceUserHomeScreen(),
     SearchScreenUser(),
     BookingScreenUser(),
     MyAccountScreenUser(),
