@@ -24,12 +24,21 @@ class HealingMatchConstants {
   static const String TREATMENT_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/orteopathic/getAllOsteopathic';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';    
+      ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
+
+  // register service user
   static const String REGISTER_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
 
+  // login service user
+  static const String LOGIN_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
+
   //Common string
-  static String progressText = '';
+  static String registerProgressText = '登録中...';
+  static String locationProgressText = '現在地を取得中...';
+  static String getCityProgressText = '府県の市のデータを取得中。。。';
+  static String getLoginProgressText = 'ログイン中。。。';
 
   //Register Service User Screen Constants
   static String serviceUserName = '';
