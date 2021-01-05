@@ -8,7 +8,6 @@ import 'package:gps_massageapp/models/apiResponseModels/treatmentDropDownModel.d
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-
 class ServicePriceModel {
   String _name;
   int _sixtyMin;

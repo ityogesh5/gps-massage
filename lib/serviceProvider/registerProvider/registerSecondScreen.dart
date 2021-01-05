@@ -33,6 +33,7 @@ class _RegistrationSecondPageState
   final accountnumberkey = new GlobalKey<FormState>();
   bool readonly = false;
   bool visible = false;
+  bool uploadVisible = false;
   var identificationverify, qualification, bankname, accountnumber;
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
@@ -225,12 +226,14 @@ class _RegistrationSecondPageState
                                       .registrationQualificationDropdown,
                               onSaved: (value) {
                                 setState(() {
+                                  uploadVisible = true;
                                   qualification = value;
                                 });
                               },
                               value: qualification,
                               onChanged: (value) {
                                 setState(() {
+                                  uploadVisible = true;
                                   qualification = value;
                                 });
                               },
@@ -276,50 +279,59 @@ class _RegistrationSecondPageState
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  certificateImages.containsKey(qualification)
-                      ? Container(
-                          padding: EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width * 0.38,
-                          height: MediaQuery.of(context).size.height * 0.19,
-                          decoration: new BoxDecoration(
-                            //   border: Border.all(color: Colors.black12),
-                            //   shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.cover,
-                              image: FileImage(
-                                  File(certificateImages[qualification])),
-                            ),
-                          ))
-                      : Container(
-                          padding: EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width * 0.38,
-                          height: MediaQuery.of(context).size.height * 0.19,
-                          color: Colors.grey[200],
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('アップロード'),
-                              Text('証明書'),
-                              IconButton(
-                                onPressed: () {
-                                  _showPicker(context);
-                                },
-                                icon: Icon(Icons.file_upload),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                HealingMatchConstants
-                                    .registrationQualificationUpload,
-                                style: TextStyle(fontSize: 10),
-                              ),
-                            ],
-                          ),
+                  Visibility(
+                    visible: uploadVisible,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
                         ),
+                        certificateImages.containsKey(qualification)
+                            ? Container(
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width * 0.38,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.19,
+                                decoration: new BoxDecoration(
+                                  //   border: Border.all(color: Colors.black12),
+                                  //   shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(
+                                        File(certificateImages[qualification])),
+                                  ),
+                                ))
+                            : Container(
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width * 0.38,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.19,
+                                color: Colors.grey[200],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('アップロード'),
+                                    Text('証明書'),
+                                    IconButton(
+                                      onPressed: () {
+                                        _showPicker(context);
+                                      },
+                                      icon: Icon(Icons.file_upload),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      HealingMatchConstants
+                                          .registrationQualificationUpload,
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
