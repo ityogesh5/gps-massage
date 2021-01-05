@@ -1,110 +1,186 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
   _IntroTermsAndPolicyState createState() => _IntroTermsAndPolicyState();
 }
 
-class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
+class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
+    with SingleTickerProviderStateMixin {
   bool _value = false;
+  int _tabIndex = 0;
+  TabController _tabController;
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  buildUnSelectedTabBar(String title) {
+    return Container(
+      height: 30.0,
+      margin: EdgeInsets.all(0.0),
+      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 4.0),
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15.0),
+        ),
+      ),
+      child: Text(
+        "$title",
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  void _handleTabSelection() {
+    print("a");
+    setState(() {
+      _tabIndex = _tabController.index;
+    });
+  }
+
+  validateTermsAcceptStatus() {
+    if (_value) {
+      NavigationRouter.switchToUserDefineScreen(context);
+    } else {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('利用規約とプライバシーポリシーに同意してください',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(243, 249, 250, 1),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            '利用規約とプライバシーポリシー',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          bottom: TabBar(
-            indicatorColor: Colors.lime,
-            onTap: (index) {},
-            tabs: [
-              Tab(
-                child: Text(
-                  "セラピスト",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Tab(
-                child: Text(
-                  "サービス利用者",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Color.fromRGBO(243, 249, 250, 1),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          '利用規約とプライバシーポリシー',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0),
           ),
         ),
-        body: TabBarView(
-          children: [
-            //First Tab Bar
-            Container(
-              child: FutureBuilder(
-                  future: rootBundle
-                      .loadString("assets/privacy_policy/service_provider.md"),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Markdown(
-                          data: snapshot.data,
-                          styleSheet:
-                              MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                  .copyWith(
-                                      p: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .copyWith(fontSize: 12.0)));
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
+        elevation: 1,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        bottom: TabBar(
+          controller: _tabController,
+          isScrollable: true,
+          labelColor: Colors.white,
+          indicator: new BubbleTabIndicator(
+            indicatorHeight: 30.0,
+            indicatorColor: Colors.lime,
+            tabBarIndicatorSize: TabBarIndicatorSize.tab,
+          ),
+          onTap: (index) {},
+          dragStartBehavior: DragStartBehavior.start,
+          tabs: [
+            Tab(
+              child: _tabIndex == 0
+                  ? Text(
+                      "サービス利用者",
+                      style: TextStyle(
+                          color: Colors.white60, fontWeight: FontWeight.bold),
+                    )
+                  : buildUnSelectedTabBar("サービス利用者"),
             ),
-            Container(
-              child: FutureBuilder(
-                  future: rootBundle
-                      .loadString("assets/privacy_policy/service_user.md"),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Markdown(
-                          data: snapshot.data,
-                          styleSheet:
-                              MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                  .copyWith(
-                                      p: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .copyWith(fontSize: 12.0)));
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }),
+            Tab(
+              child: _tabIndex == 1
+                  ? Text("セラピスト",
+                      style: TextStyle(
+                          color: Colors.white60, fontWeight: FontWeight.bold))
+                  : buildUnSelectedTabBar("セラピスト"),
             ),
           ],
         ),
-        bottomNavigationBar: buildBottomBar(),
       ),
+      body: TabBarView(
+        physics: NeverScrollableScrollPhysics(), //Disable Horizontal Swipe
+        controller: _tabController,
+        children: [
+          //Service User Tab Bar
+          Container(
+            child: FutureBuilder(
+                future: rootBundle
+                    .loadString("assets/privacy_policy/service_user.md"),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return Markdown(
+                        data: snapshot.data,
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(
+                                    p: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(fontSize: 14.0)));
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
+          ),
+          //Service Provider Tab Bar
+          Container(
+            child: FutureBuilder(
+                future: rootBundle
+                    .loadString("assets/privacy_policy/service_provider.md"),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasData) {
+                    return Markdown(
+                        data: snapshot.data,
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(
+                                    p: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(fontSize: 14.0)));
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
+          ),
+        ],
+      ),
+      bottomNavigationBar: buildBottomBar(),
     );
   }
 
   Widget buildBottomBar() {
     return Container(
       height: 120,
-      color: Color.fromRGBO(243, 249, 250, 1),
+      color: Colors.white, //Color.fromRGBO(243, 249, 250, 1),
       child: Column(
         children: [
           Row(
@@ -136,24 +212,25 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
             height: 40,
             width: MediaQuery.of(context).size.width * 0.90,
             child: RaisedButton(
+              elevation: 0.0,
               textColor: Colors.white60,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              color: _value ? Colors.lime : Colors.lime[200],
+              color: _value ? Colors.lime : Colors.grey[200],
               onPressed: () {
-                if (_value) {
-                  NavigationRouter.switchToUserDefineScreen(context);
-                }
+                validateTermsAcceptStatus();
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Text('同意',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Open Sans',
-                        fontWeight: FontWeight.w800,
-                        color: Color.fromRGBO(255, 255, 255, 1))),
+                child: Text(
+                  '同意',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'Open Sans',
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -161,14 +238,4 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy> {
       ),
     );
   }
-
-/* Color getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll('#', '');
-
-    if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor;
-    }
-
-    return Color(int.parse(hexColor, radix: 16));
-  }*/
 }

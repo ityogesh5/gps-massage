@@ -35,6 +35,8 @@ class _RegistrationSecondPageState
   bool visible = false;
   var identificationverify, qualification, bankname, accountnumber;
   ProgressDialog _progressDialog = ProgressDialog();
+  Map<String, String> certificateImages = Map<String, String>();
+  PickedFile _profileImage;
 
   void initState() {
     super.initState();
@@ -42,6 +44,7 @@ class _RegistrationSecondPageState
     qualification = '';
     bankname = '';
     accountnumber = '';
+    qualification = '';
   }
 
   @override
@@ -276,30 +279,47 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    width: MediaQuery.of(context).size.width * 0.38,
-                    height: MediaQuery.of(context).size.height * 0.19,
-                    color: Colors.grey[200],
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('アップロード'),
-                        Text('証明書'),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.file_upload),
+                  certificateImages.containsKey(qualification)
+                      ? Container(
+                          padding: EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width * 0.38,
+                          height: MediaQuery.of(context).size.height * 0.19,
+                          decoration: new BoxDecoration(
+                            //   border: Border.all(color: Colors.black12),
+                            //   shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image: FileImage(
+                                  File(certificateImages[qualification])),
+                            ),
+                          ))
+                      : Container(
+                          padding: EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width * 0.38,
+                          height: MediaQuery.of(context).size.height * 0.19,
+                          color: Colors.grey[200],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('アップロード'),
+                              Text('証明書'),
+                              IconButton(
+                                onPressed: () {
+                                  _showPicker(context);
+                                },
+                                icon: Icon(Icons.file_upload),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                HealingMatchConstants
+                                    .registrationQualificationUpload,
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          HealingMatchConstants.registrationQualificationUpload,
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -664,6 +684,60 @@ class _RegistrationSecondPageState
       return;
     }
     NavigationRouter.switchToProviderOtpScreen(context);
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('プロフィール画像を選択してください。'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('プロフィール写真を撮ってください。'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _imgFromCamera() async {
+    final image = await ImagePicker().getImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+        preferredCameraDevice: CameraDevice.front);
+
+    setState(() {
+      _profileImage = image;
+      certificateImages[qualification] = _profileImage.path;
+    });
+    print('image path : ${_profileImage.path}');
+  }
+
+  _imgFromGallery() async {
+    final image = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      _profileImage = image;
+      certificateImages[qualification] = _profileImage.path;
+    });
+    print('image path : ${_profileImage.path}');
   }
 
   void showProgressDialog() {
