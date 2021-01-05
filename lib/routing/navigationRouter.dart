@@ -9,7 +9,7 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/homeScreen.dart';
+
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 
@@ -56,12 +56,12 @@ class NavigationRouter {
   }
 
   // Service User home screen
-  static void switchToServiceUserHomeScreen(BuildContext context) {
+  /* static void switchToServiceUserHomeScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ServiceUserHomeScreen()));
-  }
+  }*/
 
   //Provider Choose service screen
   static void switchToChooseServiceScreen(BuildContext context) {
