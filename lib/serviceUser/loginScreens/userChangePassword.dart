@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
@@ -57,7 +58,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        "+81****に届いた認証コード及び\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。",
+                        HealingMatchConstants.changePasswordTxt,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -136,7 +137,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                           filled: true,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "新しいパスワード *",
+                          hintText: HealingMatchConstants.changePasswordNewpass,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(

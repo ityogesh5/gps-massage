@@ -80,7 +80,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        "+81****に届いた認証コード及び\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。",
+                        HealingMatchConstants.changePasswordTxt,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -152,7 +155,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               }),
                           filled: true,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.grey, fontSize: 13),
                           labelText:
                               HealingMatchConstants.changePasswordNewpass,
                           hintText: HealingMatchConstants.changePasswordNewpass,
@@ -187,7 +190,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               }),
                           filled: true,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.grey, fontSize: 13),
                           labelText:
                               HealingMatchConstants.changePasswordConfirmpass,
                           hintText:
@@ -202,7 +205,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'パスワードを再設定する',
+                          HealingMatchConstants.changePasswordBtn,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.lime,
@@ -219,8 +222,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: InkWell(
                         onTap: () {},
                         child: Text(
-                          '認証コードを再送する',
-                          style: TextStyle(),
+                          HealingMatchConstants.changeResendOtp,
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
                         ),
                       ),
                     ),

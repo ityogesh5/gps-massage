@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
@@ -8,13 +10,15 @@ class UserForgetPassword extends StatefulWidget {
 }
 
 class _UserForgetPasswordState extends State<UserForgetPassword> {
-  TextEditingController emailaddress = TextEditingController();
+  final phoneNumberController = new TextEditingController();
+  FocusNode phoneNumberFocus = FocusNode();
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -47,28 +51,31 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        'パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        HealingMatchConstants.forgetPasswordTxt,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
                       ),
                     ),
                     SizedBox(
                       height: 18,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
+                      focusNode: phoneNumberFocus,
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
+                          labelText: HealingMatchConstants.forgetPasswordPhn,
                           hintStyle:
                               TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "電話番号",
+                          hintText: HealingMatchConstants.forgetPasswordPhn,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -84,11 +91,8 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      UserChangePassword()));
+                          NavigationRouter.switchToProviderChangePasswordScreen(
+                              context);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

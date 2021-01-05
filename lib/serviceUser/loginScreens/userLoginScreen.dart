@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +38,27 @@ class _UserLoginState extends State<UserLogin> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
+      bottomNavigationBar: buildBottomBar(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(top: 15, right: 20),
+            child: InkWell(
+              onTap: () {},
+              child: Text(
+                HealingMatchConstants.loginUserSkipText,
+                style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0),
+              ),
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Stack(
@@ -52,7 +74,7 @@ class _UserLoginState extends State<UserLogin> {
                     SvgPicture.asset('assets/images_gps/logo.svg',
                         height: 100, width: 140),
                     Center(
-                        child: Text('サービス利用者のログイン',
+                        child: Text(HealingMatchConstants.loginUserText,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold))),
                     SizedBox(
@@ -60,20 +82,19 @@ class _UserLoginState extends State<UserLogin> {
                     ),
                     TextFormField(
                       controller: phoneNumberController,
-                      decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 0.0,
-                            ),
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "電話番号",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          labelText: HealingMatchConstants.loginPhoneNumber,
+                          hintText: HealingMatchConstants.loginPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -82,14 +103,11 @@ class _UserLoginState extends State<UserLogin> {
                     TextFormField(
                       controller: passwordController,
                       decoration: new InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                              width: 0.0,
-                            ),
+                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: passwordVisibility
@@ -101,9 +119,11 @@ class _UserLoginState extends State<UserLogin> {
                                 });
                               }),
                           filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "パスワード",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          labelText: HealingMatchConstants.loginUserPassword,
+                          hintText: HealingMatchConstants.loginUserPassword,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -118,13 +138,14 @@ class _UserLoginState extends State<UserLogin> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        UserForgetPassword()));
+                                        ForgetPassword()));
                           },
                           child: Text(
-                            '${HealingMatchConstants.loginForgetPassword}',
+                            '${HealingMatchConstants.loginUserForgetPassword}',
                             style: TextStyle(
+                              color: Colors.grey,
 //                    decoration: TextDecoration.underline,
-                                ),
+                            ),
                           ),
                         ),
                       ],
@@ -134,11 +155,11 @@ class _UserLoginState extends State<UserLogin> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: MediaQuery.of(context).size.height * 0.065,
                       child: RaisedButton(
                         child: Text(
-                          '${HealingMatchConstants.loginButton}',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          '${HealingMatchConstants.loginUserButton}',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         color: Colors.lime,
                         onPressed: () {
@@ -159,16 +180,21 @@ class _UserLoginState extends State<UserLogin> {
                                 const EdgeInsets.only(left: 10.0, right: 15.0),
                             child: Divider(
                               // height: 50,
-                              color: Colors.black,
+                              color: Colors.grey,
                             )),
                       ),
-                      Text("または"),
+                      Text(
+                        "または",
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
                       Expanded(
                         child: new Container(
                             margin:
                                 const EdgeInsets.only(left: 15.0, right: 10.0),
                             child: Divider(
-                              color: Colors.black,
+                              color: Colors.grey,
                               // height: 50,
                             )),
                       ),
@@ -185,17 +211,25 @@ class _UserLoginState extends State<UserLogin> {
                               print('Line login');
                             },
                             child: Container(
-                                width: 45.0,
-                                height: 45.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: new AssetImage(
-                                        'assets/images_gps/line.jpg'),
-                                  ),
-                                ))),
+                              width: 45.0,
+                              height: 45,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black38),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                  width: 20.0,
+                                  height: 20,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: new AssetImage(
+                                          'assets/images_gps/line1.png'),
+                                    ),
+                                  )),
+                            )),
                         SizedBox(
                           width: 10,
                         ),
@@ -205,17 +239,25 @@ class _UserLoginState extends State<UserLogin> {
                               //_initiateAppleSignIn();
                             },
                             child: Container(
-                                width: 45.0,
-                                height: 45.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: new AssetImage(
-                                        'assets/images_gps/apple2.jpg'),
-                                  ),
-                                ))),
+                              width: 45.0,
+                              height: 45,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black38),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                  width: 20.0,
+                                  height: 20,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.white),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: new AssetImage(
+                                          'assets/images_gps/apple2.jpg'),
+                                    ),
+                                  )),
+                            )),
                       ],
                     ),
                     SizedBox(
@@ -227,7 +269,7 @@ class _UserLoginState extends State<UserLogin> {
                             context);
                       },
                       child: Text(
-                        '新規の方はこちら',
+                        HealingMatchConstants.loginUserNewRegistrationText,
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontWeight: FontWeight.w100),
@@ -237,27 +279,27 @@ class _UserLoginState extends State<UserLogin> {
                 ),
               ),
 //              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 1.1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        NavigationRouter.switchToProviderLogin(context);
-                      },
-                      child: Text(
-                        'セラピストのログイン',
-                        style: TextStyle(
-//                            decoration: TextDecoration.underline,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildBottomBar() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.06,
+      child: InkWell(
+        onTap: () {
+          NavigationRouter.switchToProviderLogin(context);
+        },
+        child: Center(
+          child: Text(
+            HealingMatchConstants.loginServiceProvider,
+            style: TextStyle(
+              color: Colors.grey,
+//                            decoration: TextDecoration.underline,
+            ),
           ),
         ),
       ),
@@ -362,7 +404,8 @@ class _UserLoginState extends State<UserLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
-        //NavigationRouter.switchToServiceUserHomeScreen(context);
+        NavigationRouter.switchToServiceUserBottomBar(context);
+        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
       } else if (response.statusCode == 400) {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         print('User Not found');

@@ -71,6 +71,16 @@ class HealingMatchConstants {
   static const String loginNewRegistrationText = '新規の方はこちら';
   static const String loginServiceUser = 'サービス利用者のログイン';
 
+  //LoginServiceUser
+  static const String loginUserText = 'サービス利用者のログイン';
+  static const String loginUserSkipText = 'スキップ';
+  static const String loginUserPhoneNumber = '電話番号 *';
+  static const String loginUserPassword = 'パスワード *';
+  static const String loginUserForgetPassword = 'パスワードを忘れた方はこちら';
+  static const String loginUserButton = 'ログイン';
+  static const String loginUserNewRegistrationText = '新規の方はこちら';
+  static const String loginServiceProvider = 'セラピストのログイン';
+
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
   static const String registrationSecondText = 'は必項目です';
@@ -129,10 +139,16 @@ class HealingMatchConstants {
 
   //Forget Password
   static const String forgetPasswordPhn = "電話番号 *";
+  static const String forgetPasswordTxt =
+      "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
 
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
+  static const String changePasswordTxt =
+      "+81****に届いた認証コード及び\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
   static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
+  static const String changePasswordBtn = 'パスワードを再設定する';
+  static const String changeResendOtp = '認証コードを再送する';
   //FontStyle
   static const headersText = TextStyle(
     fontFamily: 'Open Sans',

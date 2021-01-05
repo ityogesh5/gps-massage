@@ -22,6 +22,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -55,8 +56,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        'パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        HealingMatchConstants.forgetPasswordTxt,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
                       ),
                     ),
                     SizedBox(
@@ -77,7 +79,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           filled: true,
                           labelText: HealingMatchConstants.forgetPasswordPhn,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.grey, fontSize: 13),
                           hintText: HealingMatchConstants.forgetPasswordPhn,
                           fillColor: Colors.grey[200]),
                     ),

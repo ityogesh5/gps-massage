@@ -49,4 +49,10 @@ class ProgressDialogBuilder {
   static void hideLoginUserProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
+
+  static void showLoginProviderProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
 }
