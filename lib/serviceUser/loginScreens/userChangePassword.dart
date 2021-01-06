@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
 class UserChangePassword extends StatefulWidget {
   @override
@@ -10,6 +13,7 @@ class UserChangePassword extends StatefulWidget {
 }
 
 class _UserChangePasswordState extends State<UserChangePassword> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userOTP;
   TextEditingController pin = TextEditingController();
   TextEditingController createPassword = TextEditingController();
@@ -22,9 +26,25 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confrimPasswordFocus = FocusNode();
 
+  List<String> changePasswordDetails = [];
+
+  RegExp passwordRegex = new RegExp(
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
+
+  //Regex validation for emojis in text
+  RegExp regexEmojis = RegExp(
+      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+
+  @override
+  void initState() {
+    super.initState();
+    userOTP = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -34,10 +54,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => UserForgetPassword()));
+            NavigationRouter.switchToUserLogin(context);
           },
         ),
       ),
@@ -66,30 +83,27 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 25,
                     ),
                     Container(
-                      height: 60,
+                      height: 50,
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 5.0,
                       ),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              stops: [
-                                0.3,
-                                1
-                              ],
-                              colors: [
-                                Colors.grey[200],
-                                Colors.grey[200],
-                              ]),
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10))),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [
+                              0.3,
+                              1
+                            ],
+                            colors: [
+                              Colors.grey[200],
+                              Colors.grey[200],
+                            ]),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: OTPTextField(
                         length: 4,
                         keyboardType: TextInputType.number,
@@ -115,14 +129,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                           counterText: "",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: createPasswordVisibility
@@ -135,8 +145,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                                 });
                               }),
                           filled: true,
+                          labelText:
+                              HealingMatchConstants.changePasswordNewpass,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
+                              TextStyle(color: Colors.grey, fontSize: 13),
                           hintText: HealingMatchConstants.changePasswordNewpass,
                           fillColor: Colors.grey[200]),
                     ),
@@ -152,14 +164,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       maxLength: 14,
                       decoration: new InputDecoration(
                           counterText: "",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 0.0,
-                            ),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           suffixIcon: IconButton(
                               icon: confirmPasswordVisibility
@@ -173,8 +181,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                               }),
                           filled: true,
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
-                          hintText: "新しいパスワード(確認) *",
+                              TextStyle(color: Colors.grey, fontSize: 13),
+                          labelText:
+                              HealingMatchConstants.changePasswordConfirmpass,
+                          hintText:
+                              HealingMatchConstants.changePasswordConfirmpass,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -185,16 +196,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          'パスワードを再設定する',
+                          HealingMatchConstants.changePasswordBtn,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      UserChangePassword()));
+                          _providerChangePasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -206,8 +213,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       child: InkWell(
                         onTap: () {},
                         child: Text(
-                          '認証コードを再送する',
-                          style: TextStyle(),
+                          HealingMatchConstants.changeResendOtp,
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
@@ -219,5 +228,122 @@ class _UserChangePasswordState extends State<UserChangePassword> {
         ),
       ),
     );
+  }
+
+  _providerChangePasswordDetails() async {
+    //var pinCode = pinCodeText.text.toString();
+    var pinCode = userOTP;
+    var password = createPassword.text.toString();
+    var confirmPassword = confirmpassword.text.toString();
+
+    // user phone number validation
+    if (pinCode.length < 4 || pinCode == null || pinCode.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('4文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.length < 8 || confirmPassword.length < 8) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは8文字以上で入力してください。  ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.length > 14 || confirmPassword.length > 14) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは15文字以内で入力してください。 ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    // Combination password
+
+    if (!passwordRegex.hasMatch(password)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password != confirmPassword) {
+      //print("Entering password state");
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードと確認パスワードの入力が一致しません。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+    if (password.contains(regexEmojis)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な文字でパスワードを入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    changePasswordDetails.add(pinCode);
+    changePasswordDetails.add(password);
+    changePasswordDetails.add(confirmPassword);
+
+    print('User details length in array : ${changePasswordDetails.length}');
+
+    NavigationRouter.switchToUserLogin(context);
+
+    /*  final url = '';
+    http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer ${'token'}"
+        },
+        body: json.encode({
+          "serviceUserDetails": changePasswordDetails,
+        })); */
   }
 }

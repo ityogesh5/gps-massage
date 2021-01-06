@@ -136,11 +136,8 @@ class _UserLoginState extends State<UserLogin> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ForgetPassword()));
+                            NavigationRouter
+                                .switchToProviderForgetPasswordScreen(context);
                           },
                           child: Text(
                             '${HealingMatchConstants.loginUserForgetPassword}',
