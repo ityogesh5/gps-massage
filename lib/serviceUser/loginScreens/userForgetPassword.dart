@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
@@ -10,14 +11,17 @@ class UserForgetPassword extends StatefulWidget {
 }
 
 class _UserForgetPasswordState extends State<UserForgetPassword> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   FocusNode phoneNumberFocus = FocusNode();
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
+  List<String> forgetPasswordDetails = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -91,8 +95,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          NavigationRouter.switchToProviderChangePasswordScreen(
-                              context);
+                          _userForgetPasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -107,5 +110,44 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
         ),
       ),
     );
+  }
+
+  _userForgetPasswordDetails() async {
+    var userPhoneNumber = phoneNumberController.text.toString();
+
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('11文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    forgetPasswordDetails.add(userPhoneNumber);
+
+    print('User details length in array : ${forgetPasswordDetails.length}');
+
+    /*   final url = '';
+    http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer ${'token'}"
+        },
+        body: json.encode({
+          "serviceUserDetails": forgetPasswordDetails,
+        })); */
+
+    NavigationRouter.switchToUserChangePasswordScreen(context);
   }
 }
