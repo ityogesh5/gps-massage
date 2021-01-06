@@ -44,7 +44,9 @@ class _UserLoginState extends State<UserLogin> {
           Padding(
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                NavigationRouter.switchToServiceUserBottomBar(context);
+              },
               child: Text(
                 HealingMatchConstants.loginUserSkipText,
                 style: TextStyle(
@@ -313,7 +315,7 @@ class _UserLoginState extends State<UserLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
+        content: Text('11文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -354,6 +356,37 @@ class _UserLoginState extends State<UserLogin> {
       ));
       return;
     }
+
+    // Combination password
+
+    /*  if (!passwordRegex.hasMatch(password)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.contains(regexEmojis)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な文字でパスワードを入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }*/
     try {
       ProgressDialogBuilder.showLoginUserProgressDialog(context);
 

@@ -90,7 +90,7 @@ class HealingMatchConstants {
   static const String registrationBuisnessTrip = '出張でサービス提供可能';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationJapanAssociationTxt =
-      'マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
+      '*マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
   static const String registrationName = 'お名前*';
   static const String registrationStoreTxt = '店舗として登録の場合は代表者の氏名を入力してください';
   static const String registrationStoreName = '店舗名*';
@@ -145,7 +145,7 @@ class HealingMatchConstants {
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
   static const String changePasswordTxt =
-      "+81****に届いた認証コード及び\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
+      "+81****に届いた認証コードと\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
   static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';

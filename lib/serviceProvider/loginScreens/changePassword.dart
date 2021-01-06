@@ -223,8 +223,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         onTap: () {},
                         child: Text(
                           HealingMatchConstants.changeResendOtp,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.black),
                         ),
                       ),
                     ),
@@ -248,7 +249,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     if (pinCode.length < 4 || pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('4文字以上の電話番号を入力してください。',
+        content: Text('認証コード入力は必須項目なので入力してください。。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

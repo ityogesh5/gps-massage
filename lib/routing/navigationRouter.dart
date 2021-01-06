@@ -64,6 +64,11 @@ class NavigationRouter {
             builder: (BuildContext context) => BottomBarProvider()));
   }
 
+  /*static void switchToServiceProviderBottomBar(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+  }*/
+
   //Provider Choose service screen
   static void switchToChooseServiceScreen(BuildContext context) {
     Navigator.push(context,
