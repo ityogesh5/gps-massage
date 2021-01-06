@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
@@ -10,10 +10,8 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/homeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
-
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 
@@ -52,23 +50,18 @@ class NavigationRouter {
         (Route<dynamic> route) => false);
   }
 
-  //Provider home screen
-  static void switchToProviderHome(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => MyHomePage()),
-        (Route<dynamic> route) => false);
-  }
-
-  // Service User home screen
-  /*static void switchToServiceUserHomeScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ServiceUserHomeScreen()));
-  }*/
+  // User bottom bar homescreen
   static void switchToServiceUserBottomBar(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => BottomBarUser()));
+  }
+
+// Provider bottom bar homescreen
+  static void switchToServiceProviderBottomBar(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider()));
   }
 
   //Provider Choose service screen

@@ -1,10 +1,10 @@
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('利用規約とプライバシーポリシーに同意してください',
+        content: Text('利用規約とプライバシーポリシーに同意してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -83,12 +83,12 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
+            bottomLeft: Radius.circular(5.0),
+            bottomRight: Radius.circular(5.0),
           ),
         ),
-        elevation: 1,
-        backgroundColor: Colors.white,
+        elevation: 0,
+        backgroundColor: Color.fromRGBO(243, 249, 250, 1),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
@@ -180,7 +180,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   Widget buildBottomBar() {
     return Container(
       height: 120,
-      color: Colors.white, //Color.fromRGBO(243, 249, 250, 1),
+      color: Color.fromRGBO(243, 249, 250, 1),
       child: Column(
         children: [
           Row(
@@ -217,7 +217,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              color: _value ? Colors.lime : Colors.grey[200],
+              color: _value ? Colors.lime : Colors.lime[200],
               onPressed: () {
                 validateTermsAcceptStatus();
               },

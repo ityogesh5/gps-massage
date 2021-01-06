@@ -1,13 +1,9 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
-import 'package:horizontal_center_date_picker/datepicker_controller.dart';
-import 'package:horizontal_center_date_picker/horizontal_date_picker.dart';
-import 'package:date_util/date_util.dart';
 
 class ProviderHome extends StatefulWidget {
   @override
@@ -62,7 +58,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                     color: Colors.grey[200],
                     elevation: 2,
                     shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                        side:
+                            BorderSide(color: Colors.grey.shade200, width: 0.5),
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
@@ -318,7 +315,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                           child: Card(
                             elevation: 5,
                             shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                side: BorderSide(
+                                    color: Colors.grey.shade200, width: 0.5),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -348,7 +346,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                           child: Card(
                             elevation: 5,
                             shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                side: BorderSide(
+                                    color: Colors.grey.shade200, width: 0.5),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -379,7 +378,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                           child: Card(
                             elevation: 5,
                             shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                                side: BorderSide(
+                                    color: Colors.grey.shade200, width: 0.5),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -419,7 +419,8 @@ class _ProviderHomeState extends State<ProviderHome> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   color: Colors.transparent,
                                   child: DropDownFormField(
                                     titleText: null,
@@ -558,9 +559,7 @@ class _ProviderHomeState extends State<ProviderHome> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           InkWell(
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                             child: Icon(
                               Icons.calendar_today,
                               size: 35.0,

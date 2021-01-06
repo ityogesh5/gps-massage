@@ -9,11 +9,7 @@ import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
 import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:http/http.dart' as http;
-import 'package:toast/toast.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -73,7 +69,7 @@ class _UserLoginState extends State<UserLogin> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/images_gps/logo.svg',
+                    SvgPicture.asset('assets/images_gps/normalLogo.svg',
                         height: 100, width: 140),
                     Center(
                         child: Text(HealingMatchConstants.loginUserText,
@@ -84,6 +80,7 @@ class _UserLoginState extends State<UserLogin> {
                     ),
                     TextFormField(
                       controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                           border: OutlineInputBorder(
@@ -357,37 +354,6 @@ class _UserLoginState extends State<UserLogin> {
       ));
       return;
     }
-
-    // Combination password
-
-    if (!passwordRegex.hasMatch(password)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    if (password.contains(regexEmojis)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
     try {
       ProgressDialogBuilder.showLoginUserProgressDialog(context);
 
@@ -403,8 +369,8 @@ class _UserLoginState extends State<UserLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
-        NavigationRouter.switchToServiceUserBottomBar(context);
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+        NavigationRouter.switchToServiceUserBottomBar(context);
       } else {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         print('Response Failure !!');

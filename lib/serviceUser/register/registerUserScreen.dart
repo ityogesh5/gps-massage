@@ -1553,7 +1553,7 @@ class _RegisterUserState extends State<RegisterUser> {
             backgroundColor: Colors.lime,
             textColor: Colors.white);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        //NavigationRouter.switchToServiceUserHomeScreen(context);
+        NavigationRouter.switchToServiceUserBottomBar(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');

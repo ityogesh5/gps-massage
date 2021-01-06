@@ -149,6 +149,7 @@ class HealingMatchConstants {
   static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
+
   //FontStyle
   static const headersText = TextStyle(
     fontFamily: 'Open Sans',

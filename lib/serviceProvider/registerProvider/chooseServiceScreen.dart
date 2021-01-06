@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/treatmentDropDownModel.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class ServicePriceModel {
   String _name;

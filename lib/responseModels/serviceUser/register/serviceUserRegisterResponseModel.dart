@@ -9,7 +9,7 @@ class ServiceUserRegisterModel {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
+        json['address'] != null ? new Address.fromJson(json['address']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,20 +44,20 @@ class Data {
 
   Data(
       {this.isVerified,
-        this.coronaMeasure,
-        this.id,
-        this.userName,
-        this.dob,
-        this.age,
-        this.userOccupation,
-        this.phoneNumber,
-        this.email,
-        this.isTherapist,
-        this.gender,
-        this.userId,
-        this.uploadProfileImgUrl,
-        this.updatedAt,
-        this.createdAt});
+      this.coronaMeasure,
+      this.id,
+      this.userName,
+      this.dob,
+      this.age,
+      this.userOccupation,
+      this.phoneNumber,
+      this.email,
+      this.isTherapist,
+      this.gender,
+      this.userId,
+      this.uploadProfileImgUrl,
+      this.updatedAt,
+      this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     isVerified = json['isVerified'];
@@ -113,16 +113,16 @@ class Address {
 
   Address(
       {this.id,
-        this.buildingName,
-        this.area,
-        this.address,
-        this.lat,
-        this.lon,
-        this.userId,
-        this.createdUser,
-        this.updatedUser,
-        this.updatedAt,
-        this.createdAt});
+      this.buildingName,
+      this.area,
+      this.address,
+      this.lat,
+      this.lon,
+      this.userId,
+      this.createdUser,
+      this.updatedUser,
+      this.updatedAt,
+      this.createdAt});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];

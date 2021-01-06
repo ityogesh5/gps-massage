@@ -1,17 +1,17 @@
+import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
-import 'package:date_util/date_util.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 
-class HomeScreen extends StatefulWidget {
+class ProviderHomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ProviderHomeScreenState createState() => _ProviderHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   final yearKey = new GlobalKey<FormState>();
   final monthKey = new GlobalKey<FormState>();
 
@@ -72,18 +72,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Icon(FontAwesomeIcons.user,
                                 color: Colors.grey, size: 20),
                           ),*/
-                          ClipOval(
-                                child: CircleAvatar(
-                                  radius: 30.0,
-                            backgroundColor: Colors.white,
-                            child: Image.asset(
+                              ClipOval(
+                            child: CircleAvatar(
+                              radius: 30.0,
+                              backgroundColor: Colors.white,
+                              child: Image.asset(
                                 'assets/images_gps/logo.png',
-                              fit: BoxFit.cover,
-                              width: 90.0,
-                              height: 90.0,
+                                fit: BoxFit.cover,
+                                width: 90.0,
+                                height: 90.0,
+                              ),
                             ),
                           ),
-                              ),
                           title: Row(
                             children: [
                               Text(
@@ -341,10 +341,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(
-                                      Icons.calendar_today_outlined,
-                                      size: 30,
-                                      color: Colors.black),
+                                  Icon(Icons.calendar_today_outlined,
+                                      size: 30, color: Colors.black),
                                   /*Image.asset(
                                     'assets/images_gps/car.jpg',
                                     width: 15.0,
@@ -376,10 +374,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(
-                                      Icons.calendar_today,
-                                      size: 30,
-                                      color: Colors.black),
+                                  Icon(Icons.calendar_today,
+                                      size: 30, color: Colors.black),
                                   Text('今月の売り上げ'),
                                   Text('¥ 500,000'),
                                 ],
@@ -406,10 +402,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(
-                                      Icons.calendar_today_sharp,
-                                      size: 30,
-                                      color: Colors.black),
+                                  Icon(Icons.calendar_today_sharp,
+                                      size: 30, color: Colors.black),
                                   Text('本年度の売り上げ'),
                                   Text('¥10,876,68'),
                                 ],
@@ -600,7 +594,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.grey[200],
                     elevation: 2,
                     shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.grey.shade200, width: 0.5),
+                        side:
+                            BorderSide(color: Colors.grey.shade200, width: 0.5),
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
@@ -725,10 +720,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           FontWeight.normal),
                                                 )),
                                             SizedBox(width: 10),
-                                            Icon(
-                                                Icons.access_time_rounded,
-                                                size: 20,
-                                                color: Colors.yellow),
+                                            Icon(Icons.access_time_rounded,
+                                                size: 20, color: Colors.yellow),
                                             Text(
                                               '今月',
                                               textAlign: TextAlign.right,
@@ -859,7 +852,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.grey[200],
                                                 width: 0.5),
                                             borderRadius:
-                                            BorderRadius.circular(10)),
+                                                BorderRadius.circular(10)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(children: [
@@ -874,8 +867,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                           ]),
-                                        )
-                                    ),
+                                        )),
                                   )
                                 ],
                               ),

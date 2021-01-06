@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/bottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
@@ -121,7 +121,7 @@ class _RegistrationSuccessOtpScreenState
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      MyHomePage()));
+                                      BottomBarProvider()));
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

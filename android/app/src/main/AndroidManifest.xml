@@ -15,7 +15,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/app_icon"
         android:label="Healing Match">
         <activity
             android:name=".MainActivity"
