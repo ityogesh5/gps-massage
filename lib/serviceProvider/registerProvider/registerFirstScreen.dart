@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
 
@@ -1783,6 +1784,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   // CityList cityResponse;
   _getCityDropDown(var prefid) async {
+    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {"prefecture_id": prefid.toString()}).then((response) {
       if (response.statusCode == 200) {
@@ -1792,6 +1794,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           cityDropDownValues.add(cityList.cityJa);
           print(cityDropDownValues);
         }
+        ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       }
     });
 

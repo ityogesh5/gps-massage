@@ -6,6 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
+import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
 import 'dart:convert';
@@ -21,6 +23,7 @@ class ProviderLogin extends StatefulWidget {
 }
 
 class _ProviderLoginState extends State<ProviderLogin> {
+  var loginResponseModel = new LoginResponseModel();
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
@@ -174,7 +177,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       ProviderHome()));*/
-                          NavigationRouter.switchToProviderHome(context);
+                          _loginProviderUser();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -379,11 +382,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       height: MediaQuery.of(context).size.height * 0.06,
       child: InkWell(
         onTap: () {
-          /* Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          ResetPassword()));*/
+          NavigationRouter.switchToUserLogin(context);
         },
         child: Center(
           child: Text(
@@ -414,7 +413,118 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
   }
 
-  _providerLoginDetails() async {
+  _loginProviderUser() async {
+    var userPhoneNumber = phoneNumberController.text.toString();
+    var password = passwordController.text.toString();
+
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('11文字以上の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.length < 8) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは8文字以上で入力してください。  ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.length > 14) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは15文字以内で入力してください。 ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    // Combination password
+
+    /*  if (!passwordRegex.hasMatch(password)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password.contains(regexEmojis)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な文字でパスワードを入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }*/
+    try {
+      ProgressDialogBuilder.showLoginUserProgressDialog(context);
+
+      final url = HealingMatchConstants.LOGIN_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json
+              .encode({"phoneNumber": userPhoneNumber, "password": password}));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
+        print('Response Success');
+        final Map loginResponse = json.decode(response.body);
+        loginResponseModel = LoginResponseModel.fromJson(loginResponse);
+        print('Login response : ${loginResponseModel.toJson()}');
+        print('Login token : ${loginResponseModel.accessToken}');
+        NavigationRouter.switchToProviderHome(context);
+        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+      } else {
+        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
+  }
+  /* _providerLoginDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
 
@@ -514,5 +624,5 @@ class _ProviderLoginState extends State<ProviderLogin> {
         body: json.encode({
           "serviceUserDetails": serviceProviderLoginDetails,
         })); */
-  }
+  }*/
 }

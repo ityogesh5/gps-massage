@@ -48,7 +48,9 @@ class _UserLoginState extends State<UserLogin> {
           Padding(
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                NavigationRouter.switchToServiceUserBottomBar(context);
+              },
               child: Text(
                 HealingMatchConstants.loginUserSkipText,
                 style: TextStyle(
@@ -360,7 +362,7 @@ class _UserLoginState extends State<UserLogin> {
 
     // Combination password
 
-    if (!passwordRegex.hasMatch(password)) {
+    /*  if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
@@ -387,7 +389,7 @@ class _UserLoginState extends State<UserLogin> {
             textColor: Colors.white),
       ));
       return;
-    }
+    }*/
     try {
       ProgressDialogBuilder.showLoginUserProgressDialog(context);
 
