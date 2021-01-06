@@ -223,8 +223,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         onTap: () {},
                         child: Text(
                           HealingMatchConstants.changeResendOtp,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.black),
                         ),
                       ),
                     ),

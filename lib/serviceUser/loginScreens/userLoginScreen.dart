@@ -318,7 +318,7 @@ class _UserLoginState extends State<UserLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
+        content: Text('11文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

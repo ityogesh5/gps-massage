@@ -1002,7 +1002,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
                       hint: Text(
-                        "現在地を取得する*",
+                        "検索地点の登録*",
                         style: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.bold),
                       ),
@@ -1058,7 +1058,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         enabled: false,
                         controller: gpsAddressController,
                         decoration: InputDecoration(
-                          labelText: "♪101-0041東京都千代田区",
+                          labelText: "現在地を取得する",
                           filled: true,
                           fillColor: Colors.black12,
                           disabledBorder: OutlineInputBorder(
@@ -1109,7 +1109,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               color: Colors.grey[200],
                               child: DropDownFormField(
                                 titleText: null,
-                                hintText: readonly ? _mystate : 'state',
+                                hintText: readonly ? _mystate : '都',
                                 onSaved: (value) {
                                   setState(() {
                                     _mystate = value;
@@ -1155,7 +1155,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
                               child: DropDownFormField(
                                 titleText: null,
-                                hintText: readonly ? _mycity : 'city',
+                                hintText: readonly ? _mycity : '市',
                                 onSaved: (value) {
                                   setState(() {
                                     _mycity = value;
@@ -1380,7 +1380,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('ユーザー名は20文字以内で入力してください。',
+        content: Text('お名前は20文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1394,8 +1394,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効なユーザー名を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1438,7 +1438,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //age Validation
-    if (age.isEmpty || age == null) {
+    /*  if (age.isEmpty || age == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
@@ -1451,7 +1451,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    }*/
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 11 ||
@@ -1459,7 +1459,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
+        content: Text('11文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1478,7 +1478,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         storenumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('店舗の電話番号を入力してください。',
+        content: Text('11文字の店舗の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1493,7 +1493,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (!(email.contains(regexMail))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効なメールアドレスを入力してください。',
+        content: Text('正しいメールアドレスを入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1507,7 +1507,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (email.length > 50) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('メールアドレスは100文字以内で入力してください。',
+        content: Text('メールアドレスは50文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1642,7 +1642,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1656,8 +1656,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な部屋番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
