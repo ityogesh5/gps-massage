@@ -11,12 +11,12 @@ import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+//import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'chooseServiceScreen.dart';
+import 'package:dio/dio.dart';
 
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
@@ -38,6 +38,7 @@ class _RegistrationSecondPageState
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
   PickedFile _profileImage;
+  PickedFile _idProfileImage;
 
   void initState() {
     super.initState();
@@ -156,27 +157,63 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 13,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          disabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
+                  _idProfileImage == null
+                      ? InkWell(
+                          onTap: () {
+                            _showPicker(context, 0);
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                suffixIcon: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.file_upload)),
+                                filled: true,
+                                hintStyle: TextStyle(
+                                    color: Colors.black, fontSize: 13),
+                                hintText: HealingMatchConstants
+                                    .registrationIdentityUpload,
+                                fillColor: Colors.grey[200]),
                           ),
-                          suffixIcon: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.file_upload)),
-                          filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 13),
-                          hintText:
-                              HealingMatchConstants.registrationIdentityUpload,
-                          fillColor: Colors.grey[200]),
-                    ),
-                  ),
+                        )
+                      : Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              height: MediaQuery.of(context).size.height * 0.19,
+                              decoration: new BoxDecoration(
+                                //   border: Border.all(color: Colors.black12),
+                                //   shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: FileImage(File(_idProfileImage.path)),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: IconButton(
+                                padding: EdgeInsets.all(0.0),
+                                icon: Icon(Icons.remove_circle),
+                                iconSize: 30.0,
+                                color: Colors.red,
+                                onPressed: () {
+                                  setState(() {
+                                    _idProfileImage = null;
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                   SizedBox(
                     height: 10,
                   ),
@@ -287,20 +324,43 @@ class _RegistrationSecondPageState
                           height: 10,
                         ),
                         certificateImages.containsKey(qualification)
-                            ? Container(
-                                padding: EdgeInsets.all(8),
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.19,
-                                decoration: new BoxDecoration(
-                                  //   border: Border.all(color: Colors.black12),
-                                  //   shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: FileImage(
-                                        File(certificateImages[qualification])),
-                                  ),
-                                ))
+                            ? Stack(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(8),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.19,
+                                      decoration: new BoxDecoration(
+                                        //   border: Border.all(color: Colors.black12),
+                                        //   shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: FileImage(File(
+                                              certificateImages[
+                                                  qualification])),
+                                        ),
+                                      )),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: IconButton(
+                                      padding: EdgeInsets.all(0.0),
+                                      icon: Icon(Icons.remove_circle),
+                                      iconSize: 30.0,
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        setState(() {
+                                          certificateImages
+                                              .remove(qualification);
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
+                              )
                             : Container(
                                 padding: EdgeInsets.all(8),
                                 width: MediaQuery.of(context).size.width * 0.38,
@@ -314,7 +374,7 @@ class _RegistrationSecondPageState
                                     Text('証明書'),
                                     IconButton(
                                       onPressed: () {
-                                        _showPicker(context);
+                                        _showPicker(context, 1);
                                       },
                                       icon: Icon(Icons.file_upload),
                                     ),
@@ -631,7 +691,8 @@ class _RegistrationSecondPageState
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     RegistrationSuccessOtpScreen()));*/
-                        _providerRegistrationDetails();
+                        //    _providerRegistrationDetails();
+                        registerProvider();
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -698,7 +759,121 @@ class _RegistrationSecondPageState
     NavigationRouter.switchToProviderOtpScreen(context);
   }
 
-  void _showPicker(context) {
+  registerProvider() async {
+    Dio dio = new Dio();
+
+    // dio.options.headers["Content-Type"] = "multipart/form-data";
+
+    List<MultipartFile> multipartList = new List<MultipartFile>();
+    certificateImages.forEach((key, value) {
+      multipartList.add(MultipartFile.fromFileSync(value, filename: key));
+    });
+    var formData = FormData.fromMap({
+      'email': 'amala132151435aa1@gmail.com',
+      'phoneNumber': '98765432111',
+      'userName': 'Amala',
+      'gender': 'M',
+      'dob': '1980-12-01',
+      'age': '18',
+      'password': '12345678',
+      'password_confirmation': '12345678',
+      'storeName': 'abc massage',
+      'storePhone': '98765431211',
+      'isTherapist': '1',
+      'buildingName': 'hghfghhh',
+      'address': 'area cyberbunk 2077',
+      'city': 'tokyo',
+      'area': 'Kantō',
+      'lat': '10.210',
+      'lon': '11.255',
+      'userPrefecture': 'tokyo',
+      'userRoomNumber': '103',
+      "qulaificationCertImgUrl": multipartList
+    });
+    formData.files.addAll([
+      MapEntry(
+        "proofOfIdentityImgUrl",
+        MultipartFile.fromFileSync(_profileImage.path,
+            filename: "proofOfIdentityImgUrl"),
+      ),
+      MapEntry(
+        "uploadProfileImgUrl",
+        MultipartFile.fromFileSync(_profileImage.path,
+            filename: "uploadProfileImgUrl"),
+      ),
+    ]);
+    print("${formData.files.length}");
+    Response response = await dio
+        .post('http://106.51.49.160:9094/api/user/registerProvider',
+            data: formData)
+        .catchError((e) => print("Error Code:" + e.response.toString()));
+
+    /*  if (response.statusCode == 200) {
+      print(response.data);
+    } else {
+      print(response.statusMessage);
+    } */
+  }
+
+  /*  registerProvider() async {
+    List<CertificateImageUpload> cImagesList =
+        new List<CertificateImageUpload>();
+    certificateImages.forEach((key, value) {
+      cImagesList.add(CertificateImageUpload(key, value));
+    });
+
+    List<MultipartFile> multipartList = new List<MultipartFile>();
+    certificateImages.forEach((key, value) async {
+      multipartList.add(await http.MultipartFile.fromPath(key, value));
+    });
+
+    Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+    var request = http.MultipartRequest('POST',
+        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      'email': 'amala132151435aa1@gmail.com',
+      'phoneNumber': '98765432111',
+      'userName': 'Amala',
+      'gender': 'M',
+      'dob': '1980-12-01',
+      'age': '18',
+      'password': '12345678',
+      'password_confirmation': '12345678',
+      'storeName': 'abc massage',
+      'storePhone': '98765431211',
+      'isTherapist': '1',
+      'buildingName': 'hghfghhh',
+      'address': 'area cyberbunk 2077',
+      'city': 'tokyo',
+      'area': 'Kantō',
+      'lat': '10.210',
+      'lon': '11.255',
+      'userPrefecture': 'tokyo',
+      'userRoomNumber': '103'
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _profileImage.path));
+    request.files.add(await http.MultipartFile.fromPath(
+        'uploadProfileImgUrl', _profileImage.path));
+    //request.files.add(value);//({'qulaificationCertImgUrl', cImagesList});
+    // request.files.addAll('qulaificationCertImgUrl',);
+    /* request.files.add(await http.MultipartFile.fromPath(
+        'qulaificationCertImgUrl', multipartList));
+ */
+    final userDetailsRequest = await request.send();
+    print("This is request : ${userDetailsRequest.request}");
+    final response = await http.Response.fromStream(userDetailsRequest);
+    print("This is response: ${response.statusCode}\n${response.body}");
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print(response.reasonPhrase);
+    }
+  } */
+
+  void _showPicker(context, int index) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -710,14 +885,14 @@ class _RegistrationSecondPageState
                       leading: new Icon(Icons.photo_library),
                       title: new Text('プロフィール画像を選択してください。'),
                       onTap: () {
-                        _imgFromGallery();
+                        _imgFromGallery(index);
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('プロフィール写真を撮ってください。'),
                     onTap: () {
-                      _imgFromCamera();
+                      _imgFromCamera(index);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -728,7 +903,7 @@ class _RegistrationSecondPageState
         });
   }
 
-  _imgFromCamera() async {
+  _imgFromCamera(int index) async {
     final image = await ImagePicker().getImage(
         source: ImageSource.camera,
         imageQuality: 50,
@@ -736,18 +911,22 @@ class _RegistrationSecondPageState
 
     setState(() {
       _profileImage = image;
-      certificateImages[qualification] = _profileImage.path;
+      index == 0
+          ? _idProfileImage = _profileImage
+          : certificateImages[qualification] = _profileImage.path;
     });
     print('image path : ${_profileImage.path}');
   }
 
-  _imgFromGallery() async {
+  _imgFromGallery(int index) async {
     final image = await ImagePicker()
         .getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       _profileImage = image;
-      certificateImages[qualification] = _profileImage.path;
+      index == 0
+          ? _idProfileImage = _profileImage
+          : certificateImages[qualification] = _profileImage.path;
     });
     print('image path : ${_profileImage.path}');
   }
@@ -925,10 +1104,10 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
           await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
       files.add(File(filePath));
     }
-    bannerImageUploadApi();
+    //  bannerImageUploadApi();
   }
 
-  bannerImageUploadApi() async {
+  /*  bannerImageUploadApi() async {
     var request = http.MultipartRequest('POST',
         Uri.parse(HealingMatchConstants.REGISTER_PROVIDER_BANNER_UPLOAD_URL));
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
@@ -946,5 +1125,12 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     } else {
       print(response.reasonPhrase);
     }
-  }
+  } */
+}
+
+class CertificateImageUpload {
+  String name;
+  String path;
+
+  CertificateImageUpload(this.name, this.path);
 }
