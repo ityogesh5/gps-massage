@@ -29,36 +29,36 @@ class _BottomBarUserState extends State<BottomBarUser> {
           selectedpage], // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         height: 40,
-        buttonBackgroundColor: Colors.lightGreenAccent,
+        buttonBackgroundColor: Colors.limeAccent,
         backgroundColor: Colors.white,
-        color: Colors.white,
+        color: Colors.blueAccent,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
           Icon(
             Icons.home,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.search,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.library_books,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.account_box,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.chat,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ],
         onTap: (index) {

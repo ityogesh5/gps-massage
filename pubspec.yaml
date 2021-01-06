@@ -58,7 +58,6 @@ dependencies:
   progress_dialog: ^1.2.4
   keyboard_service: ^1.0.3
   share: ^0.6.5+4
-  dependencies:
   io: ^0.3.4
   multi_image_picker: any #Aswin To select the Multiple Images from gallery
   flutter_absolute_path: ^1.0.6 #Aswin To Get the path of the Assets

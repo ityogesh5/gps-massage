@@ -57,6 +57,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,14 +66,15 @@ class _SplashScreenPageState extends State<SplashScreen>
             FadeTransition(
               opacity: animation,
               child: Container(
+                color: Colors.white,
                 child: new SvgPicture.asset(
-                  'assets/images_gps/gpsLogo.svg',
-                  width: 150,
-                  height: 150,
+                  'assets/images_gps/normalLogo.svg',
+                  width: 300,
+                  height: 300
                 ),
               ),
             ),
-            Container(
+            /*Container(
               child: ColorizeAnimatedTextKit(
                 onTap: () {
                   //print("Tap Event");
@@ -91,7 +93,7 @@ class _SplashScreenPageState extends State<SplashScreen>
                   Colors.red,
                 ],
               ),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -100,6 +102,5 @@ class _SplashScreenPageState extends State<SplashScreen>
 
   _navigateUser() async {
     NavigationRouter.switchToTermsAndConditions(context);
-    //NavigationRouter.switchToServiceUserHomeScreen(context);
   }
 }

@@ -1,19 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
+import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
-
-import 'package:flutter_line_sdk/flutter_line_sdk.dart';
-import 'package:apple_sign_in/apple_sign_in.dart';
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -41,6 +41,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
   UserProfile _userProfile;
   String _userEmail;
+  var loginResponseModel = new LoginResponseModel();
 
   void initState() {
     super.initState();
@@ -70,7 +71,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/images_gps/logo.svg',
+                    SvgPicture.asset('assets/images_gps/normalLogo.svg',
                         height: 100, width: 140),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -168,13 +169,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          //_providerLoginDetails();
-                          /*Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ProviderHome()));*/
-                          NavigationRouter.switchToProviderHome(context);
+                          _providerLoginDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -379,11 +374,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       height: MediaQuery.of(context).size.height * 0.06,
       child: InkWell(
         onTap: () {
-          /* Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          ResetPassword()));*/
+          NavigationRouter.switchToUserLogin(context);
         },
         child: Center(
           child: Text(
@@ -467,52 +458,27 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
 
-    // Combination password
-
-    if (!passwordRegex.hasMatch(password)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    if (password.contains(regexEmojis)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
     try {
       ProgressDialogBuilder.showLoginProviderProgressDialog(context);
+      final url = HealingMatchConstants.LOGIN_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json
+              .encode({"phoneNumber": userPhoneNumber, "password": password}));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
+        print('Response Success');
+        final Map loginResponse = json.decode(response.body);
+        loginResponseModel = LoginResponseModel.fromJson(loginResponse);
+        print('Login response : ${loginResponseModel.toJson()}');
+        print('Login token : ${loginResponseModel.accessToken}');
+        ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
     } catch (e) {}
-    // serviceProviderLoginDetails.add(userPhoneNumber);
-    //serviceProviderLoginDetails.add(password);
-
-    // print('User details length in array : ${serviceProviderLoginDetails.length}');
-
-    /*final url = '';
-     http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": serviceProviderLoginDetails,
-        })); */
   }
 }

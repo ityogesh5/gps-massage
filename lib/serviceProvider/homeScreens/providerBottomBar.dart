@@ -7,16 +7,16 @@ import 'homeScreen.dart';
 import 'myAccount.dart';
 import 'operationManagement.dart';
 
-class MyHomePage extends StatefulWidget {
+class BottomBarProvider extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _BottomBarProviderPageState extends State<BottomBarProvider> {
   int selectedpage = 0; //initial value
 
   final _pageOptions = [
-    HomeScreen(),
+    ProviderHomeScreen(),
     OperationManagement(),
     BookingStatus(),
     MyAccount(),
@@ -36,36 +36,36 @@ class _MyHomePageState extends State<MyHomePage> {
           selectedpage], // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         height: 40,
-        buttonBackgroundColor: Colors.lightGreenAccent,
-        backgroundColor: Colors.blueAccent,
-        color: Colors.white,
+        buttonBackgroundColor: Colors.limeAccent,
+        backgroundColor: Colors.white,
+        color: Colors.blueAccent,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
           Icon(
             Icons.home,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.work,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.library_books,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.account_box,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
           Icon(
             Icons.chat,
             size: 30,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ],
         onTap: (index) {

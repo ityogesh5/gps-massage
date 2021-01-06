@@ -6,12 +6,12 @@ import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:date_util/date_util.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 
-class HomeScreen extends StatefulWidget {
+class ProviderHomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ProviderHomeScreenState createState() => _ProviderHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   final yearKey = new GlobalKey<FormState>();
   final monthKey = new GlobalKey<FormState>();
 
