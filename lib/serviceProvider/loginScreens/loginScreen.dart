@@ -42,7 +42,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
   UserProfile _userProfile;
   String _userEmail;
-  var loginResponseModel = new LoginResponseModel();
 
   void initState() {
     super.initState();
@@ -170,17 +169,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-<<<<<<< HEAD
                           _providerLoginDetails();
-=======
-                          //_providerLoginDetails();
-                          /*Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ProviderHome()));*/
-                          _loginProviderUser();
->>>>>>> origin/origin/DEV/devGowtham
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -514,7 +503,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
-        NavigationRouter.switchToProviderHome(context);
+        NavigationRouter.switchToServiceProviderBottomBar(context);
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
       } else {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
@@ -527,7 +516,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
   }
-  /* _providerLoginDetails() async {
+
+  _providerLoginDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
 
@@ -602,23 +592,5 @@ class _ProviderLoginState extends State<ProviderLogin> {
         return;
       }
     } catch (e) {}
-<<<<<<< HEAD
   }
-=======
-    // serviceProviderLoginDetails.add(userPhoneNumber);
-    //serviceProviderLoginDetails.add(password);
-
-    // print('User details length in array : ${serviceProviderLoginDetails.length}');
-
-    /*final url = '';
-     http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": serviceProviderLoginDetails,
-        })); */
-  }*/
->>>>>>> origin/origin/DEV/devGowtham
 }
