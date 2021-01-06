@@ -72,13 +72,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Icon(FontAwesomeIcons.user,
                                 color: Colors.grey, size: 20),
                           ),*/
-                              CircleAvatar(
+                          ClipOval(
+                                child: CircleAvatar(
+                                  radius: 30.0,
                             backgroundColor: Colors.white,
                             child: Image.asset(
-                              'assets/images_gps/car.jpg',
-                              fit: BoxFit.fitHeight,
+                                'assets/images_gps/logo.png',
+                              fit: BoxFit.cover,
+                              width: 90.0,
+                              height: 90.0,
                             ),
                           ),
+                              ),
                           title: Row(
                             children: [
                               Text(
@@ -288,12 +293,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.grey,
                               ),
                               SizedBox(height: 10),
-                              Text(
-                                ' 東京都須田町丁目 ',
-                                style: TextStyle(
-                                    fontSize: 12,
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 1),
+                                  Text(
+                                    ' 東京都須田町丁目 ',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
                               SizedBox(height: 10),
                             ],
@@ -326,12 +341,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Image.asset(
+                                  Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 30,
+                                      color: Colors.black),
+                                  /*Image.asset(
                                     'assets/images_gps/car.jpg',
                                     width: 15.0,
                                     height: 15.0,
                                     fit: BoxFit.fill,
-                                  ),
+                                  ),*/
                                   Text('今週の売り上げ'),
                                   Text('¥150,00'),
                                 ],
@@ -357,12 +376,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Image.asset(
-                                    'assets/images_gps/car.jpg',
-                                    width: 15.0,
-                                    height: 15.0,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  Icon(
+                                      Icons.calendar_today,
+                                      size: 30,
+                                      color: Colors.black),
                                   Text('今月の売り上げ'),
                                   Text('¥ 500,000'),
                                 ],
@@ -389,12 +406,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Image.asset(
-                                    'assets/images_gps/car.jpg',
-                                    width: 15.0,
-                                    height: 15.0,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  Icon(
+                                      Icons.calendar_today_sharp,
+                                      size: 30,
+                                      color: Colors.black),
                                   Text('本年度の売り上げ'),
                                   Text('¥10,876,68'),
                                 ],
@@ -585,8 +600,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.grey[200],
                     elevation: 2,
                     shape: RoundedRectangleBorder(
-                        side:
-                            BorderSide(color: Colors.grey.shade200, width: 0.5),
+                        side: BorderSide(color: Colors.grey.shade200, width: 0.5),
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
@@ -632,7 +646,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 50),
+                                  SizedBox(height: 60),
                                   Text(
                                     "10: 00",
                                     textAlign: TextAlign.center,
@@ -642,7 +656,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 50),
+                                  SizedBox(height: 60),
                                   Text(
                                     "11: 00",
                                     textAlign: TextAlign.center,
@@ -652,7 +666,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 50),
+                                  SizedBox(height: 60),
                                   Text(
                                     "12: 00",
                                     textAlign: TextAlign.center,
@@ -662,7 +676,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 50),
+                                  SizedBox(height: 60),
                                 ]),
                             SizedBox(width: 5),
                             Expanded(
@@ -680,6 +694,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             BorderRadius.circular(10)),
                                     child: Column(
                                       children: [
+                                        SizedBox(height: 15),
                                         Row(
                                           children: [
                                             SizedBox(width: 10),
@@ -702,21 +717,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 child: Text(
                                                   ' 日付を選択し日付を選択し ',
+                                                  textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.normal),
                                                 )),
-                                            IconButton(
-                                                icon: Icon(
-                                                    Icons.access_time_rounded,
-                                                    size: 20,
-                                                    color: Colors.yellow),
-                                                onPressed: () {}),
+                                            SizedBox(width: 10),
+                                            Icon(
+                                                Icons.access_time_rounded,
+                                                size: 20,
+                                                color: Colors.yellow),
                                             Text(
                                               '今月',
-                                              textAlign: TextAlign.left,
+                                              textAlign: TextAlign.right,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.yellow,
@@ -724,6 +739,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ],
                                         ),
+                                        SizedBox(height: 15),
                                         Row(
                                           children: [
                                             SizedBox(width: 10),
@@ -831,16 +847,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(height: 10),
                                       ],
                                     ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Card(
+                                        color: Colors.grey[200],
+                                        elevation: 2,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.grey[200],
+                                                width: 0.5),
+                                            borderRadius:
+                                            BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(children: [
+                                            SizedBox(width: 10),
+                                            Text(
+                                              "日付を選",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ]),
+                                        )
+                                    ),
                                   )
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         )
                       ],
                     ),
                   ),
                 ),
+
                 /*Center(
                   child: HorizontalDatePickerWidget(
                     startDate: now,
