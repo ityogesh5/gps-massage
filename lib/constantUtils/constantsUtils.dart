@@ -83,7 +83,7 @@ class HealingMatchConstants {
 
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
-  static const String registrationSecondText = 'は必項目です';
+  static const String registrationSecondText = '*は必項目です';
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
@@ -111,7 +111,8 @@ class HealingMatchConstants {
       '*登録地点周辺のサービス利用者に優先的に検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
-  static const String registrationIdentityVerification = '本人確認証*';
+  static const String registrationIdentityVerification =
+      '登録する本人確認証の種類を選択して\nください。*';
   static const String registrationIdentityUpload = '本人確認書のアップロード*';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。*';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';
