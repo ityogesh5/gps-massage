@@ -3,21 +3,17 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
-
 import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/pallete.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override

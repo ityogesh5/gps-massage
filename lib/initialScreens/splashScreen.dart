@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,11 +66,8 @@ class _SplashScreenPageState extends State<SplashScreen>
               opacity: animation,
               child: Container(
                 color: Colors.white,
-                child: new SvgPicture.asset(
-                  'assets/images_gps/normalLogo.svg',
-                  width: 300,
-                  height: 300
-                ),
+                child: new SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    width: 300, height: 300),
               ),
             ),
             /*Container(

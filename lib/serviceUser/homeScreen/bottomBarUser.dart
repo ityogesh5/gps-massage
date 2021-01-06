@@ -22,6 +22,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
     MyAccountScreenUser(),
     ChatScreenUser(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

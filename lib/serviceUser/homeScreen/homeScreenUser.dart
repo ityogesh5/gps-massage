@@ -64,7 +64,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: MediaQuery.of(context).size.height*0.07,
+                  height: MediaQuery.of(context).size.height * 0.07,
                   child: TextFormField(
                     autofocus: false,
                     textInputAction: TextInputAction.search,
@@ -140,6 +140,7 @@ class BuildProviderLists extends StatefulWidget {
 
 class _BuildProviderListsState extends State<BuildProviderLists> {
   double ratingsValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -209,14 +210,15 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                   child: IconButton(
                                     // remove default padding here
                                     padding: EdgeInsets.zero,
-                                    icon: Icon(Icons.notifications_none_outlined),
+                                    icon:
+                                        Icon(Icons.notifications_none_outlined),
                                     color: Colors.grey,
                                     onPressed: () {},
                                   ),
                                 ),
                                 SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.33),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.33),
                                 FavoriteButton(
                                     iconSize: 40,
                                     iconColor: Colors.red,
@@ -298,12 +300,13 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     color: Colors.white,
                                     child: Text('コロナ対策実施')),
                                 SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.15),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.15),
                                 Text(
                                   '¥4,500',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 19),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19),
                                 ),
                                 Text('/60分')
                               ],
@@ -570,7 +573,9 @@ class _ReservationListState extends State<ReservationList> {
                         Text(
                           '¥',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25,color: Colors.black26),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              color: Colors.black26),
                         ),
                         Text(
                           '¥4,500',
@@ -634,6 +639,7 @@ class RecommendLists extends StatefulWidget {
 
 class _RecommendListsState extends State<RecommendLists> {
   var ratingValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Container(

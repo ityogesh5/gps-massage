@@ -1,10 +1,10 @@
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
   @override

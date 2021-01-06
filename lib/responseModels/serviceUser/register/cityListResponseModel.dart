@@ -33,10 +33,10 @@ class Data {
 
   Data(
       {this.id,
-        this.prefectureId,
-        this.cityEn,
-        this.cityJa,
-        this.specialDistrictJa});
+      this.prefectureId,
+      this.cityEn,
+      this.cityJa,
+      this.specialDistrictJa});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
