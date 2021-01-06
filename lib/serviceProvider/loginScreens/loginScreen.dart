@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/providerHome.dart';
 import 'dart:convert';
@@ -98,8 +99,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
-                          labelText: HealingMatchConstants.loginPhoneNumber,
-                          hintText: HealingMatchConstants.loginPhoneNumber,
+                          labelText: HealingMatchConstants.loginUserPhoneNumber,
+                          hintText: HealingMatchConstants.loginUserPhoneNumber,
                           fillColor: Colors.grey[200]),
                     ),
                     SizedBox(
@@ -496,15 +497,16 @@ class _ProviderLoginState extends State<ProviderLogin> {
       ));
       return;
     }
+    try {
+      ProgressDialogBuilder.showLoginProviderProgressDialog(context);
+    } catch (e) {}
+    // serviceProviderLoginDetails.add(userPhoneNumber);
+    //serviceProviderLoginDetails.add(password);
 
-    serviceProviderLoginDetails.add(userPhoneNumber);
-    serviceProviderLoginDetails.add(password);
+    // print('User details length in array : ${serviceProviderLoginDetails.length}');
 
-    print(
-        'User details length in array : ${serviceProviderLoginDetails.length}');
-
-    final url = '';
-    /* http.post(url,
+    /*final url = '';
+     http.post(url,
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer ${'token'}"
