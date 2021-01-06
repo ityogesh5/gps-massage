@@ -11,12 +11,13 @@ import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialo
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'dart:async';
-//import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'chooseServiceScreen.dart';
-import 'package:dio/dio.dart';
+//import 'package:dio/dio.dart';
 
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
@@ -759,7 +760,7 @@ class _RegistrationSecondPageState
     NavigationRouter.switchToProviderOtpScreen(context);
   }
 
-  registerProvider() async {
+  /*  registerProvider() async {
     Dio dio = new Dio();
 
     // dio.options.headers["Content-Type"] = "multipart/form-data";
@@ -770,7 +771,7 @@ class _RegistrationSecondPageState
     });
     var formData = FormData.fromMap({
       'email': 'amala132151435aa1@gmail.com',
-      'phoneNumber': '98765432111',
+      'phoneNumber': '98765432112',
       'userName': 'Amala',
       'gender': 'M',
       'dob': '1980-12-01',
@@ -788,7 +789,7 @@ class _RegistrationSecondPageState
       'lon': '11.255',
       'userPrefecture': 'tokyo',
       'userRoomNumber': '103',
-      "qulaificationCertImgUrl": multipartList
+      "qulaificationCertImgUrl": certificateImages
     });
     formData.files.addAll([
       MapEntry(
@@ -804,7 +805,8 @@ class _RegistrationSecondPageState
     ]);
     print("${formData.files.length}");
     Response response = await dio
-        .post('http://106.51.49.160:9094/api/user/registerProvider',
+        .post(
+            "http://825398aa8c37.ngrok.io/api/user/registerProvider", //'http://106.51.49.160:9094/api/user/registerProvider',
             data: formData)
         .catchError((e) => print("Error Code:" + e.response.toString()));
 
@@ -814,8 +816,8 @@ class _RegistrationSecondPageState
       print(response.statusMessage);
     } */
   }
-
-  /*  registerProvider() async {
+ */
+  registerProvider() async {
     List<CertificateImageUpload> cImagesList =
         new List<CertificateImageUpload>();
     certificateImages.forEach((key, value) {
@@ -824,16 +826,17 @@ class _RegistrationSecondPageState
 
     List<MultipartFile> multipartList = new List<MultipartFile>();
     certificateImages.forEach((key, value) async {
-      multipartList.add(await http.MultipartFile.fromPath(key, value));
+      multipartList.add(
+          await http.MultipartFile.fromPath(key, value));
     });
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+        Uri.parse('http://825398aa8c37.ngrok.io/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': 'amala132151435aa1@gmail.com',
-      'phoneNumber': '98765432111',
+      'phoneNumber': '98765432113',
       'userName': 'Amala',
       'gender': 'M',
       'dob': '1980-12-01',
@@ -856,6 +859,8 @@ class _RegistrationSecondPageState
         'proofOfIdentityImgUrl', _profileImage.path));
     request.files.add(await http.MultipartFile.fromPath(
         'uploadProfileImgUrl', _profileImage.path));
+    //      request.files.add(multipartList);
+    request.files.addAll(multipartList);
     //request.files.add(value);//({'qulaificationCertImgUrl', cImagesList});
     // request.files.addAll('qulaificationCertImgUrl',);
     /* request.files.add(await http.MultipartFile.fromPath(
@@ -871,7 +876,7 @@ class _RegistrationSecondPageState
     } else {
       print(response.reasonPhrase);
     }
-  } */
+  }
 
   void _showPicker(context, int index) {
     showModalBottomSheet(

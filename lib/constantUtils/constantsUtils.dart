@@ -58,6 +58,25 @@ class HealingMatchConstants {
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
 
+  //Register Service Provider Screen Constants
+  static String serviceProviderUserName = '';
+  static String serviceProviderStoreName = '';
+  static String serviceProviderDOB = '';
+  static String serviceProviderAge = '';
+  static String serviceProviderGender = '';
+  static String serviceProviderPhoneNumber = '';
+  static String serviceProviderStorePhoneNumber = '';
+  static String serviceProviderEmailAddress = '';
+  static String serviceProviderAddressType = '';
+  static String serviceProviderPrefecture = '';
+  static String serviceProviderCity = '';
+  static String serviceProviderBuildingName = '';
+  static String serviceProviderArea = '';
+  static String serviceProviderRoomNumber = '';
+  static String serviceProviderAddress = '';
+  static double serviceProviderCurrentLatitude = 0.0;
+  static double serviceProviderCurrentLongitude = 0.0;
+
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
   static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者と\nしてもログイン可能です。';
