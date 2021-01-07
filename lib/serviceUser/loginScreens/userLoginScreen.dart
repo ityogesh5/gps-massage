@@ -134,7 +134,7 @@ class _UserLoginState extends State<UserLogin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToProviderForgetPasswordScreen(
+                        NavigationRouter.switchToUserForgetPasswordScreen(
                             context);
                       },
                       child: Text(
@@ -175,7 +175,7 @@ class _UserLoginState extends State<UserLogin> {
                     child: new Container(
                         margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                         child: Divider(
-                        //  height: 50,
+                          //  height: 50,
                           color: Colors.grey,
                         )),
                   ),

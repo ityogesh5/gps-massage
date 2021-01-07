@@ -94,12 +94,12 @@ class NavigationRouter {
 
   static void switchToProviderForgetPasswordScreen(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserForgetPassword()));
+        context, MaterialPageRoute(builder: (context) => ForgetPassword()));
   }
 
   static void switchToUserForgetPasswordScreen(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ForgetPassword()));
+        context, MaterialPageRoute(builder: (context) => UserForgetPassword()));
   }
 
   // Provider Change password screen
