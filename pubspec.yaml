@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_line_sdk: ^1.3.0
   flutter:
     sdk: flutter
 
@@ -69,7 +70,12 @@ dependencies:
   shimmer: ^1.1.2
   favorite_button: ^0.0.3
   path_provider: any
+  infinite_listview: ^1.0.0
+  horizontal_center_date_picker: ^1.0.0+2
+  apple_sign_in: ^0.1.0
+  date_util: ^0.1.4
 
+#  flutter_line_login: ^0.2.0
 
 
 dev_dependencies:
@@ -77,11 +83,7 @@ dev_dependencies:
     sdk: flutter
 
 
-  infinite_listview: ^1.0.0
-  horizontal_center_date_picker: ^1.0.0+2
-  apple_sign_in: ^0.1.0
-  date_util: ^0.1.4
-  flutter_line_sdk: any
+
 
 
 # For information on the generic Dart part of this file, see the

@@ -150,6 +150,10 @@ class HealingMatchConstants {
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
 
+  // LINE Login Channel ID
+  static const String clientLineChannelID = '1655556164';
+  static const String demoLineChannelID = '1620019587';
+
   //FontStyle
   static const headersText = TextStyle(
     fontFamily: 'Open Sans',

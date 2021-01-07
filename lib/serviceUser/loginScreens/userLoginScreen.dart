@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
-import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/lineLoginHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
@@ -63,7 +66,7 @@ class _UserLoginState extends State<UserLogin> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 7,
+                    top: MediaQuery.of(context).size.height / 8,
                     right: MediaQuery.of(context).size.height / 25,
                     left: MediaQuery.of(context).size.height / 25),
                 child: Column(
@@ -203,7 +206,7 @@ class _UserLoginState extends State<UserLogin> {
                       children: [
                         InkWell(
                             onTap: () {
-                              //_initiateLineLogin();
+                              _initiateLineLogin();
                               print('Line login');
                             },
                             child: Container(
@@ -232,7 +235,7 @@ class _UserLoginState extends State<UserLogin> {
                         InkWell(
                             onTap: () {
                               print('Apple login');
-                              //_initiateAppleSignIn();
+                              _initiateAppleSignIn();
                             },
                             child: Container(
                               width: 45.0,
@@ -380,6 +383,45 @@ class _UserLoginState extends State<UserLogin> {
       ProgressDialogBuilder.hideLoginUserProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
+    }
+  }
+
+  _initiateAppleSignIn() async {
+    if (await AppleSignIn.isAvailable()) {
+      final AuthorizationResult result = await AppleSignIn.performRequests([
+        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+      ]);
+
+      switch (result.status) {
+        case AuthorizationStatus.authorized:
+          print("user credentials : ${result.credential.user}");
+          print(result.credential.authorizationCode);
+          print(result.credential.authorizedScopes);
+          print(result.credential.email);
+          print(result.credential.fullName);
+          print(result.credential.identityToken);
+          print(result.credential.realUserStatus);
+          print(result.credential.state);
+          print(result.credential.user); //All the required credentials
+          break;
+        case AuthorizationStatus.error:
+          print("Sign in failed: ${result.error.localizedDescription}");
+          break;
+        case AuthorizationStatus.cancelled:
+          print('User cancelled');
+          break;
+      }
+    } else {
+      print('Apple SignIn is not available for your device');
+    }
+  }
+
+  void _initiateLineLogin() async {
+    print('Entering line login...');
+    try {
+      LineLoginHelper.startLineLoginForUser(context);
+    } catch (e) {
+      print(e);
     }
   }
 }

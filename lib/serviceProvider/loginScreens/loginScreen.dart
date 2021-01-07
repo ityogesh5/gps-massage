@@ -5,12 +5,12 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
-import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/lineLoginHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
@@ -39,8 +39,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
   RegExp passwordRegex = new RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
 
-  UserProfile _userProfile;
-  String _userEmail;
   var loginResponseModel = new LoginResponseModel();
 
   void initState() {
@@ -66,8 +64,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
               Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 7,
-                    right: MediaQuery.of(context).size.width / 25,
-                    left: MediaQuery.of(context).size.width / 25),
+                    right: MediaQuery.of(context).size.width / 12,
+                    left: MediaQuery.of(context).size.width / 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -233,7 +231,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         ),*/
                         InkWell(
                             onTap: () {
-                              _linelogin();
+                              _initiateLineLogin();
                             },
                             child: Container(
                               width: 45.0,
@@ -259,42 +257,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           width: 10,
                         ),
                         InkWell(
-                            onTap: () async {
-                              if (await AppleSignIn.isAvailable()) {
-                                final AuthorizationResult result =
-                                    await AppleSignIn.performRequests([
-                                  AppleIdRequest(requestedScopes: [
-                                    Scope.email,
-                                    Scope.fullName
-                                  ])
-                                ]);
-
-                                switch (result.status) {
-                                  case AuthorizationStatus.authorized:
-                                    print(
-                                        "user credentials : ${result.credential.user}");
-                                    print(result.credential.authorizationCode);
-                                    print(result.credential.authorizedScopes);
-                                    print(result.credential.email);
-                                    print(result.credential.fullName);
-                                    print(result.credential.identityToken);
-                                    print(result.credential.realUserStatus);
-                                    print(result.credential.state);
-                                    print(result.credential
-                                        .user); //All the required credentials
-                                    break;
-                                  case AuthorizationStatus.error:
-                                    print(
-                                        "Sign in failed: ${result.error.localizedDescription}");
-                                    break;
-                                  case AuthorizationStatus.cancelled:
-                                    print('User cancelled');
-                                    break;
-                                }
-                              } else {
-                                print(
-                                    'Apple SignIn is not available for your device');
-                              }
+                            onTap: () {
+                              _initiateAppleSignIn();
                             },
                             child: Container(
                               width: 45.0,
@@ -389,22 +353,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
     );
   }
 
-  void _linelogin() async {
-    try {
-      final result = await LineSDK.instance.login();
-      setState(() {
-        _userProfile = result.userProfile;
-        // user id -> result.userProfile.userId
-        // user name -> result.userProfile.displayName
-        // user avatar -> result.userProfile.pictureUrl
-        // etc...
-      });
-    } on PlatformException catch (e) {
-      // Error handling.
-      print(e);
-    }
-  }
-
   _providerLoginDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
@@ -479,6 +427,49 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Response Failure !!');
         return;
       }
-    } catch (e) {}
+    } catch (e) {
+      print('Response Error !! ${e.toString()}');
+      ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+      return;
+    }
+  }
+
+  _initiateAppleSignIn() async {
+    if (await AppleSignIn.isAvailable()) {
+      final AuthorizationResult result = await AppleSignIn.performRequests([
+        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+      ]);
+
+      switch (result.status) {
+        case AuthorizationStatus.authorized:
+          print("user credentials : ${result.credential.user}");
+          print(result.credential.authorizationCode);
+          print(result.credential.authorizedScopes);
+          print(result.credential.email);
+          print(result.credential.fullName);
+          print(result.credential.identityToken);
+          print(result.credential.realUserStatus);
+          print(result.credential.state);
+          print(result.credential.user); //All the required credentials
+          break;
+        case AuthorizationStatus.error:
+          print("Sign in failed: ${result.error.localizedDescription}");
+          break;
+        case AuthorizationStatus.cancelled:
+          print('User cancelled');
+          break;
+      }
+    } else {
+      print('Apple SignIn is not available for your device');
+    }
+  }
+
+  void _initiateLineLogin() async {
+    print('Entering line login...');
+    try {
+      LineLoginHelper.startLineLoginForProvider(context);
+    } catch (e) {
+      print(e);
+    }
   }
 }
