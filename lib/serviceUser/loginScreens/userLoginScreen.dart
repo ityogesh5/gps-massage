@@ -135,8 +135,8 @@ class _UserLoginState extends State<UserLogin> {
                       children: [
                         InkWell(
                           onTap: () {
-                            NavigationRouter
-                                .switchToProviderForgetPasswordScreen(context);
+                            NavigationRouter.switchToUserForgetPasswordScreen(
+                                context);
                           },
                           child: Text(
                             '${HealingMatchConstants.loginUserForgetPassword}',
