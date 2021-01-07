@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/progressDialogs.dart';
-import 'package:gps_massageapp/constantUtils/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
@@ -863,60 +863,95 @@ class _RegisterUserState extends State<RegisterUser> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.39,
-                              child: DropDownFormField(
-                                  hintText: '府県 *',
-                                  value: _myPrefecture,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myPrefecture = value;
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myPrefecture = value;
-                                      print(
-                                          'Prefecture value : ${_myPrefecture.toString()}');
-                                      _prefId =
-                                          stateDropDownValues.indexOf(value) +
-                                              1;
-                                      print('prefID : ${_prefId.toString()}');
-                                      cityDropDownValues.clear();
-                                      _myCity = '';
-                                      _getCities(_prefId);
-                                    });
-                                  },
-                                  dataSource: stateDropDownValues,
-                                  isList: true,
-                                  textField: 'display',
-                                  valueField: 'value'),
-                            ),
-                          ),
+                              child: stateDropDownValues != null
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.39,
+                                      child: DropDownFormField(
+                                          hintText: '府県 *',
+                                          value: _myPrefecture,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _myPrefecture = value;
+                                            });
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _myPrefecture = value;
+                                              print(
+                                                  'Prefecture value : ${_myPrefecture.toString()}');
+                                              _prefId = stateDropDownValues
+                                                      .indexOf(value) +
+                                                  1;
+                                              print(
+                                                  'prefID : ${_prefId.toString()}');
+                                              cityDropDownValues.clear();
+                                              _myCity = '';
+                                              _getCities(_prefId);
+                                            });
+                                          },
+                                          dataSource: stateDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value'),
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.39,
+                                      child: DropDownFormField(
+                                          hintText: '府県 *',
+                                          value: _myPrefecture,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _myPrefecture = value;
+                                            });
+                                          },
+                                          dataSource: [],
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value'),
+                                    )),
                           Form(
-                            key: _cityKey,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.39,
-                              child: DropDownFormField(
-                                  hintText: '市 *',
-                                  value: _myCity,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _myCity = value;
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _myCity = value;
-                                      //print(_myBldGrp.toString());
-                                    });
-                                  },
-                                  dataSource: cityDropDownValues,
-                                  isList: true,
-                                  textField: 'display',
-                                  valueField: 'value'),
-                            ),
-                          ),
+                              key: _cityKey,
+                              child: cityDropDownValues != null
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.39,
+                                      child: DropDownFormField(
+                                          hintText: '市 *',
+                                          value: _myCity,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _myCity = value;
+                                            });
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _myCity = value;
+                                              //print(_myBldGrp.toString());
+                                            });
+                                          },
+                                          dataSource: cityDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value'),
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.39,
+                                      child: DropDownFormField(
+                                          hintText: '市 *',
+                                          value: _myCity,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _myCity = value;
+                                            });
+                                          },
+                                          dataSource: [],
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value'),
+                                    )),
                         ],
                       ),
                     ),

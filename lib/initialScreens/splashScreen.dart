@@ -67,7 +67,7 @@ class _SplashScreenPageState extends State<SplashScreen>
               child: Container(
                 color: Colors.white,
                 child: new SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    width: 300, height: 300),
+                    width: 250, height: 250),
               ),
             ),
             /*Container(

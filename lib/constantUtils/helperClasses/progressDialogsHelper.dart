@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 
-import 'constantsUtils.dart';
+import '../constantsUtils.dart';
 
 class ProgressDialogBuilder {
   static ProgressDialog progressDialog = ProgressDialog();
