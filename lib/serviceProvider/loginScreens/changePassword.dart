@@ -106,8 +106,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                               1
                             ],
                             colors: [
-                              Colors.grey[200],
-                              Colors.grey[200],
+                              ColorConstants.formFieldFillColor,
+                              ColorConstants.formFieldFillColor,
                             ]),
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(10),
@@ -136,30 +136,31 @@ class _ChangePasswordState extends State<ChangePassword> {
                       maxLength: 14,
                       controller: createPassword,
                       decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          counterText: "",
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffixIcon: IconButton(
-                              icon: createPasswordVisibility
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  createPasswordVisibility =
-                                      !createPasswordVisibility;
-                                });
-                              }),
-                          filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 13),
-                          labelText:
-                              HealingMatchConstants.changePasswordNewpass,
-                          hintText: HealingMatchConstants.changePasswordNewpass,
-                          fillColor: Colors.grey[200]),
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        counterText: "",
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            icon: createPasswordVisibility
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                createPasswordVisibility =
+                                    !createPasswordVisibility;
+                              });
+                            }),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
+                        labelText: HealingMatchConstants.changePasswordNewpass,
+                        hintText: HealingMatchConstants.changePasswordNewpass,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
                     ),
                     SizedBox(
                       height: 15,
@@ -171,31 +172,33 @@ class _ChangePasswordState extends State<ChangePassword> {
                       controller: confirmpassword,
                       maxLength: 14,
                       decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          counterText: "",
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffixIcon: IconButton(
-                              icon: confirmPasswordVisibility
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  confirmPasswordVisibility =
-                                      !confirmPasswordVisibility;
-                                });
-                              }),
-                          filled: true,
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 13),
-                          labelText:
-                              HealingMatchConstants.changePasswordConfirmpass,
-                          hintText:
-                              HealingMatchConstants.changePasswordConfirmpass,
-                          fillColor: Colors.grey[200]),
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        counterText: "",
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            icon: confirmPasswordVisibility
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                confirmPasswordVisibility =
+                                    !confirmPasswordVisibility;
+                              });
+                            }),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
+                        labelText:
+                            HealingMatchConstants.changePasswordConfirmpass,
+                        hintText:
+                            HealingMatchConstants.changePasswordConfirmpass,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
                     ),
                     SizedBox(
                       height: 20,

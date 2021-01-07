@@ -52,70 +52,56 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool visible = false;
   bool showAddressField = false;
 
-  List<ListItem> _dropdownItems = [
-    ListItem(1, "施術店舗あり施術従業員あり"),
-    ListItem(2, "施術店舗あり 施術従業員なし（個人経営）"),
-    ListItem(3, "施術店舗なし 施術従業員あり（出張のみ"),
-    ListItem(4, "施術店舗なし 施術従業員なし（個人")
+  List<String> businessFormDropDownValues = [
+    "施術店舗あり施術従業員あり",
+    "施術店舗あり 施術従業員なし（個人経営）",
+    "施術店舗なし 施術従業員あり（出張のみ",
+    "施術店舗なし 施術従業員なし（個人",
   ];
 
-  List<ListItem> _storeType = [
-    ListItem(1, "　　"),
-  ];
-  List<ListItem> _numberOfEmployees = [
-    ListItem(1, "1"),
-    ListItem(2, "2"),
-    ListItem(3, "3"),
-    ListItem(4, "4"),
-  ];
-  List<ListItem> _businessTrip = [
-    ListItem(1, "はい"),
-    ListItem(2, "いいえ"),
-  ];
-  List<ListItem> _coronaTest = [
-    ListItem(1, "はい"),
-    ListItem(2, "いいえ"),
+  List<String> numberOfEmployeesDropDownValues = [
+    "1",
+    "2",
+    "3",
+    "4",
   ];
 
-  List<ListItem> _childrenTest = [
-    ListItem(1, "キッズスペースの完備"),
-    ListItem(2, "保育士の常駐"),
-    ListItem(3, "子供同伴OK"),
+  List<String> storeTypeDropDownValues = [
+    " ",
   ];
-  List<ListItem> _genderTreatment = [
-    ListItem(1, "男性女性両方"),
-    ListItem(2, "女性のみ"),
-    ListItem(3, "男性のみ"),
-  ];
-  List<ListItem> _gender = [
-    ListItem(1, "男性"),
-    ListItem(2, "女性"),
-    ListItem(3, "どちらでもない"),
-  ];
-  List<ListItem> _address = [
-    ListItem(1, "現在地を取得する"),
-    ListItem(2, "直接入力"),
-  ];
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems1;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems2;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems3;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems4;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems5;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems6;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems7;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems8;
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems9;
 
-  ListItem _selectedItem;
-  ListItem _selectedItem1;
-  ListItem _selectedItem2;
-  ListItem _selectedItem3;
-  ListItem _selectedItem4;
-  ListItem _selectedItem5;
-  ListItem _selectedItem6;
-  ListItem _selectedItem7;
-  ListItem _selectedItem8;
+  List<String> serviceBusinessTripDropDownValues = [
+    "はい",
+    "いいえ",
+  ];
+
+  List<String> coronaMeasuresDropDownValues = [
+    "はい",
+    "いいえ",
+  ];
+
+  List<String> childrenMeasuresDropDownValues = [
+    "キッズスペースの完備",
+    "保育士の常駐",
+    "子供同伴OK",
+  ];
+
+  List<String> genderTreatmentDropDownValues = [
+    "男性女性両方",
+    "女性のみ",
+    "男性のみ",
+  ];
+
+  List<String> genderDropDownValues = [
+    "男性",
+    "女性",
+    "どちらでもない",
+  ];
+
+  List<String> registrationAddressTypeDropDownValues = [
+    "現在地を取得する",
+    "直接入力",
+  ];
 
   List<dynamic> stateDropDownValues = List<dynamic>();
   List<dynamic> cityDropDownValues = List<dynamic>();
@@ -123,11 +109,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   final statekey = new GlobalKey<FormState>();
   final citykey = new GlobalKey<FormState>();
-  var _mystate, _mycity, _prefid;
+  var  _prefid;
   bool readonly = false;
+  String bussinessForm,
+      numberOfEmployees,
+      storeTypeDisplay,
+      serviceBusinessTrips,
+      coronaMeasures,
+      childrenMeasures,
+      genderTreatment,
+      gender,
+      registrationAddressType,
+      myCity,
+      myState;
 
   DateTime selectedDate = DateTime.now();
-  TextEditingController _userDOBController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
@@ -136,38 +132,36 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   double age = 0.0;
   var _ageOfUser;
   var selectedYear;
-  final ageController = TextEditingController();
+
   bool _isGPSLocation = false;
   bool _showCurrentLocationInput = false;
-  TextEditingController gpsAddressController = new TextEditingController();
+
   double sizedBoxFormHeight = 15.0;
+
+  TextEditingController providerNameController = new TextEditingController();
+  TextEditingController storeNameController = new TextEditingController();
+  TextEditingController userDOBController = new TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController phoneNumberController = new TextEditingController();
+  TextEditingController storePhoneNumberController =
+      new TextEditingController();
+  TextEditingController mailAddressController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController confirmPasswordController = new TextEditingController();
+  TextEditingController gpsAddressController = new TextEditingController();
+  TextEditingController manualAddressController = new TextEditingController();
+  TextEditingController buildingNameController = new TextEditingController();
+  TextEditingController roomNumberController = new TextEditingController();
+
+  bool _validate = false;
+  PickedFile _profileImage;
 
   void initState() {
     super.initState();
-    _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
-    _dropdownMenuItems1 = buildDropDownMenuItems(_numberOfEmployees);
-    _dropdownMenuItems2 = buildDropDownMenuItems(_storeType);
-    _dropdownMenuItems3 = buildDropDownMenuItems(_businessTrip);
-    _dropdownMenuItems4 = buildDropDownMenuItems(_coronaTest);
-    _dropdownMenuItems5 = buildDropDownMenuItems(_childrenTest);
-    _dropdownMenuItems6 = buildDropDownMenuItems(_genderTreatment);
-    _dropdownMenuItems7 = buildDropDownMenuItems(_gender);
-    _dropdownMenuItems8 = buildDropDownMenuItems(_address);
-    _dropdownMenuItems9 = buildDropDownMenuItems(_dropdownItems);
-    _mystate = '';
-    _mycity = '';
+    myState = '';
+    myCity = '';
     _prefid = '';
     _getState();
-
-    /*  _selectedItem = _dropdownMenuItems[0].value;
-    _selectedItem1 = _dropdownMenuItems1[0].value;
-    _selectedItem2 = _dropdownMenuItems2[0].value;
-    _selectedItem3 = _dropdownMenuItems3[0].value;
-    _selectedItem4 = _dropdownMenuItems4[0].value;
-    _selectedItem5 = _dropdownMenuItems5[0].value;
-    _selectedItem6 = _dropdownMenuItems6[0].value;
-    _selectedItem7 = _dropdownMenuItems7[0].value;
-    _selectedItem8 = _dropdownMenuItems8[0].value; */
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -181,7 +175,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (picked != null) {
       setState(() {
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
-        _userDOBController.value =
+        userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
         //print(_selectedDOBDate);
         selectedYear = picked.year;
@@ -212,29 +206,24 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     return items;
   }
 
-  final _controller = new TextEditingController();
-  final _controller1 = new TextEditingController();
-  final _controller2 = new TextEditingController();
-  final _controller3 = new TextEditingController();
-  final _controller4 = new TextEditingController();
-  final _controller5 = new TextEditingController();
-  final _controller6 = new TextEditingController();
-  final _controller7 = new TextEditingController();
-  final _controller8 = new TextEditingController();
-  final _controller9 = new TextEditingController();
-  final _controller10 = new TextEditingController();
-
-  bool _validate = false;
-  PickedFile _profileImage;
+  List<dynamic> newbuildDropDownMenuItems(List<String> listItems) {
+    List<dynamic> items = List();
+    for (String listItemVal in listItems) {
+      items.add({
+        "display": listItemVal,
+        "value": listItemVal,
+      });
+    }
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double containerHeight = size.height *
-        0.06; //height of Every TextFormField wrapped with container
+    double containerHeight =
+        51.0; //height of Every TextFormField wrapped with container
     double containerWidth =
         size.width * 0.9; //width of Every TextFormField wrapped with container
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -352,25 +341,27 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "事業形態",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem,
-                      items: _dropdownMenuItems,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          _selectedItem = value;
-                        });
-                      }),
+                   // color: Colors.black12,
+                    border: Border.all(color: Colors.transparent)), */
+                child: DropDownFormField(
+                  hintText: '事業形態 *',
+                  value: bussinessForm,
+                  onSaved: (value) {
+                    setState(() {
+                      bussinessForm = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      bussinessForm = value;
+                    });
+                  },
+                  dataSource: businessFormDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               SizedBox(
@@ -379,25 +370,27 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "従業員数",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem1,
-                      items: _dropdownMenuItems1,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          _selectedItem1 = value;
-                        });
-                      }),
+                   // color: Colors.black12,
+                    border: Border.all(color: Colors.black12)), */
+                child: DropDownFormField(
+                  hintText: '従業員数 *',
+                  value: numberOfEmployees,
+                  onSaved: (value) {
+                    setState(() {
+                      numberOfEmployees = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      numberOfEmployees = value;
+                    });
+                  },
+                  dataSource: numberOfEmployeesDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               SizedBox(
@@ -406,25 +399,27 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "お店の種類表示",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem2,
-                      items: _dropdownMenuItems2,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          _selectedItem2 = value;
-                        });
-                      }),
+                    border: Border.all(color: Colors.black12)), */
+                child: DropDownFormField(
+                  hintText: 'お店の種類表示',
+                  value: storeTypeDisplay,
+                  onSaved: (value) {
+                    setState(() {
+                      storeTypeDisplay = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      storeTypeDisplay = value;
+                    });
+                  },
+                  dataSource: storeTypeDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               SizedBox(
@@ -437,37 +432,40 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text(
-                        HealingMatchConstants.registrationBuisnessTrip,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                      child: Center(
+                        child: Text(
+                          HealingMatchConstants.registrationBuisnessTrip,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Container(
                         height: containerHeight,
-                        decoration: BoxDecoration(
+                        /* decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.black12,
-                            border: Border.all(color: Colors.black12)),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              hint: Text(
-                                "はい",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              value: _selectedItem3,
-                              items: _dropdownMenuItems3,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem3 = value;
-                                });
-                              }),
+                            border: Border.all(color: Colors.black12)), */
+                        child: DropDownFormField(
+                          hintText: 'はい',
+                          value: serviceBusinessTrips,
+                          onSaved: (value) {
+                            setState(() {
+                              serviceBusinessTrips = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              serviceBusinessTrips = value;
+                            });
+                          },
+                          dataSource: serviceBusinessTripDropDownValues,
+                          isList: true,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
                       ),
                     ),
@@ -484,37 +482,40 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: Text(
-                        HealingMatchConstants.registrationCoronaTxt,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                      child: Center(
+                        child: Text(
+                          HealingMatchConstants.registrationCoronaTxt,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Container(
                         height: containerHeight,
-                        decoration: BoxDecoration(
+                        /*  decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.black12,
-                            border: Border.all(color: Colors.black12)),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              hint: Text(
-                                "はい",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              value: _selectedItem4,
-                              items: _dropdownMenuItems4,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem4 = value;
-                                });
-                              }),
+                            border: Border.all(color: Colors.black12)), */
+                        child: DropDownFormField(
+                          hintText: 'はい',
+                          value: coronaMeasures,
+                          onSaved: (value) {
+                            setState(() {
+                              coronaMeasures = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              coronaMeasures = value;
+                            });
+                          },
+                          dataSource: coronaMeasuresDropDownValues,
+                          isList: true,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
                       ),
                     ),
@@ -527,25 +528,27 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "子供向け施策有無",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem5,
-                      items: _dropdownMenuItems5,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          _selectedItem5 = value;
-                        });
-                      }),
+                    border: Border.all(color: Colors.black12)), */
+                child: DropDownFormField(
+                  hintText: '子供向け施策有無',
+                  value: childrenMeasures,
+                  onSaved: (value) {
+                    setState(() {
+                      childrenMeasures = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      childrenMeasures = value;
+                    });
+                  },
+                  dataSource: childrenMeasuresDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               SizedBox(
@@ -554,25 +557,27 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "施術を提供できる利用者の性別",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem6,
-                      items: _dropdownMenuItems6,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          _selectedItem6 = value;
-                        });
-                      }),
+                    border: Border.all(color: Colors.black12)), */
+                child: DropDownFormField(
+                  hintText: '施術を提供できる利用者の性別',
+                  value: genderTreatment,
+                  onSaved: (value) {
+                    setState(() {
+                      genderTreatment = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      genderTreatment = value;
+                    });
+                  },
+                  dataSource: genderTreatmentDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               SizedBox(
@@ -599,24 +604,15 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller,
+                        controller: providerNameController,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationName,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -643,25 +639,16 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller1,
+                        controller: storeNameController,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationStoreName,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -684,32 +671,18 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         },
                         child: TextFormField(
                             enabled: false,
-                            controller: _userDOBController,
+                            controller: userDOBController,
                             decoration: InputDecoration(
                                 labelText:
                                     HealingMatchConstants.registrationDob,
                                 filled: true,
-                                fillColor: Colors.black12,
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                  ),
-                                ),
+                                fillColor: ColorConstants.formFieldFillColor,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
                                 suffixIcon: IconButton(
                                     icon: Icon(Icons.calendar_today, size: 28),
                                     onPressed: () {
@@ -723,17 +696,20 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     Expanded(
                       child: Container(
                         height: containerHeight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.black12,
-                          border: Border.all(color: Colors.black12),
-                        ),
                         child: TextFormField(
+                          enabled: false,
                           controller: ageController,
                           decoration: InputDecoration(
                             hintText: "年齢	",
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
                           ),
-                          enabled: false,
                         ),
                       ),
                     ),
@@ -750,37 +726,40 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Expanded(
-                      child: Text(
-                        HealingMatchConstants.registrationGender,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                      child: Center(
+                        child: Text(
+                          HealingMatchConstants.registrationGender,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        decoration: BoxDecoration(
+                        /*   decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.black12,
-                            border: Border.all(color: Colors.black12)),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                              hint: Text(
-                                "女",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              value: _selectedItem7,
-                              items: _dropdownMenuItems7,
-                              onChanged: (value) {
-                                print(value);
-                                setState(() {
-                                  _selectedItem7 = value;
-                                });
-                              }),
+                            border: Border.all(color: Colors.black12)), */
+                        child: DropDownFormField(
+                          hintText: '女',
+                          value: gender,
+                          onSaved: (value) {
+                            setState(() {
+                              gender = value;
+                            });
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              gender = value;
+                            });
+                          },
+                          dataSource: genderDropDownValues,
+                          isList: true,
+                          textField: 'display',
+                          valueField: 'value',
                         ),
                       ),
                     ),
@@ -797,24 +776,15 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller3,
+                        controller: phoneNumberController,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPhnNum,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -841,25 +811,16 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller4,
+                        controller: storePhoneNumberController,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationStorePhnNum,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -872,25 +833,16 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller5,
+                        controller: mailAddressController,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -903,25 +855,16 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller6,
+                        controller: passwordController,
                         obscureText: passwordVisibility,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPassword,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                           suffixIcon: IconButton(
                               icon: passwordVisibility
                                   ? Icon(Icons.visibility_off)
@@ -954,26 +897,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
-                        controller: _controller7,
+                        controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationConfirmPassword,
                           filled: true,
-                          fillColor: Colors.black12,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
+                          fillColor: ColorConstants.formFieldFillColor,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
                           suffixIcon: IconButton(
                               icon: passwordConfirmVisibility
                                   ? Icon(Icons.visibility_off)
@@ -992,38 +926,37 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                decoration: BoxDecoration(
+                /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.black12,
-                    border: Border.all(color: Colors.black12)),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      hint: Text(
-                        "検索地点の登録*",
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
-                      ),
-                      value: _selectedItem8,
-                      items: _dropdownMenuItems8,
-                      onChanged: (ListItem value) {
-                        if (value.name == "現在地を取得する") {
-                          setState(() {
-                            print(value.name);
-                            _selectedItem8 = value;
-                            showAddressField = true;
-                            visible = true; // !visible;
-                          });
-                        } else {
-                          setState(() {
-                            _selectedItem8 = value;
-                            showAddressField = true;
-                            visible = false;
-                          });
-                        }
-                        /*setState(() {
-                          _selectedItem8 = value;
-                        });*/
-                      }),
+                    border: Border.all(color: Colors.black12)), */
+                child: DropDownFormField(
+                  hintText: '検索地点の登録',
+                  value: registrationAddressType,
+                  onSaved: (value) {
+                    setState(() {
+                      registrationAddressType = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    if (value == "現在地を取得する") {
+                      setState(() {
+                        registrationAddressType = value;
+                        showAddressField = true;
+                        visible = true; // !visible;
+                      });
+                    } else {
+                      setState(() {
+                        registrationAddressType = value;
+                        showAddressField = true;
+                        visible = false;
+                      });
+                    }
+                  },
+                  dataSource: registrationAddressTypeDropDownValues,
+                  isList: true,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
               ),
               Visibility(
@@ -1064,29 +997,14 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     decoration: InputDecoration(
                                       labelText: "現在地を取得する",
                                       filled: true,
-                                      fillColor: Colors.black12,
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                          width: 1.0,
-                                        ),
-                                      ),
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
                                       suffixIcon: IconButton(
                                         icon: Icon(Icons.location_on, size: 28),
                                         onPressed: () {
@@ -1097,30 +1015,18 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   ),
                                 )
                               : TextFormField(
-                                  controller: gpsAddressController,
+                                  controller: manualAddressController,
                                   decoration: InputDecoration(
                                     labelText: "住所を入力してください",
                                     filled: true,
-                                    fillColor: Colors.black12,
-                                    disabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
                                   ),
                                 ),
                         )),
@@ -1144,20 +1050,20 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                               Container(
                                                 margin: EdgeInsets.all(0.0),
                                                 //    width: MediaQuery.of(context).size.width * 0.33,
-                                                color: Colors.grey[200],
+
                                                 child: DropDownFormField(
                                                   titleText: null,
                                                   hintText:
-                                                      readonly ? _mystate : '都',
+                                                      readonly ? myState : '都',
                                                   onSaved: (value) {
                                                     setState(() {
-                                                      _mystate = value;
+                                                      myState = value;
                                                     });
                                                   },
-                                                  value: _mystate,
+                                                  value: myState,
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      _mystate = value;
+                                                      myState = value;
 
                                                       _prefid =
                                                           stateDropDownValues
@@ -1168,7 +1074,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                           'prefID : ${_prefid.toString()}');
                                                       cityDropDownValues
                                                           .clear();
-                                                      _mycity = '';
+                                                      myCity = '';
                                                       _getCityDropDown(_prefid);
                                                     });
                                                   },
@@ -1197,21 +1103,20 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                 // height: containerHeight,
                                                 margin: EdgeInsets.all(0.0),
                                                 // width: MediaQuery.of(context).size.width * 0.33,
-                                                color: Colors.grey[200],
 
                                                 child: DropDownFormField(
                                                   titleText: null,
                                                   hintText:
-                                                      readonly ? _mycity : '市',
+                                                      readonly ? myCity : '市',
                                                   onSaved: (value) {
                                                     setState(() {
-                                                      _mycity = value;
+                                                      myCity = value;
                                                     });
                                                   },
-                                                  value: _mycity,
+                                                  value: myCity,
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      _mycity = value;
+                                                      myCity = value;
                                                     });
                                                   },
                                                   dataSource:
@@ -1245,25 +1150,16 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFormField(
-                                controller: _controller9,
+                                controller: buildingNameController,
                                 decoration: InputDecoration(
                                   labelText: HealingMatchConstants
                                       .registrationBuildingName,
                                   filled: true,
-                                  fillColor: Colors.black12,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                 )),
                           )),
                           SizedBox(
@@ -1275,25 +1171,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               data: Theme.of(context)
                                   .copyWith(splashColor: Colors.black12),
                               child: TextFormField(
-                                  controller: _controller10,
+                                  controller: roomNumberController,
                                   decoration: InputDecoration(
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,
                                     filled: true,
-                                    fillColor: Colors.black12,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1.0,
-                                      ),
-                                    ),
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
                                   )),
                             )),
                           ),
@@ -1426,30 +1314,30 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   }
 
   validateFields() async {
-    var userPhoneNumber = _controller3.text.toString();
-    var password = _controller6.text.toString();
-    var confirmpassword = _controller7.text.toString();
-    var email = _controller5.text.toString();
-    var userName = _controller.text.toString();
-    var storename = _controller1.text.toString();
-    var storenumber = _controller4.text.toString();
+    var userPhoneNumber = phoneNumberController.text.toString();
+    var password = passwordController.text.toString();
+    var confirmpassword = confirmPasswordController.text.toString();
+    var email = mailAddressController.text.toString();
+    var userName = providerNameController.text.toString();
+    var storename = storeNameController.text.toString();
+    var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
     var address = gpsAddressController.text.toString();
-    var buildingname = _controller9.text.toString();
-    var roomnumber = _controller10.text.toString();
-    var _myAddressInputType = _selectedItem8.name;
+    var buildingname = buildingNameController.text.toString();
+    var roomnumber = roomNumberController.text.toString();
+    var _myAddressInputType = registrationAddressType;
 
     HealingMatchConstants.serviceProviderUserName = userName;
     HealingMatchConstants.serviceProviderStoreName = storename;
-    HealingMatchConstants.serviceProviderDOB = _userDOBController.text;
+    HealingMatchConstants.serviceProviderDOB = userDOBController.text;
     HealingMatchConstants.serviceProviderAge = age;
-    HealingMatchConstants.serviceProviderGender = _selectedItem7.name;
+    HealingMatchConstants.serviceProviderGender = gender;
     HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
     HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
     HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _selectedItem8.name;
-    HealingMatchConstants.serviceProviderPrefecture = _mystate;
-    HealingMatchConstants.serviceProviderCity = _mycity;
+    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
+    HealingMatchConstants.serviceProviderPrefecture = myState;
+    HealingMatchConstants.serviceProviderCity = myCity;
     HealingMatchConstants.serviceProviderBuildingName = buildingname;
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
 
@@ -1773,9 +1661,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           ',' +
           gpsAddressController.text +
           ',' +
-          _mycity +
+          myCity +
           ',' +
-          _mystate;
+          myState;
 
       List<Placemark> userAddress =
           await geolocator.placemarkFromAddress(address);

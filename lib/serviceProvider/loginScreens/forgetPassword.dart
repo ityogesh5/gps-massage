@@ -70,18 +70,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          labelText: HealingMatchConstants.forgetPasswordPhn,
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 13),
-                          hintText: HealingMatchConstants.forgetPasswordPhn,
-                          fillColor: Colors.grey[200]),
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        filled: true,
+                        labelText: HealingMatchConstants.forgetPasswordPhn,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
+                        hintText: HealingMatchConstants.forgetPasswordPhn,
+                        fillColor: ColorConstants.formFieldFillColor,
+                      ),
                     ),
                     SizedBox(
                       height: 25,

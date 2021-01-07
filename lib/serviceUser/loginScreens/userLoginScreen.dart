@@ -71,7 +71,7 @@ class _UserLoginState extends State<UserLogin> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 100, width: 140),
+                    height: 150, width: 140),
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
@@ -83,19 +83,19 @@ class _UserLoginState extends State<UserLogin> {
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                      border: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      labelText: HealingMatchConstants.loginPhoneNumber,
-                      hintText: HealingMatchConstants.loginPhoneNumber,
-                      fillColor: Colors.grey[200]),
+                    contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                    border: HealingMatchConstants.textFormInputBorder,
+                    focusedBorder: HealingMatchConstants.textFormInputBorder,
+                    disabledBorder: HealingMatchConstants.textFormInputBorder,
+                    enabledBorder: HealingMatchConstants.textFormInputBorder,
+                    filled: true,
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    labelText: HealingMatchConstants.loginPhoneNumber,
+                    hintText: HealingMatchConstants.loginPhoneNumber,
+                    fillColor: ColorConstants.formFieldFillColor,
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -103,28 +103,28 @@ class _UserLoginState extends State<UserLogin> {
                 TextFormField(
                   controller: passwordController,
                   decoration: new InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                      border: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      suffixIcon: IconButton(
-                          icon: passwordVisibility
-                              ? Icon(Icons.visibility_off)
-                              : Icon(Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              passwordVisibility = !passwordVisibility;
-                            });
-                          }),
-                      filled: true,
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      labelText: HealingMatchConstants.loginUserPassword,
-                      hintText: HealingMatchConstants.loginUserPassword,
-                      fillColor: Colors.grey[200]),
+                    contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                    border: HealingMatchConstants.textFormInputBorder,
+                    focusedBorder: HealingMatchConstants.textFormInputBorder,
+                    disabledBorder: HealingMatchConstants.textFormInputBorder,
+                    enabledBorder: HealingMatchConstants.textFormInputBorder,
+                    suffixIcon: IconButton(
+                        icon: passwordVisibility
+                            ? Icon(Icons.visibility_off)
+                            : Icon(Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            passwordVisibility = !passwordVisibility;
+                          });
+                        }),
+                    filled: true,
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    labelText: HealingMatchConstants.loginUserPassword,
+                    hintText: HealingMatchConstants.loginUserPassword,
+                    fillColor: ColorConstants.formFieldFillColor,
+                  ),
                 ),
                 SizedBox(
                   height: 20,

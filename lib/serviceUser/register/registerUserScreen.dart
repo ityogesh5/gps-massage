@@ -325,22 +325,25 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         controller: userNameController,
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: '名前 *',
-                            hintText: '名前 *',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: '名前 *',
+                          hintText: '名前 *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -368,27 +371,30 @@ class _RegisterUserState extends State<RegisterUser> {
                                     cursorColor: Colors.redAccent,
                                     readOnly: true,
                                     decoration: new InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        labelText: '生年月日 *',
-                                        hintText: '生年月日 *',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        labelStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        suffixIcon: Icon(
-                                          Icons.calendar_today,
-                                          color:
-                                              Color.fromRGBO(211, 211, 211, 1),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.red, width: 1.0),
-                                          borderRadius:
-                                              BorderRadius.circular(1),
-                                        )),
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      labelText: '生年月日 *',
+                                      hintText: '生年月日 *',
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                      ),
+                                      labelStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                      ),
+                                      suffixIcon: Icon(
+                                        Icons.calendar_today,
+                                        color: Color.fromRGBO(211, 211, 211, 1),
+                                      ),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -407,17 +413,21 @@ class _RegisterUserState extends State<RegisterUser> {
                                 autofocus: false,
                                 readOnly: true,
                                 decoration: new InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    labelText: '年齢',
-                                    labelStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          color: Colors.red, width: 1.0),
-                                      borderRadius: BorderRadius.circular(1),
-                                    )),
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  labelText: '年齢',
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                  ),
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
                               ),
                             ),
                           ],
@@ -444,7 +454,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           key: _genderKey,
                           child: Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.40,
+                              width: MediaQuery.of(context).size.width * 0.43,
                               child: DropDownFormField(
                                 hintText: '性別 *',
                                 value: _myGender,
@@ -569,22 +579,25 @@ class _RegisterUserState extends State<RegisterUser> {
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: '電話番号 *',
-                            hintText: '電話番号 *',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: '電話番号 *',
+                          hintText: '電話番号 *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
@@ -598,18 +611,21 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'メールアドレス',
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: 'メールアドレス',
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
@@ -624,28 +640,31 @@ class _RegisterUserState extends State<RegisterUser> {
                         obscureText: _secureText,
                         controller: passwordController,
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'パスワード *',
-                            hintText: 'パスワード *',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: showHide,
-                              icon: Icon(_secureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: 'パスワード *',
+                          hintText: 'パスワード *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: showHide,
+                            icon: Icon(_secureText
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
@@ -660,28 +679,31 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: confirmPasswordController,
                         obscureText: _secureText,
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'パスワード (確認用) *',
-                            hintText: 'パスワード (確認用) *',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: showHide,
-                              icon: Icon(_secureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: 'パスワード (確認用) *',
+                          hintText: 'パスワード (確認用) *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: showHide,
+                            icon: Icon(_secureText
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),
@@ -749,33 +771,36 @@ class _RegisterUserState extends State<RegisterUser> {
                           controller: gpsAddressController,
                           readOnly: true,
                           decoration: new InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              labelText: '現在地を取得する *',
-                              hintText: '現在地を取得する *',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400],
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.location_on),
-                                onPressed: () {
-                                  setState(() {
-                                    _changeProgressText = true;
-                                    print(
-                                        'location getting.... : $_changeProgressText');
-                                  });
-                                  _getCurrentLocation();
-                                },
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.grey[400],
-                              ),
-                              focusColor: Colors.grey[100],
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(0),
-                              )),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            labelText: '現在地を取得する *',
+                            hintText: '現在地を取得する *',
+                            hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.location_on),
+                              onPressed: () {
+                                setState(() {
+                                  _changeProgressText = true;
+                                  print(
+                                      'location getting.... : $_changeProgressText');
+                                });
+                                _getCurrentLocation();
+                              },
+                            ),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),
+                            focusColor: Colors.grey[100],
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
                           style: TextStyle(color: Colors.black54),
                           // validator: (value) => _validateEmail(value),
                         ),
@@ -910,22 +935,26 @@ class _RegisterUserState extends State<RegisterUser> {
                               autofocus: false,
                               controller: userAreaController,
                               decoration: new InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  labelText: '都、県選 *',
-                                  hintText: '都、県選 *',
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
-                                  focusColor: Colors.grey[100],
-                                  border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                    borderRadius: BorderRadius.circular(0),
-                                  )),
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                labelText: '都、県選 *',
+                                hintText: '都、県選 *',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey[400],
+                                ),
+                                labelStyle: TextStyle(
+                                  color: Colors.grey[400],
+                                ),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
                               // validator: (value) => _validateEmail(value),
                             ),
                           ),
@@ -938,22 +967,25 @@ class _RegisterUserState extends State<RegisterUser> {
                             autofocus: false,
                             controller: buildingNameController,
                             decoration: new InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                labelText: 'ビル名 *',
-                                hintText: 'ビル名 *',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey[400],
-                                ),
-                                labelStyle: TextStyle(
-                                  color: Colors.grey[400],
-                                ),
-                                focusColor: Colors.grey[100],
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 1.0),
-                                  borderRadius: BorderRadius.circular(0),
-                                )),
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              labelText: 'ビル名 *',
+                              hintText: 'ビル名 *',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[400],
+                              ),
+                              labelStyle: TextStyle(
+                                color: Colors.grey[400],
+                              ),
+                              focusColor: Colors.grey[100],
+                              border: HealingMatchConstants.textFormInputBorder,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
                             // validator: (value) => _validateEmail(value),
                           ),
                         ),
@@ -968,22 +1000,25 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         controller: roomNumberController,
                         decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: '部屋番号 *',
-                            hintText: '部屋番号 *',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                            focusColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(0),
-                            )),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
+                          labelText: '部屋番号 *',
+                          hintText: '部屋番号 *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                        ),
                         // validator: (value) => _validateEmail(value),
                       ),
                     ),

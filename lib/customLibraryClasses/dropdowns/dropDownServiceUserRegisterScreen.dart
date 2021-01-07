@@ -1,6 +1,7 @@
 library dropdown_formfield;
 
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class DropDownFormField extends FormField<dynamic> {
   final String titleText;
@@ -45,10 +46,16 @@ class DropDownFormField extends FormField<dynamic> {
             return Align(
               alignment: Alignment.center,
               child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: ColorConstants.formFieldFillColor,
+                    border:
+                        Border.all(color: ColorConstants.formFieldBorderColor)),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    InputDecorator(
+                    /*   InputDecorator(
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.transparent,
@@ -59,12 +66,17 @@ class DropDownFormField extends FormField<dynamic> {
                                 const BorderSide(color: Colors.red, width: 1.0),
                             borderRadius: BorderRadius.circular(10),
                           )),
+                      child: */
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: DropdownButtonHideUnderline(
                           child: enabled
                               ? DropdownButton<dynamic>(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
-                                    color: Color.fromRGBO(200, 200, 200, 1),
+                                    size: 35.0,
+                                    color: Colors
+                                        .black, //Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   hint: Text(
                                     hintText,
@@ -117,6 +129,7 @@ class DropDownFormField extends FormField<dynamic> {
                                   items: [],
                                 )),
                     ),
+                    //  ),
                     SizedBox(height: state.hasError ? 5.0 : 0.0),
                     Text(
                       state.hasError ? state.errorText : '',

@@ -160,51 +160,38 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     initialValue:
                         HealingMatchConstants.chooseServiceEstheticDropDown,
                     decoration: new InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.0,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                            icon: estheticStatus == 0
-                                ? Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                : Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              if (estheticDropDownValues.length == 0) {
-                                showProgressDialog();
-                                getEstheticList();
-                              } else {
-                                setState(() {
-                                  estheticStatus == 0
-                                      ? estheticStatus = 1
-                                      : estheticStatus = 0;
-                                });
-                              }
-                            }),
-                        filled: true,
-                        fillColor: Colors.grey[200]),
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          icon: estheticStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            if (estheticDropDownValues.length == 0) {
+                              showProgressDialog();
+                              getEstheticList();
+                            } else {
+                              setState(() {
+                                estheticStatus == 0
+                                    ? estheticStatus = 1
+                                    : estheticStatus = 0;
+                              });
+                            }
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -245,51 +232,38 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     initialValue:
                         HealingMatchConstants.chooseServiceRelaxationDropDown,
                     decoration: new InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.0,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                            icon: relaxtionStatus == 0
-                                ? Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                : Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              if (relaxationDropDownValues.length == 0) {
-                                showProgressDialog();
-                                getRelaxationList();
-                              } else {
-                                setState(() {
-                                  relaxtionStatus == 0
-                                      ? relaxtionStatus = 1
-                                      : relaxtionStatus = 0;
-                                });
-                              }
-                            }),
-                        filled: true,
-                        fillColor: Colors.grey[200]),
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          icon: relaxtionStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            if (relaxationDropDownValues.length == 0) {
+                              showProgressDialog();
+                              getRelaxationList();
+                            } else {
+                              setState(() {
+                                relaxtionStatus == 0
+                                    ? relaxtionStatus = 1
+                                    : relaxtionStatus = 0;
+                              });
+                            }
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -330,51 +304,38 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     initialValue:
                         HealingMatchConstants.chooseServiceTreatmentDropDown,
                     decoration: new InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.0,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                            icon: treatmentStatus == 0
-                                ? Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                : Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              if (treatmentDropDownValues.length == 0) {
-                                showProgressDialog();
-                                getTreatmentList();
-                              } else {
-                                setState(() {
-                                  treatmentStatus == 0
-                                      ? treatmentStatus = 1
-                                      : treatmentStatus = 0;
-                                });
-                              }
-                            }),
-                        filled: true,
-                        fillColor: Colors.grey[200]),
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          icon: treatmentStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            if (treatmentDropDownValues.length == 0) {
+                              showProgressDialog();
+                              getTreatmentList();
+                            } else {
+                              setState(() {
+                                treatmentStatus == 0
+                                    ? treatmentStatus = 1
+                                    : treatmentStatus = 0;
+                              });
+                            }
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -410,46 +371,33 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     initialValue:
                         HealingMatchConstants.chooseServiceFitnessDropDown,
                     decoration: new InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.0,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                            icon: fitnessStatus == 0
-                                ? Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                : Transform.rotate(
-                                    angle: 270 * math.pi / 180,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                            onPressed: () {
-                              setState(() {
-                                fitnessStatus == 0
-                                    ? fitnessStatus = 1
-                                    : fitnessStatus = 0;
-                              });
-                            }),
-                        filled: true,
-                        fillColor: Colors.grey[200]),
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          icon: fitnessStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              fitnessStatus == 0
+                                  ? fitnessStatus = 1
+                                  : fitnessStatus = 0;
+                            });
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -916,7 +864,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: Colors.grey[200],
+                                        color:  ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -971,7 +919,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: Colors.grey[200],
+                                        color: ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -1026,7 +974,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: Colors.grey[200],
+                                        color: ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -1081,7 +1029,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: Colors.grey[200],
+                                        color: ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -1136,7 +1084,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: Colors.grey[200],
+                                        color:  ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),

@@ -60,7 +60,7 @@ class _RegistrationSecondPageState
           child: Form(
             key: formkey,
             child: Container(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.width / 19),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -95,7 +95,6 @@ class _RegistrationSecondPageState
                       children: [
                         Container(
                           margin: EdgeInsets.all(0.0),
-                          color: Colors.grey[200],
                           child: DropDownFormField(
                             autovalidate: false,
                             titleText: null,
@@ -166,21 +165,19 @@ class _RegistrationSecondPageState
                           child: TextFormField(
                             enabled: false,
                             decoration: new InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                                disabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 1.0),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                suffixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.file_upload)),
-                                filled: true,
-                                hintStyle: TextStyle(
-                                    color: Colors.black, fontSize: 13),
-                                hintText: HealingMatchConstants
-                                    .registrationIdentityUpload,
-                                fillColor: Colors.grey[200]),
+                              contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              suffixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.file_upload)),
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              hintStyle:
+                                  TextStyle(color: Colors.black, fontSize: 13),
+                              hintText: HealingMatchConstants
+                                  .registrationIdentityUpload,
+                            ),
                           ),
                         )
                       : Stack(
@@ -226,7 +223,7 @@ class _RegistrationSecondPageState
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       CircleAvatar(
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: ColorConstants.formFieldFillColor,
                         child: Center(
                           child: IconButton(
                             onPressed: () {
@@ -255,7 +252,6 @@ class _RegistrationSecondPageState
                         children: [
                           Container(
                             margin: EdgeInsets.all(0.0),
-                            color: Colors.grey[200],
                             child: DropDownFormField(
                               titleText: null,
                               hintText: readonly
@@ -367,7 +363,7 @@ class _RegistrationSecondPageState
                                 width: MediaQuery.of(context).size.width * 0.38,
                                 height:
                                     MediaQuery.of(context).size.height * 0.19,
-                                color: Colors.grey[200],
+                                color: ColorConstants.formFieldFillColor,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -403,6 +399,7 @@ class _RegistrationSecondPageState
                     //     borderRadius: BorderRadius.circular(10.0),
                     //     color: Colors.black),
                     child: RaisedButton(
+                      elevation: 0.0,
                       child: Text(
                         HealingMatchConstants.registrationChooseServiceNavBtn,
                         textAlign: TextAlign.right,
@@ -413,7 +410,7 @@ class _RegistrationSecondPageState
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      color: Colors.grey[200],
+                      color: ColorConstants.formFieldFillColor,
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -453,18 +450,15 @@ class _RegistrationSecondPageState
                       enabled: false,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
                             onPressed: () {}, icon: Icon(Icons.file_upload)),
                         filled: true,
                         hintStyle: TextStyle(color: Colors.black, fontSize: 13),
                         hintText:
                             HealingMatchConstants.registrationMultiPhotoUpload,
-                        fillColor: Colors.grey[200],
+                        fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
                   ),
@@ -488,7 +482,6 @@ class _RegistrationSecondPageState
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.38,
-                              color: Colors.grey[200],
                               child: DropDownFormField(
                                 titleText: null,
                                 hintText: readonly
@@ -530,17 +523,17 @@ class _RegistrationSecondPageState
                             labelText: HealingMatchConstants
                                 .registrationBankBranchCode,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
                             filled: true,
                             hintStyle:
                                 TextStyle(color: Colors.black, fontSize: 13),
                             hintText: HealingMatchConstants
                                 .registrationBankBranchCode,
-                            fillColor: Colors.grey[200],
+                            fillColor: ColorConstants.formFieldFillColor,
                           ),
                         ),
                       ),
@@ -559,17 +552,17 @@ class _RegistrationSecondPageState
                             labelText: HealingMatchConstants
                                 .registrationBankBranchNumber,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
                             filled: true,
                             hintStyle:
                                 TextStyle(color: Colors.black, fontSize: 13),
                             hintText: HealingMatchConstants
                                 .registrationBankBranchNumber,
-                            fillColor: Colors.grey[200],
+                            fillColor: ColorConstants.formFieldFillColor,
                           ),
                         ),
                       ),
@@ -580,17 +573,17 @@ class _RegistrationSecondPageState
                             labelText: HealingMatchConstants
                                 .registrationBankAccountNumber,
                             contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
                             filled: true,
                             hintStyle:
                                 TextStyle(color: Colors.black, fontSize: 13),
                             hintText: HealingMatchConstants
                                 .registrationBankAccountNumber,
-                            fillColor: Colors.grey[200],
+                            fillColor: ColorConstants.formFieldFillColor,
                           ),
                         ),
                       ),
@@ -609,7 +602,6 @@ class _RegistrationSecondPageState
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.38,
-                              color: Colors.grey[200],
                               child: DropDownFormField(
                                 titleText: null,
                                 hintText: readonly
@@ -654,20 +646,13 @@ class _RegistrationSecondPageState
                           visible: false,
                           child: TextFormField(
                             decoration: new InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  const Radius.circular(10),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 0.0,
-                                ),
-                              ),
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
                               filled: true,
                               hintStyle:
                                   TextStyle(color: Colors.black, fontSize: 13),
                               hintText: "",
-                              fillColor: Colors.white,
+                              fillColor: ColorConstants.formFieldFillColor,
                             ),
                           ),
                         ),
@@ -831,7 +816,7 @@ class _RegistrationSecondPageState
       multipartList.add(await http.MultipartFile.fromPath(key, value));
     }); */
 
-  /*   certificateImages.forEach((key, value) async {
+    /*   certificateImages.forEach((key, value) async {
       bannerMultipartList
           .add(await http.MultipartFile.fromPath("bannerImage", value));
     }); */
@@ -861,7 +846,7 @@ class _RegistrationSecondPageState
       'userPrefecture': 'tokyo',
       'userRoomNumber': '103'
     });
-   /*  request.files.add(await http.MultipartFile.fromPath(
+    /*  request.files.add(await http.MultipartFile.fromPath(
         'proofOfIdentityImgUrl', _profileImage.path));
     request.files.add(await http.MultipartFile.fromPath(
         'uploadProfileImgUrl', _profileImage.path));

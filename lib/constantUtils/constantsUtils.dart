@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -136,7 +137,7 @@ class HealingMatchConstants {
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。*';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
-  static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
+  static const String registrationChooseServiceNavBtn = '提供サービスと料金設定*';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
   static const String registrationBankDetails = '売上振込先銀行口座';
   static const String registrationBankName = '銀行名*';
@@ -187,5 +188,12 @@ class HealingMatchConstants {
     fontFamily: 'Open Sans',
     fontSize: 12.0,
     color: Colors.black,
+  );
+
+  static var textFormInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(
+      color: ColorConstants.formFieldBorderColor,
+    ),
   );
 }
