@@ -825,14 +825,20 @@ class _RegistrationSecondPageState
     });
 
     List<MultipartFile> multipartList = new List<MultipartFile>();
-    certificateImages.forEach((key, value) async {
-      multipartList.add(
-          await http.MultipartFile.fromPath(key, value));
-    });
+    List<MultipartFile> bannerMultipartList = new List<MultipartFile>();
+
+    /* certificateImages.forEach((key, value) async {
+      multipartList.add(await http.MultipartFile.fromPath(key, value));
+    }); */
+
+  /*   certificateImages.forEach((key, value) async {
+      bannerMultipartList
+          .add(await http.MultipartFile.fromPath("bannerImage", value));
+    }); */
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://825398aa8c37.ngrok.io/api/user/registerProvider'));
+        Uri.parse('http://9c642ac294bc.ngrok.io/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': 'amala132151435aa1@gmail.com',
@@ -855,12 +861,17 @@ class _RegistrationSecondPageState
       'userPrefecture': 'tokyo',
       'userRoomNumber': '103'
     });
-    request.files.add(await http.MultipartFile.fromPath(
+   /*  request.files.add(await http.MultipartFile.fromPath(
         'proofOfIdentityImgUrl', _profileImage.path));
     request.files.add(await http.MultipartFile.fromPath(
         'uploadProfileImgUrl', _profileImage.path));
     //      request.files.add(multipartList);
-    request.files.addAll(multipartList);
+    request.files.addAll(multipartList); */
+    certificateImages.forEach((key, value) async {
+      request.files
+          .add(await http.MultipartFile.fromPath("bannerImage", value));
+    });
+
     //request.files.add(value);//({'qulaificationCertImgUrl', cImagesList});
     // request.files.addAll('qulaificationCertImgUrl',);
     /* request.files.add(await http.MultipartFile.fromPath(

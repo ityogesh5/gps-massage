@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,179 +60,176 @@ class _UserLoginState extends State<UserLogin> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 7,
-                    right: MediaQuery.of(context).size.height / 25,
-                    left: MediaQuery.of(context).size.height / 25),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                // top: MediaQuery.of(context).size.height / 7,
+                right: MediaQuery.of(context).size.width / 25,
+                left: MediaQuery.of(context).size.width / 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 100, width: 140),
+                Center(
+                    child: Text(HealingMatchConstants.loginUserText,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold))),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: phoneNumberController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      filled: true,
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      labelText: HealingMatchConstants.loginPhoneNumber,
+                      hintText: HealingMatchConstants.loginPhoneNumber,
+                      fillColor: Colors.grey[200]),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: new InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                      border: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      suffixIcon: IconButton(
+                          icon: passwordVisibility
+                              ? Icon(Icons.visibility_off)
+                              : Icon(Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              passwordVisibility = !passwordVisibility;
+                            });
+                          }),
+                      filled: true,
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      labelText: HealingMatchConstants.loginUserPassword,
+                      hintText: HealingMatchConstants.loginUserPassword,
+                      fillColor: Colors.grey[200]),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                        height: 100, width: 140),
-                    Center(
-                        child: Text(HealingMatchConstants.loginUserText,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold))),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: phoneNumberController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          filled: true,
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                          ),
-                          labelText: HealingMatchConstants.loginPhoneNumber,
-                          hintText: HealingMatchConstants.loginPhoneNumber,
-                          fillColor: Colors.grey[200]),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: passwordController,
-                      decoration: new InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          suffixIcon: IconButton(
-                              icon: passwordVisibility
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  passwordVisibility = !passwordVisibility;
-                                });
-                              }),
-                          filled: true,
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                          ),
-                          labelText: HealingMatchConstants.loginUserPassword,
-                          hintText: HealingMatchConstants.loginUserPassword,
-                          fillColor: Colors.grey[200]),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToProviderForgetPasswordScreen(context);
-                          },
-                          child: Text(
-                            '${HealingMatchConstants.loginUserForgetPassword}',
-                            style: TextStyle(
-                              color: Colors.grey,
-//                    decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.065,
-                      child: RaisedButton(
-                        child: Text(
-                          '${HealingMatchConstants.loginUserButton}',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        color: Colors.lime,
-                        onPressed: () {
-                          _loginServiceUser();
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 15.0),
-                            child: Divider(
-                              // height: 50,
-                              color: Colors.grey,
-                            )),
-                      ),
-                      Text(
-                        "または",
+                    InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToProviderForgetPasswordScreen(
+                            context);
+                      },
+                      child: Text(
+                        '${HealingMatchConstants.loginUserForgetPassword}',
                         style: TextStyle(
                           color: Colors.grey,
+//                    decoration: TextDecoration.underline,
                         ),
                       ),
-                      Expanded(
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 15.0, right: 10.0),
-                            child: Divider(
-                              color: Colors.grey,
-                              // height: 50,
-                            )),
-                      ),
-                    ]),
-                    SizedBox(
-                      height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                            onTap: () {
-                              //_initiateLineLogin();
-                              print('Line login');
-                            },
-                            child: Container(
-                              width: 45.0,
-                              height: 45,
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.065,
+                  child: RaisedButton(
+                    child: Text(
+                      '${HealingMatchConstants.loginUserButton}',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    color: Colors.lime,
+                    onPressed: () {
+                      _loginServiceUser();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(children: <Widget>[
+                  Expanded(
+                    child: new Container(
+                        margin: const EdgeInsets.only(left: 10.0, right: 15.0),
+                        child: Divider(
+                        //  height: 50,
+                          color: Colors.grey,
+                        )),
+                  ),
+                  Text(
+                    "または",
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Expanded(
+                    child: new Container(
+                        margin: const EdgeInsets.only(left: 15.0, right: 10.0),
+                        child: Divider(
+                          color: Colors.grey,
+                          //height: 50,
+                        )),
+                  ),
+                ]),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          //_initiateLineLogin();
+                          print('Line login');
+                        },
+                        child: Container(
+                          width: 45.0,
+                          height: 45,
+                          decoration: new BoxDecoration(
+                            border: Border.all(color: Colors.black38),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Container(
+                              width: 20.0,
+                              height: 20,
                               decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.black38),
+                                border: Border.all(color: Colors.white),
                                 shape: BoxShape.circle,
-                              ),
-                              child: Container(
-                                  width: 20.0,
-                                  height: 20,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.contain,
-                                      image: new AssetImage(
-                                          'assets/images_gps/line1.png'),
-                                    ),
-                                  )),
-                            )),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
+                                image: new DecorationImage(
+                                  fit: BoxFit.contain,
+                                  image: new AssetImage(
+                                      'assets/images_gps/line1.png'),
+                                ),
+                              )),
+                        )),
+                    SizedBox(
+                      width: Platform.isIOS ? 10 : 0,
+                    ),
+                    Platform.isIOS
+                        ? InkWell(
                             onTap: () {
                               print('Apple login');
                               //_initiateAppleSignIn();
@@ -255,29 +253,26 @@ class _UserLoginState extends State<UserLogin> {
                                           'assets/images_gps/apple2.jpg'),
                                     ),
                                   )),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        NavigationRouter.switchToServiceUserRegistration(
-                            context);
-                      },
-                      child: Text(
-                        HealingMatchConstants.loginUserNewRegistrationText,
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.w100),
-                      ),
-                    ),
+                            ))
+                        : Container(),
                   ],
                 ),
-              ),
-//              Align(alignment: Alignment.bottomCenter, child: Text('weyfgfgb')),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToServiceUserRegistration(context);
+                  },
+                  child: Text(
+                    HealingMatchConstants.loginUserNewRegistrationText,
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w100),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

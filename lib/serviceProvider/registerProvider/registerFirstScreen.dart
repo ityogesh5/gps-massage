@@ -1339,9 +1339,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     //!Commented for Dev purposes
-                    validateFields();
+                    // validateFields();
 
-                    // NavigationRouter.switchToServiceProviderSecondScreen(context);
+                    NavigationRouter.switchToServiceProviderSecondScreen(
+                        context);
                   },
                 ),
               ),
@@ -1437,7 +1438,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var buildingname = _controller9.text.toString();
     var roomnumber = _controller10.text.toString();
     var _myAddressInputType = _selectedItem8.name;
-    
 
     HealingMatchConstants.serviceProviderUserName = userName;
     HealingMatchConstants.serviceProviderStoreName = storename;
