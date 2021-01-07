@@ -22,7 +22,6 @@ class RegisterProviderFirstScreen extends StatefulWidget {
 }
 
 class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
-  File _image;
   final picker = ImagePicker();
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
@@ -59,12 +58,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     "施術店舗なし 施術従業員なし（個人",
   ];
 
-  List<String> numberOfEmployeesDropDownValues = [
-    "1",
-    "2",
-    "3",
-    "4",
-  ];
+  List<String> numberOfEmployeesDropDownValues = List<String>();
 
   List<String> storeTypeDropDownValues = [
     " ",
@@ -109,7 +103,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   final statekey = new GlobalKey<FormState>();
   final citykey = new GlobalKey<FormState>();
-  var  _prefid;
+  var _prefid;
   bool readonly = false;
   String bussinessForm,
       numberOfEmployees,
@@ -161,6 +155,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     myState = '';
     myCity = '';
     _prefid = '';
+    buildNumberOfEmployess();
     _getState();
   }
 
@@ -186,24 +181,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   void calculateAge() {
     setState(() {
-      age = (2020 - selectedYear).toDouble();
+      age = (DateTime.now().year - selectedYear).toDouble();
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
       ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
     });
   }
 
-  List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
-    List<DropdownMenuItem<ListItem>> items = List();
-    for (ListItem listItem in listItems) {
-      items.add(
-        DropdownMenuItem(
-          child: Text(listItem.name),
-          value: listItem,
-        ),
-      );
+  buildNumberOfEmployess() {
+    for (int i = 1; i <= 100; i++) {
+      numberOfEmployeesDropDownValues.add(i.toString());
     }
-    return items;
   }
 
   List<dynamic> newbuildDropDownMenuItems(List<String> listItems) {
@@ -931,7 +919,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     color: Colors.black12,
                     border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
-                  hintText: '検索地点の登録',
+                  hintText: '検索地点の登録*',
                   value: registrationAddressType,
                   onSaved: (value) {
                     setState(() {
@@ -1227,10 +1215,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     //!Commented for Dev purposes
-                    // validateFields();
+                    validateFields();
 
-                    NavigationRouter.switchToServiceProviderSecondScreen(
-                        context);
+                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
+                        context); */
                   },
                 ),
               ),
@@ -1250,7 +1238,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         fontSize: 14,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.black,
+                        decorationThickness: 2,
+                        decorationStyle: TextDecorationStyle.solid),
                   ),
                 ),
               ),
@@ -1291,7 +1282,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
         // print('Place Json : ${place.toJson()}');
         if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          // print('Current address : $_currentAddress : $latitude : $longitude');
+          print('Current address : $_currentAddress : $latitude : $longitude');
           gpsAddressController.value = TextEditingValue(text: _currentAddress);
           setState(() {
             _isGPSLocation = true;
@@ -1301,6 +1292,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           HealingMatchConstants.serviceProviderCity = place.locality;
           HealingMatchConstants.serviceProviderPrefecture =
               place.administrativeArea;
+          HealingMatchConstants.serviceProviderArea = place.country;
         } else {
           ProgressDialogBuilder.hideLocationProgressDialog(context);
           return null;
@@ -1327,35 +1319,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
 
-    HealingMatchConstants.serviceProviderUserName = userName;
-    HealingMatchConstants.serviceProviderStoreName = storename;
-    HealingMatchConstants.serviceProviderDOB = userDOBController.text;
-    HealingMatchConstants.serviceProviderAge = age;
-    HealingMatchConstants.serviceProviderGender = gender;
-    HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
-    HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
-    HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
-    HealingMatchConstants.serviceProviderPrefecture = myState;
-    HealingMatchConstants.serviceProviderCity = myCity;
-    HealingMatchConstants.serviceProviderBuildingName = buildingname;
-    HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
-
     //name Validation
-    if (userName.length > 20) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('お名前は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1371,12 +1335,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    //storename Validation
-    //name Validation
-    if (storename.length > 20) {
+    if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('店舗名は20文字以内で入力してください。',
+        content: Text('お名前は20文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1387,6 +1349,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
+
+    //storename Validation
     if (storename.length == 0 || storename.isEmpty || storename == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1402,11 +1366,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    //age Validation
-    /*  if (age.isEmpty || age == null) {
+    if (storename.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を選択してください。',
+        content: Text('店舗名は20文字以内で入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1416,8 +1379,24 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }*/
+    }
+
     // user phone number validation
+    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 11 ||
         userPhoneNumber == null ||
@@ -1437,6 +1416,20 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // store phone number validation
+    if ((storenumber == null || storenumber.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('お店の電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
     if (storenumber.length > 11 ||
         storenumber.length < 11 ||
         storenumber == null ||
@@ -1454,7 +1447,23 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-//email validation
+
+    //email validation
+    if ((email == null || email.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('あなたのメールアドレスを入力してください',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     if (!(email.contains(regexMail))) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1497,7 +1506,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-//password Validation
+
+    //password Validation
+    if (password == null || password.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは必須項目なので入力してください。 ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
     if (password.length < 8) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1516,7 +1540,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (password.length > 14) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
+        content: Text('パスワードは14文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1529,7 +1553,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // Combination password
-
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1559,10 +1582,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    //confirm password Validation
     if (confirmpassword.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text("パスワード(確認)を入力してください。",
+        content: Text("パスワード再確認は必須項目なので入力してください。",
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1573,10 +1597,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
+
     if (confirmpassword != password) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text("パスワードが一致がしませんので正しいパスワードを入力してください。",
+        content: Text("パスワードが一致がしませんのでもう一度お試しください。",
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1587,11 +1612,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-    //addresstype validation
+
+    //addressType validation
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な住所の種類を選択してください。',
+        content: Text('有効な登録する地点のカテゴリーを選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1603,11 +1629,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return null;
     }
 
-    //address Validation
-    if (address == null || address.isEmpty) {
+    //gps address Validation
+    if ((_myAddressInputType == "現在地を取得する") &&
+        (address == null || address.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な都、県選 を入力してください。',
+        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1618,6 +1645,58 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
+
+    //manual address Validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (address == null || address.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    //prefecture Validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (myState == null || myState.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
+    //city validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (myCity == null || myCity.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
     //building Validation
     if (buildingname == null || buildingname.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1633,6 +1712,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
+
     //roomno Validation
     if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1649,6 +1729,31 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    //Save Values to Constants
+    HealingMatchConstants.profileImage = _profileImage;
+    HealingMatchConstants.serviceProviderUserName = userName;
+    HealingMatchConstants.serviceProviderStoreName = storename;
+    HealingMatchConstants.serviceProviderDOB = userDOBController.text;
+    HealingMatchConstants.serviceProviderAge = age;
+    HealingMatchConstants.serviceProviderGender = gender;
+    HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
+    HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
+    HealingMatchConstants.serviceProviderEmailAddress = email;
+    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
+    HealingMatchConstants.serviceProviderBuildingName = buildingname;
+    HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
+    HealingMatchConstants.serviceProviderPassword = passwordController.text;
+    HealingMatchConstants.serviceProviderConfirmPassword =
+        confirmPasswordController.text;
+    HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
+    HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
+    HealingMatchConstants.serviceProviderStoreType = storeTypeDisplay;
+    HealingMatchConstants.serviceProviderBusinessTripService =
+        serviceBusinessTrips;
+    HealingMatchConstants.serviceProviderCoronaMeasure = coronaMeasures;
+    HealingMatchConstants.serviceProviderChildrenMeasure = childrenMeasures;
+    HealingMatchConstants.serviceProviderGenderService = genderTreatment;
+
     // Getting user GPS Address value
     if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する' &&
         _isGPSLocation) {
@@ -1659,7 +1764,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           ',' +
           buildingname +
           ',' +
-          gpsAddressController.text +
+          manualAddressController.text +
           ',' +
           myCity +
           ',' +
@@ -1678,6 +1783,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       HealingMatchConstants.serviceProviderPrefecture =
           userAddedAddressPlaceMark.administrativeArea;
       HealingMatchConstants.serviceProviderAddress = address;
+      HealingMatchConstants.serviceProviderPrefecture = myState;
+      HealingMatchConstants.serviceProviderCity = myCity;
+      HealingMatchConstants.serviceProviderArea = myCity;
     }
 
     NavigationRouter.switchToServiceProviderSecondScreen(context);

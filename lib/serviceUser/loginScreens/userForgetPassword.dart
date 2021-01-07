@@ -115,16 +115,12 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
 
   _userForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
-
-    // user phone number validation
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
-        userPhoneNumber == null ||
-        userPhoneNumber.isEmpty) {
+    // user phone number
+    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -135,6 +131,24 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
       return;
     }
 
+    // user phone number validation
+    if (userPhoneNumber.length > 11 ||
+        userPhoneNumber.length < 11 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('正しい電話番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
     forgetPasswordDetails.add(userPhoneNumber);
 
     print('User details length in array : ${forgetPasswordDetails.length}');

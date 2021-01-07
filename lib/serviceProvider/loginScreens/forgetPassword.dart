@@ -118,6 +118,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   _providerForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
 
+    // user phone number
+    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     // user phone number validation
     if (userPhoneNumber.length > 11 ||
         userPhoneNumber.length < 11 ||
@@ -125,7 +141,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
+        content: Text('正しい電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

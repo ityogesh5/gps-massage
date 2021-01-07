@@ -6,57 +6,11 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/apiResponseModels/estheticDropDownModel.dart';
+import 'package:gps_massageapp/models/apiResponseModels/fitnessDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/apiResponseModels/treatmentDropDownModel.dart';
+import 'package:gps_massageapp/models/messageServicePriceModel.dart';
 import 'package:http/http.dart' as http;
-
-class ServicePriceModel {
-  String _name;
-  int _sixtyMin;
-  int _nintyMin;
-  int _oneTwentyMin;
-  int _oneFifityMin;
-  int _oneEightyMin;
-
-  ServicePriceModel(this._name, this._sixtyMin, this._nintyMin,
-      this._oneTwentyMin, this._oneFifityMin, this._oneEightyMin);
-
-  String get name => _name;
-
-  int get sixtyMin => _sixtyMin;
-
-  int get nintyMin => _nintyMin;
-
-  int get oneTwentyMin => _oneTwentyMin;
-
-  int get oneFiftyMin => _oneFifityMin;
-
-  int get oneEightyMin => _oneEightyMin;
-
-  set name(String name) {
-    this._name = name;
-  }
-
-  set sixtyMin(int price) {
-    this._sixtyMin = price;
-  }
-
-  set nintyMin(int price) {
-    this._nintyMin = price;
-  }
-
-  set oneTwentyMin(int price) {
-    this._oneTwentyMin = price;
-  }
-
-  set oneFiftyMin(int price) {
-    this._oneFifityMin = price;
-  }
-
-  set oneEightyMin(int price) {
-    this._oneEightyMin = price;
-  }
-}
 
 class ChooseServiceScreen extends StatefulWidget {
   @override
@@ -72,6 +26,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   List<String> treatmentDropDownValues = List<String>();
   List<String> relaxationDropDownValues = List<String>();
   List<String> fitnessDropDownValues = List<String>();
+  List<String> otherEstheticDropDownValues = List<String>();
+  List<String> otherTreatmentDropDownValues = List<String>();
+  List<String> otherRelaxationDropDownValues = List<String>();
+  List<String> otherFitnessDropDownValues = List<String>();
   List<ServicePriceModel> estheticServicePriceModel = List<ServicePriceModel>();
   List<ServicePriceModel> relaxationServicePriceModel =
       List<ServicePriceModel>();
@@ -91,20 +49,14 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   EstheticDropDownModel estheticListModel;
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
+  FitnessDropDownModel fitnessDropDownModel;
   ProgressDialog _progressDialog = ProgressDialog();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    fitnessDropDownValues = [
-      "ヨガ",
-      "ホットヨガ",
-      "ピラティス",
-      "トレーニング,"
-          "エクササイズ",
-      HealingMatchConstants.chooseServiceOtherDropdownFiled
-    ];
+    getSavedValues();
     otherSelected = [false, false, false, false];
   }
 
@@ -125,7 +77,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
         child: SingleChildScrollView(
           primary: true,
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -360,11 +313,16 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 //Fitness DropDown
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      fitnessStatus == 0
-                          ? fitnessStatus = 1
-                          : fitnessStatus = 0;
-                    });
+                    if (fitnessDropDownValues.length == 0) {
+                      showProgressDialog();
+                      getFitnessList();
+                    } else {
+                      setState(() {
+                        fitnessStatus == 0
+                            ? fitnessStatus = 1
+                            : fitnessStatus = 0;
+                      });
+                    }
                   },
                   child: TextFormField(
                     enabled: false,
@@ -389,11 +347,16 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                       .black, //Color.fromRGBO(200, 200, 200, 1),
                                 ),
                           onPressed: () {
-                            setState(() {
-                              fitnessStatus == 0
-                                  ? fitnessStatus = 1
-                                  : fitnessStatus = 0;
-                            });
+                            if (fitnessDropDownValues.length == 0) {
+                              showProgressDialog();
+                              getFitnessList();
+                            } else {
+                              setState(() {
+                                fitnessStatus == 0
+                                    ? fitnessStatus = 1
+                                    : fitnessStatus = 0;
+                              });
+                            }
                           }),
                       filled: true,
                       fillColor: ColorConstants.formFieldFillColor,
@@ -435,7 +398,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            saveSelectedValues();
                           },
                         ),
                       ),
@@ -621,6 +584,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     } else {
                                       estheticDropDownValues.insert(
                                           index, sampleOthersController.text);
+                                      otherEstheticDropDownValues
+                                          .add(sampleOthersController.text);
                                     }
                                   } else if (mindex == 1) {
                                     if (relaxationDropDownValues.contains(
@@ -629,6 +594,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     } else {
                                       relaxationDropDownValues.insert(
                                           index, sampleOthersController.text);
+                                      otherRelaxationDropDownValues
+                                          .add(sampleOthersController.text);
                                     }
                                   } else if (mindex == 2) {
                                     if (treatmentDropDownValues.contains(
@@ -637,6 +604,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     } else {
                                       treatmentDropDownValues.insert(
                                           index, sampleOthersController.text);
+                                      otherTreatmentDropDownValues
+                                          .add(sampleOthersController.text);
                                     }
                                   } else if (mindex == 3) {
                                     if (fitnessDropDownValues.contains(
@@ -645,6 +614,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     } else {
                                       fitnessDropDownValues.insert(
                                           index, sampleOthersController.text);
+                                      otherFitnessDropDownValues
+                                          .add(sampleOthersController.text);
                                     }
                                   }
                                   sampleOthersController.clear();
@@ -834,10 +805,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
                                         decoration: InputDecoration(
-                                          labelText: "¥0",
+                                          hintText: "¥0",
                                           fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 10.0, 20.0, 10.0),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -864,7 +838,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:  ColorConstants.formFieldFillColor,
+                                        color:
+                                            ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -889,10 +864,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
                                         decoration: InputDecoration(
-                                          labelText: "¥0",
+                                          hintText: "¥0",
                                           fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 10.0, 20.0, 10.0),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -919,7 +897,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: ColorConstants.formFieldFillColor,
+                                        color:
+                                            ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -945,9 +924,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 Expanded(
                                     child: TextFormField(
                                         controller: oneTwentyMinuteController,
+                                        textAlign: TextAlign.center,
                                         decoration: InputDecoration(
-                                          labelText: "¥0",
+                                          hintText: "¥0",
                                           fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 10.0, 20.0, 10.0),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -974,7 +956,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: ColorConstants.formFieldFillColor,
+                                        color:
+                                            ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -999,10 +982,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        textAlign: TextAlign.center,
                                         controller: oneFiftyController,
                                         decoration: InputDecoration(
-                                          labelText: "¥0",
+                                          hintText: "¥0",
                                           fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 10.0, 20.0, 10.0),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1029,7 +1015,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color: ColorConstants.formFieldFillColor,
+                                        color:
+                                            ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -1054,10 +1041,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
                                         decoration: InputDecoration(
-                                          labelText: "¥0",
+                                          hintText: "¥0",
                                           fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 10.0, 20.0, 10.0),
                                           focusedBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
@@ -1084,7 +1074,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:  ColorConstants.formFieldFillColor,
+                                        color:
+                                            ColorConstants.formFieldFillColor,
                                         border: Border.all(
                                           color: Colors.grey[200],
                                         )),
@@ -1138,37 +1129,37 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                             //if entered then the empty values are treated as 0
                                             servicePriceModel.add(
                                               ServicePriceModel(
-                                                val,
-                                                sixtyMinutesController.text !=
-                                                        ""
-                                                    ? int.parse(
-                                                        sixtyMinutesController
-                                                            .text)
-                                                    : 0,
-                                                nintyMinuteController.text != ""
-                                                    ? int.parse(
-                                                        nintyMinuteController
-                                                            .text)
-                                                    : 0,
-                                                oneTwentyMinuteController
-                                                            .text !=
-                                                        ""
-                                                    ? int.parse(
-                                                        oneTwentyMinuteController
-                                                            .text)
-                                                    : 0,
-                                                oneFiftyController.text != ""
-                                                    ? int.parse(
-                                                        oneFiftyController.text)
-                                                    : 0,
-                                                oneEightyMinuteController
-                                                            .text !=
-                                                        ""
-                                                    ? int.parse(
-                                                        oneEightyMinuteController
-                                                            .text)
-                                                    : 0,
-                                              ),
+                                                  val,
+                                                  sixtyMinutesController.text != ""
+                                                      ? int.parse(
+                                                          sixtyMinutesController
+                                                              .text)
+                                                      : 0,
+                                                  nintyMinuteController.text != ""
+                                                      ? int.parse(
+                                                          nintyMinuteController
+                                                              .text)
+                                                      : 0,
+                                                  oneTwentyMinuteController
+                                                              .text !=
+                                                          ""
+                                                      ? int.parse(
+                                                          oneTwentyMinuteController
+                                                              .text)
+                                                      : 0,
+                                                  oneFiftyController.text != ""
+                                                      ? int.parse(
+                                                          oneFiftyController
+                                                              .text)
+                                                      : 0,
+                                                  oneEightyMinuteController
+                                                              .text !=
+                                                          ""
+                                                      ? int.parse(
+                                                          oneEightyMinuteController
+                                                              .text)
+                                                      : 0,
+                                                  0),
                                             );
                                             selectedDropdownValues
                                                 .add(val.toLowerCase());
@@ -1321,6 +1312,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
         estheticDropDownValues.add(estheticList.value);
         print(estheticDropDownValues);
       }
+      estheticDropDownValues.insertAll(
+          estheticDropDownValues.length - 1, otherEstheticDropDownValues);
       setState(() {
         hideProgressDialog();
         estheticStatus == 0 ? estheticStatus = 1 : estheticStatus = 0;
@@ -1339,6 +1332,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
         relaxationDropDownValues.add(relaxationList.value);
         print(relaxationDropDownValues);
       }
+      relaxationDropDownValues.insertAll(
+          relaxationDropDownValues.length - 1, otherRelaxationDropDownValues);
       setState(() {
         hideProgressDialog();
         relaxtionStatus == 0 ? relaxtionStatus = 1 : relaxtionStatus = 0;
@@ -1357,9 +1352,29 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
         treatmentDropDownValues.add(treatmentList.value);
         print(treatmentDropDownValues);
       }
+      treatmentDropDownValues.insertAll(
+          treatmentDropDownValues.length - 1, otherTreatmentDropDownValues);
       setState(() {
         hideProgressDialog();
         treatmentStatus == 0 ? treatmentStatus = 1 : treatmentStatus = 0;
+      });
+    });
+  }
+
+  getFitnessList() async {
+    await http.get(HealingMatchConstants.FITNESS_PROVIDER_URL).then((response) {
+      fitnessDropDownModel =
+          FitnessDropDownModel.fromJson(json.decode(response.body));
+      print(fitnessDropDownModel.toJson());
+      for (var fitnessList in fitnessDropDownModel.data) {
+        fitnessDropDownValues.add(fitnessList.value);
+        print(fitnessDropDownValues);
+      }
+      fitnessDropDownValues.insertAll(
+          fitnessDropDownValues.length - 1, otherFitnessDropDownValues);
+      setState(() {
+        hideProgressDialog();
+        fitnessStatus == 0 ? fitnessStatus = 1 : fitnessStatus = 0;
       });
     });
   }
@@ -1378,5 +1393,79 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
           textColor: Colors.white),
     ));
     return;
+  }
+
+  getSavedValues() {
+    //Get the Price Model
+    estheticServicePriceModel
+        .addAll(HealingMatchConstants.estheticServicePriceModel);
+    relaxationServicePriceModel
+        .addAll(HealingMatchConstants.relaxationServicePriceModel);
+    treatmentServicePriceModel
+        .addAll(HealingMatchConstants.treatmentServicePriceModel);
+    fitnessServicePriceModel
+        .addAll(HealingMatchConstants.fitnessServicePriceModel);
+    //Get the Selected CheckBox Values
+    selectedEstheticDropdownValues
+        .addAll(HealingMatchConstants.selectedEstheticDropdownValues);
+    selectedRelaxationDropdownValues
+        .addAll(HealingMatchConstants.selectedRelaxationDropdownValues);
+    selectedTreatmentDropdownValues
+        .addAll(HealingMatchConstants.selectedTreatmentDropdownValues);
+    selectedFitnessDropdownValues
+        .addAll(HealingMatchConstants.selectedFitnessDropdownValues);
+    //Get the other added CheckBox Values
+    otherEstheticDropDownValues
+        .addAll(HealingMatchConstants.otherEstheticDropDownValues);
+    otherTreatmentDropDownValues
+        .addAll(HealingMatchConstants.otherTreatmentDropDownValues);
+    otherRelaxationDropDownValues
+        .addAll(HealingMatchConstants.otherRelaxationDropDownValues);
+    otherFitnessDropDownValues
+        .addAll(HealingMatchConstants.otherFitnessDropDownValues);
+  }
+
+  saveSelectedValues() {
+    //Clear and Saving the Price Model
+    HealingMatchConstants.estheticServicePriceModel.clear();
+    HealingMatchConstants.relaxationServicePriceModel.clear();
+    HealingMatchConstants.treatmentServicePriceModel.clear();
+    HealingMatchConstants.fitnessServicePriceModel.clear();
+    HealingMatchConstants.estheticServicePriceModel
+        .addAll(estheticServicePriceModel);
+    HealingMatchConstants.relaxationServicePriceModel
+        .addAll(relaxationServicePriceModel);
+    HealingMatchConstants.treatmentServicePriceModel
+        .addAll(treatmentServicePriceModel);
+    HealingMatchConstants.fitnessServicePriceModel
+        .addAll(fitnessServicePriceModel);
+    //Clear and save the Selected CheckBox Values
+    HealingMatchConstants.selectedEstheticDropdownValues.clear();
+    HealingMatchConstants.selectedRelaxationDropdownValues.clear();
+    HealingMatchConstants.selectedTreatmentDropdownValues.clear();
+    HealingMatchConstants.selectedFitnessDropdownValues.clear();
+    HealingMatchConstants.selectedEstheticDropdownValues
+        .addAll(selectedEstheticDropdownValues);
+    HealingMatchConstants.selectedRelaxationDropdownValues
+        .addAll(selectedRelaxationDropdownValues);
+    HealingMatchConstants.selectedTreatmentDropdownValues
+        .addAll(selectedTreatmentDropdownValues);
+    HealingMatchConstants.selectedFitnessDropdownValues
+        .addAll(selectedFitnessDropdownValues);
+    //Clear and Select the other added CheckBox Values
+    HealingMatchConstants.otherEstheticDropDownValues.clear();
+    HealingMatchConstants.otherTreatmentDropDownValues.clear();
+    HealingMatchConstants.otherRelaxationDropDownValues.clear();
+    HealingMatchConstants.otherFitnessDropDownValues.clear();
+    HealingMatchConstants.otherEstheticDropDownValues
+        .addAll(otherEstheticDropDownValues);
+    HealingMatchConstants.otherTreatmentDropDownValues
+        .addAll(otherTreatmentDropDownValues);
+    HealingMatchConstants.otherRelaxationDropDownValues
+        .addAll(otherRelaxationDropDownValues);
+    HealingMatchConstants.otherFitnessDropDownValues
+        .addAll(otherFitnessDropDownValues);
+
+    Navigator.pop(context);
   }
 }

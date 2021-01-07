@@ -226,7 +226,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     ),*/
                     InkWell(
                         onTap: () {
-                            _initiateLineLogin();
+                          _initiateLineLogin();
                         },
                         child: Container(
                           width: 45.0,
@@ -255,7 +255,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     Platform.isIOS
                         ? InkWell(
                             onTap: () {
-                                _initiateAppleSignIn();
+                              _initiateAppleSignIn();
                             },
                             child: Container(
                               width: 45.0,
@@ -353,6 +353,23 @@ class _ProviderLoginState extends State<ProviderLogin> {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
 
+    // user phone number and password null check validation
+    if ((userPhoneNumber == null || userPhoneNumber.isEmpty) &&
+        (password == null || password.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('電話番号とパスワードを入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     // user phone number validation
     if (userPhoneNumber.length < 11 ||
         userPhoneNumber.length > 11 ||
@@ -360,7 +377,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
+        content: Text('正しい電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -372,11 +389,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
 
-    if (password.length < 8) {
+    if (password == null || password.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは8文字以上で入力してください。  ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('パスワードを入力してください。 ', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -387,10 +404,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
 
-    if (password.length > 14) {
+    if (password.length < 8 || password.length > 14) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
+        content: Text('正しい電話番号とパスワードを入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

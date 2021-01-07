@@ -19,6 +19,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
+List<File> files = List<File>();
+
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
@@ -35,19 +37,22 @@ class _RegistrationSecondPageState
   bool readonly = false;
   bool visible = false;
   bool uploadVisible = false;
-  var identificationverify, qualification, bankname, accountnumber;
+  var identificationverify, qualification, bankname, accountType;
   ProgressDialog _progressDialog = ProgressDialog();
   Map<String, String> certificateImages = Map<String, String>();
   PickedFile _profileImage;
   PickedFile _idProfileImage;
+  TextEditingController branchCodeController = TextEditingController();
+  TextEditingController branchNumberController = TextEditingController();
+  TextEditingController accountnumberController = TextEditingController();
 
   void initState() {
     super.initState();
     identificationverify = '';
     qualification = '';
     bankname = '';
-    accountnumber = '';
     qualification = '';
+    accountType = '';
   }
 
   @override
@@ -86,7 +91,7 @@ class _RegistrationSecondPageState
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Form(
                     key: identityverification,
@@ -155,7 +160,7 @@ class _RegistrationSecondPageState
                     ),
                   ),
                   SizedBox(
-                    height: 13,
+                    height: 20,
                   ),
                   _idProfileImage == null
                       ? InkWell(
@@ -213,7 +218,7 @@ class _RegistrationSecondPageState
                           ],
                         ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,7 +246,7 @@ class _RegistrationSecondPageState
                     ],
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   Visibility(
                     visible: visible,
@@ -318,7 +323,7 @@ class _RegistrationSecondPageState
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         certificateImages.containsKey(qualification)
                             ? Stack(
@@ -359,11 +364,14 @@ class _RegistrationSecondPageState
                                 ],
                               )
                             : Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: ColorConstants.formFieldFillColor,
+                                ),
                                 padding: EdgeInsets.all(8),
                                 width: MediaQuery.of(context).size.width * 0.38,
                                 height:
                                     MediaQuery.of(context).size.height * 0.19,
-                                color: ColorConstants.formFieldFillColor,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -390,7 +398,7 @@ class _RegistrationSecondPageState
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Container(
                     width: double.infinity,
@@ -436,7 +444,7 @@ class _RegistrationSecondPageState
                     ),
                   ),*/
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   InkWell(
                     onTap: () {
@@ -463,14 +471,14 @@ class _RegistrationSecondPageState
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Text(
                     HealingMatchConstants.registrationBankDetails,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -519,6 +527,7 @@ class _RegistrationSecondPageState
                       Container(
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
+                          controller: branchCodeController,
                           decoration: new InputDecoration(
                             labelText: HealingMatchConstants
                                 .registrationBankBranchCode,
@@ -548,6 +557,7 @@ class _RegistrationSecondPageState
                       Container(
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
+                          controller: branchNumberController,
                           decoration: new InputDecoration(
                             labelText: HealingMatchConstants
                                 .registrationBankBranchNumber,
@@ -569,6 +579,7 @@ class _RegistrationSecondPageState
                       Container(
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: TextFormField(
+                          controller: accountnumberController,
                           decoration: new InputDecoration(
                             labelText: HealingMatchConstants
                                 .registrationBankAccountNumber,
@@ -605,18 +616,18 @@ class _RegistrationSecondPageState
                               child: DropDownFormField(
                                 titleText: null,
                                 hintText: readonly
-                                    ? accountnumber
+                                    ? accountType
                                     : HealingMatchConstants
                                         .registrationBankAccountType,
                                 onSaved: (value) {
                                   setState(() {
-                                    accountnumber = value;
+                                    accountType = value;
                                   });
                                 },
-                                value: accountnumber,
+                                value: accountType,
                                 onChanged: (value) {
                                   setState(() {
-                                    accountnumber = value;
+                                    accountType = value;
                                   });
                                 },
                                 dataSource: [
@@ -660,7 +671,7 @@ class _RegistrationSecondPageState
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Container(
                     width: double.infinity,
@@ -693,7 +704,12 @@ class _RegistrationSecondPageState
                     children: [
                       Text(
                         HealingMatchConstants.registrationAlreadyActTxt,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.black,
+                            decorationThickness: 2,
+                            decorationStyle: TextDecorationStyle.solid),
                       ),
                     ],
                   ),
@@ -746,17 +762,32 @@ class _RegistrationSecondPageState
   }
 
   /*  registerProvider() async {
-    Dio dio = new Dio();
-
-    // dio.options.headers["Content-Type"] = "multipart/form-data";
+   registerProvider() async {
+    List<CertificateImageUpload> cImagesList =
+        new List<CertificateImageUpload>();
+    certificateImages.forEach((key, value) {
+      cImagesList.add(CertificateImageUpload(key, value));
+    });
 
     List<MultipartFile> multipartList = new List<MultipartFile>();
-    certificateImages.forEach((key, value) {
-      multipartList.add(MultipartFile.fromFileSync(value, filename: key));
+    List<MultipartFile> bannerMultipartList = new List<MultipartFile>();
+
+    certificateImages.forEach((key, value) async {
+      multipartList.add(await http.MultipartFile.fromPath(key, value));
     });
-    var formData = FormData.fromMap({
-      'email': 'amala132151435aa1@gmail.com',
-      'phoneNumber': '98765432112',
+
+    /*   certificateImages.forEach((key, value) async {
+      bannerMultipartList
+          .add(await http.MultipartFile.fromPath("bannerImage", value));
+    }); */
+
+    Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+    var request = http.MultipartRequest('POST',
+        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      'email': 'amala132151435aa1@abcedd.com',
+      'phoneNumber': '98043531652',
       'userName': 'Amala',
       'gender': 'M',
       'dob': '1980-12-01',
@@ -764,7 +795,7 @@ class _RegistrationSecondPageState
       'password': '12345678',
       'password_confirmation': '12345678',
       'storeName': 'abc massage',
-      'storePhone': '98765431211',
+      'storePhone': '98765431212',
       'isTherapist': '1',
       'buildingName': 'hghfghhh',
       'address': 'area cyberbunk 2077',
@@ -772,34 +803,43 @@ class _RegistrationSecondPageState
       'area': 'Kantō',
       'lat': '10.210',
       'lon': '11.255',
+      'genderOfService': 'M',
+      'storeType': 'new',
+      'numberOfEmp': '15',
+      'businessTrip': '1',
+      'coronaMeasure': '1',
+      'childrenMeasure': 'yes, children',
       'userPrefecture': 'tokyo',
       'userRoomNumber': '103',
-      "qulaificationCertImgUrl": certificateImages
+      'bankName': 'hjgdjfgjsrhr',
+      'branchCode': '265165',
+      'branchNumber': '8494',
+      'accountNumber': '54984984984987',
+      'accountType': 'saving',
+      'proofOfIdentityType': 'Driving licence'
     });
-    formData.files.addAll([
-      MapEntry(
-        "proofOfIdentityImgUrl",
-        MultipartFile.fromFileSync(_profileImage.path,
-            filename: "proofOfIdentityImgUrl"),
-      ),
-      MapEntry(
-        "uploadProfileImgUrl",
-        MultipartFile.fromFileSync(_profileImage.path,
-            filename: "uploadProfileImgUrl"),
-      ),
-    ]);
-    print("${formData.files.length}");
-    Response response = await dio
-        .post(
-            "http://825398aa8c37.ngrok.io/api/user/registerProvider", //'http://106.51.49.160:9094/api/user/registerProvider',
-            data: formData)
-        .catchError((e) => print("Error Code:" + e.response.toString()));
 
-    /*  if (response.statusCode == 200) {
-      print(response.data);
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _profileImage.path));
+    request.files.add(await http.MultipartFile.fromPath(
+        'uploadProfileImgUrl', _profileImage.path));
+    request.files.addAll(multipartList);
+    certificateImages.forEach((key, value) async {
+      request.files
+          .add(await http.MultipartFile.fromPath("bannerImage", value));
+    });
+
+    /*  final userDetailsRequest = await request.send();
+    print("This is request : ${userDetailsRequest.request}");
+    final response = await http.Response.fromStream(userDetailsRequest);
+    print("This is response: ${response.statusCode}\n${response.body}");
+
+    if (response.statusCode == 200) {
+      print(response.body);
     } else {
-      print(response.statusMessage);
+      print(response.reasonPhrase);
     } */
+  }
   }
  */
   registerProvider() async {
@@ -810,11 +850,9 @@ class _RegistrationSecondPageState
     });
 
     List<MultipartFile> multipartList = new List<MultipartFile>();
-    List<MultipartFile> bannerMultipartList = new List<MultipartFile>();
-
-    /* certificateImages.forEach((key, value) async {
+    certificateImages.forEach((key, value) async {
       multipartList.add(await http.MultipartFile.fromPath(key, value));
-    }); */
+    });
 
     /*   certificateImages.forEach((key, value) async {
       bannerMultipartList
@@ -823,45 +861,64 @@ class _RegistrationSecondPageState
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://9c642ac294bc.ngrok.io/api/user/registerProvider'));
+        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
-      'email': 'amala132151435aa1@gmail.com',
-      'phoneNumber': '98765432113',
-      'userName': 'Amala',
-      'gender': 'M',
-      'dob': '1980-12-01',
-      'age': '18',
-      'password': '12345678',
-      'password_confirmation': '12345678',
-      'storeName': 'abc massage',
-      'storePhone': '98765431211',
+      'email': HealingMatchConstants.serviceProviderEmailAddress,
+      'phoneNumber': HealingMatchConstants.serviceProviderPhoneNumber,
+      'userName': HealingMatchConstants.serviceProviderUserName,
+      'gender': HealingMatchConstants.serviceProviderGender,
+      'dob': HealingMatchConstants.serviceProviderDOB,
+      'age': HealingMatchConstants.serviceProviderAge,
+      'password': HealingMatchConstants.serviceProviderPassword,
+      'password_confirmation':
+          HealingMatchConstants.serviceProviderConfirmPassword,
+      'storeName': HealingMatchConstants.serviceProviderStoreName,
+      'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber,
       'isTherapist': '1',
-      'buildingName': 'hghfghhh',
-      'address': 'area cyberbunk 2077',
-      'city': 'tokyo',
-      'area': 'Kantō',
-      'lat': '10.210',
-      'lon': '11.255',
-      'userPrefecture': 'tokyo',
-      'userRoomNumber': '103'
-    });
-    /*  request.files.add(await http.MultipartFile.fromPath(
-        'proofOfIdentityImgUrl', _profileImage.path));
-    request.files.add(await http.MultipartFile.fromPath(
-        'uploadProfileImgUrl', _profileImage.path));
-    //      request.files.add(multipartList);
-    request.files.addAll(multipartList); */
-    certificateImages.forEach((key, value) async {
-      request.files
-          .add(await http.MultipartFile.fromPath("bannerImage", value));
+      'buildingName': HealingMatchConstants.serviceProviderBuildingName,
+      'address': HealingMatchConstants.serviceProviderAddress,
+      'city': HealingMatchConstants.serviceProviderCity,
+      'area': HealingMatchConstants.serviceProviderArea,
+      'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
+      'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
+      'genderOfService': HealingMatchConstants.serviceProviderGenderService,
+      'storeType': HealingMatchConstants.serviceProviderStoreType,
+      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
+      'businessTrip':
+          HealingMatchConstants.serviceProviderBusinessTripService == "はい"
+              ? '1'
+              : '0',
+      'coronaMeasure':
+          HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
+              ? '1'
+              : '0',
+      'childrenMeasure': HealingMatchConstants.serviceProviderChildrenMeasure,
+      'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
+      'userPrefecture': HealingMatchConstants.serviceProviderPrefecture,
+      'userRoomNumber': HealingMatchConstants.serviceProviderRoomNumber,
+      'bankName': bankname,
+      'branchCode': branchCodeController.text,
+      'branchNumber': branchNumberController.text,
+      'accountNumber': accountType,
+      'accountType': accountnumberController.text,
+      'proofOfIdentityType': identificationverify
     });
 
-    //request.files.add(value);//({'qulaificationCertImgUrl', cImagesList});
-    // request.files.addAll('qulaificationCertImgUrl',);
-    /* request.files.add(await http.MultipartFile.fromPath(
-        'qulaificationCertImgUrl', multipartList));
- */
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _idProfileImage.path));
+    request.files.add(await http.MultipartFile.fromPath(
+        'uploadProfileImgUrl', HealingMatchConstants.profileImage.path));
+    request.files.addAll(multipartList);
+    for (var file in files) {
+      request.files
+          .add(await http.MultipartFile.fromPath('bannerImage', file.path));
+    }
+    /* certificateImages.forEach((key, value) async {
+      request.files
+          .add(await http.MultipartFile.fromPath("bannerImage", value));
+    }); */
+
     final userDetailsRequest = await request.send();
     print("This is request : ${userDetailsRequest.request}");
     final response = await http.Response.fromStream(userDetailsRequest);
@@ -951,7 +1008,7 @@ class BannerImageUpload extends StatefulWidget {
 class _BannerImageUploadState extends State<BannerImageUpload> {
   List<Asset> images = List<Asset>();
   String error = 'No Error Dectected';
-  List<File> files = List<File>();
+
   PickedFile _profileImage;
 
   @override
@@ -1105,6 +1162,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
           await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
       files.add(File(filePath));
     }
+    Navigator.pop(context);
     //  bannerImageUploadApi();
   }
 

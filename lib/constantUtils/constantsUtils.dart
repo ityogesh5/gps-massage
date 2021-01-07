@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/models/messageServicePriceModel.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -24,6 +26,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/relaxation/getAllRelaxation';
   static const String TREATMENT_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/orteopathic/getAllOsteopathic';
+  static const String FITNESS_PROVIDER_URL =
+      ON_PREMISE_USER_BASE_URL + '/fitness/getAllFitness';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
       ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
 
@@ -60,6 +64,7 @@ class HealingMatchConstants {
   static double currentLongitude = 0.0;
 
   //Register Service Provider Screen Constants
+  static PickedFile profileImage;
   static String serviceProviderUserName = '';
   static String serviceProviderStoreName = '';
   static String serviceProviderDOB = '';
@@ -77,6 +82,31 @@ class HealingMatchConstants {
   static String serviceProviderAddress = '';
   static double serviceProviderCurrentLatitude = 0.0;
   static double serviceProviderCurrentLongitude = 0.0;
+  static String serviceProviderPassword = '';
+  static String serviceProviderConfirmPassword = '';
+  static String serviceProviderBusinessForm = '';
+  static String serviceProviderNumberOfEmpl = '';
+  static String serviceProviderStoreType = '';
+  static String serviceProviderBusinessTripService = '';
+  static String serviceProviderCoronaMeasure = '';
+  static String serviceProviderChildrenMeasure = '';
+  static String serviceProviderGenderService = '';
+  static List<ServicePriceModel> estheticServicePriceModel =
+      List<ServicePriceModel>();
+  static List<ServicePriceModel> relaxationServicePriceModel =
+      List<ServicePriceModel>();
+  static List<ServicePriceModel> treatmentServicePriceModel =
+      List<ServicePriceModel>();
+  static List<ServicePriceModel> fitnessServicePriceModel =
+      List<ServicePriceModel>();
+  static List<String> selectedEstheticDropdownValues = List<String>();
+  static List<String> selectedRelaxationDropdownValues = List<String>();
+  static List<String> selectedTreatmentDropdownValues = List<String>();
+  static List<String> selectedFitnessDropdownValues = List<String>();
+  static List<String> otherEstheticDropDownValues = List<String>();
+  static List<String> otherTreatmentDropDownValues = List<String>();
+  static List<String> otherRelaxationDropDownValues = List<String>();
+  static List<String> otherFitnessDropDownValues = List<String>();
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
@@ -166,7 +196,7 @@ class HealingMatchConstants {
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
   static const String changePasswordTxt =
-      "+81****に届いた認証コードと\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
+      "+81****に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
   static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';

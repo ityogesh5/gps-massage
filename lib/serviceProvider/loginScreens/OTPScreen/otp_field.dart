@@ -105,55 +105,68 @@ class _OTPTextFieldState extends State<OTPTextField> {
 
     return Container(
       width: widget.fieldWidth,
-      child: TextField(
-        controller: _textControllers[i],
-        keyboardType: widget.keyboardType,
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        style: widget.style,
-        focusNode: _focusNodes[i],
-        obscureText: widget.obscureText,
-        decoration: InputDecoration(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: TextField(
+          controller: _textControllers[i],
+          keyboardType: widget.keyboardType,
+          textAlign: TextAlign.center,
+          maxLength: 1,
+          style: widget.style,
+          focusNode: _focusNodes[i],
+          obscureText: widget.obscureText,
+          decoration: InputDecoration(
             counterText: "",
+            enabledBorder: widget.fieldStyle == FieldStyle.box
+                ? OutlineInputBorder(borderSide: BorderSide(width: 2.0))
+                : UnderlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 2.0),
+                  ),
             border: widget.fieldStyle == FieldStyle.box
                 ? OutlineInputBorder(borderSide: BorderSide(width: 2.0))
-                : null),
-        onChanged: (String str) {
-          // Check if the current value at this position is empty
-          // If it is move focus to previous text field.
-          if (str.isEmpty) {
-            if (i == 0) return;
-            _focusNodes[i].unfocus();
-            _focusNodes[i - 1].requestFocus();
-          }
+                : UnderlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 2.0),
+                  ),
+          ),
+          onChanged: (String str) {
+            // Check if the current value at this position is empty
+            // If it is move focus to previous text field.
+            if (str.isEmpty) {
+              if (i == 0) return;
+              _focusNodes[i].unfocus();
+              _focusNodes[i - 1].requestFocus();
+            }
 
-          // Update the current pin
-          setState(() {
-            _pin[i] = str;
-          });
+            // Update the current pin
+            setState(() {
+              _pin[i] = str;
+            });
 
-          // Remove focus
-          if (str.isNotEmpty) _focusNodes[i].unfocus();
-          // Set focus to the next field if available
-          if (i + 1 != widget.length && str.isNotEmpty)
-            FocusScope.of(context).requestFocus(_focusNodes[i + 1]);
+            // Remove focus
+            if (str.isNotEmpty) _focusNodes[i].unfocus();
+            // Set focus to the next field if available
+            if (i + 1 != widget.length && str.isNotEmpty)
+              FocusScope.of(context).requestFocus(_focusNodes[i + 1]);
 
-          String currentPin = "";
-          _pin.forEach((String value) {
-            currentPin += value;
-          });
+            String currentPin = "";
+            _pin.forEach((String value) {
+              currentPin += value;
+            });
 
-          // if there are no null values that means otp is completed
-          // Call the `onCompleted` callback function provided
-          if (!_pin.contains(null) &&
-              !_pin.contains('') &&
-              currentPin.length == widget.length) {
-            widget.onCompleted(currentPin);
-          }
+            // if there are no null values that means otp is completed
+            // Call the `onCompleted` callback function provided
+            if (!_pin.contains(null) &&
+                !_pin.contains('') &&
+                currentPin.length == widget.length) {
+              widget.onCompleted(currentPin);
+            }
 
-          // Call the `onChanged` callback function
-          widget.onChanged(currentPin);
-        },
+            // Call the `onChanged` callback function
+            widget.onChanged(currentPin);
+          },
+        ),
       ),
     );
   }

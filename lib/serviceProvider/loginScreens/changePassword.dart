@@ -18,7 +18,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController createPassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool autoValidate = false;
   bool createPasswordVisibility = true;
   bool confirmPasswordVisibility = true;
   FocusNode pinCodeFoucs = FocusNode();
@@ -70,7 +69,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         },
         child: Form(
           key: formKey,
-          autovalidate: autoValidate,
           child: Center(
             child: SingleChildScrollView(
               child: Container(
@@ -223,7 +221,20 @@ class _ChangePasswordState extends State<ChangePassword> {
                     SizedBox(height: 20),
                     InkWell(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            backgroundColor: ColorConstants.snackBarColor,
+                            content: Text('認証コードが正常に送信されました。 ',
+                                style: TextStyle(fontFamily: 'Open Sans')),
+                            action: SnackBarAction(
+                                onPressed: () {
+                                  _scaffoldKey.currentState
+                                      .hideCurrentSnackBar();
+                                },
+                                label: 'はい',
+                                textColor: Colors.white),
+                          ));
+                        },
                         child: Text(
                           HealingMatchConstants.changeResendOtp,
                           style: TextStyle(
@@ -248,11 +259,41 @@ class _ChangePasswordState extends State<ChangePassword> {
     var password = createPassword.text.toString();
     var confirmPassword = confirmpassword.text.toString();
 
-    // user phone number validation
-    if (pinCode.length < 4 || pinCode == null || pinCode.isEmpty) {
+    // OTP validation
+    if (pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('認証コード入力は必須項目なので入力してください。。',
+        content: Text(' 認証コード入力は必須項目なので入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (pinCode.length < 4) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('認証コードと一致しませんのでもう一度お試しください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password == null || password.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードは必須項目なので入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -309,12 +350,10 @@ class _ChangePasswordState extends State<ChangePassword> {
       ));
       return;
     }
-
-    if (password != confirmPassword) {
-      //print("Entering password state");
+    if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードと確認パスワードの入力が一致しません。',
+        content: Text('有効な文字でパスワードを入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -325,10 +364,27 @@ class _ChangePasswordState extends State<ChangePassword> {
       ));
       return;
     }
-    if (password.contains(regexEmojis)) {
+
+    //Confirm Password Validation
+    if (confirmPassword == null || confirmPassword.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な文字でパスワードを入力してください。',
+        content: Text('パスワード再確認は必須項目なので入力してください。 ',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (password != confirmPassword) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('パスワードが一致がしませんのでもう一度お試しください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
