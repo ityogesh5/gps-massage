@@ -340,6 +340,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     setState(() {
                       bussinessForm = value;
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
                   dataSource: businessFormDropDownValues,
@@ -369,6 +370,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     setState(() {
                       numberOfEmployees = value;
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
                   dataSource: numberOfEmployeesDropDownValues,
@@ -398,6 +400,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     setState(() {
                       storeTypeDisplay = value;
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
                   dataSource: storeTypeDropDownValues,
@@ -444,6 +447,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           onChanged: (value) {
                             setState(() {
                               serviceBusinessTrips = value;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             });
                           },
                           dataSource: serviceBusinessTripDropDownValues,
@@ -490,6 +495,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           onChanged: (value) {
                             setState(() {
                               coronaMeasures = value;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             });
                           },
                           dataSource: coronaMeasuresDropDownValues,
@@ -518,8 +525,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   },
                   child: TextFormField(
                     enabled: false,
-                    initialValue:
-                        HealingMatchConstants.registrationChildrenTxt,
+                    initialValue: HealingMatchConstants.registrationChildrenTxt,
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
@@ -583,6 +589,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     setState(() {
                       genderTreatment = value;
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
                   dataSource: genderTreatmentDropDownValues,
@@ -769,6 +776,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           onChanged: (value) {
                             setState(() {
                               gender = value;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             });
                           },
                           dataSource: genderDropDownValues,
@@ -965,6 +974,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         registrationAddressType = value;
                         showAddressField = true;
                         visible = false;
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }
                   },
@@ -1091,6 +1101,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                           .clear();
                                                       myCity = '';
                                                       _getCityDropDown(_prefid);
+                                                      FocusScope.of(context)
+                                                          .requestFocus(
+                                                              new FocusNode());
                                                     });
                                                   },
                                                   dataSource:
@@ -1132,6 +1145,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                   onChanged: (value) {
                                                     setState(() {
                                                       myCity = value;
+                                                      FocusScope.of(context)
+                                                          .requestFocus(
+                                                              new FocusNode());
                                                     });
                                                   },
                                                   dataSource:

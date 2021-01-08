@@ -125,6 +125,8 @@ class _RegistrationSecondPageState
                               } else {
                                 showIdSelectError();
                               }
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
                             },
                             dataSource: [
                               {
@@ -287,6 +289,8 @@ class _RegistrationSecondPageState
                                 setState(() {
                                   uploadVisible = true;
                                   qualification = value;
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
                                 });
                               },
                               dataSource: [
@@ -507,6 +511,8 @@ class _RegistrationSecondPageState
                                 onChanged: (value) {
                                   setState(() {
                                     bankname = value;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
                                   });
                                 },
                                 dataSource: [
@@ -630,6 +636,8 @@ class _RegistrationSecondPageState
                                 onChanged: (value) {
                                   setState(() {
                                     accountType = value;
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
                                   });
                                 },
                                 dataSource: [

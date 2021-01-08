@@ -60,7 +60,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
   void showProgressDialog() {
     _progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+        textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5));
   }
 
   void hideProgressDialog() {
