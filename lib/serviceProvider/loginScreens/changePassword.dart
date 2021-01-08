@@ -78,7 +78,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.changePasswordTxt,
+                        "+81 ${HealingMatchConstants.userPhoneNumber} " +
+                            HealingMatchConstants.changePasswordTxt,
                         style: TextStyle(
                           color: Colors.grey,
                         ),

@@ -4,7 +4,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
 class UserChangePassword extends StatefulWidget {
@@ -19,7 +18,6 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   TextEditingController createPassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool autoValidate = false;
   bool createPasswordVisibility = true;
   bool confirmPasswordVisibility = true;
   FocusNode pinCodeFoucs = FocusNode();
@@ -65,7 +63,6 @@ class _UserChangePasswordState extends State<UserChangePassword> {
         },
         child: Form(
           key: formKey,
-          autovalidate: autoValidate,
           child: Center(
             child: SingleChildScrollView(
               child: Container(
@@ -75,7 +72,8 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.changePasswordTxt,
+                        "+81 ${HealingMatchConstants.userPhoneNumber} " +
+                            HealingMatchConstants.changePasswordTxt,
                         textAlign: TextAlign.center,
                       ),
                     ),

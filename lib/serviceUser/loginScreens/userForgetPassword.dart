@@ -153,6 +153,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
 
     print('User details length in array : ${forgetPasswordDetails.length}');
 
+
     /*   final url = '';
     http.post(url,
         headers: {
@@ -162,6 +163,8 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
         body: json.encode({
           "serviceUserDetails": forgetPasswordDetails,
         })); */
+
+    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
 
     NavigationRouter.switchToUserChangePasswordScreen(context);
   }

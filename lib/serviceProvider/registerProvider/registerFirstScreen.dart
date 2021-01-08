@@ -41,9 +41,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   //Regex validation for Username
   RegExp regExpUserName = new RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
 
-  //numeric check user name
-  RegExp _numeric = RegExp(r'^-?[0-9]+$');
-
   //Regex validation for Email address
   RegExp regexMail = new RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
@@ -54,8 +51,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   List<String> businessFormDropDownValues = [
     "施術店舗あり施術従業員あり",
     "施術店舗あり 施術従業員なし（個人経営）",
-    "施術店舗なし 施術従業員あり（出張のみ",
-    "施術店舗なし 施術従業員なし（個人",
+    "施術店舗なし 施術従業員あり（出張のみ)",
+    "施術店舗なし 施術従業員なし（個人)",
   ];
 
   List<String> numberOfEmployeesDropDownValues = List<String>();
@@ -99,6 +96,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   List<dynamic> stateDropDownValues = List<dynamic>();
   List<dynamic> cityDropDownValues = List<dynamic>();
+  List<String> childrenMeasuresDropDownValuesSelected = List<String>();
   StatesList states;
 
   final statekey = new GlobalKey<FormState>();
@@ -110,12 +108,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       storeTypeDisplay,
       serviceBusinessTrips,
       coronaMeasures,
-      childrenMeasures,
       genderTreatment,
       gender,
       registrationAddressType,
       myCity,
       myState;
+
+  int childrenMeasureStatus = 0;
 
   DateTime selectedDate = DateTime.now();
 
@@ -128,7 +127,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   var selectedYear;
 
   bool _isGPSLocation = false;
-  bool _showCurrentLocationInput = false;
 
   double sizedBoxFormHeight = 15.0;
 
@@ -146,8 +144,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   TextEditingController manualAddressController = new TextEditingController();
   TextEditingController buildingNameController = new TextEditingController();
   TextEditingController roomNumberController = new TextEditingController();
-
-  bool _validate = false;
   PickedFile _profileImage;
 
   void initState() {
@@ -483,10 +479,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     Expanded(
                       child: Container(
                         height: containerHeight,
-                        /*  decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black12,
-                            border: Border.all(color: Colors.black12)), */
                         child: DropDownFormField(
                           hintText: 'はい',
                           value: coronaMeasures,
@@ -516,39 +508,70 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                /*   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  hintText: '子供向け施策有無',
-                  value: childrenMeasures,
-                  onSaved: (value) {
+                child: InkWell(
+                  onTap: () {
                     setState(() {
-                      childrenMeasures = value;
+                      childrenMeasureStatus == 0
+                          ? childrenMeasureStatus = 1
+                          : childrenMeasureStatus = 0;
                     });
                   },
-                  onChanged: (value) {
-                    setState(() {
-                      childrenMeasures = value;
-                    });
-                  },
-                  dataSource: childrenMeasuresDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue:
+                        HealingMatchConstants.registrationChildrenTxt,
+                    decoration: new InputDecoration(
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          icon: childrenMeasureStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 35.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              childrenMeasureStatus == 0
+                                  ? childrenMeasureStatus = 1
+                                  : childrenMeasureStatus = 0;
+                            });
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
+                  ),
                 ),
               ),
+              childrenMeasureStatus == 1
+                  ? Container(
+                      width: containerWidth,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: childrenMeasuresDropDownValues.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return buildCheckBoxContent(
+                              childrenMeasuresDropDownValues[index],
+                              index,
+                            );
+                          }),
+                    )
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
                   hintText: '施術を提供できる利用者の性別',
                   value: genderTreatment,
@@ -650,34 +673,37 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 child: Row(
                   children: [
                     Expanded(
+                        flex: 3,
                         child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(splashColor: Colors.black12),
-                      child: InkWell(
-                        onTap: () {
-                          _selectDate(context);
-                        },
-                        child: TextFormField(
-                            enabled: false,
-                            controller: userDOBController,
-                            decoration: InputDecoration(
-                                labelText:
-                                    HealingMatchConstants.registrationDob,
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                suffixIcon: IconButton(
-                                    icon: Icon(Icons.calendar_today, size: 28),
-                                    onPressed: () {
-                                      _selectDate(context);
-                                    }))),
-                      ),
-                    )),
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: TextFormField(
+                                enabled: false,
+                                controller: userDOBController,
+                                decoration: InputDecoration(
+                                    labelText:
+                                        HealingMatchConstants.registrationDob,
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    suffixIcon: IconButton(
+                                        icon: Icon(Icons.calendar_today,
+                                            size: 28),
+                                        onPressed: () {
+                                          _selectDate(context);
+                                        }))),
+                          ),
+                        )),
                     SizedBox(
                       width: 10.0,
                     ),
@@ -685,10 +711,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Container(
                         height: containerHeight,
                         child: TextFormField(
+                          textAlign: TextAlign.center,
                           enabled: false,
                           controller: ageController,
                           decoration: InputDecoration(
-                            hintText: "年齢	",
+                            labelText: "年齢	",
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             focusedBorder:
@@ -728,9 +755,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.25,
                         /*   decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black12,
-                            border: Border.all(color: Colors.black12)), */
+                                                          borderRadius: BorderRadius.circular(10.0),
+                                                          color: Colors.black12,
+                                                          border: Border.all(color: Colors.black12)), */
                         child: DropDownFormField(
                           hintText: '女',
                           value: gender,
@@ -915,9 +942,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: containerHeight,
                 width: containerWidth,
                 /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                  color: Colors.black12,
+                                                  border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
                   hintText: '検索地点の登録*',
                   value: registrationAddressType,
@@ -1218,7 +1245,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     validateFields();
 
                     /*   NavigationRouter.switchToServiceProviderSecondScreen(
-                        context); */
+                                                      context); */
                   },
                 ),
               ),
@@ -1315,6 +1342,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
     var address = gpsAddressController.text.toString();
+    var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
@@ -1648,7 +1676,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
     //manual address Validation
     if ((_myAddressInputType != "現在地を取得する") &&
-        (address == null || address.isEmpty)) {
+        (manualAddresss == null || manualAddresss.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1751,7 +1779,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderBusinessTripService =
         serviceBusinessTrips;
     HealingMatchConstants.serviceProviderCoronaMeasure = coronaMeasures;
-    HealingMatchConstants.serviceProviderChildrenMeasure = childrenMeasures;
+    HealingMatchConstants.serviceProviderChildrenMeasure.clear();
+    HealingMatchConstants.serviceProviderChildrenMeasure
+        .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
     // Getting user GPS Address value
@@ -1764,7 +1794,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           ',' +
           buildingname +
           ',' +
-          manualAddressController.text +
+          manualAddresss +
           ',' +
           myCity +
           ',' +
@@ -1873,38 +1903,38 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         setState(() {});
       }
     });
-
-    /* if (response.statusCode == 200) {
-      // var responseData = json.decode(response.body);
-      // final Map city = responseData;
-      // cityResponse = CityList.fromJson(city);
-
-      CityList cityResponse = CityList.fromJson(json.decode(response.body));
-      // print(response.statusCode);
-      // city = CityList.fromJson(json.decode(response.body));
-      // print(city);
-      print(cityResponse.toJson());
-      for (var cityList in cityResponse.data) {
-        cityDropDownValues.add(cityList.cityJa);
-        print(cityDropDownValues);
-      }
-    }*/
-    // this API passes back the id of the new item added to the body
-    // String body = response.body;
-
-    // {
-    //   "title": "Hello",
-    //   "body": "body text",
-    //   "userId": 1,
-
-    //   "id": 101
-    //  }
   }
-}
 
-class ListItem {
-  int value;
-  String name;
-
-  ListItem(this.value, this.name);
+  Widget buildCheckBoxContent(String childrenMeasuresValue, int index) {
+    bool checkValue =
+        childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              tristate: true,
+              activeColor: Colors.lime,
+              checkColor: Colors.lime,
+              value: checkValue,
+              onChanged: (value) {
+                if (value == null) {
+                  setState(() {
+                    childrenMeasuresDropDownValuesSelected
+                        .remove(childrenMeasuresValue);
+                  });
+                } else {
+                  setState(() {
+                    childrenMeasuresDropDownValuesSelected
+                        .add(childrenMeasuresValue);
+                  });
+                }
+              },
+            ),
+            Text("$childrenMeasuresValue", style: TextStyle(fontSize: 14.0)),
+          ],
+        ),
+      ],
+    );
+  }
 }

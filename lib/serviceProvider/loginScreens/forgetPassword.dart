@@ -167,6 +167,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           "serviceUserDetails": forgetPasswordDetails,
         })); */
 
+    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
+
     NavigationRouter.switchToProviderChangePasswordScreen(context);
   }
 }

@@ -6,7 +6,7 @@ import '../constantsUtils.dart';
 class ProgressDialogBuilder {
   static ProgressDialog progressDialog = ProgressDialog();
 
-  //Register user
+  //Register user and Provider
   static void showRegisterProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
         textToBeDisplayed: '${HealingMatchConstants.registerProgressText}',

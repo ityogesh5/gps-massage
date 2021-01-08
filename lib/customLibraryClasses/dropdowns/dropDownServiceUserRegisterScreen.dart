@@ -40,7 +40,6 @@ class DropDownFormField extends FormField<dynamic> {
       : super(
           onSaved: onSaved,
           validator: validator,
-          autovalidate: autovalidate,
           initialValue: value == '' ? null : value,
           builder: (FormFieldState<dynamic> state) {
             return Align(

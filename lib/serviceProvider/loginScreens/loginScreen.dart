@@ -424,8 +424,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
-          body: json
-              .encode({"phoneNumber": userPhoneNumber, "password": password}));
+          body: json.encode({
+            "phoneNumber": userPhoneNumber,
+            "password": password,
+            "isTherapist": "1"
+          }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
         print('Response Success');

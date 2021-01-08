@@ -45,6 +45,9 @@ class HealingMatchConstants {
   static String getCityProgressText = '府県の市のデータを取得中。。。';
   static String getLoginProgressText = 'ログイン中。。。';
 
+  //Foget Password
+  static String userPhoneNumber = '';
+
   //Register Service User Screen Constants
   static String serviceUserName = '';
   static String serviceUserDOB = '';
@@ -89,8 +92,8 @@ class HealingMatchConstants {
   static String serviceProviderStoreType = '';
   static String serviceProviderBusinessTripService = '';
   static String serviceProviderCoronaMeasure = '';
-  static String serviceProviderChildrenMeasure = '';
   static String serviceProviderGenderService = '';
+  static List<String> serviceProviderChildrenMeasure = List<String>();
   static List<ServicePriceModel> estheticServicePriceModel =
       List<ServicePriceModel>();
   static List<ServicePriceModel> relaxationServicePriceModel =
@@ -137,8 +140,9 @@ class HealingMatchConstants {
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
-  static const String registrationBuisnessTrip = '出張でサービス提供可能';
+  static const String registrationBuisnessTrip = '出張でのサービス対応可否';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
+  static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =
       '*マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
   static const String registrationName = 'お名前*';
@@ -196,7 +200,7 @@ class HealingMatchConstants {
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
   static const String changePasswordTxt =
-      "+81****に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
+      "に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
   static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
