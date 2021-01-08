@@ -833,8 +833,17 @@ class _RegistrationSecondPageState
     if (HealingMatchConstants.serviceProviderChildrenMeasure.isEmpty) {
       childrenMeasure = '';
     } else {
-      for (var i in HealingMatchConstants.serviceProviderChildrenMeasure) {
-        childrenMeasure = childrenMeasure + "," + i;
+      for (int i = 0;
+          i < HealingMatchConstants.serviceProviderChildrenMeasure.length;
+          i++) {
+        if (i == 0) {
+          childrenMeasure =
+              HealingMatchConstants.serviceProviderChildrenMeasure[0];
+        } else {
+          childrenMeasure = childrenMeasure +
+              "," +
+              HealingMatchConstants.serviceProviderChildrenMeasure[0];
+        }
       }
     }
 

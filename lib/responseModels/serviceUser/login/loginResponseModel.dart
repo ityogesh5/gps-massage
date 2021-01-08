@@ -36,43 +36,39 @@ class Data {
   String uploadProfileImgUrl;
   String proofOfIdentityType;
   String proofOfIdentityImgUrl;
-  Null qulaificationCertImgUrl;
   String businessForm;
   int numberOfEmp;
   bool businessTrip;
   bool coronaMeasure;
   String storeName;
   int storePhone;
-  Null userOccupation;
   String childrenMeasure;
   String createdAt;
   String updatedAt;
 
   Data(
       {this.id,
-      this.userId,
-      this.email,
-      this.phoneNumber,
-      this.userName,
-      this.dob,
-      this.age,
-      this.gender,
-      this.isTherapist,
-      this.isVerified,
-      this.uploadProfileImgUrl,
-      this.proofOfIdentityType,
-      this.proofOfIdentityImgUrl,
-      this.qulaificationCertImgUrl,
-      this.businessForm,
-      this.numberOfEmp,
-      this.businessTrip,
-      this.coronaMeasure,
-      this.storeName,
-      this.storePhone,
-      this.userOccupation,
-      this.childrenMeasure,
-      this.createdAt,
-      this.updatedAt});
+        this.userId,
+        this.email,
+        this.phoneNumber,
+        this.userName,
+        this.dob,
+        this.age,
+        this.gender,
+        this.isTherapist,
+        this.isVerified,
+        this.uploadProfileImgUrl,
+        this.proofOfIdentityType,
+        this.proofOfIdentityImgUrl,
+        this.businessForm,
+        this.numberOfEmp,
+        this.businessTrip,
+        this.coronaMeasure,
+        this.storeName,
+        this.storePhone,
+        this.childrenMeasure,
+        this.createdAt,
+        this.updatedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,14 +84,12 @@ class Data {
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     proofOfIdentityType = json['proofOfIdentityType'];
     proofOfIdentityImgUrl = json['proofOfIdentityImgUrl'];
-    qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
     businessForm = json['businessForm'];
     numberOfEmp = json['numberOfEmp'];
     businessTrip = json['businessTrip'];
     coronaMeasure = json['coronaMeasure'];
     storeName = json['storeName'];
     storePhone = json['storePhone'];
-    userOccupation = json['userOccupation'];
     childrenMeasure = json['childrenMeasure'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -116,14 +110,12 @@ class Data {
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['proofOfIdentityType'] = this.proofOfIdentityType;
     data['proofOfIdentityImgUrl'] = this.proofOfIdentityImgUrl;
-    data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
     data['businessForm'] = this.businessForm;
     data['numberOfEmp'] = this.numberOfEmp;
     data['businessTrip'] = this.businessTrip;
     data['coronaMeasure'] = this.coronaMeasure;
     data['storeName'] = this.storeName;
     data['storePhone'] = this.storePhone;
-    data['userOccupation'] = this.userOccupation;
     data['childrenMeasure'] = this.childrenMeasure;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;

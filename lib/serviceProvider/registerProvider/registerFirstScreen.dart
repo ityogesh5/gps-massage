@@ -1363,6 +1363,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
 
+    //Profile image validation
+     if (_profileImage == null || _profileImage.path == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('プロフィール画像を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
     //name Validation
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
