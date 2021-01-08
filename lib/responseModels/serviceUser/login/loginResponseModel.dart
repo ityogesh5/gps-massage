@@ -34,15 +34,17 @@ class Data {
   bool isTherapist;
   bool isVerified;
   String uploadProfileImgUrl;
-  Null proofOfIdentityImgUrl;
+  String proofOfIdentityType;
+  String proofOfIdentityImgUrl;
   Null qulaificationCertImgUrl;
-  Null businessForm;
-  Null numberOfEmp;
-  Null businessTrip;
+  String businessForm;
+  int numberOfEmp;
+  bool businessTrip;
   bool coronaMeasure;
-  Null storeName;
-  Null storePhone;
-  String userOccupation;
+  String storeName;
+  int storePhone;
+  Null userOccupation;
+  String childrenMeasure;
   String createdAt;
   String updatedAt;
 
@@ -58,6 +60,7 @@ class Data {
       this.isTherapist,
       this.isVerified,
       this.uploadProfileImgUrl,
+      this.proofOfIdentityType,
       this.proofOfIdentityImgUrl,
       this.qulaificationCertImgUrl,
       this.businessForm,
@@ -67,6 +70,7 @@ class Data {
       this.storeName,
       this.storePhone,
       this.userOccupation,
+      this.childrenMeasure,
       this.createdAt,
       this.updatedAt});
 
@@ -82,6 +86,7 @@ class Data {
     isTherapist = json['isTherapist'];
     isVerified = json['isVerified'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    proofOfIdentityType = json['proofOfIdentityType'];
     proofOfIdentityImgUrl = json['proofOfIdentityImgUrl'];
     qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
     businessForm = json['businessForm'];
@@ -91,6 +96,7 @@ class Data {
     storeName = json['storeName'];
     storePhone = json['storePhone'];
     userOccupation = json['userOccupation'];
+    childrenMeasure = json['childrenMeasure'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -108,6 +114,7 @@ class Data {
     data['isTherapist'] = this.isTherapist;
     data['isVerified'] = this.isVerified;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['proofOfIdentityType'] = this.proofOfIdentityType;
     data['proofOfIdentityImgUrl'] = this.proofOfIdentityImgUrl;
     data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
     data['businessForm'] = this.businessForm;
@@ -117,6 +124,7 @@ class Data {
     data['storeName'] = this.storeName;
     data['storePhone'] = this.storePhone;
     data['userOccupation'] = this.userOccupation;
+    data['childrenMeasure'] = this.childrenMeasure;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;
