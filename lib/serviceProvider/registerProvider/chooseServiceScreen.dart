@@ -44,7 +44,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   int treatmentStatus = 0;
   int fitnessStatus = 0;
   TextEditingController sampleOthersController = TextEditingController();
-  EstheticDropDownModel estheticListModel;
+  EstheticDropDownModel estheticDropDownModel;
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
   FitnessDropDownModel fitnessDropDownModel;
@@ -507,7 +507,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                           } else {
                             //for the remaining fields
                             showTimeandPriceDialog(
-                                val, checkValue, indexPos, mindex);
+                                val, checkValue, indexPos, mindex, index);
                           }
                         }
                       });
@@ -532,7 +532,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             ),
                             onPressed: () {
                               showTimeandPriceDialog(
-                                  val, checkValue, indexPos, mindex);
+                                  val, checkValue, indexPos, mindex, index);
                             }),
                       )
                     ],
@@ -711,7 +711,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //Popup Screen for setting the price
   //used mindex for checking which List should the selected value be stored
   //0-Esthetic 1-Relaxation 2-Treatment 3-Fitness
-  showTimeandPriceDialog(String val, bool selected, int indexPos, int mindex) {
+  showTimeandPriceDialog(
+      String val, bool selected, int indexPos, int mindex, int index) {
     TextEditingController sixtyMinutesController = new TextEditingController();
     TextEditingController nintyMinuteController = new TextEditingController();
     TextEditingController oneTwentyMinuteController =
@@ -736,16 +737,30 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     }
 
     if (selected) {
-      sixtyMinutesController.text =
-          (servicePriceModel[indexPos].sixtyMin).toString();
-      nintyMinuteController.text =
-          (servicePriceModel[indexPos].nintyMin).toString();
-      oneTwentyMinuteController.text =
-          (servicePriceModel[indexPos].oneTwentyMin).toString();
-      oneFiftyController.text =
-          (servicePriceModel[indexPos].oneFiftyMin).toString();
-      oneEightyMinuteController.text =
-          (servicePriceModel[indexPos].oneEightyMin).toString();
+      if (servicePriceModel[indexPos].sixtyMin != 0) {
+        sixtyMinutesController.text =
+            (servicePriceModel[indexPos].sixtyMin).toString();
+      }
+
+      if (servicePriceModel[indexPos].nintyMin != 0) {
+        nintyMinuteController.text =
+            (servicePriceModel[indexPos].nintyMin).toString();
+      }
+
+      if (servicePriceModel[indexPos].oneTwentyMin != 0) {
+        oneTwentyMinuteController.text =
+            (servicePriceModel[indexPos].oneTwentyMin).toString();
+      }
+
+      if (servicePriceModel[indexPos].oneFiftyMin != 0) {
+        oneFiftyController.text =
+            (servicePriceModel[indexPos].oneFiftyMin).toString();
+      }
+
+      if (servicePriceModel[indexPos].oneEightyMin != 0) {
+        oneEightyMinuteController.text =
+            (servicePriceModel[indexPos].oneEightyMin).toString();
+      }
     }
     return showDialog(
       context: context,
@@ -1157,7 +1172,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                                           oneEightyMinuteController
                                                               .text)
                                                       : 0,
-                                                  0),
+                                                  getID(index, mindex)),
                                             );
                                             selectedDropdownValues
                                                 .add(val.toLowerCase());
@@ -1303,10 +1318,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     await http
         .get(HealingMatchConstants.ESTHETIC_PROVIDER_URL)
         .then((response) {
-      estheticListModel =
+      estheticDropDownModel =
           EstheticDropDownModel.fromJson(json.decode(response.body));
-      print(estheticListModel.toJson());
-      for (var estheticList in estheticListModel.data) {
+      print(estheticDropDownModel.toJson());
+      for (var estheticList in estheticDropDownModel.data) {
         estheticDropDownValues.add(estheticList.value);
         print(estheticDropDownValues);
       }
@@ -1391,6 +1406,55 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
           textColor: Colors.white),
     ));
     return;
+  }
+
+  //get the id of the Message Value
+  int getID(int index, int mindex) {
+    int id;
+    int constantID = 999;
+    if (mindex == 0) {
+      if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
+          (index > estheticDropDownModel.data.length - 2))
+      //minus 2 for indexing and removing the others field out of equation
+      {
+        id = constantID;
+      } else {
+        id = estheticDropDownModel.data.elementAt(index).id;
+      }
+    } else if (mindex == 1) {
+      if ((relaxationDropDownModel.data.length <
+              relaxationDropDownValues.length) &&
+          (index >
+              estheticDropDownModel.data.length -
+                  2)) //minus 2 for indexing and removing the others field out of equation
+      {
+        id = constantID;
+      } else {
+        id = relaxationDropDownModel.data.elementAt(index).id;
+      }
+    } else if (mindex == 2) {
+      if ((treatmentDropDownModel.data.length <
+              treatmentDropDownValues.length) &&
+          (index >
+              estheticDropDownModel.data.length -
+                  2)) //minus 2 for indexing and removing the others field out of equation
+      {
+        id = constantID;
+      } else {
+        id = treatmentDropDownModel.data.elementAt(index).id;
+      }
+    } else if (mindex == 3) {
+      if ((fitnessDropDownModel.data.length < fitnessDropDownValues.length) &&
+          (index >
+              estheticDropDownModel.data.length -
+                  2)) //minus 2 for indexing and removing the others field out of equation
+      {
+        id = constantID;
+      } else {
+        id = fitnessDropDownModel.data.elementAt(index).id;
+      }
+    }
+    return id;
   }
 
   getSavedValues() {
