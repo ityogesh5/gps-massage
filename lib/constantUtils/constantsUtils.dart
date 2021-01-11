@@ -222,10 +222,10 @@ class HealingMatchConstants {
     color: Colors.black,
   );
 
-  static const labelText = TextStyle(
+  static const textFieldLabelText = TextStyle(
     fontFamily: 'Open Sans',
-    fontSize: 12.0,
-    color: Colors.black,
+    fontSize: 14.0,
+    color: Colors.black12,
   );
 
   static var textFormInputBorder = OutlineInputBorder(

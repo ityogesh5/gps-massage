@@ -73,14 +73,15 @@ class DropDownFormField extends FormField<dynamic> {
                               ? DropdownButton<dynamic>(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
-                                    size: 35.0,
+                                    size: 30.0,
                                     color: Colors
                                         .black, //Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
@@ -94,8 +95,8 @@ class DropDownFormField extends FormField<dynamic> {
                                             child: Text(item,
                                                 style: TextStyle(
                                                     fontFamily: 'Open Sans',
-                                                    color:
-                                                        Colors.grey.shade500)),
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 14)),
                                           );
                                         }).toList()
                                       : dataSource.map((item) {
@@ -104,8 +105,8 @@ class DropDownFormField extends FormField<dynamic> {
                                             child: Text(item[textField],
                                                 style: TextStyle(
                                                     fontFamily: 'Open Sans',
-                                                    color:
-                                                        Colors.grey.shade500)),
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 14)),
                                           );
                                         }).toList(),
                                 )
@@ -116,11 +117,13 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 14),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);

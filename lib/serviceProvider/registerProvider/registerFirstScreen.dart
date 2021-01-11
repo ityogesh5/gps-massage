@@ -1364,7 +1364,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var _myAddressInputType = registrationAddressType;
 
     //Profile image validation
-     if (_profileImage == null || _profileImage.path == null) {
+    if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
 class UserChangePassword extends StatefulWidget {
   @override
@@ -15,14 +15,13 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userOTP;
   TextEditingController pin = TextEditingController();
-  TextEditingController createPassword = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
+  TextEditingController createPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool createPasswordVisibility = true;
-  bool confirmPasswordVisibility = true;
+  bool _secureText = true;
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
-  FocusNode confrimPasswordFocus = FocusNode();
+  FocusNode confirmPasswordFocus = FocusNode();
 
   List<String> changePasswordDetails = [];
 
@@ -32,6 +31,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+
+  showHide() {
+    setState(() {
+      _secureText = !_secureText;
+    });
+  }
 
   @override
   void initState() {
@@ -119,11 +124,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 12,
                     ),
                     TextFormField(
-                      obscureText: createPasswordVisibility,
+                      obscureText: _secureText,
                       textInputAction: TextInputAction.next,
                       focusNode: createPasswordFocus,
                       maxLength: 14,
-                      controller: createPassword,
+                      controller: createPasswordController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                         counterText: "",
@@ -135,13 +140,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: createPasswordVisibility
+                            icon: _secureText
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                createPasswordVisibility =
-                                    !createPasswordVisibility;
+                                _secureText = !_secureText;
                               });
                             }),
                         filled: true,
@@ -155,10 +159,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 15,
                     ),
                     TextFormField(
-                      obscureText: confirmPasswordVisibility,
+                      obscureText: _secureText,
                       textInputAction: TextInputAction.done,
-                      focusNode: confrimPasswordFocus,
-                      controller: confirmpassword,
+                      focusNode: confirmPasswordFocus,
+                      controller: confirmPasswordController,
                       keyboardType: TextInputType.emailAddress,
                       maxLength: 14,
                       decoration: new InputDecoration(
@@ -171,13 +175,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: confirmPasswordVisibility
+                            icon: _secureText
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                confirmPasswordVisibility =
-                                    !confirmPasswordVisibility;
+                                _secureText = !_secureText;
                               });
                             }),
                         filled: true,
@@ -202,7 +205,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerChangePasswordDetails();
+                          _userChangePasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -244,11 +247,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     );
   }
 
-  _providerChangePasswordDetails() async {
+  _userChangePasswordDetails() async {
     //var pinCode = pinCodeText.text.toString();
     var pinCode = userOTP;
-    var password = createPassword.text.toString();
-    var confirmPassword = confirmpassword.text.toString();
+    var password = createPasswordController.text.toString();
+    var confirmPassword = confirmPasswordController.text.toString();
 
     // OTP validation
     if (pinCode == null || pinCode.isEmpty) {
@@ -394,7 +397,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    NavigationRouter.switchToUserLogin(context);
+    DialogHelper.showPasswordResetSuccessDialog(context);
 
     /*  final url = '';
     http.post(url,

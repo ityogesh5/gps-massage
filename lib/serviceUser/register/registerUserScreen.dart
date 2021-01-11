@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -225,7 +226,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('サービスセラピストに関する情報を入力する',
+                    Text('サービス利用者情報の入力',
                         style: new TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -242,7 +243,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           new TextSpan(
-                              text: '値は必須です',
+                              text: 'は必須項目です',
                               style: new TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -327,14 +328,13 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: '名前 *',
-                          hintText: '名前 *',
-                          hintStyle: TextStyle(
+                          labelText: 'お名前 *',
+                          //hintText: 'お名前 *',
+                          /*hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          ),*/
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -377,8 +377,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       labelText: '生年月日 *',
                                       hintText: '生年月日 *',
                                       hintStyle: TextStyle(
-                                        color: Colors.grey[400],
-                                      ),
+                                          color: Colors.grey[400],
+                                          fontSize: 14),
                                       labelStyle: TextStyle(
                                         color: Colors.grey[400],
                                       ),
@@ -417,8 +417,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   fillColor: ColorConstants.formFieldFillColor,
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
+                                      color: Colors.grey[400], fontSize: 14),
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
                                   focusedBorder:
@@ -582,13 +581,12 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: '電話番号 *',
-                          hintText: '電話番号 *',
+                          /*hintText: '電話番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          ),*/
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -614,9 +612,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'メールアドレス',
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -643,19 +640,18 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'パスワード *',
-                          hintText: 'パスワード *',
+                          /*hintText: 'パスワード *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
                                 ? Icons.visibility_off
                                 : Icons.visibility),
                           ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -682,19 +678,18 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'パスワード (確認用) *',
-                          hintText: 'パスワード (確認用) *',
+                          /*hintText: 'パスワード (確認用) *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
                                 ? Icons.visibility_off
                                 : Icons.visibility),
                           ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -705,6 +700,34 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                         ),
                         // validator: (value) => _validateEmail(value),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(width: 25),
+                          RichText(
+                            textAlign: TextAlign.start,
+                            text: new TextSpan(
+                              text: '* ',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text: '半角英数 8 ～１６文字以内',
+                                    style: new TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[400],
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w100)),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 15),
@@ -774,10 +797,10 @@ class _RegisterUserState extends State<RegisterUser> {
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             labelText: '現在地を取得する *',
-                            hintText: '現在地を取得する *',
+                            /*hintText: '現在地を取得する *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
-                            ),
+                            ),*/
                             suffixIcon: IconButton(
                               icon: Icon(Icons.location_on),
                               onPressed: () {
@@ -790,8 +813,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               },
                             ),
                             labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
+                                color: Colors.grey[400], fontSize: 14),
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
@@ -843,8 +865,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     "value": "実家",
                                   },
                                   {
-                                    "display": "その他（直接入力",
-                                    "value": "その他（直接入力",
+                                    "display": "その他（直接入力）",
+                                    "value": "その他（直接入力）",
                                   },
                                 ],
                                 textField: 'display',
@@ -992,14 +1014,13 @@ class _RegisterUserState extends State<RegisterUser> {
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
-                                    labelText: '都、県選 *',
-                                    hintText: '都、県選 *',
+                                    labelText: '丁目, 番地 *',
+                                    /*hintText: '都、県選 *',
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
-                                    ),
+                                    ),*/
                                     labelStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                    ),
+                                        color: Colors.grey[400], fontSize: 14),
                                     focusColor: Colors.grey[100],
                                     border: HealingMatchConstants
                                         .textFormInputBorder,
@@ -1021,19 +1042,19 @@ class _RegisterUserState extends State<RegisterUser> {
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: TextFormField(
                                 //enableInteractiveSelection: false,
+                                keyboardType: TextInputType.number,
                                 autofocus: false,
                                 controller: buildingNameController,
                                 decoration: new InputDecoration(
                                   filled: true,
                                   fillColor: ColorConstants.formFieldFillColor,
-                                  labelText: 'ビル名 *',
-                                  hintText: 'ビル名 *',
+                                  labelText: '建物名 *',
+                                  /*hintText: 'ビル名 *',
                                   hintStyle: TextStyle(
                                     color: Colors.grey[400],
-                                  ),
+                                  ),*/
                                   labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
+                                      color: Colors.grey[400], fontSize: 14),
                                   focusColor: Colors.grey[100],
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
@@ -1063,13 +1084,12 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: '部屋番号 *',
-                          hintText: '部屋番号 *',
+                          /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          ),*/
+                          labelStyle:
+                              TextStyle(color: Colors.grey[400], fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -1114,8 +1134,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         color: Colors.lime,
                         onPressed: () {
                           _changeProgressText = false;
-                          _registerUserDetails();
-                          //NavigationRouter.switchToServiceUserHomeScreen(context);
+                          //_registerUserDetails();
+                          DialogHelper.showRegisterSuccessDialog(context);
                         },
                         child: new Text(
                           '入力完了',
@@ -1322,7 +1342,7 @@ class _RegisterUserState extends State<RegisterUser> {
         userPhoneNumber.length < 11) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
+        content: Text('正しい電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1392,7 +1412,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
-    if (password.length > 14 || confirmPassword.length > 14) {
+    if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは14文字以内で入力してください。 ',
@@ -1456,7 +1476,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な住所の種類を選択してください。',
+        content: Text('有効な検索地点の登録を選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1648,7 +1668,7 @@ class _RegisterUserState extends State<RegisterUser> {
             backgroundColor: Colors.lime,
             textColor: Colors.white);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        NavigationRouter.switchToServiceUserBottomBar(context);
+        DialogHelper.showRegisterSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
@@ -1739,7 +1759,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print(cities.toJson());
       for (var cityList in cities.data) {
         setState(() {
-          cityDropDownValues.add(cityList.cityJa);
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
       ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
