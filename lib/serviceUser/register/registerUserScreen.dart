@@ -1739,7 +1739,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print(cities.toJson());
       for (var cityList in cities.data) {
         setState(() {
-          cityDropDownValues.add(cityList.cityJa);
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
       ProgressDialogBuilder.hideGetCitiesProgressDialog(context);

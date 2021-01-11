@@ -330,7 +330,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
-                  hintText: '事業形態 *',
+                  hintText: '事業形態',
                   value: bussinessForm,
                   onSaved: (value) {
                     setState(() {
@@ -360,7 +360,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
-                  hintText: '従業員数 *',
+                  hintText: '従業員数',
                   value: numberOfEmployees,
                   onSaved: (value) {
                     setState(() {
@@ -1258,10 +1258,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     //!Commented for Dev purposes
-                    validateFields();
+                    //   validateFields();
 
-                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
-                                                      context); */
+                    NavigationRouter.switchToServiceProviderSecondScreen(
+                        context);
                   },
                 ),
               ),
@@ -1362,9 +1362,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
+    var userDOB = userDOBController.text;
 
     //Profile image validation
-     if (_profileImage == null || _profileImage.path == null) {
+    if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
@@ -1439,6 +1440,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
+    }
+
+    // user DOB validation
+    if (userDOB == null || userDOB.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な生年月日を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
     }
 
     // user phone number validation
@@ -1928,7 +1945,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         CityList cityResponse = CityList.fromJson(json.decode(response.body));
         print(cityResponse.toJson());
         for (var cityList in cityResponse.data) {
-          cityDropDownValues.add(cityList.cityJa);
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
           print(cityDropDownValues);
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
