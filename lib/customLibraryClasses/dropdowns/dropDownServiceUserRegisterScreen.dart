@@ -79,8 +79,9 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
@@ -118,11 +119,13 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 14),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);

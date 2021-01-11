@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
@@ -14,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
@@ -1040,7 +1042,7 @@ class _RegistrationSecondPageState
     return;
   }
 
-  /* registerProvider() async {
+/* registerProvider() async {
     registerProvider() async {
       List<CertificateImageUpload> cImagesList =
           new List<CertificateImageUpload>();
@@ -1112,7 +1114,7 @@ class _RegistrationSecondPageState
                                                                                     print("This is request : ${userDetailsRequest.request}");
                                                                                     final response = await http.Response.fromStream(userDetailsRequest);
                                                                                     print("This is response: ${response.statusCode}\n${response.body}");
-                                                                                
+
                                                                                     if (response.statusCode == 200) {
                                                                                       print(response.body);
                                                                                     } else {
@@ -1290,7 +1292,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     //  bannerImageUploadApi();
   }
 
-  /*  bannerImageUploadApi() async {
+/*  bannerImageUploadApi() async {
     var request = http.MultipartRequest('POST',
         Uri.parse(HealingMatchConstants.REGISTER_PROVIDER_BANNER_UPLOAD_URL));
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
