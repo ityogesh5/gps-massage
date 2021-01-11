@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -895,8 +896,20 @@ class _RegistrationSecondPageState
       'branchNumber': branchNumberController.text,
       'accountNumber': accountType,
       'accountType': accountnumberController.text,
-      'proofOfIdentityType': identificationverify
+      'proofOfIdentityType': identificationverify,
+      'estheticList':
+          json.encode(HealingMatchConstants.estheticServicePriceModel),
+      'relaxationList':
+          json.encode(HealingMatchConstants.relaxationServicePriceModel),
+      'orteopathicList': json.encode(
+        HealingMatchConstants.treatmentServicePriceModel,
+      ),
+      'fitnessList': json.encode(
+        HealingMatchConstants.fitnessServicePriceModel,
+      ),
     });
+    var a = request.fields.toString();
+
     //Upload Proof of ID
     request.files.add(await http.MultipartFile.fromPath(
         'proofOfIdentityImgUrl', _idProfileImage.path));
@@ -924,7 +937,7 @@ class _RegistrationSecondPageState
     if (response.statusCode == 200) {
       print(response.body);
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      NavigationRouter.switchToServiceProviderBottomBar(context);
+      //    NavigationRouter.switchToServiceProviderBottomBar(context);
     } else {
       print(response.reasonPhrase);
     }

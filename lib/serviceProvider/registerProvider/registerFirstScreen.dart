@@ -531,16 +531,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
                       enabledBorder: HealingMatchConstants.textFormInputBorder,
                       suffixIcon: IconButton(
+                          padding: EdgeInsets.only(left: 8.0),
                           icon: childrenMeasureStatus == 0
                               ? Icon(
                                   Icons.keyboard_arrow_down,
-                                  size: 35.0,
+                                  size: 30.0,
                                   color: Colors
                                       .black, //Color.fromRGBO(200, 200, 200, 1),
                                 )
                               : Icon(
                                   Icons.keyboard_arrow_up,
-                                  size: 35.0,
+                                  size: 30.0,
                                   color: Colors
                                       .black, //Color.fromRGBO(200, 200, 200, 1),
                                 ),
@@ -1066,54 +1067,42 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: Form(
-                                          key: statekey,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(0.0),
-                                                //    width: MediaQuery.of(context).size.width * 0.33,
+                                        child: Container(
+                                          margin: EdgeInsets.all(0.0),
+                                          /*  width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.33, */
+                                          child: DropDownFormField(
+                                            titleText: null,
+                                            hintText: readonly ? myState : '都',
+                                            onSaved: (value) {
+                                              setState(() {
+                                                myState = value;
+                                              });
+                                            },
+                                            value: myState,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                myState = value;
 
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText:
-                                                      readonly ? myState : '都',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myState = value;
-                                                    });
-                                                  },
-                                                  value: myState,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myState = value;
-
-                                                      _prefid =
-                                                          stateDropDownValues
-                                                                  .indexOf(
-                                                                      value) +
-                                                              1;
-                                                      print(
-                                                          'prefID : ${_prefid.toString()}');
-                                                      cityDropDownValues
-                                                          .clear();
-                                                      myCity = '';
-                                                      _getCityDropDown(_prefid);
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      stateDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
-                                              ),
-                                            ],
+                                                _prefid = stateDropDownValues
+                                                        .indexOf(value) +
+                                                    1;
+                                                print(
+                                                    'prefID : ${_prefid.toString()}');
+                                                cityDropDownValues.clear();
+                                                myCity = '';
+                                                _getCityDropDown(_prefid);
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                              });
+                                            },
+                                            dataSource: stateDropDownValues,
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value',
                                           ),
                                         ),
                                       ),
@@ -1121,43 +1110,29 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                         width: 10.0,
                                       ),
                                       Expanded(
-                                        child: Form(
-                                          key: citykey,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                // height: containerHeight,
-                                                margin: EdgeInsets.all(0.0),
-                                                // width: MediaQuery.of(context).size.width * 0.33,
-
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText:
-                                                      readonly ? myCity : '市',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                    });
-                                                  },
-                                                  value: myCity,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      cityDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
-                                              ),
-                                            ],
+                                        child: Container(
+                                          margin: EdgeInsets.all(0.0),
+                                          child: DropDownFormField(
+                                            titleText: null,
+                                            hintText: readonly ? myCity : '市',
+                                            onSaved: (value) {
+                                              setState(() {
+                                                myCity = value;
+                                              });
+                                            },
+                                            value: myCity,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                myCity = value;
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                              });
+                                            },
+                                            dataSource: cityDropDownValues,
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value',
                                           ),
                                         ),
                                       ),
@@ -1258,10 +1233,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     //!Commented for Dev purposes
-                    //   validateFields();
+                       validateFields();
 
-                    NavigationRouter.switchToServiceProviderSecondScreen(
-                        context);
+                   /*  NavigationRouter.switchToServiceProviderSecondScreen(
+                        context); */
                   },
                 ),
               ),

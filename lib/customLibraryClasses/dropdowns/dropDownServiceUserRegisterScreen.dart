@@ -67,13 +67,13 @@ class DropDownFormField extends FormField<dynamic> {
                           )),
                       child: */
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0, right: 4.0),
                       child: DropdownButtonHideUnderline(
                           child: enabled
                               ? DropdownButton<dynamic>(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
-                                    size: 35.0,
+                                    size: 30.0,
                                     color: Colors
                                         .black, //Color.fromRGBO(200, 200, 200, 1),
                                   ),
@@ -94,6 +94,7 @@ class DropDownFormField extends FormField<dynamic> {
                                             child: Text(item,
                                                 style: TextStyle(
                                                     fontFamily: 'Open Sans',
+                                                    fontSize: 14.0,
                                                     color:
                                                         Colors.grey.shade500)),
                                           );
@@ -104,6 +105,7 @@ class DropDownFormField extends FormField<dynamic> {
                                             child: Text(item[textField],
                                                 style: TextStyle(
                                                     fontFamily: 'Open Sans',
+                                                    fontSize: 14.0,
                                                     color:
                                                         Colors.grey.shade500)),
                                           );
