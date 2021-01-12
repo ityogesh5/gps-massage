@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'OTPScreen/otp_field.dart';
@@ -212,7 +213,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerChangePasswordDetails();
+                          //!Changed for Dev Purpose
+                           _providerChangePasswordDetails();
+                         // DialogHelper.showPasswordResetSuccessDialog(context);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
