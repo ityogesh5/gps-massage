@@ -150,8 +150,6 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                             }),
                         filled: true,
                         labelText: HealingMatchConstants.changePasswordNewpass,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
-                        hintText: HealingMatchConstants.changePasswordNewpass,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -184,10 +182,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                               });
                             }),
                         filled: true,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                         labelText:
-                            HealingMatchConstants.changePasswordConfirmpass,
-                        hintText:
                             HealingMatchConstants.changePasswordConfirmpass,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),

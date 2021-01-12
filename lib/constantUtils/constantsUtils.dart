@@ -211,19 +211,19 @@ class HealingMatchConstants {
 
   //FontStyle
   static const headersText = TextStyle(
-    fontFamily: 'Open Sans',
+    fontFamily: 'Oxygen',
     fontSize: 18.0,
     color: Colors.black,
   );
 
   static const normalText = TextStyle(
-    fontFamily: 'Open Sans',
+    fontFamily: 'Oxygen',
     fontSize: 14.0,
     color: Colors.black,
   );
 
   static const textFieldLabelText = TextStyle(
-    fontFamily: 'Open Sans',
+    fontFamily: 'Oxygen',
     fontSize: 14.0,
     color: Colors.black12,
   );
