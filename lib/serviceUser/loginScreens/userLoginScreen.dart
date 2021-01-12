@@ -57,6 +57,7 @@ class _UserLoginState extends State<UserLogin> {
                     decoration: TextDecoration.underline,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Oxygen',
                     fontSize: 18.0),
               ),
             ),
@@ -78,7 +79,9 @@ class _UserLoginState extends State<UserLogin> {
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold))),
+                            fontSize: 20,
+                            fontFamily: 'Oxygen',
+                            fontWeight: FontWeight.bold))),
                 SizedBox(
                   height: 20,
                 ),
@@ -120,9 +123,8 @@ class _UserLoginState extends State<UserLogin> {
                           });
                         }),
                     filled: true,
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    hintStyle:
+                        TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
                     labelText: HealingMatchConstants.loginUserPassword,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
@@ -140,10 +142,10 @@ class _UserLoginState extends State<UserLogin> {
                       },
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
-                        style: TextStyle(
-                          color: Colors.grey,
+                        style:
+                            TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
 //                    decoration: TextDecoration.underline,
-                        ),
+                                ),
                       ),
                     ),
                   ],
@@ -157,7 +159,10 @@ class _UserLoginState extends State<UserLogin> {
                   child: RaisedButton(
                     child: Text(
                       '${HealingMatchConstants.loginUserButton}',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oxygen',
+                          fontSize: 18),
                     ),
                     color: Colors.lime,
                     onPressed: () {
@@ -269,6 +274,7 @@ class _UserLoginState extends State<UserLogin> {
                     HealingMatchConstants.loginUserNewRegistrationText,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
+                        fontFamily: 'Oxygen',
                         fontWeight: FontWeight.w100),
                   ),
                 ),
@@ -290,10 +296,9 @@ class _UserLoginState extends State<UserLogin> {
         child: Center(
           child: Text(
             HealingMatchConstants.loginServiceProvider,
-            style: TextStyle(
-              color: Colors.grey,
+            style: TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
 //                            decoration: TextDecoration.underline,
-            ),
+                ),
           ),
         ),
       ),
@@ -310,7 +315,7 @@ class _UserLoginState extends State<UserLogin> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('電話番号とパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -322,14 +327,14 @@ class _UserLoginState extends State<UserLogin> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('パスワードを入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('パスワードを入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -344,7 +349,7 @@ class _UserLoginState extends State<UserLogin> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('パスワードを入力してください。 ', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('パスワードを入力してください。 ', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -355,11 +360,11 @@ class _UserLoginState extends State<UserLogin> {
       return;
     }
 
-    if (password.length < 8 || password.length > 14) {
+    if (password.length < 8 || password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号とパスワードを入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();

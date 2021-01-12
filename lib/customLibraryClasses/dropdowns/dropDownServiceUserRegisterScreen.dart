@@ -80,7 +80,8 @@ class DropDownFormField extends FormField<dynamic> {
                                   hint: Text(
                                     hintText,
                                     style: TextStyle(
-                                        color: Colors.grey.shade500,fontFamily: 'Oxygen',
+                                        color: Colors.grey.shade500,
+                                        fontFamily: 'Oxygen',
                                         fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
@@ -123,7 +124,9 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   value: value == '' ? null : value,
                                   style: TextStyle(
-                                      color: Colors.grey, fontFamily: 'Oxygen',fontSize: 14),
+                                      color: Colors.grey,
+                                      fontFamily: 'Oxygen',
+                                      fontSize: 14),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);
@@ -136,7 +139,8 @@ class DropDownFormField extends FormField<dynamic> {
                     Text(
                       state.hasError ? state.errorText : '',
                       style: TextStyle(
-                          color: Colors.redAccent.shade700,fontFamily: 'Oxygen',
+                          color: Colors.redAccent.shade700,
+                          fontFamily: 'Oxygen',
                           fontSize: state.hasError ? 12.0 : 0.0),
                     ),
                   ],

@@ -39,7 +39,10 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       ),
       child: Text(
         "$title",
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Oxygen',
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -58,7 +61,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('利用規約とプライバシーポリシーに同意してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -79,7 +82,10 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
         automaticallyImplyLeading: false,
         title: Text(
           '利用規約とプライバシーポリシー',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Oxygen',
+              fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -107,7 +113,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   ? Text(
                       "サービス利用者",
                       style: TextStyle(
-                          color: Colors.white60, fontWeight: FontWeight.bold),
+                          color: Colors.white60,
+                          fontFamily: 'Oxygen',
+                          fontWeight: FontWeight.bold),
                     )
                   : buildUnSelectedTabBar("サービス利用者"),
             ),
@@ -115,7 +123,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               child: _tabIndex == 1
                   ? Text("セラピスト",
                       style: TextStyle(
-                          color: Colors.white60, fontWeight: FontWeight.bold))
+                          color: Colors.white60,
+                          fontFamily: 'Oxygen',
+                          fontWeight: FontWeight.bold))
                   : buildUnSelectedTabBar("セラピスト"),
             ),
           ],
@@ -141,7 +151,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                     p: Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(fontSize: 14.0)));
+                                        .copyWith(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Oxygen')));
                   }
                   return Center(
                     child: CircularProgressIndicator(),
@@ -164,7 +176,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                     p: Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(fontSize: 14.0)));
+                                        .copyWith(
+                                            fontSize: 14.0,
+                                            fontFamily: 'Oxygen')));
                   }
                   return Center(
                     child: CircularProgressIndicator(),
@@ -204,7 +218,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               ),
               Text(
                 '上記の利用規約に同意する',
-                style: TextStyle(fontSize: 14, fontFamily: 'Open Sans'),
+                style: TextStyle(fontSize: 14, fontFamily: 'Oxygen'),
               )
             ],
           ),
@@ -227,7 +241,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   '同意',
                   style: TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Open Sans',
+                      fontFamily: 'Oxygen',
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),

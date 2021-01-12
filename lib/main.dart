@@ -11,7 +11,9 @@ class HealingMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(fontFamily: 'Oxygen'),
+        /*theme: ThemeData(
+            textTheme:
+                GoogleFonts.oxygenTextTheme(Theme.of(context).textTheme)),*/
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
         home: SplashScreen()); //SplashScreen());
