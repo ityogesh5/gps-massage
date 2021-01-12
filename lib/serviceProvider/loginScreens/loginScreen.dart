@@ -308,7 +308,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceProviderSecondScreen(
+                    NavigationRouter.switchToServiceProviderFirstScreen(
                         context);
                   },
                   child: Text(
@@ -371,8 +371,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length < 11 ||
-        userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length < 10 ||
+        userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -404,7 +404,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       return;
     }
 
-    if (password.length < 8 || password.length > 14) {
+    if (password.length < 8 || password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号とパスワードを入力してください。 ',

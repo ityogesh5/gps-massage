@@ -132,8 +132,8 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
