@@ -145,8 +145,12 @@ class _RegistrationSecondPageState
                                 "value": "パスポート",
                               },
                               {
-                                "display": "個人番号カー",
-                                "value": "個人番号カー",
+                                "display": "個人番号カード",
+                                "value": "個人番号カード",
+                              },
+                              {
+                                "display": "健康保険証",
+                                "value": "健康保険証",
                               },
                               {
                                 "display": "住民基本台帳カード",
