@@ -225,7 +225,7 @@ class _RegisterUserState extends State<RegisterUser> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('サービスセラピストに関する情報を入力する',
+                    Text('サービス利用者情報の入力',
                         style: new TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -327,8 +327,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: '名前 *',
-                          hintText: '名前 *',
+                          labelText: 'お名前 *',
+                          hintText: 'お名前 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
                           ),

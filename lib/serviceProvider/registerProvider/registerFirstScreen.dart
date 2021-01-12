@@ -330,7 +330,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
-                  hintText: '事業形態 *',
+                  hintText: '事業形態',
                   value: bussinessForm,
                   onSaved: (value) {
                     setState(() {
@@ -1042,7 +1042,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               : TextFormField(
                                   controller: manualAddressController,
                                   decoration: InputDecoration(
-                                    labelText: "住所を入力してください",
+                                    labelText: "丁目, 番地",
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -1078,8 +1078,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
                                                 child: DropDownFormField(
                                                   titleText: null,
-                                                  hintText:
-                                                      readonly ? myState : '都',
+                                                  hintText: readonly
+                                                      ? myState
+                                                      : '都、県選択',
                                                   onSaved: (value) {
                                                     setState(() {
                                                       myState = value;
@@ -1356,6 +1357,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var userName = providerNameController.text.toString();
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
+    // var dob = userDOBController.text.toString();
     var age = ageController.text.toString();
     var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
@@ -1364,7 +1366,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var _myAddressInputType = registrationAddressType;
 
     //Profile image validation
-     if (_profileImage == null || _profileImage.path == null) {
+    if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
@@ -1409,6 +1411,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
+
+    /*if (dob.length == 0 || dob.isEmpty || dob == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }*/
 
     //storename Validation
     if (storename.length == 0 || storename.isEmpty || storename == null) {
