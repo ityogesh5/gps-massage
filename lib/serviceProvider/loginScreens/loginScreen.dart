@@ -308,7 +308,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceProviderSecondScreen(
+                    NavigationRouter.switchToServiceProviderFirstScreen(
                         context);
                   },
                   child: Text(

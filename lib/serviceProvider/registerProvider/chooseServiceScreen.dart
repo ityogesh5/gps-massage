@@ -93,60 +93,68 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 ),
 
                 //Esthetic DropDown
-                InkWell(
-                  onTap: () {
-                    if (estheticDropDownValues.length == 0) {
-                      showProgressDialog();
-                      getEstheticList();
-                    } else {
-                      setState(() {
-                        estheticStatus == 0
-                            ? estheticStatus = 1
-                            : estheticStatus = 0;
-                      });
-                    }
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    initialValue:
-                        HealingMatchConstants.chooseServiceEstheticDropDown,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          icon: estheticStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            if (estheticDropDownValues.length == 0) {
-                              showProgressDialog();
-                              getEstheticList();
-                            } else {
-                              setState(() {
-                                estheticStatus == 0
-                                    ? estheticStatus = 1
-                                    : estheticStatus = 0;
-                              });
-                            }
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
+                HealingMatchConstants.serviceProviderStoreType.contains('エステ')
+                    ? InkWell(
+                        onTap: () {
+                          if (estheticDropDownValues.length == 0) {
+                            showProgressDialog();
+                            getEstheticList();
+                          } else {
+                            setState(() {
+                              estheticStatus == 0
+                                  ? estheticStatus = 1
+                                  : estheticStatus = 0;
+                            });
+                          }
+                        },
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: HealingMatchConstants
+                              .chooseServiceEstheticDropDown,
+                          decoration: new InputDecoration(
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            suffixIcon: IconButton(
+                                icon: estheticStatus == 0
+                                    ? Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      )
+                                    : Icon(
+                                        Icons.keyboard_arrow_up,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      ),
+                                onPressed: () {
+                                  if (estheticDropDownValues.length == 0) {
+                                    showProgressDialog();
+                                    getEstheticList();
+                                  } else {
+                                    setState(() {
+                                      estheticStatus == 0
+                                          ? estheticStatus = 1
+                                          : estheticStatus = 0;
+                                    });
+                                  }
+                                }),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 SizedBox(
-                  height: 15,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('エステ')
+                      ? 15
+                      : 0,
                 ),
                 estheticStatus == 1
                     ? Container(
@@ -161,64 +169,76 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       )
                     : Container(),
                 SizedBox(
-                  height: 20.0,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('エステ')
+                      ? 20.0
+                      : 0,
                 ),
 
                 //Relaxation DropDown
-                InkWell(
-                  onTap: () {
-                    if (relaxationDropDownValues.length == 0) {
-                      showProgressDialog();
-                      getRelaxationList();
-                    } else {
-                      setState(() {
-                        relaxtionStatus == 0
-                            ? relaxtionStatus = 1
-                            : relaxtionStatus = 0;
-                      });
-                    }
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    initialValue:
-                        HealingMatchConstants.chooseServiceRelaxationDropDown,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          icon: relaxtionStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            if (relaxationDropDownValues.length == 0) {
-                              showProgressDialog();
-                              getRelaxationList();
-                            } else {
-                              setState(() {
-                                relaxtionStatus == 0
-                                    ? relaxtionStatus = 1
-                                    : relaxtionStatus = 0;
-                              });
-                            }
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
+                HealingMatchConstants.serviceProviderStoreType
+                        .contains('リラクゼーション')
+                    ? InkWell(
+                        onTap: () {
+                          if (relaxationDropDownValues.length == 0) {
+                            showProgressDialog();
+                            getRelaxationList();
+                          } else {
+                            setState(() {
+                              relaxtionStatus == 0
+                                  ? relaxtionStatus = 1
+                                  : relaxtionStatus = 0;
+                            });
+                          }
+                        },
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: HealingMatchConstants
+                              .chooseServiceRelaxationDropDown,
+                          decoration: new InputDecoration(
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            suffixIcon: IconButton(
+                                icon: relaxtionStatus == 0
+                                    ? Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      )
+                                    : Icon(
+                                        Icons.keyboard_arrow_up,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      ),
+                                onPressed: () {
+                                  if (relaxationDropDownValues.length == 0) {
+                                    showProgressDialog();
+                                    getRelaxationList();
+                                  } else {
+                                    setState(() {
+                                      relaxtionStatus == 0
+                                          ? relaxtionStatus = 1
+                                          : relaxtionStatus = 0;
+                                    });
+                                  }
+                                }),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 SizedBox(
-                  height: 15,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('リラクゼーション')
+                      ? 15
+                      : 0,
                 ),
                 relaxtionStatus == 1
                     ? Container(
@@ -233,64 +253,75 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       )
                     : Container(),
                 SizedBox(
-                  height: 20.0,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('リラクゼーション')
+                      ? 20.0
+                      : 0,
                 ),
 
                 //Treatment DropDown
-                InkWell(
-                  onTap: () {
-                    if (treatmentDropDownValues.length == 0) {
-                      showProgressDialog();
-                      getTreatmentList();
-                    } else {
-                      setState(() {
-                        treatmentStatus == 0
-                            ? treatmentStatus = 1
-                            : treatmentStatus = 0;
-                      });
-                    }
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    initialValue:
-                        HealingMatchConstants.chooseServiceTreatmentDropDown,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          icon: treatmentStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            if (treatmentDropDownValues.length == 0) {
-                              showProgressDialog();
-                              getTreatmentList();
-                            } else {
-                              setState(() {
-                                treatmentStatus == 0
-                                    ? treatmentStatus = 1
-                                    : treatmentStatus = 0;
-                              });
-                            }
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
+                HealingMatchConstants.serviceProviderStoreType.contains('整体')
+                    ? InkWell(
+                        onTap: () {
+                          if (treatmentDropDownValues.length == 0) {
+                            showProgressDialog();
+                            getTreatmentList();
+                          } else {
+                            setState(() {
+                              treatmentStatus == 0
+                                  ? treatmentStatus = 1
+                                  : treatmentStatus = 0;
+                            });
+                          }
+                        },
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: HealingMatchConstants
+                              .chooseServiceTreatmentDropDown,
+                          decoration: new InputDecoration(
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            suffixIcon: IconButton(
+                                icon: treatmentStatus == 0
+                                    ? Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      )
+                                    : Icon(
+                                        Icons.keyboard_arrow_up,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      ),
+                                onPressed: () {
+                                  if (treatmentDropDownValues.length == 0) {
+                                    showProgressDialog();
+                                    getTreatmentList();
+                                  } else {
+                                    setState(() {
+                                      treatmentStatus == 0
+                                          ? treatmentStatus = 1
+                                          : treatmentStatus = 0;
+                                    });
+                                  }
+                                }),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 SizedBox(
-                  height: 15,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('整体')
+                      ? 15
+                      : 0,
                 ),
                 treatmentStatus == 1
                     ? Container(
@@ -304,65 +335,78 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             }),
                       )
                     : Container(),
+
                 SizedBox(
-                  height: 20.0,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('整体')
+                      ? 20.0
+                      : 0,
                 ),
 
                 //Fitness DropDown
-                InkWell(
-                  onTap: () {
-                    if (fitnessDropDownValues.length == 0) {
-                      showProgressDialog();
-                      getFitnessList();
-                    } else {
-                      setState(() {
-                        fitnessStatus == 0
-                            ? fitnessStatus = 1
-                            : fitnessStatus = 0;
-                      });
-                    }
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    initialValue:
-                        HealingMatchConstants.chooseServiceFitnessDropDown,
-                    decoration: new InputDecoration(
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          icon: fitnessStatus == 0
-                              ? Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 35.0,
-                                  color: Colors
-                                      .black, //Color.fromRGBO(200, 200, 200, 1),
-                                ),
-                          onPressed: () {
-                            if (fitnessDropDownValues.length == 0) {
-                              showProgressDialog();
-                              getFitnessList();
-                            } else {
-                              setState(() {
-                                fitnessStatus == 0
-                                    ? fitnessStatus = 1
-                                    : fitnessStatus = 0;
-                              });
-                            }
-                          }),
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                    ),
-                  ),
-                ),
+                HealingMatchConstants.serviceProviderStoreType
+                        .contains('フィットネス')
+                    ? InkWell(
+                        onTap: () {
+                          if (fitnessDropDownValues.length == 0) {
+                            showProgressDialog();
+                            getFitnessList();
+                          } else {
+                            setState(() {
+                              fitnessStatus == 0
+                                  ? fitnessStatus = 1
+                                  : fitnessStatus = 0;
+                            });
+                          }
+                        },
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: HealingMatchConstants
+                              .chooseServiceFitnessDropDown,
+                          decoration: new InputDecoration(
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            suffixIcon: IconButton(
+                                icon: fitnessStatus == 0
+                                    ? Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      )
+                                    : Icon(
+                                        Icons.keyboard_arrow_up,
+                                        size: 35.0,
+                                        color: Colors
+                                            .black, //Color.fromRGBO(200, 200, 200, 1),
+                                      ),
+                                onPressed: () {
+                                  if (fitnessDropDownValues.length == 0) {
+                                    showProgressDialog();
+                                    getFitnessList();
+                                  } else {
+                                    setState(() {
+                                      fitnessStatus == 0
+                                          ? fitnessStatus = 1
+                                          : fitnessStatus = 0;
+                                    });
+                                  }
+                                }),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                          ),
+                        ),
+                      )
+                    : Container(),
                 SizedBox(
-                  height: 15,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('フィットネス')
+                      ? 15
+                      : 0,
                 ),
                 fitnessStatus == 1
                     ? Container(
@@ -377,7 +421,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       )
                     : Container(),
                 SizedBox(
-                  height: 20.0,
+                  height: HealingMatchConstants.serviceProviderStoreType
+                          .contains('フィットネス')
+                      ? 20.0
+                      : 0,
                 ),
                 Row(
                   children: [

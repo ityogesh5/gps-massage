@@ -58,7 +58,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   List<String> numberOfEmployeesDropDownValues = List<String>();
 
   List<String> storeTypeDropDownValues = [
-    " ",
+    "エステ",
+    "整体",
+    "リラクゼーション",
+    "フィットネス",
   ];
 
   List<String> serviceBusinessTripDropDownValues = [
@@ -105,7 +108,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool readonly = false;
   String bussinessForm,
       numberOfEmployees,
-      storeTypeDisplay,
       serviceBusinessTrips,
       coronaMeasures,
       genderTreatment,
@@ -114,7 +116,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       myCity,
       myState;
 
+  int storeTypeDisplayStatus = 0;
   int childrenMeasureStatus = 0;
+
+  List<String> selectedStoreTypeDisplayValues = List<String>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -385,30 +390,64 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  hintText: 'お店の種類表示',
-                  value: storeTypeDisplay,
-                  onSaved: (value) {
+                child: InkWell(
+                  onTap: () {
                     setState(() {
-                      storeTypeDisplay = value;
+                      storeTypeDisplayStatus == 0
+                          ? storeTypeDisplayStatus = 1
+                          : storeTypeDisplayStatus = 0;
                     });
                   },
-                  onChanged: (value) {
-                    setState(() {
-                      storeTypeDisplay = value;
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    });
-                  },
-                  dataSource: storeTypeDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: HealingMatchConstants.registrationStoretype,
+                    decoration: new InputDecoration(
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          padding: EdgeInsets.only(left: 8.0),
+                          icon: storeTypeDisplayStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              storeTypeDisplayStatus == 0
+                                  ? storeTypeDisplayStatus = 1
+                                  : storeTypeDisplayStatus = 0;
+                            });
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
+                  ),
                 ),
               ),
+              storeTypeDisplayStatus == 1
+                  ? Container(
+                      width: containerWidth,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: storeTypeDropDownValues.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return buildStoreTypeDisplayBoxContent(
+                              storeTypeDropDownValues[index],
+                              index,
+                            );
+                          }),
+                    )
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -566,7 +605,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           shrinkWrap: true,
                           itemCount: childrenMeasuresDropDownValues.length,
                           itemBuilder: (BuildContext ctxt, int index) {
-                            return buildCheckBoxContent(
+                            return buildChildrenMeasureCheckBoxContent(
                               childrenMeasuresDropDownValues[index],
                               index,
                             );
@@ -1247,7 +1286,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onPressed: () {
                     //!Commented for Dev purposes
                     validateFields();
-                    
+
                     /*  NavigationRouter.switchToServiceProviderSecondScreen(
                         context); */
                   },
@@ -1828,7 +1867,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         confirmPasswordController.text;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
     HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
-    HealingMatchConstants.serviceProviderStoreType = storeTypeDisplay;
+    HealingMatchConstants.serviceProviderStoreType.addAll(selectedStoreTypeDisplayValues);
     HealingMatchConstants.serviceProviderBusinessTripService =
         serviceBusinessTrips;
     HealingMatchConstants.serviceProviderCoronaMeasure = coronaMeasures;
@@ -1958,7 +1997,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     });
   }
 
-  Widget buildCheckBoxContent(String childrenMeasuresValue, int index) {
+  Widget buildChildrenMeasureCheckBoxContent(String childrenMeasuresValue, int index) {
     bool checkValue =
         childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
     return Column(
@@ -1985,6 +2024,39 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               },
             ),
             Text("$childrenMeasuresValue", style: TextStyle(fontSize: 14.0)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildStoreTypeDisplayBoxContent(String storeTypeDisplayValues, int index) {
+    bool checkValue =
+        selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              tristate: true,
+              activeColor: Colors.lime,
+              checkColor: Colors.lime,
+              value: checkValue,
+              onChanged: (value) {
+                if (value == null) {
+                  setState(() {
+                    selectedStoreTypeDisplayValues
+                        .remove(storeTypeDisplayValues);
+                  });
+                } else {
+                  setState(() {
+                    selectedStoreTypeDisplayValues
+                        .add(storeTypeDisplayValues);
+                  });
+                }
+              },
+            ),
+            Text("$storeTypeDisplayValues", style: TextStyle(fontSize: 14.0)),
           ],
         ),
       ],

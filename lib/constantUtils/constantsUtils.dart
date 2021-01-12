@@ -88,7 +88,7 @@ class HealingMatchConstants {
   static String serviceProviderConfirmPassword = '';
   static String serviceProviderBusinessForm = '';
   static String serviceProviderNumberOfEmpl = '';
-  static String serviceProviderStoreType = '';
+  static List<String> serviceProviderStoreType = List<String>();
   static String serviceProviderBusinessTripService = '';
   static String serviceProviderCoronaMeasure = '';
   static String serviceProviderGenderService = '';
@@ -140,6 +140,7 @@ class HealingMatchConstants {
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
   static const String registrationBuisnessTrip = '出張でのサービス対応可否';
+  static const String registrationStoretype = 'お店の種類表示';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =

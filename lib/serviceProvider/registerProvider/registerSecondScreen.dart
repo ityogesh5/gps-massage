@@ -861,7 +861,7 @@ class _RegistrationSecondPageState
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://6815332c3a1c.ngrok.io/api/user/registerProvider'));
+        Uri.parse('http://cb90ba2bd9e8.ngrok.io/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': HealingMatchConstants.serviceProviderEmailAddress,
@@ -883,7 +883,7 @@ class _RegistrationSecondPageState
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
       'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
       'genderOfService': HealingMatchConstants.serviceProviderGenderService,
-      'storeType': HealingMatchConstants.serviceProviderStoreType,
+     // 'storeType': HealingMatchConstants.serviceProviderStoreType.toString(),
       'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
       'businessTrip':
           HealingMatchConstants.serviceProviderBusinessTripService == "はい"
