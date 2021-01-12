@@ -857,7 +857,7 @@ class _RegistrationSecondPageState
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+        Uri.parse('http://6815332c3a1c.ngrok.io/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': HealingMatchConstants.serviceProviderEmailAddress,
