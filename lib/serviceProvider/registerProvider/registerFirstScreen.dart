@@ -841,6 +841,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: phoneNumberController,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPhnNum,
                           filled: true,
@@ -876,6 +877,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: storePhoneNumberController,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationStorePhnNum,
@@ -898,6 +900,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: mailAddressController,
+                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
@@ -1230,6 +1233,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   .copyWith(splashColor: Colors.black12),
                               child: TextFormField(
                                   controller: roomNumberController,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,

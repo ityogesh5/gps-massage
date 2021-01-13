@@ -716,19 +716,23 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        HealingMatchConstants.registrationAlreadyActTxt,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
-                            decorationThickness: 2,
-                            decorationStyle: TextDecorationStyle.solid),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () =>
+                        NavigationRouter.switchToProviderLogin(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          HealingMatchConstants.registrationAlreadyActTxt,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.black,
+                              decorationThickness: 2,
+                              decorationStyle: TextDecorationStyle.solid),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
