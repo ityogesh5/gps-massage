@@ -883,7 +883,7 @@ class _RegistrationSecondPageState
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
       'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
       'genderOfService': HealingMatchConstants.serviceProviderGenderService,
-     // 'storeType': HealingMatchConstants.serviceProviderStoreType.toString(),
+      // 'storeType': HealingMatchConstants.serviceProviderStoreType.toString(),
       'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
       'businessTrip':
           HealingMatchConstants.serviceProviderBusinessTripService == "はい"
