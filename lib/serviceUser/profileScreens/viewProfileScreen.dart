@@ -126,28 +126,42 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                     size: 30, color: Colors.grey[500]),
                                 Text('メールアドレス',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen', fontSize: 14.0))),
+                                        fontFamily: 'Oxygen', fontSize: 14.0)),
+                                SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
                                 Icon(Icons.calendar_today_rounded,
                                     size: 30, color: Colors.grey[500]),
                                 Text('生年月日',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen', fontSize: 14.0))),
+                                        fontFamily: 'Oxygen', fontSize: 14.0)),
+                                CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.grey[200],
+                                  child: Text(
+                                    '23',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Oxygen',
+                                        color: Colors.black),
+                                  ),
+                                )),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
                                 Icon(Icons.person_outline_sharp,
                                     size: 30, color: Colors.grey[500]),
                                 Text('性別',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen', fontSize: 14.0))),
+                                        fontFamily: 'Oxygen', fontSize: 14.0)),
+                                SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
                                 Icon(Icons.shopping_bag,
                                     size: 30, color: Colors.grey[500]),
                                 Text('職業',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen', fontSize: 14.0))),
+                                        fontFamily: 'Oxygen', fontSize: 14.0)),
+                                SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
                                 Icon(Icons.location_on_outlined,
@@ -156,14 +170,16 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   '436-C鉄道地区ウィンターペットアラコナム。',
                                   style: TextStyle(
                                       fontFamily: 'Oxygen', fontSize: 14.0),
-                                )),
+                                ),
+                                SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.email_outlined,
+                                Icon(Icons.settings_input_antenna_rounded,
                                     size: 30, color: Colors.grey[500]),
-                                Text('セラピストの検索距離は5.0Kmです。',
+                                Text('セラピスト検索範囲5.0Km距離。',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen', fontSize: 14.0)))
+                                        fontFamily: 'Oxygen', fontSize: 14.0)),
+                                SizedBox(width: 0))
                           ],
                         ),
                       ),
@@ -178,7 +194,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
     );
   }
 
-  Widget MyRow(Widget image, Widget text) {
+  // ignore: non_constant_identifier_names
+  Widget MyRow(Widget image, Widget text, Widget circleAvatar) {
     return Expanded(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +206,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
             child: image,
           ),
           Flexible(
-              child: Padding(padding: const EdgeInsets.all(12.0), child: text))
+              child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: circleAvatar,
+          )
         ],
       ),
     );
