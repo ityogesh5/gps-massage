@@ -1,44 +1,60 @@
 class TreatmentDropDownModel {
-  String status;
-  List<Data> data;
+  String _status;
+  List<Data> _data;
 
-  TreatmentDropDownModel({this.status, this.data});
+  TreatmentDropDownModel({String status, List<Data> data}) {
+    this._status = status;
+    this._data = data;
+  }
+
+  String get status => _status;
+  set status(String status) => _status = status;
+  List<Data> get data => _data;
+  set data(List<Data> data) => _data = data;
 
   TreatmentDropDownModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
+    _status = json['status'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      _data = new List<Data>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        _data.add(new Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+    data['status'] = this._status;
+    if (this._data != null) {
+      data['data'] = this._data.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  int id;
-  String value;
+  int _id;
+  String _value;
 
-  Data({this.id, this.value});
+  Data({int id, String value}) {
+    this._id = id;
+    this._value = value;
+  }
+
+  int get id => _id;
+  set id(int id) => _id = id;
+  String get value => _value;
+  set value(String value) => _value = value;
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    value = json['value'];
+    _id = json['id'];
+    _value = json['value'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['value'] = this.value;
+    data['id'] = this._id;
+    data['value'] = this._value;
     return data;
   }
 }

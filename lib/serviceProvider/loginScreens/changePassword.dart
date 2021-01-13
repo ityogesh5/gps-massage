@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'OTPScreen/otp_field.dart';
@@ -132,7 +133,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       obscureText: createPasswordVisibility,
                       textInputAction: TextInputAction.next,
                       focusNode: createPasswordFocus,
-                      maxLength: 14,
+                      maxLength: 16,
                       controller: createPassword,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -169,7 +170,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       textInputAction: TextInputAction.done,
                       focusNode: confrimPasswordFocus,
                       controller: confirmpassword,
-                      maxLength: 14,
+                      maxLength: 16,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                         counterText: "",
@@ -212,7 +213,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
+                          //!Changed for Dev Purpose
                           _providerChangePasswordDetails();
+                          // DialogHelper.showPasswordResetSuccessDialog(context);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -321,10 +324,10 @@ class _ChangePasswordState extends State<ChangePassword> {
       return;
     }
 
-    if (password.length > 14 || confirmPassword.length > 14) {
+    if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
+        content: Text('パスワードは16文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

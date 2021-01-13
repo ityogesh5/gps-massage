@@ -67,20 +67,22 @@ class DropDownFormField extends FormField<dynamic> {
                           )),
                       child: */
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0, right: 4.0),
                       child: DropdownButtonHideUnderline(
                           child: enabled
                               ? DropdownButton<dynamic>(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
-                                    size: 35.0,
+                                    size: 30.0,
                                     color: Colors
                                         .black, //Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontFamily: 'Oxygen',
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
@@ -93,9 +95,9 @@ class DropDownFormField extends FormField<dynamic> {
                                             value: item,
                                             child: Text(item,
                                                 style: TextStyle(
-                                                    fontFamily: 'Open Sans',
-                                                    color:
-                                                        Colors.grey.shade500)),
+                                                    fontFamily: 'Oxygen',
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 14)),
                                           );
                                         }).toList()
                                       : dataSource.map((item) {
@@ -103,9 +105,9 @@ class DropDownFormField extends FormField<dynamic> {
                                             value: item[valueField],
                                             child: Text(item[textField],
                                                 style: TextStyle(
-                                                    fontFamily: 'Open Sans',
-                                                    color:
-                                                        Colors.grey.shade500)),
+                                                    fontFamily: 'Oxygen',
+                                                    color: Colors.grey.shade500,
+                                                    fontSize: 14)),
                                           );
                                         }).toList(),
                                 )
@@ -116,11 +118,15 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style:
-                                        TextStyle(color: Colors.grey.shade500),
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: 14),
                                   ),
                                   value: value == '' ? null : value,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Oxygen',
+                                      fontSize: 14),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);
@@ -134,6 +140,7 @@ class DropDownFormField extends FormField<dynamic> {
                       state.hasError ? state.errorText : '',
                       style: TextStyle(
                           color: Colors.redAccent.shade700,
+                          fontFamily: 'Oxygen',
                           fontSize: state.hasError ? 12.0 : 0.0),
                     ),
                   ],

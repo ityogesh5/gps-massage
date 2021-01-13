@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 
 class UserChangePassword extends StatefulWidget {
   @override
@@ -15,14 +15,13 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userOTP;
   TextEditingController pin = TextEditingController();
-  TextEditingController createPassword = TextEditingController();
-  TextEditingController confirmpassword = TextEditingController();
+  TextEditingController createPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool createPasswordVisibility = true;
-  bool confirmPasswordVisibility = true;
+  bool _secureText = true;
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
-  FocusNode confrimPasswordFocus = FocusNode();
+  FocusNode confirmPasswordFocus = FocusNode();
 
   List<String> changePasswordDetails = [];
 
@@ -32,6 +31,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
       r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+
+  showHide() {
+    setState(() {
+      _secureText = !_secureText;
+    });
+  }
 
   @override
   void initState() {
@@ -75,6 +80,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         "+81 ${HealingMatchConstants.userPhoneNumber} " +
                             HealingMatchConstants.changePasswordTxt,
                         textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: 'Oxygen'),
                       ),
                     ),
                     SizedBox(
@@ -106,7 +112,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         length: 4,
                         keyboardType: TextInputType.number,
                         width: MediaQuery.of(context).size.width,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontFamily: 'Oxygen'),
                         textFieldAlignment: MainAxisAlignment.spaceEvenly,
                         fieldStyle: FieldStyle.underline,
                         onCompleted: (pin) {
@@ -119,11 +128,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 12,
                     ),
                     TextFormField(
-                      obscureText: createPasswordVisibility,
+                      obscureText: _secureText,
                       textInputAction: TextInputAction.next,
                       focusNode: createPasswordFocus,
-                      maxLength: 14,
-                      controller: createPassword,
+                      maxLength: 16,
+                      controller: createPasswordController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
                         counterText: "",
@@ -135,19 +144,17 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: createPasswordVisibility
+                            icon: _secureText
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                createPasswordVisibility =
-                                    !createPasswordVisibility;
+                                _secureText = !_secureText;
                               });
                             }),
                         filled: true,
                         labelText: HealingMatchConstants.changePasswordNewpass,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
-                        hintText: HealingMatchConstants.changePasswordNewpass,
+                        labelStyle: TextStyle(fontFamily: 'Oxygen'),
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -155,12 +162,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 15,
                     ),
                     TextFormField(
-                      obscureText: confirmPasswordVisibility,
+                      obscureText: _secureText,
                       textInputAction: TextInputAction.done,
-                      focusNode: confrimPasswordFocus,
-                      controller: confirmpassword,
+                      focusNode: confirmPasswordFocus,
+                      controller: confirmPasswordController,
                       keyboardType: TextInputType.emailAddress,
-                      maxLength: 14,
+                      maxLength: 16,
                       decoration: new InputDecoration(
                         counterText: "",
                         border: HealingMatchConstants.textFormInputBorder,
@@ -171,21 +178,18 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: confirmPasswordVisibility
+                            icon: _secureText
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                confirmPasswordVisibility =
-                                    !confirmPasswordVisibility;
+                                _secureText = !_secureText;
                               });
                             }),
                         filled: true,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                         labelText:
                             HealingMatchConstants.changePasswordConfirmpass,
-                        hintText:
-                            HealingMatchConstants.changePasswordConfirmpass,
+                        labelStyle: TextStyle(fontFamily: 'Oxygen'),
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -198,11 +202,14 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.changePasswordBtn,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Oxygen',
+                              fontSize: 20),
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerChangePasswordDetails();
+                          _userChangePasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -216,7 +223,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                           _scaffoldKey.currentState.showSnackBar(SnackBar(
                             backgroundColor: ColorConstants.snackBarColor,
                             content: Text('認証コードが正常に送信されました。 ',
-                                style: TextStyle(fontFamily: 'Open Sans')),
+                                style: TextStyle(fontFamily: 'Oxygen')),
                             action: SnackBarAction(
                                 onPressed: () {
                                   _scaffoldKey.currentState
@@ -229,6 +236,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         child: Text(
                           HealingMatchConstants.changeResendOtp,
                           style: TextStyle(
+                            fontFamily: 'Oxygen',
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -244,18 +252,18 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     );
   }
 
-  _providerChangePasswordDetails() async {
+  _userChangePasswordDetails() async {
     //var pinCode = pinCodeText.text.toString();
     var pinCode = userOTP;
-    var password = createPassword.text.toString();
-    var confirmPassword = confirmpassword.text.toString();
+    var password = createPasswordController.text.toString();
+    var confirmPassword = confirmPasswordController.text.toString();
 
     // OTP validation
     if (pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text(' 認証コード入力は必須項目なので入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -270,7 +278,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('認証コードと一致しませんのでもう一度お試しください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -285,7 +293,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは必須項目なので入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -300,7 +308,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -311,11 +319,11 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       return;
     }
 
-    if (password.length > 14 || confirmPassword.length > 14) {
+    if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('パスワードは16文字以内で入力してください。 ',
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -331,7 +339,10 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
+        content: Text(
+          'パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
+          style: TextStyle(fontFamily: 'Oxygen'),
+        ),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -346,7 +357,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -362,7 +373,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワード再確認は必須項目なので入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -377,7 +388,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードが一致がしませんのでもう一度お試しください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -394,7 +405,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    NavigationRouter.switchToUserLogin(context);
+    DialogHelper.showPasswordResetSuccessDialog(context);
 
     /*  final url = '';
     http.post(url,

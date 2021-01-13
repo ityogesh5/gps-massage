@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -27,7 +28,7 @@ class _RegisterServiceUserScreenState extends State<RegisterServiceUserScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ヒーリングマッチ',
+      title: 'Healing Match',
       debugShowCheckedModeBanner: false,
       home: RegisterUser(),
     );
@@ -205,6 +206,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w100,
+                    fontFamily: 'Oxygen',
                     fontSize: 18.0,
                     decoration: TextDecoration.underline),
               ),
@@ -225,11 +227,12 @@ class _RegisterUserState extends State<RegisterUser> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('サービスセラピストに関する情報を入力する',
+                    Text('サービス利用者情報の入力',
                         style: new TextStyle(
                             fontSize: 14,
                             color: Colors.black,
                             fontStyle: FontStyle.normal,
+                            fontFamily: 'Oxygen',
                             fontWeight: FontWeight.w100)),
                     SizedBox(height: 5),
                     RichText(
@@ -239,13 +242,15 @@ class _RegisterUserState extends State<RegisterUser> {
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.red,
+                            fontFamily: 'Oxygen',
                             fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           new TextSpan(
-                              text: '値は必須です',
+                              text: 'は必須項目です',
                               style: new TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
+                                  fontFamily: 'Oxygen',
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w100)),
                         ],
@@ -327,14 +332,15 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: '名前 *',
-                          hintText: '名前 *',
-                          hintStyle: TextStyle(
+                          labelText: 'お名前 *',
+                          //hintText: 'お名前 *',
+                          /*hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -367,7 +373,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     keyboardType: TextInputType.text,
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: 'Open Sans'),
+                                        fontFamily: 'Oxygen'),
                                     cursorColor: Colors.redAccent,
                                     readOnly: true,
                                     decoration: new InputDecoration(
@@ -377,8 +383,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       labelText: '生年月日 *',
                                       hintText: '生年月日 *',
                                       hintStyle: TextStyle(
-                                        color: Colors.grey[400],
-                                      ),
+                                          color: Colors.grey[400],
+                                          fontSize: 14),
                                       labelStyle: TextStyle(
                                         color: Colors.grey[400],
                                       ),
@@ -417,8 +423,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                   fillColor: ColorConstants.formFieldFillColor,
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
+                                      color: Colors.grey[400],
+                                      fontFamily: 'Oxygen',
+                                      fontSize: 14),
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
                                   focusedBorder:
@@ -445,7 +452,9 @@ class _RegisterUserState extends State<RegisterUser> {
                         Text(
                           '性別 *',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w300),
+                              fontSize: 16,
+                              fontFamily: 'Oxygen',
+                              fontWeight: FontWeight.w300),
                         ),
                         SizedBox(
                           width: 130,
@@ -574,7 +583,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        //maxLength: 11,
+                        //maxLength: 10,
                         controller: phoneNumberController,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
@@ -582,13 +591,14 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: '電話番号 *',
-                          hintText: '電話番号 *',
+                          /*hintText: '電話番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -615,8 +625,9 @@ class _RegisterUserState extends State<RegisterUser> {
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'メールアドレス',
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -636,17 +647,17 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        //maxLength: 14,
+                        //maxLength: 16,
                         obscureText: _secureText,
                         controller: passwordController,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'パスワード *',
-                          hintText: 'パスワード *',
+                          /*hintText: 'パスワード *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
@@ -654,8 +665,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                 : Icons.visibility),
                           ),
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -673,7 +685,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
-                        // maxLength: 14,
+                        // maxLength: 16,
                         //enableInteractiveSelection: false,
                         autofocus: false,
                         controller: confirmPasswordController,
@@ -682,10 +694,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: 'パスワード (確認用) *',
-                          hintText: 'パスワード (確認用) *',
+                          /*hintText: 'パスワード (確認用) *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
@@ -693,8 +705,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                 : Icons.visibility),
                           ),
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -705,6 +718,35 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                         ),
                         // validator: (value) => _validateEmail(value),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(width: 25),
+                          RichText(
+                            textAlign: TextAlign.start,
+                            text: new TextSpan(
+                              text: '* ',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                              children: <TextSpan>[
+                                new TextSpan(
+                                    text: '半角英数 8 ～１６文字以内',
+                                    style: new TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        color: Colors.grey[400],
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w100)),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 15),
@@ -733,6 +775,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                             .contains('現在地を取得する')) {
                                       gpsAddressController.clear();
                                       _showCurrentLocationInput = true;
+                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
@@ -769,15 +812,14 @@ class _RegisterUserState extends State<RegisterUser> {
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: TextFormField(
                           controller: gpsAddressController,
-                          readOnly: true,
                           decoration: new InputDecoration(
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             labelText: '現在地を取得する *',
-                            hintText: '現在地を取得する *',
+                            /*hintText: '現在地を取得する *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
-                            ),
+                            ),*/
                             suffixIcon: IconButton(
                               icon: Icon(Icons.location_on),
                               onPressed: () {
@@ -790,8 +832,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               },
                             ),
                             labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
+                                color: Colors.grey[400], fontSize: 14),
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
@@ -843,8 +884,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     "value": "実家",
                                   },
                                   {
-                                    "display": "その他（直接入力",
-                                    "value": "その他（直接入力",
+                                    "display": "その他（直接入力）",
+                                    "value": "その他（直接入力）",
                                   },
                                 ],
                                 textField: 'display',
@@ -992,14 +1033,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
-                                    labelText: '都、県選 *',
-                                    hintText: '都、県選 *',
+                                    labelText: '丁目, 番地 *',
+                                    /*hintText: '都、県選 *',
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
-                                    ),
+                                    ),*/
                                     labelStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                    ),
+                                        color: Colors.grey[400],
+                                        fontFamily: 'Oxygen',
+                                        fontSize: 14),
                                     focusColor: Colors.grey[100],
                                     border: HealingMatchConstants
                                         .textFormInputBorder,
@@ -1021,19 +1063,21 @@ class _RegisterUserState extends State<RegisterUser> {
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: TextFormField(
                                 //enableInteractiveSelection: false,
+                                keyboardType: TextInputType.number,
                                 autofocus: false,
                                 controller: buildingNameController,
                                 decoration: new InputDecoration(
                                   filled: true,
                                   fillColor: ColorConstants.formFieldFillColor,
-                                  labelText: 'ビル名 *',
-                                  hintText: 'ビル名 *',
+                                  labelText: '建物名 *',
+                                  /*hintText: 'ビル名 *',
                                   hintStyle: TextStyle(
                                     color: Colors.grey[400],
-                                  ),
+                                  ),*/
                                   labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),
+                                      color: Colors.grey[400],
+                                      fontFamily: 'Oxygen',
+                                      fontSize: 14),
                                   focusColor: Colors.grey[100],
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
@@ -1063,13 +1107,14 @@ class _RegisterUserState extends State<RegisterUser> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: '部屋番号 *',
-                          hintText: '部屋番号 *',
+                          /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
-                          ),
+                          ),*/
                           labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen',
+                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -1089,6 +1134,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         text: '* ',
                         style: TextStyle(
                             fontSize: 16.0,
+                            fontFamily: 'Oxygen',
                             color: Colors.red,
                             fontWeight: FontWeight.bold),
                         children: <TextSpan>[
@@ -1115,12 +1161,12 @@ class _RegisterUserState extends State<RegisterUser> {
                         onPressed: () {
                           _changeProgressText = false;
                           _registerUserDetails();
-                          //NavigationRouter.switchToServiceUserHomeScreen(context);
                         },
                         child: new Text(
                           '入力完了',
                           style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'Oxygen',
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
@@ -1135,6 +1181,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           style: new TextStyle(
                               fontSize: 14,
                               color: Colors.black,
+                              fontFamily: 'Oxygen',
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w100,
                               decoration: TextDecoration.underline)),
@@ -1226,8 +1273,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('プロフィール画像を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('プロフィール画像を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1242,7 +1289,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('ユーザー名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1255,8 +1302,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (userName.length == 0 || userName.isEmpty || userName == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効なユーザー名を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('有効なユーザー名を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1271,8 +1318,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (userDOB == null || userDOB.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('有効な生年月日を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1288,7 +1335,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な性別を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1304,7 +1351,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な職業を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1316,14 +1363,14 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
+    if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty ||
-        userPhoneNumber.length < 11) {
+        userPhoneNumber.length < 10) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字以上の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('正しい電話番号を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1338,7 +1385,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効なメールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1352,7 +1399,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスは100文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1366,7 +1413,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("有効なメールアドレスを入力してください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1381,7 +1428,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1392,11 +1439,11 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
-    if (password.length > 14 || confirmPassword.length > 14) {
+    if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは14文字以内で入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('パスワードは16文字以内で入力してください。 ',
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1412,7 +1459,10 @@ class _RegisterUserState extends State<RegisterUser> {
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
+        content: Text(
+          'パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
+          style: TextStyle(fontFamily: 'Oxygen'),
+        ),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1428,7 +1478,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードと確認パスワードの入力が一致しません。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1442,7 +1492,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1456,8 +1506,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な住所の種類を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('有効な検索地点の登録を選択してください。',
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1474,7 +1524,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な登録する地点のカテゴリーを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1490,7 +1540,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1505,8 +1555,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (_myCity == null || _myCity.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1521,8 +1570,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (userArea == null || userArea.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な都、県選 を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('有効な都、県選 を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1537,7 +1586,7 @@ class _RegisterUserState extends State<RegisterUser> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効なビル名を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1552,8 +1601,8 @@ class _RegisterUserState extends State<RegisterUser> {
     if (roomNumber == null || roomNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な部屋番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('有効な部屋番号を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1648,7 +1697,7 @@ class _RegisterUserState extends State<RegisterUser> {
             backgroundColor: Colors.lime,
             textColor: Colors.white);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        NavigationRouter.switchToServiceUserBottomBar(context);
+        DialogHelper.showRegisterSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
@@ -1656,6 +1705,7 @@ class _RegisterUserState extends State<RegisterUser> {
     } catch (e) {
       print(e.toString());
     }
+    return null;
   }
 
   void _showPicker(context) {
@@ -1739,7 +1789,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print(cities.toJson());
       for (var cityList in cities.data) {
         setState(() {
-          cityDropDownValues.add(cityList.cityJa);
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
       ProgressDialogBuilder.hideGetCitiesProgressDialog(context);

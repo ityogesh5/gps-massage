@@ -50,9 +50,13 @@
         <activity android:name=".SchemeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="healingMatch" android:host="healingMatch" />
+
+                <data
+                    android:host="healingMatch"
+                    android:scheme="healingMatch" />
             </intent-filter>
         </activity>
 

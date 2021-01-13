@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
@@ -13,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
@@ -142,8 +145,12 @@ class _RegistrationSecondPageState
                                 "value": "パスポート",
                               },
                               {
-                                "display": "個人番号カー",
-                                "value": "個人番号カー",
+                                "display": "個人番号カード",
+                                "value": "個人番号カード",
+                              },
+                              {
+                                "display": "健康保険証",
+                                "value": "健康保険証",
                               },
                               {
                                 "display": "住民基本台帳カード",
@@ -854,7 +861,7 @@ class _RegistrationSecondPageState
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
     var request = http.MultipartRequest('POST',
-        Uri.parse('http://106.51.49.160:9094/api/user/registerProvider'));
+        Uri.parse('http://cb90ba2bd9e8.ngrok.io/api/user/registerProvider'));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': HealingMatchConstants.serviceProviderEmailAddress,
@@ -876,7 +883,7 @@ class _RegistrationSecondPageState
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
       'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
       'genderOfService': HealingMatchConstants.serviceProviderGenderService,
-      'storeType': HealingMatchConstants.serviceProviderStoreType,
+      // 'storeType': HealingMatchConstants.serviceProviderStoreType.toString(),
       'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
       'businessTrip':
           HealingMatchConstants.serviceProviderBusinessTripService == "はい"
@@ -895,8 +902,20 @@ class _RegistrationSecondPageState
       'branchNumber': branchNumberController.text,
       'accountNumber': accountType,
       'accountType': accountnumberController.text,
-      'proofOfIdentityType': identificationverify
+      'proofOfIdentityType': identificationverify,
+      'estheticList':
+          json.encode(HealingMatchConstants.estheticServicePriceModel),
+      'relaxationList':
+          json.encode(HealingMatchConstants.relaxationServicePriceModel),
+      'orteopathicList': json.encode(
+        HealingMatchConstants.treatmentServicePriceModel,
+      ),
+      'fitnessList': json.encode(
+        HealingMatchConstants.fitnessServicePriceModel,
+      ),
     });
+    var a = request.fields.toString();
+
     //Upload Proof of ID
     request.files.add(await http.MultipartFile.fromPath(
         'proofOfIdentityImgUrl', _idProfileImage.path));
@@ -924,7 +943,7 @@ class _RegistrationSecondPageState
     if (response.statusCode == 200) {
       print(response.body);
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      NavigationRouter.switchToServiceProviderBottomBar(context);
+      //    NavigationRouter.switchToServiceProviderBottomBar(context);
     } else {
       print(response.reasonPhrase);
     }
@@ -1027,7 +1046,7 @@ class _RegistrationSecondPageState
     return;
   }
 
-  /* registerProvider() async {
+/* registerProvider() async {
     registerProvider() async {
       List<CertificateImageUpload> cImagesList =
           new List<CertificateImageUpload>();
@@ -1099,7 +1118,7 @@ class _RegistrationSecondPageState
                                                                                     print("This is request : ${userDetailsRequest.request}");
                                                                                     final response = await http.Response.fromStream(userDetailsRequest);
                                                                                     print("This is response: ${response.statusCode}\n${response.body}");
-                                                                                
+
                                                                                     if (response.statusCode == 200) {
                                                                                       print(response.body);
                                                                                     } else {
@@ -1277,7 +1296,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
     //  bannerImageUploadApi();
   }
 
-  /*  bannerImageUploadApi() async {
+/*  bannerImageUploadApi() async {
     var request = http.MultipartRequest('POST',
         Uri.parse(HealingMatchConstants.REGISTER_PROVIDER_BANNER_UPLOAD_URL));
     Map<String, String> headers = {"Content-type": "multipart/form-data"};

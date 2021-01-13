@@ -58,7 +58,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   List<String> numberOfEmployeesDropDownValues = List<String>();
 
   List<String> storeTypeDropDownValues = [
-    " ",
+    "エステ",
+    "整体",
+    "リラクゼーション",
+    "フィットネス",
   ];
 
   List<String> serviceBusinessTripDropDownValues = [
@@ -105,7 +108,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool readonly = false;
   String bussinessForm,
       numberOfEmployees,
-      storeTypeDisplay,
       serviceBusinessTrips,
       coronaMeasures,
       genderTreatment,
@@ -114,7 +116,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       myCity,
       myState;
 
+  int storeTypeDisplayStatus = 0;
   int childrenMeasureStatus = 0;
+
+  List<String> selectedStoreTypeDisplayValues = List<String>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -330,7 +335,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
-                  hintText: '事業形態 *',
+                  hintText: '事業形態',
                   value: bussinessForm,
                   onSaved: (value) {
                     setState(() {
@@ -360,7 +365,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
-                  hintText: '従業員数 *',
+                  hintText: '従業員数',
                   value: numberOfEmployees,
                   onSaved: (value) {
                     setState(() {
@@ -385,30 +390,64 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  hintText: 'お店の種類表示',
-                  value: storeTypeDisplay,
-                  onSaved: (value) {
+                child: InkWell(
+                  onTap: () {
                     setState(() {
-                      storeTypeDisplay = value;
+                      storeTypeDisplayStatus == 0
+                          ? storeTypeDisplayStatus = 1
+                          : storeTypeDisplayStatus = 0;
                     });
                   },
-                  onChanged: (value) {
-                    setState(() {
-                      storeTypeDisplay = value;
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    });
-                  },
-                  dataSource: storeTypeDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: HealingMatchConstants.registrationStoretype,
+                    decoration: new InputDecoration(
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                      suffixIcon: IconButton(
+                          padding: EdgeInsets.only(left: 8.0),
+                          icon: storeTypeDisplayStatus == 0
+                              ? Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
+                              : Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              storeTypeDisplayStatus == 0
+                                  ? storeTypeDisplayStatus = 1
+                                  : storeTypeDisplayStatus = 0;
+                            });
+                          }),
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                    ),
+                  ),
                 ),
               ),
+              storeTypeDisplayStatus == 1
+                  ? Container(
+                      width: containerWidth,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: storeTypeDropDownValues.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return buildStoreTypeDisplayBoxContent(
+                              storeTypeDropDownValues[index],
+                              index,
+                            );
+                          }),
+                    )
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -531,16 +570,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
                       enabledBorder: HealingMatchConstants.textFormInputBorder,
                       suffixIcon: IconButton(
+                          padding: EdgeInsets.only(left: 8.0),
                           icon: childrenMeasureStatus == 0
                               ? Icon(
                                   Icons.keyboard_arrow_down,
-                                  size: 35.0,
+                                  size: 30.0,
                                   color: Colors
                                       .black, //Color.fromRGBO(200, 200, 200, 1),
                                 )
                               : Icon(
                                   Icons.keyboard_arrow_up,
-                                  size: 35.0,
+                                  size: 30.0,
                                   color: Colors
                                       .black, //Color.fromRGBO(200, 200, 200, 1),
                                 ),
@@ -565,7 +605,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           shrinkWrap: true,
                           itemCount: childrenMeasuresDropDownValues.length,
                           itemBuilder: (BuildContext ctxt, int index) {
-                            return buildCheckBoxContent(
+                            return buildChildrenMeasureCheckBoxContent(
                               childrenMeasuresDropDownValues[index],
                               index,
                             );
@@ -1042,7 +1082,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               : TextFormField(
                                   controller: manualAddressController,
                                   decoration: InputDecoration(
-                                    labelText: "住所を入力してください",
+                                    labelText: "丁目, 番地",
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -1078,8 +1118,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
                                                 child: DropDownFormField(
                                                   titleText: null,
-                                                  hintText:
-                                                      readonly ? myState : '都',
+                                                  hintText: readonly
+                                                      ? myState
+                                                      : '都、県選択',
                                                   onSaved: (value) {
                                                     setState(() {
                                                       myState = value;
@@ -1121,43 +1162,29 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                         width: 10.0,
                                       ),
                                       Expanded(
-                                        child: Form(
-                                          key: citykey,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                // height: containerHeight,
-                                                margin: EdgeInsets.all(0.0),
-                                                // width: MediaQuery.of(context).size.width * 0.33,
-
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText:
-                                                      readonly ? myCity : '市',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                    });
-                                                  },
-                                                  value: myCity,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      cityDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
-                                              ),
-                                            ],
+                                        child: Container(
+                                          margin: EdgeInsets.all(0.0),
+                                          child: DropDownFormField(
+                                            titleText: null,
+                                            hintText: readonly ? myCity : '市',
+                                            onSaved: (value) {
+                                              setState(() {
+                                                myCity = value;
+                                              });
+                                            },
+                                            value: myCity,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                myCity = value;
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                              });
+                                            },
+                                            dataSource: cityDropDownValues,
+                                            isList: true,
+                                            textField: 'display',
+                                            valueField: 'value',
                                           ),
                                         ),
                                       ),
@@ -1260,8 +1287,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     //!Commented for Dev purposes
                     validateFields();
 
-                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
-                                                      context); */
+                    /*  NavigationRouter.switchToServiceProviderSecondScreen(
+                        context); */
                   },
                 ),
               ),
@@ -1356,15 +1383,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var userName = providerNameController.text.toString();
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
+    // var dob = userDOBController.text.toString();
     var age = ageController.text.toString();
     var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
+    var userDOB = userDOBController.text;
 
     //Profile image validation
-     if (_profileImage == null || _profileImage.path == null) {
+    if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
@@ -1410,6 +1439,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    /*if (dob.length == 0 || dob.isEmpty || dob == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content:
+            Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }*/
+
     //storename Validation
     if (storename.length == 0 || storename.isEmpty || storename == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1441,6 +1485,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    // user DOB validation
+    if (userDOB == null || userDOB.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な生年月日を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
     // user phone number validation
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1457,13 +1517,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
+        content: Text('10文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1490,13 +1550,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-    if (storenumber.length > 11 ||
-        storenumber.length < 11 ||
+    if (storenumber.length > 10 ||
+        storenumber.length < 10 ||
         storenumber == null ||
         storenumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の店舗の電話番号を入力してください。',
+        content: Text('10文字の店舗の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1597,10 +1657,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (password.length > 14) {
+    if (password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは14文字以内で入力してください。 ',
+        content: Text('パスワードは16文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1807,7 +1867,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         confirmPasswordController.text;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
     HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
-    HealingMatchConstants.serviceProviderStoreType = storeTypeDisplay;
+    HealingMatchConstants.serviceProviderStoreType.addAll(selectedStoreTypeDisplayValues);
     HealingMatchConstants.serviceProviderBusinessTripService =
         serviceBusinessTrips;
     HealingMatchConstants.serviceProviderCoronaMeasure = coronaMeasures;
@@ -1928,7 +1988,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         CityList cityResponse = CityList.fromJson(json.decode(response.body));
         print(cityResponse.toJson());
         for (var cityList in cityResponse.data) {
-          cityDropDownValues.add(cityList.cityJa);
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
           print(cityDropDownValues);
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
@@ -1937,7 +1997,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     });
   }
 
-  Widget buildCheckBoxContent(String childrenMeasuresValue, int index) {
+  Widget buildChildrenMeasureCheckBoxContent(String childrenMeasuresValue, int index) {
     bool checkValue =
         childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
     return Column(
@@ -1964,6 +2024,39 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               },
             ),
             Text("$childrenMeasuresValue", style: TextStyle(fontSize: 14.0)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildStoreTypeDisplayBoxContent(String storeTypeDisplayValues, int index) {
+    bool checkValue =
+        selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              tristate: true,
+              activeColor: Colors.lime,
+              checkColor: Colors.lime,
+              value: checkValue,
+              onChanged: (value) {
+                if (value == null) {
+                  setState(() {
+                    selectedStoreTypeDisplayValues
+                        .remove(storeTypeDisplayValues);
+                  });
+                } else {
+                  setState(() {
+                    selectedStoreTypeDisplayValues
+                        .add(storeTypeDisplayValues);
+                  });
+                }
+              },
+            ),
+            Text("$storeTypeDisplayValues", style: TextStyle(fontSize: 14.0)),
           ],
         ),
       ],
