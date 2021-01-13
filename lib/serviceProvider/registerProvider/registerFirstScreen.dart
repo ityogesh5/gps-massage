@@ -47,6 +47,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   bool visible = false;
   bool showAddressField = false;
+  bool _changeProgressText = false;
 
   List<String> businessFormDropDownValues = [
     "施術店舗あり施術従業員あり",
@@ -1005,9 +1006,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     if (value == "現在地を取得する") {
                       setState(() {
+                        gpsAddressController.clear();
                         registrationAddressType = value;
                         showAddressField = true;
                         visible = true; // !visible;
+                        _getCurrentLocation();
                       });
                     } else {
                       setState(() {
@@ -1052,30 +1055,29 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: visible
-                              ? InkWell(
-                                  onTap: () {
-                                    _getCurrentLocation();
-                                  },
-                                  child: TextFormField(
-                                    enabled: false,
-                                    controller: gpsAddressController,
-                                    decoration: InputDecoration(
-                                      labelText: "現在地を取得する",
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      suffixIcon: IconButton(
-                                        icon: Icon(Icons.location_on, size: 28),
-                                        onPressed: () {
-                                          _getCurrentLocation();
-                                        },
-                                      ),
+                              ? TextFormField(
+                                  controller: gpsAddressController,
+                                  decoration: InputDecoration(
+                                    labelText: "現在地を取得する",
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.location_on, size: 28),
+                                      onPressed: () {
+                                        setState(() {
+                                          _changeProgressText = true;
+                                          print(
+                                              'location getting.... : $_changeProgressText');
+                                        });
+                                        _getCurrentLocation();
+                                      },
                                     ),
                                   ),
                                 )
