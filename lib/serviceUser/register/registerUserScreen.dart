@@ -13,6 +13,7 @@ import 'package:gps_massageapp/responseModels/serviceUser/register/cityListRespo
 import 'package:gps_massageapp/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -195,11 +196,11 @@ class _RegisterUserState extends State<RegisterUser> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
-                /*Navigator.push(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            RegistrationScreen()));*/
+                            BottomBarProvider()));
               },
               child: Text(
                 'スキップ',
@@ -322,7 +323,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
@@ -361,7 +362,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.07,
+                              // height: MediaQuery.of(context).size.height * 0.07,
                               width: MediaQuery.of(context).size.width * 0.63,
                               alignment: Alignment.topCenter,
                               child: GestureDetector(
@@ -410,7 +411,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             ),
                             //age
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.07,
+                              // height: MediaQuery.of(context).size.height * 0.07,
                               width: MediaQuery.of(context).size.width * 0.20,
                               alignment: Alignment.topCenter,
                               child: TextFormField(
@@ -578,7 +579,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
@@ -613,7 +614,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
@@ -642,7 +643,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
@@ -682,7 +683,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         // maxLength: 16,
@@ -808,7 +809,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     Visibility(
                       visible: _showCurrentLocationInput,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
+                        // height: MediaQuery.of(context).size.height * 0.07,
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: TextFormField(
                           controller: gpsAddressController,
@@ -821,7 +822,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               color: Colors.grey[400],
                             ),*/
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.location_on),
+                              icon: Icon(Icons.location_on, size: 28),
                               onPressed: () {
                                 setState(() {
                                   _changeProgressText = true;
@@ -832,7 +833,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               },
                             ),
                             labelStyle: TextStyle(
-                                color: Colors.grey[400], fontSize: 14),
+                                color: Colors.grey[400], fontSize: 12),
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
@@ -1022,8 +1023,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           Expanded(
                             child: Center(
                               child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.07,
+                                // height: MediaQuery.of(context).size.height * 0.07,
                                 width: MediaQuery.of(context).size.width * 0.39,
                                 child: TextFormField(
                                   //enableInteractiveSelection: false,
@@ -1059,7 +1059,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),
                           Expanded(
                             child: Container(
-                              height: MediaQuery.of(context).size.height * 0.07,
+                              // height: MediaQuery.of(context).size.height * 0.07,
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: TextFormField(
                                 //enableInteractiveSelection: false,
@@ -1097,7 +1097,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
