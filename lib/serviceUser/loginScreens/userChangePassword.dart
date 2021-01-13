@@ -131,7 +131,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       obscureText: _secureText,
                       textInputAction: TextInputAction.next,
                       focusNode: createPasswordFocus,
-                      maxLength: 14,
+                      maxLength: 16,
                       controller: createPasswordController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: new InputDecoration(
@@ -167,7 +167,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       focusNode: confirmPasswordFocus,
                       controller: confirmPasswordController,
                       keyboardType: TextInputType.emailAddress,
-                      maxLength: 14,
+                      maxLength: 16,
                       decoration: new InputDecoration(
                         counterText: "",
                         border: HealingMatchConstants.textFormInputBorder,
@@ -322,7 +322,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは15文字以内で入力してください。 ',
+        content: Text('パスワードは16文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {

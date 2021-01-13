@@ -583,7 +583,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        //maxLength: 11,
+                        //maxLength: 10,
                         controller: phoneNumberController,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
@@ -647,7 +647,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        //maxLength: 14,
+                        //maxLength: 16,
                         obscureText: _secureText,
                         controller: passwordController,
                         decoration: new InputDecoration(
@@ -685,7 +685,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
-                        // maxLength: 14,
+                        // maxLength: 16,
                         //enableInteractiveSelection: false,
                         autofocus: false,
                         controller: confirmPasswordController,
@@ -1442,7 +1442,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは14文字以内で入力してください。 ',
+        content: Text('パスワードは16文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {

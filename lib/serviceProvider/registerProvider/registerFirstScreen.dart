@@ -1517,13 +1517,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の電話番号を入力してください。',
+        content: Text('10文字の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1550,13 +1550,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-    if (storenumber.length > 11 ||
-        storenumber.length < 11 ||
+    if (storenumber.length > 10 ||
+        storenumber.length < 10 ||
         storenumber == null ||
         storenumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('11文字の店舗の電話番号を入力してください。',
+        content: Text('10文字の店舗の電話番号を入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1657,10 +1657,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (password.length > 14) {
+    if (password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは14文字以内で入力してください。 ',
+        content: Text('パスワードは16文字以内で入力してください。 ',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
