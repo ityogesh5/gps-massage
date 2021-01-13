@@ -849,7 +849,24 @@ class _RegistrationSecondPageState
         } else {
           childrenMeasure = childrenMeasure +
               "," +
-              HealingMatchConstants.serviceProviderChildrenMeasure[0];
+              HealingMatchConstants.serviceProviderChildrenMeasure[i];
+        }
+      }
+    }
+
+    String storeTypeDisplay = '';
+    if (HealingMatchConstants.serviceProviderStoreType.isEmpty) {
+      storeTypeDisplay = '';
+    } else {
+      for (int i = 0;
+          i < HealingMatchConstants.serviceProviderStoreType.length;
+          i++) {
+        if (i == 0) {
+          storeTypeDisplay = HealingMatchConstants.serviceProviderStoreType[0];
+        } else {
+          storeTypeDisplay = storeTypeDisplay +
+              "," +
+              HealingMatchConstants.serviceProviderStoreType[i];
         }
       }
     }
@@ -860,8 +877,8 @@ class _RegistrationSecondPageState
     });
 
     Map<String, String> headers = {"Content-Type": "multipart/form-data"};
-    var request = http.MultipartRequest('POST',
-        Uri.parse('http://cb90ba2bd9e8.ngrok.io/api/user/registerProvider'));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(HealingMatchConstants.REGISTER_PROVIDER_URL));
     request.headers.addAll(headers);
     request.fields.addAll({
       'email': HealingMatchConstants.serviceProviderEmailAddress,
@@ -883,7 +900,7 @@ class _RegistrationSecondPageState
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
       'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
       'genderOfService': HealingMatchConstants.serviceProviderGenderService,
-      // 'storeType': HealingMatchConstants.serviceProviderStoreType.toString(),
+      'storeType': storeTypeDisplay,
       'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
       'businessTrip':
           HealingMatchConstants.serviceProviderBusinessTripService == "はい"
@@ -943,7 +960,7 @@ class _RegistrationSecondPageState
     if (response.statusCode == 200) {
       print(response.body);
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      //    NavigationRouter.switchToServiceProviderBottomBar(context);
+      NavigationRouter.switchToServiceProviderBottomBar(context);
     } else {
       print(response.reasonPhrase);
     }

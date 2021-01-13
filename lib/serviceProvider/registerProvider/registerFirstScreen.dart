@@ -1014,9 +1014,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         registrationAddressType = value;
                         showAddressField = true;
                         visible = false;
-                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }
+                    FocusScope.of(context).requestFocus(new FocusNode());
                   },
                   dataSource: registrationAddressTypeDropDownValues,
                   isList: true,
@@ -1383,7 +1383,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var userName = providerNameController.text.toString();
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
-    // var dob = userDOBController.text.toString();
     var age = ageController.text.toString();
     var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
@@ -1397,6 +1396,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
+    //Store Type validation
+    if (selectedStoreTypeDisplayValues.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('お店の種類は必須項目なので選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1867,7 +1882,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         confirmPasswordController.text;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
     HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
-    HealingMatchConstants.serviceProviderStoreType.addAll(selectedStoreTypeDisplayValues);
+    HealingMatchConstants.serviceProviderStoreType
+        .addAll(selectedStoreTypeDisplayValues);
     HealingMatchConstants.serviceProviderBusinessTripService =
         serviceBusinessTrips;
     HealingMatchConstants.serviceProviderCoronaMeasure = coronaMeasures;
@@ -1997,7 +2013,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     });
   }
 
-  Widget buildChildrenMeasureCheckBoxContent(String childrenMeasuresValue, int index) {
+  Widget buildChildrenMeasureCheckBoxContent(
+      String childrenMeasuresValue, int index) {
     bool checkValue =
         childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
     return Column(
@@ -2030,7 +2047,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     );
   }
 
-  Widget buildStoreTypeDisplayBoxContent(String storeTypeDisplayValues, int index) {
+  Widget buildStoreTypeDisplayBoxContent(
+      String storeTypeDisplayValues, int index) {
     bool checkValue =
         selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
     return Column(
@@ -2050,8 +2068,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   });
                 } else {
                   setState(() {
-                    selectedStoreTypeDisplayValues
-                        .add(storeTypeDisplayValues);
+                    selectedStoreTypeDisplayValues.add(storeTypeDisplayValues);
                   });
                 }
               },
