@@ -262,18 +262,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: 20.0,
               ),
               Stack(
+                overflow: Overflow.visible,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    maxRadius: 50,
-                    child: _profileImage != null
-                        ? InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
+                  _profileImage != null
+                      ? InkWell(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Semantics(
                             child: new Container(
-                                width: 95.0,
-                                height: 95.0,
+                                width: 100.0,
+                                height: 100.0,
                                 decoration: new BoxDecoration(
                                   border: Border.all(color: Colors.black12),
                                   shape: BoxShape.circle,
@@ -282,32 +281,70 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     image: FileImage(File(_profileImage.path)),
                                   ),
                                 )),
-                          )
-                        : InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder.png'),
-                                  ),
-                                )),
                           ),
-                  ),
-                  Positioned(
-                    right: 25.0,
-                    top: 70,
-                    left: 70,
-                    child:
-                        Icon(Icons.add_a_photo, color: Colors.blue, size: 30.0),
-                  )
+                        )
+                      : InkWell(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: new Container(
+                              width: 95.0,
+                              height: 95.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.none,
+                                  image: new AssetImage(
+                                      'assets/images_gps/user.png'),
+                                ),
+                              )),
+                        ),
+                  _profileImage != null
+                      ? Visibility(
+                          visible: false,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.upload_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Visibility(
+                          visible: true,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.upload_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                 ],
               ),
               SizedBox(

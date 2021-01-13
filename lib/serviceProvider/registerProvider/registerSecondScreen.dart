@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
@@ -962,7 +963,8 @@ class _RegistrationSecondPageState
       if (response.statusCode == 200) {
         print(response.body);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+         DialogHelper.showProviderRegisterSuccessDialog(context);
+      // NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
         print(response.reasonPhrase);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
