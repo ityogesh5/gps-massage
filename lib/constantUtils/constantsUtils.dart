@@ -29,6 +29,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/fitness/getAllFitness';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
       ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
+  static const String REGISTER_PROVIDER_GET_BANK_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/bankList/getAllBankList';
 
   // register service user
   static const String REGISTER_USER_URL =
@@ -175,7 +177,7 @@ class HealingMatchConstants {
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
   static const String registrationBankDetails = '売上振込先銀行口座';
   static const String registrationBankName = '銀行名*';
-  static const String registrationBankBranchCode = '支店コード';
+  static const String registrationBankBranchCode = '支店名';
   static const String registrationBankBranchNumber = '支店番号';
   static const String registrationBankAccountNumber = '口座番号';
   static const String registrationBankAccountType = '口座種類';

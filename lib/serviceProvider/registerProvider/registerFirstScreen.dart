@@ -47,6 +47,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   bool visible = false;
   bool showAddressField = false;
+  bool _changeProgressText = false;
 
   List<String> businessFormDropDownValues = [
     "施術店舗あり施術従業員あり",
@@ -261,18 +262,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: 20.0,
               ),
               Stack(
+                overflow: Overflow.visible,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    maxRadius: 50,
-                    child: _profileImage != null
-                        ? InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
+                  _profileImage != null
+                      ? InkWell(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Semantics(
                             child: new Container(
-                                width: 95.0,
-                                height: 95.0,
+                                width: 100.0,
+                                height: 100.0,
                                 decoration: new BoxDecoration(
                                   border: Border.all(color: Colors.black12),
                                   shape: BoxShape.circle,
@@ -281,32 +281,70 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     image: FileImage(File(_profileImage.path)),
                                   ),
                                 )),
-                          )
-                        : InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder.png'),
-                                  ),
-                                )),
                           ),
-                  ),
-                  Positioned(
-                    right: 25.0,
-                    top: 70,
-                    left: 70,
-                    child:
-                        Icon(Icons.add_a_photo, color: Colors.blue, size: 30.0),
-                  )
+                        )
+                      : InkWell(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: new Container(
+                              width: 95.0,
+                              height: 95.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.none,
+                                  image: new AssetImage(
+                                      'assets/images_gps/user.png'),
+                                ),
+                              )),
+                        ),
+                  _profileImage != null
+                      ? Visibility(
+                          visible: false,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.upload_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Visibility(
+                          visible: true,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.upload_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                 ],
               ),
               SizedBox(
@@ -841,6 +879,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: phoneNumberController,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPhnNum,
                           filled: true,
@@ -876,6 +915,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: storePhoneNumberController,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationStorePhnNum,
@@ -898,6 +938,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: mailAddressController,
+                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
@@ -1005,9 +1046,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     if (value == "現在地を取得する") {
                       setState(() {
+                        gpsAddressController.clear();
                         registrationAddressType = value;
                         showAddressField = true;
                         visible = true; // !visible;
+                        _getCurrentLocation();
                       });
                     } else {
                       setState(() {
@@ -1052,30 +1095,29 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: visible
-                              ? InkWell(
-                                  onTap: () {
-                                    _getCurrentLocation();
-                                  },
-                                  child: TextFormField(
-                                    enabled: false,
-                                    controller: gpsAddressController,
-                                    decoration: InputDecoration(
-                                      labelText: "現在地を取得する",
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      suffixIcon: IconButton(
-                                        icon: Icon(Icons.location_on, size: 28),
-                                        onPressed: () {
-                                          _getCurrentLocation();
-                                        },
-                                      ),
+                              ? TextFormField(
+                                  controller: gpsAddressController,
+                                  decoration: InputDecoration(
+                                    labelText: "現在地を取得する",
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.location_on, size: 28),
+                                      onPressed: () {
+                                        setState(() {
+                                          _changeProgressText = true;
+                                          print(
+                                              'location getting.... : $_changeProgressText');
+                                        });
+                                        _getCurrentLocation();
+                                      },
                                     ),
                                   ),
                                 )
@@ -1230,6 +1272,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   .copyWith(splashColor: Colors.black12),
                               child: TextFormField(
                                   controller: roomNumberController,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,

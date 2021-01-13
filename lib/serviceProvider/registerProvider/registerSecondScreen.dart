@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
@@ -15,7 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
+import 'package:gps_massageapp/models/apiResponseModels/bankNameDropDownModel.dart';
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
@@ -46,6 +47,8 @@ class _RegistrationSecondPageState
   TextEditingController branchCodeController = TextEditingController();
   TextEditingController branchNumberController = TextEditingController();
   TextEditingController accountnumberController = TextEditingController();
+  BankNameDropDownModel bankNameDropDownModel;
+  List<String> bankNameDropDownList = List<String>();
 
   void initState() {
     super.initState();
@@ -54,6 +57,7 @@ class _RegistrationSecondPageState
     bankname = '';
     qualification = '';
     accountType = '';
+    getBankName();
   }
 
   @override
@@ -493,199 +497,199 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Form(
-                        key: bankkey,
+                  Center(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        alignment: Alignment.center,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.38,
-                              child: DropDownFormField(
-                                titleText: null,
-                                hintText: readonly
-                                    ? bankname
-                                    : HealingMatchConstants
-                                        .registrationBankName,
-                                onSaved: (value) {
-                                  setState(() {
-                                    bankname = value;
-                                  });
-                                },
-                                value: bankname,
-                                onChanged: (value) {
-                                  setState(() {
-                                    bankname = value;
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
-                                  });
-                                },
-                                dataSource: [
-                                  {
-                                    "display": "賃貸",
-                                    "value": "賃貸",
-                                  },
-                                  {
-                                    "display": "販売（売買）",
-                                    "value": "販売（売買）",
-                                  },
+                            Form(
+                              key: bankkey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      child: DropDownFormField(
+                                        titleText: null,
+                                        hintText: readonly
+                                            ? bankname
+                                            : HealingMatchConstants
+                                                .registrationBankName,
+                                        onSaved: (value) {
+                                          setState(() {
+                                            bankname = value;
+                                          });
+                                        },
+                                        value: bankname,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            bankname = value;
+                                            FocusScope.of(context)
+                                                .requestFocus(new FocusNode());
+                                          });
+                                        },
+                                        dataSource: bankNameDropDownList,
+                                        isList: true,
+                                        textField: 'display',
+                                        valueField: 'value',
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                textField: 'display',
-                                valueField: 'value',
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: TextFormField(
-                          controller: branchCodeController,
-                          decoration: new InputDecoration(
-                            labelText: HealingMatchConstants
-                                .registrationBankBranchCode,
-                            contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            filled: true,
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 13),
-                            hintText: HealingMatchConstants
-                                .registrationBankBranchCode,
-                            fillColor: ColorConstants.formFieldFillColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: TextFormField(
-                          controller: branchNumberController,
-                          decoration: new InputDecoration(
-                            labelText: HealingMatchConstants
-                                .registrationBankBranchNumber,
-                            contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            filled: true,
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 13),
-                            hintText: HealingMatchConstants
-                                .registrationBankBranchNumber,
-                            fillColor: ColorConstants.formFieldFillColor,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: TextFormField(
-                          controller: accountnumberController,
-                          decoration: new InputDecoration(
-                            labelText: HealingMatchConstants
-                                .registrationBankAccountNumber,
-                            contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                            border: HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                                HealingMatchConstants.textFormInputBorder,
-                            filled: true,
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 13),
-                            hintText: HealingMatchConstants
-                                .registrationBankAccountNumber,
-                            fillColor: ColorConstants.formFieldFillColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Form(
-                        key: accountnumberkey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.38,
-                              child: DropDownFormField(
-                                titleText: null,
-                                hintText: readonly
-                                    ? accountType
-                                    : HealingMatchConstants
-                                        .registrationBankAccountType,
-                                onSaved: (value) {
-                                  setState(() {
-                                    accountType = value;
-                                  });
-                                },
-                                value: accountType,
-                                onChanged: (value) {
-                                  setState(() {
-                                    accountType = value;
-                                    FocusScope.of(context)
-                                        .requestFocus(new FocusNode());
-                                  });
-                                },
-                                dataSource: [
-                                  {
-                                    "display": "普通",
-                                    "value": "普通",
-                                  },
-                                  {
-                                    "display": "当座",
-                                    "value": "当座",
-                                  },
-                                  {
-                                    "display": "貯蓄",
-                                    "value": "貯蓄",
-                                  },
-                                ],
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Form(
+                                  key: accountnumberkey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.38,
+                                        child: DropDownFormField(
+                                          titleText: null,
+                                          hintText: readonly
+                                              ? accountType
+                                              : HealingMatchConstants
+                                                  .registrationBankAccountType,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              accountType = value;
+                                            });
+                                          },
+                                          value: accountType,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              accountType = value;
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                            });
+                                          },
+                                          dataSource: [
+                                            {
+                                              "display": "普通",
+                                              "value": "普通",
+                                            },
+                                            {
+                                              "display": "当座",
+                                              "value": "当座",
+                                            },
+                                            {
+                                              "display": "貯蓄",
+                                              "value": "貯蓄",
+                                            },
+                                          ],
+                                          textField: 'display',
+                                          valueField: 'value',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  child: TextFormField(
+                                    controller: branchCodeController,
+                                    decoration: new InputDecoration(
+                                      labelText: HealingMatchConstants
+                                          .registrationBankBranchCode,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      hintStyle: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                      hintText: HealingMatchConstants
+                                          .registrationBankBranchCode,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  child: TextFormField(
+                                    controller: branchNumberController,
+                                    decoration: new InputDecoration(
+                                      labelText: HealingMatchConstants
+                                          .registrationBankBranchNumber,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      hintStyle: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                      hintText: HealingMatchConstants
+                                          .registrationBankBranchNumber,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  child: TextFormField(
+                                    controller: accountnumberController,
+                                    decoration: new InputDecoration(
+                                      labelText: HealingMatchConstants
+                                          .registrationBankAccountNumber,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      hintStyle: TextStyle(
+                                          color: Colors.black, fontSize: 13),
+                                      hintText: HealingMatchConstants
+                                          .registrationBankAccountNumber,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.38,
-                        child: Visibility(
-                          visible: false,
-                          child: TextFormField(
-                            decoration: new InputDecoration(
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              filled: true,
-                              hintStyle:
-                                  TextStyle(color: Colors.black, fontSize: 13),
-                              hintText: "",
-                              fillColor: ColorConstants.formFieldFillColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                        )),
                   ),
                   SizedBox(
                     height: 20,
@@ -700,11 +704,6 @@ class _RegistrationSecondPageState
                       ),
                       color: Colors.lime,
                       onPressed: () {
-                        /*  Navigator.push(
-                                                                                                            context,
-                                                                                                            MaterialPageRoute(
-                                                                                                                builder: (BuildContext context) =>
-                                                                                                                    RegistrationSuccessOtpScreen()));*/
                         _providerRegistrationDetails();
                         //  registerProvider();
                       },
@@ -716,19 +715,23 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        HealingMatchConstants.registrationAlreadyActTxt,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
-                            decorationThickness: 2,
-                            decorationStyle: TextDecorationStyle.solid),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () =>
+                        NavigationRouter.switchToProviderLogin(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          HealingMatchConstants.registrationAlreadyActTxt,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.black,
+                              decorationThickness: 2,
+                              decorationStyle: TextDecorationStyle.solid),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -829,7 +832,7 @@ class _RegistrationSecondPageState
 
   //Registration Api
   registerProvider() async {
-    ProgressDialogBuilder.showRegisterProgressDialog(context);
+    ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
     List<CertificateImageUpload> cImagesList =
         new List<CertificateImageUpload>();
     certificateImages.forEach((key, value) {
@@ -951,18 +954,25 @@ class _RegistrationSecondPageState
       request.files
           .add(await http.MultipartFile.fromPath('bannerImage', file.path));
     }
+    try {
+      final userDetailsRequest = await request.send();
+      print("This is request : ${userDetailsRequest.request}");
+      final response = await http.Response.fromStream(userDetailsRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
 
-    final userDetailsRequest = await request.send();
-    print("This is request : ${userDetailsRequest.request}");
-    final response = await http.Response.fromStream(userDetailsRequest);
-    print("This is response: ${response.statusCode}\n${response.body}");
-
-    if (response.statusCode == 200) {
-      print(response.body);
-      ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      NavigationRouter.switchToServiceProviderBottomBar(context);
-    } else {
-      print(response.reasonPhrase);
+      if (response.statusCode == 200) {
+        print(response.body);
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+         DialogHelper.showProviderRegisterSuccessDialog(context);
+      // NavigationRouter.switchToServiceProviderBottomBar(context);
+      } else {
+        print(response.reasonPhrase);
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+      }
+    } on SocketException {
+      //handle socket Exception
+    } catch (_) {
+      //handle other error
     }
   }
 
@@ -1061,6 +1071,24 @@ class _RegistrationSecondPageState
           textColor: Colors.white),
     ));
     return;
+  }
+
+  void getBankName() async {
+    await http
+        .get(HealingMatchConstants.REGISTER_PROVIDER_GET_BANK_LIST_URL)
+        .then((response) {
+      if (response.statusCode == 200) {
+        bankNameDropDownModel =
+            BankNameDropDownModel.fromJson(json.decode(response.body));
+        for (var bankList in bankNameDropDownModel.data) {
+          setState(() {
+            bankNameDropDownList.add(bankList.value);
+          });
+        }
+      } else {
+        print(response.reasonPhrase);
+      }
+    });
   }
 
 /* registerProvider() async {

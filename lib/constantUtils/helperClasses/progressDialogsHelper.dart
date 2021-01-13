@@ -7,11 +7,18 @@ import '../constantsUtils.dart';
 class ProgressDialogBuilder {
   static ProgressDialog progressDialog = ProgressDialog();
 
-  //Register user and Provider
+  //Register user
   static void showRegisterProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
         textToBeDisplayed: '${HealingMatchConstants.registerProgressText}',
         dismissAfter: Duration(seconds: 5));
+  }
+
+//Register Provider
+  static void showProviderRegisterProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '${HealingMatchConstants.registerProgressText}',
+        dismissAfter: Duration(seconds: 15));
   }
 
   static void hideRegisterProgressDialog(BuildContext context) {

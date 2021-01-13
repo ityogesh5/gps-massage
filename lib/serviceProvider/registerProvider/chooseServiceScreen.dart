@@ -868,6 +868,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     child: TextFormField(
                                         textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
                                           fillColor: Colors.white,
@@ -927,6 +928,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     child: TextFormField(
                                         textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
                                           fillColor: Colors.white,
@@ -985,6 +987,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 Expanded(
                                     child: TextFormField(
                                         controller: oneTwentyMinuteController,
+                                        keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
@@ -1045,6 +1048,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     child: TextFormField(
                                         textAlign: TextAlign.center,
                                         controller: oneFiftyController,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
                                           fillColor: Colors.white,
@@ -1104,6 +1108,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     child: TextFormField(
                                         textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           hintText: "¥0",
                                           fillColor: Colors.white,
