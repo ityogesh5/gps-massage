@@ -206,7 +206,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 'スキップ',
                 style: TextStyle(
                     color: Colors.black,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'Oxygen',
                     fontSize: 18.0,
                     decoration: TextDecoration.underline),
@@ -259,6 +259,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                     SizedBox(height: 10),
                     Stack(
+                      overflow: Overflow.visible,
                       children: [
                         _profileImage != null
                             ? InkWell(
@@ -289,12 +290,13 @@ class _RegisterUserState extends State<RegisterUser> {
                                     width: 95.0,
                                     height: 95.0,
                                     decoration: new BoxDecoration(
-                                      border: Border.all(color: Colors.black12),
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
-                                        fit: BoxFit.fitHeight,
+                                        fit: BoxFit.none,
                                         image: new AssetImage(
-                                            'assets/images_gps/placeholder.png'),
+                                            'assets/images_gps/user.png'),
                                       ),
                                     )),
                               ),
@@ -305,8 +307,20 @@ class _RegisterUserState extends State<RegisterUser> {
                                   right: -60.0,
                                   top: 60,
                                   left: 10.0,
-                                  child: Icon(Icons.add_a_photo_rounded,
-                                      color: Colors.blue, size: 30.0),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[500],
+                                      radius: 13,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.grey[100],
+                                        radius: 12,
+                                        child: Icon(Icons.upload_outlined,
+                                            color: Colors.grey[400],
+                                            size: 20.0),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               )
                             : Visibility(
@@ -315,8 +329,22 @@ class _RegisterUserState extends State<RegisterUser> {
                                   right: -60.0,
                                   top: 60,
                                   left: 10.0,
-                                  child: Icon(Icons.add_a_photo_rounded,
-                                      color: Colors.blue, size: 30.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      _showPicker(context);
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[500],
+                                      radius: 13,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.grey[100],
+                                        radius: 12,
+                                        child: Icon(Icons.upload_outlined,
+                                            color: Colors.grey[400],
+                                            size: 20.0),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                       ],
@@ -1063,7 +1091,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               width: MediaQuery.of(context).size.width * 0.39,
                               child: TextFormField(
                                 //enableInteractiveSelection: false,
-                                keyboardType: TextInputType.number,
+                                // keyboardType: TextInputType.number,
                                 autofocus: false,
                                 controller: buildingNameController,
                                 decoration: new InputDecoration(
