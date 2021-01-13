@@ -1433,6 +1433,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var roomnumber = roomNumberController.text.toString();
     var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
+    var genderSelecetedValue = gender;
 
     //Profile image validation
     if (_profileImage == null || _profileImage.path == null) {
@@ -1548,6 +1549,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
+     // gender validation
+    if (genderSelecetedValue == null || genderSelecetedValue.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('性別フィールドを選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

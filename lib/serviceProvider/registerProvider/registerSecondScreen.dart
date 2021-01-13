@@ -887,7 +887,9 @@ class _RegistrationSecondPageState
       'email': HealingMatchConstants.serviceProviderEmailAddress,
       'phoneNumber': HealingMatchConstants.serviceProviderPhoneNumber,
       'userName': HealingMatchConstants.serviceProviderUserName,
-      'gender': HealingMatchConstants.serviceProviderGender,
+      'gender': HealingMatchConstants.serviceProviderGender != null
+          ? HealingMatchConstants.serviceProviderGender
+          : "",
       'dob': HealingMatchConstants.serviceProviderDOB,
       'age': HealingMatchConstants.serviceProviderAge,
       'password': HealingMatchConstants.serviceProviderPassword,
@@ -902,9 +904,14 @@ class _RegistrationSecondPageState
       'area': HealingMatchConstants.serviceProviderArea,
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),
       'lon': HealingMatchConstants.serviceProviderCurrentLongitude.toString(),
-      'genderOfService': HealingMatchConstants.serviceProviderGenderService,
+      'genderOfService':
+          HealingMatchConstants.serviceProviderGenderService != null
+              ? HealingMatchConstants.serviceProviderGenderService
+              : '',
       'storeType': storeTypeDisplay,
-      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl,
+      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl != null
+          ? HealingMatchConstants.serviceProviderNumberOfEmpl
+          : '0',
       'businessTrip':
           HealingMatchConstants.serviceProviderBusinessTripService == "はい"
               ? '1'
@@ -914,7 +921,9 @@ class _RegistrationSecondPageState
               ? '1'
               : '0',
       'childrenMeasure': childrenMeasure,
-      'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
+      'businessForm': HealingMatchConstants.serviceProviderBusinessForm != null
+          ? HealingMatchConstants.serviceProviderBusinessForm
+          : '',
       'userPrefecture': HealingMatchConstants.serviceProviderPrefecture,
       'userRoomNumber': HealingMatchConstants.serviceProviderRoomNumber,
       'bankName': bankname,
@@ -963,16 +972,20 @@ class _RegistrationSecondPageState
       if (response.statusCode == 200) {
         print(response.body);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-         DialogHelper.showProviderRegisterSuccessDialog(context);
-      // NavigationRouter.switchToServiceProviderBottomBar(context);
+        DialogHelper.showProviderRegisterSuccessDialog(context);
+        // NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
         print(response.reasonPhrase);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
       }
     } on SocketException {
       //handle socket Exception
+      ProgressDialogBuilder.hideRegisterProgressDialog(context);
+      print("Network Error");
     } catch (_) {
       //handle other error
+      print("Error");
+      ProgressDialogBuilder.hideRegisterProgressDialog(context);
     }
   }
 
