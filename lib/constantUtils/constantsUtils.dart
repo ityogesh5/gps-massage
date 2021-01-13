@@ -152,7 +152,7 @@ class HealingMatchConstants {
   static const String registrationStoreName = '店舗名*';
   static const String registrationDob = '生年月日*';
   static const String registrationAge = '年齢';
-  static const String registrationGender = '性別';
+  static const String registrationGender = '性別*';
   static const String registrationPhnNum = '電話番号*';
   static const String registrationStorePhnNum = '店舗の電話番号*';
   static const String registrationMailAdress = 'メールアドレス*';
