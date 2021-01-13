@@ -77,11 +77,9 @@ class _SplashScreenPageState extends State<SplashScreen>
                 },
                 text: [
                   "ヒーリングマッチ",
+                  "Healing Match",
                 ],
-                textStyle: TextStyle(
-                    fontSize: 30.0,
-                    fontStyle: FontStyle.italic,
-                    fontFamily: "Canterbury"),
+                textStyle: TextStyle(fontSize: 30.0, fontFamily: "Oxygen"),
                 colors: [
                   Colors.purple,
                   Colors.blue,

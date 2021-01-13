@@ -56,7 +56,9 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       child: Text(
                         HealingMatchConstants.forgetPasswordTxt,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Oxygen',
+                            color: Colors.grey),
                       ),
                     ),
                     SizedBox(
@@ -78,7 +80,10 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
                         labelText: HealingMatchConstants.forgetPasswordPhn,
-                        hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                        hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Oxygen',
+                            fontSize: 13),
                         hintText: HealingMatchConstants.forgetPasswordPhn,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
@@ -92,7 +97,10 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       child: RaisedButton(
                         child: Text(
                           '送信',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Oxygen',
+                              fontSize: 20),
                         ),
                         color: Colors.lime,
                         onPressed: () {
@@ -132,14 +140,14 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
     }
 
     // user phone number validation
-    if (userPhoneNumber.length > 11 ||
-        userPhoneNumber.length < 11 ||
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content:
+            Text('正しい電話番号を入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
