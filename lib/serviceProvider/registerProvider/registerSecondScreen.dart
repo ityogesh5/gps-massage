@@ -978,11 +978,12 @@ class _RegistrationSecondPageState
         print(response.reasonPhrase);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
       }
-    } on SocketException {
+    }on  SocketException catch(_) {
       //handle socket Exception
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      print("Network Error");
-    } catch (_) {
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
+      } catch (_) {
       //handle other error
       print("Error");
       ProgressDialogBuilder.hideRegisterProgressDialog(context);

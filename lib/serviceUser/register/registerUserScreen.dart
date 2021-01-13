@@ -1730,6 +1730,11 @@ class _RegisterUserState extends State<RegisterUser> {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
       }
+    } on SocketException catch(_) {
+      //handle socket Exception
+      ProgressDialogBuilder.hideRegisterProgressDialog(context);
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
     } catch (e) {
       print(e.toString());
     }
