@@ -178,18 +178,20 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
     );
   }
 
-  Row MyRow(Widget image, Widget text) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: image,
-        ),
-        Flexible(
-            child: Padding(padding: const EdgeInsets.all(12.0), child: text))
-      ],
+  Widget MyRow(Widget image, Widget text) {
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: image,
+          ),
+          Flexible(
+              child: Padding(padding: const EdgeInsets.all(12.0), child: text))
+        ],
+      ),
     );
   }
 
