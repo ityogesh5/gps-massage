@@ -196,11 +196,7 @@ class _RegisterUserState extends State<RegisterUser> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            BottomBarProvider()));
+                NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
                 'スキップ',
@@ -1730,7 +1726,7 @@ class _RegisterUserState extends State<RegisterUser> {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
       }
-    } on SocketException catch(_) {
+    } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);

@@ -130,7 +130,11 @@ class DialogHelper {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Center(child: Text('パスワードを変更いたしました。')),
+                        Center(
+                            child: Text(
+                          'パスワードを更新いたしました。',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
                         SizedBox(height: 15),
                         ButtonTheme(
                           minWidth: MediaQuery.of(context).size.width * 0.85,
@@ -165,10 +169,10 @@ class DialogHelper {
                   left: 50,
                   child: CircleAvatar(
                     backgroundColor: Colors.white70,
-                    maxRadius: MediaQuery.of(context).size.width * 0.14,
+                    maxRadius: MediaQuery.of(context).size.width * 0.12,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      height: MediaQuery.of(context).size.height * 0.18,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      height: MediaQuery.of(context).size.height * 0.16,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey[300]),

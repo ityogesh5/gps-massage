@@ -67,8 +67,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),
+                /* SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 150, width: 140),*/
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

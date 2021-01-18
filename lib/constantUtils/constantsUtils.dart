@@ -114,7 +114,7 @@ class HealingMatchConstants {
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
-  static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者と\nしてもログイン可能です。';
+  static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者\nとしてもログイン可能です。';
 
   //LoginServiceProvider
   static const String loginText = 'セラピストのログイン';

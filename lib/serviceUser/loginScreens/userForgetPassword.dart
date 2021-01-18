@@ -80,11 +80,11 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
                         labelText: HealingMatchConstants.forgetPasswordPhn,
-                        hintStyle: TextStyle(
+                        /* hintStyle: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Oxygen',
                             fontSize: 13),
-                        hintText: HealingMatchConstants.forgetPasswordPhn,
+                        hintText: HealingMatchConstants.forgetPasswordPhn,*/
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),

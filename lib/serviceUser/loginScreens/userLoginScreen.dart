@@ -74,8 +74,8 @@ class _UserLoginState extends State<UserLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),
+                /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 150, width: 140),*/
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
