@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -113,7 +114,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   ? Text(
                       "サービス利用者",
                       style: TextStyle(
-                          color: Colors.white60,
+                          color: Colors.white,
                           fontFamily: 'Oxygen',
                           fontWeight: FontWeight.bold),
                     )
@@ -123,7 +124,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               child: _tabIndex == 1
                   ? Text("セラピスト",
                       style: TextStyle(
-                          color: Colors.white60,
+                          color: Colors.white,
                           fontFamily: 'Oxygen',
                           fontWeight: FontWeight.bold))
                   : buildUnSelectedTabBar("セラピスト"),
@@ -156,7 +157,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                             fontFamily: 'Oxygen')));
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitDoubleBounce(color: Colors.blueAccent),
                   );
                 }),
           ),
@@ -181,7 +182,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                             fontFamily: 'Oxygen')));
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitDoubleBounce(color: Colors.limeAccent),
                   );
                 }),
           ),

@@ -32,34 +32,34 @@ class _BottomBarUserState extends State<BottomBarUser> {
         height: 40,
         buttonBackgroundColor: Colors.limeAccent,
         backgroundColor: Colors.white,
-        color: Colors.blueAccent,
+        color: Colors.white,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
           Icon(
             Icons.home,
             size: 30,
-            color: Colors.white,
+            color: Colors.black,
           ),
           Icon(
             Icons.search,
             size: 30,
-            color: Colors.white,
+            color: Colors.black,
           ),
           Icon(
             Icons.library_books,
             size: 30,
-            color: Colors.white,
+            color: Colors.black,
           ),
           Icon(
             Icons.account_box,
             size: 30,
-            color: Colors.white,
+            color: Colors.black,
           ),
           Icon(
             Icons.chat,
             size: 30,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ],
         onTap: (index) {

@@ -11,7 +11,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
@@ -387,7 +387,7 @@ class _UserLoginState extends State<UserLogin> {
             "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
-      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
+      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context,response.body)) {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
