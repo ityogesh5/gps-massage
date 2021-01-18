@@ -195,9 +195,7 @@ class _RegisterUserState extends State<RegisterUser> {
           Padding(
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
-              onTap: () {
-                NavigationRouter.switchToServiceUserBottomBar(context);
-              },
+              onTap: () {},
               child: Text(
                 'スキップ',
                 style: TextStyle(
