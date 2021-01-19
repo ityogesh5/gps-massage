@@ -486,7 +486,41 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             );
                           }),
                     )
-                  : Container(),
+                  : Container(
+                      width: containerWidth,
+                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      alignment: Alignment.topLeft,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        alignment: WrapAlignment.start,
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: selectedStoreTypeDisplayValues
+                            .map((e) {
+                              return Container(
+                                padding: EdgeInsets.all(10.0),
+                                height: 40.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    )),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "$e",
+                                      style:
+                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 12.0),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            })
+                            .toList()
+                            .cast<Widget>(),
+                      ),
+                    ),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -650,7 +684,44 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             );
                           }),
                     )
-                  : Container(),
+                  : Container(
+                      width: containerWidth,
+                      padding: EdgeInsets.only(top: 8.0),
+                      alignment: Alignment.topLeft,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        alignment: WrapAlignment.start,
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: childrenMeasuresDropDownValuesSelected
+                            .map((e) {
+                              return Container(
+                                padding: EdgeInsets.all(10.0),
+                                height: 40.0,
+                              //  width: 110.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    )),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        "$e",
+                                        style:
+                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 12.0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            })
+                            .toList()
+                            .cast<Widget>(),
+                      ),
+                    ),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -939,7 +1010,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: mailAddressController,
-                         keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
@@ -1329,10 +1400,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     //!Commented for Dev purposes
-                    validateFields();
+                    //  validateFields();
 
-                    /*  NavigationRouter.switchToServiceProviderSecondScreen(
-                        context); */
+                    NavigationRouter.switchToServiceProviderSecondScreen(
+                        context);
                   },
                 ),
               ),
@@ -1561,7 +1632,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return null;
     }
 
-     // gender validation
+    // gender validation
     if (genderSelecetedValue == null || genderSelecetedValue.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
