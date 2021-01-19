@@ -9,6 +9,7 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
+import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
@@ -26,6 +27,12 @@ class NavigationRouter {
   static void switchToServiceUserRegistration(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()));
+  }
+
+//Provider WeeklySchedule
+  static void switchToWeeklySchedule(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => WeeklySchedule()));
   }
 
 // Terms and conditions screen

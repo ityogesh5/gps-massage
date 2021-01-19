@@ -136,8 +136,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToProviderForgetPasswordScreen(
-                            context);
+                        // NavigationRouter.switchToProviderForgetPasswordScreen(context);
+                        NavigationRouter.switchToWeeklySchedule(context);
                       },
                       child: Text(
                         HealingMatchConstants.loginForgetPassword,

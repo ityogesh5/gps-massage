@@ -1505,7 +1505,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var userAge = ageController.text.toString().trim();
     int ageOfUser = int.tryParse(userAge);
     print('User Age : $ageOfUser');
-
+    var _myAddressInputTypeVal = _myAddressInputType;
     var buildingName = buildingNameController.text.toString();
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
@@ -1520,6 +1520,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('プロフィール画像を選択してください。',
@@ -1533,6 +1534,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1547,6 +1549,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('ユーザー名は20文字以内で入力してください。',
@@ -1561,6 +1564,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       fontFamily: 'Oxygen',
+                      color: Colors.black,
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1572,6 +1576,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効なユーザー名を入力してください。',
@@ -1585,6 +1590,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1600,6 +1606,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な生年月日を選択してください。',
@@ -1613,6 +1620,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1628,6 +1636,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な性別を選択してください。',
@@ -1641,6 +1650,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1656,6 +1666,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な職業を選択してください。',
@@ -1669,6 +1680,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1687,6 +1699,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('正しい電話番号を入力してください。',
@@ -1700,6 +1713,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1714,6 +1728,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効なメールアドレスを入力してください。',
@@ -1727,6 +1742,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1740,6 +1756,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('メールアドレスは100文字以内で入力してください。',
@@ -1753,6 +1770,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1766,6 +1784,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効なメールアドレスを入力してください。',
@@ -1779,6 +1798,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1793,6 +1813,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('パスワードは8文字以上で入力してください。',
@@ -1806,6 +1827,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1820,6 +1842,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('パスワードは16文字以内で入力してください。',
@@ -1833,6 +1856,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1849,6 +1873,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
@@ -1862,6 +1887,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1877,6 +1903,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('パスワードと確認パスワードの入力が一致しません。',
@@ -1890,6 +1917,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1903,6 +1931,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な文字でパスワードを入力してください。',
@@ -1916,6 +1945,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1930,6 +1960,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な検索地点の登録を選択してください。',
@@ -1943,6 +1974,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1959,6 +1991,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な登録する地点のカテゴリーを選択してください。',
@@ -1972,6 +2005,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -1982,11 +2016,14 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user perfecture validation
-    if (_myPrefecture == null || _myPrefecture.isEmpty) {
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myPrefecture == null || _myPrefecture.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な府県を選択してください。',
@@ -2000,6 +2037,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -2010,11 +2048,14 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user city validation
-    if (_myCity == null || _myCity.isEmpty) {
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myCity == null || _myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な市を選択してください。',
@@ -2028,6 +2069,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -2038,11 +2080,14 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user area validation
-    if (userArea == null || userArea.isEmpty) {
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (userArea == null || userArea.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な都、県選 を入力してください。',
@@ -2056,6 +2101,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -2070,6 +2116,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効なビル名を入力してください。',
@@ -2083,6 +2130,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
@@ -2098,6 +2146,7 @@ class _RegisterUserState extends State<RegisterUser> {
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
         content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               child: Text('有効な部屋番号を入力してください。',
@@ -2111,6 +2160,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
+                      color: Colors.black,
                       fontFamily: 'Oxygen',
                       decoration: TextDecoration.underline)),
             ),
