@@ -11,12 +11,12 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:gps_massageapp/models/apiResponseModels/bankNameDropDownModel.dart';
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
@@ -617,10 +617,6 @@ class _RegistrationSecondPageState
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
                                       filled: true,
-                                      hintStyle: TextStyle(
-                                          color: Colors.black, fontSize: 13),
-                                      hintText: HealingMatchConstants
-                                          .registrationBankBranchCode,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
@@ -651,10 +647,6 @@ class _RegistrationSecondPageState
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
                                       filled: true,
-                                      hintStyle: TextStyle(
-                                          color: Colors.black, fontSize: 13),
-                                      hintText: HealingMatchConstants
-                                          .registrationBankBranchNumber,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
@@ -677,10 +669,6 @@ class _RegistrationSecondPageState
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
                                       filled: true,
-                                      hintStyle: TextStyle(
-                                          color: Colors.black, fontSize: 13),
-                                      hintText: HealingMatchConstants
-                                          .registrationBankAccountNumber,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
@@ -978,12 +966,12 @@ class _RegistrationSecondPageState
         print(response.reasonPhrase);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
       }
-    }on  SocketException catch(_) {
+    } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
-      } catch (_) {
+    } catch (_) {
       //handle other error
       print("Error");
       ProgressDialogBuilder.hideRegisterProgressDialog(context);

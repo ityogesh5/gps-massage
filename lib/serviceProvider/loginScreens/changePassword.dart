@@ -156,9 +156,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               });
                             }),
                         filled: true,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                         labelText: HealingMatchConstants.changePasswordNewpass,
-                        hintText: HealingMatchConstants.changePasswordNewpass,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -192,10 +190,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               });
                             }),
                         filled: true,
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                         labelText:
-                            HealingMatchConstants.changePasswordConfirmpass,
-                        hintText:
                             HealingMatchConstants.changePasswordConfirmpass,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
@@ -406,7 +401,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     print('User details length in array : ${changePasswordDetails.length}');
 
-    NavigationRouter.switchToProviderLogin(context);
+    DialogHelper.providerResetSuccessDialog(context);
 
     /*  final url = '';
     http.post(url,

@@ -262,46 +262,82 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     if (pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text(' 認証コード入力は必須項目なので入力してください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('認証コード入力は必須項目なので入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (pinCode.length < 4) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('認証コードと一致しませんのでもう一度お試しください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('認証コードと一致しませんのでもう一度お試しください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (password == null || password.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは必須項目なので入力してください。 ',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワードは必須項目なので入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (password.length < 8 || confirmPassword.length < 8) {
@@ -322,16 +358,28 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     if (password.length > 16 || confirmPassword.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードは16文字以内で入力してください。 ',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワードは16文字以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     // Combination password
@@ -339,64 +387,110 @@ class _UserChangePasswordState extends State<UserChangePassword> {
     if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text(
-          'パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
-          style: TextStyle(fontFamily: 'Oxygen'),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
         ),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
       ));
-      return;
+      return null;
     }
 
     if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('有効な文字でパスワードを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     //Confirm Password Validation
     if (confirmPassword == null || confirmPassword.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワード再確認は必須項目なので入力してください。 ',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワード再確認は必須項目なので入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (password != confirmPassword) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('パスワードが一致がしませんのでもう一度お試しください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワードが一致がしませんのでもう一度お試しください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     changePasswordDetails.add(pinCode);

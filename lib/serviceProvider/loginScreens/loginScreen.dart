@@ -11,7 +11,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,8 +67,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),
+                /* SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 150, width: 140),*/
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -96,7 +96,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       color: Colors.grey,
                     ),
                     labelText: HealingMatchConstants.loginUserPhoneNumber,
-                    hintText: HealingMatchConstants.loginUserPhoneNumber,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -126,7 +125,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                     labelText: HealingMatchConstants.loginPassword,
-                    hintText: HealingMatchConstants.loginPassword,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -430,7 +428,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
-      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
+      if (StatusCodeHelper.isLoginSuccess(
+          response.statusCode, context, response.body)) {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);

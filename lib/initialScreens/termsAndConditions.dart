@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -77,8 +78,11 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color.fromRGBO(243, 249, 250, 1),
+      // backgroundColor: Color.fromRGBO(243, 249, 250, 1),
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 5.0,
         automaticallyImplyLeading: false,
         title: Text(
           '利用規約とプライバシーポリシー',
@@ -89,12 +93,12 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(5.0),
-            bottomRight: Radius.circular(5.0),
+            bottomLeft: Radius.circular(25.0),
+            bottomRight: Radius.circular(25.0),
           ),
         ),
-        elevation: 0,
-        backgroundColor: Color.fromRGBO(243, 249, 250, 1),
+
+        // backgroundColor: Color.fromRGBO(243, 249, 250, 1),
         centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
@@ -113,7 +117,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   ? Text(
                       "サービス利用者",
                       style: TextStyle(
-                          color: Colors.white60,
+                          color: Colors.white,
                           fontFamily: 'Oxygen',
                           fontWeight: FontWeight.bold),
                     )
@@ -123,7 +127,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               child: _tabIndex == 1
                   ? Text("セラピスト",
                       style: TextStyle(
-                          color: Colors.white60,
+                          color: Colors.white,
                           fontFamily: 'Oxygen',
                           fontWeight: FontWeight.bold))
                   : buildUnSelectedTabBar("セラピスト"),
@@ -156,7 +160,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                             fontFamily: 'Oxygen')));
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitDoubleBounce(color: Colors.blueAccent),
                   );
                 }),
           ),
@@ -181,7 +185,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                             fontFamily: 'Oxygen')));
                   }
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitDoubleBounce(color: Colors.limeAccent),
                   );
                 }),
           ),
@@ -194,7 +198,8 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
   Widget buildBottomBar() {
     return Container(
       height: 120,
-      color: Color.fromRGBO(243, 249, 250, 1),
+      color: Colors.white,
+      // color: Color.fromRGBO(243, 249, 250, 1),
       child: Column(
         children: [
           Row(
