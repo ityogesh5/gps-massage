@@ -106,7 +106,7 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     FittedBox(
                       child: Row(
@@ -151,37 +151,36 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.timelapse),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '09: 00 ~ 10: 00',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text('(60分)')
+                      ],
+                    ),
                     Row(children: <Widget>[
                       Expanded(
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 20.0),
-                            child: Divider(
-                              // height: 50,
-                              color: Colors.grey,
-                            )),
-                      ),
-                      Container(
-                        child: IconButton(
-                            icon: Icon(Icons.cancel_rounded), onPressed: () {}),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                            // border: Border.all(color: Colors.black38),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.check,
-                            ),
-                          ),
+                        child: Divider(
+                          // height: 50,
+                          color: Colors.grey,
                         ),
                       ),
+                      IconButton(
+                          icon: Icon(Icons.cancel_rounded), onPressed: () {}),
+                      IconButton(
+                          icon: Icon(
+                            Icons.check_circle,
+                          ),
+                          onPressed: () {})
                     ]),
                     Row(
                       children: [
@@ -196,7 +195,7 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Row(
                       children: [
