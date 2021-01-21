@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
@@ -9,7 +10,9 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
+import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
@@ -29,10 +32,22 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => RegisterServiceUserScreen()));
   }
 
+//Provider WeeklySchedule
+  static void switchToWeeklySchedule(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => WeeklySchedule()));
+  }
+
 // Terms and conditions screen
   static void switchToTermsAndConditions(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => IntroTermsAndPolicy()));
+  }
+
+  //NotificationPopup
+  static void switchToNotificationPopup(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => NotificationPopup()));
   }
 
 // User define screen
@@ -62,6 +77,14 @@ class NavigationRouter {
   static void switchToServiceUserBottomBar(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => BottomBarUser()));
+  }
+
+  //UserSearchScreen
+  static void switchToServiceUserSearchScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => SearchScreenUser()));
   }
 
 // Provider bottom bar homescreen

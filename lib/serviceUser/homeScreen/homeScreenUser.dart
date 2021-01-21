@@ -3,6 +3,8 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -75,7 +77,11 @@ class _HomeScreenUserState extends State<HomeScreen> {
                         suffixIcon: IconButton(
                           icon: Icon(Icons.search_rounded,
                               color: Colors.grey, size: 30),
-                          onPressed: () {},
+                          onPressed: () {
+                            pageController.jumpToPage(1);
+                            // NavigationRouter.switchToServiceUserSearchScreen(
+                            //     context);
+                          },
                         ),
                         hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(

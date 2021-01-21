@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/models/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HealingMatchConstants {
@@ -114,7 +114,7 @@ class HealingMatchConstants {
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
-  static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者と\nしてもログイン可能です。';
+  static const String UserSelectLastTxt = 'セラピストで登録の場合はサービス利用者\nとしてもログイン可能です。';
 
   //LoginServiceProvider
   static const String loginText = 'セラピストのログイン';

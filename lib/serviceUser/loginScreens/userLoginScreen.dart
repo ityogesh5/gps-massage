@@ -11,7 +11,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
@@ -74,8 +74,8 @@ class _UserLoginState extends State<UserLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),
+                /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 150, width: 140),*/
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
@@ -95,9 +95,6 @@ class _UserLoginState extends State<UserLogin> {
                     disabledBorder: HealingMatchConstants.textFormInputBorder,
                     enabledBorder: HealingMatchConstants.textFormInputBorder,
                     filled: true,
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
                     labelText: HealingMatchConstants.loginPhoneNumber,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
@@ -123,8 +120,8 @@ class _UserLoginState extends State<UserLogin> {
                           });
                         }),
                     filled: true,
-                    hintStyle:
-                        TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
+                    // hintStyle:
+                    //     TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
                     labelText: HealingMatchConstants.loginUserPassword,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
@@ -314,16 +311,28 @@ class _UserLoginState extends State<UserLogin> {
         (password == null || password.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('電話番号とパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('電話番号とパスワードを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     // user phone number validation
@@ -333,46 +342,82 @@ class _UserLoginState extends State<UserLogin> {
         userPhoneNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('パスワードを入力してください。', style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('正しい電話番号とパスワードを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (password == null || password.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('パスワードを入力してください。 ', style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('パスワードを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     if (password.length < 8 || password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号とパスワードを入力してください。 ',
-            style: TextStyle(fontFamily: 'Oxygen')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('正しい電話番号とパスワードを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
       ));
-      return;
+      return null;
     }
 
     try {
@@ -387,7 +432,8 @@ class _UserLoginState extends State<UserLogin> {
             "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
-      if (StatusCodeHelper.isLoginSuccess(response.statusCode, context)) {
+      if (StatusCodeHelper.isLoginSuccess(
+          response.statusCode, context, response.body)) {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
