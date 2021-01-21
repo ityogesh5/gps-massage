@@ -49,6 +49,7 @@ class _RegistrationSecondPageState
   TextEditingController accountnumberController = TextEditingController();
   BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
+  List<String> privateQualification = List<String>();
 
   void initState() {
     super.initState();
@@ -431,12 +432,13 @@ class _RegistrationSecondPageState
                                             ),
                                             IconButton(
                                               onPressed: () {
-                                                if (certificateImages.length ==
+                                                _showPicker(context, 1);
+                                                /*  if (certificateImages.length ==
                                                     5) {
                                                   showCertificateImageError();
                                                 } else {
                                                   _showPicker(context, 1);
-                                                }
+                                                } */
                                               },
                                               icon: Icon(Icons.file_upload),
                                             ),
@@ -473,94 +475,103 @@ class _RegistrationSecondPageState
                                       certificateImages.keys.elementAt(index);
                                   return buildQualificationImage(key, index);
                                 }),
+                            ListView.builder(
+                                primary: false,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: privateQualification.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return buildPrivateQualificationImage(
+                                      privateQualification[index], index);
+                                }),
                           ],
                         ),
                       ],
                     ),
                   ),
                   /*  Visibility(
-                                                visible: uploadVisible,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    certificateImages.containsKey(qualification)
-                                                        ? Stack(
-                                                            children: [
-                                                              Container(
-                                                                  padding: EdgeInsets.all(8),
-                                                                  width: MediaQuery.of(context).size.width *
-                                                                      0.38,
-                                                                  height:
-                                                                      MediaQuery.of(context).size.height *
-                                                                          0.19,
-                                                                  decoration: new BoxDecoration(
-                                                                    //   border: Border.all(color: Colors.black12),
-                                                                    //   shape: BoxShape.circle,
-                                                                    image: new DecorationImage(
-                                                                      fit: BoxFit.cover,
-                                                                      image: FileImage(File(
-                                                                          certificateImages[
-                                                                              qualification])),
-                                                                    ),
-                                                                  )),
-                                                              Positioned(
-                                                                right: 0,
-                                                                top: 0,
-                                                                child: IconButton(
-                                                                  padding: EdgeInsets.all(0.0),
-                                                                  icon: Icon(Icons.remove_circle),
-                                                                  iconSize: 30.0,
-                                                                  color: Colors.red,
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      certificateImages
-                                                                          .remove(qualification);
-                                                                    });
-                                                                  },
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        : Container(
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(10.0),
-                                                              color: ColorConstants.formFieldFillColor,
-                                                            ),
-                                                            padding: EdgeInsets.all(8),
-                                                            width: MediaQuery.of(context).size.width * 0.38,
-                                                            height:
-                                                                MediaQuery.of(context).size.height * 0.19,
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              children: [
-                                                                Text('アップロード'),
-                                                                Text('証明書'),
-                                                                IconButton(
-                                                                  onPressed: () {
-                                                                    if (certificateImages.length == 5) {
-                                                                      showCertificateImageError();
-                                                                    } else {
-                                                                      _showPicker(context, 1);
-                                                                    }
-                                                                  },
-                                                                  icon: Icon(Icons.file_upload),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Text(
-                                                                  HealingMatchConstants
-                                                                      .registrationQualificationUpload,
-                                                                  style: TextStyle(fontSize: 10),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                  ],
-                                                ),
-                                              ), */
+                                                                                  visible: uploadVisible,
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        height: 20,
+                                                                                      ),
+                                                                                      certificateImages.containsKey(qualification)
+                                                                                          ? Stack(
+                                                                                              children: [
+                                                                                                Container(
+                                                                                                    padding: EdgeInsets.all(8),
+                                                                                                    width: MediaQuery.of(context).size.width *
+                                                                                                        0.38,
+                                                                                                    height:
+                                                                                                        MediaQuery.of(context).size.height *
+                                                                                                            0.19,
+                                                                                                    decoration: new BoxDecoration(
+                                                                                                      //   border: Border.all(color: Colors.black12),
+                                                                                                      //   shape: BoxShape.circle,
+                                                                                                      image: new DecorationImage(
+                                                                                                        fit: BoxFit.cover,
+                                                                                                        image: FileImage(File(
+                                                                                                            certificateImages[
+                                                                                                                qualification])),
+                                                                                                      ),
+                                                                                                    )),
+                                                                                                Positioned(
+                                                                                                  right: 0,
+                                                                                                  top: 0,
+                                                                                                  child: IconButton(
+                                                                                                    padding: EdgeInsets.all(0.0),
+                                                                                                    icon: Icon(Icons.remove_circle),
+                                                                                                    iconSize: 30.0,
+                                                                                                    color: Colors.red,
+                                                                                                    onPressed: () {
+                                                                                                      setState(() {
+                                                                                                        certificateImages
+                                                                                                            .remove(qualification);
+                                                                                                      });
+                                                                                                    },
+                                                                                                  ),
+                                                                                                )
+                                                                                              ],
+                                                                                            )
+                                                                                          : Container(
+                                                                                              decoration: BoxDecoration(
+                                                                                                borderRadius: BorderRadius.circular(10.0),
+                                                                                                color: ColorConstants.formFieldFillColor,
+                                                                                              ),
+                                                                                              padding: EdgeInsets.all(8),
+                                                                                              width: MediaQuery.of(context).size.width * 0.38,
+                                                                                              height:
+                                                                                                  MediaQuery.of(context).size.height * 0.19,
+                                                                                              child: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                children: [
+                                                                                                  Text('アップロード'),
+                                                                                                  Text('証明書'),
+                                                                                                  IconButton(
+                                                                                                    onPressed: () {
+                                                                                                      if (certificateImages.length == 5) {
+                                                                                                        showCertificateImageError();
+                                                                                                      } else {
+                                                                                                        _showPicker(context, 1);
+                                                                                                      }
+                                                                                                    },
+                                                                                                    icon: Icon(Icons.file_upload),
+                                                                                                  ),
+                                                                                                  SizedBox(
+                                                                                                    height: 10,
+                                                                                                  ),
+                                                                                                  Text(
+                                                                                                    HealingMatchConstants
+                                                                                                        .registrationQualificationUpload,
+                                                                                                    style: TextStyle(fontSize: 10),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ), */
                   SizedBox(
                     height: 20,
                   ),
@@ -1078,11 +1089,17 @@ class _RegistrationSecondPageState
     //Upload Certificate Files
     request.files.addAll(multipartList);
 
+    //Upload Private Qualification Images
+    for (var certificate in privateQualification) {
+      request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
+    }
+
     //Upload Banner Images
     for (var file in files) {
       request.files
           .add(await http.MultipartFile.fromPath('bannerImage', file.path));
     }
+
     try {
       final userDetailsRequest = await request.send();
       print("This is request : ${userDetailsRequest.request}");
@@ -1148,9 +1165,16 @@ class _RegistrationSecondPageState
 
     setState(() {
       _profileImage = image;
-      index == 0
-          ? _idProfileImage = _profileImage
-          : certificateImages[qualification] = _profileImage.path;
+      if (index == 0) {
+        _idProfileImage = _profileImage;
+      } else {
+        if (qualification == "民間資格") {
+          privateQualification.add(_profileImage.path);
+          uploadVisible = false;
+        } else {
+          certificateImages[qualification] = _profileImage.path;
+        }
+      }
     });
     print('image path : ${_profileImage.path}');
   }
@@ -1161,9 +1185,16 @@ class _RegistrationSecondPageState
 
     setState(() {
       _profileImage = image;
-      index == 0
-          ? _idProfileImage = _profileImage
-          : certificateImages[qualification] = _profileImage.path;
+      if (index == 0) {
+        _idProfileImage = _profileImage;
+      } else {
+        if (qualification == "民間資格") {
+          privateQualification.add(_profileImage.path);
+          uploadVisible = false;
+        } else {
+          certificateImages[qualification] = _profileImage.path;
+        }
+      }
     });
     print('image path : ${_profileImage.path}');
   }
@@ -1265,16 +1296,16 @@ class _RegistrationSecondPageState
                           size: 20.0,
                         ),
                       )) /* IconButton(
-                  padding: EdgeInsets.all(0.0),
-                  icon: Icon(Icons.remove_circle),
-                  iconSize: 30.0,
-                  color: Colors.red,
-                  onPressed: () {
-                    setState(() {
-                      certificateImages.remove(key);
-                    });
-                  },
-                ), */
+                                                    padding: EdgeInsets.all(0.0),
+                                                    icon: Icon(Icons.remove_circle),
+                                                    iconSize: 30.0,
+                                                    color: Colors.red,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        certificateImages.remove(key);
+                                                      });
+                                                    },
+                                                  ), */
                   )
             ],
           ),
@@ -1282,6 +1313,58 @@ class _RegistrationSecondPageState
             height: 10,
           ),
           Text("$key"),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPrivateQualificationImage(
+      String privateQualificationImage, int index) {
+    return Container(
+      padding: EdgeInsets.only(left: index == 0 ? 0.0 : 16.0),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                    padding: EdgeInsets.all(8),
+                    width: 140.0, // MediaQuery.of(context).size.width * 0.38,
+                    height: 140.0, //MediaQuery.of(context).size.height * 0.19,
+                    decoration: new BoxDecoration(
+                      //   border: Border.all(color: Colors.black12),
+                      //   shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image: FileImage(File(privateQualificationImage)),
+                      ),
+                    )),
+              ),
+              Positioned(
+                  right: 0,
+                  top: 0,
+                  child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          privateQualification.removeAt(index);
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.close_outlined,
+                          color: Colors.black,
+                          size: 20.0,
+                        ),
+                      )))
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("民間資格"),
         ],
       ),
     );

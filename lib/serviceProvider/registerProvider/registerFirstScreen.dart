@@ -51,7 +51,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool _changeProgressText = false;
 
   List<String> businessFormDropDownValues = [
-    "施術店舗あり施術従業員あり",
+    "施術店舗あり 施術従業員あり",
     "施術店舗あり 施術従業員なし（個人経営）",
     "施術店舗なし 施術従業員あり（出張のみ)",
     "施術店舗なし 施術従業員なし（個人)",
@@ -374,7 +374,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                    // color: Colors.black12,
                     border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
-                  hintText: '事業形態',
+                  hintText: '事業形態*',
                   value: bussinessForm,
                   onSaved: (value) {
                     setState(() {
@@ -394,35 +394,42 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 ),
               ),
               SizedBox(
-                height: sizedBoxFormHeight,
+                height: bussinessForm == "施術店舗あり 施術従業員あり" ||
+                        bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+                    ? sizedBoxFormHeight
+                    : 0.0,
               ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                /*  decoration: BoxDecoration(
+              bussinessForm == "施術店舗あり 施術従業員あり" ||
+                      bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+                  ? Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      /*  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                    // color: Colors.black12,
                     border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  hintText: '従業員数',
-                  value: numberOfEmployees,
-                  onSaved: (value) {
-                    setState(() {
-                      numberOfEmployees = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      numberOfEmployees = value;
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    });
-                  },
-                  dataSource: numberOfEmployeesDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
+                      child: DropDownFormField(
+                        hintText: '従業員数',
+                        value: numberOfEmployees,
+                        onSaved: (value) {
+                          setState(() {
+                            numberOfEmployees = value;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            numberOfEmployees = value;
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          });
+                        },
+                        dataSource: numberOfEmployeesDropDownValues,
+                        isList: true,
+                        textField: 'display',
+                        valueField: 'value',
+                      ),
+                    )
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -510,8 +517,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   children: [
                                     Text(
                                       "$e",
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.bold,fontSize: 12.0),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0),
                                     ),
                                   ],
                                 ),
@@ -698,7 +706,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               return Container(
                                 padding: EdgeInsets.all(10.0),
                                 height: 40.0,
-                              //  width: 110.0,
+                                //  width: 110.0,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
                                     border: Border.all(
@@ -710,8 +718,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     Center(
                                       child: Text(
                                         "$e",
-                                        style:
-                                            TextStyle(fontWeight: FontWeight.bold,fontSize: 12.0),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12.0),
                                       ),
                                     ),
                                   ],
@@ -783,42 +792,47 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationStoreTxt,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: storeNameController,
-                        decoration: InputDecoration(
-                          labelText:
-                              HealingMatchConstants.registrationStoreName,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        )),
-                  )),
+              bussinessForm == "施術店舗あり 施術従業員あり" ||
+                      bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                  ? Column(children: [
+                      SizedBox(
+                        height: sizedBoxFormHeight,
+                      ),
+                      Container(
+                        width: containerWidth,
+                        child: Text(
+                          HealingMatchConstants.registrationStoreTxt,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: sizedBoxFormHeight,
+                      ),
+                      Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
+                            child: TextFormField(
+                                controller: storeNameController,
+                                decoration: InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationStoreName,
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                )),
+                          )),
+                    ])
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -977,28 +991,34 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 ),
               ),
               SizedBox(
-                height: sizedBoxFormHeight,
+                height: bussinessForm == "施術店舗あり 施術従業員あり" ||
+                        bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                    ? sizedBoxFormHeight
+                    : 0,
               ),
-              Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  child: Theme(
-                    data:
-                        Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: storePhoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          labelText:
-                              HealingMatchConstants.registrationStorePhnNum,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        )),
-                  )),
+              bussinessForm == "施術店舗あり 施術従業員あり" ||
+                      bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
+                  ? Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(splashColor: Colors.black12),
+                        child: TextFormField(
+                            controller: storePhoneNumberController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              labelText:
+                                  HealingMatchConstants.registrationStorePhnNum,
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            )),
+                      ))
+                  : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
@@ -1506,12 +1526,30 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
     var genderSelecetedValue = gender;
+    var businessFormVal = bussinessForm;
 
-    //Profile image validation
+    /*   //Profile image validation
     if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+ */
+
+    //Business Form Validation
+    if (businessFormVal == null || businessFormVal.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('事業形態は必須項目なので選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
@@ -1586,7 +1624,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }*/
 
     //storename Validation
-    if (storename.length == 0 || storename.isEmpty || storename == null) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storename.length == 0 || storename.isEmpty || storename == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -1601,7 +1641,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    if (storename.length > 20) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storename.length > 20)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('店舗名は20文字以内で入力してください。',
@@ -1683,7 +1725,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // store phone number validation
-    if ((storenumber == null || storenumber.isEmpty)) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storenumber == null || storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の電話番号を入力してください。',
@@ -1697,10 +1741,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-    if (storenumber.length > 10 ||
-        storenumber.length < 10 ||
-        storenumber == null ||
-        storenumber.isEmpty) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storenumber.length > 10 ||
+            storenumber.length < 10 ||
+            storenumber == null ||
+            storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',

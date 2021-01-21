@@ -35,6 +35,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
         color: Colors.white,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
+        
         items: <Widget>[
           Icon(
             Icons.home,
