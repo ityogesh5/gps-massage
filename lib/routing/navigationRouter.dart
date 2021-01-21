@@ -16,6 +16,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
+import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
 
@@ -76,6 +77,14 @@ class NavigationRouter {
   static void switchToServiceUserBottomBar(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => BottomBarUser()));
+  }
+
+  //User NearByProviderAndShop
+  static void switchToNearByProviderAndShop(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => NearByProviderAndShop()));
   }
 
   //UserSearchScreen
