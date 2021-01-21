@@ -7,13 +7,15 @@ import 'bookingScreenUser.dart';
 import 'chatScreenUser.dart';
 import 'homeScreenUser.dart';
 
+final pageController = PageController();
+
 class BottomBarUser extends StatefulWidget {
   @override
   _BottomBarUserState createState() => _BottomBarUserState();
 }
 
 class _BottomBarUserState extends State<BottomBarUser> {
-  int selectedpage = 0; //initial value
+  static int selectedpage = 0; //initial value
 
   final _pageOptions = [
     ServiceUserHomeScreen(),
@@ -26,8 +28,22 @@ class _BottomBarUserState extends State<BottomBarUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pageOptions[
-          selectedpage], // initial value is 0 so HomePage will be shown
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            selectedpage = index;
+            pageController.jumpToPage(index);
+          });
+        },
+        children: [
+          ServiceUserHomeScreen(),
+          SearchScreenUser(),
+          BookingScreenUser(),
+          ViewUserProfile(),
+          ChatScreenUser(),
+        ],
+      ), // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         height: 40,
         buttonBackgroundColor: Colors.limeAccent,
@@ -67,8 +83,10 @@ class _BottomBarUserState extends State<BottomBarUser> {
           setState(() {
             selectedpage =
                 index; // changing selected page as per bar index selected by the user
+            pageController.jumpToPage(index);
           });
         },
+        index: selectedpage,
       ),
     );
   }

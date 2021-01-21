@@ -1,8 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class DialogHelper {
+  // notification popup
+  static void showNotificationDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                NotificationPopup(),
+              ],
+            ),
+          );
+        });
+  }
+
   // User Register Success popup
   static void showRegisterSuccessDialog(BuildContext context) {
     showDialog(
