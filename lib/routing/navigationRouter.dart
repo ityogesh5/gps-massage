@@ -15,6 +15,7 @@ import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart'
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -127,5 +128,13 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => RegistrationSuccessOtpScreen()));
+  }
+
+  //Provider Edit Profile Screen
+  static void switchToProviderEditProfileScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderEditProfile()));
   }
 }

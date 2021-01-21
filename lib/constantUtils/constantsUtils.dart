@@ -207,6 +207,9 @@ class HealingMatchConstants {
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
 
+  //Edit Profile
+  static const String profileUpdateBtn = '更新';
+
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
