@@ -332,7 +332,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               Stack(
                 overflow: Overflow.visible,
                 children: [
-                  _profileImage != null
+                  _idProfileImage != null
                       ? InkWell(
                     onTap: () {
                       _showPicker(context);
@@ -346,7 +346,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                               fit: BoxFit.cover,
-                              image: FileImage(File(_profileImage.path)),
+                              image: FileImage(File(_idProfileImage.path)),
                             ),
                           )),
                     ),
@@ -2787,7 +2787,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     setState(() {
       _profileImage = image;
-      /*if (index == 0) {
+      if (index == 0) {
         _idProfileImage = _profileImage;
       } else {
         if (qualification == "民間資格") {
@@ -2796,7 +2796,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         } else {
           certificateImages[qualification] = _profileImage.path;
         }
-      }*/
+      }
       if (qualification == "民間資格") {
         privateQualification.add(_profileImage.path);
         uploadVisible = false;
