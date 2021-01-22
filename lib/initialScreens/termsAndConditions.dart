@@ -161,7 +161,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                             fontFamily: 'Oxygen')));
                   }
                   return Center(
-                    child: SpinKitDoubleBounce(color: Colors.blueAccent),
+                    child: SpinKitDoubleBounce(color: Colors.limeAccent),
                   );
                 }),
           ),
