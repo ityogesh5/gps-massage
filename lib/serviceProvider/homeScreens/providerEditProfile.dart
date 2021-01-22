@@ -8,8 +8,8 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/models/apiResponseModels/cityList.dart';
-import 'package:gps_massageapp/models/apiResponseModels/stateList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +19,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount.dart';
-import 'package:gps_massageapp/models/apiResponseModels/bankNameDropDownModel.dart';
-
+import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 
 List<File> files = List<File>();
 
@@ -174,6 +173,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   BankNameDropDownModel bankNameDropDownModel;
   Map<String, String> certificateImages = Map<String, String>();
   ProgressDialog _progressDialog = ProgressDialog();
+  final identityverification = new GlobalKey<FormState>();
+  List<String> privateQualification = List<String>();
 
   void initState() {
     super.initState();
@@ -1256,105 +1257,171 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 height: sizedBoxFormHeight,
               ),
               Container(
-                //height: containerHeight,
                 width: containerWidth,
-                //margin: EdgeInsets.all(16.0),
-                child: DropDownFormField(
-                  autovalidate: false,
-                  titleText: null,
-                  hintText: readonly
-                      ? identificationverify
-                      : HealingMatchConstants
-                      .registrationIdentityVerification,
-                  onSaved: (value) {
-                    if (_idProfileImage == null) {
-                      setState(() {
-                        identificationverify = value;
-                        idUploadVisible = true;
-                      });
-                    } else {
-                      showIdSelectError();
-                    }
-                  },
-                  value: identificationverify,
-                  onChanged: (value) {
-                    if (_idProfileImage == null) {
-                      setState(() {
-                        identificationverify = value;
-                        idUploadVisible = true;
-                      });
-                    } else {
-                      showIdSelectError();
-                    }
-                    FocusScope.of(context)
-                        .requestFocus(new FocusNode());
-                  },
-                  dataSource: [
-                    {
-                      "display": "運転免許証",
-                      "value": "運転免許証",
-                    },
-                    {
-                      "display": "運転経歴証明書",
-                      "value": "運転経歴証明書",
-                    },
-                    {
-                      "display": "パスポート",
-                      "value": "パスポート",
-                    },
-                    {
-                      "display": "個人番号カード",
-                      "value": "個人番号カード",
-                    },
-                    {
-                      "display": "健康保険証",
-                      "value": "健康保険証",
-                    },
-                    {
-                      "display": "住民基本台帳カード",
-                      "value": "住民基本台帳カード",
-                    },
-                    {
-                      "display": "マイナンバーカード",
-                      "value": "マイナンバーカード",
-                    },
-                    {
-                      "display": "学生証",
-                      "value": "学生証",
-                    },
-                  ],
-                  textField: 'display',
-                  valueField: 'value',
+                child: Form(
+                  key: identityverification,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(0.0),
+                        child: DropDownFormField(
+                          autovalidate: false,
+                          titleText: null,
+                          hintText: readonly
+                              ? identificationverify
+                              : HealingMatchConstants
+                              .registrationIdentityVerification,
+                          onSaved: (value) {
+                            if (_idProfileImage == null) {
+                              setState(() {
+                                identificationverify = value;
+                                idUploadVisible = true;
+                              });
+                            } else {
+                              showIdSelectError();
+                            }
+                          },
+                          value: identificationverify,
+                          onChanged: (value) {
+                            if (_idProfileImage == null) {
+                              setState(() {
+                                identificationverify = value;
+                                idUploadVisible = true;
+                              });
+                            } else {
+                              showIdSelectError();
+                            }
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          },
+                          dataSource: [
+                            {
+                              "display": "運転免許証",
+                              "value": "運転免許証",
+                            },
+                            {
+                              "display": "運転経歴証明書",
+                              "value": "運転経歴証明書",
+                            },
+                            {
+                              "display": "パスポート",
+                              "value": "パスポート",
+                            },
+                            {
+                              "display": "個人番号カード",
+                              "value": "個人番号カード",
+                            },
+                            {
+                              "display": "健康保険証",
+                              "value": "健康保険証",
+                            },
+                            {
+                              "display": "住民基本台帳カード",
+                              "value": "住民基本台帳カード",
+                            },
+                            {
+                              "display": "マイナンバーカード",
+                              "value": "マイナンバーカード",
+                            },
+                            // {
+                            //   "display": "運転経歴証明書",
+                            //   "value": "運転経歴証明書",
+                            // },
+                            {
+                              "display": "学生証",
+                              "value": "学生証",
+                            },
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
-                height: sizedBoxFormHeight,
+                height: idUploadVisible ? sizedBoxFormHeight : 0,
               ),
               Container(
-                //height: containerHeight,
                 width: containerWidth,
-                child: InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return BannerImageUpload1();
-                        });
-                  },
-                  child: TextFormField(
-                    enabled: false,
-                    decoration: new InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                      disabledBorder:
-                      HealingMatchConstants.textFormInputBorder,
-                      suffixIcon: IconButton(
-                          onPressed: () {}, icon: Icon(Icons.file_upload)),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
-                      hintText:
-                      HealingMatchConstants.registrationMultiPhotoUpload,
-                      fillColor: ColorConstants.formFieldFillColor,
+                child: Visibility(
+                  visible: idUploadVisible,
+                  child: _idProfileImage == null
+                      ? InkWell(
+                    onTap: () {
+                      _showPicker1(context, 0);
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: new InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        disabledBorder:
+                        HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.file_upload)),
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        hintStyle: TextStyle(
+                            color: Colors.black, fontSize: 13),
+                        hintText: HealingMatchConstants
+                            .registrationIdentityUpload,
+                      ),
                     ),
+                  )
+                      : Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          width:
+                          140.0, // MediaQuery.of(context).size.width * 0.38,
+                          height:
+                          MediaQuery.of(context).size.height * 0.19,
+                          decoration: new BoxDecoration(
+                            //   border: Border.all(color: Colors.black12),
+                            //   shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                              FileImage(File(_idProfileImage.path)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                          right: 0,
+                          top: 0,
+                          child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _idProfileImage = null;
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 15.0,
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.close_outlined,
+                                  color: Colors.black,
+                                  size: 20.0,
+                                ),
+                              )) /* IconButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    icon: Icon(Icons.remove_circle),
+                                    iconSize: 30.0,
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      setState(() {
+                                        _idProfileImage = null;
+                                      });
+                                    },
+                                  ), */
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -1364,11 +1431,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               Container(
                 width: containerWidth,
                 child: Text(
-                  HealingMatchConstants.registrationPointTxt,
+                  HealingMatchConstants.registrationAdd,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -1376,71 +1443,76 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 height: sizedBoxFormHeight,
               ),
               Container(
-                //height: containerHeight,
+                //margin: EdgeInsets.all(0.0),
                 width: containerWidth,
-                //margin: EdgeInsets.all(16.0),
                 child: DropDownFormField(
-                  autovalidate: false,
                   titleText: null,
                   hintText: readonly
-                      ? identificationverify
+                      ? qualification
                       : HealingMatchConstants
-                      .registrationIdentityVerification,
+                      .registrationQualificationDropdown,
                   onSaved: (value) {
-                    if (_idProfileImage == null) {
-                      setState(() {
-                        identificationverify = value;
-                        idUploadVisible = true;
-                      });
-                    } else {
-                      showIdSelectError();
-                    }
+                    setState(() {
+                      visible = false;
+                      qualification = value;
+                      uploadVisible = certificateImages
+                          .containsKey(qualification)
+                          ? false
+                          : true;
+                    });
                   },
-                  value: identificationverify,
+                  value: qualification,
                   onChanged: (value) {
-                    if (_idProfileImage == null) {
-                      setState(() {
-                        identificationverify = value;
-                        idUploadVisible = true;
-                      });
-                    } else {
-                      showIdSelectError();
-                    }
-                    FocusScope.of(context)
-                        .requestFocus(new FocusNode());
+                    setState(() {
+                      visible = false;
+                      qualification = value;
+                      uploadVisible = value == "無資格"
+                          ? false
+                          : certificateImages
+                          .containsKey(qualification)
+                          ? false
+                          : true;
+
+                      FocusScope.of(context)
+                          .requestFocus(new FocusNode());
+                    });
                   },
                   dataSource: [
                     {
-                      "display": "運転免許証",
-                      "value": "運転免許証",
+                      "display": "はり師",
+                      "value": "はり師",
                     },
                     {
-                      "display": "運転経歴証明書",
-                      "value": "運転経歴証明書",
+                      "display": "きゅう師",
+                      "value": "きゅう師",
                     },
                     {
-                      "display": "パスポート",
-                      "value": "パスポート",
+                      "display": "鍼灸師",
+                      "value": "鍼灸師",
                     },
                     {
-                      "display": "個人番号カード",
-                      "value": "個人番号カード",
+                      "display": "あん摩マッサージ指圧師",
+                      "value": "あん摩マッサージ指圧師",
                     },
                     {
-                      "display": "健康保険証",
-                      "value": "健康保険証",
+                      "display": "柔道整復師",
+                      "value": "柔道整復師",
                     },
                     {
-                      "display": "住民基本台帳カード",
-                      "value": "住民基本台帳カード",
+                      "display": "理学療法士",
+                      "value": "理学療法士",
                     },
                     {
-                      "display": "マイナンバーカード",
-                      "value": "マイナンバーカード",
+                      "display": "国家資格取得予定（学生）",
+                      "value": "国家資格取得予定（学生）",
                     },
                     {
-                      "display": "学生証",
-                      "value": "学生証",
+                      "display": "民間資格",
+                      "value": "民間資格",
+                    },
+                    {
+                      "display": "無資格",
+                      "value": "無資格",
                     },
                   ],
                   textField: 'display',
@@ -1448,6 +1520,119 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 ),
               ),
               SizedBox(height: sizedBoxFormHeight),
+              Container(
+                //margin: EdgeInsets.only(left: 20.0),
+                //width: containerWidth,
+                width: double.infinity,
+                height: !uploadVisible && certificateImages.length == 0
+                    ? 0
+                    : 195.0, // MediaQuery.of(context).size.height * 0.19,
+                padding: EdgeInsets.only(left: 20.0),
+
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Row(
+                      children: [
+                        /*   Visibility(
+                              visible: uploadVisible &&
+                                  !certificateImages.containsKey(qualification),
+                              child: */
+                        uploadVisible &&
+                            !certificateImages
+                                .containsKey(qualification)
+                            ? Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(0.0),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(10.0),
+                                color:
+                                ColorConstants.formFieldFillColor,
+                              ),
+                              //padding: EdgeInsets.all(8),
+                              width:
+                              MediaQuery.of(context).size.width *
+                                  0.38,
+                              height:
+                              140.0, //MediaQuery.of(context).size.height * 0.19,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  /*  Text('アップロード'),
+                                            Text('証明書'), */
+                                  Center(
+                                    child: FittedBox(
+                                        child: Text(
+                                          "$qualification",
+                                          textAlign: TextAlign.center,
+                                        )),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _showPicker1(context, 1);
+                                      /*  if (certificateImages.length ==
+                                                    5) {
+                                                  showCertificateImageError();
+                                                } else {
+                                                  _showPicker(context, 1);
+                                                } */
+                                    },
+                                    icon: Icon(Icons.file_upload),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    HealingMatchConstants
+                                        .registrationQualificationUpload,
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                            : Container(),
+
+                        //   ),
+                        SizedBox(
+                          width: uploadVisible &&
+                              !certificateImages
+                                  .containsKey(qualification)
+                              ? 10
+                              : 0,
+                        ),
+                        ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: certificateImages.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              String key =
+                              certificateImages.keys.elementAt(index);
+                              return buildQualificationImage(key, index);
+                            }),
+                        ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: privateQualification.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return buildPrivateQualificationImage(
+                                  privateQualification[index], index);
+                            }),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              /*
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Row(
@@ -1530,8 +1715,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 ),
               ),
               SizedBox(height: sizedBoxFormHeight),
-              BuildCertificatesLists(),
-              SizedBox(height: sizedBoxFormHeight),
+              */
+
+              //BuildCertificatesLists(),
+              //SizedBox(height: sizedBoxFormHeight),
               Container(
                 width: containerWidth,
                 child: Text(
@@ -2600,9 +2787,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     setState(() {
       _profileImage = image;
-      index == 0
-          ? _idProfileImage = _profileImage
-          : certificateImages[qualification] = _profileImage.path;
+      /*if (index == 0) {
+        _idProfileImage = _profileImage;
+      } else {
+        if (qualification == "民間資格") {
+          privateQualification.add(_profileImage.path);
+          uploadVisible = false;
+        } else {
+          certificateImages[qualification] = _profileImage.path;
+        }
+      }*/
+      if (qualification == "民間資格") {
+        privateQualification.add(_profileImage.path);
+        uploadVisible = false;
+      } else {
+        certificateImages[qualification] = _profileImage.path;
+      }
     });
     print('image path : ${_profileImage.path}');
   }
@@ -2613,9 +2813,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     setState(() {
       _profileImage = image;
-      index == 0
-          ? _idProfileImage = _profileImage
-          : certificateImages[qualification] = _profileImage.path;
+      /*if (index == 0) {
+        _idProfileImage = _profileImage;
+      } else {
+        if (qualification == "民間資格") {
+          privateQualification.add(_profileImage.path);
+          uploadVisible = false;
+        } else {
+          certificateImages[qualification] = _profileImage.path;
+        }
+      }*/
+      if (qualification == "民間資格") {
+        privateQualification.add(_profileImage.path);
+        uploadVisible = false;
+      } else {
+        certificateImages[qualification] = _profileImage.path;
+      }
     });
     print('image path : ${_profileImage.path}');
   }
@@ -2675,6 +2888,120 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         print(response.reasonPhrase);
       }
     });
+  }
+
+  Widget buildQualificationImage(String key, int index) {
+    return Container(
+      padding: EdgeInsets.only(left: 16.0),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                    padding: EdgeInsets.all(8),
+                    width: 140.0, // MediaQuery.of(context).size.width * 0.38,
+                    height: 140.0, //MediaQuery.of(context).size.height * 0.19,
+                    decoration: new BoxDecoration(
+                      //   border: Border.all(color: Colors.black12),
+                      //   shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image: FileImage(File(certificateImages[key])),
+                      ),
+                    )),
+              ),
+              Positioned(
+                  right: 0,
+                  top: 0,
+                  child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          certificateImages.remove(key);
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.close_outlined,
+                          color: Colors.black,
+                          size: 20.0,
+                        ),
+                      )) /* IconButton(
+                                                    padding: EdgeInsets.all(0.0),
+                                                    icon: Icon(Icons.remove_circle),
+                                                    iconSize: 30.0,
+                                                    color: Colors.red,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        certificateImages.remove(key);
+                                                      });
+                                                    },
+                                                  ), */
+              )
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("$key"),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPrivateQualificationImage(
+      String privateQualificationImage, int index) {
+    return Container(
+      padding: EdgeInsets.only(left: index == 0 ? 0.0 : 16.0),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                    padding: EdgeInsets.all(8),
+                    width: 140.0, // MediaQuery.of(context).size.width * 0.38,
+                    height: 140.0, //MediaQuery.of(context).size.height * 0.19,
+                    decoration: new BoxDecoration(
+                      //   border: Border.all(color: Colors.black12),
+                      //   shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image: FileImage(File(privateQualificationImage)),
+                      ),
+                    )),
+              ),
+              Positioned(
+                  right: 0,
+                  top: 0,
+                  child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          privateQualification.removeAt(index);
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.close_outlined,
+                          color: Colors.black,
+                          size: 20.0,
+                        ),
+                      )))
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("民間資格"),
+        ],
+      ),
+    );
   }
 }
 
