@@ -238,7 +238,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
             right: 50,
             left: 50,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.074,
               width: MediaQuery.of(context).size.width * 0.07,
               decoration: BoxDecoration(
                   color: Colors.white,

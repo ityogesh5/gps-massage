@@ -19,7 +19,8 @@ class StatusCodeHelper {
       print('Response Success!!');
       return true;
     } else if (statusCode == 400) {
-      if (errorDetails.status != null && errorDetails.status.contains('error')) {
+      if (errorDetails.status != null &&
+          errorDetails.status.contains('error')) {
         Toast.show("この電話番号はすでに登録されています。", context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.CENTER,
@@ -42,9 +43,73 @@ class StatusCodeHelper {
   }
 
   // 200 response login success
-  static bool isLoginSuccess(int statusCode, BuildContext context, String body) {
+  static bool isLoginSuccess(
+      int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
       Toast.show("正常にログインしました。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      //ユーザーが見つかりません。
+      Toast.show("ユーザーが見つかりません。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('User Not Found!!');
+      return false;
+    } else if (statusCode == 401) {
+      Toast.show("許可されていないユーザー。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unauthorized User!!');
+      return false;
+    }
+    return false;
+  }
+
+  // send verify
+  static bool isSendVerify(int statusCode, BuildContext context, String body) {
+    if (statusCode == 200) {
+      Toast.show("認証コードは正常に送信しました。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      //ユーザーが見つかりません。
+      Toast.show("ユーザーが見つかりません。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('User Not Found!!');
+      return false;
+    } else if (statusCode == 401) {
+      Toast.show("許可されていないユーザー。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unauthorized User!!');
+      return false;
+    }
+    return false;
+  }
+
+  //Change Password User
+  static bool isChangePasswordUser(
+      int statusCode, BuildContext context, String body) {
+    if (statusCode == 200) {
+      Toast.show("パスワードは正常に変更されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.lime,

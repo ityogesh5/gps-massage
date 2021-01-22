@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserForgetPassword extends StatefulWidget {
   @override
@@ -16,6 +24,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
   List<String> forgetPasswordDetails = [];
+  var sendVerifyResponse = new SendVerifyResponseModel();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +63,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.forgetPasswordTxt,
+                        HealingMatchConstants.userPasswordTxt,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Oxygen',
@@ -79,7 +88,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
-                        labelText: HealingMatchConstants.forgetPasswordPhn,
+                        labelText: HealingMatchConstants.userPasswordPhn,
                         /* hintStyle: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Oxygen',
@@ -96,7 +105,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          '送信',
+                          HealingMatchConstants.userForgetPassBtn,
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Oxygen',
@@ -123,6 +132,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
 
   _userForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
+    HealingMatchConstants.userPhnNum = phoneNumberController.text.toString();
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -182,6 +192,32 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
       return null;
     }
     forgetPasswordDetails.add(userPhoneNumber);
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": userPhoneNumber,
+          }));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        sendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToUserChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
 
     print('User details length in array : ${forgetPasswordDetails.length}');
 
@@ -196,7 +232,5 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
         })); */
 
     HealingMatchConstants.userPhoneNumber = userPhoneNumber;
-
-    NavigationRouter.switchToUserChangePasswordScreen(context);
   }
 }
