@@ -163,7 +163,9 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     ),
                     color: Colors.lime,
                     onPressed: () {
-                      _providerLoginDetails();
+                       NavigationRouter.switchToServiceProviderBottomBar(context);
+
+                     // _providerLoginDetails();
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),

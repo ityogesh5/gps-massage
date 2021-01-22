@@ -284,7 +284,7 @@ class NumberPicker extends StatelessWidget {
     TextStyle defaultStyle =
         TextStyle(color: Colors.black); //themeData.textTheme.bodyText2;
     TextStyle selectedStyle = TextStyle(
-        color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold);
+        color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
     //themeData.textTheme.headline5.copyWith(color: themeData.accentColor);
 
     var listItemCount =
@@ -350,10 +350,14 @@ class NumberPicker extends StatelessWidget {
                                       padding: const EdgeInsets.all(4.0),
                                       child: CircleAvatar(
                                         radius: 20.0,
-                                        backgroundColor: Colors.orangeAccent,
-                                        child: new Text(
-                                          getDisplayedValue(value),
-                                          style: itemStyle,
+                                        backgroundColor: Colors.grey[300],
+                                        child: CircleAvatar(
+                                          radius: 18,
+                                          backgroundColor: Colors.white,
+                                          child: new Text(
+                                            getDisplayedValue(value),
+                                            style: itemStyle,
+                                          ),
                                         ),
                                       ),
                                     ),

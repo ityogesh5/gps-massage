@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/calendar.dart';
 
 import 'bookingStatus.dart';
 import 'chat.dart';
@@ -17,7 +18,8 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   final _pageOptions = [
     ProviderHomeScreen(),
-    OperationManagement(),
+    Calendar(),
+    // OperationManagement(),
     BookingStatus(),
     MyAccount(),
     Chat(),
