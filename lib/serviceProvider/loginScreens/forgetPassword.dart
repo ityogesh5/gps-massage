@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/sendProviderVerifyResponseModel.dart';
+import 'package:http/http.dart' as http;
 import 'loginScreen.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -18,6 +22,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
+  var sendProviderVerifyResponse = new SendProviderVerifyResponseModel();
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +122,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   _providerForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
-
+/*
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -170,5 +175,114 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     HealingMatchConstants.userPhoneNumber = userPhoneNumber;
 
     NavigationRouter.switchToProviderChangePasswordScreen(context);
+
+*/
+
+
+
+
+
+
+    HealingMatchConstants.userPhnNum = phoneNumberController.text.toString();
+    // user phone number
+    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('正しい電話番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user phone number validation
+    if (userPhoneNumber.length > 10 ||
+        userPhoneNumber.length < 10 ||
+        userPhoneNumber == null ||
+        userPhoneNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          children: [
+            Flexible(
+              child: Text('正しい電話番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    forgetPasswordDetails.add(userPhoneNumber);
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": userPhoneNumber,
+          }));
+      print('Status code : ${response.statusCode}');
+      print('response code : ${response}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        sendProviderVerifyResponse = SendProviderVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToProviderChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
+
+    print('User details length in array : ${forgetPasswordDetails.length}');
+
+    /*   final url = '';
+    http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer ${'token'}"
+        },
+        body: json.encode({
+          "serviceUserDetails": forgetPasswordDetails,
+        })); */
+
+    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
   }
 }
