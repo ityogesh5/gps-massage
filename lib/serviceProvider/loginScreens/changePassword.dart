@@ -516,7 +516,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         changePassword =
             ChangePasswordProviderResponseModel.fromJson(changepass);
         ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
-        DialogHelper.showPasswordResetSuccessDialog(context);
+        DialogHelper.showPasswordProviderResetSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
         print('Response Failure !!');
