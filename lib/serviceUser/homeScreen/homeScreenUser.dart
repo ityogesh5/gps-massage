@@ -129,6 +129,9 @@ class _HomeScreenUserState extends State<HomeScreen> {
             children: [Text('おすすめ'), Text('もっとみる')],
           ),
           RecommendLists(),
+          SizedBox(
+            height: 75,
+          ),
         ],
       ),
     );
@@ -629,7 +632,7 @@ class _ReservationListState extends State<ReservationList> {
                   ),
                   Text('オフィス')
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -802,7 +805,7 @@ class _RecommendListsState extends State<RecommendLists> {
                               ),
                               Text('/60分')
                             ],
-                          )
+                          ),
                         ],
                       )
                     ],

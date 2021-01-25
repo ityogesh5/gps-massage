@@ -69,6 +69,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               _scaffoldKey.currentState.hideCurrentSnackBar();
             },
             label: 'はい',
+            
             textColor: Colors.white),
       ));
       return;

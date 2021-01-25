@@ -1094,9 +1094,9 @@ class _RegistrationSecondPageState
     var a = request.fields.toString();
 
     //Upload Proof of ID
-    request.files.add(await http.MultipartFile.fromPath(
-        'proofOfIdentityImgUrl', _idProfileImage.path));
-
+      request.files.add(await http.MultipartFile.fromPath(
+          'proofOfIdentityImgUrl', _idProfileImage.path));
+    
     //Upload Profile Image if not null
     if (HealingMatchConstants.profileImage != null) {
       request.files.add(await http.MultipartFile.fromPath(
@@ -1107,9 +1107,9 @@ class _RegistrationSecondPageState
     request.files.addAll(multipartList);
 
     //Upload Private Qualification Images
-    for (var certificate in privateQualification) {
+    /*  for (var certificate in privateQualification) {
       request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
-    }
+    } */
 
     //Upload Banner Images
     for (var file in files) {

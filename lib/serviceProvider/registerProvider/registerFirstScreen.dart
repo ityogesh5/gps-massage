@@ -447,6 +447,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: TextFormField(
                     enabled: false,
                     initialValue: HealingMatchConstants.registrationStoretype,
+                    style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontFamily: 'Oxygen',
+                        fontSize: 14),
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
@@ -646,6 +650,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: TextFormField(
                     enabled: false,
                     initialValue: HealingMatchConstants.registrationChildrenTxt,
+                    style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontFamily: 'Oxygen',
+                        fontSize: 14),
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
