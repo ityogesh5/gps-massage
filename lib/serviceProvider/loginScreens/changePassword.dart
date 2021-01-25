@@ -507,14 +507,16 @@ class _ChangePasswordState extends State<ChangePassword> {
             "otp": pinCode,
             "password": password,
             "password_confirmation": confirmPassword,
+            "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isChangePasswordUser(
           response.statusCode, context, response.body)) {
         final changepass = json.decode(response.body);
-        changePassword = ChangePasswordProviderResponseModel.fromJson(changepass);
+        changePassword =
+            ChangePasswordProviderResponseModel.fromJson(changepass);
         ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
-        DialogHelper.showPasswordProviderResetSuccessDialog(context);
+        DialogHelper.showPasswordResetSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
         print('Response Failure !!');

@@ -213,6 +213,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
           body: json.encode({
             "phoneNumber": HealingMatchConstants.serviceUserPhoneNumber,
             "otp": pinCode,
+            "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(
@@ -220,6 +221,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+        DialogHelper.showRegisterSuccessDialog(context);
       } else {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         print('Response Failure !!');
