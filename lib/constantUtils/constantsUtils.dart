@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -31,6 +32,10 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
   static const String REGISTER_PROVIDER_GET_BANK_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/bankList/getAllBankList';
+  static const String SEND_VERIFY_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/sendVerify';
+  static const String CHANGE_PASSWORD_VERIFY_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/resetPassword';
 
   // register service user
   static const String REGISTER_USER_URL =
@@ -46,14 +51,19 @@ class HealingMatchConstants {
   static String getCityProgressText = '府県の市のデータを取得中。。。';
   static String getLoginProgressText = 'ログイン中。。。';
 
-  //Foget Password
-  static String userPhoneNumber = '';
+  //UserForget Password
+  static const String userPasswordPhn = "電話番号 *";
+  static var userPhnNum = '';
+  static var userForgetPassBtn = '送信';
+  static const String userPasswordTxt =
+      "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserName = '';
   static String serviceUserDOB = '';
   static String serviceUserGender = '';
   static String serviceUserOccupation = '';
+  static String serviceUserAge = '';
   static String serviceUserPhoneNumber = '';
   static String serviceUserEmailAddress = '';
   static String serviceUserAddressType = '';
@@ -196,6 +206,7 @@ class HealingMatchConstants {
 
   //Forget Password
   static const String forgetPasswordPhn = "電話番号 *";
+  static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
       "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
 
@@ -213,7 +224,18 @@ class HealingMatchConstants {
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+  // Profile Edit screen user
+  static double addedCurrentLatitude = 0.0;
+  static double addedCurrentLongitude = 0.0;
+  static double manualAddressCurrentLatitude = 0.0;
+  static double manualAddressCurrentLongitude = 0.0;
+  static String addedServiceUserPrefecture = '';
+  static String addedServiceUserCity = '';
+  static String manualUserAddress = '';
 
+  // User Profile screen
+  //Uint8List profile image;
+  static Uint8List profileImageInBytes;
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,

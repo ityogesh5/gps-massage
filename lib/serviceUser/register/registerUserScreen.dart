@@ -16,6 +16,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
@@ -41,6 +42,8 @@ class RegisterUser extends StatefulWidget {
 }
 
 class _RegisterUserState extends State<RegisterUser> {
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
   final formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
   TextEditingController _userDOBController = new TextEditingController();
@@ -49,6 +52,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Position _currentPosition;
   String _currentAddress = '';
+  String japaneseGender = '';
   double age = 0.0;
   var selectedYear;
   final ageController = TextEditingController();
@@ -505,7 +509,29 @@ class _RegisterUserState extends State<RegisterUser> {
                                   onChanged: (value) {
                                     setState(() {
                                       _myGender = value;
-                                      //print(_myBldGrp.toString());
+                                      print(value.toString());
+                                      if (_myGender.contains('M')) {
+                                        _sharedPreferences.then((value) {
+                                          value.setString(
+                                              'japaneseGender', '男性');
+                                          japaneseGender =
+                                              value.getString('japaneseGender');
+                                        });
+                                      } else if (_myGender.contains('F')) {
+                                        _sharedPreferences.then((value) {
+                                          value.setString(
+                                              'japaneseGender', '女性');
+                                          japaneseGender =
+                                              value.getString('japaneseGender');
+                                        });
+                                      } else if (_myGender.contains('O')) {
+                                        _sharedPreferences.then((value) {
+                                          value.setString(
+                                              'japaneseGender', 'どちらでもない');
+                                          japaneseGender =
+                                              value.getString('japaneseGender');
+                                        });
+                                      }
                                     });
                                   },
                                   dataSource: [
@@ -2249,6 +2275,30 @@ class _RegisterUserState extends State<RegisterUser> {
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        _sharedPreferences.then((value) {
+          value.setString('profileImage',
+              serviceUserDetails.data.userResponse.uploadProfileImgUrl);
+          value.setString(
+              'userName', serviceUserDetails.data.userResponse.userName);
+          value.setString('userPhoneNumber',
+              serviceUserDetails.data.userResponse.phoneNumber);
+          value.setString(
+              'userEmailAddress', serviceUserDetails.data.userResponse.email);
+          value.setString('userDOB', serviceUserDetails.data.userResponse.dob);
+          value.setString('userAge', serviceUserDetails.data.userResponse.age);
+          value.setString('userGender', japaneseGender);
+          value.setString('userOccupation',
+              serviceUserDetails.data.userResponse.userOccupation);
+          value.setString(
+              'userAddress', serviceUserDetails.data.addressResponse.address);
+          value.setString('buildingName',
+              serviceUserDetails.data.addressResponse.buildingName);
+          value.setString('roomNumber', roomNumber);
+          value.setString(
+              'userArea', serviceUserDetails.data.addressResponse.area);
+          value.setString('addressType',
+              serviceUserDetails.data.addressResponse.addressTypeSelection);
+        });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         DialogHelper.showRegisterSuccessDialog(context);
       } else {

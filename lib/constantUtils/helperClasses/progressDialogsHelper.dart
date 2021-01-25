@@ -58,6 +58,28 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
+//user forgetPassword
+  static void showForgetPasswordUserProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideForgetPasswordUserProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
+  //user change password
+  static void showChangePasswordUserProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideChangePasswordUserProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
   // Login Provider
   static void showLoginProviderProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
@@ -66,6 +88,16 @@ class ProgressDialogBuilder {
   }
 
   static void hideLoginProviderProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
+  //For Normal Loading of Progress Dialog
+  static void showCommonProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: 'お待ちください。', dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideCommonProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
 }

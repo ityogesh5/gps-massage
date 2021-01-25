@@ -136,6 +136,7 @@ class _UserLoginState extends State<UserLogin> {
                       onTap: () {
                         NavigationRouter.switchToUserForgetPasswordScreen(
                             context);
+                        // NavigationRouter.switchToNearByProviderAndShop(context);
                       },
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',

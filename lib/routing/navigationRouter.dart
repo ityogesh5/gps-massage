@@ -16,6 +16,8 @@ import 'package:gps_massageapp/serviceUser/homeScreen/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
+import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
@@ -77,6 +79,14 @@ class NavigationRouter {
   static void switchToServiceUserBottomBar(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => BottomBarUser()));
+  }
+
+  //User NearByProviderAndShop
+  static void switchToNearByProviderAndShop(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => NearByProviderAndShop()));
   }
 
   //UserSearchScreen
@@ -159,5 +169,16 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ProviderEditProfile()));
+  }
+  // User define screen
+  static void switchToUserAddAddressScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => AddAddress()));
+  }
+
+  // Service User Edit Profile Screen
+  static void switchToServiceUserEditProfileScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => UpdateServiceUserDetails()));
   }
 }

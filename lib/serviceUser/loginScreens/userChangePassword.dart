@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/register/changePasswordResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
+import 'package:http/http.dart' as http;
 
 class UserChangePassword extends StatefulWidget {
   @override
@@ -12,6 +18,7 @@ class UserChangePassword extends StatefulWidget {
 }
 
 class _UserChangePasswordState extends State<UserChangePassword> {
+  var changePassword = ChangePasswordResponseModel();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String userOTP;
   TextEditingController pin = TextEditingController();
@@ -492,14 +499,35 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       ));
       return null;
     }
-
+    try {
+      ProgressDialogBuilder.showChangePasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.CHANGE_PASSWORD_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": HealingMatchConstants.userPhnNum,
+            "otp": pinCode,
+            "password": password,
+            "password_confirmation": confirmPassword,
+          }));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isChangePasswordUser(
+          response.statusCode, context, response.body)) {
+        final changepass = json.decode(response.body);
+        changePassword = ChangePasswordResponseModel.fromJson(changepass);
+        ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
+        DialogHelper.showPasswordResetSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideChangePasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {}
     changePasswordDetails.add(pinCode);
     changePasswordDetails.add(password);
     changePasswordDetails.add(confirmPassword);
 
     print('User details length in array : ${changePasswordDetails.length}');
-
-    DialogHelper.showPasswordResetSuccessDialog(context);
 
     /*  final url = '';
     http.post(url,
