@@ -1430,6 +1430,34 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               ),
               Container(
                 width: containerWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      HealingMatchConstants.registrationAdd,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: ColorConstants.formFieldFillColor,
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visible = true;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              /*Container(
+                width: containerWidth,
                 child: Text(
                   HealingMatchConstants.registrationAdd,
                   textAlign: TextAlign.left,
@@ -1438,7 +1466,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
