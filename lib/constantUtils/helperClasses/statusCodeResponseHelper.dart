@@ -139,7 +139,6 @@ class StatusCodeHelper {
   static bool isVerifyOtpUserUser(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      DialogHelper.showRegisterSuccessDialog(context);
       print('Response Success!!');
       return true;
     } else if (statusCode == 400) {

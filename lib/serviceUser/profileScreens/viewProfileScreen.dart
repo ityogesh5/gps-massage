@@ -38,7 +38,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   @override
   void initState() {
     super.initState();
-    getUserProfileData();
+  //  getUserProfileData();
   }
 
   @override
