@@ -21,6 +21,7 @@ import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.
 import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -164,13 +165,20 @@ class NavigationRouter {
   }
 
   //User OTP Enter screen after register
-  static void switchToUserrOtpScreen(BuildContext context) {
+  static void switchToUserOtpScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => RegisterOtpScreen()));
   }
 
+  //Provider Edit Profile Screen
+  static void switchToProviderEditProfileScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderEditProfile()));
+  }
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context) {
     Navigator.push(context,

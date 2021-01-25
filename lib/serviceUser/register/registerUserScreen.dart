@@ -2303,7 +2303,7 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.addressResponse.addressTypeSelection);
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        NavigationRouter.switchToUserrOtpScreen(context);
+        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');

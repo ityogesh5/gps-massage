@@ -108,7 +108,10 @@ class _MyAccountState extends State<MyAccount> {
                               size: 15,
                               color: Colors.grey[400],
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              NavigationRouter.switchToProviderEditProfileScreen(
+                                  context);
+                            }),
                       )
                     ],
                   ),
