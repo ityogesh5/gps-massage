@@ -86,9 +86,11 @@ class _UserLoginState extends State<UserLogin> {
                   height: 20,
                 ),
                 TextFormField(
+                  maxLength: 10,
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
+                    counterText: '',
                     contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                     border: HealingMatchConstants.textFormInputBorder,
                     focusedBorder: HealingMatchConstants.textFormInputBorder,
@@ -104,6 +106,7 @@ class _UserLoginState extends State<UserLogin> {
                 ),
                 TextFormField(
                   controller: passwordController,
+                  obscureText: passwordVisibility,
                   decoration: new InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                     border: HealingMatchConstants.textFormInputBorder,
@@ -136,6 +139,7 @@ class _UserLoginState extends State<UserLogin> {
                       onTap: () {
                         NavigationRouter.switchToUserForgetPasswordScreen(
                             context);
+                        // NavigationRouter.switchToNearByProviderAndShop(context);
                       },
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',

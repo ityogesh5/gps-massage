@@ -1,15 +1,12 @@
 class ServiceUserRegisterModel {
   String status;
   Data data;
-  Address address;
 
-  ServiceUserRegisterModel({this.status, this.data, this.address});
+  ServiceUserRegisterModel({this.status, this.data});
 
   ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    address =
-        json['address'] != null ? new Address.fromJson(json['address']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -18,14 +15,41 @@ class ServiceUserRegisterModel {
     if (this.data != null) {
       data['data'] = this.data.toJson();
     }
-    if (this.address != null) {
-      data['address'] = this.address.toJson();
-    }
     return data;
   }
 }
 
 class Data {
+  String token;
+  UserResponse userResponse;
+  AddressResponse addressResponse;
+
+  Data({this.token, this.userResponse, this.addressResponse});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
+    userResponse = json['userResponse'] != null
+        ? new UserResponse.fromJson(json['userResponse'])
+        : null;
+    addressResponse = json['addressResponse'] != null
+        ? new AddressResponse.fromJson(json['addressResponse'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
+    if (this.userResponse != null) {
+      data['userResponse'] = this.userResponse.toJson();
+    }
+    if (this.addressResponse != null) {
+      data['addressResponse'] = this.addressResponse.toJson();
+    }
+    return data;
+  }
+}
+
+class UserResponse {
   bool isVerified;
   bool coronaMeasure;
   int id;
@@ -37,29 +61,31 @@ class Data {
   String email;
   String isTherapist;
   String gender;
-  String userId;
+  bool isActive;
   String uploadProfileImgUrl;
+  String userId;
   String updatedAt;
   String createdAt;
 
-  Data(
+  UserResponse(
       {this.isVerified,
-      this.coronaMeasure,
-      this.id,
-      this.userName,
-      this.dob,
-      this.age,
-      this.userOccupation,
-      this.phoneNumber,
-      this.email,
-      this.isTherapist,
-      this.gender,
-      this.userId,
-      this.uploadProfileImgUrl,
-      this.updatedAt,
-      this.createdAt});
+        this.coronaMeasure,
+        this.id,
+        this.userName,
+        this.dob,
+        this.age,
+        this.userOccupation,
+        this.phoneNumber,
+        this.email,
+        this.isTherapist,
+        this.gender,
+        this.isActive,
+        this.uploadProfileImgUrl,
+        this.userId,
+        this.updatedAt,
+        this.createdAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserResponse.fromJson(Map<String, dynamic> json) {
     isVerified = json['isVerified'];
     coronaMeasure = json['coronaMeasure'];
     id = json['id'];
@@ -71,8 +97,9 @@ class Data {
     email = json['email'];
     isTherapist = json['isTherapist'];
     gender = json['gender'];
-    userId = json['userId'];
+    isActive = json['isActive'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    userId = json['userId'];
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'];
   }
@@ -90,47 +117,51 @@ class Data {
     data['email'] = this.email;
     data['isTherapist'] = this.isTherapist;
     data['gender'] = this.gender;
-    data['userId'] = this.userId;
+    data['isActive'] = this.isActive;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['userId'] = this.userId;
     data['updatedAt'] = this.updatedAt;
     data['createdAt'] = this.createdAt;
     return data;
   }
 }
 
-class Address {
+class AddressResponse {
   int id;
   String buildingName;
   String area;
   String address;
   String lat;
   String lon;
+  String addressTypeSelection;
   int userId;
   String createdUser;
   String updatedUser;
   String updatedAt;
   String createdAt;
 
-  Address(
+  AddressResponse(
       {this.id,
-      this.buildingName,
-      this.area,
-      this.address,
-      this.lat,
-      this.lon,
-      this.userId,
-      this.createdUser,
-      this.updatedUser,
-      this.updatedAt,
-      this.createdAt});
+        this.buildingName,
+        this.area,
+        this.address,
+        this.lat,
+        this.lon,
+        this.addressTypeSelection,
+        this.userId,
+        this.createdUser,
+        this.updatedUser,
+        this.updatedAt,
+        this.createdAt});
 
-  Address.fromJson(Map<String, dynamic> json) {
+  AddressResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     buildingName = json['buildingName'];
     area = json['area'];
     address = json['address'];
     lat = json['lat'];
     lon = json['lon'];
+    addressTypeSelection = json['addressTypeSelection'];
     userId = json['userId'];
     createdUser = json['createdUser'];
     updatedUser = json['updatedUser'];
@@ -146,6 +177,7 @@ class Address {
     data['address'] = this.address;
     data['lat'] = this.lat;
     data['lon'] = this.lon;
+    data['addressTypeSelection'] = this.addressTypeSelection;
     data['userId'] = this.userId;
     data['createdUser'] = this.createdUser;
     data['updatedUser'] = this.updatedUser;
