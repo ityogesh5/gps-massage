@@ -213,6 +213,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
           body: json.encode({
             "phoneNumber": HealingMatchConstants.serviceUserPhoneNumber,
             "otp": pinCode,
+            "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(

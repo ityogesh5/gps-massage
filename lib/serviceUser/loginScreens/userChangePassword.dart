@@ -510,6 +510,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
             "otp": pinCode,
             "password": password,
             "password_confirmation": confirmPassword,
+            "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isChangePasswordUser(
@@ -553,6 +554,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
           headers: {"Content-Type": "application/json"},
           body: json.encode({
             "phoneNumber": HealingMatchConstants.userPhnNum,
+            "isTherapist": "0"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isSendVerify(

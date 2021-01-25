@@ -178,11 +178,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
 */
 
-
-
-
-
-
     HealingMatchConstants.userPhnNum = phoneNumberController.text.toString();
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
@@ -248,15 +243,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
-          body: json.encode({
-            "phoneNumber": userPhoneNumber,
-          }));
+          body: json
+              .encode({"phoneNumber": userPhoneNumber, "isTherapist": "1"}));
       print('Status code : ${response.statusCode}');
       print('response code : ${response}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
         final sendVerify = json.decode(response.body);
-        sendProviderVerifyResponse = SendProviderVerifyResponseModel.fromJson(sendVerify);
+        sendProviderVerifyResponse =
+            SendProviderVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
         NavigationRouter.switchToProviderChangePasswordScreen(context);

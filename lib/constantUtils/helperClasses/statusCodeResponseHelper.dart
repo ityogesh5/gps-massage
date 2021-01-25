@@ -111,7 +111,7 @@ class StatusCodeHelper {
   static bool isChangePasswordUser(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      DialogHelper.showPasswordResetSuccessDialog(context);
+      // DialogHelper.showPasswordResetSuccessDialog(context);
       print('Response Success!!');
       return true;
     } else if (statusCode == 400) {

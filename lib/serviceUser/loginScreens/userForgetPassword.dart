@@ -199,9 +199,8 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
       final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
-          body: json.encode({
-            "phoneNumber": userPhoneNumber,
-          }));
+          body: json
+              .encode({"phoneNumber": userPhoneNumber, "isTherapist": "0"}));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
