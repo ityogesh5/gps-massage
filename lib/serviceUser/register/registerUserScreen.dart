@@ -641,11 +641,12 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        //maxLength: 10,
+                        maxLength: 10,
                         controller: phoneNumberController,
                         keyboardType:
                             TextInputType.numberWithOptions(signed: true),
                         decoration: new InputDecoration(
+                          counterText: '',
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           labelText: '電話番号 *',
@@ -1524,6 +1525,8 @@ class _RegisterUserState extends State<RegisterUser> {
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var userPhoneNumber = phoneNumberController.text.toString();
+    HealingMatchConstants.serviceUserPhoneNumber =
+        phoneNumberController.text.toString();
     var password = passwordController.text.toString().trim();
     var confirmPassword = confirmPasswordController.text.toString().trim();
 
@@ -1541,7 +1544,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
 
-    if (_profileImage == null || _profileImage.path == null) {
+    /*if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1568,7 +1571,7 @@ class _RegisterUserState extends State<RegisterUser> {
         ),
       ));
       return null;
-    }
+    }*/
 
     if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1834,7 +1837,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
-    if (password.length < 8 || confirmPassword.length < 8) {
+    if (password.length < 8) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1863,7 +1866,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
-    if (password.length > 16 || confirmPassword.length > 16) {
+    if (password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2300,7 +2303,7 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.addressResponse.addressTypeSelection);
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        DialogHelper.showRegisterSuccessDialog(context);
+        NavigationRouter.switchToUserrOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');

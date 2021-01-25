@@ -18,6 +18,7 @@ import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart'
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
+import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
 
@@ -160,6 +161,14 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => RegistrationSuccessOtpScreen()));
+  }
+
+  //User OTP Enter screen after register
+  static void switchToUserrOtpScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => RegisterOtpScreen()));
   }
 
   // User define screen

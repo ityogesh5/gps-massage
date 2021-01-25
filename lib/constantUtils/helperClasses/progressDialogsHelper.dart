@@ -80,6 +80,17 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
+//verify otp
+  static void showVerifyOtpProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideVerifyOtpProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
   // Login Provider
   static void showLoginProviderProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,

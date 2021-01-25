@@ -74,11 +74,13 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       height: 18,
                     ),
                     TextFormField(
+                      maxLength: 10,
                       textInputAction: TextInputAction.done,
                       focusNode: phoneNumberFocus,
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
+                        counterText: '',
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                         border: HealingMatchConstants.textFormInputBorder,
                         focusedBorder:
@@ -230,7 +232,5 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
         body: json.encode({
           "serviceUserDetails": forgetPasswordDetails,
         })); */
-
-    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
   }
 }

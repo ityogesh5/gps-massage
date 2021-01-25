@@ -36,6 +36,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/sendVerify';
   static const String CHANGE_PASSWORD_VERIFY_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/resetPassword';
+  static const String CHANGE_PASSWORD_VERIFY_OTP_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
 
   // register service user
   static const String REGISTER_USER_URL =
@@ -76,6 +78,11 @@ class HealingMatchConstants {
   static String userAddress = '';
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
+
+  // User Register otp
+  static String serviceUserOtpTxt = 'に届いた認証コードを入力し、\n「確認」ボタンをクリックしてください。';
+  static String serviceUserOtpBtn = '確認';
+  static String serviceResendOtpTxt = '認証コードを再送する';
 
   //Register Service Provider Screen Constants
   static PickedFile profileImage;

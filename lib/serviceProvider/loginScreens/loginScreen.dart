@@ -123,7 +123,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
                           });
                         }),
                     filled: true,
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                     labelText: HealingMatchConstants.loginPassword,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),

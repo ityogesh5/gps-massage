@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/models/apiErrorModels/serviceUser/registerErrorHandler.dart';
 import 'package:toast/toast.dart';
 
+import 'alertDialogHelper/dialogHelper.dart';
+
 class StatusCodeHelper {
   //Checking register user response
   static bool isRegisterSuccess(
@@ -109,16 +111,40 @@ class StatusCodeHelper {
   static bool isChangePasswordUser(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("パスワードは正常に変更されました。", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.CENTER,
-          backgroundColor: Colors.lime,
-          textColor: Colors.white);
+      DialogHelper.showPasswordResetSuccessDialog(context);
       print('Response Success!!');
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
       Toast.show("ユーザーが見つかりません。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('User Not Found!!');
+      return false;
+    } else if (statusCode == 401) {
+      Toast.show("許可されていないユーザー。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unauthorized User!!');
+      return false;
+    }
+    return false;
+  }
+
+  //User Verify Otp
+  static bool isVerifyOtpUserUser(
+      int statusCode, BuildContext context, String body) {
+    if (statusCode == 200) {
+      DialogHelper.showRegisterSuccessDialog(context);
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      //ユーザーが見つかりません。
+      Toast.show("正しい確認コードを入力してください。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
