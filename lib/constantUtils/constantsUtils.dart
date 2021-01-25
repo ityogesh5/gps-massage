@@ -170,7 +170,7 @@ class HealingMatchConstants {
   static const String registrationIdentityVerification =
       '登録する本人確認証の種類を選択して\nください。*';
   static const String registrationIdentityUpload = '本人確認書のアップロード*';
-  static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。*';
+  static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定*';

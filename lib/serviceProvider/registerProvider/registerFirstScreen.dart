@@ -1344,6 +1344,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             child: TextFormField(
                                 controller: buildingNameController,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(4.0),
                                   labelText: HealingMatchConstants
                                       .registrationBuildingName,
                                   filled: true,
@@ -1364,8 +1365,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   .copyWith(splashColor: Colors.black12),
                               child: TextFormField(
                                   controller: roomNumberController,
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 4,
                                   decoration: InputDecoration(
+                                    counterText: "",
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,
                                     filled: true,
@@ -1419,11 +1422,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                    //!Commented for Dev purposes
-                    //  validateFields();
+                    validateFields();
 
-                    NavigationRouter.switchToServiceProviderSecondScreen(
-                        context);
+                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
+                        context); */
                   },
                 ),
               ),
@@ -1624,7 +1626,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }*/
 
     //storename Validation
-    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+    /* if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storename.length == 0 || storename.isEmpty || storename == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1639,7 +1641,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
@@ -1725,7 +1727,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // store phone number validation
-    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+    /*  if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storenumber == null || storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1740,7 +1742,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storenumber.length > 10 ||

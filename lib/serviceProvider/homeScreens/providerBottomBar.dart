@@ -1,7 +1,5 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/calendar.dart';
-
 import 'bookingStatus.dart';
 import 'chat.dart';
 import 'homeScreen.dart';
@@ -18,8 +16,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   final _pageOptions = [
     ProviderHomeScreen(),
-    Calendar(),
-    // OperationManagement(),
+    OperationManagement(),
     BookingStatus(),
     MyAccount(),
     Chat(),
@@ -34,40 +31,41 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pageOptions[
-          selectedpage], // initial value is 0 so HomePage will be shown
+      extendBody: true,
+      body: _pageOptions[selectedpage],
+      // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
-        height: 40,
+        height: 60,
         buttonBackgroundColor: Colors.limeAccent,
-        backgroundColor: Colors.white,
-        color: Colors.blueAccent,
+        backgroundColor: Colors.red.withOpacity(0), // Colors.red,
+        color: Colors.white,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
           Icon(
-            Icons.home,
+            Icons.home_outlined,
             size: 30,
-            color: Colors.white,
+            color: selectedpage == 0 ? Colors.white : Colors.black54,
           ),
           Icon(
-            Icons.work,
+            Icons.computer,
             size: 30,
-            color: Colors.white,
+            color: selectedpage == 1 ? Colors.white : Colors.black54,
           ),
           Icon(
             Icons.library_books,
             size: 30,
-            color: Colors.white,
+            color: selectedpage == 2 ? Colors.white : Colors.black54,
           ),
           Icon(
-            Icons.account_box,
+            Icons.account_circle_outlined,
             size: 30,
-            color: Colors.white,
+            color: selectedpage == 3 ? Colors.white : Colors.black54,
           ),
           Icon(
             Icons.chat,
             size: 30,
-            color: Colors.white,
+            color: selectedpage == 4 ? Colors.white : Colors.black54,
           ),
         ],
         onTap: (index) {

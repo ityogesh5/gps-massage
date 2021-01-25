@@ -90,6 +90,7 @@ class _RegistrationSecondPageState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text("*", style: TextStyle(color: Colors.red)),
                       Text(
                         HealingMatchConstants.registrationSecondText,
                         style: TextStyle(fontSize: 15),
@@ -268,9 +269,14 @@ class _RegistrationSecondPageState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        HealingMatchConstants.registrationAdd,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Row(
+                        children: [
+                          Text(
+                            HealingMatchConstants.registrationAdd,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text("\n*", style: TextStyle(color: Colors.red)),
+                        ],
                       ),
                       CircleAvatar(
                         backgroundColor: ColorConstants.formFieldFillColor,
@@ -401,56 +407,62 @@ class _RegistrationSecondPageState
                                         .containsKey(qualification)
                                 ? Column(
                                     children: [
-                                      Container(
-                                        margin: EdgeInsets.all(0.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color:
-                                              ColorConstants.formFieldFillColor,
-                                        ),
-                                        padding: EdgeInsets.all(8),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.38,
-                                        height:
-                                            140.0, //MediaQuery.of(context).size.height * 0.19,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            /*  Text('アップロード'),
-                                            Text('証明書'), */
-                                            Center(
-                                              child: FittedBox(
-                                                  child: Text(
-                                                "$qualification",
-                                                textAlign: TextAlign.center,
-                                              )),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                _showPicker(context, 1);
-                                                /*  if (certificateImages.length ==
-                                                    5) {
-                                                  showCertificateImageError();
-                                                } else {
+                                      InkWell(
+                                        onTap: () {
+                                          _showPicker(context, 1);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(0.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            color: ColorConstants
+                                                .formFieldFillColor,
+                                          ),
+                                          padding: EdgeInsets.all(8),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.38,
+                                          height:
+                                              140.0, //MediaQuery.of(context).size.height * 0.19,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              /*  Text('アップロード'),
+                                              Text('証明書'), */
+                                              Center(
+                                                child: FittedBox(
+                                                    child: Text(
+                                                  "$qualification",
+                                                  textAlign: TextAlign.center,
+                                                )),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
                                                   _showPicker(context, 1);
-                                                } */
-                                              },
-                                              icon: Icon(Icons.file_upload),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              HealingMatchConstants
-                                                  .registrationQualificationUpload,
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                          ],
+                                                  /*  if (certificateImages.length ==
+                                                      5) {
+                                                    showCertificateImageError();
+                                                  } else {
+                                                    _showPicker(context, 1);
+                                                  } */
+                                                },
+                                                icon: Icon(Icons.file_upload),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                HealingMatchConstants
+                                                    .registrationQualificationUpload,
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -1026,8 +1038,13 @@ class _RegistrationSecondPageState
       'password': HealingMatchConstants.serviceProviderPassword,
       'password_confirmation':
           HealingMatchConstants.serviceProviderConfirmPassword,
-      'storeName': HealingMatchConstants.serviceProviderStoreName,
-      'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber,
+      'storeName': HealingMatchConstants.serviceProviderStoreName != null
+          ? HealingMatchConstants.serviceProviderStoreName
+          : '',
+      'storePhone':
+          HealingMatchConstants.serviceProviderStorePhoneNumber != null
+              ? HealingMatchConstants.serviceProviderStorePhoneNumber
+              : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
       'address': HealingMatchConstants.serviceProviderAddress,
