@@ -49,6 +49,7 @@ class _UserLoginState extends State<UserLogin> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
+                HealingMatchConstants.isUserRegistrationSkipped = true;
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(

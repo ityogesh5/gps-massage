@@ -204,6 +204,7 @@ class _RegisterUserState extends State<RegisterUser> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
+                HealingMatchConstants.isUserRegistrationSkipped = true;
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
@@ -2265,6 +2266,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "buildingName": buildingName,
         "area": userArea,
         "userRoomNumber": roomNumber,
+        "addressTypeSelection": _myAddressInputTypeVal,
         "lat": HealingMatchConstants.currentLatitude.toString(),
         "lon": HealingMatchConstants.currentLongitude.toString()
       });

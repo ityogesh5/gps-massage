@@ -70,24 +70,6 @@ class _SplashScreenPageState extends State<SplashScreen>
                     width: 250, height: 250),
               ),
             ),
-            /*Container(
-              child: ColorizeAnimatedTextKit(
-                onTap: () {
-                  //print("Tap Event");
-                },
-                text: [
-                  "ヒーリングマッチ",
-                  "Healing Match",
-                ],
-                textStyle: TextStyle(fontSize: 30.0, fontFamily: "Oxygen"),
-                colors: [
-                  Colors.purple,
-                  Colors.blue,
-                  Colors.yellow,
-                  Colors.red,
-                ],
-              ),
-            ),*/
           ],
         ),
       ),
@@ -95,6 +77,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
+    //NavigationRouter.switchToServiceUserBottomBar(context);
     NavigationRouter.switchToTermsAndConditions(context);
   }
 }
