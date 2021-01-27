@@ -175,12 +175,18 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   ProgressDialog _progressDialog = ProgressDialog();
   final identityverification = new GlobalKey<FormState>();
   List<String> privateQualification = List<String>();
+  final qualificationupload = new GlobalKey<FormState>();
 
   void initState() {
     super.initState();
+    identificationverify = '';
     myState = '';
     myCity = '';
     _prefid = '';
+    qualification = '';
+    bankname = '';
+    qualification = '';
+    accountType = '';
     buildNumberOfEmployess();
     _getState();
     getBankName();
@@ -1253,9 +1259,588 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: sizedBoxFormHeight,
+              SizedBox(height: sizedBoxFormHeight),
+              Container(
+                width: containerWidth,
+                child: Form(
+                  key: identityverification,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(0.0),
+                        child: DropDownFormField(
+                          autovalidate: false,
+                          titleText: null,
+                          hintText: readonly
+                              ? identificationverify
+                              : HealingMatchConstants
+                              .registrationIdentityVerification,
+                          onSaved: (value) {
+                            if (_idProfileImage == null) {
+                              setState(() {
+                                identificationverify = value;
+                                idUploadVisible = true;
+                              });
+                            } else {
+                              showIdSelectError();
+                            }
+                          },
+                          value: identificationverify,
+                          onChanged: (value) {
+                            if (_idProfileImage == null) {
+                              setState(() {
+                                identificationverify = value;
+                                idUploadVisible = true;
+                              });
+                            } else {
+                              showIdSelectError();
+                            }
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          },
+                          dataSource: [
+                            {
+                              "display": "運転免許証",
+                              "value": "運転免許証",
+                            },
+                            {
+                              "display": "運転経歴証明書",
+                              "value": "運転経歴証明書",
+                            },
+                            {
+                              "display": "パスポート",
+                              "value": "パスポート",
+                            },
+                            {
+                              "display": "個人番号カード",
+                              "value": "個人番号カード",
+                            },
+                            {
+                              "display": "健康保険証",
+                              "value": "健康保険証",
+                            },
+                            {
+                              "display": "住民基本台帳カード",
+                              "value": "住民基本台帳カード",
+                            },
+                            {
+                              "display": "マイナンバーカード",
+                              "value": "マイナンバーカード",
+                            },
+                            // {
+                            //   "display": "運転経歴証明書",
+                            //   "value": "運転経歴証明書",
+                            // },
+                            {
+                              "display": "学生証",
+                              "value": "学生証",
+                            },
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              SizedBox(height: idUploadVisible ? sizedBoxFormHeight : 0),
+              Container(
+                width: containerWidth,
+                child: Visibility(
+                  visible: idUploadVisible,
+                  child: _idProfileImage == null
+                      ? InkWell(
+                    onTap: () {
+                      _showPicker1(context, 0);
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      decoration: new InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        disabledBorder:
+                        HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.file_upload)),
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        hintStyle: TextStyle(
+                            color: Colors.black, fontSize: 13),
+                        hintText: HealingMatchConstants
+                            .registrationIdentityUpload,
+                      ),
+                    ),
+                  )
+                      : Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          //width: 140.0, // MediaQuery.of(context).size.width * 0.38,
+                          //height: MediaQuery.of(context).size.height * 0.19,
+                          width: 140.0,
+                          height: 140.0,
+                          decoration: new BoxDecoration(
+                            //   border: Border.all(color: Colors.black12),
+                            //   shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                              FileImage(File(_idProfileImage.path)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                          right: 0,
+                          top: 0,
+                          child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _idProfileImage = null;
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 15.0,
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.close_outlined,
+                                  color: Colors.black,
+                                  size: 20.0,
+                                ),
+                              )) /* IconButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    icon: Icon(Icons.remove_circle),
+                                    iconSize: 30.0,
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      setState(() {
+                                        _idProfileImage = null;
+                                      });
+                                    },
+                                  ), */
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: sizedBoxFormHeight),
+              Container(
+                width: containerWidth,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          HealingMatchConstants.registrationAdd,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text("\n*", style: TextStyle(color: Colors.red)),
+                      ],
+                    ),
+                    CircleAvatar(
+                      backgroundColor: ColorConstants.formFieldFillColor,
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visible = true;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: visible ? sizedBoxFormHeight : 0),
+              Visibility(
+                visible: visible,
+                child: Form(
+                  key: qualificationupload,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        //margin: EdgeInsets.all(0.0),
+                        width: containerWidth,
+                        child: DropDownFormField(
+                          titleText: null,
+                          hintText: readonly
+                              ? qualification
+                              : HealingMatchConstants
+                              .registrationQualificationDropdown,
+                          onSaved: (value) {
+                            setState(() {
+                              visible = false;
+                              qualification = value;
+                              uploadVisible = certificateImages
+                                  .containsKey(qualification)
+                                  ? false
+                                  : true;
+                            });
+                          },
+                          value: qualification,
+                          onChanged: (value) {
+                            setState(() {
+                              visible = false;
+                              qualification = value;
+                              uploadVisible = value == "無資格"
+                                  ? false
+                                  : certificateImages
+                                  .containsKey(qualification)
+                                  ? false
+                                  : true;
+
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          },
+                          dataSource: [
+                            {
+                              "display": "はり師",
+                              "value": "はり師",
+                            },
+                            {
+                              "display": "きゅう師",
+                              "value": "きゅう師",
+                            },
+                            {
+                              "display": "鍼灸師",
+                              "value": "鍼灸師",
+                            },
+                            {
+                              "display": "あん摩マッサージ指圧師",
+                              "value": "あん摩マッサージ指圧師",
+                            },
+                            {
+                              "display": "柔道整復師",
+                              "value": "柔道整復師",
+                            },
+                            {
+                              "display": "理学療法士",
+                              "value": "理学療法士",
+                            },
+                            {
+                              "display": "国家資格取得予定（学生）",
+                              "value": "国家資格取得予定（学生）",
+                            },
+                            {
+                              "display": "民間資格",
+                              "value": "民間資格",
+                            },
+                            {
+                              "display": "無資格",
+                              "value": "無資格",
+                            },
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: !uploadVisible && certificateImages.length == 0
+                    ? 0
+                    : 195.0, // MediaQuery.of(context).size.height * 0.19,
+                padding: EdgeInsets.only(top: 16.0),
+
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Row(
+                      children: [
+                        /*   Visibility(
+                              visible: uploadVisible &&
+                                  !certificateImages.containsKey(qualification),
+                              child: */
+                        uploadVisible &&
+                            !certificateImages
+                                .containsKey(qualification)
+                            ? Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                _showPicker1(context, 1);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(0.0),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(10.0),
+                                  color: ColorConstants
+                                      .formFieldFillColor,
+                                ),
+                                padding: EdgeInsets.all(8),
+                                width: MediaQuery.of(context).size.width * 0.38,
+                                height: 140.0, //MediaQuery.of(context).size.height * 0.19,
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  children: [
+                                    /*  Text('アップロード'),
+                                              Text('証明書'), */
+                                    Center(
+                                      child: FittedBox(
+                                          child: Text(
+                                            "$qualification",
+                                            textAlign: TextAlign.center,
+                                          )),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _showPicker1(context, 1);
+                                        /*  if (certificateImages.length ==
+                                                      5) {
+                                                    showCertificateImageError();
+                                                  } else {
+                                                    _showPicker(context, 1);
+                                                  } */
+                                      },
+                                      icon: Icon(Icons.file_upload),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      HealingMatchConstants
+                                          .registrationQualificationUpload,
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                            : Container(),
+
+                        //   ),
+                        SizedBox(width: uploadVisible && !certificateImages.containsKey(qualification) ? 10 : 0),
+                        ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: certificateImages.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              String key =
+                              certificateImages.keys.elementAt(index);
+                              return buildQualificationImage(key, index);
+                            }),
+                        ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: privateQualification.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return buildPrivateQualificationImage(
+                                  privateQualification[index], index);
+                            }),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: sizedBoxFormHeight),
+              Text(
+                HealingMatchConstants.registrationBankDetails,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: sizedBoxFormHeight),
+              Center(
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Form(
+                          key: bankkey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.8,
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    hintText: readonly
+                                        ? bankname
+                                        : HealingMatchConstants
+                                        .registrationBankName,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        bankname = value;
+                                      });
+                                    },
+                                    value: bankname,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        bankname = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: bankNameDropDownList,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Form(
+                              key: accountnumberkey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width:
+                                    MediaQuery.of(context).size.width *
+                                        0.38,
+                                    child: DropDownFormField(
+                                      titleText: null,
+                                      hintText: readonly
+                                          ? accountType
+                                          : HealingMatchConstants
+                                          .registrationBankAccountType,
+                                      onSaved: (value) {
+                                        setState(() {
+                                          accountType = value;
+                                        });
+                                      },
+                                      value: accountType,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          accountType = value;
+                                          FocusScope.of(context)
+                                              .requestFocus(
+                                              new FocusNode());
+                                        });
+                                      },
+                                      dataSource: [
+                                        {
+                                          "display": "普通",
+                                          "value": "普通",
+                                        },
+                                        {
+                                          "display": "当座",
+                                          "value": "当座",
+                                        },
+                                        {
+                                          "display": "貯蓄",
+                                          "value": "貯蓄",
+                                        },
+                                      ],
+                                      textField: 'display',
+                                      valueField: 'value',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: TextFormField(
+                                controller: branchCodeController,
+                                decoration: new InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationBankBranchCode,
+                                  contentPadding:
+                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  focusedBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  enabledBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  filled: true,
+                                  fillColor:
+                                  ColorConstants.formFieldFillColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: TextFormField(
+                                controller: branchNumberController,
+                                decoration: new InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationBankBranchNumber,
+                                  contentPadding:
+                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  focusedBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  enabledBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  filled: true,
+                                  fillColor:
+                                  ColorConstants.formFieldFillColor,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: TextFormField(
+                                controller: accountnumberController,
+                                decoration: new InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationBankAccountNumber,
+                                  contentPadding:
+                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  focusedBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  enabledBorder: HealingMatchConstants
+                                      .textFormInputBorder,
+                                  filled: true,
+                                  fillColor:
+                                  ColorConstants.formFieldFillColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
+
+
+
+
+
+
+              /*
               Container(
                 width: containerWidth,
                 child: Form(
@@ -1470,7 +2055,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               SizedBox(
                 height: sizedBoxFormHeight,
               ),
-              Container(
+              /*Container(
                 //margin: EdgeInsets.all(0.0),
                 width: containerWidth,
                 child: DropDownFormField(
@@ -1545,6 +2130,94 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   ],
                   textField: 'display',
                   valueField: 'value',
+                ),
+              ),*/
+              Visibility(
+                visible: visible,
+                child: Form(
+                  key: qualificationupload,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        //margin: EdgeInsets.all(0.0),
+                        width: containerWidth,
+                        child: DropDownFormField(
+                          titleText: null,
+                          hintText: readonly
+                              ? qualification
+                              : HealingMatchConstants
+                              .registrationQualificationDropdown,
+                          onSaved: (value) {
+                            setState(() {
+                              visible = false;
+                              qualification = value;
+                              uploadVisible = certificateImages
+                                  .containsKey(qualification)
+                                  ? false
+                                  : true;
+                            });
+                          },
+                          value: qualification,
+                          onChanged: (value) {
+                            setState(() {
+                              visible = false;
+                              qualification = value;
+                              uploadVisible = value == "無資格"
+                                  ? false
+                                  : certificateImages
+                                  .containsKey(qualification)
+                                  ? false
+                                  : true;
+
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          },
+                          dataSource: [
+                            {
+                              "display": "はり師",
+                              "value": "はり師",
+                            },
+                            {
+                              "display": "きゅう師",
+                              "value": "きゅう師",
+                            },
+                            {
+                              "display": "鍼灸師",
+                              "value": "鍼灸師",
+                            },
+                            {
+                              "display": "あん摩マッサージ指圧師",
+                              "value": "あん摩マッサージ指圧師",
+                            },
+                            {
+                              "display": "柔道整復師",
+                              "value": "柔道整復師",
+                            },
+                            {
+                              "display": "理学療法士",
+                              "value": "理学療法士",
+                            },
+                            {
+                              "display": "国家資格取得予定（学生）",
+                              "value": "国家資格取得予定（学生）",
+                            },
+                            {
+                              "display": "民間資格",
+                              "value": "民間資格",
+                            },
+                            {
+                              "display": "無資格",
+                              "value": "無資格",
+                            },
+                          ],
+                          textField: 'display',
+                          valueField: 'value',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: sizedBoxFormHeight),
@@ -1949,6 +2622,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       ],
                     )),
               ),
+              */
+
+
               SizedBox(height: 20),
               Container(
                 height: containerHeight,
@@ -2825,12 +3501,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           certificateImages[qualification] = _profileImage.path;
         }
       }
-      if (qualification == "民間資格") {
-        privateQualification.add(_profileImage.path);
-        uploadVisible = false;
-      } else {
-        certificateImages[qualification] = _profileImage.path;
-      }
     });
     print('image path : ${_profileImage.path}');
   }
@@ -2841,7 +3511,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
     setState(() {
       _profileImage = image;
-      /*if (index == 0) {
+      if (index == 0) {
         _idProfileImage = _profileImage;
       } else {
         if (qualification == "民間資格") {
@@ -2850,12 +3520,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         } else {
           certificateImages[qualification] = _profileImage.path;
         }
-      }*/
-      if (qualification == "民間資格") {
-        privateQualification.add(_profileImage.path);
-        uploadVisible = false;
-      } else {
-        certificateImages[qualification] = _profileImage.path;
       }
     });
     print('image path : ${_profileImage.path}');
