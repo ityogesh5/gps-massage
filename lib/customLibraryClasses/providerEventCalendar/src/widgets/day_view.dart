@@ -122,7 +122,7 @@ class _DayViewState extends ZoomableHeadersWidgetState<DayView> {
             ),
           ),
           Container(
-            height: widget.style.headerSize,
+            height: widget.style.headerSize,//!
             width: widget.hoursColumnStyle.width,
             color: widget.dayBarStyle.color,
           ),
@@ -135,9 +135,9 @@ class _DayViewState extends ZoomableHeadersWidgetState<DayView> {
     }
 
     return GestureDetector(
-      onScaleStart: (_) => widget.controller.scaleStart(),
+   /*    onScaleStart: (_) => widget.controller.scaleStart(),
       onScaleUpdate: widget.controller.scaleUpdate,
-      child: mainWidget,
+    */   child: mainWidget,
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
+import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
@@ -44,6 +45,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day);
+
     return Scaffold(
       body: SingleChildScrollView(
           child: SafeArea(
@@ -606,7 +610,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
                                 child: Text(
-                              "09: 00~17: 00",
+                              "営業時間 - 09: 00~17: 00",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 16.0,
@@ -634,46 +638,88 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             ), */
                             Padding(
                               padding: const EdgeInsets.only(
-                                  top: 0.0, left: 8.0, right: 8.0, bottom: 8.0),
-                              child: SfCalendar(
-                                controller: calendarController,
-                                selectionDecoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(
-                                      color: Colors.transparent, width: 0),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(4)),
-                                  shape: BoxShape.rectangle,
+                                  top: 15.0,
+                                  left: 8.0,
+                                  right: 8.0,
+                                  bottom: 15.0),
+                              child: Container(
+                                height: 250.0,
+                                child: DayView(
+                                  initialTime:
+                                      const HourMinute(hour: 8, minute: 55),
+                                  minimumTime: HourMinute(hour: 8, minute: 55),
+                                  maximumTime: HourMinute(hour: 17, minute: 10),
+                                  date: now,
+                                  inScrollableWidget: true,
+                                  hoursColumnStyle:
+                                      HoursColumnStyle(color: Colors.grey[200]),
+                                  style: DayViewStyle(
+                                      backgroundColor: Colors.grey[200],
+                                      currentTimeCircleColor:
+                                          Colors.transparent,
+                                      backgroundRulesColor: Colors.transparent,
+                                      currentTimeRuleColor: Colors.transparent,
+                                      headerSize: 0.0),
+                                  events: [
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 1',
+                                      description: 'A description 1',
+                                      start: date.add(const Duration(hours: 9)),
+                                      margin: EdgeInsets.only(
+                                          left: 8.0, right: 8.0),
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          shape: BoxShape
+                                              .rectangle /* (
+                  borderRadius: new BorderRadius.circular(10.0)), */
+                                          ),
+                                      end: date.add(
+                                        const Duration(hours: 10, minutes: 00),
+                                      ),
+                                      /* eventTextBuilder: (event, a, b, c, d) {
+                                          return Text('a');
+                                        } */
+                                    ),
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 2',
+                                      description: 'A description 2',
+                                      start:
+                                          date.add(const Duration(hours: 13)),
+                                      end: date.add(const Duration(hours: 14)),
+                                    ),
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 3',
+                                      description: 'A description 3',
+                                      start: date.add(const Duration(
+                                          hours: 13, minutes: 30)),
+                                      end: date.add(const Duration(
+                                          hours: 15, minutes: 30)),
+                                    ),
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 4',
+                                      description: 'A description 4',
+                                      start:
+                                          date.add(const Duration(hours: 15)),
+                                      end: date.add(const Duration(hours: 16)),
+                                    ),
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 5',
+                                      description: 'A description 5',
+                                      start:
+                                          date.add(const Duration(hours: 15)),
+                                      end: date.add(const Duration(hours: 16)),
+                                    ),
+                                    FlutterWeekViewEvent(
+                                      title: 'An event 6',
+                                      description: 'A description 6',
+                                      start:
+                                          date.add(const Duration(hours: 16)),
+                                      end: date.add(const Duration(hours: 17)),
+                                    ),
+                                  ],
                                 ),
-                                backgroundColor: Colors.grey[200],
-                                view: CalendarView.day,
-                                dataSource: MeetingDataSource(_getDataSource()),
-                                timeSlotViewSettings: TimeSlotViewSettings(
-                                  timeFormat: 'HH: mm',
-                                  startHour: 9,
-                                  endHour: 17,
-                                  timeIntervalHeight: 100.0,
-                                  timelineAppointmentHeight: 130.0,
-                                  timeRulerSize: 70,
-                                  timeTextStyle: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.grey[500],
-                                  ),
-                                ),
-                                headerHeight: 0,
-                                viewHeaderHeight: 0,
-                                onTap: (a) {},
-                                cellBorderColor: Colors.grey[200],
-                                appointmentBuilder: (context, calendarDetails) {
-                                  return buildAppointmentDetails();
-                                },
-                                // by default the month appointment display mode set as Indicator, we can
-                                // change the display mode as appointment using the appointment display
-                                // mode property
-                                monthViewSettings: MonthViewSettings(
-                                    appointmentDisplayMode:
-                                        MonthAppointmentDisplayMode
-                                            .appointment),
                               ),
                             ),
                             /*  Positioned(
@@ -872,6 +918,13 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       selectedYear: _cyear,
       ismonth: true,
       numberToDisplay: 7,
+      selectedMonth: 1,
+      eventDates: [
+        DateTime(2021, 1, 28),
+        DateTime(2021, 1, 28),
+        DateTime(2021, 1, 28),
+        DateTime(2021, 1, 26),
+      ],
       zeroPad: false,
       initialValue: _currentDay,
       minValue: 1,

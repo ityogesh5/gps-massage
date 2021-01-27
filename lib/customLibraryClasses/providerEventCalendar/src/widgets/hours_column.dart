@@ -105,8 +105,10 @@ class HoursColumn extends StatelessWidget {
   static List<HourMinute> getSideTimes(
       HourMinute minimumTime, HourMinute maximumTime, Duration interval) {
     List<HourMinute> sideTimes = [];
-    HourMinute currentHour = HourMinute(hour: minimumTime.hour + 1);
-    while (currentHour < maximumTime) {
+    HourMinute currentHour =
+        HourMinute(hour: minimumTime.hour+1); //Aswin Customization
+    while (currentHour < maximumTime) //Aswin Customization
+    {
       sideTimes.add(currentHour);
       currentHour =
           currentHour.add(HourMinute.fromDuration(duration: interval));

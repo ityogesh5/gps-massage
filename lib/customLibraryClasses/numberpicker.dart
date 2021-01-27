@@ -29,6 +29,8 @@ class NumberPicker extends StatelessWidget {
     this.textMapper,
     this.currentDate,
     this.selectedYear,
+    this.selectedMonth,
+    this.eventDates,
     this.itemExtent = kDefaultItemExtent,
     this.listViewHeight = kDefaultListViewCrossAxisSize,
     this.numberToDisplay = 3,
@@ -68,6 +70,8 @@ class NumberPicker extends StatelessWidget {
     this.textMapper,
     this.currentDate,
     this.selectedYear,
+    this.selectedMonth,
+    this.eventDates,
     this.itemExtent = kDefaultItemExtent,
     this.listViewWidth = kDefaultListViewCrossAxisSize,
     this.numberToDisplay = 3,
@@ -112,6 +116,8 @@ class NumberPicker extends StatelessWidget {
     this.textMapper,
     this.currentDate,
     this.selectedYear,
+    this.selectedMonth,
+    this.eventDates,
     this.decimalPlaces = 1,
     this.itemExtent = kDefaultItemExtent,
     this.listViewWidth = kDefaultListViewCrossAxisSize,
@@ -155,10 +161,16 @@ class NumberPicker extends StatelessWidget {
   //whether month picker or year picker
   final bool ismonth;
 
+  //Event Date List
+  final List<DateTime> eventDates;
+
   //current date
   final DateTime currentDate;
 
-  //selected date
+  //selected month
+  final int selectedMonth;
+
+  //selected year
   final int selectedYear;
 
   ///max value user can pick
@@ -281,6 +293,15 @@ class NumberPicker extends StatelessWidget {
   }
 
   Widget _monthListView(ThemeData themeData) {
+    var map = Map();
+
+    eventDates.forEach((element) {
+      if (!map.containsKey(element)) {
+        map[element] = 1;
+      } else {
+        map[element] += 1;
+      }
+    });
     TextStyle defaultStyle =
         TextStyle(color: Colors.black); //themeData.textTheme.bodyText2;
     TextStyle selectedStyle = TextStyle(
@@ -311,6 +332,10 @@ class NumberPicker extends StatelessWidget {
                 cacheExtent: _calculateCacheExtent(listItemCount),
                 itemBuilder: (BuildContext context, int index) {
                   final int value = _intValueFromIndex(index);
+                  final DateTime dateval =
+                      DateTime(selectedYear, selectedMonth, value);
+                  final int eventCount =
+                      map[dateval] != null ? map[dateval] : 0;
 
                   //define special style for selected (middle) element
                   final TextStyle itemStyle =
@@ -376,7 +401,7 @@ class NumberPicker extends StatelessWidget {
                                       getDisplayedValue(value),
                                       style: TextStyle(
                                           fontSize: 16.0,
-                                          color: Colors.orange,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -388,12 +413,32 @@ class NumberPicker extends StatelessWidget {
                                         onTap: () {
                                           //  selectedIntValue = value;
                                         },
-                                        child: new Text(
-                                          getDisplayedValue(value),
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            new Text(
+                                              getDisplayedValue(value),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            eventCount > 0
+                                                ? Expanded(
+                                                    flex: 0,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          '.',
+                                                          style: TextStyle(
+                                                              fontSize: 20.0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
                                         ),
                                       ),
                                     )
