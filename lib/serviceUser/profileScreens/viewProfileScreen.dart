@@ -38,7 +38,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   @override
   void initState() {
     super.initState();
-  //  getUserProfileData();
+    getUserProfileData();
   }
 
   @override
@@ -87,7 +87,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             border: Border.all(color: Colors.black12),
                             shape: BoxShape.circle,
                             image: HealingMatchConstants.profileImageInBytes !=
-                                    null
+                                        null ||
+                                    profileImageInBytes != null
                                 ? new DecorationImage(
                                     fit: BoxFit.cover,
                                     image: new MemoryImage(HealingMatchConstants
@@ -117,7 +118,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                     ],
                   ),
                   SizedBox(height: 20.0),
-                  HealingMatchConstants.serviceUserName.isEmpty
+                  HealingMatchConstants.serviceUserName.isEmpty ||
+                          userName.isEmpty
                       ? new Text(
                           'お名前',
                           style: TextStyle(
@@ -142,22 +144,23 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               bottomRight: Radius.circular(10),
                               topLeft: Radius.circular(10),
                               bottomLeft: Radius.circular(10))),
-                      label:
-                          HealingMatchConstants.serviceUserPhoneNumber.isEmpty
-                              ? Text(
-                                  "電話番号",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                )
-                              : Text(
-                                  "${HealingMatchConstants.serviceUserPhoneNumber}",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
-                                )),
+                      label: HealingMatchConstants
+                                  .serviceUserPhoneNumber.isEmpty ||
+                              userPhoneNumber.isEmpty
+                          ? Text(
+                              "電話番号",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            )
+                          : Text(
+                              "${HealingMatchConstants.serviceUserPhoneNumber}",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            )),
                   SizedBox(height: 20.0),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -185,7 +188,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 Icon(Icons.mail_outline_rounded,
                                     size: 30, color: Colors.grey[500]),
                                 HealingMatchConstants
-                                        .serviceUserEmailAddress.isEmpty
+                                            .serviceUserEmailAddress.isEmpty ||
+                                        emailAddress.isEmpty
                                     ? Text('メールアドレス',
                                         style: TextStyle(
                                             fontFamily: 'Oxygen',
@@ -204,7 +208,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 Icon(Icons.calendar_today_rounded,
                                     size: 30, color: Colors.grey[500]),
-                                HealingMatchConstants.serviceUserDOB.isEmpty
+                                HealingMatchConstants.serviceUserDOB.isEmpty ||
+                                        dob.isEmpty
                                     ? Text('生年月日',
                                         style: TextStyle(
                                             fontFamily: 'Oxygen',
@@ -222,7 +227,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   radius: 15,
                                   backgroundColor: Colors.grey[200],
                                   child: HealingMatchConstants
-                                          .serviceUserAge.isEmpty
+                                              .serviceUserAge.isEmpty ||
+                                          userAge.isEmpty
                                       ? Text(
                                           '23',
                                           style: TextStyle(
@@ -244,7 +250,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 Icon(Icons.person_outline_sharp,
                                     size: 30, color: Colors.grey[500]),
-                                HealingMatchConstants.serviceUserGender.isEmpty
+                                HealingMatchConstants
+                                            .serviceUserGender.isEmpty ||
+                                        userGender.isEmpty
                                     ? Text('性別',
                                         style: TextStyle(
                                             fontFamily: 'Oxygen',
@@ -264,7 +272,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 Icon(Icons.shopping_bag,
                                     size: 30, color: Colors.grey[500]),
                                 HealingMatchConstants
-                                        .serviceUserOccupation.isEmpty
+                                            .serviceUserOccupation.isEmpty ||
+                                        userOccupation.isEmpty
                                     ? Text('職業',
                                         style: TextStyle(
                                             fontFamily: 'Oxygen',
@@ -283,7 +292,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 Icon(Icons.location_on_outlined,
                                     size: 30, color: Colors.grey[500]),
-                                HealingMatchConstants.userAddress.isEmpty
+                                HealingMatchConstants.userAddress.isEmpty ||
+                                        userAddress.isEmpty
                                     ? Text(
                                         '436-C鉄道地区ウィンターペットアラコナム。',
                                         style: TextStyle(

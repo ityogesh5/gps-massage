@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
@@ -17,9 +17,10 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<dynamic> addressValues = List();
-final addedFirstAddressController = new TextEditingController();
+List<dynamic> subAddressValues = List();
+final addedFirstSubAddressController = new TextEditingController();
 final addedSecondSubAddressController = new TextEditingController();
-final addedThirdController = new TextEditingController();
+final addedThirdSubAddressController = new TextEditingController();
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -28,24 +29,27 @@ class UpdateServiceUserDetails extends StatefulWidget {
 }
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
-  String userAddressType = '';
+  String userProfileImage = '';
   String userName = '';
+  String userPhoneNumber = '';
+  String emailAddress = '';
+  String dob = '';
+  String userAge = '';
+  String userGender = '';
+  String userOccupation = '';
+  String userAddress = '';
+  String imgBase64ProfileImage;
+  Uint8List profileImageInBytes;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAddressFields();
-    gpsAddress();
-    getTextFields();
-
-    userAddressType = '';
-    userName = '';
-    //gpsOrDirectAddress();
   }
 
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
-
+  var userAddressType = '';
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
   final formKey = GlobalKey<FormState>();
@@ -72,7 +76,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String _myCity = '';
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
-  String _userName = '';
   File _profileImage;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
@@ -703,7 +706,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       ),
                     ),
                     SizedBox(height: 15),
-                    /* _myAddressInputType.isNotEmpty
+                    _myAddressInputType.isNotEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1218,11 +1221,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         : Container(),
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
-                        : SizedBox(),*/
-                    GpsAddress(),
-                    SizedBox(
-                      height: 15,
-                    ),
+                        : SizedBox(),
                     Container(
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -1286,7 +1285,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                   0.85,
                                               child: TextFormField(
                                                 controller:
-                                                    addedFirstAddressController,
+                                                    addedFirstSubAddressController,
                                                 decoration: new InputDecoration(
                                                   filled: true,
                                                   fillColor: ColorConstants
@@ -1378,7 +1377,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       0.85,
                                                   child: TextFormField(
                                                     controller:
-                                                        addedThirdController,
+                                                        addedThirdSubAddressController,
                                                     decoration:
                                                         new InputDecoration(
                                                       filled: true,
@@ -1481,9 +1480,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          //_updateUserDetails();
-                          DialogHelper.showUserProfileUpdatedSuccessDialog(
-                              context);
+                          _updateUserDetails();
                         },
                         child: new Text(
                           '更新',
@@ -1647,59 +1644,589 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  _updateUserDetails() async {}
+  _updateUserDetails() async {
+    var userName = userNameController.text.toString();
+    var email = emailController.text.toString();
+    var userPhoneNumber = phoneNumberController.text.toString();
+    var userDOB = _userDOBController.text.toString();
+    var userAge = ageController.text.toString().trim();
+    int ageOfUser = int.tryParse(userAge);
+    print('User Age : $ageOfUser');
+    var _myAddressInputTypeVal = _myAddressInputType;
+    var buildingName = buildingNameController.text.toString();
+    var userArea = userAreaController.text.toString();
+    var roomNumber = roomNumberController.text.toString();
+    int userRoomNumber = int.tryParse(roomNumber);
+    print('Room number : $userRoomNumber');
+    int phoneNumber = int.tryParse(userPhoneNumber);
+
+    var userGPSAddress = gpsAddressController.text.toString().trim();
+
+    // User name validation
+    if (userName.isNotEmpty && !regExpUserName.hasMatch(userName)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なユーザー名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (userName.isNotEmpty && userName.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('ユーザー名は20文字以内で入力してください。',
+                  overflow: TextOverflow.clip,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      color: Colors.black,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+    }
+
+    // user DOB validation
+    if (userDOB != null || userDOB.isNotEmpty) {
+      return userDOB;
+    }
+    // user gender validation
+    if (_myGender != null || _myGender.isNotEmpty) {
+      return _myGender;
+    }
+    // user Occupation validation
+    if (_myOccupation != null || _myOccupation.isNotEmpty) {
+      return _myOccupation;
+    }
+    // user phone number validation
+    if (userPhoneNumber.length > 10 || userPhoneNumber.length < 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('正しい電話番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user phone number validation
+    if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
+      return userPhoneNumber;
+    }
+
+    // Email Validation
+    if (email.isNotEmpty && !(email.contains(regexMail))) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なメールアドレスを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty && email.length > 50) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('メールアドレスは50文字以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty && (email.contains(regexEmojis))) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なメールアドレスを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty || email != null) {
+      return email;
+    }
+    // Address input type validation
+    if (_myAddressInputType != null || _myAddressInputType.isNotEmpty) {
+      return _myAddressInputType;
+    }
+
+    // user place for massage validation
+    if (_myCategoryPlaceForMassage != null ||
+        _myCategoryPlaceForMassage.isNotEmpty) {
+      return _myCategoryPlaceForMassage;
+    }
+
+    // user perfecture validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myPrefecture == null || _myPrefecture.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な府県を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user city validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myCity == null || _myCity.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な市を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user area validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (userArea == null || userArea.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な都、県選 を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // Manual address building name validation
+    if (_myAddressInputTypeVal.contains("直接入力する") && buildingName == null ||
+        buildingName.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なビル名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // Manual address room number validation
+    if (_myAddressInputTypeVal.contains("直接入力する") && roomNumber == null ||
+        roomNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な部屋番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // GPS ADDRESS building name validation
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
+        buildingName.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なビル名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // GPS ADDRESS room number validation
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
+        roomNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な部屋番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user perfecture validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myPrefecture != null || _myPrefecture.isNotEmpty)) {
+      return _myPrefecture;
+    }
+
+    // user city validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (_myCity != null || _myCity.isNotEmpty)) {
+      return _myCity;
+    }
+
+    // user area validation
+    if ((_myAddressInputTypeVal != "現在地を取得する") &&
+        (_myAddressInputTypeVal.contains("直接入力する")) &&
+        (userArea != null || userArea.isNotEmpty)) {
+      return userArea;
+    }
+    // user building name validation
+    if (buildingName != null || buildingName.isNotEmpty) {
+      return buildingName;
+    }
+
+    // room number validation
+    if (roomNumber != null || roomNumber.isNotEmpty) {
+      return roomNumber;
+    }
+
+    // Getting user GPS Address value
+    if (_myAddressInputTypeVal.contains('現在地を取得する') && _isGPSLocation) {
+      print('GPS Address : $userGPSAddress');
+      String userCurrentLocation = roomNumber +
+          ',' +
+          buildingName +
+          ',' +
+          userArea +
+          ',' +
+          userGPSAddress;
+      return userCurrentLocation.trim();
+    } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
+      String manualUserAddress = roomNumber +
+          ',' +
+          buildingName +
+          ',' +
+          userArea +
+          ',' +
+          _myCity +
+          ',' +
+          _myPrefecture;
+
+      List<Placemark> userAddress =
+          await geoLocator.placemarkFromAddress(manualUserAddress);
+      userAddedAddressPlaceMark = userAddress[0];
+      Position addressPosition = userAddedAddressPlaceMark.position;
+      var currentLatitude = addressPosition.latitude;
+      var currentLongitude = addressPosition.longitude;
+      var serviceUserCity = userAddedAddressPlaceMark.locality;
+      var serviceUserPrefecture = userAddedAddressPlaceMark.administrativeArea;
+
+      print(
+          'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
+          '${HealingMatchConstants.currentLongitude}');
+      print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
+      print('Manual Address : ${HealingMatchConstants.userAddress}');
+
+      if (addedFirstSubAddressController.text.toString().isNotEmpty ||
+          addedFirstSubAddressController.text.toString() != null) {
+        subAddressValues.add(addedFirstSubAddressController.text.toString());
+      }
+      if (addedSecondSubAddressController.text.toString().isNotEmpty ||
+          addedSecondSubAddressController.text.toString() != null) {
+        subAddressValues.add(addedSecondSubAddressController.text.toString());
+      }
+      if (addedThirdSubAddressController.text.toString().isNotEmpty ||
+          addedThirdSubAddressController.text.toString() != null) {
+        subAddressValues.add(addedThirdSubAddressController.text.toString());
+      }
+    }
+    print('Sub address list values : ${subAddressValues.length}');
+    print('User Edit Success !!');
+    //DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+    return;
+  }
+
+  getUserProfileData() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      _sharedPreferences.then((value) {
+        print('Getting values...EPF');
+        userProfileImage = value.getString('profileImage');
+        userName = value.getString('userName');
+        userPhoneNumber = value.getString('userPhoneNumber');
+        emailAddress = value.getString('userEmailAddress');
+        dob = value.getString('userDOB');
+        userAge = value.getString('userAge');
+        userGender = value.getString('userGender');
+        userOccupation = value.getString('userOccupation');
+        userAddress = value.getString('userAddress');
+
+        // Convert string url of image to base64 format
+        convertBase64ProfileImage(userProfileImage);
+      });
+    } catch (e) {}
+  }
+
+  convertBase64ProfileImage(String userProfileImage) async {
+    imgBase64ProfileImage =
+        await networkImageToBase64RightFront(userProfileImage);
+    profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
+    HealingMatchConstants.userEditProfile = profileImageInBytes;
+    // print('profile image : $profileImageInBytes');
+  }
+
+  Future<String> networkImageToBase64RightFront(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    final bytes = response?.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
+  }
 
   void getAddressFields() {
     _sharedPreferences.then((value) {
       userAddressType = value.getString('addressType');
       print('User Address Type : $userAddressType');
     });
-    /*_sharedPreferences.then((value) {
-      userAddressType = value.getString('addressType');
-      print('User Address Type : $userAddressType');
-    });*/
-
     print('Entering adress fields....');
     for (int i = 0; i < addressValues.length; i++) {
       if (i == 0) {
-        addedFirstAddressController.value =
+        addedFirstSubAddressController.value =
             TextEditingValue(text: '${addressValues[0]}');
       } else if (i == 1) {
         addedSecondSubAddressController.value =
             TextEditingValue(text: '${addressValues[1]}');
       } else if (i == 2) {
-        addedThirdController.value =
+        addedThirdSubAddressController.value =
             TextEditingValue(text: '${addressValues[2]}');
       } else {
         return;
       }
     }
   }
-
-  void getTextFields() {
-    _sharedPreferences.then((value) {
-      userName = value.getString('userName');
-      print('userName:${userName}');
-    });
-  }
-
-  void gpsAddress() {
-    if (userAddressType != null && userAddressType == "現在地を取得する") {
-      GpsAddress();
-    } else if (userAddressType != null && userAddressType != "現在地を取得する") {
-      DirectInput();
-    }
-  }
-
-  /*gpsOrDirectAddress() {
-    if (userAddressType == "現在地を取得する") {
-      setState(() {
-        _showCurrentLocationInput = true;
-      });
-    } else {
-      return null;
-    }
-  }*/
 }
 
 class AddAddress extends StatefulWidget {
@@ -2715,350 +3242,5 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-  }
-}
-
-class GpsAddress extends StatefulWidget {
-  @override
-  _GpsAddressState createState() => _GpsAddressState();
-}
-
-class _GpsAddressState extends State<GpsAddress> {
-  List<dynamic> stateDropDownValues = List();
-  List<dynamic> cityDropDownValues = List();
-  final _placeOfAddressKey = new GlobalKey<FormState>();
-  final _perfectureKey = new GlobalKey<FormState>();
-  final _cityKey = new GlobalKey<FormState>();
-  final gpsAddressController = new TextEditingController();
-  final buildingNameController = new TextEditingController();
-  final roomNumberController = new TextEditingController();
-  String _myCategoryPlaceForMassage = '';
-  String _myPrefecture = '';
-  String _myCity = '';
-  var _prefId;
-
-  StatesListResponseModel states;
-  CitiesListResponseModel cities;
-
-  double containerHeight = 48.0;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getStates();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 8, right: 8),
-      child: Column(
-        children: [
-          Form(
-            key: _placeOfAddressKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: DropDownFormField(
-                      hintText: '登録する地点のカテゴリー *',
-                      value: _myCategoryPlaceForMassage,
-                      onSaved: (value) {
-                        setState(() {
-                          _myCategoryPlaceForMassage = value;
-                        });
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          _myCategoryPlaceForMassage = value;
-                        });
-                      },
-                      dataSource: [
-                        {
-                          "display": "自宅",
-                          "value": "自宅",
-                        },
-                        {
-                          "display": "オフィス",
-                          "value": "オフィス",
-                        },
-                        {
-                          "display": "実家",
-                          "value": "実家",
-                        },
-                        {
-                          "display": "その他（直接入力）",
-                          "value": "その他（直接入力）",
-                        },
-                      ],
-                      textField: 'display',
-                      valueField: 'value',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: TextFormField(
-              controller: gpsAddressController,
-              decoration: new InputDecoration(
-                filled: true,
-                fillColor: ColorConstants.formFieldFillColor,
-                labelText: '現在地を取得する *',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.location_on, size: 28),
-                  onPressed: () {
-                    /*  setState(() {
-                     _changeProgressText = true;
-                     print(
-                         'location getting.... : $_changeProgressText');
-                   });
-                   _getCurrentLocation();*/
-                  },
-                ),
-                labelStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
-                focusColor: Colors.grey[100],
-                border: HealingMatchConstants.textFormInputBorder,
-                focusedBorder: HealingMatchConstants.textFormInputBorder,
-                disabledBorder: HealingMatchConstants.textFormInputBorder,
-                enabledBorder: HealingMatchConstants.textFormInputBorder,
-              ),
-              style: TextStyle(color: Colors.black54),
-              // validator: (value) => _validateEmail(value),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: Form(
-              key: _perfectureKey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Center(
-                        child: stateDropDownValues != null
-                            ? Container(
-                                width: MediaQuery.of(context).size.width * 0.39,
-                                child: DropDownFormField(
-                                    hintText: '府県 *',
-                                    value: _myPrefecture,
-                                    onSaved: (value) {
-                                      setState(() {
-                                        _myPrefecture = value;
-                                      });
-                                    },
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _myPrefecture = value;
-                                        print(
-                                            'Prefecture value : ${_myPrefecture.toString()}');
-                                        _prefId =
-                                            stateDropDownValues.indexOf(value) +
-                                                1;
-                                        print('prefID : ${_prefId.toString()}');
-                                        cityDropDownValues.clear();
-                                        _myCity = '';
-                                        _getCities(_prefId);
-                                      });
-                                    },
-                                    dataSource: stateDropDownValues,
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value'),
-                              )
-                            : Container(
-                                width: MediaQuery.of(context).size.width * 0.39,
-                                child: DropDownFormField(
-                                    hintText: '府県 *',
-                                    value: _myPrefecture,
-                                    onSaved: (value) {
-                                      setState(() {
-                                        _myPrefecture = value;
-                                      });
-                                    },
-                                    dataSource: [],
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value'),
-                              )),
-                  ),
-                  Expanded(
-                    child: Form(
-                        key: _cityKey,
-                        child: cityDropDownValues != null
-                            ? Container(
-                                width: MediaQuery.of(context).size.width * 0.39,
-                                child: DropDownFormField(
-                                    hintText: '市 *',
-                                    value: _myCity,
-                                    onSaved: (value) {
-                                      setState(() {
-                                        _myCity = value;
-                                      });
-                                    },
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _myCity = value;
-                                        //print(_myBldGrp.toString());
-                                      });
-                                    },
-                                    dataSource: cityDropDownValues,
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value'),
-                              )
-                            : Container(
-                                width: MediaQuery.of(context).size.width * 0.39,
-                                child: DropDownFormField(
-                                    hintText: '市 *',
-                                    value: _myCity,
-                                    onSaved: (value) {
-                                      setState(() {
-                                        _myCity = value;
-                                      });
-                                    },
-                                    dataSource: [],
-                                    isList: true,
-                                    textField: 'display',
-                                    valueField: 'value'),
-                              )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: Center(
-                  child: Container(
-                    height: containerHeight,
-                    // height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.39,
-                    child: TextFormField(
-                      //enableInteractiveSelection: false,
-                      // keyboardType: TextInputType.number,
-                      autofocus: false,
-                      controller: buildingNameController,
-                      decoration: new InputDecoration(
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        labelText: '建物名 *',
-                        /*hintText: 'ビル名 *',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey[400],
-                                    ),*/
-                        labelStyle: TextStyle(
-                            color: Colors.grey[400],
-                            fontFamily: 'Oxygen',
-                            fontSize: 14),
-                        focusColor: Colors.grey[100],
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                      ),
-                      // validator: (value) => _validateEmail(value),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  height: containerHeight,
-                  // height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.39,
-                  child: TextFormField(
-                    //enableInteractiveSelection: false,
-                    autofocus: false,
-                    controller: roomNumberController,
-                    decoration: new InputDecoration(
-                      filled: true,
-                      fillColor: ColorConstants.formFieldFillColor,
-                      labelText: '部屋番号 *',
-                      /*hintText: '部屋番号 *',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
-                      labelStyle: TextStyle(
-                          color: Colors.grey[400],
-                          fontFamily: 'Oxygen',
-                          fontSize: 14),
-                      focusColor: Colors.grey[100],
-                      border: HealingMatchConstants.textFormInputBorder,
-                      focusedBorder: HealingMatchConstants.textFormInputBorder,
-                      disabledBorder: HealingMatchConstants.textFormInputBorder,
-                      enabledBorder: HealingMatchConstants.textFormInputBorder,
-                    ),
-                    // validator: (value) => _validateEmail(value),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  _getStates() async {
-    await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
-      states = StatesListResponseModel.fromJson(json.decode(response.body));
-      print(states.toJson());
-      for (var stateList in states.data) {
-        setState(() {
-          stateDropDownValues.add(stateList.prefectureJa);
-        });
-      }
-    });
-  }
-
-  _getCities(var prefId) async {
-    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
-    await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
-        body: {'prefecture_id': prefId.toString()}).then((response) {
-      cities = CitiesListResponseModel.fromJson(json.decode(response.body));
-      print(cities.toJson());
-      for (var cityList in cities.data) {
-        setState(() {
-          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
-        });
-      }
-      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
-      print('Response City list : ${response.body}');
-    });
-  }
-}
-
-class DirectInput extends StatefulWidget {
-  @override
-  _DirectInputState createState() => _DirectInputState();
-}
-
-class _DirectInputState extends State<DirectInput> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text('hi'),
-    );
   }
 }
