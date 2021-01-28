@@ -2297,11 +2297,13 @@ class _RegisterUserState extends State<RegisterUser> {
               'userAddress', serviceUserDetails.data.addressResponse.address);
           value.setString('buildingName',
               serviceUserDetails.data.addressResponse.buildingName);
-          value.setString('roomNumber', roomNumber);
+          value.setString('roomNumber', serviceUserDetails.data.addressResponse.userRoomNumber);
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
           value.setString('addressType',
               serviceUserDetails.data.addressResponse.addressTypeSelection);
+          value.setString('addressID',
+              serviceUserDetails.data.addressResponse.id.toString());
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);
