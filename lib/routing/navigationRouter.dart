@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
@@ -18,10 +20,9 @@ import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart'
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -179,6 +180,7 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ProviderEditProfile()));
   }
+
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context) {
     Navigator.push(context,
@@ -189,5 +191,12 @@ class NavigationRouter {
   static void switchToServiceUserEditProfileScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => UpdateServiceUserDetails()));
+  }
+
+  // Service User View Profile Screen
+  static void switchToServiceUserViewProfileScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => ViewUserProfile()),
+        (Route<dynamic> route) => false);
   }
 }

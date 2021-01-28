@@ -48,7 +48,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
           ChatScreenUser(),
         ],
       ), // initial value is 0 so HomePage will be shown
-      bottomNavigationBar: HealingMatchConstants.isUserRegistrationSkipped
+      bottomNavigationBar: HealingMatchConstants.isUserRegistrationSkipped && HealingMatchConstants.isUserVerified == false
           ? CurvedNavigationBar(
               height: 60,
               buttonBackgroundColor: Colors.limeAccent,
