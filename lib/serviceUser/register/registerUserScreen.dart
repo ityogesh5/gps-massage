@@ -2259,6 +2259,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "password_confirmation": confirmPassword,
         "isTherapist": "0",
         "userPlaceForMassage": _myCategoryPlaceForMassage,
+        "addressTypeSelection": _myAddressInputTypeVal,
         "address": HealingMatchConstants.userAddress,
         "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
         "city": HealingMatchConstants.serviceUserCity,
@@ -2302,6 +2303,8 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('addressType',
               serviceUserDetails.data.addressResponse.addressTypeSelection);
         });
+        print(
+            'addressType:${serviceUserDetails.data.addressResponse.addressTypeSelection}');
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {

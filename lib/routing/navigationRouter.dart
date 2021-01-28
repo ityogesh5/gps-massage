@@ -179,6 +179,7 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ProviderEditProfile()));
   }
+
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context) {
     Navigator.push(context,

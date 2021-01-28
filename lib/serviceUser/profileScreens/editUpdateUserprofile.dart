@@ -28,16 +28,24 @@ class UpdateServiceUserDetails extends StatefulWidget {
 }
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
+  String userAddressType = '';
+  String userName = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAddressFields();
+    gpsAddress();
+    getTextFields();
+
+    userAddressType = '';
+    userName = '';
+    //gpsOrDirectAddress();
   }
 
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
-  var userAddressType = '';
+
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
   final formKey = GlobalKey<FormState>();
@@ -64,6 +72,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String _myCity = '';
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
+  String _userName = '';
   File _profileImage;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
@@ -694,7 +703,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       ),
                     ),
                     SizedBox(height: 15),
-                    _myAddressInputType.isNotEmpty
+                    /* _myAddressInputType.isNotEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1209,7 +1218,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         : Container(),
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
-                        : SizedBox(),
+                        : SizedBox(),*/
+                    GpsAddress(),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Container(
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -1641,6 +1654,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       userAddressType = value.getString('addressType');
       print('User Address Type : $userAddressType');
     });
+    /*_sharedPreferences.then((value) {
+      userAddressType = value.getString('addressType');
+      print('User Address Type : $userAddressType');
+    });*/
+
     print('Entering adress fields....');
     for (int i = 0; i < addressValues.length; i++) {
       if (i == 0) {
@@ -1657,6 +1675,31 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       }
     }
   }
+
+  void getTextFields() {
+    _sharedPreferences.then((value) {
+      userName = value.getString('userName');
+      print('userName:${userName}');
+    });
+  }
+
+  void gpsAddress() {
+    if (userAddressType != null && userAddressType == "現在地を取得する") {
+      GpsAddress();
+    } else if (userAddressType != null && userAddressType != "現在地を取得する") {
+      DirectInput();
+    }
+  }
+
+  /*gpsOrDirectAddress() {
+    if (userAddressType == "現在地を取得する") {
+      setState(() {
+        _showCurrentLocationInput = true;
+      });
+    } else {
+      return null;
+    }
+  }*/
 }
 
 class AddAddress extends StatefulWidget {
@@ -2672,5 +2715,350 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
+  }
+}
+
+class GpsAddress extends StatefulWidget {
+  @override
+  _GpsAddressState createState() => _GpsAddressState();
+}
+
+class _GpsAddressState extends State<GpsAddress> {
+  List<dynamic> stateDropDownValues = List();
+  List<dynamic> cityDropDownValues = List();
+  final _placeOfAddressKey = new GlobalKey<FormState>();
+  final _perfectureKey = new GlobalKey<FormState>();
+  final _cityKey = new GlobalKey<FormState>();
+  final gpsAddressController = new TextEditingController();
+  final buildingNameController = new TextEditingController();
+  final roomNumberController = new TextEditingController();
+  String _myCategoryPlaceForMassage = '';
+  String _myPrefecture = '';
+  String _myCity = '';
+  var _prefId;
+
+  StatesListResponseModel states;
+  CitiesListResponseModel cities;
+
+  double containerHeight = 48.0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getStates();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 8, right: 8),
+      child: Column(
+        children: [
+          Form(
+            key: _placeOfAddressKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: DropDownFormField(
+                      hintText: '登録する地点のカテゴリー *',
+                      value: _myCategoryPlaceForMassage,
+                      onSaved: (value) {
+                        setState(() {
+                          _myCategoryPlaceForMassage = value;
+                        });
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _myCategoryPlaceForMassage = value;
+                        });
+                      },
+                      dataSource: [
+                        {
+                          "display": "自宅",
+                          "value": "自宅",
+                        },
+                        {
+                          "display": "オフィス",
+                          "value": "オフィス",
+                        },
+                        {
+                          "display": "実家",
+                          "value": "実家",
+                        },
+                        {
+                          "display": "その他（直接入力）",
+                          "value": "その他（直接入力）",
+                        },
+                      ],
+                      textField: 'display',
+                      valueField: 'value',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.85,
+            child: TextFormField(
+              controller: gpsAddressController,
+              decoration: new InputDecoration(
+                filled: true,
+                fillColor: ColorConstants.formFieldFillColor,
+                labelText: '現在地を取得する *',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.location_on, size: 28),
+                  onPressed: () {
+                    /*  setState(() {
+                     _changeProgressText = true;
+                     print(
+                         'location getting.... : $_changeProgressText');
+                   });
+                   _getCurrentLocation();*/
+                  },
+                ),
+                labelStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
+                focusColor: Colors.grey[100],
+                border: HealingMatchConstants.textFormInputBorder,
+                focusedBorder: HealingMatchConstants.textFormInputBorder,
+                disabledBorder: HealingMatchConstants.textFormInputBorder,
+                enabledBorder: HealingMatchConstants.textFormInputBorder,
+              ),
+              style: TextStyle(color: Colors.black54),
+              // validator: (value) => _validateEmail(value),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.85,
+            child: Form(
+              key: _perfectureKey,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Center(
+                        child: stateDropDownValues != null
+                            ? Container(
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                child: DropDownFormField(
+                                    hintText: '府県 *',
+                                    value: _myPrefecture,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myPrefecture = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _myPrefecture = value;
+                                        print(
+                                            'Prefecture value : ${_myPrefecture.toString()}');
+                                        _prefId =
+                                            stateDropDownValues.indexOf(value) +
+                                                1;
+                                        print('prefID : ${_prefId.toString()}');
+                                        cityDropDownValues.clear();
+                                        _myCity = '';
+                                        _getCities(_prefId);
+                                      });
+                                    },
+                                    dataSource: stateDropDownValues,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value'),
+                              )
+                            : Container(
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                child: DropDownFormField(
+                                    hintText: '府県 *',
+                                    value: _myPrefecture,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myPrefecture = value;
+                                      });
+                                    },
+                                    dataSource: [],
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value'),
+                              )),
+                  ),
+                  Expanded(
+                    child: Form(
+                        key: _cityKey,
+                        child: cityDropDownValues != null
+                            ? Container(
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                child: DropDownFormField(
+                                    hintText: '市 *',
+                                    value: _myCity,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myCity = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _myCity = value;
+                                        //print(_myBldGrp.toString());
+                                      });
+                                    },
+                                    dataSource: cityDropDownValues,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value'),
+                              )
+                            : Container(
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                child: DropDownFormField(
+                                    hintText: '市 *',
+                                    value: _myCity,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myCity = value;
+                                      });
+                                    },
+                                    dataSource: [],
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value'),
+                              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Container(
+                    height: containerHeight,
+                    // height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.39,
+                    child: TextFormField(
+                      //enableInteractiveSelection: false,
+                      // keyboardType: TextInputType.number,
+                      autofocus: false,
+                      controller: buildingNameController,
+                      decoration: new InputDecoration(
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        labelText: '建物名 *',
+                        /*hintText: 'ビル名 *',
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey[400],
+                                    ),*/
+                        labelStyle: TextStyle(
+                            color: Colors.grey[400],
+                            fontFamily: 'Oxygen',
+                            fontSize: 14),
+                        focusColor: Colors.grey[100],
+                        border: HealingMatchConstants.textFormInputBorder,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        disabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                      ),
+                      // validator: (value) => _validateEmail(value),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: containerHeight,
+                  // height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.39,
+                  child: TextFormField(
+                    //enableInteractiveSelection: false,
+                    autofocus: false,
+                    controller: roomNumberController,
+                    decoration: new InputDecoration(
+                      filled: true,
+                      fillColor: ColorConstants.formFieldFillColor,
+                      labelText: '部屋番号 *',
+                      /*hintText: '部屋番号 *',
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),*/
+                      labelStyle: TextStyle(
+                          color: Colors.grey[400],
+                          fontFamily: 'Oxygen',
+                          fontSize: 14),
+                      focusColor: Colors.grey[100],
+                      border: HealingMatchConstants.textFormInputBorder,
+                      focusedBorder: HealingMatchConstants.textFormInputBorder,
+                      disabledBorder: HealingMatchConstants.textFormInputBorder,
+                      enabledBorder: HealingMatchConstants.textFormInputBorder,
+                    ),
+                    // validator: (value) => _validateEmail(value),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _getStates() async {
+    await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+      states = StatesListResponseModel.fromJson(json.decode(response.body));
+      print(states.toJson());
+      for (var stateList in states.data) {
+        setState(() {
+          stateDropDownValues.add(stateList.prefectureJa);
+        });
+      }
+    });
+  }
+
+  _getCities(var prefId) async {
+    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
+    await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
+        body: {'prefecture_id': prefId.toString()}).then((response) {
+      cities = CitiesListResponseModel.fromJson(json.decode(response.body));
+      print(cities.toJson());
+      for (var cityList in cities.data) {
+        setState(() {
+          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
+        });
+      }
+      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
+      print('Response City list : ${response.body}');
+    });
+  }
+}
+
+class DirectInput extends StatefulWidget {
+  @override
+  _DirectInputState createState() => _DirectInputState();
+}
+
+class _DirectInputState extends State<DirectInput> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('hi'),
+    );
   }
 }
