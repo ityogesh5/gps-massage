@@ -1654,9 +1654,16 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 ),
               ),
               SizedBox(height: sizedBoxFormHeight),
-              Text(
-                HealingMatchConstants.registrationBankDetails,
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Container(
+                width: containerWidth,
+                child: Text(
+                  HealingMatchConstants.registrationBankDetails,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(height: sizedBoxFormHeight),
               Center(
@@ -2650,27 +2657,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                     /*  NavigationRouter.switchToServiceProviderSecondScreen(
                         context); */
                   },
-                ),
-              ),
-              SizedBox(height: sizedBoxFormHeight),
-              Container(
-                width: containerWidth,
-                child: InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToProviderLogin(context);
-                  },
-                  child: Text(
-                    HealingMatchConstants.registrationAlreadyActTxt,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        decorationThickness: 2,
-                        decorationStyle: TextDecorationStyle.solid),
-                  ),
                 ),
               ),
               SizedBox(height: sizedBoxFormHeight),
