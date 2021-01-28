@@ -2297,13 +2297,16 @@ class _RegisterUserState extends State<RegisterUser> {
               'userAddress', serviceUserDetails.data.addressResponse.address);
           value.setString('buildingName',
               serviceUserDetails.data.addressResponse.buildingName);
-          value.setString('roomNumber', roomNumber);
-          value.setString('city', roomNumber);
-          value.setString('userPlaceForMassage', myCategoryPlaceForMassage);
+
+          value.setString('roomNumber',
+              serviceUserDetails.data.addressResponse.userRoomNumber);
+
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
           value.setString('addressType',
               serviceUserDetails.data.addressResponse.addressTypeSelection);
+          value.setString('addressID',
+              serviceUserDetails.data.addressResponse.id.toString());
         });
         print(
             'addressType:${serviceUserDetails.data.addressResponse.addressTypeSelection}');
