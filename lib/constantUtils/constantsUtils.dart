@@ -25,7 +25,7 @@ class HealingMatchConstants {
   static const String RELAXATION_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/relaxation/getAllRelaxation';
   static const String TREATMENT_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/orteopathic/getAllOsteopathic';
+      ON_PREMISE_USER_BASE_URL + '/osteopathic/getAllOsteopathic';
   static const String FITNESS_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/fitness/getAllFitness';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =

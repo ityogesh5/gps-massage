@@ -1,10 +1,10 @@
-class RegisterProviderResponseModel {
+class RegisterProviderResponseData {
   String status;
   Data data;
 
-  RegisterProviderResponseModel({this.status, this.data});
+  RegisterProviderResponseData({this.status, this.data});
 
-  RegisterProviderResponseModel.fromJson(Map<String, dynamic> json) {
+  RegisterProviderResponseData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
@@ -20,6 +20,7 @@ class RegisterProviderResponseModel {
 }
 
 class Data {
+  String token;
   UserResponse userResponse;
   AddressResponse addressResponse;
   CertificationResponse certificationResponse;
@@ -31,7 +32,8 @@ class Data {
   List<RelaxationListResponse> relaxationListResponse;
 
   Data(
-      {this.userResponse,
+      {this.token,
+      this.userResponse,
       this.addressResponse,
       this.certificationResponse,
       this.bankResponse,
@@ -42,6 +44,7 @@ class Data {
       this.relaxationListResponse});
 
   Data.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
     userResponse = json['userResponse'] != null
         ? new UserResponse.fromJson(json['userResponse'])
         : null;
@@ -85,6 +88,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
     if (this.userResponse != null) {
       data['userResponse'] = this.userResponse.toJson();
     }
@@ -140,6 +144,7 @@ class UserResponse {
   String proofOfIdentityType;
   String proofOfIdentityImgUrl;
   bool isActive;
+  bool isAccepted;
   String uploadProfileImgUrl;
   String userId;
   String updatedAt;
@@ -165,6 +170,7 @@ class UserResponse {
       this.proofOfIdentityType,
       this.proofOfIdentityImgUrl,
       this.isActive,
+      this.isAccepted,
       this.uploadProfileImgUrl,
       this.userId,
       this.updatedAt,
@@ -190,6 +196,7 @@ class UserResponse {
     proofOfIdentityType = json['proofOfIdentityType'];
     proofOfIdentityImgUrl = json['proofOfIdentityImgUrl'];
     isActive = json['isActive'];
+    isAccepted = json['isAccepted'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     userId = json['userId'];
     updatedAt = json['updatedAt'];
@@ -217,6 +224,7 @@ class UserResponse {
     data['proofOfIdentityType'] = this.proofOfIdentityType;
     data['proofOfIdentityImgUrl'] = this.proofOfIdentityImgUrl;
     data['isActive'] = this.isActive;
+    data['isAccepted'] = this.isAccepted;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['userId'] = this.userId;
     data['updatedAt'] = this.updatedAt;
@@ -284,21 +292,54 @@ class AddressResponse {
 
 class CertificationResponse {
   int id;
+  String acupuncturist;
   String moxibutionist;
+  String acupuncturistAndMoxibustion;
+  String anmaMassageShiatsushi;
+  String judoRehabilitationTeacher;
+  String physicalTherapist;
+  String acquireNationalQualifications;
+  String privateQualification1;
+  String privateQualification2;
+  String privateQualification3;
+  String privateQualification4;
+  String privateQualification5;
   int userId;
   String updatedAt;
   String createdAt;
 
   CertificationResponse(
       {this.id,
+      this.acupuncturist,
       this.moxibutionist,
+      this.acupuncturistAndMoxibustion,
+      this.anmaMassageShiatsushi,
+      this.judoRehabilitationTeacher,
+      this.physicalTherapist,
+      this.acquireNationalQualifications,
+      this.privateQualification1,
+      this.privateQualification2,
+      this.privateQualification3,
+      this.privateQualification4,
+      this.privateQualification5,
       this.userId,
       this.updatedAt,
       this.createdAt});
 
   CertificationResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    acupuncturist = json['acupuncturist'];
     moxibutionist = json['moxibutionist'];
+    acupuncturistAndMoxibustion = json['acupuncturistAndMoxibustion'];
+    anmaMassageShiatsushi = json['anmaMassageShiatsushi'];
+    judoRehabilitationTeacher = json['judoRehabilitationTeacher'];
+    physicalTherapist = json['physicalTherapist'];
+    acquireNationalQualifications = json['acquireNationalQualifications'];
+    privateQualification1 = json['privateQualification1'];
+    privateQualification2 = json['privateQualification2'];
+    privateQualification3 = json['privateQualification3'];
+    privateQualification4 = json['privateQualification4'];
+    privateQualification5 = json['privateQualification5'];
     userId = json['userId'];
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'];
@@ -307,7 +348,12 @@ class CertificationResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['moxibutionist'] = this.moxibutionist;
+    data['judoRehabilitationTeacher'] = this.judoRehabilitationTeacher;
+    data['privateQualification1'] = this.privateQualification1;
+    data['privateQualification2'] = this.privateQualification2;
+    data['privateQualification3'] = this.privateQualification3;
+    data['privateQualification4'] = this.privateQualification4;
+    data['privateQualification5'] = this.privateQualification5;
     data['userId'] = this.userId;
     data['updatedAt'] = this.updatedAt;
     data['createdAt'] = this.createdAt;

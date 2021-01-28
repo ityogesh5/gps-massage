@@ -1107,9 +1107,9 @@ class _RegistrationSecondPageState
     request.files.addAll(multipartList);
 
     //Upload Private Qualification Images
-    /*  for (var certificate in privateQualification) {
+     for (var certificate in privateQualification) {
       request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
-    } */
+    }
 
     //Upload Banner Images
     for (var file in files) {

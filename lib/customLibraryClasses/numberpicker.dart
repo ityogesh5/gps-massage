@@ -334,8 +334,8 @@ class NumberPicker extends StatelessWidget {
                   final int value = _intValueFromIndex(index);
                   final DateTime dateval =
                       DateTime(selectedYear, selectedMonth, value);
-                  final int eventCount =
-                      map[dateval] != null ? map[dateval] : 0;
+                  int eventCount = 0;
+                  eventCount = map[dateval] != null ? map[dateval] : 0;
 
                   //define special style for selected (middle) element
                   final TextStyle itemStyle =
@@ -393,73 +393,72 @@ class NumberPicker extends StatelessWidget {
                           : (value == currentDate.day &&
                                   currentDate.year == selectedYear)
                               ? Center(
-                                  child: InkWell(
-                                    onTap: () {
-                                      //  selectedIntValue = value;
-                                    },
-                                    child: new Text(
-                                      getDisplayedValue(value),
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      new Text(
+                                        getDisplayedValue(value),
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      dotBuilder(eventCount),
+                                    ],
                                   ),
                                 )
                               : (value == (selectedIntValue - 1) ||
                                       value == (selectedIntValue + 1))
                                   ? Center(
-                                      child: InkWell(
-                                        onTap: () {
-                                          //  selectedIntValue = value;
-                                        },
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            new Text(
-                                              getDisplayedValue(value),
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            eventCount > 0
-                                                ? Expanded(
-                                                    flex: 0,
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          '.',
-                                                          style: TextStyle(
-                                                              fontSize: 20.0),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                : Container(),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  : (value == (selectedIntValue - 2) ||
-                                          value == (selectedIntValue + 2))
-                                      ? Center(
-                                          child: new Text(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
                                             getDisplayedValue(value),
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold),
                                           ),
+                                          dotBuilder(eventCount),
+                                        ],
+                                      ),
+                                    )
+                                  : (value == (selectedIntValue - 2) ||
+                                          value == (selectedIntValue + 2))
+                                      ? Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              new Text(
+                                                getDisplayedValue(value),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              dotBuilder(eventCount),
+                                            ],
+                                          ),
                                         )
                                       : Center(
-                                          child: new Text(
-                                            getDisplayedValue(value),
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              new Text(
+                                                getDisplayedValue(value),
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              dotBuilder(eventCount),
+                                            ],
                                           ),
                                         );
                 },
@@ -474,6 +473,72 @@ class NumberPicker extends StatelessWidget {
         ),
         onNotification: _onIntegerNotification,
       ),
+    );
+  }
+
+  dotBuilder(int eventCount) {
+    return eventCount == 0
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              dotIconBuilder(Colors.white),
+            ],
+          )
+        : eventCount >= 4
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  dotIconBuilder(
+                    Colors.black,
+                  ),
+                  dotIconBuilder(
+                    Colors.black,
+                  ),
+                  dotIconBuilder(
+                    Colors.black,
+                  ),
+                  dotIconBuilder(
+                    Colors.black,
+                  ),
+                ],
+              )
+            : eventCount >= 3
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      dotIconBuilder(
+                        Colors.black,
+                      ),
+                      dotIconBuilder(
+                        Colors.black,
+                      ),
+                      dotIconBuilder(
+                        Colors.black,
+                      ),
+                    ],
+                  )
+                : eventCount >= 2
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          dotIconBuilder(
+                            Colors.black,
+                          ),
+                          dotIconBuilder(
+                            Colors.black,
+                          ),
+                        ],
+                      )
+                    : eventCount == 1
+                        ? dotIconBuilder(Colors.black)
+                        : Container();
+  }
+
+  Icon dotIconBuilder(Color color) {
+    return Icon(
+      Icons.circle,
+      size: 5.0,
+      color: color,
     );
   }
 
