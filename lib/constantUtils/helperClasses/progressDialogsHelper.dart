@@ -80,10 +80,10 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
-//verify otp
+  //verify otp
   static void showVerifyOtpProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
-        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        textToBeDisplayed: 'ユーザー認証コードの確認中。。。',
         dismissAfter: Duration(seconds: 5));
   }
 
@@ -109,6 +109,16 @@ class ProgressDialogBuilder {
   }
 
   static void hideCommonProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
+  // upadte user details 更新中。
+  static void showUserDetailsUpdateProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideUserDetailsUpdateProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
 }

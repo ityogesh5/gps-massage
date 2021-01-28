@@ -222,6 +222,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         DialogHelper.showRegisterSuccessDialog(context);
+        HealingMatchConstants.isUserVerified = true;
       } else {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
         print('Response Failure !!');

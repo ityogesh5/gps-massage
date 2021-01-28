@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -17,7 +16,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -60,7 +58,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myGender = '';
   String _myOccupation = '';
   String _myAddressInputType = '';
-  String _myCategoryPlaceForMassage = '';
+  String myCategoryPlaceForMassage = '';
   String _myPrefecture = '';
   String _myCity = '';
   File _profileImage;
@@ -204,6 +202,7 @@ class _RegisterUserState extends State<RegisterUser> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
+                HealingMatchConstants.isUserRegistrationSkipped = true;
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
@@ -837,7 +836,6 @@ class _RegisterUserState extends State<RegisterUser> {
                                             .contains('現在地を取得する')) {
                                       gpsAddressController.clear();
                                       _showCurrentLocationInput = true;
-                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
@@ -889,17 +887,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 0.85,
                                         child: DropDownFormField(
                                           hintText: '登録する地点のカテゴリー *',
-                                          value: _myCategoryPlaceForMassage,
+                                          value: myCategoryPlaceForMassage,
                                           onSaved: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              myCategoryPlaceForMassage = value;
                                             });
                                           },
                                           onChanged: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              myCategoryPlaceForMassage = value;
                                             });
                                           },
                                           dataSource: [
@@ -2014,8 +2010,8 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user place for massage validation
-    if (_myCategoryPlaceForMassage == null ||
-        _myCategoryPlaceForMassage.isEmpty) {
+    if (myCategoryPlaceForMassage == null ||
+        myCategoryPlaceForMassage.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2140,7 +2136,8 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     // user building name validation
-    if (buildingName == null || buildingName.isEmpty) {
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
+        buildingName.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2170,7 +2167,8 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // room number validation
-    if (roomNumber == null || roomNumber.isEmpty) {
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
+        roomNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2258,7 +2256,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "password": password,
         "password_confirmation": confirmPassword,
         "isTherapist": "0",
-        "userPlaceForMassage": _myCategoryPlaceForMassage,
+        "userPlaceForMassage": myCategoryPlaceForMassage,
         "addressTypeSelection": _myAddressInputTypeVal,
         "address": HealingMatchConstants.userAddress,
         "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
@@ -2266,6 +2264,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "buildingName": buildingName,
         "area": userArea,
         "userRoomNumber": roomNumber,
+        "addressTypeSelection": _myAddressInputTypeVal,
         "lat": HealingMatchConstants.currentLatitude.toString(),
         "lon": HealingMatchConstants.currentLongitude.toString()
       });
@@ -2291,6 +2290,7 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('userDOB', serviceUserDetails.data.userResponse.dob);
           value.setString('userAge', serviceUserDetails.data.userResponse.age);
           value.setString('userGender', japaneseGender);
+
           value.setString('userOccupation',
               serviceUserDetails.data.userResponse.userOccupation);
           value.setString(
@@ -2298,6 +2298,8 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('buildingName',
               serviceUserDetails.data.addressResponse.buildingName);
           value.setString('roomNumber', roomNumber);
+          value.setString('city', roomNumber);
+          value.setString('userPlaceForMassage', myCategoryPlaceForMassage);
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
           value.setString('addressType',

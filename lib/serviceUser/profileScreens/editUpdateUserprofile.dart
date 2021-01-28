@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<dynamic> addressValues = List();
+List<dynamic> textFieldValues = List();
 List<dynamic> subAddressValues = List();
 final addedFirstSubAddressController = new TextEditingController();
 final addedSecondSubAddressController = new TextEditingController();
@@ -38,13 +39,29 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String userGender = '';
   String userOccupation = '';
   String userAddress = '';
+  String userBuildName = '';
+  String userRoomNo = '';
+  String userPlaceForMassage = '';
+
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddressFields();
+    getEditUserFields();
+    getUserProfileData();
+    userNameController.text = HealingMatchConstants.userEditUserName;
+    phoneNumberController.text = HealingMatchConstants.userEditPhoneNumber;
+    emailController.text = HealingMatchConstants.userEditEmailAddress;
+    ageController.text = HealingMatchConstants.userEditUserAge;
+    _userDOBController.text = HealingMatchConstants.userEditDob;
+    buildingNameController.text = HealingMatchConstants.userEditBuildName;
+    roomNumberController.text = HealingMatchConstants.userEditRoomNo;
+    gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
+    HealingMatchConstants.userEditUserGender = _myGender;
+    _myOccupation = HealingMatchConstants.userEditUserOccupation;
+    HealingMatchConstants.userEditUserOccupation = _myCategoryPlaceForMassage;
   }
 
   Future<SharedPreferences> _sharedPreferences =
@@ -204,7 +221,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            NavigationRouter.switchToServiceUserViewProfileScreen(context);
           },
         ),
         centerTitle: true,
@@ -665,14 +682,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('現在地を取得する')) {
+                                      _showCurrentLocationInput = true;
                                       gpsAddressController.clear();
                                       buildingNameController.clear();
                                       roomNumberController.clear();
-                                      _showCurrentLocationInput = true;
-                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
+                                      _showCurrentLocationInput = false;
                                       cityDropDownValues.clear();
                                       stateDropDownValues.clear();
                                       buildingNameController.clear();
@@ -680,7 +697,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       _myPrefecture = '';
                                       _myCity = '';
                                       _isGPSLocation = false;
-                                      _showCurrentLocationInput = false;
                                       _getStates();
                                     }
                                     print(
@@ -1267,6 +1283,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     addressValues != null
                         ? Container(
                             child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 itemCount: addressValues.length,
@@ -2185,11 +2202,33 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         userGender = value.getString('userGender');
         userOccupation = value.getString('userOccupation');
         userAddress = value.getString('userAddress');
+        userBuildName = value.getString('buildingName');
+        userRoomNo = value.getString('roomNumber');
+        userPlaceForMassage = value.getString('userPlaceForMassage');
 
         // Convert string url of image to base64 format
         convertBase64ProfileImage(userProfileImage);
+
+        setState(() {
+          HealingMatchConstants.userEditUserName = userName;
+          HealingMatchConstants.userEditPhoneNumber = userPhoneNumber;
+          HealingMatchConstants.userEditEmailAddress = emailAddress;
+          HealingMatchConstants.userEditDob = dob;
+          HealingMatchConstants.userEditUserAge = userAge;
+          HealingMatchConstants.userEditUserGender = userGender;
+          HealingMatchConstants.userEditUserOccupation = userOccupation;
+          HealingMatchConstants.userEditUserAddress = userAddress;
+          HealingMatchConstants.userEditBuildName = userBuildName;
+          HealingMatchConstants.userEditRoomNo = userRoomNo;
+          HealingMatchConstants.userEditPlaceForMassage = userPlaceForMassage;
+        });
+        print(HealingMatchConstants.userEditPlaceForMassage);
       });
-    } catch (e) {}
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    } catch (e) {
+      print(e.toString());
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
   }
 
   convertBase64ProfileImage(String userProfileImage) async {
@@ -2206,12 +2245,23 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     return (bytes != null ? base64Encode(bytes) : null);
   }
 
-  void getAddressFields() {
+  getEditUserFields() async {
     _sharedPreferences.then((value) {
-      userAddressType = value.getString('addressType');
-      print('User Address Type : $userAddressType');
+      _myAddressInputType = value.getString('addressType');
+      print('User Address Type : $_myAddressInputType');
+      if (_myAddressInputType.contains('現在地を取得する')) {
+        setState(() {
+          _showCurrentLocationInput = true;
+        });
+      } else if (_myAddressInputType.contains('直接入力する')) {
+        setState(() {
+          _showCurrentLocationInput = false;
+        });
+      } else {
+        return;
+      }
     });
-    print('Entering adress fields....');
+    print('Entering address fields....');
     for (int i = 0; i < addressValues.length; i++) {
       if (i == 0) {
         addedFirstSubAddressController.value =
@@ -3170,12 +3220,12 @@ class _AddAddressState extends State<AddAddress> {
             print('Entering if...');
             addressValues.add(manualAddedAddress);
             print(addressValues.length);
-            //Navigator.pop(context);
-            Navigator.push(
+            Navigator.pop(context);
+            /*Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));
+                        UpdateServiceUserDetails()));*/
           });
         } else {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
