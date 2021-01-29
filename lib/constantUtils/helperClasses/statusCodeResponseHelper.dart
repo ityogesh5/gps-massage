@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/models/apiErrorModels/serviceUser/registerErrorHandler.dart';
 import 'package:toast/toast.dart';
 
-import 'alertDialogHelper/dialogHelper.dart';
-
 class StatusCodeHelper {
   //Checking register user response
   static bool isRegisterSuccess(
@@ -39,6 +37,13 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       print('Unauthorized User!!');
+      return false;
+    } else if (statusCode == 412) {
+      Toast.show("すべての必須値を入力してください。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
       return false;
     }
     return false;

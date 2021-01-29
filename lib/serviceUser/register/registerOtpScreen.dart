@@ -6,6 +6,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
@@ -18,6 +19,7 @@ class RegisterOtpScreen extends StatefulWidget {
 }
 
 class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
+  var reSendVerifyResponse = SendVerifyResponseModel();
   String userOTP;
   TextEditingController pin = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -31,6 +33,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -131,7 +134,9 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                     SizedBox(height: 20),
                     InkWell(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          resendOtp();
+                        },
                         child: Text(
                           HealingMatchConstants.serviceResendOtpTxt,
                           style: TextStyle(
@@ -152,6 +157,8 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
   verifyOtp() async {
     var pinCode = userOTP;
+
+    // OTP validation
     if (pinCode == null || pinCode.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -230,6 +237,36 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
       }
     } catch (e) {
       ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
+  }
+
+  resendOtp() async {
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": HealingMatchConstants.serviceUserPhoneNumber,
+            "isTherapist": "0"
+          }));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        NavigationRouter.switchToUserChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
     }

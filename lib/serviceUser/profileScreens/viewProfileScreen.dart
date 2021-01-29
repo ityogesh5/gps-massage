@@ -425,12 +425,13 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
     imgBase64ProfileImage =
         await networkImageToBase64RightFront(userProfileImage);
     profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
-    HealingMatchConstants.profileImageInBytes = profileImageInBytes;
-    // print('profile image : $profileImageInBytes');
+    setState(() {
+      HealingMatchConstants.profileImageInBytes = profileImageInBytes;
+    });
   }
 
   //Profile Image
-  Future<String> networkImageToBase64RightFront(String imageUrl) async {
+  Future<String> networkImageToBase64RightFront(String imageUrl)  async {
     http.Response response = await http.get(imageUrl);
     final bytes = response?.bodyBytes;
     return (bytes != null ? base64Encode(bytes) : null);
