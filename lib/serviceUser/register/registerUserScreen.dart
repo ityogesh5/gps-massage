@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -17,7 +16,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -204,6 +202,7 @@ class _RegisterUserState extends State<RegisterUser> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
+                HealingMatchConstants.isUserRegistrationSkipped = true;
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
@@ -837,7 +836,6 @@ class _RegisterUserState extends State<RegisterUser> {
                                             .contains('現在地を取得する')) {
                                       gpsAddressController.clear();
                                       _showCurrentLocationInput = true;
-                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
@@ -2140,7 +2138,8 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     // user building name validation
-    if (buildingName == null || buildingName.isEmpty) {
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
+        buildingName.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2170,7 +2169,8 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // room number validation
-    if (roomNumber == null || roomNumber.isEmpty) {
+    if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
+        roomNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2265,6 +2265,7 @@ class _RegisterUserState extends State<RegisterUser> {
         "buildingName": buildingName,
         "area": userArea,
         "userRoomNumber": roomNumber,
+        "addressTypeSelection": _myAddressInputTypeVal,
         "lat": HealingMatchConstants.currentLatitude.toString(),
         "lon": HealingMatchConstants.currentLongitude.toString()
       });
@@ -2296,11 +2297,13 @@ class _RegisterUserState extends State<RegisterUser> {
               'userAddress', serviceUserDetails.data.addressResponse.address);
           value.setString('buildingName',
               serviceUserDetails.data.addressResponse.buildingName);
-          value.setString('roomNumber', roomNumber);
+          value.setString('roomNumber', serviceUserDetails.data.addressResponse.userRoomNumber);
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
           value.setString('addressType',
               serviceUserDetails.data.addressResponse.addressTypeSelection);
+          value.setString('addressID',
+              serviceUserDetails.data.addressResponse.id.toString());
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);

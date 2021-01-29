@@ -52,6 +52,9 @@ class HealingMatchConstants {
   static String locationProgressText = '現在地を取得中...';
   static String getCityProgressText = '府県の市のデータを取得中。。。';
   static String getLoginProgressText = 'ログイン中。。。';
+  static bool isUserRegistrationSkipped = false;
+  static bool isUserRegistered = false;
+  static bool isUserVerified = false;
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 *";

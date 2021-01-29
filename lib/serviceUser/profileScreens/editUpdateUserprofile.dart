@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
@@ -16,10 +15,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<dynamic> addressValues = List();
-final addedFirstAddressController = new TextEditingController();
+List<dynamic> subAddressValues = List();
+List<dynamic> spfAddressValues = List();
+final addedFirstSubAddressController = new TextEditingController();
 final addedSecondSubAddressController = new TextEditingController();
-final addedThirdController = new TextEditingController();
+final addedThirdSubAddressController = new TextEditingController();
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -32,11 +34,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddressFields();
+    getEditUserFields();
   }
 
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
   var userAddressType = '';
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
@@ -58,12 +58,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String _myGender = '';
   String _myOccupation = '';
   String _myAddressInputType = '';
+  String _userAddressID = '';
   String _myAddedAddressInputType = '';
   String _myCategoryPlaceForMassage = '';
   String _myPrefecture = '';
   String _myCity = '';
   String _myAddedPrefecture = '';
-  String _myAddedCity = '';
+  String _myAddedCity;
   File _profileImage;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
@@ -192,7 +193,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context);
+            NavigationRouter.switchToServiceUserViewProfileScreen(context);
           },
         ),
         centerTitle: true,
@@ -653,14 +654,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('現在地を取得する')) {
+                                      _showCurrentLocationInput = true;
                                       gpsAddressController.clear();
                                       buildingNameController.clear();
                                       roomNumberController.clear();
-                                      _showCurrentLocationInput = true;
-                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
+                                      _showCurrentLocationInput = false;
                                       cityDropDownValues.clear();
                                       stateDropDownValues.clear();
                                       buildingNameController.clear();
@@ -668,7 +669,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       _myPrefecture = '';
                                       _myCity = '';
                                       _isGPSLocation = false;
-                                      _showCurrentLocationInput = false;
                                       _getStates();
                                     }
                                     print(
@@ -1224,8 +1224,40 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             icon:
                                 Icon(Icons.add, size: 28, color: Colors.black),
                             onPressed: () {
-                              NavigationRouter.switchToUserAddAddressScreen(
-                                  context);
+                              if (spfAddressValues.length == 3) {
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  backgroundColor: ColorConstants.snackBarColor,
+                                  duration: Duration(seconds: 3),
+                                  content: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Text('メインの地点以外に3箇所まで地点登録ができます。',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontFamily: 'Oxygen')),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          _scaffoldKey.currentState
+                                              .hideCurrentSnackBar();
+                                        },
+                                        child: Text('はい',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'Oxygen',
+                                                fontWeight: FontWeight.w500,
+                                                decoration:
+                                                    TextDecoration.underline)),
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                              } else {
+                                NavigationRouter.switchToUserAddAddressScreen(context);
+                              }
                             },
                           ),
                           hintStyle:
@@ -1252,12 +1284,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           color: Colors.grey),
                     ),
                     SizedBox(height: 15),
-                    addressValues != null
+                    spfAddressValues != null
                         ? Container(
                             child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: addressValues.length,
+                                itemCount: spfAddressValues.length,
                                 itemBuilder: (BuildContext ctxt, int index) {
                                   return index == 0
                                       ? Column(
@@ -1273,13 +1306,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                   0.85,
                                               child: TextFormField(
                                                 controller:
-                                                    addedFirstAddressController,
+                                                    addedFirstSubAddressController,
                                                 decoration: new InputDecoration(
                                                   filled: true,
                                                   fillColor: ColorConstants
                                                       .formFieldFillColor,
                                                   hintText:
-                                                      '${addressValues[0]}',
+                                                      '${spfAddressValues[0]}',
                                                   hintStyle: TextStyle(
                                                       color: Colors.grey[400],
                                                       fontSize: 14),
@@ -1325,7 +1358,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
                                                       hintText:
-                                                          '${addressValues[1]}',
+                                                          '${spfAddressValues[1]}',
                                                       hintStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
@@ -1365,14 +1398,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       0.85,
                                                   child: TextFormField(
                                                     controller:
-                                                        addedThirdController,
+                                                        addedThirdSubAddressController,
                                                     decoration:
                                                         new InputDecoration(
                                                       filled: true,
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
                                                       hintText:
-                                                          '${addressValues[2]}',
+                                                          '${spfAddressValues[2]}',
                                                       hintStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
@@ -1468,9 +1501,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          //_updateUserDetails();
-                          DialogHelper.showUserProfileUpdatedSuccessDialog(
-                              context);
+                          _updateUserDetails();
                         },
                         child: new Text(
                           '更新',
@@ -1634,27 +1665,608 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  _updateUserDetails() async {}
+  _updateUserDetails() async {
+    var userName = userNameController.text.toString();
+    var email = emailController.text.toString();
+    var userPhoneNumber = phoneNumberController.text.toString();
+    var userDOB = _userDOBController.text.toString();
+    var userAge = ageController.text.toString().trim();
+    int ageOfUser = int.tryParse(userAge);
+    //var _myAddressInputTypeVal = _myAddressInputType;
+    var buildingName = buildingNameController.text.toString();
+    var userArea = userAreaController.text.toString();
+    var roomNumber = roomNumberController.text.toString();
+    int userRoomNumber = int.tryParse(roomNumber);
+    int phoneNumber = int.tryParse(userPhoneNumber);
 
-  void getAddressFields() {
+    var userGPSAddress = gpsAddressController.text.toString().trim();
+
+    // user perfecture validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (_myPrefecture == null || _myPrefecture.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な府県を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user city validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (_myCity == null || _myCity.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な市を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user area validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (userArea == null || userArea.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な都、県選 を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // Manual address building name validation
+    if (_myAddressInputType.contains("直接入力する") && buildingName == null ||
+        buildingName.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なビル名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // Manual address room number validation
+    if (_myAddressInputType.contains("直接入力する") && roomNumber == null ||
+        roomNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な号室を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    // GPS ADDRESS validation
+    if (_myAddressInputType.contains("現在地を取得する") &&
+        userGPSAddress == null &&
+        userGPSAddress.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な現在地の住所を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    // GPS ADDRESS building name validation
+    if (_myAddressInputType.contains("現在地を取得する") && buildingName == null ||
+        buildingName.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なビル名を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // GPS ADDRESS room number validation
+    if (_myAddressInputType.contains("現在地を取得する") && roomNumber == null ||
+        roomNumber.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効な号室を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user perfecture validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (_myPrefecture != null || _myPrefecture.isNotEmpty)) {
+      print('prefecture : $_myPrefecture');
+    }
+
+    // user city validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (_myCity != null || _myCity.isNotEmpty)) {
+      print('city : $_myCity');
+    }
+
+    // user area validation
+    if ((_myAddressInputType != "現在地を取得する") &&
+        (_myAddressInputType.contains("直接入力する")) &&
+        (userArea != null || userArea.isNotEmpty)) {
+      print('userArea : $userArea');
+    }
+    // Address input type validation
+    if (_myAddressInputType != null || _myAddressInputType.isNotEmpty) {
+      print('_myAddressInputType : $_myAddressInputType');
+    }
+
+    if (userName.isNotEmpty && userName.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('ユーザー名は20文字以内で入力してください。',
+                  overflow: TextOverflow.clip,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      fontFamily: 'Oxygen',
+                      color: Colors.black,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+    }
+
+    // user DOB validation
+    if (userDOB != null || userDOB.isNotEmpty) {
+      print('dob user : $userDOB');
+    }
+    // user gender validation
+    if (_myGender != null || _myGender.isNotEmpty) {
+      print('_myGender : $_myGender');
+    }
+    // user Occupation validation
+    if (_myOccupation != null || _myOccupation.isNotEmpty) {
+      print('_myOccupation : $_myOccupation');
+    }
+    // user phone number validation
+    if (userPhoneNumber != null &&
+        userPhoneNumber.isNotEmpty &&
+        userPhoneNumber.length < 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('正しい電話番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    // user phone number validation
+    if (userPhoneNumber != null &&
+        userPhoneNumber.isNotEmpty &&
+        userPhoneNumber.length > 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('正しい電話番号を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // user phone number validation
+    if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
+      print('userPhoneNumber : $userPhoneNumber');
+    }
+
+    // Email Validation
+    if (email.isNotEmpty && !(email.contains(regexMail))) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なメールアドレスを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty && email.length > 50) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('メールアドレスは50文字以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty && (email.contains(regexEmojis))) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('有効なメールアドレスを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'Oxygen')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Oxygen',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (email.isNotEmpty || email != null) {
+      print('email : $email');
+    }
+
+    // user place for massage validation
+    if (_myCategoryPlaceForMassage != null ||
+        _myCategoryPlaceForMassage.isNotEmpty) {
+      print('_myCategoryPlaceForMassage : $_myCategoryPlaceForMassage');
+    }
+
+    // user building name validation
+    if (buildingName != null || buildingName.isNotEmpty) {
+      print('buildingName : $buildingName');
+    }
+
+    // room number validation
+    if (roomNumber != null || roomNumber.isNotEmpty) {
+      print('roomNumber : $roomNumber');
+    }
+
+    // Getting user GPS Address value
+    if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
+      print('GPS Address : $userGPSAddress');
+      String userCurrentLocation =
+          roomNumber + ',' + buildingName + ',' + userGPSAddress;
+      print('GPS Modified Address : ${userCurrentLocation.trim()}');
+      subAddressValues.add(userCurrentLocation);
+    } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
+      String manualUserAddress = roomNumber +
+          ',' +
+          buildingName +
+          ',' +
+          userArea +
+          ',' +
+          _myCity +
+          ',' +
+          _myPrefecture;
+
+      List<Placemark> userAddress =
+          await geoLocator.placemarkFromAddress(manualUserAddress);
+      userAddedAddressPlaceMark = userAddress[0];
+      Position addressPosition = userAddedAddressPlaceMark.position;
+      var currentLatitude = addressPosition.latitude;
+      var currentLongitude = addressPosition.longitude;
+      var serviceUserCity = userAddedAddressPlaceMark.locality;
+      var serviceUserPrefecture = userAddedAddressPlaceMark.administrativeArea;
+
+      print(
+          'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
+          '${HealingMatchConstants.currentLongitude}');
+      print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
+      print('Manual Address : ${HealingMatchConstants.userAddress}');
+      print('Manual Modified Address : ${manualUserAddress.trim()}');
+      subAddressValues.add(manualUserAddress);
+    }
+
+    if (addedFirstSubAddressController.text.toString().isNotEmpty ||
+        addedFirstSubAddressController.text.toString() != null) {
+      subAddressValues.add(addedFirstSubAddressController.text.toString());
+    }
+    if (addedSecondSubAddressController.text.toString().isNotEmpty ||
+        addedSecondSubAddressController.text.toString() != null) {
+      subAddressValues.add(addedSecondSubAddressController.text.toString());
+    }
+    if (addedThirdSubAddressController.text.toString().isNotEmpty ||
+        addedThirdSubAddressController.text.toString() != null) {
+      subAddressValues.add(addedThirdSubAddressController.text.toString());
+    }
+    print('Sub address list values : ${subAddressValues.length}');
+    print('User Edit Success !!');
+    //DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+  }
+
+  getEditUserFields() async {
+    print('AddedCity : $_myAddedCity');
     _sharedPreferences.then((value) {
-      userAddressType = value.getString('addressType');
-      print('User Address Type : $userAddressType');
-    });
-    print('Entering adress fields....');
-    for (int i = 0; i < addressValues.length; i++) {
-      if (i == 0) {
-        addedFirstAddressController.value =
-            TextEditingValue(text: '${addressValues[0]}');
-      } else if (i == 1) {
-        addedSecondSubAddressController.value =
-            TextEditingValue(text: '${addressValues[1]}');
-      } else if (i == 2) {
-        addedThirdController.value =
-            TextEditingValue(text: '${addressValues[2]}');
+      _myAddressInputType = value.getString('addressType');
+      _userAddressID = value.getString('addressID');
+      print('User Address Type : $_myAddressInputType');
+      print('User Address ID : $_userAddressID');
+      if (_myAddressInputType.contains('現在地を取得する')) {
+        setState(() {
+          _showCurrentLocationInput = true;
+        });
+      } else if (_myAddressInputType.contains('直接入力する')) {
+        setState(() {
+          _showCurrentLocationInput = false;
+        });
       } else {
         return;
       }
+    });
+    print('Entering address fields....');
+    if (spfAddressValues != null || spfAddressValues.isNotEmpty) {
+      _sharedPreferences.then((value) {
+        setState(() {
+          spfAddressValues = value.getStringList('address');
+          print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length}');
+
+          for (int i = 0; i < spfAddressValues.length; i++) {
+            if (i == 0) {
+              addedFirstSubAddressController.value =
+                  TextEditingValue(text: '${spfAddressValues[0]}');
+            } else if (i == 1) {
+              addedSecondSubAddressController.value =
+                  TextEditingValue(text: '${spfAddressValues[1]}');
+            } else if (i == 2) {
+              addedThirdSubAddressController.value =
+                  TextEditingValue(text: '${spfAddressValues[2]}');
+            }
+          }
+        });
+      });
+    } else {
+      addressValues.clear();
+      subAddressValues.clear();
+      spfAddressValues.clear();
+      return;
     }
   }
 }
@@ -2600,12 +3212,12 @@ class _AddAddressState extends State<AddAddress> {
             print('Entering if...');
             addressValues.add(manualAddedAddress);
             print(addressValues.length);
-            //Navigator.pop(context);
-            Navigator.push(
+            Navigator.pop(context);
+            /*Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));
+                        UpdateServiceUserDetails()));*/
           });
         } else {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -2672,5 +3284,9 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
+    _sharedPreferences.then((value) {
+      value.setStringList('address', addressValues.cast<String>());
+      print('SPF LIST LENGTH : ${spfAddressValues.length}');
+    });
   }
 }

@@ -53,15 +53,17 @@ class UserResponse {
   bool isVerified;
   bool coronaMeasure;
   int id;
+  String email;
+  String phoneNumber;
   String userName;
+  String gender;
   String dob;
   String age;
-  String userOccupation;
-  String phoneNumber;
-  String email;
+  String storePhone;
   String isTherapist;
-  String gender;
+  String userOccupation;
   bool isActive;
+  bool isAccepted;
   String uploadProfileImgUrl;
   String userId;
   String updatedAt;
@@ -71,15 +73,17 @@ class UserResponse {
       {this.isVerified,
         this.coronaMeasure,
         this.id,
+        this.email,
+        this.phoneNumber,
         this.userName,
+        this.gender,
         this.dob,
         this.age,
-        this.userOccupation,
-        this.phoneNumber,
-        this.email,
+        this.storePhone,
         this.isTherapist,
-        this.gender,
+        this.userOccupation,
         this.isActive,
+        this.isAccepted,
         this.uploadProfileImgUrl,
         this.userId,
         this.updatedAt,
@@ -89,15 +93,17 @@ class UserResponse {
     isVerified = json['isVerified'];
     coronaMeasure = json['coronaMeasure'];
     id = json['id'];
+    email = json['email'];
+    phoneNumber = json['phoneNumber'];
     userName = json['userName'];
+    gender = json['gender'];
     dob = json['dob'];
     age = json['age'];
-    userOccupation = json['userOccupation'];
-    phoneNumber = json['phoneNumber'];
-    email = json['email'];
+    storePhone = json['storePhone'];
     isTherapist = json['isTherapist'];
-    gender = json['gender'];
+    userOccupation = json['userOccupation'];
     isActive = json['isActive'];
+    isAccepted = json['isAccepted'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     userId = json['userId'];
     updatedAt = json['updatedAt'];
@@ -109,15 +115,17 @@ class UserResponse {
     data['isVerified'] = this.isVerified;
     data['coronaMeasure'] = this.coronaMeasure;
     data['id'] = this.id;
+    data['email'] = this.email;
+    data['phoneNumber'] = this.phoneNumber;
     data['userName'] = this.userName;
+    data['gender'] = this.gender;
     data['dob'] = this.dob;
     data['age'] = this.age;
-    data['userOccupation'] = this.userOccupation;
-    data['phoneNumber'] = this.phoneNumber;
-    data['email'] = this.email;
+    data['storePhone'] = this.storePhone;
     data['isTherapist'] = this.isTherapist;
-    data['gender'] = this.gender;
+    data['userOccupation'] = this.userOccupation;
     data['isActive'] = this.isActive;
+    data['isAccepted'] = this.isAccepted;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['userId'] = this.userId;
     data['updatedAt'] = this.updatedAt;
@@ -129,10 +137,12 @@ class UserResponse {
 class AddressResponse {
   int id;
   String buildingName;
-  String area;
   String address;
+  String area;
   String lat;
   String lon;
+  String userPlaceForMassage;
+  String userRoomNumber;
   String addressTypeSelection;
   int userId;
   String createdUser;
@@ -143,10 +153,12 @@ class AddressResponse {
   AddressResponse(
       {this.id,
         this.buildingName,
-        this.area,
         this.address,
+        this.area,
         this.lat,
         this.lon,
+        this.userPlaceForMassage,
+        this.userRoomNumber,
         this.addressTypeSelection,
         this.userId,
         this.createdUser,
@@ -157,10 +169,12 @@ class AddressResponse {
   AddressResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     buildingName = json['buildingName'];
-    area = json['area'];
     address = json['address'];
+    area = json['area'];
     lat = json['lat'];
     lon = json['lon'];
+    userPlaceForMassage = json['userPlaceForMassage'];
+    userRoomNumber = json['userRoomNumber'];
     addressTypeSelection = json['addressTypeSelection'];
     userId = json['userId'];
     createdUser = json['createdUser'];
@@ -173,10 +187,12 @@ class AddressResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['buildingName'] = this.buildingName;
-    data['area'] = this.area;
     data['address'] = this.address;
+    data['area'] = this.area;
     data['lat'] = this.lat;
     data['lon'] = this.lon;
+    data['userPlaceForMassage'] = this.userPlaceForMassage;
+    data['userRoomNumber'] = this.userRoomNumber;
     data['addressTypeSelection'] = this.addressTypeSelection;
     data['userId'] = this.userId;
     data['createdUser'] = this.createdUser;
