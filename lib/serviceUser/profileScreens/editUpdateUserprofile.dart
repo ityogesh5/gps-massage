@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<dynamic> addressValues = List();
+List<dynamic> textFieldValues = List();
 List<dynamic> subAddressValues = List();
 List<dynamic> spfAddressValues = List();
 final addedFirstSubAddressController = new TextEditingController();
@@ -30,11 +32,38 @@ class UpdateServiceUserDetails extends StatefulWidget {
 }
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
+  String userProfileImage = '';
+  String userName = '';
+  String userPhoneNumber = '';
+  String emailAddress = '';
+  String dob = '';
+  String userAge = '';
+  String userGender = '';
+  String userOccupation = '';
+  String userAddress = '';
+  String userBuildName = '';
+  String userRoomNo = '';
+  String userPlaceForMassage = '';
+
+  String imgBase64ProfileImage;
+  Uint8List profileImageInBytes;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getEditUserFields();
+    getUserProfileData();
+    userNameController.text = HealingMatchConstants.userEditUserName;
+    phoneNumberController.text = HealingMatchConstants.userEditPhoneNumber;
+    emailController.text = HealingMatchConstants.userEditEmailAddress;
+    ageController.text = HealingMatchConstants.userEditUserAge;
+    _userDOBController.text = HealingMatchConstants.userEditDob;
+    buildingNameController.text = HealingMatchConstants.userEditBuildName;
+    roomNumberController.text = HealingMatchConstants.userEditRoomNo;
+    gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
+    HealingMatchConstants.userEditUserGender = _myGender;
+    _myOccupation = HealingMatchConstants.userEditUserOccupation;
+    HealingMatchConstants.userEditUserOccupation = _myCategoryPlaceForMassage;
   }
 
   var userAddressType = '';
@@ -2220,6 +2249,63 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('Sub address list values : ${subAddressValues.length}');
     print('User Edit Success !!');
     //DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+  }
+
+  getUserProfileData() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      _sharedPreferences.then((value) {
+        print('Getting values...EPF');
+        userProfileImage = value.getString('profileImage');
+        userName = value.getString('userName');
+        userPhoneNumber = value.getString('userPhoneNumber');
+        emailAddress = value.getString('userEmailAddress');
+        dob = value.getString('userDOB');
+        userAge = value.getString('userAge');
+        userGender = value.getString('userGender');
+        userOccupation = value.getString('userOccupation');
+        userAddress = value.getString('userAddress');
+        userBuildName = value.getString('buildingName');
+        userRoomNo = value.getString('roomNumber');
+        userPlaceForMassage = value.getString('userPlaceForMassage');
+
+        // Convert string url of image to base64 format
+        convertBase64ProfileImage(userProfileImage);
+
+        setState(() {
+          HealingMatchConstants.userEditUserName = userName;
+          HealingMatchConstants.userEditPhoneNumber = userPhoneNumber;
+          HealingMatchConstants.userEditEmailAddress = emailAddress;
+          HealingMatchConstants.userEditDob = dob;
+          HealingMatchConstants.userEditUserAge = userAge;
+          HealingMatchConstants.userEditUserGender = userGender;
+          HealingMatchConstants.userEditUserOccupation = userOccupation;
+          HealingMatchConstants.userEditUserAddress = userAddress;
+          HealingMatchConstants.userEditBuildName = userBuildName;
+          HealingMatchConstants.userEditRoomNo = userRoomNo;
+          HealingMatchConstants.userEditPlaceForMassage = userPlaceForMassage;
+        });
+        print(HealingMatchConstants.userEditPlaceForMassage);
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    } catch (e) {
+      print(e.toString());
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
+  }
+
+  convertBase64ProfileImage(String userProfileImage) async {
+    imgBase64ProfileImage =
+        await networkImageToBase64RightFront(userProfileImage);
+    profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
+    HealingMatchConstants.userEditProfile = profileImageInBytes;
+    // print('profile image : $profileImageInBytes');
+  }
+
+  Future<String> networkImageToBase64RightFront(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    final bytes = response?.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
   }
 
   getEditUserFields() async {

@@ -58,7 +58,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myGender = '';
   String _myOccupation = '';
   String _myAddressInputType = '';
-  String _myCategoryPlaceForMassage = '';
+  String myCategoryPlaceForMassage = '';
   String _myPrefecture = '';
   String _myCity = '';
   File _profileImage;
@@ -887,17 +887,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 0.85,
                                         child: DropDownFormField(
                                           hintText: '登録する地点のカテゴリー *',
-                                          value: _myCategoryPlaceForMassage,
+                                          value: myCategoryPlaceForMassage,
                                           onSaved: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              myCategoryPlaceForMassage = value;
                                             });
                                           },
                                           onChanged: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              myCategoryPlaceForMassage = value;
                                             });
                                           },
                                           dataSource: [
@@ -2012,8 +2010,8 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user place for massage validation
-    if (_myCategoryPlaceForMassage == null ||
-        _myCategoryPlaceForMassage.isEmpty) {
+    if (myCategoryPlaceForMassage == null ||
+        myCategoryPlaceForMassage.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2258,7 +2256,8 @@ class _RegisterUserState extends State<RegisterUser> {
         "password": password,
         "password_confirmation": confirmPassword,
         "isTherapist": "0",
-        "userPlaceForMassage": _myCategoryPlaceForMassage,
+        "userPlaceForMassage": myCategoryPlaceForMassage,
+        "addressTypeSelection": _myAddressInputTypeVal,
         "address": HealingMatchConstants.userAddress,
         "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
         "city": HealingMatchConstants.serviceUserCity,
@@ -2291,13 +2290,17 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('userDOB', serviceUserDetails.data.userResponse.dob);
           value.setString('userAge', serviceUserDetails.data.userResponse.age);
           value.setString('userGender', japaneseGender);
+
           value.setString('userOccupation',
               serviceUserDetails.data.userResponse.userOccupation);
           value.setString(
               'userAddress', serviceUserDetails.data.addressResponse.address);
           value.setString('buildingName',
               serviceUserDetails.data.addressResponse.buildingName);
-          value.setString('roomNumber', serviceUserDetails.data.addressResponse.userRoomNumber);
+
+          value.setString('roomNumber',
+              serviceUserDetails.data.addressResponse.userRoomNumber);
+
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
           value.setString('addressType',
@@ -2305,6 +2308,8 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('addressID',
               serviceUserDetails.data.addressResponse.id.toString());
         });
+        print(
+            'addressType:${serviceUserDetails.data.addressResponse.addressTypeSelection}');
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {

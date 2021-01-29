@@ -235,6 +235,19 @@ class HealingMatchConstants {
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
   // Profile Edit screen user
+  static Uint8List userEditProfile;
+  static String userEditUserName = '';
+  static String userEditPhoneNumber = '';
+  static String userEditEmailAddress = '';
+  static String userEditDob = '';
+  static String userEditUserAge = '';
+  static String userEditUserGender = '';
+  static String userEditUserOccupation = '';
+  static String userEditUserAddress = '';
+  static String userEditBuildName = '';
+  static String userEditRoomNo = '';
+  static String userEditPlaceForMassage = '';
+
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
