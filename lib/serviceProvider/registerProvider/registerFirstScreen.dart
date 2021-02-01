@@ -1492,10 +1492,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                    validateFields();
+                //    validateFields();
 
-                    /*  NavigationRouter.switchToServiceProviderSecondScreen(
-                                      context); */
+                     NavigationRouter.switchToServiceProviderSecondScreen(
+                                      context);
                   },
                 ),
               ),

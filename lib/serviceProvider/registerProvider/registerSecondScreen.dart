@@ -419,7 +419,9 @@ class _RegistrationSecondPageState
                   ),
                   Container(
                     width: double.infinity,
-                    height: !uploadVisible && certificateImages.length == 0
+                    height: !uploadVisible &&
+                            certificateImages.length == 0 &&
+                            privateQualification.length == 0
                         ? 0
                         : 195.0, // MediaQuery.of(context).size.height * 0.19,
                     padding: EdgeInsets.only(top: 16.0),
