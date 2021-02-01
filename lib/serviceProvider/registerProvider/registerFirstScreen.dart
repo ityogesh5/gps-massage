@@ -262,6 +262,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               SizedBox(
                 height: 20.0,
               ),
+              drawRangeSlider(),
+              SizedBox(
+                height: 20.0,
+              ),
               Stack(
                 overflow: Overflow.visible,
                 children: [
@@ -370,9 +374,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: containerHeight,
                 width: containerWidth,
                 /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                   // color: Colors.black12,
-                    border: Border.all(color: Colors.transparent)), */
+                                  borderRadius: BorderRadius.circular(10.0),
+                                 // color: Colors.black12,
+                                  border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
                   hintText: '事業形態*',
                   value: bussinessForm,
@@ -405,9 +409,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       height: containerHeight,
                       width: containerWidth,
                       /*  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                   // color: Colors.black12,
-                    border: Border.all(color: Colors.black12)), */
+                                  borderRadius: BorderRadius.circular(10.0),
+                                 // color: Colors.black12,
+                                  border: Border.all(color: Colors.black12)), */
                       child: DropDownFormField(
                         hintText: '従業員数',
                         value: numberOfEmployees,
@@ -557,9 +561,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Container(
                         height: containerHeight,
                         /* decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.black12,
-                            border: Border.all(color: Colors.black12)), */
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          color: Colors.black12,
+                                          border: Border.all(color: Colors.black12)), */
                         child: DropDownFormField(
                           hintText: 'はい',
                           value: serviceBusinessTrips,
@@ -770,13 +774,19 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               ),
               Container(
                 width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationJapanAssociationTxt,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("*", style: TextStyle(color: Colors.red)),
+                    Text(
+                      HealingMatchConstants.registrationJapanAssociationTxt,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -921,12 +931,18 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   children: [
                     Expanded(
                       child: Center(
-                        child: Text(
-                          HealingMatchConstants.registrationGender,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              HealingMatchConstants.registrationGender,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text("*", style: TextStyle(color: Colors.red)),
+                          ],
                         ),
                       ),
                     ),
@@ -934,11 +950,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.25,
                         /*   decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(10.0),
-                                                          color: Colors.black12,
-                                                          border: Border.all(color: Colors.black12)), */
+                                                                        borderRadius: BorderRadius.circular(10.0),
+                                                                        color: Colors.black12,
+                                                                        border: Border.all(color: Colors.black12)), */
                         child: DropDownFormField(
-                          hintText: '女',
+                          hintText: '',
                           value: gender,
                           onSaved: (value) {
                             setState(() {
@@ -1087,12 +1103,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               Container(
                 height: containerHeight,
                 width: containerWidth,
-                child: Text(
-                  "*半角英数8~16文字以内",
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
+                child: Row(
+                  children: [
+                    Text("*", style: TextStyle(color: Colors.red)),
+                    Text(
+                      HealingMatchConstants.registrationPasswordInstructionText,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -1132,9 +1153,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: containerHeight,
                 width: containerWidth,
                 /*  decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                  color: Colors.black12,
-                                                  border: Border.all(color: Colors.black12)), */
+                                                                borderRadius: BorderRadius.circular(10.0),
+                                                                color: Colors.black12,
+                                                                border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
                   hintText: '検索地点の登録*',
                   value: registrationAddressType,
@@ -1400,13 +1421,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               ),
               Container(
                 width: containerWidth,
-                child: Text(
-                  HealingMatchConstants.registrationPointTxt,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("*", style: TextStyle(color: Colors.red)),
+                    Expanded(
+                      child: Text(
+                        HealingMatchConstants.registrationPointTxt,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -1432,8 +1461,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onPressed: () {
                     validateFields();
 
-                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
-                        context); */
+                    /*  NavigationRouter.switchToServiceProviderSecondScreen(
+                                      context); */
                   },
                 ),
               ),
@@ -1538,7 +1567,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var genderSelecetedValue = gender;
     var businessFormVal = bussinessForm;
 
-    /*   //Profile image validation
+    //Profile image validation
     if (_profileImage == null || _profileImage.path == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1553,7 +1582,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return null;
     }
- */
 
     //Business Form Validation
     if (businessFormVal == null || businessFormVal.isEmpty) {
@@ -1618,23 +1646,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    /*if (dob.length == 0 || dob.isEmpty || dob == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }*/
-
     //storename Validation
-    /* if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storename.length == 0 || storename.isEmpty || storename == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1649,7 +1662,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    } */
+    }
 
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
@@ -1735,7 +1748,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // store phone number validation
-    /*  if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storenumber == null || storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1750,7 +1763,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    } */
+    }
+
     if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
         (storenumber.length > 10 ||
@@ -2263,6 +2277,25 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             ),
             Text("$storeTypeDisplayValues", style: TextStyle(fontSize: 14.0)),
           ],
+        ),
+      ],
+    );
+  }
+
+  drawRangeSlider() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.circle,
+          size: 15.0,
+          color: Colors.lime,
+        ),
+        SizedBox(width: 100.0, child: Divider(color: Colors.grey[300])),
+        Icon(
+          Icons.circle,
+          size: 15.0,
+          color: Colors.grey[300],
         ),
       ],
     );

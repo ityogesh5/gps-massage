@@ -234,60 +234,76 @@ class UserResponse {
 }
 
 class AddressResponse {
+  AddressResponse({
+    this.id,
+    this.buildingName,
+    this.address,
+    this.cityName,
+    this.area,
+    this.lat,
+    this.lon,
+    this.userRoomNumber,
+    this.addressTypeSelection,
+    this.capitalAndPrefecture,
+    this.userId,
+    this.createdUser,
+    this.updatedUser,
+    this.updatedAt,
+    this.createdAt,
+  });
+
   int id;
   String buildingName;
   String address;
+  String cityName;
   String area;
   String lat;
   String lon;
+  String userRoomNumber;
+  String addressTypeSelection;
+  String capitalAndPrefecture;
   int userId;
   String createdUser;
   String updatedUser;
-  String updatedAt;
-  String createdAt;
+  DateTime updatedAt;
+  DateTime createdAt;
 
-  AddressResponse(
-      {this.id,
-      this.buildingName,
-      this.address,
-      this.area,
-      this.lat,
-      this.lon,
-      this.userId,
-      this.createdUser,
-      this.updatedUser,
-      this.updatedAt,
-      this.createdAt});
+  factory AddressResponse.fromJson(Map<String, dynamic> json) =>
+      AddressResponse(
+        id: json["id"],
+        buildingName: json["buildingName"],
+        address: json["address"],
+        cityName: json["cityName"],
+        area: json["area"],
+        lat: json["lat"],
+        lon: json["lon"],
+        userRoomNumber: json["userRoomNumber"],
+        addressTypeSelection: json["addressTypeSelection"],
+        capitalAndPrefecture: json["capitalAndPrefecture"],
+        userId: json["userId"],
+        createdUser: json["createdUser"],
+        updatedUser: json["updatedUser"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: DateTime.parse(json["createdAt"]),
+      );
 
-  AddressResponse.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    buildingName = json['buildingName'];
-    address = json['address'];
-    area = json['area'];
-    lat = json['lat'];
-    lon = json['lon'];
-    userId = json['userId'];
-    createdUser = json['createdUser'];
-    updatedUser = json['updatedUser'];
-    updatedAt = json['updatedAt'];
-    createdAt = json['createdAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['buildingName'] = this.buildingName;
-    data['address'] = this.address;
-    data['area'] = this.area;
-    data['lat'] = this.lat;
-    data['lon'] = this.lon;
-    data['userId'] = this.userId;
-    data['createdUser'] = this.createdUser;
-    data['updatedUser'] = this.updatedUser;
-    data['updatedAt'] = this.updatedAt;
-    data['createdAt'] = this.createdAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "buildingName": buildingName,
+        "address": address,
+        "cityName": cityName,
+        "area": area,
+        "lat": lat,
+        "lon": lon,
+        "userRoomNumber": userRoomNumber,
+        "addressTypeSelection": addressTypeSelection,
+        "capitalAndPrefecture": capitalAndPrefecture,
+        "userId": userId,
+        "createdUser": createdUser,
+        "updatedUser": updatedUser,
+        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt.toIso8601String(),
+      };
 }
 
 class CertificationResponse {

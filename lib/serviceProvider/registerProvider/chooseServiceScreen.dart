@@ -846,7 +846,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     //SizedBox(height: 5),
                     Center(
                       child: Text(
-                        "計算したい日付を選択し",
+                        "$val",
                         style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,

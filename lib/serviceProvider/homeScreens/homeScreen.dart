@@ -29,6 +29,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   var now = DateTime.now();
   int _lastday;
   int _counter = 0;
+  int daysToDisplay;
 
   void initState() {
     super.initState();
@@ -41,6 +42,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     _lastday = DateTime(now.year, now.month + 1, 0).day;
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
+    daysToDisplay = totalDays(_cmonth, _cyear);
+    setState(() {
+      print(daysToDisplay);
+    });
   }
 
   @override
@@ -437,14 +442,20 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     onSaved: (value) {
                                       setState(() {
                                         yearString = value;
-                                        _cyear = value;
+                                        _cyear = int.parse(value);
+                                        _currentDay = 1;
+                                        daysToDisplay =
+                                            totalDays(_cmonth, _cyear);
                                       });
                                     },
                                     value: yearString,
                                     onChanged: (value) {
                                       setState(() {
                                         yearString = value;
-                                        _cyear = value;
+                                        _cyear = int.parse(value);
+                                        _currentDay = 1;
+                                        daysToDisplay =
+                                            totalDays(_cmonth, _cyear);
                                       });
                                     },
                                     dataSource: [
@@ -489,7 +500,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         onSaved: (value) {
                                           setState(() {
                                             monthString = value;
-                                            _cmonth = value;
+                                            _cmonth = int.parse(value);
+                                            daysToDisplay =
+                                                totalDays(_cmonth, _cyear);
+                                            _currentDay = 1;
                                             _incrementCounter();
                                           });
                                         },
@@ -497,57 +511,60 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         onChanged: (value) {
                                           setState(() {
                                             monthString = value;
-                                            _cmonth = value;
+                                            _cmonth = int.parse(value);
+                                            daysToDisplay =
+                                                totalDays(_cmonth, _cyear);
+                                            _currentDay = 1;
                                             _incrementCounter();
                                           });
                                         },
                                         dataSource: [
                                           {
-                                            "display": "1",
+                                            "display": "1月",
                                             "value": "1",
                                           },
                                           {
-                                            "display": "2",
+                                            "display": "2月",
                                             "value": "2",
                                           },
                                           {
-                                            "display": "3",
+                                            "display": "3月",
                                             "value": "3",
                                           },
                                           {
-                                            "display": "4",
+                                            "display": "4月",
                                             "value": "4",
                                           },
                                           {
-                                            "display": "5",
+                                            "display": "5月",
                                             "value": "5",
                                           },
                                           {
-                                            "display": "6",
+                                            "display": "6月",
                                             "value": "6",
                                           },
                                           {
-                                            "display": "7",
+                                            "display": "7月",
                                             "value": "7",
                                           },
                                           {
-                                            "display": "8",
+                                            "display": "8月",
                                             "value": "8",
                                           },
                                           {
-                                            "display": "9",
+                                            "display": "9月",
                                             "value": "9",
                                           },
                                           {
-                                            "display": "10",
+                                            "display": "10月",
                                             "value": "10",
                                           },
                                           {
-                                            "display": "11",
+                                            "display": "11月",
                                             "value": "11",
                                           },
                                           {
-                                            "display": "12",
+                                            "display": "12月",
                                             "value": "12",
                                           },
                                         ],
@@ -622,20 +639,20 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             /*  Row(
-                              children: [
-                                Container(
-                                  width: 70.0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 13.0, right: 8.0),
-                                    child: Text("09:00",
-                                        textAlign: TextAlign.right,
-                                        style:
-                                            TextStyle(color: Colors.grey[500])),
-                                  ),
-                                ),
-                              ],
-                            ), */
+                                                                             children: [
+                                                                               Container(
+                                                                                 width: 70.0,
+                                                                                 child: Padding(
+                                                                                   padding: const EdgeInsets.only(
+                                                                                       top: 13.0, right: 8.0),
+                                                                                   child: Text("09:00",
+                                                                                       textAlign: TextAlign.right,
+                                                                                       style:
+                                                                                           TextStyle(color: Colors.grey[500])),
+                                                                                 ),
+                                                                               ),
+                                                                             ],
+                                                                           ), */
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 15.0,
@@ -673,14 +690,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               BorderRadius.circular(10.0),
                                           shape: BoxShape
                                               .rectangle /* (
-                  borderRadius: new BorderRadius.circular(10.0)), */
+                                                                 borderRadius: new BorderRadius.circular(10.0)), */
                                           ),
                                       end: date.add(
                                         const Duration(hours: 10, minutes: 00),
                                       ),
                                       /* eventTextBuilder: (event, a, b, c, d) {
-                                          return Text('a');
-                                        } */
+                                                                                         return Text('a');
+                                                                                       } */
                                     ),
                                     FlutterWeekViewEvent(
                                       title: 'An event 2',
@@ -723,18 +740,18 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               ),
                             ),
                             /*  Positioned(
-                              top: 0,
-                              left: 0,
-                              width: 70.0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 13.0, right: 8.0),
-                                child: Text("09:00",
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(color: Colors.grey[500])),
-                              ),
-                            ),
-                          */
+                                                                             top: 0,
+                                                                             left: 0,
+                                                                             width: 70.0,
+                                                                             child: Padding(
+                                                                               padding:
+                                                                                   const EdgeInsets.only(top: 13.0, right: 8.0),
+                                                                               child: Text("09:00",
+                                                                                   textAlign: TextAlign.right,
+                                                                                   style: TextStyle(color: Colors.grey[500])),
+                                                                             ),
+                                                                           ),
+                                                                         */
                           ],
                         ),
                       ],
@@ -928,7 +945,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       zeroPad: false,
       initialValue: _currentDay,
       minValue: 1,
-      maxValue: 30,
+      maxValue: daysToDisplay,
       onChanged: (newValue) => setState(() {
         if ((newValue != _currentDay)) {
           changeMonth(newValue);
@@ -981,6 +998,22 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     meetings.add(Meeting(
         'Conference', startTime, endTime, const Color(0xFF0F8644), false));
     return meetings;
+  }
+
+  int totalDays(int month, int year) {
+    if (month == 1 ||
+        month == 3 ||
+        month == 5 ||
+        month == 7 ||
+        month == 8 ||
+        month == 10 ||
+        month == 12) {
+      return 31;
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+      return 30;
+    } else if (month == 2) {
+      return year % 4 == 0 ? 29 : 28;
+    }
   }
 }
 

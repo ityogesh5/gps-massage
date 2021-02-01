@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -131,6 +132,7 @@ class HealingMatchConstants {
   static List<String> otherTreatmentDropDownValues = List<String>();
   static List<String> otherRelaxationDropDownValues = List<String>();
   static List<String> otherFitnessDropDownValues = List<String>();
+  static List<Asset> bannerImages = List<Asset>();
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
@@ -166,25 +168,25 @@ class HealingMatchConstants {
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =
-      '*マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
+      'マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
   static const String registrationName = 'お名前*';
   static const String registrationStoreTxt = '店舗として登録の場合は代表者の氏名を入力してください';
   static const String registrationStoreName = '店舗名*';
   static const String registrationDob = '生年月日*';
   static const String registrationAge = '年齢';
-  static const String registrationGender = '性別*';
+  static const String registrationGender = '性別';
   static const String registrationPhnNum = '電話番号*';
   static const String registrationStorePhnNum = '店舗の電話番号*';
   static const String registrationMailAdress = 'メールアドレス*';
   static const String registrationPassword = 'パスワード*';
+  static const String registrationPasswordInstructionText = "半角英数8~16文字以内";
   static const String registrationConfirmPassword = 'パスワード再確認*';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に開示されることはありません。';
   static const String registrationBuildingName = '建物名*';
   static const String registrationRoomNo = '部屋番号*';
-  static const String registrationPointTxt =
-      '*登録地点周辺のサービス利用者に優先的に検索されるようになります。';
+  static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
   static const String registrationIdentityVerification =
@@ -203,6 +205,7 @@ class HealingMatchConstants {
   static const String registrationBankAccountType = '口座種類';
   static const String registrationCompleteBtn = '登録完了';
   static const String registrationAlreadyActTxt = 'すでにアカウントをお持ちの方';
+  static const String registrationBankOtherDropdownFiled = "その他";
 
   //ChooseServiceScreen
   static const String chooseServiceFirstText = "提供するサービスを選択し料金を設定してください。";
@@ -279,6 +282,13 @@ class HealingMatchConstants {
     borderRadius: BorderRadius.circular(10.0),
     borderSide: BorderSide(
       color: ColorConstants.formFieldBorderColor,
+    ),
+  );
+
+  static var otherFiledTextFormInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(
+      color: ColorConstants.formFieldFillColor,
     ),
   );
 }
