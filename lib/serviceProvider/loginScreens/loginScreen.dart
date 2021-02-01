@@ -96,6 +96,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       color: Colors.grey,
                     ),
                     labelText: HealingMatchConstants.loginUserPhoneNumber,
+                    labelStyle: TextStyle(color: Colors.grey),
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -124,6 +125,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         }),
                     filled: true,
                     labelText: HealingMatchConstants.loginPassword,
+                    labelStyle: TextStyle(color: Colors.grey),
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -308,7 +310,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceProviderFirstScreen(
+                    NavigationRouter.switchToServiceProviderSecondScreen(
                         context);
                   },
                   child: Text(

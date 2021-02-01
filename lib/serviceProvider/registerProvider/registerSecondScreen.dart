@@ -95,7 +95,7 @@ class _RegistrationSecondPageState
                     children: [
                       Text("*", style: TextStyle(color: Colors.red)),
                       Text(
-                        HealingMatchConstants.registrationSecondText,
+                        HealingMatchConstants.registrationScndText,
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
@@ -478,7 +478,7 @@ class _RegistrationSecondPageState
                                               Text(
                                                 HealingMatchConstants
                                                     .registrationQualificationUpload,
-                                                style: TextStyle(fontSize: 10),
+                                                style: TextStyle(fontSize: 8.5),
                                               ),
                                             ],
                                           ),

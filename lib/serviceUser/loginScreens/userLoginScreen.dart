@@ -99,6 +99,7 @@ class _UserLoginState extends State<UserLogin> {
                     enabledBorder: HealingMatchConstants.textFormInputBorder,
                     filled: true,
                     labelText: HealingMatchConstants.loginPhoneNumber,
+                    labelStyle: TextStyle(color: Colors.grey),
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -127,6 +128,7 @@ class _UserLoginState extends State<UserLogin> {
                     // hintStyle:
                     //     TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
                     labelText: HealingMatchConstants.loginUserPassword,
+                    labelStyle: TextStyle(color: Colors.grey),
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),

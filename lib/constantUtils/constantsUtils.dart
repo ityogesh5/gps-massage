@@ -84,7 +84,7 @@ class HealingMatchConstants {
   static double currentLongitude = 0.0;
 
   // User Register otp
-  static String serviceUserOtpTxt = 'に届いた認証コードを入力し、\n「確認」ボタンをクリックしてください。';
+  static String serviceUserOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
   static String serviceUserOtpBtn = '確認';
   static String serviceResendOtpTxt = '認証コードを再送する';
 
@@ -140,8 +140,8 @@ class HealingMatchConstants {
 
   //LoginServiceProvider
   static const String loginText = 'セラピストのログイン';
-  static const String loginPhoneNumber = '電話番号 *';
-  static const String loginPassword = 'パスワード *';
+  static const String loginPhoneNumber = '電話番号 ';
+  static const String loginPassword = 'パスワード ';
   static const String loginForgetPassword = 'パスワードを忘れた方はこちら';
   static const String loginButton = 'ログイン';
   static const String loginNewRegistrationText = '新規の方はこちら';
@@ -150,8 +150,8 @@ class HealingMatchConstants {
   //LoginServiceUser
   static const String loginUserText = 'サービス利用者のログイン';
   static const String loginUserSkipText = 'スキップ';
-  static const String loginUserPhoneNumber = '電話番号 *';
-  static const String loginUserPassword = 'パスワード *';
+  static const String loginUserPhoneNumber = '電話番号 ';
+  static const String loginUserPassword = 'パスワード ';
   static const String loginUserForgetPassword = 'パスワードを忘れた方はこちら';
   static const String loginUserButton = 'ログイン';
   static const String loginUserNewRegistrationText = '新規の方はこちら';
@@ -160,6 +160,7 @@ class HealingMatchConstants {
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
   static const String registrationSecondText = 'は必項目です';
+  static const String registrationScndText = 'は必須項目';
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
@@ -189,15 +190,14 @@ class HealingMatchConstants {
   static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
-  static const String registrationIdentityVerification =
-      '登録する本人確認証の種類を選択して\nください。*';
+  static const String registrationIdentityVerification = '本人確認証を選択してください*';
   static const String registrationIdentityUpload = '本人確認書のアップロード*';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
   static const String registrationQualificationDropdown = '保有資格を選択してください。*';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
-  static const String registrationChooseServiceNavBtn = '提供サービスと料金設定*';
+  static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
-  static const String registrationBankDetails = '売上振込先銀行口座';
+  static const String registrationBankDetails = '売り上げ振込先銀行口座';
   static const String registrationBankName = '銀行名*';
   static const String registrationBankBranchCode = '支店名';
   static const String registrationBankBranchNumber = '支店番号';
@@ -227,7 +227,7 @@ class HealingMatchConstants {
   static const String changePasswordNewpass = "新しいパスワード *";
   static const String changePasswordTxt =
       "に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
-  static const String changePasswordConfirmpass = "新しいパスワード(確認) *";
+  static const String changePasswordConfirmpass = "パスワード(確認用) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
 
@@ -250,6 +250,7 @@ class HealingMatchConstants {
   static String userEditBuildName = '';
   static String userEditRoomNo = '';
   static String userEditPlaceForMassage = '';
+  static String userEditArea = '';
 
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;

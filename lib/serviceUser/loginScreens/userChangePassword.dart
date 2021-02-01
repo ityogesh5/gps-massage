@@ -348,7 +348,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       return null;
     }
 
-    if (password.length < 8 || confirmPassword.length < 8) {
+    if (password.length < 8) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
@@ -363,7 +363,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
       return;
     }
 
-    if (password.length > 16 || confirmPassword.length > 16) {
+    if (password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -454,7 +454,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
         content: Row(
           children: [
             Flexible(
-              child: Text('パスワード再確認は必須項目なので入力してください。',
+              child: Text('パスワード(確認用)を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'Oxygen')),
