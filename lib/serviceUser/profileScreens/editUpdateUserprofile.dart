@@ -43,7 +43,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String userAddress = '';
   String userBuildName = '';
   String userRoomNo = '';
-  String userPlaceForMassage = '';
+  String userPlaceMassage = '';
+  String userArea = '';
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
@@ -53,17 +54,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     getEditUserFields();
     getUserProfileData();
-    userNameController.text = HealingMatchConstants.userEditUserName;
-    phoneNumberController.text = HealingMatchConstants.userEditPhoneNumber;
-    emailController.text = HealingMatchConstants.userEditEmailAddress;
-    ageController.text = HealingMatchConstants.userEditUserAge;
-    _userDOBController.text = HealingMatchConstants.userEditDob;
-    buildingNameController.text = HealingMatchConstants.userEditBuildName;
-    roomNumberController.text = HealingMatchConstants.userEditRoomNo;
-    gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
-    HealingMatchConstants.userEditUserGender = _myGender;
-    _myOccupation = HealingMatchConstants.userEditUserOccupation;
-    HealingMatchConstants.userEditUserOccupation = _myCategoryPlaceForMassage;
   }
 
   var userAddressType = '';
@@ -499,15 +489,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "M",
+                                      "value": "男性",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "F",
+                                      "value": "女性",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "O",
+                                      "value": "どちらでもない",
                                     },
                                   ],
                                   textField: 'display',
@@ -1285,7 +1275,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   ),
                                 ));
                               } else {
-                                NavigationRouter.switchToUserAddAddressScreen(context);
+                                NavigationRouter.switchToUserAddAddressScreen(
+                                    context);
                               }
                             },
                           ),
@@ -2262,12 +2253,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         emailAddress = value.getString('userEmailAddress');
         dob = value.getString('userDOB');
         userAge = value.getString('userAge');
-        userGender = value.getString('userGender');
-        userOccupation = value.getString('userOccupation');
+        _myGender = value.getString('userGender');
+        _myOccupation = value.getString('userOccupation');
         userAddress = value.getString('userAddress');
         userBuildName = value.getString('buildingName');
         userRoomNo = value.getString('roomNumber');
-        userPlaceForMassage = value.getString('userPlaceForMassage');
+        _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
+        userArea = value.getString('area');
 
         // Convert string url of image to base64 format
         convertBase64ProfileImage(userProfileImage);
@@ -2278,14 +2270,23 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditEmailAddress = emailAddress;
           HealingMatchConstants.userEditDob = dob;
           HealingMatchConstants.userEditUserAge = userAge;
-          HealingMatchConstants.userEditUserGender = userGender;
-          HealingMatchConstants.userEditUserOccupation = userOccupation;
           HealingMatchConstants.userEditUserAddress = userAddress;
           HealingMatchConstants.userEditBuildName = userBuildName;
           HealingMatchConstants.userEditRoomNo = userRoomNo;
-          HealingMatchConstants.userEditPlaceForMassage = userPlaceForMassage;
+          HealingMatchConstants.userEditArea = userArea;
+
+          userNameController.text = HealingMatchConstants.userEditUserName;
+          phoneNumberController.text =
+              HealingMatchConstants.userEditPhoneNumber;
+          emailController.text = HealingMatchConstants.userEditEmailAddress;
+          ageController.text = HealingMatchConstants.userEditUserAge;
+          _userDOBController.text = HealingMatchConstants.userEditDob;
+          buildingNameController.text = HealingMatchConstants.userEditBuildName;
+          roomNumberController.text = HealingMatchConstants.userEditRoomNo;
+          gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
+          userAreaController.text = HealingMatchConstants.userEditArea;
         });
-        print(HealingMatchConstants.userEditPlaceForMassage);
+        print(_myCategoryPlaceForMassage);
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {

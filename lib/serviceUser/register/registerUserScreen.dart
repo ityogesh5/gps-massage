@@ -682,7 +682,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'メールアドレス',
+                          labelText: 'メールアドレス*',
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
                               fontFamily: 'Oxygen',
@@ -2300,6 +2300,11 @@ class _RegisterUserState extends State<RegisterUser> {
 
           value.setString('roomNumber',
               serviceUserDetails.data.addressResponse.userRoomNumber);
+          value.setString('area', serviceUserDetails.data.addressResponse.area);
+          value.setString('userPlaceForMassage',
+              serviceUserDetails.data.addressResponse.userPlaceForMassage);
+          print(
+              'userPlaceForMassage:${serviceUserDetails.data.addressResponse.userPlaceForMassage}');
 
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);

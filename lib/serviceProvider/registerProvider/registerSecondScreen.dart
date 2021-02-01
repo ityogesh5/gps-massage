@@ -92,7 +92,7 @@ class _RegistrationSecondPageState
                     children: [
                       Text("*", style: TextStyle(color: Colors.red)),
                       Text(
-                        HealingMatchConstants.registrationSecondText,
+                        HealingMatchConstants.registrationScndText,
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
@@ -459,7 +459,7 @@ class _RegistrationSecondPageState
                                               Text(
                                                 HealingMatchConstants
                                                     .registrationQualificationUpload,
-                                                style: TextStyle(fontSize: 10),
+                                                style: TextStyle(fontSize: 8.5),
                                               ),
                                             ],
                                           ),
@@ -1094,9 +1094,9 @@ class _RegistrationSecondPageState
     var a = request.fields.toString();
 
     //Upload Proof of ID
-      request.files.add(await http.MultipartFile.fromPath(
-          'proofOfIdentityImgUrl', _idProfileImage.path));
-    
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _idProfileImage.path));
+
     //Upload Profile Image if not null
     if (HealingMatchConstants.profileImage != null) {
       request.files.add(await http.MultipartFile.fromPath(
