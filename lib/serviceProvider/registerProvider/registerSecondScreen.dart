@@ -1117,9 +1117,11 @@ class _RegistrationSecondPageState
       if (response.statusCode == 200) {
         print(response.body);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        RegisterProviderResponseData registerProviderResponseData =
+        /*   RegisterProviderResponseData registerProviderResponseData =
             RegisterProviderResponseData.fromJson(json.decode(response.body));
-        DialogHelper.showProviderRegisterSuccessDialog(context);
+       */
+        NavigationRouter.switchToProviderOtpScreen(context);
+        //DialogHelper.showProviderRegisterSuccessDialog(context);
         // NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
         print(response.reasonPhrase);
