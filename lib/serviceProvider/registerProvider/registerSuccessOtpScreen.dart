@@ -222,7 +222,7 @@ class _RegistrationSuccessOtpScreenState
           body: json.encode({
             "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
             "otp": pinCode,
-            "isTherapist": "0"
+            "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isVerifyOtpUserUser(
@@ -252,7 +252,7 @@ class _RegistrationSuccessOtpScreenState
           headers: {"Content-Type": "application/json"},
           body: json.encode({
             "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
-            "isTherapist": "0"
+            "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
       if (StatusCodeHelper.isSendVerify(
