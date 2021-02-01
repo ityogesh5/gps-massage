@@ -58,7 +58,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myGender = '';
   String _myOccupation = '';
   String _myAddressInputType = '';
-  String myCategoryPlaceForMassage = '';
+  String _myCategoryPlaceForMassage = '';
   String _myPrefecture = '';
   String _myCity = '';
   File _profileImage;
@@ -887,15 +887,17 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 0.85,
                                         child: DropDownFormField(
                                           hintText: '登録する地点のカテゴリー *',
-                                          value: myCategoryPlaceForMassage,
+                                          value: _myCategoryPlaceForMassage,
                                           onSaved: (value) {
                                             setState(() {
-                                              myCategoryPlaceForMassage = value;
+                                              _myCategoryPlaceForMassage =
+                                                  value;
                                             });
                                           },
                                           onChanged: (value) {
                                             setState(() {
-                                              myCategoryPlaceForMassage = value;
+                                              _myCategoryPlaceForMassage =
+                                                  value;
                                             });
                                           },
                                           dataSource: [
@@ -1295,7 +1297,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '部屋番号 *',
+                                                    labelText: '号室 *',
                                                     /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
@@ -1357,7 +1359,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 filled: true,
                                                 fillColor: ColorConstants
                                                     .formFieldFillColor,
-                                                labelText: '部屋番号 *',
+                                                labelText: '号室 *',
                                                 /*hintText: '部屋番号 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -1539,35 +1541,6 @@ class _RegisterUserState extends State<RegisterUser> {
     int phoneNumber = int.tryParse(userPhoneNumber);
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
-
-    /*if (_profileImage == null || _profileImage.path == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('プロフィール画像を選択してください。',
-                  overflow: TextOverflow.clip,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Oxygen',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
 
     if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -2010,8 +1983,8 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     // user place for massage validation
-    if (myCategoryPlaceForMassage == null ||
-        myCategoryPlaceForMassage.isEmpty) {
+    if (_myCategoryPlaceForMassage == null ||
+        _myCategoryPlaceForMassage.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2239,35 +2212,62 @@ class _RegisterUserState extends State<RegisterUser> {
       Uri registerUser = Uri.parse(HealingMatchConstants.REGISTER_USER_URL);
       var request = http.MultipartRequest('POST', registerUser);
       Map<String, String> headers = {"Content-Type": "multipart/form-data"};
-      var profileImage = await http.MultipartFile.fromPath(
-          'uploadProfileImgUrl', _profileImage.path);
-      request.headers.addAll(headers);
-      request.files.add(profileImage);
-      print('Image upload filename : $_profileImage');
-      request.fields.addAll({
-        "userName": userName,
-        "dob": userDOB,
-        "age": userAge,
-        "userOccupation": _myOccupation,
-        "phoneNumber": userPhoneNumber,
-        "email": email,
-        "gender": _myGender,
-        "uploadProfileImgUrl": _profileImage.path,
-        "password": password,
-        "password_confirmation": confirmPassword,
-        "isTherapist": "0",
-        "userPlaceForMassage": myCategoryPlaceForMassage,
-        "addressTypeSelection": _myAddressInputTypeVal,
-        "address": HealingMatchConstants.userAddress,
-        "userPrefecture": HealingMatchConstants.serviceUserPrefecture,
-        "city": HealingMatchConstants.serviceUserCity,
-        "buildingName": buildingName,
-        "area": userArea,
-        "userRoomNumber": roomNumber,
-        "addressTypeSelection": _myAddressInputTypeVal,
-        "lat": HealingMatchConstants.currentLatitude.toString(),
-        "lon": HealingMatchConstants.currentLongitude.toString()
-      });
+      if (_profileImage != null) {
+        print('Profile image not null');
+        var profileImage = await http.MultipartFile.fromPath(
+            'uploadProfileImgUrl', _profileImage.path);
+        print('Image upload filename : $profileImage');
+        request.files.add(profileImage);
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "userName": userName,
+          "dob": userDOB,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "uploadProfileImgUrl": _profileImage.path,
+          "password": password,
+          "password_confirmation": confirmPassword,
+          "isTherapist": "0",
+          "userPlaceForMassage": _myCategoryPlaceForMassage,
+          "address": HealingMatchConstants.userAddress,
+          "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
+          "cityName": HealingMatchConstants.serviceUserCity,
+          "buildingName": buildingName,
+          "area": userArea,
+          "userRoomNumber": roomNumber,
+          "addressTypeSelection": _myAddressInputTypeVal,
+          "lat": HealingMatchConstants.currentLatitude.toString(),
+          "lon": HealingMatchConstants.currentLongitude.toString()
+        });
+      } else {
+        print('Profile image  null');
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "userName": userName,
+          "dob": userDOB,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "password": password,
+          "password_confirmation": confirmPassword,
+          "isTherapist": "0",
+          "userPlaceForMassage": _myCategoryPlaceForMassage,
+          "address": HealingMatchConstants.userAddress,
+          "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
+          "cityName": HealingMatchConstants.serviceUserCity,
+          "buildingName": buildingName,
+          "area": userArea,
+          "userRoomNumber": roomNumber,
+          "addressTypeSelection": _myAddressInputTypeVal,
+          "lat": HealingMatchConstants.currentLatitude.toString(),
+          "lon": HealingMatchConstants.currentLongitude.toString()
+        });
+      }
 
       final userDetailsRequest = await request.send();
       final response = await http.Response.fromStream(userDetailsRequest);
@@ -2287,12 +2287,12 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.userResponse.phoneNumber);
           value.setString(
               'userEmailAddress', serviceUserDetails.data.userResponse.email);
-          value.setString(
-              'userDOB', serviceUserDetails.data.userResponse.dob.toString());
+          // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
+          value.setString('userDOB', userDOB);
           value.setString('userAge', serviceUserDetails.data.userResponse.age);
           value.setString(
               'userGender', serviceUserDetails.data.userResponse.gender);
-
+          // value.setString('userGender', japaneseGender);
           value.setString('userOccupation',
               serviceUserDetails.data.userResponse.userOccupation);
           value.setString(
@@ -2319,8 +2319,6 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('addressID',
               serviceUserDetails.data.addressResponse.id.toString());
         });
-        print(
-            'addressType:${serviceUserDetails.data.addressResponse.addressTypeSelection}');
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);
       } else {
@@ -2332,8 +2330,6 @@ class _RegisterUserState extends State<RegisterUser> {
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
-    } catch (e) {
-      print(e.toString());
     }
     return null;
   }

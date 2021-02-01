@@ -36,38 +36,42 @@ class Data {
     this.token,
     this.userResponse,
     this.addressResponse,
+    this.smsSentstatus,
   });
 
   String token;
   UserResponse userResponse;
   AddressResponse addressResponse;
+  SmsSentstatus smsSentstatus;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],
         userResponse: UserResponse.fromJson(json["userResponse"]),
         addressResponse: AddressResponse.fromJson(json["addressResponse"]),
+        smsSentstatus: SmsSentstatus.fromJson(json["SmsSentstatus"]),
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
         "userResponse": userResponse.toJson(),
         "addressResponse": addressResponse.toJson(),
+        "SmsSentstatus": smsSentstatus.toJson(),
       };
 }
 
 class AddressResponse {
   AddressResponse({
     this.id,
-    this.userPlaceForMassage,
     this.buildingName,
-    this.area,
-    this.userRoomNumber,
     this.address,
     this.cityName,
-    this.capitalAndPrefecture,
+    this.area,
     this.lat,
     this.lon,
+    this.userPlaceForMassage,
+    this.userRoomNumber,
     this.addressTypeSelection,
+    this.capitalAndPrefecture,
     this.userId,
     this.createdUser,
     this.updatedUser,
@@ -76,16 +80,16 @@ class AddressResponse {
   });
 
   int id;
-  String userPlaceForMassage;
   String buildingName;
-  String area;
-  String userRoomNumber;
   String address;
   String cityName;
-  String capitalAndPrefecture;
+  String area;
   String lat;
   String lon;
+  String userPlaceForMassage;
+  String userRoomNumber;
   String addressTypeSelection;
+  String capitalAndPrefecture;
   int userId;
   String createdUser;
   String updatedUser;
@@ -95,16 +99,16 @@ class AddressResponse {
   factory AddressResponse.fromJson(Map<String, dynamic> json) =>
       AddressResponse(
         id: json["id"],
-        userPlaceForMassage: json["userPlaceForMassage"],
         buildingName: json["buildingName"],
-        area: json["area"],
-        userRoomNumber: json["userRoomNumber"],
         address: json["address"],
         cityName: json["cityName"],
-        capitalAndPrefecture: json["capitalAndPrefecture"],
+        area: json["area"],
         lat: json["lat"],
         lon: json["lon"],
+        userPlaceForMassage: json["userPlaceForMassage"],
+        userRoomNumber: json["userRoomNumber"],
         addressTypeSelection: json["addressTypeSelection"],
+        capitalAndPrefecture: json["capitalAndPrefecture"],
         userId: json["userId"],
         createdUser: json["createdUser"],
         updatedUser: json["updatedUser"],
@@ -114,16 +118,16 @@ class AddressResponse {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "userPlaceForMassage": userPlaceForMassage,
         "buildingName": buildingName,
-        "area": area,
-        "userRoomNumber": userRoomNumber,
         "address": address,
         "cityName": cityName,
-        "capitalAndPrefecture": capitalAndPrefecture,
+        "area": area,
         "lat": lat,
         "lon": lon,
+        "userPlaceForMassage": userPlaceForMassage,
+        "userRoomNumber": userRoomNumber,
         "addressTypeSelection": addressTypeSelection,
+        "capitalAndPrefecture": capitalAndPrefecture,
         "userId": userId,
         "createdUser": createdUser,
         "updatedUser": updatedUser,
@@ -132,83 +136,71 @@ class AddressResponse {
       };
 }
 
-class UserResponse {
-  UserResponse({
-    this.isVerified,
-    this.coronaMeasure,
-    this.id,
-    this.userName,
-    this.dob,
-    this.age,
-    this.userOccupation,
-    this.phoneNumber,
-    this.email,
-    this.isTherapist,
-    this.gender,
-    this.isActive,
-    this.isAccepted,
-    this.uploadProfileImgUrl,
-    this.userId,
-    this.updatedAt,
-    this.createdAt,
+class SmsSentstatus {
+  SmsSentstatus({
+    this.isFulfilled,
+    this.isRejected,
   });
 
-  bool isVerified;
-  bool coronaMeasure;
-  int id;
-  String userName;
-  DateTime dob;
-  String age;
-  String userOccupation;
-  String phoneNumber;
-  String email;
-  String isTherapist;
-  String gender;
-  bool isActive;
-  bool isAccepted;
-  String uploadProfileImgUrl;
-  String userId;
-  DateTime updatedAt;
-  DateTime createdAt;
+  bool isFulfilled;
+  bool isRejected;
 
-  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
-        isVerified: json["isVerified"],
-        coronaMeasure: json["coronaMeasure"],
-        id: json["id"],
-        userName: json["userName"],
-        dob: DateTime.parse(json["dob"]),
-        age: json["age"],
-        userOccupation: json["userOccupation"],
-        phoneNumber: json["phoneNumber"],
-        email: json["email"],
-        isTherapist: json["isTherapist"],
-        gender: json["gender"],
-        isActive: json["isActive"],
-        isAccepted: json["isAccepted"],
-        uploadProfileImgUrl: json["uploadProfileImgUrl"],
-        userId: json["userId"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        createdAt: DateTime.parse(json["createdAt"]),
+  factory SmsSentstatus.fromJson(Map<String, dynamic> json) => SmsSentstatus(
+        isFulfilled: json["isFulfilled"],
+        isRejected: json["isRejected"],
       );
 
   Map<String, dynamic> toJson() => {
-        "isVerified": isVerified,
-        "coronaMeasure": coronaMeasure,
-        "id": id,
+        "isFulfilled": isFulfilled,
+        "isRejected": isRejected,
+      };
+}
+
+class UserResponse {
+  UserResponse({
+    this.email,
+    this.phoneNumber,
+    this.userName,
+    this.gender,
+    this.dob,
+    this.age,
+    this.isTherapist,
+    this.userOccupation,
+    this.uploadProfileImgUrl,
+  });
+
+  String email;
+  String phoneNumber;
+  String userName;
+  String gender;
+  DateTime dob;
+  String age;
+  String isTherapist;
+  String userOccupation;
+  String uploadProfileImgUrl;
+
+  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
+        email: json["email"],
+        phoneNumber: json["phoneNumber"],
+        userName: json["userName"],
+        gender: json["gender"],
+        dob: DateTime.parse(json["dob"]),
+        age: json["age"],
+        isTherapist: json["isTherapist"],
+        userOccupation: json["userOccupation"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "phoneNumber": phoneNumber,
         "userName": userName,
+        "gender": gender,
         "dob":
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
         "age": age,
-        "userOccupation": userOccupation,
-        "phoneNumber": phoneNumber,
-        "email": email,
         "isTherapist": isTherapist,
-        "gender": gender,
-        "isActive": isActive,
-        "isAccepted": isAccepted,
+        "userOccupation": userOccupation,
         "uploadProfileImgUrl": uploadProfileImgUrl,
-        "userId": userId,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
       };
 }

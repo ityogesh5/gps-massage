@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -264,7 +265,7 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
-
+  static List<Address> addressList = List<Address>();
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;

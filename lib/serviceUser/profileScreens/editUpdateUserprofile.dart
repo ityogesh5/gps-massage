@@ -489,15 +489,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "M",
+                                      "value": "男性",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "F",
+                                      "value": "女性",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "O",
+                                      "value": "どちらでもない",
                                     },
                                   ],
                                   textField: 'display',
@@ -2331,11 +2331,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       }
     });
     print('Entering address fields....');
-    if (spfAddressValues != null || spfAddressValues.isNotEmpty) {
+    if (spfAddressValues != null) {
       _sharedPreferences.then((value) {
         setState(() {
           spfAddressValues = value.getStringList('address');
-          print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length}');
+          // print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length}');
 
           for (int i = 0; i < spfAddressValues.length; i++) {
             if (i == 0) {
