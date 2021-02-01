@@ -210,8 +210,8 @@ class _RegistrationSecondPageState
                                     icon: Icon(Icons.file_upload)),
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
-                                hintStyle: TextStyle(
-                                    color: Colors.black, fontSize: 13),
+                                hintStyle:
+                                    HealingMatchConstants.formHintTextStyle,
                                 hintText: HealingMatchConstants
                                     .registrationIdentityUpload,
                               ),
@@ -293,6 +293,7 @@ class _RegistrationSecondPageState
                             onPressed: () {
                               setState(() {
                                 qualification = "";
+                                uploadVisible = false;
                                 visible = true;
                               });
                             },
@@ -523,32 +524,29 @@ class _RegistrationSecondPageState
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.065,
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10.0),
-                    //     color: Colors.black),
-                    child: RaisedButton(
-                      elevation: 0.0,
-                      child: Text(
-                        HealingMatchConstants.registrationChooseServiceNavBtn,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.black,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ChooseServiceScreen()));
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 51.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: ColorConstants.formFieldFillColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 14.0),
+                        child: Text(
+                          HealingMatchConstants.registrationChooseServiceNavBtn,
+                          textAlign: TextAlign.left,
+                          style: HealingMatchConstants.formHintTextStyle,
                         ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      color: ColorConstants.formFieldFillColor,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    ChooseServiceScreen()));
-                      },
                     ),
                   ),
                   SizedBox(
@@ -565,13 +563,13 @@ class _RegistrationSecondPageState
                     child: TextFormField(
                       enabled: false,
                       decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                        contentPadding: EdgeInsets.fromLTRB(8, 3, 6, 3),
                         disabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
                             onPressed: () {}, icon: Icon(Icons.file_upload)),
                         filled: true,
-                        hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                        hintStyle: HealingMatchConstants.formHintTextStyle,
                         hintText:
                             HealingMatchConstants.registrationMultiPhotoUpload,
                         fillColor: ColorConstants.formFieldFillColor,
@@ -649,10 +647,14 @@ class _RegistrationSecondPageState
                                         SizedBox(
                                           height: 50.0,
                                           child: TextFormField(
+                                            style: HealingMatchConstants
+                                                .formTextStyle,
                                             controller:
                                                 bankOtherFieldController,
                                             decoration: InputDecoration(
                                                 hintText: "銀行名",
+                                                hintStyle: HealingMatchConstants
+                                                    .formHintTextStyle,
                                                 filled: true,
                                                 fillColor: Colors.white,
                                                 enabledBorder: HealingMatchConstants
@@ -730,10 +732,13 @@ class _RegistrationSecondPageState
                                   width:
                                       MediaQuery.of(context).size.width * 0.38,
                                   child: TextFormField(
+                                    style: HealingMatchConstants.formTextStyle,
                                     controller: branchCodeController,
                                     decoration: new InputDecoration(
                                       labelText: HealingMatchConstants
                                           .registrationBankBranchCode,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
                                       contentPadding:
                                           EdgeInsets.fromLTRB(5, 5, 5, 0),
                                       border: HealingMatchConstants
@@ -761,9 +766,12 @@ class _RegistrationSecondPageState
                                       MediaQuery.of(context).size.width * 0.38,
                                   child: TextFormField(
                                     controller: branchNumberController,
+                                    style: HealingMatchConstants.formTextStyle,
                                     decoration: new InputDecoration(
                                       labelText: HealingMatchConstants
                                           .registrationBankBranchNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
                                       contentPadding:
                                           EdgeInsets.fromLTRB(5, 5, 5, 0),
                                       border: HealingMatchConstants
@@ -783,9 +791,12 @@ class _RegistrationSecondPageState
                                       MediaQuery.of(context).size.width * 0.38,
                                   child: TextFormField(
                                     controller: accountnumberController,
+                                    style: HealingMatchConstants.formTextStyle,
                                     decoration: new InputDecoration(
                                       labelText: HealingMatchConstants
                                           .registrationBankAccountNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
                                       contentPadding:
                                           EdgeInsets.fromLTRB(5, 5, 5, 0),
                                       border: HealingMatchConstants
@@ -922,7 +933,7 @@ class _RegistrationSecondPageState
       return;
     }
 
-    //Choose Service Screen validation
+    /* //Choose Service Screen validation
     if (HealingMatchConstants.estheticServicePriceModel.isEmpty &&
         HealingMatchConstants.relaxationServicePriceModel.isEmpty &&
         HealingMatchConstants.treatmentServicePriceModel.isEmpty &&
@@ -939,7 +950,7 @@ class _RegistrationSecondPageState
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     registerProvider();
   }

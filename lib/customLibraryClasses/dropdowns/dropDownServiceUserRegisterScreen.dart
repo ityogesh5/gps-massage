@@ -2,6 +2,7 @@ library dropdown_formfield;
 
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class DropDownFormField extends FormField<dynamic> {
   final String titleText;
@@ -79,10 +80,8 @@ class DropDownFormField extends FormField<dynamic> {
                                   ),
                                   hint: Text(
                                     hintText,
-                                    style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontFamily: 'Oxygen',
-                                        fontSize: 14),
+                                    style:
+                                        HealingMatchConstants.formHintTextStyle,
                                   ),
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
@@ -93,21 +92,21 @@ class DropDownFormField extends FormField<dynamic> {
                                       ? dataSource.map((item) {
                                           return DropdownMenuItem<dynamic>(
                                             value: item,
-                                            child: Text(item,
-                                                style: TextStyle(
-                                                    fontFamily: 'Oxygen',
-                                                    color: Colors.grey.shade500,
-                                                    fontSize: 14)),
+                                            child: Text(
+                                              item,
+                                              style: HealingMatchConstants
+                                                  .formTextStyle,
+                                            ),
                                           );
                                         }).toList()
                                       : dataSource.map((item) {
                                           return DropdownMenuItem<dynamic>(
                                             value: item[valueField],
-                                            child: Text(item[textField],
-                                                style: TextStyle(
-                                                    fontFamily: 'Oxygen',
-                                                    color: Colors.grey.shade500,
-                                                    fontSize: 14)),
+                                            child: Text(
+                                              item[textField],
+                                              style: HealingMatchConstants
+                                                  .formTextStyle,
+                                            ),
                                           );
                                         }).toList(),
                                 )

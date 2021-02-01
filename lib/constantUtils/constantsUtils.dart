@@ -269,15 +269,19 @@ class HealingMatchConstants {
     color: Colors.black,
   );
 
-  static const normalText = TextStyle(
+  static TextStyle formTextStyle = TextStyle(
+      color: ColorConstants.formTextColor, fontFamily: 'Oxygen', fontSize: 14);
+
+  static TextStyle formLabelTextStyle = TextStyle(
     fontSize: 14.0,
-    color: Colors.black,
+    fontFamily: 'Oxygen',
+    color: ColorConstants.formHintTextColor,
   );
 
-  static const textFieldLabelText = TextStyle(
-    fontSize: 14.0,
-    color: Colors.black12,
-  );
+  static TextStyle formHintTextStyle = TextStyle(
+      color: ColorConstants.formHintTextColor,
+      fontFamily: 'Oxygen',
+      fontSize: 14);
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),

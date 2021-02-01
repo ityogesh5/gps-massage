@@ -115,6 +115,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             enabled: false,
                             initialValue: HealingMatchConstants
                                 .chooseServiceEstheticDropDown,
+                            style: HealingMatchConstants.formHintTextStyle,
                             decoration: new InputDecoration(
                               focusedBorder:
                                   HealingMatchConstants.textFormInputBorder,
@@ -202,6 +203,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             enabled: false,
                             initialValue: HealingMatchConstants
                                 .chooseServiceRelaxationDropDown,
+                            style: HealingMatchConstants.formHintTextStyle,
                             decoration: new InputDecoration(
                               focusedBorder:
                                   HealingMatchConstants.textFormInputBorder,
@@ -288,6 +290,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             enabled: false,
                             initialValue: HealingMatchConstants
                                 .chooseServiceTreatmentDropDown,
+                            style: HealingMatchConstants.formHintTextStyle,
                             decoration: new InputDecoration(
                               focusedBorder:
                                   HealingMatchConstants.textFormInputBorder,
@@ -376,6 +379,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             enabled: false,
                             initialValue: HealingMatchConstants
                                 .chooseServiceFitnessDropDown,
+                            style: HealingMatchConstants.formHintTextStyle,
                             decoration: new InputDecoration(
                               focusedBorder:
                                   HealingMatchConstants.textFormInputBorder,

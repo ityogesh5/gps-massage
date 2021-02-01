@@ -451,10 +451,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: TextFormField(
                     enabled: false,
                     initialValue: HealingMatchConstants.registrationStoretype,
-                    style: TextStyle(
-                        color: Colors.grey.shade500,
-                        fontFamily: 'Oxygen',
-                        fontSize: 14),
+                    style: HealingMatchConstants.formHintTextStyle,
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
@@ -490,6 +487,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               storeTypeDisplayStatus == 1
                   ? Container(
                       width: containerWidth,
+                      padding: EdgeInsets.all(8.0),
                       child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -654,10 +652,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: TextFormField(
                     enabled: false,
                     initialValue: HealingMatchConstants.registrationChildrenTxt,
-                    style: TextStyle(
-                        color: Colors.grey.shade500,
-                        fontFamily: 'Oxygen',
-                        fontSize: 14),
+                    style: HealingMatchConstants.formHintTextStyle,
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
                       disabledBorder: HealingMatchConstants.textFormInputBorder,
@@ -693,6 +688,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
               childrenMeasureStatus == 1
                   ? Container(
                       width: containerWidth,
+                      padding: EdgeInsets.all(8.0),
                       child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -800,8 +796,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: providerNameController,
+                        style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationName,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
@@ -838,9 +836,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFormField(
                                 controller: storeNameController,
+                                style: HealingMatchConstants.formTextStyle,
                                 decoration: InputDecoration(
                                   labelText: HealingMatchConstants
                                       .registrationStoreName,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle,
                                   filled: true,
                                   fillColor: ColorConstants.formFieldFillColor,
                                   focusedBorder:
@@ -873,9 +874,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             child: TextFormField(
                                 enabled: false,
                                 controller: userDOBController,
+                                style: HealingMatchConstants.formTextStyle,
                                 decoration: InputDecoration(
                                     labelText:
                                         HealingMatchConstants.registrationDob,
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle,
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -903,8 +907,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           textAlign: TextAlign.center,
                           enabled: false,
                           controller: ageController,
+                          style: HealingMatchConstants.formTextStyle,
                           decoration: InputDecoration(
                             labelText: "年齢	",
+                            labelStyle:
+                                HealingMatchConstants.formLabelTextStyle,
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             focusedBorder:
@@ -990,8 +997,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     child: TextFormField(
                         controller: phoneNumberController,
                         keyboardType: TextInputType.phone,
+                        style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPhnNum,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
@@ -1030,10 +1039,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             .copyWith(splashColor: Colors.black12),
                         child: TextFormField(
                             controller: storePhoneNumberController,
+                            style: HealingMatchConstants.formTextStyle,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                               labelText:
                                   HealingMatchConstants.registrationStorePhnNum,
+                              labelStyle:
+                                  HealingMatchConstants.formLabelTextStyle,
                               filled: true,
                               fillColor: ColorConstants.formFieldFillColor,
                               focusedBorder:
@@ -1054,10 +1066,12 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: mailAddressController,
+                        style: HealingMatchConstants.formTextStyle,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
@@ -1078,8 +1092,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     child: TextFormField(
                         controller: passwordController,
                         obscureText: passwordVisibility,
+                        style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
                           labelText: HealingMatchConstants.registrationPassword,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
@@ -1125,9 +1141,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     child: TextFormField(
                         controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
+                        style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
                           labelText:
                               HealingMatchConstants.registrationConfirmPassword,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
@@ -1218,8 +1236,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           child: visible
                               ? TextFormField(
                                   controller: gpsAddressController,
+                                  style: HealingMatchConstants.formTextStyle,
                                   decoration: InputDecoration(
                                     labelText: "現在地を取得する",
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle,
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -1244,8 +1265,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 )
                               : TextFormField(
                                   controller: manualAddressController,
+                                  style: HealingMatchConstants.formTextStyle,
                                   decoration: InputDecoration(
                                     labelText: "丁目, 番地",
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle,
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -1372,10 +1396,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFormField(
                                 controller: buildingNameController,
+                                style: HealingMatchConstants.formTextStyle,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(4.0),
                                   labelText: HealingMatchConstants
                                       .registrationBuildingName,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle,
                                   filled: true,
                                   fillColor: ColorConstants.formFieldFillColor,
                                   focusedBorder:
@@ -1394,12 +1421,15 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   .copyWith(splashColor: Colors.black12),
                               child: TextFormField(
                                   controller: roomNumberController,
+                                  style: HealingMatchConstants.formTextStyle,
                                   keyboardType: TextInputType.text,
                                   maxLength: 4,
                                   decoration: InputDecoration(
                                     counterText: "",
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle,
                                     filled: true,
                                     fillColor:
                                         ColorConstants.formFieldFillColor,
@@ -2223,27 +2253,62 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       children: [
         Row(
           children: [
-            Checkbox(
-              tristate: true,
-              activeColor: Colors.lime,
-              checkColor: Colors.lime,
-              value: checkValue,
-              onChanged: (value) {
-                if (value == null) {
-                  setState(() {
-                    childrenMeasuresDropDownValuesSelected
-                        .remove(childrenMeasuresValue);
-                  });
-                } else {
-                  setState(() {
-                    childrenMeasuresDropDownValuesSelected
-                        .add(childrenMeasuresValue);
-                  });
-                }
-              },
+            checkValue
+                ? Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Checkbox(
+                      tristate: true,
+                      activeColor: Colors.black,
+                      checkColor: Colors.black,
+                      value: checkValue,
+                      onChanged: (value) {
+                        if (value == null) {
+                          setState(() {
+                            childrenMeasuresDropDownValuesSelected
+                                .remove(childrenMeasuresValue);
+                          });
+                        } else {
+                          setState(() {
+                            childrenMeasuresDropDownValuesSelected
+                                .add(childrenMeasuresValue);
+                          });
+                        }
+                      },
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        childrenMeasuresDropDownValuesSelected
+                            .add(childrenMeasuresValue);
+                      });
+                    },
+                    child: Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[400],
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+            SizedBox(
+              width: 10.0,
             ),
             Text("$childrenMeasuresValue", style: TextStyle(fontSize: 14.0)),
           ],
+        ),
+        SizedBox(
+          height: 15.0,
         ),
       ],
     );
@@ -2257,26 +2322,62 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       children: [
         Row(
           children: [
-            Checkbox(
-              tristate: true,
-              activeColor: Colors.lime,
-              checkColor: Colors.lime,
-              value: checkValue,
-              onChanged: (value) {
-                if (value == null) {
-                  setState(() {
-                    selectedStoreTypeDisplayValues
-                        .remove(storeTypeDisplayValues);
-                  });
-                } else {
-                  setState(() {
-                    selectedStoreTypeDisplayValues.add(storeTypeDisplayValues);
-                  });
-                }
-              },
+            checkValue
+                ? Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Checkbox(
+                      tristate: true,
+                      activeColor: Colors.black,
+                      checkColor: Colors.black,
+                      value: checkValue,
+                      onChanged: (value) {
+                        if (value == null) {
+                          setState(() {
+                            selectedStoreTypeDisplayValues
+                                .remove(storeTypeDisplayValues);
+                          });
+                        } else {
+                          setState(() {
+                            selectedStoreTypeDisplayValues
+                                .add(storeTypeDisplayValues);
+                          });
+                        }
+                      },
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedStoreTypeDisplayValues
+                            .add(storeTypeDisplayValues);
+                      });
+                    },
+                    child: Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[400],
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+            SizedBox(
+              width: 10.0,
             ),
             Text("$storeTypeDisplayValues", style: TextStyle(fontSize: 14.0)),
           ],
+        ),
+        SizedBox(
+          height: 15.0,
         ),
       ],
     );
