@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/customModels/addressData.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,9 +96,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         .profileImageInBytes),
                                   )
                                 : new DecorationImage(
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.none,
                                     image: new AssetImage(
-                                        'assets/images_gps/placeholder.png')),
+                                        'assets/images_gps/user.png')),
                           )),
                       SizedBox(width: 10.0),
                       CircleAvatar(
@@ -230,7 +231,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                               .serviceUserAge.isEmpty ||
                                           userAge.isEmpty
                                       ? Text(
-                                          '23',
+                                          '0',
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Oxygen',
@@ -401,8 +402,10 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         userOccupation = value.getString('userOccupation');
         userAddress = value.getString('userAddress');
 
-        // Convert string url of image to base64 format
-        convertBase64ProfileImage(userProfileImage);
+        if (userProfileImage != null) {
+          // Convert string url of image to base64 format
+          convertBase64ProfileImage(userProfileImage);
+        }
         setState(() {
           HealingMatchConstants.serviceUserName = userName;
           HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
@@ -431,7 +434,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   }
 
   //Profile Image
-  Future<String> networkImageToBase64RightFront(String imageUrl)  async {
+  Future<String> networkImageToBase64RightFront(String imageUrl) async {
     http.Response response = await http.get(imageUrl);
     final bytes = response?.bodyBytes;
     return (bytes != null ? base64Encode(bytes) : null);

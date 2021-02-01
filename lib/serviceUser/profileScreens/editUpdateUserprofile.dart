@@ -8,7 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
+import 'package:gps_massageapp/models/customModels/addressData.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -25,11 +25,13 @@ List<dynamic> subAddressValues = List();
 List<dynamic> spfAddressValues = List();
 List<dynamic> spfLatLngValues = List();
 List<dynamic> spfAddressTypeValues = List();
-final addressMap = [];
+List<dynamic> addressMap = List();
+//final addressMap = [];
 final addedFirstSubAddressController = new TextEditingController();
 final addedSecondSubAddressController = new TextEditingController();
 final addedThirdSubAddressController = new TextEditingController();
-var addressKey, address, latLng, addressType;
+
+String jsonUser;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -1217,73 +1219,116 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
                         : SizedBox(),
-                    Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        readOnly: true,
-                        enableInteractiveSelection: false,
-                        decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          hintText: 'その他の登録場所',
-                          suffixIcon: IconButton(
-                            icon:
-                                Icon(Icons.add, size: 28, color: Colors.black),
-                            onPressed: () {
-                              if (spfAddressValues.length == 3) {
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  backgroundColor: ColorConstants.snackBarColor,
-                                  duration: Duration(seconds: 3),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Text('メインの地点以外に3箇所まで地点登録ができます。',
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                fontFamily: 'Oxygen')),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          _scaffoldKey.currentState
-                                              .hideCurrentSnackBar();
-                                        },
-                                        child: Text('はい',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Oxygen',
-                                                fontWeight: FontWeight.w500,
-                                                decoration:
-                                                    TextDecoration.underline)),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                              } else {
-                                _updateUserFormKey.currentState.save();
-                                NavigationRouter.switchToUserAddAddressScreen(
-                                    context);
-                              }
-                            },
+                    spfAddressValues != null
+                        ? Container(
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: TextFormField(
+                              readOnly: true,
+                              enableInteractiveSelection: false,
+                              decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                hintText: 'その他の登録場所',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.add,
+                                      size: 28, color: Colors.black),
+                                  onPressed: () {
+                                    if (spfAddressValues.length == 3) {
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        backgroundColor:
+                                            ColorConstants.snackBarColor,
+                                        duration: Duration(seconds: 3),
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                  'メインの地点以外に3箇所まで地点登録ができます。',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Oxygen')),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                _scaffoldKey.currentState
+                                                    .hideCurrentSnackBar();
+                                              },
+                                              child: Text('はい',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Oxygen',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      decoration: TextDecoration
+                                                          .underline)),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                    } else {
+                                      _updateUserFormKey.currentState.save();
+                                      NavigationRouter
+                                          .switchToUserAddAddressScreen(
+                                              context);
+                                    }
+                                  },
+                                ),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400], fontSize: 14),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              style: TextStyle(color: Colors.black54),
+                              // validator: (value) => _validateEmail(value),
+                            ),
+                          )
+                        : Container(
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: TextFormField(
+                              readOnly: true,
+                              enableInteractiveSelection: false,
+                              decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                hintText: 'その他の登録場所',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.add,
+                                      size: 28, color: Colors.black),
+                                  onPressed: () {
+                                    _updateUserFormKey.currentState.save();
+                                    NavigationRouter
+                                        .switchToUserAddAddressScreen(context);
+                                  },
+                                ),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400], fontSize: 14),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              style: TextStyle(color: Colors.black54),
+                              // validator: (value) => _validateEmail(value),
+                            ),
                           ),
-                          hintStyle:
-                              TextStyle(color: Colors.grey[400], fontSize: 14),
-                          focusColor: Colors.grey[100],
-                          border: HealingMatchConstants.textFormInputBorder,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        ),
-                        style: TextStyle(color: Colors.black54),
-                        // validator: (value) => _validateEmail(value),
-                      ),
-                    ),
                     SizedBox(height: 15),
                     Text(
                       'メインの地点以外に3箇所まで地点登録ができます',
@@ -2304,20 +2349,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   }
 
   getEditUserFields() async {
-    addressValues.clear();
-    subAddressValues.clear();
-    spfAddressValues.clear();
-    addressTypeValues.clear();
-    latLngValues.clear();
-    spfLatLngValues.clear();
-    spfAddressTypeValues.clear();
     _sharedPreferences.then((value) {
       bool isUserVerified = value.getBool('isUserVerified');
       spfAddressValues = value.getStringList('address');
       spfLatLngValues = value.getStringList('latLngValues');
       spfAddressTypeValues = value.getStringList('addressTypeValues');
-      print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length} && ${spfLatLngValues.length} && ${spfAddressTypeValues.length}');
-      if (isUserVerified) {
+      if (isUserVerified != null && isUserVerified) {
         addressValues.clear();
         subAddressValues.clear();
         spfAddressValues.clear();
@@ -2325,6 +2362,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         latLngValues.clear();
         spfLatLngValues.clear();
         spfAddressTypeValues.clear();
+        addressMap.clear();
         accessToken = value.getString('accessToken');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
@@ -2342,6 +2380,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           return;
         }
       } else {
+        /*addressValues.clear();
+        subAddressValues.clear();
+        spfAddressValues.clear();
+        addressTypeValues.clear();
+        latLngValues.clear();
+        spfLatLngValues.clear();
+        spfAddressTypeValues.clear();
+        addressMap.clear();*/
+        //print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length} && ${spfLatLngValues.toList()} && ${spfAddressTypeValues.length}');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         print('User Address Type : $_myAddressInputType');
@@ -2355,69 +2402,88 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             _showCurrentLocationInput = false;
           });
         } else {
-          return;
+          print('No addresstype mentioned');
         }
 
         print('Entering address fields....');
-        if (spfAddressValues != null ||
-            spfAddressValues.isNotEmpty && spfLatLngValues != null ||
-            spfLatLngValues.isNotEmpty && spfAddressTypeValues != null ||
-            spfAddressTypeValues.isNotEmpty) {
+        if (spfAddressValues != null &&
+            spfLatLngValues != null &&
+            spfAddressTypeValues != null) {
           setState(() {
             for (int i = 0; i < spfAddressValues.length; i++) {
               for (int j = 0; j < spfLatLngValues.length; j++) {
                 for (int k = 0; k < spfAddressTypeValues.length; k++) {
-                  if (i == 0 && j == 0 && k == 0) {
+                  if (i == 0 && k == 0) {
                     addedFirstSubAddressController.value =
                         TextEditingValue(text: '${spfAddressValues[0]}');
-                    addressMap.add(Customer(
-                        'userSubAddressOne',
-                        spfAddressValues[0],
-                        spfLatLngValues[0],
-                        spfAddressTypeValues[0]));
-                  } else if (i == 1 && j == 1 && k == 1) {
+                    addressMap.add(AddressDataClass(
+                        addressKey: 'userSubAddressOne',
+                        address: spfAddressValues[0],
+                        latLngKey : 'latLngOne',
+                        lat: spfLatLngValues[0],
+                        lng: spfLatLngValues[1],
+                        addressTypeKey : 'addressTypeOne',
+                        addressType: spfAddressTypeValues[0]));
+                  } else if (i == 1 && k == 1) {
                     addedSecondSubAddressController.value =
                         TextEditingValue(text: '${spfAddressValues[1]}');
-                    addressMap.add(Customer(
-                        'userSubAddressTwo',
-                        spfAddressValues[1],
-                        spfLatLngValues[1],
-                        spfAddressTypeValues[1]));
-                  } else if (i == 2 && j == 2 && k == 2) {
+                    addressMap.add(AddressDataClass(
+                        addressKey: 'userSubAddressTwo',
+                        address: spfAddressValues[1],
+                        latLngKey : 'latLngTwo',
+                        lat: spfLatLngValues[2],
+                        lng: spfLatLngValues[3],
+                        addressTypeKey : 'addressTypeTwo',
+                        addressType: spfAddressTypeValues[1]));
+                  } else if (i == 2 && k == 2) {
                     addedThirdSubAddressController.value =
                         TextEditingValue(text: '${spfAddressValues[2]}');
-                    addressMap.add(Customer(
-                        'userSubAddressThree',
-                        spfAddressValues[2],
-                        spfLatLngValues[2],
-                        spfAddressTypeValues[2]));
+                    addressMap.add(AddressDataClass(
+                        addressKey: 'userSubAddressThree',
+                        address: spfAddressValues[2],
+                        latLngKey : 'latLngThree',
+                        lat: spfLatLngValues[4],
+                        lng: spfLatLngValues[5],
+                        addressTypeKey : 'addressTypeThree',
+                        addressType: spfAddressTypeValues[2]));
                   }
+                  Map<String, dynamic> map1 = Map.fromIterable(addressMap,
+                      key: (e) => e.addressKey,
+                      //value: (e) => e.address
+                      value: (e) =>
+                          e.address +
+                          e.lat +
+                          e.lng +
+                          e.addressType);
+                  print('Map values : $map1');
+                  mapToList(map1, addressMap);
+
+                  /*var list = [];
+                  map1.entries.forEach((e) => list.add({k:value}));
+                  print('Map to list : $list');*/
+                  /*String jsonUser = json.encode(list);
+                  print('JSON Convert : $jsonUser');*/
+
                 }
               }
             }
-            var map1 = Map.fromIterable(addressMap,
-                key: (e) => e.addressKey, value: (e) => e.address);
-            print('Map values : $map1');
-            var list = [];
-            map1.entries.forEach((e) => list.addAll(addressMap));
-            print('Map to list : $list');
           });
-
-          //final addressMap = spfAddressValues.asMap();
-          //print('SPF MAP VALUES : ${addressMap}');
-          //print('SPF MAP VALUES json : ${json.encode(addressMap.values.toList())}');
         } else {
-          addressValues.clear();
-          subAddressValues.clear();
-          spfAddressValues.clear();
-          addressTypeValues.clear();
-          latLngValues.clear();
-          spfLatLngValues.clear();
-          spfAddressTypeValues.clear();
+          print('List is empty');
         }
       }
     });
   }
+}
+
+void mapToList(Map<String, dynamic> map1, List<AddressDataClass> addressMap) {
+  List list = List();
+  map1.forEach((String key, dynamic value) {
+    list.add({key: value});
+  });
+  print(list.toString());
+  String jsonUser = json.encode(list);
+  print('JSON Convert : $jsonUser');
 }
 
 class AddAddress extends StatefulWidget {
@@ -3146,8 +3212,10 @@ class _AddAddressState extends State<AddAddress> {
           _addAddressPosition.longitude;
 
       latLngValues
-          .add('latitude : ${HealingMatchConstants.addedCurrentLatitude.toString()}'
-              'longitude : ${HealingMatchConstants.addedCurrentLongitude.toString()}');
+          .add('${HealingMatchConstants.addedCurrentLatitude.toString()}');
+      latLngValues
+          .add('${HealingMatchConstants.addedCurrentLongitude.toString()}');
+
       print('Ltlng values : ${latLngValues.toString()}');
       print('Ltlng values length : ${latLngValues.length}');
 
@@ -3366,8 +3434,10 @@ class _AddAddressState extends State<AddAddress> {
             print('Entering if...');
             addressValues.add(manualAddedAddress);
             latLngValues.add(
-                'latitude : ${HealingMatchConstants.manualAddressCurrentLatitude.toString()} '
-                'longitude : ${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
+                '${HealingMatchConstants.manualAddressCurrentLatitude.toString()}');
+            latLngValues.add(
+                '${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
+
             print(addressValues.length);
             print('Ltlng values : ${latLngValues.toString()}');
             print('Ltlng values length : ${latLngValues.length}');
@@ -3453,7 +3523,7 @@ class _AddAddressState extends State<AddAddress> {
       value.setStringList(
           'addressTypeValues', addressTypeValues.cast<String>());
       value.setBool('isUserVerified', false);
-      print('SPF LIST LENGTH : ${spfAddressValues.length}');
+      //print('SPF LIST LENGTH : ${spfAddressValues.length}');
     });
   }
 }

@@ -2279,6 +2279,7 @@ class _RegisterUserState extends State<RegisterUser> {
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
         _sharedPreferences.then((value) {
+          value.clear();
           value.setString('accessToken', serviceUserDetails.data.token);
           value.setString('profileImage',
               serviceUserDetails.data.userResponse.uploadProfileImgUrl);
