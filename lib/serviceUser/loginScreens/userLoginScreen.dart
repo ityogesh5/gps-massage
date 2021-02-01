@@ -22,6 +22,23 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
+  /*List<Address> addressFromJson(String str) =>
+      List<Address>.from(json.decode(str).map((x) => Address.fromJson(x)));
+
+  String addressToJson(List<Address> data) =>
+      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+  void saveData(String key, List<Address> value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, addressToJson(value));
+  }
+
+  Future<List<Address>> getData(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    String keyString = prefs.getString(key);
+    return Future.value(addressFromJson(keyString));
+  }*/
+
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
   bool passwordVisibility = true;
@@ -30,7 +47,7 @@ class _UserLoginState extends State<UserLogin> {
   final passwordController = new TextEditingController();
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
-  List<dynamic> addressList = List();
+  List<Address> addressList = List<Address>();
 
 //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -39,6 +56,12 @@ class _UserLoginState extends State<UserLogin> {
   //..updated regex pattern
   RegExp passwordRegex = new RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!?@#$%^&*_-]).{8,}$');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -472,11 +495,14 @@ class _UserLoginState extends State<UserLogin> {
           for (var address in loginResponseModel.data.addresses) {
             setState(() {
               addressList.add(address);
+
               // for (var i = 0; i < addressList.length; i++) {
               //   print(addressList[2]);
               // }
             });
           }
+          HealingMatchConstants.addressList.addAll(addressList);
+
           print(loginResponseModel.data.userName);
           print(loginResponseModel.data.phoneNumber.toString());
           print(loginResponseModel.data.email);
@@ -485,7 +511,7 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);
           // print(addressList);
-          print(addressResponse.addressTypeSelection);
+          // print(addressResponse.addressTypeSelection);
 
           //value.setString('userAddress', loginResponseModel.data.addresses);
         });
