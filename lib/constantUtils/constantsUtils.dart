@@ -40,6 +40,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/resetPassword';
   static const String CHANGE_PASSWORD_VERIFY_OTP_URL =
       ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
+  static const String UPDATE_USER_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
 
   // register service user
   static const String REGISTER_USER_URL =

@@ -38,8 +38,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
 
   @override
   void initState() {
-    super.initState();
     getUserProfileData();
+    super.initState();
   }
 
   @override
@@ -293,8 +293,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 Icon(Icons.location_on_outlined,
                                     size: 30, color: Colors.grey[500]),
-                                HealingMatchConstants.userAddress.isEmpty ||
-                                        userAddress.isEmpty
+                                HealingMatchConstants.userAddress != null ||
+                                        userAddress != null
                                     ? Text(
                                         '436-C鉄道地区ウィンターペットアラコナム。',
                                         style: TextStyle(
