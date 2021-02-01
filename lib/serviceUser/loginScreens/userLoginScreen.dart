@@ -14,6 +14,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -22,10 +23,14 @@ class UserLogin extends StatefulWidget {
 
 class _UserLoginState extends State<UserLogin> {
   var loginResponseModel = new LoginResponseModel();
+  var addressResponse = new Address();
   bool passwordVisibility = true;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   final passwordController = new TextEditingController();
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
+  List<dynamic> addressList = List();
 
 //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -444,8 +449,47 @@ class _UserLoginState extends State<UserLogin> {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
-        print('Login response : ${loginResponseModel.toJson()}');
-        print('Login token : ${loginResponseModel.accessToken}');
+        // print('Login response : ${loginResponseModel.toJson()}');
+        // print('Login token : ${loginResponseModel.accessToken}');
+        print('Login token : ${loginResponseModel.toJson()}');
+        _sharedPreferences.then((value) {
+          value.setString(
+              'profileImage', loginResponseModel.data.uploadProfileImgUrl);
+          value.setString('userName', loginResponseModel.data.userName);
+          value.setString('userPhoneNumber',
+              loginResponseModel.data.phoneNumber.toString());
+          value.setString('userEmailAddress', loginResponseModel.data.email);
+          value.setString('userDOB', loginResponseModel.data.dob.toString());
+          value.setString('userAge', loginResponseModel.data.age.toString());
+          value.setString('userGender', loginResponseModel.data.gender);
+          value.setString(
+              'userOccupation', loginResponseModel.data.userOccupation);
+          // final Map addressRes = json.decode(response.body);
+          // addressResponse = Address.fromJson(addressRes);
+
+          // value.setString('userAddress', loginResponseModel.data.addresses);
+
+          for (var address in loginResponseModel.data.addresses) {
+            setState(() {
+              addressList.add(address);
+              // for (var i = 0; i < addressList.length; i++) {
+              //   print(addressList[2]);
+              // }
+            });
+          }
+          print(loginResponseModel.data.userName);
+          print(loginResponseModel.data.phoneNumber.toString());
+          print(loginResponseModel.data.email);
+          print(loginResponseModel.data.dob.toString());
+          print(loginResponseModel.data.age.toString());
+          print(loginResponseModel.data.gender);
+          print(loginResponseModel.data.userOccupation);
+          // print(addressList);
+          print(addressResponse.addressTypeSelection);
+
+          //value.setString('userAddress', loginResponseModel.data.addresses);
+        });
+
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else {
