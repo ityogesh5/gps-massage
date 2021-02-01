@@ -445,18 +445,23 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         yearString = value;
                                         _cyear = int.parse(value);
                                         _currentDay = 1;
-                                        daysToDisplay =
-                                            totalDays(_cmonth, _cyear);
+                                        displayDay = DateTime(
+                                            _cyear, _cmonth, _currentDay);
+                                        /*    daysToDisplay =
+                                                totalDays(_cmonth, _cyear); */
                                       });
                                     },
                                     value: yearString,
                                     onChanged: (value) {
+                                      yearString = value;
+                                      _cyear = int.parse(value);
+                                      _currentDay = 1;
                                       setState(() {
-                                        yearString = value;
-                                        _cyear = int.parse(value);
-                                        _currentDay = 1;
-                                        daysToDisplay =
-                                            totalDays(_cmonth, _cyear);
+                                        displayDay = DateTime(
+                                            _cyear, _cmonth, _currentDay);
+
+                                        /*    daysToDisplay =
+                                                totalDays(_cmonth, _cyear); */
                                       });
                                     },
                                     dataSource: [
@@ -502,19 +507,23 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                           setState(() {
                                             monthString = value;
                                             _cmonth = int.parse(value);
-                                            daysToDisplay =
-                                                totalDays(_cmonth, _cyear);
+                                            displayDay = DateTime(
+                                                _cyear, _cmonth, _currentDay);
+                                            /*    daysToDisplay =
+                                                totalDays(_cmonth, _cyear); */
                                             _currentDay = 1;
                                             _incrementCounter();
                                           });
                                         },
                                         value: monthString,
                                         onChanged: (value) {
+                                          monthString = value;
+                                          _cmonth = int.parse(value);
+                                          displayDay = DateTime(
+                                              _cyear, _cmonth, _currentDay);
                                           setState(() {
-                                            monthString = value;
-                                            _cmonth = int.parse(value);
-                                            daysToDisplay =
-                                                totalDays(_cmonth, _cyear);
+                                            /*    daysToDisplay =
+                                                totalDays(_cmonth, _cyear); */
                                             _currentDay = 1;
                                             _incrementCounter();
                                           });
@@ -704,7 +713,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     ),
                                     FlutterWeekViewEvent(
                                       title: 'User 2',
-                                     description: '1',
+                                      description: '1',
                                       start:
                                           date.add(const Duration(hours: 13)),
                                       end: date.add(const Duration(hours: 14)),
@@ -745,7 +754,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     ),
                                     FlutterWeekViewEvent(
                                       title: 'User 5',
-                                     description: '0',
+                                      description: '0',
                                       start:
                                           next.add(const Duration(hours: 13)),
                                       end: next.add(const Duration(hours: 14)),
