@@ -181,7 +181,7 @@ class HealingMatchConstants {
   static const String registrationMailAdress = 'メールアドレス*';
   static const String registrationPassword = 'パスワード*';
   static const String registrationPasswordInstructionText = "半角英数8~16文字以内";
-  static const String registrationConfirmPassword = 'パスワード再確認*';
+  static const String registrationConfirmPassword = 'パスワード(確認用)*';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に開示されることはありません。';

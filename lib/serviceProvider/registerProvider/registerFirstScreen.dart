@@ -188,6 +188,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
       ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
+      FocusScope.of(context).requestFocus(new FocusNode());
     });
   }
 
@@ -545,6 +546,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Center(
                         child: Text(
                           HealingMatchConstants.registrationBuisnessTrip,
@@ -556,6 +558,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Container(
                         height: containerHeight,
                         /* decoration: BoxDecoration(
@@ -597,6 +600,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Center(
                         child: Text(
                           HealingMatchConstants.registrationCoronaTxt,
@@ -608,6 +612,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Container(
                         height: containerHeight,
                         child: DropDownFormField(
@@ -937,6 +942,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -954,12 +960,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        /*   decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(10.0),
-                                                                        color: Colors.black12,
-                                                                        border: Border.all(color: Colors.black12)), */
+                        height: containerHeight,
                         child: DropDownFormField(
                           hintText: '',
                           value: gender,
@@ -2124,6 +2127,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
+    ProgressDialogBuilder.showCommonProgressDialog(context);
     // Getting user GPS Address value
     if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する' &&
         _isGPSLocation) {
@@ -2139,7 +2143,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           myCity +
           ',' +
           myState;
-
       List<Placemark> userAddress =
           await geolocator.placemarkFromAddress(address);
       var userAddedAddressPlaceMark = userAddress[0];
@@ -2157,7 +2160,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = myCity;
     }
-
+    ProgressDialogBuilder.hideCommonProgressDialog(context);
     NavigationRouter.switchToServiceProviderSecondScreen(context);
   }
 

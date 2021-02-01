@@ -17,7 +17,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   final yearKey = new GlobalKey<FormState>();
   final monthKey = new GlobalKey<FormState>();
   List<Meeting> meetings;
-  CalendarController calendarController = CalendarController();
+  DayViewController dayViewController = DayViewController();
   bool readonly = false;
 
   var yearString, monthString, dateString;
@@ -26,7 +26,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   int _cyear;
   int _cmonth;
   int _currentDay;
-  var now = DateTime.now();
+  DateTime today = DateTime.now();
+  DateTime displayDay;
   int _lastday;
   int _counter = 0;
   int daysToDisplay;
@@ -35,11 +36,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     super.initState();
 
     dateString = '';
-
+    displayDay = today;
     _cyear = DateTime.now().year;
     _cmonth = DateTime.now().month;
     _currentDay = DateTime.now().day;
-    _lastday = DateTime(now.year, now.month + 1, 0).day;
+    _lastday = DateTime(today.year, today.month + 1, 0).day;
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
@@ -50,8 +51,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day);
+    DateTime date = DateTime(today.year, today.month, today.day);
+    DateTime next = DateTime(today.year, today.month, today.day + 1);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -662,11 +663,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               child: Container(
                                 height: 250.0,
                                 child: DayView(
+                                  controller: dayViewController,
                                   initialTime:
                                       const HourMinute(hour: 8, minute: 55),
                                   minimumTime: HourMinute(hour: 8, minute: 55),
                                   maximumTime: HourMinute(hour: 17, minute: 10),
-                                  date: now,
+                                  date: displayDay,
                                   inScrollableWidget: true,
                                   hoursColumnStyle:
                                       HoursColumnStyle(color: Colors.grey[200]),
@@ -679,13 +681,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       headerSize: 0.0),
                                   events: [
                                     FlutterWeekViewEvent(
-                                      title: 'An event 1',
-                                      description: 'A description 1',
+                                      title: 'User 1',
+                                      description: '0',
                                       start: date.add(const Duration(hours: 9)),
                                       margin: EdgeInsets.only(
                                           left: 8.0, right: 8.0),
+                                      textStyle: TextStyle(color: Colors.black),
                                       decoration: BoxDecoration(
-                                          color: Colors.red,
+                                          color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           shape: BoxShape
@@ -700,13 +703,22 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                                        } */
                                     ),
                                     FlutterWeekViewEvent(
-                                      title: 'An event 2',
-                                      description: 'A description 2',
+                                      title: 'User 2',
+                                     description: '1',
                                       start:
                                           date.add(const Duration(hours: 13)),
                                       end: date.add(const Duration(hours: 14)),
+                                      textStyle: TextStyle(color: Colors.black),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          shape: BoxShape
+                                              .rectangle /* (
+                                                                 borderRadius: new BorderRadius.circular(10.0)), */
+                                          ),
                                     ),
-                                    FlutterWeekViewEvent(
+                                    /*  FlutterWeekViewEvent(
                                       title: 'An event 3',
                                       description: 'A description 3',
                                       start: date.add(const Duration(
@@ -714,26 +726,54 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       end: date.add(const Duration(
                                           hours: 15, minutes: 30)),
                                     ),
+                                     */
                                     FlutterWeekViewEvent(
-                                      title: 'An event 4',
-                                      description: 'A description 4',
+                                      title: 'User 4',
+                                      description: '1',
                                       start:
                                           date.add(const Duration(hours: 15)),
                                       end: date.add(const Duration(hours: 16)),
+                                      textStyle: TextStyle(color: Colors.black),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          shape: BoxShape
+                                              .rectangle /* (
+                                                                 borderRadius: new BorderRadius.circular(10.0)), */
+                                          ),
                                     ),
                                     FlutterWeekViewEvent(
-                                      title: 'An event 5',
-                                      description: 'A description 5',
+                                      title: 'User 5',
+                                     description: '0',
                                       start:
-                                          date.add(const Duration(hours: 15)),
-                                      end: date.add(const Duration(hours: 16)),
+                                          next.add(const Duration(hours: 13)),
+                                      end: next.add(const Duration(hours: 14)),
+                                      textStyle: TextStyle(color: Colors.black),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          shape: BoxShape
+                                              .rectangle /* (
+                                                                 borderRadius: new BorderRadius.circular(10.0)), */
+                                          ),
                                     ),
                                     FlutterWeekViewEvent(
-                                      title: 'An event 6',
-                                      description: 'A description 6',
+                                      title: 'User 6',
+                                      description: '1',
                                       start:
-                                          date.add(const Duration(hours: 16)),
-                                      end: date.add(const Duration(hours: 17)),
+                                          next.add(const Duration(hours: 10)),
+                                      end: next.add(const Duration(hours: 12)),
+                                      textStyle: TextStyle(color: Colors.black),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          shape: BoxShape
+                                              .rectangle /* (
+                                                                 borderRadius: new BorderRadius.circular(10.0)), */
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -935,12 +975,13 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       selectedYear: _cyear,
       ismonth: true,
       numberToDisplay: 7,
-      selectedMonth: 1,
+      selectedMonth: _cmonth,
       eventDates: [
-        DateTime(2021, 1, 29),
-        DateTime(2021, 1, 29),
-        DateTime(2021, 1, 29),
-        DateTime(2021, 1, 27),
+        DateTime(today.year, today.month, today.day),
+        DateTime(today.year, today.month, today.day),
+        DateTime(today.year, today.month, today.day),
+        DateTime(today.year, today.month, today.day + 1),
+        DateTime(today.year, today.month, today.day + 1)
       ],
       zeroPad: false,
       initialValue: _currentDay,
@@ -948,7 +989,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       maxValue: daysToDisplay,
       onChanged: (newValue) => setState(() {
         if ((newValue != _currentDay)) {
-          changeMonth(newValue);
+          changeDay(newValue);
         }
       }),
     );
@@ -969,9 +1010,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     );
   }
 
-  changeMonth(int selectedmonth) {
+  changeDay(int selectedDay) {
     setState(() {
-      _currentDay = selectedmonth;
+      _currentDay = selectedDay;
+      displayDay = DateTime(_cyear, _cmonth, selectedDay);
+      //dayViewController.
+
       // dayPicker.animateInt(_currentDay);
     });
     // print("Changed month: _currentDay");

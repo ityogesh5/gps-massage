@@ -83,7 +83,10 @@ class _RegistrationSecondPageState
                     children: [
                       Text(
                         HealingMatchConstants.registrationFirstText,
-                        style: TextStyle(fontSize: 15),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -96,7 +99,10 @@ class _RegistrationSecondPageState
                       Text("*", style: TextStyle(color: Colors.red)),
                       Text(
                         HealingMatchConstants.registrationScndText,
-                        style: TextStyle(fontSize: 15),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

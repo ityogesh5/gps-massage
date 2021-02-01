@@ -67,13 +67,37 @@ class DefaultBuilders {
         break;
       }
     }
+    return Container(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          event.title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        event.description == '0'
+            ? Row(
+                children: [
+                  Icon(
+                    Icons.hourglass_top_outlined,
+                    color: Colors.yellow,
+                  ),
+                  Text("承認待ち", style: TextStyle(color: Colors.yellow))
+                ],
+              )
+            : Row(
+                children: [Text("承認済み", style: TextStyle(color: Colors.black))],
+              )
+      ],
+    ));
 
-    return RichText(
+    /*  return RichText(
       text: TextSpan(
         children: text,
         style: event.textStyle,
       ),
     );
+ */
   }
 
   /// Builds a date according to a list.
