@@ -489,15 +489,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "男性",
+                                      "value": "M",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "女性",
+                                      "value": "F",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "どちらでもない",
+                                      "value": "O",
                                     },
                                   ],
                                   textField: 'display',
@@ -2259,6 +2259,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         userBuildName = value.getString('buildingName');
         userRoomNo = value.getString('roomNumber');
         _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
+        _myCity = value.getString('cityName');
+        _myPrefecture = value.getString('capitalAndPrefecture');
         userArea = value.getString('area');
 
         // Convert string url of image to base64 format

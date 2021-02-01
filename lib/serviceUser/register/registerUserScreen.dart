@@ -498,7 +498,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.38,
                                 child: DropDownFormField(
-                                  hintText: '性別 *',
+                                  hintText: '',
                                   value: _myGender,
                                   onSaved: (value) {
                                     setState(() {
@@ -2287,9 +2287,11 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.userResponse.phoneNumber);
           value.setString(
               'userEmailAddress', serviceUserDetails.data.userResponse.email);
-          value.setString('userDOB', serviceUserDetails.data.userResponse.dob);
+          value.setString(
+              'userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString('userAge', serviceUserDetails.data.userResponse.age);
-          value.setString('userGender', japaneseGender);
+          value.setString(
+              'userGender', serviceUserDetails.data.userResponse.gender);
 
           value.setString('userOccupation',
               serviceUserDetails.data.userResponse.userOccupation);
@@ -2308,6 +2310,10 @@ class _RegisterUserState extends State<RegisterUser> {
 
           value.setString(
               'userArea', serviceUserDetails.data.addressResponse.area);
+          value.setString(
+              'cityName', serviceUserDetails.data.addressResponse.cityName);
+          value.setString('capitalAndPrefecture',
+              serviceUserDetails.data.addressResponse.capitalAndPrefecture);
           value.setString('addressType',
               serviceUserDetails.data.addressResponse.addressTypeSelection);
           value.setString('addressID',

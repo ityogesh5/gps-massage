@@ -88,6 +88,11 @@ class HealingMatchConstants {
   static String serviceUserOtpBtn = '確認';
   static String serviceResendOtpTxt = '認証コードを再送する';
 
+  // Provider Register otp
+  static String serviceProviderOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
+  static String serviceProviderOtpBtn = '確認';
+  static String serviceProviderResendOtpTxt = '認証コードを再送する';
+
   //Register Service Provider Screen Constants
   static PickedFile profileImage;
   static String serviceProviderUserName = '';
