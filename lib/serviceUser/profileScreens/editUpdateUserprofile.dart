@@ -8,7 +8,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -1342,13 +1341,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           color: Colors.grey),
                     ),
                     SizedBox(height: 15),
-                    spfAddressValues != null
+                    addAllAddressData != null
                         ? Container(
                             child: ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: spfAddressValues.length,
+                                itemCount: addAllAddressData.length,
                                 itemBuilder: (BuildContext ctxt, int index) {
                                   return index == 0
                                       ? Column(
@@ -1370,7 +1369,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
                                                     hintText:
-                                                        '${spfAddressValues[0]}',
+                                                        '${addAllAddressData[0]}',
                                                     hintStyle: TextStyle(
                                                         color: Colors.grey[400],
                                                         fontSize: 14),
@@ -1391,10 +1390,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       icon: Icon(Icons.delete),
                                                       onPressed: () {
                                                         setState(() {
-                                                          spfAddressValues
-                                                              .removeAt(0);
-                                                          spfAddressValues
-                                                              .remove(0);
+
                                                         });
                                                       },
                                                     )),
@@ -1406,7 +1402,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             SizedBox(height: 15),
                                           ],
                                         )
-                                      : index == 1
+                                      : index == 5
                                           ? Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceAround,
@@ -1427,7 +1423,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                             fillColor: ColorConstants
                                                                 .formFieldFillColor,
                                                             hintText:
-                                                                '${spfAddressValues[1]}',
+                                                                '${addAllAddressData[5]}',
                                                             hintStyle: TextStyle(
                                                                 color: Colors
                                                                     .grey[400],
@@ -1451,12 +1447,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   Icons.delete),
                                                               onPressed: () {
                                                                 setState(() {
-                                                                  spfAddressValues
-                                                                      .removeAt(
-                                                                          1);
-                                                                  spfAddressValues
-                                                                      .remove(
-                                                                          1);
+
                                                                 });
                                                               },
                                                             )),
@@ -1488,7 +1479,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                             fillColor: ColorConstants
                                                                 .formFieldFillColor,
                                                             hintText:
-                                                                '${spfAddressValues[2]}',
+                                                                '${addAllAddressData[9]}',
                                                             hintStyle: TextStyle(
                                                                 color: Colors
                                                                     .grey[400],
@@ -1512,12 +1503,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   Icons.delete),
                                                               onPressed: () {
                                                                 setState(() {
-                                                                  spfAddressValues
-                                                                      .removeAt(
-                                                                          2);
-                                                                  spfAddressValues
-                                                                      .remove(
-                                                                          2);
+
                                                                 });
                                                               },
                                                             )),
@@ -2356,7 +2342,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     _sharedPreferences.then((value) {
       bool isUserVerified = value.getBool('isUserVerified');
       spfAddressValues = value.getStringList('address');
-      spfLatLngValues = value.getStringList('latLngValues');
+      //spfLatLngValues = value.getStringList('latLngValues');
       //spfAddressTypeValues = value.getStringList('addressTypeValues');
       if (isUserVerified != null && isUserVerified) {
         addressValues.clear();
@@ -2414,58 +2400,64 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         }
 
         print('Entering address fields....');
-        if (spfAddressValues != null && spfLatLngValues != null) {
+        if (spfAddressValues != null) {
+          print(
+              'Entering spfAddressValues list .... : ${spfAddressValues.length}');
           setState(() {
-            for (int i = 0; i < spfAddressValues.length; i++) {
+            for (var i = 0; i < spfAddressValues.length; i++) {
+              print('Address one pos : ${spfAddressValues[i]}');
+
+              if (spfAddressValues.length == 4) {
+                addedFirstSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[0]}');
+                addAllAddressData.add(spfAddressValues[0]);
+                print('Address 0 pos : ${spfAddressValues[0]}');
+              }
+              if (spfAddressValues.length == 8) {
+                addedFirstSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[5]}');
+                addAllAddressData.add(spfAddressValues[5]);
+                print('Address 5 pos : ${spfAddressValues[5]}');
+              }
+              if (spfAddressValues.length == 12) {
+                addedFirstSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[9]}');
+                addAllAddressData.add(spfAddressValues[9]);
+              }
+            }
+            /*for (int i = 0; i < spfAddressValues.length; i++) {
               if (i == 0) {
                 addedFirstSubAddressController.value =
                     TextEditingValue(text: '${spfAddressValues[0]}');
-                addressMap.add(
-                    AddUserAddress('userSubAddressOne', spfAddressValues[0]));
 
                 print('Entering loop 1....');
-              } else if (i == 1) {
+              }
+              addressMap.add(
+                  AddUserAddress(spfAddressValues[0],spfAddressValues[1],spfAddressValues[2],spfAddressValues[3]));
+               */ /*if (i == 1) {
                 addedSecondSubAddressController.value =
                     TextEditingValue(text: '${spfAddressValues[1]}');
                 addressMap.add(
                     AddUserAddress('userSubAddressTwo', spfAddressValues[1]));
 
                 print('Entering loop 2....');
-              } else if (i == 2) {
+              }  if (i == 2) {
                 addedThirdSubAddressController.value =
                     TextEditingValue(text: '${spfAddressValues[2]}');
                 addressMap.add(
                     AddUserAddress('userSubAddressThree', spfAddressValues[2]));
 
                 print('Entering loop 3....');
-              }
-            }
-            for (int j = 0; j < spfLatLngValues.length; j++) {
-              if (j == 0 && j == 1 && j == 2) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[0],
-                    spfLatLngValues[1], spfLatLngValues[2]));
-                print('Entering J LOOP 1....');
-              } else if (j == 3 && j == 4 && j == 5) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[3],
-                    spfLatLngValues[4], spfLatLngValues[5]));
-                print('Entering J LOOP 2....');
-              } else if (j == 6 && j == 7 && j == 8) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[6],
-                    spfLatLngValues[7], spfLatLngValues[8]));
-                print('Entering J LOOP 3....');
-              }
-            }
-            /*addAllAddressData.addAll(addressMap);
-            print('addressMap values : ${addAllAddressData.toString()}');*/
-            listOfMaps = addressMap
-                .map((addressValues) => {
-                      "subAddress": addressValues.subAddress
-                      /*"lat": addressValues.lat,
-                      "lon": addressValues.lng,
-                      "addressType": addressValues.addressType*/
-                    })
+              }*/ /*
+            }*/
+
+            print('addressMap values : ${spfAddressValues.toString()}');
+            String jsonUser = json.encode(spfAddressValues);
+            print('JSON Convert : $jsonUser');
+            listOfMaps = spfAddressValues
+                .map((pos) => {"subAddress": spfAddressValues})
                 .toList();
-            print('List of maps : ${listOfMaps.toString()}');
+            print('List of maps : $listOfMaps');
           });
         } else {
           print('List is empty');
@@ -3209,14 +3201,6 @@ class _AddAddressState extends State<AddAddress> {
       HealingMatchConstants.addedCurrentLongitude =
           _addAddressPosition.longitude;
 
-      latLngValues
-          .add('${HealingMatchConstants.addedCurrentLatitude.toString()}');
-      latLngValues
-          .add('${HealingMatchConstants.addedCurrentLongitude.toString()}');
-
-      print('Ltlng values : ${latLngValues.toString()}');
-      print('Ltlng values length : ${latLngValues.length}');
-
       setState(() {
         _addedAddress =
             '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
@@ -3314,12 +3298,17 @@ class _AddAddressState extends State<AddAddress> {
         String gpsUserAddress =
             '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
         print('GPS FINAL ADDRESS : $gpsUserAddress');
-        if (addressValues.length <= 2) {
+        if (addressValues.length <= 11) {
           setState(() {
             print('Entering if...');
             addressValues.add(gpsUserAddress);
+            addressValues.add(
+                '${HealingMatchConstants.addedCurrentLatitude.toString()}');
+            addressValues.add(
+                '${HealingMatchConstants.addedCurrentLongitude.toString()}');
+            addressValues.add(_myAddedAddressInputType);
             print(addressValues.length);
-            latLngValues.add(_myAddedAddressInputType);
+            print('Address List : ${addressValues.toString()}');
             // Navigator.pop(context);
             Navigator.push(
                 context,
@@ -3428,15 +3417,15 @@ class _AddAddressState extends State<AddAddress> {
             '${HealingMatchConstants.manualAddressCurrentLongitude}');
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
-        if (addressValues.length <= 2) {
+        if (addressValues.length <= 11) {
           setState(() {
             print('Entering if...');
             addressValues.add(manualAddedAddress);
-            latLngValues.add(
+            addressValues.add(
                 '${HealingMatchConstants.manualAddressCurrentLatitude.toString()}');
-            latLngValues.add(
+            addressValues.add(
                 '${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
-            latLngValues.add(_myAddedAddressInputType);
+            addressValues.add(_myAddedAddressInputType);
 
             print(addressValues.length);
             print('Ltlng values : ${latLngValues.toString()}');
@@ -3517,10 +3506,10 @@ class _AddAddressState extends State<AddAddress> {
 
     //addressTypeValues.add(_myAddedAddressInputType);
     print('AddressType values : ${addressTypeValues.toString()}');
-    print('AddressType values length : ${addressTypeValues.length}');
+    //print('AddressType values length : ${addressTypeValues.length}');
     _sharedPreferences.then((value) {
       value.setStringList('address', addressValues.cast<String>());
-      value.setStringList('latLngValues', latLngValues.cast<String>());
+      //value.setStringList('latLngValues', latLngValues.cast<String>());
       /*value.setStringList(
           'addressTypeValues', addressTypeValues.cast<String>());*/
       value.setBool('isUserVerified', false);
