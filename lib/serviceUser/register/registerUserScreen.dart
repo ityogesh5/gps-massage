@@ -536,15 +536,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "M",
+                                      "value": "男性",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "F",
+                                      "value": "女性",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "O",
+                                      "value": "どちらでもない",
                                     },
                                   ],
                                   textField: 'display',

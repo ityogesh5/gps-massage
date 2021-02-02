@@ -1243,6 +1243,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             icon:
                                 Icon(Icons.add, size: 28, color: Colors.black),
                             onPressed: () {
+                              NavigationRouter.switchToUserAddAddressScreen(
+                                  context);
                               if (spfAddressValues.length == 3) {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   backgroundColor: ColorConstants.snackBarColor,
@@ -1275,8 +1277,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   ),
                                 ));
                               } else {
-                                NavigationRouter.switchToUserAddAddressScreen(
-                                    context);
+                                // NavigationRouter.switchToUserAddAddressScreen(context);
                               }
                             },
                           ),
@@ -2264,7 +2265,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         userArea = value.getString('area');
 
         // Convert string url of image to base64 format
-        convertBase64ProfileImage(userProfileImage);
+        // convertBase64ProfileImage(userProfileImage);
 
         setState(() {
           HealingMatchConstants.userEditUserName = userName;
@@ -2289,6 +2290,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           userAreaController.text = HealingMatchConstants.userEditArea;
         });
         print(_myCategoryPlaceForMassage);
+        print('Prefectute: $_myPrefecture');
+        print('City: $_myCity');
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
@@ -2297,13 +2300,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
-  convertBase64ProfileImage(String userProfileImage) async {
+  /* convertBase64ProfileImage(String userProfileImage) async {
     imgBase64ProfileImage =
         await networkImageToBase64RightFront(userProfileImage);
     profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
     HealingMatchConstants.userEditProfile = profileImageInBytes;
     // print('profile image : $profileImageInBytes');
-  }
+  }*/
 
   Future<String> networkImageToBase64RightFront(String imageUrl) async {
     http.Response response = await http.get(imageUrl);
@@ -3036,7 +3039,7 @@ class _AddAddressState extends State<AddAddress> {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-                              //addressValues.clear();
+                              addressValues.clear();
                               _addUserAddress();
                             },
                             child: new Text(
