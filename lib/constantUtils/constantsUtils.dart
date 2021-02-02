@@ -59,6 +59,7 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserLoggedIn = false;
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 *";
