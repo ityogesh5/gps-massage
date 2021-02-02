@@ -73,27 +73,47 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: Text(
+            HealingMatchConstants.registrationChooseServiceNavBtn,
+            style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+                fontSize: 13.5),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          leading: IconButton(
+            padding:
+                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context),
+          )),
       body: SafeArea(
         child: SingleChildScrollView(
           primary: true,
           child: Container(
+            color: Colors.white,
             padding: EdgeInsets.only(
                 left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 20.0,
-                ),
                 Text(
                   HealingMatchConstants.chooseServiceFirstText,
                   style: TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.bold),
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13.5),
                 ),
                 SizedBox(
-                  height: 40.0,
+                  height: 20,
                 ),
-
                 //Esthetic DropDown
                 HealingMatchConstants.serviceProviderStoreType.contains('エステ')
                     ? InkWell(

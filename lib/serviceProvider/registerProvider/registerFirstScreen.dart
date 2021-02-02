@@ -1493,8 +1493,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     validateFields();
-
-                    /*       NavigationRouter.switchToServiceProviderSecondScreen(
+                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
                                       context); */
                   },
                 ),
