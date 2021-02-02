@@ -41,6 +41,9 @@ class HealingMatchConstants {
   static const String CHANGE_PASSWORD_VERIFY_OTP_URL =
       ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
 
+  static const String UPDATE_USER_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
+
   // register service user
   static const String REGISTER_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/registerUser';
@@ -57,6 +60,7 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserLoggedIn = false;
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 *";

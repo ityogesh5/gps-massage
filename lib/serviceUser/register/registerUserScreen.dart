@@ -2279,6 +2279,8 @@ class _RegisterUserState extends State<RegisterUser> {
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
         _sharedPreferences.then((value) {
+          value.clear();
+          value.setString('accessToken', serviceUserDetails.data.token);
           value.setString('profileImage',
               serviceUserDetails.data.userResponse.uploadProfileImgUrl);
           value.setString(
@@ -2289,6 +2291,7 @@ class _RegisterUserState extends State<RegisterUser> {
               'userEmailAddress', serviceUserDetails.data.userResponse.email);
           // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString('userDOB', userDOB);
+
           value.setString('userAge', serviceUserDetails.data.userResponse.age);
           value.setString(
               'userGender', serviceUserDetails.data.userResponse.gender);
@@ -2318,6 +2321,7 @@ class _RegisterUserState extends State<RegisterUser> {
               serviceUserDetails.data.addressResponse.addressTypeSelection);
           value.setString('addressID',
               serviceUserDetails.data.addressResponse.id.toString());
+          // value.setString('userID', serviceUserDetails.data.userResponse);
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);

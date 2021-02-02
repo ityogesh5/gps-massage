@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -18,12 +20,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<dynamic> addressValues = List();
-List<dynamic> textFieldValues = List();
+List<dynamic> latLngValues = List();
+List<dynamic> addressTypeValues = List();
 List<dynamic> subAddressValues = List();
 List<dynamic> spfAddressValues = List();
+List<dynamic> spfLatLngValues = List();
+List<dynamic> spfAddressTypeValues = List();
+List<dynamic> addressMap = List();
+List<dynamic> addAllAddressData = List();
+List<Map<String, dynamic>> listOfMaps = List();
+List<dynamic> list = List();
+List addressList = List();
+//final addressMap = [];
 final addedFirstSubAddressController = new TextEditingController();
 final addedSecondSubAddressController = new TextEditingController();
 final addedThirdSubAddressController = new TextEditingController();
+
+String jsonUser;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -59,7 +72,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   var userAddressType = '';
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
-  final formKey = GlobalKey<FormState>();
   TextEditingController _userDOBController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
@@ -76,7 +88,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   var _ageOfUser = '';
   String _myGender = '';
   String _myOccupation = '';
-  String _myAddressInputType = '';
+  String _myAddressInputType = '', accessToken;
   String _userAddressID = '';
   String _myAddedAddressInputType = '';
   String _myCategoryPlaceForMassage = '';
@@ -93,7 +105,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   bool _isLoggedIn = false;
   bool _isGPSLocation = false;
   bool _isAddedGPSLocation = false;
-  final _registerUserFormKey = new GlobalKey<FormState>();
   final _genderKey = new GlobalKey<FormState>();
   final _occupationKey = new GlobalKey<FormState>();
   final _addressTypeKey = new GlobalKey<FormState>();
@@ -105,6 +116,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final _addedPrefectureKey = new GlobalKey<FormState>();
   final _addedCityKey = new GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> _updateUserFormKey = new GlobalKey<FormState>();
   final userNameController = new TextEditingController();
   final phoneNumberController = new TextEditingController();
   final emailController = new TextEditingController();
@@ -228,7 +240,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           child: Form(
-            key: _registerUserFormKey,
+            key: _updateUserFormKey,
             child: ListView(
               scrollDirection: Axis.vertical,
               physics: BouncingScrollPhysics(),
@@ -1229,73 +1241,116 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
                         : SizedBox(),
-                    Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        readOnly: true,
-                        enableInteractiveSelection: false,
-                        decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          hintText: 'その他の登録場所',
-                          suffixIcon: IconButton(
-                            icon:
-                                Icon(Icons.add, size: 28, color: Colors.black),
-                            onPressed: () {
-                              NavigationRouter.switchToUserAddAddressScreen(
-                                  context);
-                              if (spfAddressValues.length == 3) {
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  backgroundColor: ColorConstants.snackBarColor,
-                                  duration: Duration(seconds: 3),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Text('メインの地点以外に3箇所まで地点登録ができます。',
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                                fontFamily: 'Oxygen')),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          _scaffoldKey.currentState
-                                              .hideCurrentSnackBar();
-                                        },
-                                        child: Text('はい',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Oxygen',
-                                                fontWeight: FontWeight.w500,
-                                                decoration:
-                                                    TextDecoration.underline)),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                              } else {
-                                // NavigationRouter.switchToUserAddAddressScreen(context);
-                              }
-                            },
+                    spfAddressValues != null
+                        ? Container(
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: TextFormField(
+                              readOnly: true,
+                              enableInteractiveSelection: false,
+                              decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                hintText: 'その他の登録場所',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.add,
+                                      size: 28, color: Colors.black),
+                                  onPressed: () {
+                                    if (spfAddressValues.length == 3) {
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        backgroundColor:
+                                            ColorConstants.snackBarColor,
+                                        duration: Duration(seconds: 3),
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                  'メインの地点以外に3箇所まで地点登録ができます。',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Oxygen')),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                _scaffoldKey.currentState
+                                                    .hideCurrentSnackBar();
+                                              },
+                                              child: Text('はい',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Oxygen',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      decoration: TextDecoration
+                                                          .underline)),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                    } else {
+                                      _updateUserFormKey.currentState.save();
+                                      NavigationRouter
+                                          .switchToUserAddAddressScreen(
+                                              context);
+                                    }
+                                  },
+                                ),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400], fontSize: 14),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              style: TextStyle(color: Colors.black54),
+                              // validator: (value) => _validateEmail(value),
+                            ),
+                          )
+                        : Container(
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: TextFormField(
+                              readOnly: true,
+                              enableInteractiveSelection: false,
+                              decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                hintText: 'その他の登録場所',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.add,
+                                      size: 28, color: Colors.black),
+                                  onPressed: () {
+                                    _updateUserFormKey.currentState.save();
+                                    NavigationRouter
+                                        .switchToUserAddAddressScreen(context);
+                                  },
+                                ),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400], fontSize: 14),
+                                focusColor: Colors.grey[100],
+                                border:
+                                    HealingMatchConstants.textFormInputBorder,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              style: TextStyle(color: Colors.black54),
+                              // validator: (value) => _validateEmail(value),
+                            ),
                           ),
-                          hintStyle:
-                              TextStyle(color: Colors.grey[400], fontSize: 14),
-                          focusColor: Colors.grey[100],
-                          border: HealingMatchConstants.textFormInputBorder,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        ),
-                        style: TextStyle(color: Colors.black54),
-                        // validator: (value) => _validateEmail(value),
-                      ),
-                    ),
                     SizedBox(height: 15),
                     Text(
                       'メインの地点以外に3箇所まで地点登録ができます',
@@ -1329,27 +1384,38 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 controller:
                                                     addedFirstSubAddressController,
                                                 decoration: new InputDecoration(
-                                                  filled: true,
-                                                  fillColor: ColorConstants
-                                                      .formFieldFillColor,
-                                                  hintText:
-                                                      '${spfAddressValues[0]}',
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontSize: 14),
-                                                  focusColor: Colors.grey[100],
-                                                  border: HealingMatchConstants
-                                                      .textFormInputBorder,
-                                                  focusedBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                  disabledBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                  enabledBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                ),
+                                                    filled: true,
+                                                    fillColor: ColorConstants
+                                                        .formFieldFillColor,
+                                                    hintText:
+                                                        '${spfAddressValues[0]}',
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey[400],
+                                                        fontSize: 14),
+                                                    focusColor:
+                                                        Colors.grey[100],
+                                                    border: HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                    focusedBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    disabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    enabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(Icons.delete),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          spfAddressValues
+                                                              .removeAt(0);
+                                                          spfAddressValues
+                                                              .remove(0);
+                                                        });
+                                                      },
+                                                    )),
                                                 style: TextStyle(
                                                     color: Colors.black54),
                                                 // validator: (value) => _validateEmail(value),
@@ -1375,29 +1441,43 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                         addedSecondSubAddressController,
                                                     decoration:
                                                         new InputDecoration(
-                                                      filled: true,
-                                                      fillColor: ColorConstants
-                                                          .formFieldFillColor,
-                                                      hintText:
-                                                          '${spfAddressValues[1]}',
-                                                      hintStyle: TextStyle(
-                                                          color:
-                                                              Colors.grey[400],
-                                                          fontSize: 14),
-                                                      focusColor:
-                                                          Colors.grey[100],
-                                                      border: HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                      focusedBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      disabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      enabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                    ),
+                                                            filled: true,
+                                                            fillColor: ColorConstants
+                                                                .formFieldFillColor,
+                                                            hintText:
+                                                                '${spfAddressValues[1]}',
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontSize: 14),
+                                                            focusColor: Colors
+                                                                .grey[100],
+                                                            border: HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                            focusedBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            disabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            enabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            suffixIcon:
+                                                                IconButton(
+                                                              icon: Icon(
+                                                                  Icons.delete),
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  spfAddressValues
+                                                                      .removeAt(
+                                                                          1);
+                                                                  spfAddressValues
+                                                                      .remove(
+                                                                          1);
+                                                                });
+                                                              },
+                                                            )),
                                                     style: TextStyle(
                                                         color: Colors.black54),
                                                     // validator: (value) => _validateEmail(value),
@@ -1422,29 +1502,43 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                         addedThirdSubAddressController,
                                                     decoration:
                                                         new InputDecoration(
-                                                      filled: true,
-                                                      fillColor: ColorConstants
-                                                          .formFieldFillColor,
-                                                      hintText:
-                                                          '${spfAddressValues[2]}',
-                                                      hintStyle: TextStyle(
-                                                          color:
-                                                              Colors.grey[400],
-                                                          fontSize: 14),
-                                                      focusColor:
-                                                          Colors.grey[100],
-                                                      border: HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                      focusedBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      disabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      enabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                    ),
+                                                            filled: true,
+                                                            fillColor: ColorConstants
+                                                                .formFieldFillColor,
+                                                            hintText:
+                                                                '${spfAddressValues[2]}',
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontSize: 14),
+                                                            focusColor: Colors
+                                                                .grey[100],
+                                                            border: HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                            focusedBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            disabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            enabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            suffixIcon:
+                                                                IconButton(
+                                                              icon: Icon(
+                                                                  Icons.delete),
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  spfAddressValues
+                                                                      .removeAt(
+                                                                          2);
+                                                                  spfAddressValues
+                                                                      .remove(
+                                                                          2);
+                                                                });
+                                                              },
+                                                            )),
                                                     style: TextStyle(
                                                         color: Colors.black54),
                                                     // validator: (value) => _validateEmail(value),
@@ -1699,6 +1793,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
+    //double searchRadisu =
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
 
@@ -2083,6 +2178,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user phone number validation
     if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
       print('userPhoneNumber : $userPhoneNumber');
+      subAddressValues.add(userPhoneNumber);
     }
 
     // Email Validation
@@ -2178,16 +2274,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (_myCategoryPlaceForMassage != null ||
         _myCategoryPlaceForMassage.isNotEmpty) {
       print('_myCategoryPlaceForMassage : $_myCategoryPlaceForMassage');
+      subAddressValues.add(_myCategoryPlaceForMassage);
     }
 
     // user building name validation
     if (buildingName != null || buildingName.isNotEmpty) {
       print('buildingName : $buildingName');
+      subAddressValues.add(buildingName);
     }
 
     // room number validation
     if (roomNumber != null || roomNumber.isNotEmpty) {
       print('roomNumber : $roomNumber');
+      subAddressValues.add(roomNumber);
     }
 
     // Getting user GPS Address value
@@ -2196,6 +2295,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       String userCurrentLocation =
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
+      subAddressValues.add(_myAddressInputType);
       subAddressValues.add(userCurrentLocation);
     } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
       String manualUserAddress = roomNumber +
@@ -2223,6 +2323,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
+      subAddressValues.add(_myAddressInputType);
       subAddressValues.add(manualUserAddress);
     }
 
@@ -2238,9 +2339,35 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         addedThirdSubAddressController.text.toString() != null) {
       subAddressValues.add(addedThirdSubAddressController.text.toString());
     }
-    print('Sub address list values : ${subAddressValues.length}');
-    print('User Edit Success !!');
-    //DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+    print('Sub address list length : ${subAddressValues.length}');
+    print('Address ID : $_userAddressID');
+
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    final url = HealingMatchConstants.UPDATE_USER_DETAILS_URL;
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': accessToken
+        },
+        body: json.encode({
+          "id": _userAddressID,
+          "userName": userName,
+          "gender": _myGender,
+          "dob": userDOB,
+          "isTherapist": "0",
+          "address": subAddressValues.toString()
+        }));
+    print('Success response code : ${response.statusCode}');
+    print('Sub address list values : ${subAddressValues.toList()}');
+    if (response.statusCode == 200) {
+      print('User Edit Success !!');
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+    } else {
+      subAddressValues.clear();
+      print('User Edit failed !!');
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+    }
   }
 
   getUserProfileData() async {
@@ -2315,52 +2442,135 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   }
 
   getEditUserFields() async {
-    print('AddedCity : $_myAddedCity');
     _sharedPreferences.then((value) {
-      _myAddressInputType = value.getString('addressType');
-      _userAddressID = value.getString('addressID');
-      print('User Address Type : $_myAddressInputType');
-      print('User Address ID : $_userAddressID');
-      if (_myAddressInputType.contains('現在地を取得する')) {
-        setState(() {
-          _showCurrentLocationInput = true;
-        });
-      } else if (_myAddressInputType.contains('直接入力する')) {
-        setState(() {
-          _showCurrentLocationInput = false;
-        });
+      bool isUserVerified = value.getBool('isUserVerified');
+      spfAddressValues = value.getStringList('address');
+      spfLatLngValues = value.getStringList('latLngValues');
+      //spfAddressTypeValues = value.getStringList('addressTypeValues');
+      if (isUserVerified != null && isUserVerified) {
+        addressValues.clear();
+        subAddressValues.clear();
+        spfAddressValues.clear();
+        addressTypeValues.clear();
+        latLngValues.clear();
+        spfLatLngValues.clear();
+        spfAddressTypeValues.clear();
+        addressMap.clear();
+        addressList.clear();
+        listOfMaps.clear();
+        accessToken = value.getString('accessToken');
+        _myAddressInputType = value.getString('addressType');
+        _userAddressID = value.getString('addressID');
+        print('User Address Type : $_myAddressInputType');
+        print('User Address ID : $_userAddressID');
+        if (_myAddressInputType.contains('現在地を取得する')) {
+          setState(() {
+            _showCurrentLocationInput = true;
+          });
+        } else if (_myAddressInputType.contains('直接入力する')) {
+          setState(() {
+            _showCurrentLocationInput = false;
+          });
+        } else {
+          return;
+        }
       } else {
-        return;
+        /*addressValues.clear();
+        subAddressValues.clear();
+        spfAddressValues.clear();
+        addressTypeValues.clear();
+        latLngValues.clear();
+        spfLatLngValues.clear();
+        spfAddressTypeValues.clear();
+        addressMap.clear();
+        addressList.clear();
+        listOfMaps.clear();*/
+        //print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length} && ${spfLatLngValues.toList()} && ${spfAddressTypeValues.length}');
+        _myAddressInputType = value.getString('addressType');
+        _userAddressID = value.getString('addressID');
+        print('User Address Type : $_myAddressInputType');
+        print('User Address ID : $_userAddressID');
+        if (_myAddressInputType.contains('現在地を取得する')) {
+          setState(() {
+            _showCurrentLocationInput = true;
+          });
+        } else if (_myAddressInputType.contains('直接入力する')) {
+          setState(() {
+            _showCurrentLocationInput = false;
+          });
+        } else {
+          print('No addresstype mentioned');
+        }
+
+        print('Entering address fields....');
+        if (spfAddressValues != null && spfLatLngValues != null) {
+          setState(() {
+            for (int i = 0; i < spfAddressValues.length; i++) {
+              if (i == 0) {
+                addedFirstSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[0]}');
+                addressMap.add(
+                    AddUserAddress('userSubAddressOne', spfAddressValues[0]));
+
+                print('Entering loop 1....');
+              } else if (i == 1) {
+                addedSecondSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[1]}');
+                addressMap.add(
+                    AddUserAddress('userSubAddressTwo', spfAddressValues[1]));
+
+                print('Entering loop 2....');
+              } else if (i == 2) {
+                addedThirdSubAddressController.value =
+                    TextEditingValue(text: '${spfAddressValues[2]}');
+                addressMap.add(
+                    AddUserAddress('userSubAddressThree', spfAddressValues[2]));
+
+                print('Entering loop 3....');
+              }
+            }
+            for (int j = 0; j < spfLatLngValues.length; j++) {
+              if (j == 0 && j == 1 && j == 2) {
+                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[0],
+                    spfLatLngValues[1], spfLatLngValues[2]));
+                print('Entering J LOOP 1....');
+              } else if (j == 3 && j == 4 && j == 5) {
+                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[3],
+                    spfLatLngValues[4], spfLatLngValues[5]));
+                print('Entering J LOOP 2....');
+              } else if (j == 6 && j == 7 && j == 8) {
+                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[6],
+                    spfLatLngValues[7], spfLatLngValues[8]));
+                print('Entering J LOOP 3....');
+              }
+            }
+            /*addAllAddressData.addAll(addressMap);
+            print('addressMap values : ${addAllAddressData.toString()}');*/
+            listOfMaps = addressMap
+                .map((addressValues) => {
+                      "subAddress": addressValues.subAddress
+                      /*"lat": addressValues.lat,
+                      "lon": addressValues.lng,
+                      "addressType": addressValues.addressType*/
+                    })
+                .toList();
+            print('List of maps : ${listOfMaps.toString()}');
+          });
+        } else {
+          print('List is empty');
+        }
       }
     });
-    print('Entering address fields....');
-    if (spfAddressValues != null) {
-      _sharedPreferences.then((value) {
-        setState(() {
-          spfAddressValues = value.getStringList('address');
-          // print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length}');
-
-          for (int i = 0; i < spfAddressValues.length; i++) {
-            if (i == 0) {
-              addedFirstSubAddressController.value =
-                  TextEditingValue(text: '${spfAddressValues[0]}');
-            } else if (i == 1) {
-              addedSecondSubAddressController.value =
-                  TextEditingValue(text: '${spfAddressValues[1]}');
-            } else if (i == 2) {
-              addedThirdSubAddressController.value =
-                  TextEditingValue(text: '${spfAddressValues[2]}');
-            }
-          }
-        });
-      });
-    } else {
-      addressValues.clear();
-      subAddressValues.clear();
-      spfAddressValues.clear();
-      return;
-    }
   }
+}
+
+void mapToList(Map<String, dynamic> map1) {
+  map1.forEach((String key, dynamic value) {
+    addressList.add({key: value});
+  });
+  print('List value map : ${addressList.toString()}');
+  /*String jsonUser = json.encode(addressList);
+  print('JSON Convert : $jsonUser');*/
 }
 
 class AddAddress extends StatefulWidget {
@@ -3039,7 +3249,6 @@ class _AddAddressState extends State<AddAddress> {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-                              addressValues.clear();
                               _addUserAddress();
                             },
                             child: new Text(
@@ -3088,6 +3297,14 @@ class _AddAddressState extends State<AddAddress> {
       HealingMatchConstants.addedCurrentLatitude = _addAddressPosition.latitude;
       HealingMatchConstants.addedCurrentLongitude =
           _addAddressPosition.longitude;
+
+      latLngValues
+          .add('${HealingMatchConstants.addedCurrentLatitude.toString()}');
+      latLngValues
+          .add('${HealingMatchConstants.addedCurrentLongitude.toString()}');
+
+      print('Ltlng values : ${latLngValues.toString()}');
+      print('Ltlng values length : ${latLngValues.length}');
 
       setState(() {
         _addedAddress =
@@ -3191,7 +3408,8 @@ class _AddAddressState extends State<AddAddress> {
             print('Entering if...');
             addressValues.add(gpsUserAddress);
             print(addressValues.length);
-            //Navigator.pop(context);
+            latLngValues.add(_myAddedAddressInputType);
+            // Navigator.pop(context);
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -3303,13 +3521,21 @@ class _AddAddressState extends State<AddAddress> {
           setState(() {
             print('Entering if...');
             addressValues.add(manualAddedAddress);
+            latLngValues.add(
+                '${HealingMatchConstants.manualAddressCurrentLatitude.toString()}');
+            latLngValues.add(
+                '${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
+            latLngValues.add(_myAddedAddressInputType);
+
             print(addressValues.length);
-            Navigator.pop(context);
-            /*Navigator.push(
+            print('Ltlng values : ${latLngValues.toString()}');
+            print('Ltlng values length : ${latLngValues.length}');
+            //Navigator.pop(context);
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));*/
+                        UpdateServiceUserDetails()));
           });
         } else {
           _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -3327,6 +3553,7 @@ class _AddAddressState extends State<AddAddress> {
                 InkWell(
                   onTap: () {
                     _scaffoldKey.currentState.hideCurrentSnackBar();
+                    //Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -3376,9 +3603,17 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
+
+    //addressTypeValues.add(_myAddedAddressInputType);
+    print('AddressType values : ${addressTypeValues.toString()}');
+    print('AddressType values length : ${addressTypeValues.length}');
     _sharedPreferences.then((value) {
       value.setStringList('address', addressValues.cast<String>());
-      print('SPF LIST LENGTH : ${spfAddressValues.length}');
+      value.setStringList('latLngValues', latLngValues.cast<String>());
+      /*value.setStringList(
+          'addressTypeValues', addressTypeValues.cast<String>());*/
+      value.setBool('isUserVerified', false);
+      //print('SPF LIST LENGTH : ${spfAddressValues.length}');
     });
   }
 }
