@@ -174,10 +174,7 @@ class UserResponse {
     isActive: json["isActive"],
     isAccepted: json["isAccepted"],
     uploadProfileImgUrl: json["uploadProfileImgUrl"],
-    userId: json["userId"],
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    createdAt: DateTime.parse(json["createdAt"]),
-  );
+    userId: json["userId"]);
 
   Map<String, dynamic> toJson() => {
     "isVerified": isVerified,
@@ -194,8 +191,6 @@ class UserResponse {
     "isActive": isActive,
     "isAccepted": isAccepted,
     "uploadProfileImgUrl": uploadProfileImgUrl,
-    "userId": userId,
-    "updatedAt": updatedAt.toIso8601String(),
-    "createdAt": createdAt.toIso8601String(),
+    "userId": userId
   };
 }
