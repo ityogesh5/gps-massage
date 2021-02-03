@@ -51,6 +51,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     getEditUserFields();
     getUserProfileData();
+    // _getStates();
+    // _getCities(_prefId);
   }
 
   var userAddressType = '';
@@ -3157,11 +3159,16 @@ class _AddAddressState extends State<AddAddress> {
           setState(() {
             print('Entering if...');
             addUserAddress = UserAddressAdd(
-                "0",
-                gpsUserAddress,
-                HealingMatchConstants.addedCurrentLatitude.toString(),
-                HealingMatchConstants.addedCurrentLongitude.toString(),
-                _myAddedAddressInputType);
+              gpsUserAddress,
+              HealingMatchConstants.addedCurrentLatitude.toString(),
+              HealingMatchConstants.addedCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              userGPSAddressPlaceMark.administrativeArea,
+              userGPSAddressPlaceMark.subAdministrativeArea,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              userGPSAddressPlaceMark.locality,
+            );
             // Navigator.pop(context);
             Navigator.push(
                 context,
@@ -3271,13 +3278,20 @@ class _AddAddressState extends State<AddAddress> {
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
         if (otherUserAddress.length <= 2) {
+          String city = _myAddedCity;
           setState(() {
             addUserAddress = UserAddressAdd(
-                "0",
-                manualAddedAddress,
-                HealingMatchConstants.manualAddressCurrentLatitude.toString(),
-                HealingMatchConstants.manualAddressCurrentLongitude.toString(),
-                _myAddedAddressInputType);
+              manualAddedAddress,
+              HealingMatchConstants.manualAddressCurrentLatitude.toString(),
+              HealingMatchConstants.manualAddressCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              _myAddedCity,
+              _myAddedPrefecture,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              addedUserAreaController.text.toString(),
+            );
+            print(_myAddedAddressInputType);
             Navigator.push(
                 context,
                 MaterialPageRoute(
