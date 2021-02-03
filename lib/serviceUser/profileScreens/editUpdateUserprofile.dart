@@ -20,22 +20,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-/* List<dynamic> addressValues = List();
-List<dynamic> latLngValues = List();
-List<dynamic> addressTypeValues = List();
-List<dynamic> subAddressValues = List();
-List<dynamic> spfAddressValues = List();
-List<dynamic> spfLatLngValues = List();
-List<dynamic> spfAddressTypeValues = List();
-List<dynamic> addressMap = List();
-List<dynamic> addAllAddressData = List();
-List<Map<String, dynamic>> listOfMaps = List();
-List<dynamic> list = List();
-List addressList = List();
-//final addressMap = []; */
 List<UserAddressAdd> otherUserAddress = new List<UserAddressAdd>();
-
-String jsonUser;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -1378,9 +1363,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             MediaQuery.of(context).size.width *
                                                 0.85,
                                         child: TextFormField(
-                                          /*    controller:
-                                              addedFirstSubAddressController,
-                                         */
+                                          //display the address
                                           initialValue: otherUserAddress[index]
                                               .subAddress,
                                           decoration: new InputDecoration(
@@ -1408,10 +1391,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 icon: Icon(Icons.delete),
                                                 onPressed: () {
                                                   setState(() {
+                                                    //Delete Value at index
                                                     otherUserAddress
                                                         .removeAt(index);
-                                                    otherUserAddress
-                                                        .remove(index);
                                                   });
                                                 },
                                               )),
@@ -2061,7 +2043,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user phone number validation
     if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
       print('userPhoneNumber : $userPhoneNumber');
-     // subAddressValues.add(userPhoneNumber);
     }
 
     // Email Validation
@@ -2157,19 +2138,16 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (_myCategoryPlaceForMassage != null ||
         _myCategoryPlaceForMassage.isNotEmpty) {
       print('_myCategoryPlaceForMassage : $_myCategoryPlaceForMassage');
-      //   subAddressValues.add(_myCategoryPlaceForMassage);
     }
 
     // user building name validation
     if (buildingName != null || buildingName.isNotEmpty) {
       print('buildingName : $buildingName');
-      // subAddressValues.add(buildingName);
     }
 
     // room number validation
     if (roomNumber != null || roomNumber.isNotEmpty) {
       print('roomNumber : $roomNumber');
-      // subAddressValues.add(roomNumber);
     }
 
     // Getting user GPS Address value
@@ -2178,8 +2156,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       String userCurrentLocation =
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
-      //   subAddressValues.add(_myAddressInputType);
-      //   subAddressValues.add(userCurrentLocation);
     } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
       String manualUserAddress = roomNumber +
           ',' +
@@ -2206,11 +2182,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
-      //   subAddressValues.add(_myAddressInputType);
-//subAddressValues.add(manualUserAddress);
     }
 
-    // print('Sub address list length : ${subAddressValues.length}');
     print('Address ID : $_userAddressID');
 
     print("json Converted:" + json.encode(otherUserAddress));
@@ -2231,13 +2204,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "address": json.encode(otherUserAddress)
         }));
     print('Success response code : ${response.statusCode}');
-  //  print('Sub address list values : ${subAddressValues.toList()}');
+
     if (response.statusCode == 200) {
       print('User Edit Success !!');
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
     } else {
-    //  subAddressValues.clear();
       print('User Edit failed !!');
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
     }
@@ -2317,21 +2289,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   getEditUserFields() async {
     _sharedPreferences.then((value) {
       bool isUserVerified = value.getBool('isUserVerified');
-      // value.remove('address');
-    //  spfAddressValues = value.getStringList('address');
-    //  spfLatLngValues = value.getStringList('latLngValues');
-      //spfAddressTypeValues = value.getStringList('addressTypeValues');
+
       if (isUserVerified != null && isUserVerified) {
-       /*  addressValues.clear();
-        subAddressValues.clear();
-        spfAddressValues.clear();
-        addressTypeValues.clear();
-        latLngValues.clear();
-        spfLatLngValues.clear();
-        spfAddressTypeValues.clear();
-        addressMap.clear();
-        addressList.clear();
-        listOfMaps.clear(); */
         accessToken = value.getString('accessToken');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
@@ -2349,17 +2308,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           return;
         }
       } else {
-        /*addressValues.clear();
-        subAddressValues.clear();
-        spfAddressValues.clear();
-        addressTypeValues.clear();
-        latLngValues.clear();
-        spfLatLngValues.clear();
-        spfAddressTypeValues.clear();
-        addressMap.clear();
-        addressList.clear();
-        listOfMaps.clear();*/
-        //print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length} && ${spfLatLngValues.toList()} && ${spfAddressTypeValues.length}');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         print('User Address Type : $_myAddressInputType');
@@ -2375,77 +2323,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         } else {
           print('No addresstype mentioned');
         }
-
         print('Entering address fields....');
-       /*  if (spfAddressValues != null && spfLatLngValues != null) {
-          setState(() {
-            for (int i = 0; i < spfAddressValues.length; i++) {
-              if (i == 0) {
-                addedFirstSubAddressController.value =
-                    TextEditingValue(text: '${spfAddressValues[0]}');
-                addressMap.add(
-                    AddUserAddress('userSubAddressOne', spfAddressValues[0]));
-
-                print('Entering loop 1....');
-              } else if (i == 1) {
-                addedSecondSubAddressController.value =
-                    TextEditingValue(text: '${spfAddressValues[1]}');
-                addressMap.add(
-                    AddUserAddress('userSubAddressTwo', spfAddressValues[1]));
-
-                print('Entering loop 2....');
-              } else if (i == 2) {
-                addedThirdSubAddressController.value =
-                    TextEditingValue(text: '${spfAddressValues[2]}');
-                addressMap.add(
-                    AddUserAddress('userSubAddressThree', spfAddressValues[2]));
-
-                print('Entering loop 3....');
-              }
-            }
-            for (int j = 0; j < spfLatLngValues.length; j++) {
-              if (j == 0 && j == 1 && j == 2) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[0],
-                    spfLatLngValues[1], spfLatLngValues[2]));
-                print('Entering J LOOP 1....');
-              } else if (j == 3 && j == 4 && j == 5) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[3],
-                    spfLatLngValues[4], spfLatLngValues[5]));
-                print('Entering J LOOP 2....');
-              } else if (j == 6 && j == 7 && j == 8) {
-                addressMap.add(AddUserAddress.fromAddress(spfLatLngValues[6],
-                    spfLatLngValues[7], spfLatLngValues[8]));
-                print('Entering J LOOP 3....');
-              }
-            }
-            /*addAllAddressData.addAll(addressMap);
-            print('addressMap values : ${addAllAddressData.toString()}');*/
-            listOfMaps = addressMap
-                .map((addressValues) => {
-                      "subAddress": addressValues.subAddress
-                      /*"lat": addressValues.lat,
-                      "lon": addressValues.lng,
-                      "addressType": addressValues.addressType*/
-                    })
-                .toList();
-            print('List of maps : ${listOfMaps.toString()}');
-          });
-        } else {
-          print('List is empty');
-        } */
+        //! Need to add to otherAddressList Value Here from Login/Register
       }
     });
   }
 }
-
-/* void mapToList(Map<String, dynamic> map1) {
-  map1.forEach((String key, dynamic value) {
-    addressList.add({key: value});
-  });
-  print('List value map : ${addressList.toString()}');
-  /*String jsonUser = json.encode(addressList);
-  print('JSON Convert : $jsonUser');*/
-} */
 
 class AddAddress extends StatefulWidget {
   @override
@@ -3173,14 +3056,6 @@ class _AddAddressState extends State<AddAddress> {
       HealingMatchConstants.addedCurrentLongitude =
           _addAddressPosition.longitude;
 
-    /*   latLngValues
-          .add('${HealingMatchConstants.addedCurrentLatitude.toString()}');
-      latLngValues
-          .add('${HealingMatchConstants.addedCurrentLongitude.toString()}');
-
-      print('Ltlng values : ${latLngValues.toString()}');
-      print('Ltlng values length : ${latLngValues.length}'); */
-
       setState(() {
         _addedAddress =
             '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
@@ -3281,9 +3156,6 @@ class _AddAddressState extends State<AddAddress> {
         if (otherUserAddress.length <= 2) {
           setState(() {
             print('Entering if...');
-           /*  addressValues.add(gpsUserAddress);
-            print(addressValues.length);
-            latLngValues.add(_myAddedAddressInputType); */
             addUserAddress = UserAddressAdd(
                 "0",
                 gpsUserAddress,
@@ -3400,24 +3272,12 @@ class _AddAddressState extends State<AddAddress> {
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
         if (otherUserAddress.length <= 2) {
           setState(() {
-         /*    print('Entering if...');
-            addressValues.add(manualAddedAddress);
-            latLngValues.add(
-                '${HealingMatchConstants.manualAddressCurrentLatitude.toString()}');
-            latLngValues.add(
-                '${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
-            latLngValues.add(_myAddedAddressInputType); */
             addUserAddress = UserAddressAdd(
                 "0",
                 manualAddedAddress,
                 HealingMatchConstants.manualAddressCurrentLatitude.toString(),
                 HealingMatchConstants.manualAddressCurrentLongitude.toString(),
                 _myAddedAddressInputType);
-
-          /*   print(addressValues.length);
-            print('Ltlng values : ${latLngValues.toString()}');
-            print('Ltlng values length : ${latLngValues.length}'); */
-            //Navigator.pop(context);
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -3491,17 +3351,9 @@ class _AddAddressState extends State<AddAddress> {
       return;
     }
 
-    //addressTypeValues.add(_myAddedAddressInputType);
-  /*   print('AddressType values : ${addressTypeValues.toString()}');
-    print('AddressType values length : ${addressTypeValues.length}'); */
     otherUserAddress.add(addUserAddress);
     _sharedPreferences.then((value) {
-   /*    value.setStringList('address', addressValues.cast<String>());
-      value.setStringList('latLngValues', latLngValues.cast<String>()); */
-      /*value.setStringList(
-          'addressTypeValues', addressTypeValues.cast<String>());*/
       value.setBool('isUserVerified', false);
-      //print('SPF LIST LENGTH : ${spfAddressValues.length}');
     });
   }
 }
