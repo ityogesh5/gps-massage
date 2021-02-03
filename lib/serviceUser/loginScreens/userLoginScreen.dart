@@ -487,10 +487,16 @@ class _UserLoginState extends State<UserLogin> {
           value.setString('userGender', loginResponseModel.data.gender);
           value.setString(
               'userOccupation', loginResponseModel.data.userOccupation);
+          value.setString(
+              'userAddress', json.encode(loginResponseModel.data.addresses));
+    /*       value.setString(
+              'userAddressType', json.encode(loginResponseModel.data.addresses)); */
           // final Map addressRes = json.decode(response.body);
           // addressResponse = Address.fromJson(addressRes);
 
           // value.setString('userAddress', loginResponseModel.data.addresses);
+
+        
 
           for (var address in loginResponseModel.data.addresses) {
             setState(() {
