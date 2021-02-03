@@ -8,8 +8,12 @@ class ChatScreenUser extends StatefulWidget {
 class _ChatScreenUserState extends State<ChatScreenUser> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('ChatScreenUser'),
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: Text('ChatScreenUser'),
+        ),
+      ),
     );
   }
 }

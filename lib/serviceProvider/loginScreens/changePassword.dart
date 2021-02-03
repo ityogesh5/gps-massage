@@ -6,12 +6,12 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 import 'package:http/http.dart' as http;
+
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
 import 'forgetPassword.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 
 class ChangePassword extends StatefulWidget {
   @override

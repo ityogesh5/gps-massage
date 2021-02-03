@@ -3,7 +3,6 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 
@@ -287,7 +286,9 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
-                                      NavigationRouter.switchToServiceUserRatingsAndReviewScreen(context);
+                                      NavigationRouter
+                                          .switchToServiceUserRatingsAndReviewScreen(
+                                              context);
                                     });
                                     print(ratingsValue);
                                   },

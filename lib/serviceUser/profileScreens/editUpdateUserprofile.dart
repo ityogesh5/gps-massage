@@ -1389,9 +1389,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     suffixIcon: IconButton(
                                                       icon: Icon(Icons.delete),
                                                       onPressed: () {
-                                                        setState(() {
-
-                                                        });
+                                                        setState(() {});
                                                       },
                                                     )),
                                                 style: TextStyle(
@@ -1446,9 +1444,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               icon: Icon(
                                                                   Icons.delete),
                                                               onPressed: () {
-                                                                setState(() {
-
-                                                                });
+                                                                setState(() {});
                                                               },
                                                             )),
                                                     style: TextStyle(
@@ -1502,9 +1498,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               icon: Icon(
                                                                   Icons.delete),
                                                               onPressed: () {
-                                                                setState(() {
-
-                                                                });
+                                                                setState(() {});
                                                               },
                                                             )),
                                                     style: TextStyle(

@@ -9,7 +9,6 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDrop
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
-
 import 'package:http/http.dart' as http;
 
 class ChooseServiceScreen extends StatefulWidget {

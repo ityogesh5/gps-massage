@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'chooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
@@ -424,8 +425,8 @@ class _RegistrationSecondPageState
                                                   .size
                                                   .width *
                                               0.38,
-                                          height:
-                                              140.0, //MediaQuery.of(context).size.height * 0.19,
+                                          height: 140.0,
+                                          //MediaQuery.of(context).size.height * 0.19,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
@@ -1094,9 +1095,9 @@ class _RegistrationSecondPageState
     var a = request.fields.toString();
 
     //Upload Proof of ID
-      request.files.add(await http.MultipartFile.fromPath(
-          'proofOfIdentityImgUrl', _idProfileImage.path));
-    
+    request.files.add(await http.MultipartFile.fromPath(
+        'proofOfIdentityImgUrl', _idProfileImage.path));
+
     //Upload Profile Image if not null
     if (HealingMatchConstants.profileImage != null) {
       request.files.add(await http.MultipartFile.fromPath(

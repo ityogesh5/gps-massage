@@ -10,6 +10,7 @@ class NearByProviderAndShop extends StatefulWidget {
 
 class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
   double ratingsValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,6 +264,7 @@ class MassageTypeChips extends StatefulWidget {
 class _MassageTypeChipsState extends State<MassageTypeChips> {
   List<String> _options = ['エステ', '整骨・整体）', 'リラクゼーション', 'フィットネス'];
   int _selectedIndex;
+
   Widget _buildChips() {
     List<Widget> chips = new List();
 

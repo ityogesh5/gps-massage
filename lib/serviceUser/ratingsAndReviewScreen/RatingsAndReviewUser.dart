@@ -31,6 +31,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         elevation: 0,
@@ -134,7 +135,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   RatingBar.builder(
-                                    initialRating: 0,
+                                    initialRating: 4,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -159,48 +160,48 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               ),
                               SizedBox(height: 10),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 20),
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
                                 child: Container(
                                     child: Divider(
                                         color: Colors.grey[300], height: 1)),
                               ),
                               SizedBox(height: 2),
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: TextField(
-                                      controller: reviewController,
-                                      scrollController: _scroll,
-                                      scrollPhysics: BouncingScrollPhysics(),
-                                      keyboardType: TextInputType.multiline,
-                                      autofocus: false,
-                                      focusNode: _focus,
-                                      decoration: new InputDecoration(
-                                        filled: false,
-                                        fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                        hintText: '良かった点、気づいた点などをご記入ください',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                        ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontFamily: 'Oxygen',
-                                            fontSize: 14),
-                                        focusColor: Colors.grey[100],
-                                        border: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        focusedBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        disabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        enabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
+                              Expanded(
+                                flex: 1,
+                                child: SingleChildScrollView(
+                                  child: TextField(
+                                    controller: reviewController,
+                                    scrollController: _scroll,
+                                    scrollPhysics: BouncingScrollPhysics(),
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 8,
+                                    autofocus: false,
+                                    focusNode: _focus,
+                                    decoration: new InputDecoration(
+                                      filled: false,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      hintText: '良かった点、気づいた点などをご記入ください',
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey[400],
                                       ),
+                                      labelStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontFamily: 'Oxygen',
+                                          fontSize: 14),
+                                      focusColor: Colors.grey[100],
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
@@ -217,6 +218,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                   iconSize: 25.0,
                                   onPressed: () {
                                     print('Review Posted!!');
+                                    NavigationRouter
+                                        .switchToServiceUserDisplayReviewScreen(
+                                            context);
                                   },
                                 ),
                                 backgroundColor: Colors.grey[100],
@@ -322,7 +326,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 child: Text(
                                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
                                   "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
-                                  "when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                  "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                                   style: TextStyle(
                                       fontFamily: 'Oxygen',
                                       fontSize: 14,

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 /*
@@ -109,8 +109,8 @@ class _MyAccountState extends State<MyAccount> {
                               color: Colors.grey[400],
                             ),
                             onPressed: () {
-                              NavigationRouter.switchToProviderEditProfileScreen(
-                                  context);
+                              NavigationRouter
+                                  .switchToProviderEditProfileScreen(context);
                             }),
                       )
                     ],
@@ -323,8 +323,7 @@ class _MyAccountState extends State<MyAccount> {
               color: Colors.grey[200],
               elevation: 2,
               shape: RoundedRectangleBorder(
-                  side:
-                  BorderSide(color: Colors.grey.shade200, width: 0.5),
+                  side: BorderSide(color: Colors.grey.shade200, width: 0.5),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
@@ -333,15 +332,20 @@ class _MyAccountState extends State<MyAccount> {
                     padding: const EdgeInsets.all(10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('おすすめ', style: TextStyle(
-                        fontFamily: 'Oxygen',
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900)), Text('もっとみる', style: TextStyle(
-                          fontFamily: 'Oxygen',
-                          fontSize: 14.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900))],
+                      children: [
+                        Text('おすすめ',
+                            style: TextStyle(
+                                fontFamily: 'Oxygen',
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900)),
+                        Text('もっとみる',
+                            style: TextStyle(
+                                fontFamily: 'Oxygen',
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900))
+                      ],
                     ),
                   ),
                   SizedBox(height: 10),
@@ -350,28 +354,38 @@ class _MyAccountState extends State<MyAccount> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text('おすすめ', textAlign: TextAlign.start, style: TextStyle(
-                        fontFamily: 'Oxygen',
-                        fontSize: 14.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900)),]),
+                        children: [
+                          Text('おすすめ',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: 'Oxygen',
+                                  fontSize: 14.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900)),
+                        ]),
                   ),
                   SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [Text('****',textAlign: TextAlign.left, style: TextStyle(
-                          fontFamily: 'Oxygen',
-                          fontSize: 14.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900)),
+                      children: [
+                        Text('****',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: 'Oxygen',
+                                fontSize: 14.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900)),
                         SizedBox(width: 10),
-                        Text('もっとみる', textAlign: TextAlign.right, style: TextStyle(
-                          fontFamily: 'Oxygen',
-                          fontSize: 16.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900))],
+                        Text('もっとみる',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontFamily: 'Oxygen',
+                                fontSize: 16.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900))
+                      ],
                     ),
                   ),
                   SizedBox(height: 10),
@@ -380,11 +394,15 @@ class _MyAccountState extends State<MyAccount> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text('おすすめ', textAlign: TextAlign.start, style: TextStyle(
-                            fontFamily: 'Oxygen',
-                            fontSize: 14.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w900)),]),
+                        children: [
+                          Text('おすすめ',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: 'Oxygen',
+                                  fontSize: 14.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900)),
+                        ]),
                   ),
                   SizedBox(height: 20),
                 ],

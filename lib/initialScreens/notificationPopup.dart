@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +10,7 @@ class NotificationPopup extends StatefulWidget {
 class _NotificationPopupState extends State<NotificationPopup> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Container(

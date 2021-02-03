@@ -45,7 +45,7 @@ class NavCustomPainter extends CustomPainter {
       ..close();
     canvas.drawPath(path, paint);
 
-  /*   final shadowPath = Path()
+    /*   final shadowPath = Path()
       ..moveTo(0, 0)
       ..lineTo((loc - 0.1) * size.width, 0)
       ..cubicTo(

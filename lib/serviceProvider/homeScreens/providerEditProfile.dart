@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -16,10 +20,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 
 List<File> files = List<File>();
 
@@ -29,7 +29,6 @@ class ProviderEditProfile extends StatefulWidget {
 }
 
 class _ProviderEditProfileState extends State<ProviderEditProfile> {
-
   final picker = ImagePicker();
   bool passwordVisibility = true;
   bool passwordConfirmVisibility = true;
@@ -150,7 +149,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   TextEditingController ageController = TextEditingController();
   TextEditingController phoneNumberController = new TextEditingController();
   TextEditingController storePhoneNumberController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController mailAddressController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController confirmPasswordController = new TextEditingController();
@@ -235,8 +234,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double containerHeight = 51.0; //height of Every TextFormField wrapped with container
-    double containerWidth = size.width * 0.9; //width of Every TextFormField wrapped with container
+    double containerHeight =
+        51.0; //height of Every TextFormField wrapped with container
+    double containerWidth =
+        size.width * 0.9; //width of Every TextFormField wrapped with container
     /*return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -334,85 +335,86 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 children: [
                   _idProfileImage != null
                       ? InkWell(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: Semantics(
-                      child: new Container(
-                          width: 100.0,
-                          height: 100.0,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.cover,
-                              image: FileImage(File(_idProfileImage.path)),
-                            ),
-                          )),
-                    ),
-                  )
-                      : InkWell(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: new Container(
-                        width: 95.0,
-                        height: 95.0,
-                        decoration: new BoxDecoration(
-                          border: Border.all(color: Colors.grey[200]),
-                          shape: BoxShape.circle,
-                          image: new DecorationImage(
-                            fit: BoxFit.none,
-                            image: new AssetImage(
-                                'assets/images_gps/usernew.png'),
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Semantics(
+                            child: new Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        FileImage(File(_idProfileImage.path)),
+                                  ),
+                                )),
                           ),
-                        )),
-                  ),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: new Container(
+                              width: 95.0,
+                              height: 95.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.none,
+                                  image: new AssetImage(
+                                      'assets/images_gps/usernew.png'),
+                                ),
+                              )),
+                        ),
                   _profileImage != null
                       ? Visibility(
-                    visible: false,
-                    child: Positioned(
-                      right: -60.0,
-                      top: 60,
-                      left: 10.0,
-                      child: InkWell(
-                        onTap: () {},
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey[500],
-                          radius: 13,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[100],
-                            radius: 12,
-                            child: Icon(Icons.edit_outlined,
-                                color: Colors.grey[400], size: 20.0),
+                          visible: false,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.edit_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  )
+                        )
                       : Visibility(
-                    visible: true,
-                    child: Positioned(
-                      right: -60.0,
-                      top: 60,
-                      left: 10.0,
-                      child: InkWell(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.grey[500],
-                          radius: 13,
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[100],
-                            radius: 12,
-                            child: Icon(Icons.edit_outlined,
-                                color: Colors.grey[400], size: 20.0),
+                          visible: true,
+                          child: Positioned(
+                            right: -60.0,
+                            top: 60,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.edit_outlined,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
               SizedBox(height: 20.0),
@@ -484,7 +486,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   valueField: 'value',
                 ),
               ),
-              SizedBox(height: sizedBoxFormHeight,),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
               Container(
                 height: containerHeight,
                 width: containerWidth,
@@ -507,17 +511,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           padding: EdgeInsets.only(left: 8.0),
                           icon: storeTypeDisplayStatus == 0
                               ? Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 30.0,
-                            color: Colors
-                                .black, //Color.fromRGBO(200, 200, 200, 1),
-                          )
+                                  Icons.keyboard_arrow_down,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
                               : Icon(
-                            Icons.keyboard_arrow_up,
-                            size: 30.0,
-                            color: Colors
-                                .black, //Color.fromRGBO(200, 200, 200, 1),
-                          ),
+                                  Icons.keyboard_arrow_up,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
                           onPressed: () {
                             setState(() {
                               storeTypeDisplayStatus == 0
@@ -533,20 +537,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               ),
               storeTypeDisplayStatus == 1
                   ? Container(
-                width: containerWidth,
-                child: ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: storeTypeDropDownValues.length,
-                    itemBuilder: (BuildContext ctxt, int index) {
-                      return buildStoreTypeDisplayBoxContent(
-                        storeTypeDropDownValues[index],
-                        index,
-                      );
-                    }),
-              )
+                      width: containerWidth,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: storeTypeDropDownValues.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return buildStoreTypeDisplayBoxContent(
+                              storeTypeDropDownValues[index],
+                              index,
+                            );
+                          }),
+                    )
                   : Container(),
-              SizedBox(height: sizedBoxFormHeight,),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
               Container(
                 height: containerHeight,
                 width: containerWidth,
@@ -642,7 +648,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   ],
                 ),
               ),
-              SizedBox(height: sizedBoxFormHeight,),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
               Container(
                 height: containerHeight,
                 width: containerWidth,
@@ -665,17 +673,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           padding: EdgeInsets.only(left: 8.0),
                           icon: childrenMeasureStatus == 0
                               ? Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 30.0,
-                            color: Colors
-                                .black, //Color.fromRGBO(200, 200, 200, 1),
-                          )
+                                  Icons.keyboard_arrow_down,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                )
                               : Icon(
-                            Icons.keyboard_arrow_up,
-                            size: 30.0,
-                            color: Colors
-                                .black, //Color.fromRGBO(200, 200, 200, 1),
-                          ),
+                                  Icons.keyboard_arrow_up,
+                                  size: 30.0,
+                                  color: Colors
+                                      .black, //Color.fromRGBO(200, 200, 200, 1),
+                                ),
                           onPressed: () {
                             setState(() {
                               childrenMeasureStatus == 0
@@ -691,18 +699,18 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               ),
               childrenMeasureStatus == 1
                   ? Container(
-                width: containerWidth,
-                child: ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: childrenMeasuresDropDownValues.length,
-                    itemBuilder: (BuildContext ctxt, int index) {
-                      return buildChildrenMeasureCheckBoxContent(
-                        childrenMeasuresDropDownValues[index],
-                        index,
-                      );
-                    }),
-              )
+                      width: containerWidth,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: childrenMeasuresDropDownValues.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return buildChildrenMeasureCheckBoxContent(
+                              childrenMeasuresDropDownValues[index],
+                              index,
+                            );
+                          }),
+                    )
                   : Container(),
               SizedBox(
                 height: sizedBoxFormHeight,
@@ -752,7 +760,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   width: containerWidth,
                   child: Theme(
                     data:
-                    Theme.of(context).copyWith(splashColor: Colors.black12),
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: providerNameController,
                         decoration: InputDecoration(
@@ -760,9 +768,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -787,18 +795,18 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   width: containerWidth,
                   child: Theme(
                     data:
-                    Theme.of(context).copyWith(splashColor: Colors.black12),
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: storeNameController,
                         decoration: InputDecoration(
                           labelText:
-                          HealingMatchConstants.registrationStoreName,
+                              HealingMatchConstants.registrationStoreName,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -825,10 +833,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 controller: userDOBController,
                                 decoration: InputDecoration(
                                     labelText:
-                                    HealingMatchConstants.registrationDob,
+                                        HealingMatchConstants.registrationDob,
                                     filled: true,
                                     fillColor:
-                                    ColorConstants.formFieldFillColor,
+                                        ColorConstants.formFieldFillColor,
                                     focusedBorder: HealingMatchConstants
                                         .textFormInputBorder,
                                     disabledBorder: HealingMatchConstants
@@ -858,11 +866,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                           ),
                         ),
                       ),
@@ -930,7 +938,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   width: containerWidth,
                   child: Theme(
                     data:
-                    Theme.of(context).copyWith(splashColor: Colors.black12),
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: phoneNumberController,
                         keyboardType: TextInputType.phone,
@@ -939,9 +947,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -952,19 +960,19 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   width: containerWidth,
                   child: Theme(
                     data:
-                    Theme.of(context).copyWith(splashColor: Colors.black12),
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: storePhoneNumberController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText:
-                          HealingMatchConstants.registrationStorePhnNum,
+                              HealingMatchConstants.registrationStorePhnNum,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -975,19 +983,19 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   width: containerWidth,
                   child: Theme(
                     data:
-                    Theme.of(context).copyWith(splashColor: Colors.black12),
+                        Theme.of(context).copyWith(splashColor: Colors.black12),
                     child: TextFormField(
                         controller: mailAddressController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText:
-                          HealingMatchConstants.registrationMailAdress,
+                              HealingMatchConstants.registrationMailAdress,
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                         )),
                   )),
               SizedBox(
@@ -1057,144 +1065,144 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               .copyWith(splashColor: Colors.black12),
                           child: visible
                               ? TextFormField(
-                            controller: gpsAddressController,
-                            decoration: InputDecoration(
-                              labelText: "現在地を取得する",
-                              filled: true,
-                              fillColor:
-                              ColorConstants.formFieldFillColor,
-                              disabledBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                              focusedBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                              enabledBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.location_on, size: 28),
-                                onPressed: () {
-                                  setState(() {
-                                    _changeProgressText = true;
-                                    print(
-                                        'location getting.... : $_changeProgressText');
-                                  });
-                                  _getCurrentLocation();
-                                },
-                              ),
-                            ),
-                          )
+                                  controller: gpsAddressController,
+                                  decoration: InputDecoration(
+                                    labelText: "現在地を取得する",
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.location_on, size: 28),
+                                      onPressed: () {
+                                        setState(() {
+                                          _changeProgressText = true;
+                                          print(
+                                              'location getting.... : $_changeProgressText');
+                                        });
+                                        _getCurrentLocation();
+                                      },
+                                    ),
+                                  ),
+                                )
                               : TextFormField(
-                            controller: manualAddressController,
-                            decoration: InputDecoration(
-                              labelText: "丁目, 番地",
-                              filled: true,
-                              fillColor:
-                              ColorConstants.formFieldFillColor,
-                              disabledBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                              focusedBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                              enabledBorder: HealingMatchConstants
-                                  .textFormInputBorder,
-                            ),
-                          ),
+                                  controller: manualAddressController,
+                                  decoration: InputDecoration(
+                                    labelText: "丁目, 番地",
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                  ),
+                                ),
                         )),
                     !visible
                         ? Column(
-                      children: [
-                        SizedBox(
-                          height: sizedBoxFormHeight,
-                        ),
-                        Container(
-                            width: size.width * 0.8,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Form(
-                                    key: statekey,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.all(0.0),
-                                          //    width: MediaQuery.of(context).size.width * 0.33,
+                            children: [
+                              SizedBox(
+                                height: sizedBoxFormHeight,
+                              ),
+                              Container(
+                                  width: size.width * 0.8,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Form(
+                                          key: statekey,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.all(0.0),
+                                                //    width: MediaQuery.of(context).size.width * 0.33,
 
+                                                child: DropDownFormField(
+                                                  titleText: null,
+                                                  hintText: readonly
+                                                      ? myState
+                                                      : '都、県選択',
+                                                  onSaved: (value) {
+                                                    setState(() {
+                                                      myState = value;
+                                                    });
+                                                  },
+                                                  value: myState,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      myState = value;
+
+                                                      _prefid =
+                                                          stateDropDownValues
+                                                                  .indexOf(
+                                                                      value) +
+                                                              1;
+                                                      print(
+                                                          'prefID : ${_prefid.toString()}');
+                                                      cityDropDownValues
+                                                          .clear();
+                                                      myCity = '';
+                                                      _getCityDropDown(_prefid);
+                                                      FocusScope.of(context)
+                                                          .requestFocus(
+                                                              new FocusNode());
+                                                    });
+                                                  },
+                                                  dataSource:
+                                                      stateDropDownValues,
+                                                  isList: true,
+                                                  textField: 'display',
+                                                  valueField: 'value',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.all(0.0),
                                           child: DropDownFormField(
                                             titleText: null,
-                                            hintText: readonly
-                                                ? myState
-                                                : '都、県選択',
+                                            hintText: readonly ? myCity : '市',
                                             onSaved: (value) {
                                               setState(() {
-                                                myState = value;
+                                                myCity = value;
                                               });
                                             },
-                                            value: myState,
+                                            value: myCity,
                                             onChanged: (value) {
                                               setState(() {
-                                                myState = value;
-
-                                                _prefid =
-                                                    stateDropDownValues
-                                                        .indexOf(
-                                                        value) +
-                                                        1;
-                                                print(
-                                                    'prefID : ${_prefid.toString()}');
-                                                cityDropDownValues
-                                                    .clear();
-                                                myCity = '';
-                                                _getCityDropDown(_prefid);
+                                                myCity = value;
                                                 FocusScope.of(context)
                                                     .requestFocus(
-                                                    new FocusNode());
+                                                        new FocusNode());
                                               });
                                             },
-                                            dataSource:
-                                            stateDropDownValues,
+                                            dataSource: cityDropDownValues,
                                             isList: true,
                                             textField: 'display',
                                             valueField: 'value',
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.all(0.0),
-                                    child: DropDownFormField(
-                                      titleText: null,
-                                      hintText: readonly ? myCity : '市',
-                                      onSaved: (value) {
-                                        setState(() {
-                                          myCity = value;
-                                        });
-                                      },
-                                      value: myCity,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          myCity = value;
-                                          FocusScope.of(context)
-                                              .requestFocus(
-                                              new FocusNode());
-                                        });
-                                      },
-                                      dataSource: cityDropDownValues,
-                                      isList: true,
-                                      textField: 'display',
-                                      valueField: 'value',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ],
-                    )
+                                      ),
+                                    ],
+                                  )),
+                            ],
+                          )
                         : Container(),
                     SizedBox(
                       height: sizedBoxFormHeight,
@@ -1208,44 +1216,44 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         children: [
                           Expanded(
                               child: Theme(
-                                data: Theme.of(context)
-                                    .copyWith(splashColor: Colors.black12),
-                                child: TextFormField(
-                                    controller: buildingNameController,
-                                    decoration: InputDecoration(
-                                      labelText: HealingMatchConstants
-                                          .registrationBuildingName,
-                                      filled: true,
-                                      fillColor: ColorConstants.formFieldFillColor,
-                                      focusedBorder:
+                            data: Theme.of(context)
+                                .copyWith(splashColor: Colors.black12),
+                            child: TextFormField(
+                                controller: buildingNameController,
+                                decoration: InputDecoration(
+                                  labelText: HealingMatchConstants
+                                      .registrationBuildingName,
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
                                       HealingMatchConstants.textFormInputBorder,
-                                      enabledBorder:
+                                  enabledBorder:
                                       HealingMatchConstants.textFormInputBorder,
-                                    )),
-                              )),
+                                )),
+                          )),
                           SizedBox(
                             width: 10.0,
                           ),
                           Expanded(
                             child: Container(
                                 child: Theme(
-                                  data: Theme.of(context)
-                                      .copyWith(splashColor: Colors.black12),
-                                  child: TextFormField(
-                                      controller: roomNumberController,
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                        labelText: HealingMatchConstants
-                                            .registrationRoomNo,
-                                        filled: true,
-                                        fillColor:
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFormField(
+                                  controller: roomNumberController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    labelText: HealingMatchConstants
+                                        .registrationRoomNo,
+                                    filled: true,
+                                    fillColor:
                                         ColorConstants.formFieldFillColor,
-                                        focusedBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        enabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                      )),
-                                )),
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                  )),
+                            )),
                           ),
                         ],
                       ),
@@ -1271,7 +1279,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           hintText: readonly
                               ? identificationverify
                               : HealingMatchConstants
-                              .registrationIdentityVerification,
+                                  .registrationIdentityVerification,
                           onSaved: (value) {
                             if (_idProfileImage == null) {
                               setState(() {
@@ -1350,66 +1358,66 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   visible: idUploadVisible,
                   child: _idProfileImage == null
                       ? InkWell(
-                    onTap: () {
-                      _showPicker1(context, 0);
-                    },
-                    child: TextFormField(
-                      enabled: false,
-                      decoration: new InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                        disabledBorder:
-                        HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.file_upload)),
-                        filled: true,
-                        fillColor: ColorConstants.formFieldFillColor,
-                        hintStyle: TextStyle(
-                            color: Colors.black, fontSize: 13),
-                        hintText: HealingMatchConstants
-                            .registrationIdentityUpload,
-                      ),
-                    ),
-                  )
-                      : Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          width:
-                          140.0, // MediaQuery.of(context).size.width * 0.38,
-                          height:
-                          MediaQuery.of(context).size.height * 0.19,
-                          decoration: new BoxDecoration(
-                            //   border: Border.all(color: Colors.black12),
-                            //   shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.cover,
-                              image:
-                              FileImage(File(_idProfileImage.path)),
+                          onTap: () {
+                            _showPicker1(context, 0);
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              suffixIcon: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.file_upload)),
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              hintStyle:
+                                  TextStyle(color: Colors.black, fontSize: 13),
+                              hintText: HealingMatchConstants
+                                  .registrationIdentityUpload,
                             ),
                           ),
-                        ),
-                      ),
-                      Positioned(
-                          right: 0,
-                          top: 0,
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _idProfileImage = null;
-                                });
-                              },
-                              child: CircleAvatar(
-                                radius: 15.0,
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.close_outlined,
-                                  color: Colors.black,
-                                  size: 20.0,
+                        )
+                      : Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                width:
+                                    140.0, // MediaQuery.of(context).size.width * 0.38,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.19,
+                                decoration: new BoxDecoration(
+                                  //   border: Border.all(color: Colors.black12),
+                                  //   shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        FileImage(File(_idProfileImage.path)),
+                                  ),
                                 ),
-                              )) /* IconButton(
+                              ),
+                            ),
+                            Positioned(
+                                right: 0,
+                                top: 0,
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _idProfileImage = null;
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 15.0,
+                                      backgroundColor: Colors.white,
+                                      child: Icon(
+                                        Icons.close_outlined,
+                                        color: Colors.black,
+                                        size: 20.0,
+                                      ),
+                                    )) /* IconButton(
                                     padding: EdgeInsets.all(0.0),
                                     icon: Icon(Icons.remove_circle),
                                     iconSize: 30.0,
@@ -1420,9 +1428,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       });
                                     },
                                   ), */
-                      )
-                    ],
-                  ),
+                                )
+                          ],
+                        ),
                 ),
               ),
               SizedBox(
@@ -1477,16 +1485,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                   titleText: null,
                   hintText: readonly
                       ? qualification
-                      : HealingMatchConstants
-                      .registrationQualificationDropdown,
+                      : HealingMatchConstants.registrationQualificationDropdown,
                   onSaved: (value) {
                     setState(() {
                       visible = false;
                       qualification = value;
-                      uploadVisible = certificateImages
-                          .containsKey(qualification)
-                          ? false
-                          : true;
+                      uploadVisible =
+                          certificateImages.containsKey(qualification)
+                              ? false
+                              : true;
                     });
                   },
                   value: qualification,
@@ -1496,13 +1503,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       qualification = value;
                       uploadVisible = value == "無資格"
                           ? false
-                          : certificateImages
-                          .containsKey(qualification)
-                          ? false
-                          : true;
+                          : certificateImages.containsKey(qualification)
+                              ? false
+                              : true;
 
-                      FocusScope.of(context)
-                          .requestFocus(new FocusNode());
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
                   dataSource: [
@@ -1567,71 +1572,66 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   !certificateImages.containsKey(qualification),
                               child: */
                         uploadVisible &&
-                            !certificateImages
-                                .containsKey(qualification)
+                                !certificateImages.containsKey(qualification)
                             ? Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.all(0.0),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                color:
-                                ColorConstants.formFieldFillColor,
-                              ),
-                              //padding: EdgeInsets.all(8),
-                              width:
-                              MediaQuery.of(context).size.width *
-                                  0.38,
-                              height:
-                              140.0, //MediaQuery.of(context).size.height * 0.19,
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
                                 children: [
-                                  /*  Text('アップロード'),
+                                  Container(
+                                    margin: EdgeInsets.all(0.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: ColorConstants.formFieldFillColor,
+                                    ),
+                                    //padding: EdgeInsets.all(8),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.38,
+                                    height: 140.0,
+                                    //MediaQuery.of(context).size.height * 0.19,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        /*  Text('アップロード'),
                                             Text('証明書'), */
-                                  Center(
-                                    child: FittedBox(
-                                        child: Text(
-                                          "$qualification",
-                                          textAlign: TextAlign.center,
-                                        )),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      _showPicker1(context, 1);
-                                      /*  if (certificateImages.length ==
+                                        Center(
+                                          child: FittedBox(
+                                              child: Text(
+                                            "$qualification",
+                                            textAlign: TextAlign.center,
+                                          )),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            _showPicker1(context, 1);
+                                            /*  if (certificateImages.length ==
                                                     5) {
                                                   showCertificateImageError();
                                                 } else {
                                                   _showPicker(context, 1);
                                                 } */
-                                    },
-                                    icon: Icon(Icons.file_upload),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    HealingMatchConstants
-                                        .registrationQualificationUpload,
-                                    style: TextStyle(fontSize: 10),
+                                          },
+                                          icon: Icon(Icons.file_upload),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          HealingMatchConstants
+                                              .registrationQualificationUpload,
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
-                              ),
-                            ),
-                          ],
-                        )
+                              )
                             : Container(),
 
                         //   ),
                         SizedBox(
                           width: uploadVisible &&
-                              !certificateImages
-                                  .containsKey(qualification)
+                                  !certificateImages.containsKey(qualification)
                               ? 10
                               : 0,
                         ),
@@ -1642,7 +1642,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             itemCount: certificateImages.length,
                             itemBuilder: (BuildContext context, int index) {
                               String key =
-                              certificateImages.keys.elementAt(index);
+                                  certificateImages.keys.elementAt(index);
                               return buildQualificationImage(key, index);
                             }),
                         ListView.builder(
@@ -1775,14 +1775,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             children: [
                               Center(
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.8,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
                                   child: DropDownFormField(
                                     titleText: null,
                                     hintText: readonly
                                         ? bankname
                                         : HealingMatchConstants
-                                        .registrationBankName,
+                                            .registrationBankName,
                                     onSaved: (value) {
                                       setState(() {
                                         bankname = value;
@@ -1816,15 +1816,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width:
-                                    MediaQuery.of(context).size.width *
+                                    width: MediaQuery.of(context).size.width *
                                         0.38,
                                     child: DropDownFormField(
                                       titleText: null,
                                       hintText: readonly
                                           ? accountType
                                           : HealingMatchConstants
-                                          .registrationBankAccountType,
+                                              .registrationBankAccountType,
                                       onSaved: (value) {
                                         setState(() {
                                           accountType = value;
@@ -1835,8 +1834,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         setState(() {
                                           accountType = value;
                                           FocusScope.of(context)
-                                              .requestFocus(
-                                              new FocusNode());
+                                              .requestFocus(new FocusNode());
                                         });
                                       },
                                       dataSource: [
@@ -1861,28 +1859,26 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               ),
                             ),
                             Container(
-                              width:
-                              MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.38,
                               child: TextFormField(
                                 controller: branchCodeController,
                                 decoration: new InputDecoration(
                                   labelText: HealingMatchConstants
                                       .registrationBankBranchCode,
                                   contentPadding:
-                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                  border: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  focusedBorder: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  enabledBorder: HealingMatchConstants
-                                      .textFormInputBorder,
+                                      EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                   filled: true,
                                   hintStyle: TextStyle(
                                       color: Colors.black, fontSize: 13),
                                   hintText: HealingMatchConstants
                                       .registrationBankBranchCode,
-                                  fillColor:
-                                  ColorConstants.formFieldFillColor,
+                                  fillColor: ColorConstants.formFieldFillColor,
                                 ),
                               ),
                             ),
@@ -1893,54 +1889,50 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width:
-                              MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.38,
                               child: TextFormField(
                                 controller: branchNumberController,
                                 decoration: new InputDecoration(
                                   labelText: HealingMatchConstants
                                       .registrationBankBranchNumber,
                                   contentPadding:
-                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                  border: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  focusedBorder: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  enabledBorder: HealingMatchConstants
-                                      .textFormInputBorder,
+                                      EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                   filled: true,
                                   hintStyle: TextStyle(
                                       color: Colors.black, fontSize: 13),
                                   hintText: HealingMatchConstants
                                       .registrationBankBranchNumber,
-                                  fillColor:
-                                  ColorConstants.formFieldFillColor,
+                                  fillColor: ColorConstants.formFieldFillColor,
                                 ),
                               ),
                             ),
                             Container(
-                              width:
-                              MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.38,
                               child: TextFormField(
                                 controller: accountnumberController,
                                 decoration: new InputDecoration(
                                   labelText: HealingMatchConstants
                                       .registrationBankAccountNumber,
                                   contentPadding:
-                                  EdgeInsets.fromLTRB(5, 5, 5, 0),
-                                  border: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  focusedBorder: HealingMatchConstants
-                                      .textFormInputBorder,
-                                  enabledBorder: HealingMatchConstants
-                                      .textFormInputBorder,
+                                      EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                   filled: true,
                                   hintStyle: TextStyle(
                                       color: Colors.black, fontSize: 13),
                                   hintText: HealingMatchConstants
                                       .registrationBankAccountNumber,
-                                  fillColor:
-                                  ColorConstants.formFieldFillColor,
+                                  fillColor: ColorConstants.formFieldFillColor,
                                 ),
                               ),
                             ),
@@ -2029,7 +2021,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       var longitude = _currentPosition.longitude;
       setState(() {
         _currentAddress =
-        '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
+            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
         // print('Place Json : ${place.toJson()}');
         if (_currentAddress != null && _currentAddress.isNotEmpty) {
           print('Current address : $_currentAddress : $latitude : $longitude');
@@ -2109,7 +2101,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2155,7 +2147,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2218,7 +2210,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2484,7 +2476,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2501,7 +2493,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2518,7 +2510,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2534,7 +2526,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2550,7 +2542,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-        Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2606,7 +2598,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           myState;
 
       List<Placemark> userAddress =
-      await geolocator.placemarkFromAddress(address);
+          await geolocator.placemarkFromAddress(address);
       var userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
       HealingMatchConstants.serviceProviderCurrentLatitude =
@@ -2713,7 +2705,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   Widget buildChildrenMeasureCheckBoxContent(
       String childrenMeasuresValue, int index) {
     bool checkValue =
-    childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
+        childrenMeasuresDropDownValuesSelected.contains(childrenMeasuresValue);
     return Column(
       children: [
         Row(
@@ -2747,7 +2739,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   Widget buildStoreTypeDisplayBoxContent(
       String storeTypeDisplayValues, int index) {
     bool checkValue =
-    selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
+        selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
     return Column(
       children: [
         Row(
@@ -2968,7 +2960,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                       });
                                                     },
                                                   ), */
-              )
+                  )
             ],
           ),
           SizedBox(
@@ -3193,7 +3185,7 @@ class _BannerImageUpload1State extends State<BannerImageUpload1> {
   getFilePath() async {
     for (var asset in images) {
       final filePath =
-      await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+          await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
       files.add(File(filePath));
     }
     Navigator.pop(context);

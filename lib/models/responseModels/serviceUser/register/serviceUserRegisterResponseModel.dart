@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-ServiceUserRegisterModel serviceUserRegisterModelFromJson(String str) => ServiceUserRegisterModel.fromJson(json.decode(str));
+ServiceUserRegisterModel serviceUserRegisterModelFromJson(String str) =>
+    ServiceUserRegisterModel.fromJson(json.decode(str));
 
-String serviceUserRegisterModelToJson(ServiceUserRegisterModel data) => json.encode(data.toJson());
+String serviceUserRegisterModelToJson(ServiceUserRegisterModel data) =>
+    json.encode(data.toJson());
 
 class ServiceUserRegisterModel {
   ServiceUserRegisterModel({
@@ -17,15 +19,16 @@ class ServiceUserRegisterModel {
   String status;
   Data data;
 
-  factory ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) => ServiceUserRegisterModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) =>
+      ServiceUserRegisterModel(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "data": data.toJson(),
-  };
+        "status": status,
+        "data": data.toJson(),
+      };
 }
 
 class Data {
@@ -40,16 +43,16 @@ class Data {
   AddressResponse addressResponse;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    token: json["token"],
-    userResponse: UserResponse.fromJson(json["userResponse"]),
-    addressResponse: AddressResponse.fromJson(json["addressResponse"]),
-  );
+        token: json["token"],
+        userResponse: UserResponse.fromJson(json["userResponse"]),
+        addressResponse: AddressResponse.fromJson(json["addressResponse"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "token": token,
-    "userResponse": userResponse.toJson(),
-    "addressResponse": addressResponse.toJson(),
-  };
+        "token": token,
+        "userResponse": userResponse.toJson(),
+        "addressResponse": addressResponse.toJson(),
+      };
 }
 
 class AddressResponse {
@@ -85,39 +88,40 @@ class AddressResponse {
   DateTime updatedAt;
   DateTime createdAt;
 
-  factory AddressResponse.fromJson(Map<String, dynamic> json) => AddressResponse(
-    id: json["id"],
-    userPlaceForMassage: json["userPlaceForMassage"],
-    buildingName: json["buildingName"],
-    area: json["area"],
-    userRoomNumber: json["userRoomNumber"],
-    address: json["address"],
-    lat: json["lat"],
-    lon: json["lon"],
-    addressTypeSelection: json["addressTypeSelection"],
-    userId: json["userId"],
-    createdUser: json["createdUser"],
-    updatedUser: json["updatedUser"],
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    createdAt: DateTime.parse(json["createdAt"]),
-  );
+  factory AddressResponse.fromJson(Map<String, dynamic> json) =>
+      AddressResponse(
+        id: json["id"],
+        userPlaceForMassage: json["userPlaceForMassage"],
+        buildingName: json["buildingName"],
+        area: json["area"],
+        userRoomNumber: json["userRoomNumber"],
+        address: json["address"],
+        lat: json["lat"],
+        lon: json["lon"],
+        addressTypeSelection: json["addressTypeSelection"],
+        userId: json["userId"],
+        createdUser: json["createdUser"],
+        updatedUser: json["updatedUser"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: DateTime.parse(json["createdAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userPlaceForMassage": userPlaceForMassage,
-    "buildingName": buildingName,
-    "area": area,
-    "userRoomNumber": userRoomNumber,
-    "address": address,
-    "lat": lat,
-    "lon": lon,
-    "addressTypeSelection": addressTypeSelection,
-    "userId": userId,
-    "createdUser": createdUser,
-    "updatedUser": updatedUser,
-    "updatedAt": updatedAt.toIso8601String(),
-    "createdAt": createdAt.toIso8601String(),
-  };
+        "id": id,
+        "userPlaceForMassage": userPlaceForMassage,
+        "buildingName": buildingName,
+        "area": area,
+        "userRoomNumber": userRoomNumber,
+        "address": address,
+        "lat": lat,
+        "lon": lon,
+        "addressTypeSelection": addressTypeSelection,
+        "userId": userId,
+        "createdUser": createdUser,
+        "updatedUser": updatedUser,
+        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt.toIso8601String(),
+      };
 }
 
 class UserResponse {
@@ -160,37 +164,38 @@ class UserResponse {
   DateTime createdAt;
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
-    isVerified: json["isVerified"],
-    coronaMeasure: json["coronaMeasure"],
-    id: json["id"],
-    userName: json["userName"],
-    dob: DateTime.parse(json["dob"]),
-    age: json["age"],
-    userOccupation: json["userOccupation"],
-    phoneNumber: json["phoneNumber"],
-    email: json["email"],
-    isTherapist: json["isTherapist"],
-    gender: json["gender"],
-    isActive: json["isActive"],
-    isAccepted: json["isAccepted"],
-    uploadProfileImgUrl: json["uploadProfileImgUrl"],
-    userId: json["userId"]);
+      isVerified: json["isVerified"],
+      coronaMeasure: json["coronaMeasure"],
+      id: json["id"],
+      userName: json["userName"],
+      dob: DateTime.parse(json["dob"]),
+      age: json["age"],
+      userOccupation: json["userOccupation"],
+      phoneNumber: json["phoneNumber"],
+      email: json["email"],
+      isTherapist: json["isTherapist"],
+      gender: json["gender"],
+      isActive: json["isActive"],
+      isAccepted: json["isAccepted"],
+      uploadProfileImgUrl: json["uploadProfileImgUrl"],
+      userId: json["userId"]);
 
   Map<String, dynamic> toJson() => {
-    "isVerified": isVerified,
-    "coronaMeasure": coronaMeasure,
-    "id": id,
-    "userName": userName,
-    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
-    "age": age,
-    "userOccupation": userOccupation,
-    "phoneNumber": phoneNumber,
-    "email": email,
-    "isTherapist": isTherapist,
-    "gender": gender,
-    "isActive": isActive,
-    "isAccepted": isAccepted,
-    "uploadProfileImgUrl": uploadProfileImgUrl,
-    "userId": userId
-  };
+        "isVerified": isVerified,
+        "coronaMeasure": coronaMeasure,
+        "id": id,
+        "userName": userName,
+        "dob":
+            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+        "age": age,
+        "userOccupation": userOccupation,
+        "phoneNumber": phoneNumber,
+        "email": email,
+        "isTherapist": isTherapist,
+        "gender": gender,
+        "isActive": isActive,
+        "isAccepted": isAccepted,
+        "uploadProfileImgUrl": uploadProfileImgUrl,
+        "userId": userId
+      };
 }

@@ -239,6 +239,7 @@ class HealingMatchConstants {
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+
   // Profile Edit screen user
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
@@ -251,6 +252,7 @@ class HealingMatchConstants {
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,

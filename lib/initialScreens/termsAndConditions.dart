@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
@@ -69,7 +68,6 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               _scaffoldKey.currentState.hideCurrentSnackBar();
             },
             label: 'はい',
-            
             textColor: Colors.white),
       ));
       return;

@@ -26,6 +26,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
   bool autoValidate = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var UserVerifyOtp = VerifyOtpModel();
+
   void initState() {
     super.initState();
   }

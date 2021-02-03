@@ -5,7 +5,7 @@ class AddUserAddress {
   String _lng;
   String _addressType;
 
-  AddUserAddress(this._address,this._lat, this._lng, this._addressType);
+  AddUserAddress(this._address, this._lat, this._lng, this._addressType);
 
   AddUserAddress.fromAddress(this._lat, this._lng, this._addressType);
 

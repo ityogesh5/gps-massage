@@ -75,7 +75,7 @@ dependencies:
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
   syncfusion_flutter_calendar: ^18.4.35
-
+  scroll_bottom_navigation_bar: ^3.0.0
 
 #  flutter_line_login: ^0.2.0
 
@@ -121,8 +121,8 @@ flutter:
 
       # To add custom fonts to your application, add a fonts section here,
       # in this "flutter" section. Each entry in this list should have a
-      # "family" key with the font family name, and a "fonts" key with a
-      # list giving the asset and other descriptors for the font. For
+    # "family" key with the font family name, and a "fonts" key with a
+    # list giving the asset and other descriptors for the font. For
     # example:
 
 

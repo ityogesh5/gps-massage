@@ -103,7 +103,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
                         break;
                       case 1:
                         //Navigator.pushNamed(context, "/second");
-                        pageController.jumpToPage(index);
+                        NavigationRouter.switchToServiceUserSearchScreen(
+                            context);
                         break;
                       case 2:
                         DialogHelper.showUserLoginOrRegisterDialog(context);
@@ -158,28 +159,33 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 ],
                 onTap: (index) {
                   setState(() {
-                    selectedPage =
-                        index;
+                    selectedPage = index;
                     setState(() {
                       switch (index) {
                         case 0:
                           pageController.jumpToPage(index);
                           break;
                         case 1:
-                        //Navigator.pushNamed(context, "/second");
-                          NavigationRouter.switchToServiceUserSearchScreen(context);
+                          //Navigator.pushNamed(context, "/second");
+                          NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                          /*Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => SearchScreenUser()),*/
                           break;
                         case 2:
-                          NavigationRouter.switchToServiceUserViewProfileScreen(context);
+                          NavigationRouter.switchToServiceUserViewProfileScreen(
+                              context);
                           break;
                         case 3:
-                          NavigationRouter.switchToServiceUserBookingScreen(context);
+                          NavigationRouter.switchToServiceUserBookingScreen(
+                              context);
                           break;
                         case 4:
-                          NavigationRouter.switchToServiceUserChatScreen(context);
+                          NavigationRouter.switchToServiceUserChatScreen(
+                              context);
                           break;
                       }
-                    });// changing selected page as per bar index selected by the user
+                    }); // changing selected page as per bar index selected by the user
                     //pageController.jumpToPage(index);
                   });
                 },
