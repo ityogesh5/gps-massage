@@ -83,7 +83,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     bool fcmStatus = value.getBool('fcmStatus');
                     //print('fcmStatus is false : $fcmStatus');
                   });
-                  NavigationRouter.switchToUserDefineScreen(context);
+                  //NavigationRouter.switchToUserDefineScreen(context);
+                  NavigationRouter.switchToTermsAndConditions(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.grey,
@@ -111,7 +112,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     bool fcmStatus = value.getBool('fcmStatus');
                     //print('fcmStatus is true : $fcmStatus');
                   });
-                  NavigationRouter.switchToUserDefineScreen(context);
+                  //NavigationRouter.switchToUserDefineScreen(context);
+                  NavigationRouter.switchToTermsAndConditions(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.pinkAccent[600],

@@ -13,7 +13,10 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/homeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
@@ -21,6 +24,7 @@ import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
+import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
 
@@ -198,5 +202,34 @@ class NavigationRouter {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => ViewUserProfile()),
         (Route<dynamic> route) => false);
+  }
+
+  // Service User Ratings And Review Screen
+  static void switchToServiceUserRatingsAndReviewScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => RatingsAndReviewUser()),
+            (Route<dynamic> route) => false);
+  }
+
+  // Service User Booking Screen
+  static void switchToServiceUserBookingScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => BookingScreenUser()),
+            (Route<dynamic> route) => false);
+  }
+
+  // Service User Booking Screen
+  static void switchToServiceUserChatScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => ChatScreenUser()),
+            (Route<dynamic> route) => false);
+  }
+  //ServiceUserHomeScreen
+
+// Service User Booking Screen
+  static void switchToServiceUserHomeScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => ServiceUserHomeScreen()),
+            (Route<dynamic> route) => false);
   }
 }

@@ -58,7 +58,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
 
   validateTermsAcceptStatus() {
     if (_value) {
-      DialogHelper.showNotificationDialog(context);
+      NavigationRouter.switchToUserDefineScreen(context);
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
