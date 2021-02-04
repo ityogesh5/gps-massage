@@ -272,6 +272,21 @@ class HealingMatchConstants {
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+
+  //User Search screen
+  static String searchKeyword = 'キーワードできがす';
+  static String searchAreaTxt = 'さがすエリアを選んでください';
+  static String searchGpsIconTxt = '現在地';
+  static String searchHomeIconTxt = '自宅';
+  static String searchOfficeIconTxt = 'オフィス';
+  static String searchPHomeIconTxt = '実家';
+  static String searchServiceSelTxt = '受けたい施術を選んでください';
+  static String searchEsteticTxt = 'エステ';
+  static String searchOsthepaticTxt = '整骨・整体';
+  static String searchRelaxationTxt = 'リラクゼーション';
+  static String searchFitnessTxt = 'フィットネス';
+  static String searchTravelTxt = '施術のタイプを選んでください';
+  static String searchDateTxt = 'さがす条件を選んでください';
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,
