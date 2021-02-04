@@ -75,7 +75,7 @@ dependencies:
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
   syncfusion_flutter_calendar: ^18.4.35
-  scroll_bottom_navigation_bar: ^3.0.0
+  flutter_chat_bubble: ^1.0.2
 
 #  flutter_line_login: ^0.2.0
 

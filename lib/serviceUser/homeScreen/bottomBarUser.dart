@@ -3,11 +3,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
 
-import 'bookingScreenUser.dart';
-import 'chatScreenUser.dart';
+import 'bookingScreensUser/bookingScreenUser.dart';
+import 'chatScreensUser/chatScreenUser.dart';
 import 'homeScreenUser.dart';
 
 final pageController = PageController();
@@ -113,7 +113,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
                         DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 4:
-                        DialogHelper.showUserLoginOrRegisterDialog(context);
+                        //DialogHelper.showUserLoginOrRegisterDialog(context);
+                        NavigationRouter.switchToServiceUserChatScreen(context);
                         break;
                     }
                   });

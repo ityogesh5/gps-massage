@@ -223,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.1"
+  flutter_chat_bubble:
+    dependency: "direct main"
+    description:
+      name: flutter_chat_bubble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   flutter_google_places:
     dependency: "direct main"
     description:
@@ -583,20 +590,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.24.1"
-  scroll_bars_common:
-    dependency: transitive
-    description:
-      name: scroll_bars_common
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  scroll_bottom_navigation_bar:
-    dependency: "direct main"
-    description:
-      name: scroll_bottom_navigation_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   share:
     dependency: "direct main"
     description:
