@@ -916,7 +916,7 @@ class _RegistrationSecondPageState
     }
 
     //Certificate validation
-    if (_myqualification.isEmpty || _myqualification == null) {
+    if ((_myqualification.isEmpty || _myqualification == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -931,7 +931,7 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (certificateImages.isEmpty) {
+    if (certificateImages.isEmpty && _myqualification != "無資格") {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
@@ -1506,6 +1506,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                 ),
                 FlatButton(
                   onPressed: () {
+                    HealingMatchConstants.bannerImages.clear();
                     HealingMatchConstants.bannerImages.addAll(images);
                     getFilePath();
                   },
@@ -1615,6 +1616,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
 
   //Get the file Path of the Assets Selected
   getFilePath() async {
+    files.clear();
     for (var asset in images) {
       final filePath =
           await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
