@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 
-
-
 class ChatBubbleReceiver extends CustomClipper<Path> {
   final BubbleType type;
   final double radius;

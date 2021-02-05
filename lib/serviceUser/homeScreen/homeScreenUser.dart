@@ -109,13 +109,18 @@ class _HomeScreenUserState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ),
-                  Text(
-                    'もっと見る',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline),
+                  GestureDetector(
+                    onTap: () {
+                      NavigationRouter.switchToNearByProviderAndShop(context);
+                    },
+                    child: Text(
+                      'もっと見る',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
                   ),
                 ],
               ),

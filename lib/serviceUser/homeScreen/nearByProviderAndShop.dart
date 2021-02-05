@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class NearByProviderAndShop extends StatefulWidget {
   @override
@@ -14,16 +15,21 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: Icon(Icons.arrow_back_ios, color: Colors.black),
-        title: Center(
-          child: Text(
-            '近くのセラピスト＆お店',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+        leading: IconButton(
+          onPressed: () {
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+        ),
+        centerTitle: true,
+        title: Text(
+          '近くのセラピスト＆お店',
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
         ),
       ),
       body: Stack(
@@ -43,7 +49,8 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                         // height: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: new Card(
-                          color: Colors.grey[200],
+                          elevation: 0.0,
+                          color: Colors.grey[100],
                           semanticContainer: true,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
@@ -236,17 +243,17 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
           ),
           Positioned(
             top: 0.0,
-            right: 50,
-            left: 50,
+            right: 20,
+            left: 20,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.074,
-              width: MediaQuery.of(context).size.width * 0.07,
+              height: MediaQuery.of(context).size.height * 0.068,
+              width: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: Colors.black38,
+                    color: Colors.transparent,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
               child: Center(child: MassageTypeChips()),
             ),
           )

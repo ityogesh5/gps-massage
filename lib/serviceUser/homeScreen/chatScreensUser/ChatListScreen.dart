@@ -11,6 +11,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 void main() => runApp(ChatListUserScreen());
 GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 bool userIsOnline = true;
+final _chatMessagesController = new TextEditingController();
 
 class ChatListUserScreen extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+          SizedBox(height: 40),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +53,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  NavigationRouter.switchToServiceUserChatScreen(context);
                 },
                 color: Colors.black,
               ),
@@ -197,46 +198,62 @@ class _MainChatScreenState extends State<MainChatScreen> {
           Container(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
-              child: TextField(
-                autofocus: false,
-                textInputAction: TextInputAction.done,
-                decoration: new InputDecoration(
-                    filled: false,
-                    fillColor: Colors.white,
-                    hintText: 'メッセージを入カしてください。',
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.attachment_outlined,
-                          color: Colors.grey[300]),
-                      onPressed: () {},
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: new CircleAvatar(
-                        backgroundColor: Colors.lime,
-                        radius: 25,
-                        child: Transform.rotate(
-                          angle: -math.pi / 4,
-                          child: IconButton(
-                            icon:
-                                Icon(Icons.send, size: 30, color: Colors.white),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ),
-                    ),
-                    hintStyle: TextStyle(color: Colors.grey[300]),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(25.7),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(30.0),
-                    )),
+              child: _bottomChatArea(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _bottomChatArea() {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        children: <Widget>[
+          _chatTextArea(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new CircleAvatar(
+              backgroundColor: Colors.lime,
+              radius: 25,
+              child: Transform.rotate(
+                angle: -math.pi / 4,
+                child: IconButton(
+                  icon: Icon(Icons.send, size: 30, color: Colors.white),
+                  onPressed: () {},
+                ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  _chatTextArea() {
+    return Expanded(
+      child: TextField(
+        controller: _chatMessagesController,
+        autofocus: false,
+        textInputAction: TextInputAction.done,
+        decoration: new InputDecoration(
+            filled: false,
+            fillColor: Colors.white,
+            hintText: 'メッセージを入カしてください。',
+            prefixIcon: IconButton(
+              icon: Icon(Icons.attachment_outlined, color: Colors.grey[300]),
+              onPressed: () {},
+            ),
+            hintStyle: TextStyle(color: Colors.grey[300]),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(25.7),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(30.0),
+            )),
       ),
     );
   }

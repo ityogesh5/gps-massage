@@ -13,16 +13,16 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/bookingScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/chatScreensUser/chatScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/chatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/homeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
-import 'package:gps_massageapp/serviceUser/nearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserReviewScreen.dart';
@@ -232,10 +232,8 @@ class NavigationRouter {
 
   // Service User Chat Screen
   static void switchToServiceUserChatScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ChatScreenUser()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => ChatScreenUser()));
   }
 
   //ChatList User Screen
@@ -245,6 +243,7 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ChatListUserScreen()));
   }
+
 // Service User Home Screen
   static void switchToServiceUserHomeScreen(BuildContext context) {
     Navigator.push(

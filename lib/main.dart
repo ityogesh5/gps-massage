@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/sampleChatBubbleScreen.dart';
 
 import 'initialScreens/splashScreen.dart';
 
