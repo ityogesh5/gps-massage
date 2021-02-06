@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,8 +10,10 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/models/customModels/address.dart';
 import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
 import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -21,6 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UserAddressAdd> otherUserAddress = new List<UserAddressAdd>();
+List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -29,19 +33,21 @@ class UpdateServiceUserDetails extends StatefulWidget {
 }
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
-  String userProfileImage = '';
-  String userName = '';
-  String userPhoneNumber = '';
-  String emailAddress = '';
-  String dob = '';
-  String userAge = '';
-  String userGender = '';
-  String userOccupation = '';
-  String userAddress = '';
-  String userBuildName = '';
-  String userRoomNo = '';
-  String userPlaceMassage = '';
-  String userArea = '';
+  UpdateAddress addUpdateAddress;
+  // String userProfileImage = '';
+  String rUserName = '';
+  String raccessToken = '';
+  String rUserPhoneNumber = '';
+  String rEmailAddress = '';
+  String rDob = '';
+  String rUserAge = '';
+  String rUserGender = '';
+  String rUserOccupation = '';
+  String rUserAddress = '';
+  String rUserBuildName = '';
+  String rUserRoomNo = '';
+  String rUserPlaceMassage = '';
+  String rUserArea = '';
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
@@ -51,6 +57,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     getEditUserFields();
     getUserProfileData();
+    // getUpdateAddress();
+
     // _getStates();
     // _getCities(_prefId);
   }
@@ -1452,15 +1460,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "５Ｋｍ圏内",
-                                      "value": "５",
+                                      "value": "5",
                                     },
                                     {
                                       "display": "１０Ｋｍ圏内",
-                                      "value": "１０",
+                                      "value": "10",
                                     },
                                     {
                                       "display": "１５Ｋｍ圏内",
-                                      "value": "１５",
+                                      "value": "15",
+                                    },
+                                    {
+                                      "display": "２０Ｋｍ圏内",
+                                      "value": "20",
                                     },
                                   ],
                                   textField: 'display',
@@ -1527,8 +1539,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
       currentLocationPlaceMark = p[0];
 
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+      HealingMatchConstants.editCurrentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.editCurrentLongitude = _currentPosition.longitude;
 
       setState(() {
         _currentAddress =
@@ -1542,9 +1554,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           setState(() {
             _isGPSLocation = true;
           });
-          HealingMatchConstants.serviceUserCity =
+          HealingMatchConstants.userEditCity =
               currentLocationPlaceMark.locality;
-          HealingMatchConstants.serviceUserPrefecture =
+          HealingMatchConstants.userEditPrefecture =
               currentLocationPlaceMark.administrativeArea;
         } else {
           ProgressDialogBuilder.hideLocationProgressDialog(context);
@@ -1660,6 +1672,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
+
     //double searchRadisu =
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
@@ -2149,7 +2162,51 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // room number validation
     if (roomNumber != null || roomNumber.isNotEmpty) {
-      print('roomNumber : $roomNumber');
+      print('numbers : $roomNumber');
+    }
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('現在地を取得する')) {
+      setState(() {
+        print('gowtham');
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: HealingMatchConstants.userEditCity,
+          citiesId: '',
+          area: '',
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.editCurrentLatitude,
+          lon: HealingMatchConstants.editCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
+    }
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('直接入力する')) {
+      setState(() {
+        print('gowtham');
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: _myCity,
+          citiesId: '',
+          area: userAreaController.text.toString(),
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.mEditCurrentLatitude,
+          lon: HealingMatchConstants.mEditCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
     }
 
     // Getting user GPS Address value
@@ -2173,11 +2230,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           await geoLocator.placemarkFromAddress(manualUserAddress);
       userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
-      var currentLatitude = addressPosition.latitude;
-      var currentLongitude = addressPosition.longitude;
+      HealingMatchConstants.mEditCurrentLatitude = addressPosition.latitude;
+      HealingMatchConstants.mEditCurrentLongitude = addressPosition.longitude;
       var serviceUserCity = userAddedAddressPlaceMark.locality;
       var serviceUserPrefecture = userAddedAddressPlaceMark.administrativeArea;
-
+      HealingMatchConstants.userEditAddress = manualUserAddress;
       print(
           'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
           '${HealingMatchConstants.currentLongitude}');
@@ -2189,10 +2246,54 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('Address ID : $_userAddressID');
 
     print("json Converted:" + json.encode(otherUserAddress));
+    print("json Converted Address:" + json.encode(updateAddress));
 
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    Uri updateProfile =
+        Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
     final url = HealingMatchConstants.UPDATE_USER_DETAILS_URL;
-    final response = await http.post(url,
+    var request = http.MultipartRequest('POST', updateProfile);
+    Map<String, String> headers = {
+      "Content-Type": "multipart/form-data",
+      "x-access-token": HealingMatchConstants.userEditToken
+    };
+    if (_profileImage != null) {
+      var profileImage = await http.MultipartFile.fromPath(
+          'uploadProfileImgUrl', _profileImage.path);
+      print('Image upload filename : $profileImage');
+      request.files.add(profileImage);
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "id": _userAddressID,
+        "userName": userName,
+        "age": userAge,
+        "userOccupation": _myOccupation,
+        "dob": userDOB,
+        "phoneNumber": userPhoneNumber,
+        "email": email,
+        "gender": _myGender,
+        "uploadProfileImgUrl": _profileImage.path,
+        "isTherapist": "0",
+        "address": json.encode(updateAddress),
+        "subAddress": json.encode(otherUserAddress)
+      });
+    } else {
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "id": _userAddressID,
+        "userName": userName,
+        "age": userAge,
+        "userOccupation": _myOccupation,
+        "dob": userDOB,
+        "phoneNumber": userPhoneNumber,
+        "email": email,
+        "gender": _myGender,
+        "isTherapist": "0",
+        "address": json.encode(updateAddress),
+        "subAddress": json.encode(otherUserAddress)
+      });
+    }
+    /*final response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
           'x-access-token': accessToken
@@ -2204,11 +2305,18 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "dob": userDOB,
           "isTherapist": "0",
           "address": json.encode(otherUserAddress)
-        }));
+        }));*/
+
+    final userDetailsRequest = await request.send();
+    final response = await http.Response.fromStream(userDetailsRequest);
     print('Success response code : ${response.statusCode}');
 
-    if (response.statusCode == 200) {
-      print('User Edit Success !!');
+    if (response.statusCode == 400) {
+      // ProfileUpdateResponseModel profileUpdateResponseModel;
+      final Map userDetailsResponse = json.decode(response.body);
+      final profileUpdateResponseModel =
+          ProfileUpdateResponseModel.fromJson(userDetailsResponse);
+      print(profileUpdateResponseModel.status);
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
     } else {
@@ -2217,40 +2325,65 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
+  /*getUpdateAddress() {
+    if (_myAddedAddressInputType.isNotEmpty &&
+        _myAddedAddressInputType.contains('現在地を取得する')) {
+      setState(() {
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddedAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: HealingMatchConstants.userEditCity,
+          citiesId: '',
+          area: '',
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.editCurrentLatitude,
+          lon: HealingMatchConstants.editCurrentLongitude,
+        );
+      });
+    }
+  }*/
+
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       _sharedPreferences.then((value) {
         print('Getting values...EPF');
-        userProfileImage = value.getString('profileImage');
-        userName = value.getString('userName');
-        userPhoneNumber = value.getString('userPhoneNumber');
-        emailAddress = value.getString('userEmailAddress');
-        dob = value.getString('userDOB');
-        userAge = value.getString('userAge');
+        // userProfileImage = value.getString('profileImage');
+        raccessToken = value.getString('accessToken');
+        rUserName = value.getString('userName');
+        rUserPhoneNumber = value.getString('userPhoneNumber');
+        rEmailAddress = value.getString('userEmailAddress');
+        rDob = value.getString('userDOB');
+        rUserAge = value.getString('userAge');
         _myGender = value.getString('userGender');
         _myOccupation = value.getString('userOccupation');
-        userAddress = value.getString('userAddress');
-        userBuildName = value.getString('buildingName');
-        userRoomNo = value.getString('roomNumber');
+        rUserAddress = value.getString('userAddress');
+        rUserBuildName = value.getString('buildingName');
+        rUserRoomNo = value.getString('roomNumber');
         _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
-        userArea = value.getString('area');
+        rUserArea = value.getString('area');
 
         // Convert string url of image to base64 format
         // convertBase64ProfileImage(userProfileImage);
 
         setState(() {
-          HealingMatchConstants.userEditUserName = userName;
-          HealingMatchConstants.userEditPhoneNumber = userPhoneNumber;
-          HealingMatchConstants.userEditEmailAddress = emailAddress;
-          HealingMatchConstants.userEditDob = dob;
-          HealingMatchConstants.userEditUserAge = userAge;
-          HealingMatchConstants.userEditUserAddress = userAddress;
-          HealingMatchConstants.userEditBuildName = userBuildName;
-          HealingMatchConstants.userEditRoomNo = userRoomNo;
-          HealingMatchConstants.userEditArea = userArea;
+          HealingMatchConstants.userEditUserName = rUserName;
+          HealingMatchConstants.userEditPhoneNumber = rUserPhoneNumber;
+          HealingMatchConstants.userEditEmailAddress = rEmailAddress;
+          HealingMatchConstants.userEditDob = rDob;
+          HealingMatchConstants.userEditUserAge = rUserAge;
+          HealingMatchConstants.userEditUserAddress = rUserAddress;
+          HealingMatchConstants.userEditBuildName = rUserBuildName;
+          HealingMatchConstants.userEditRoomNo = rUserRoomNo;
+          HealingMatchConstants.userEditArea = rUserArea;
+          HealingMatchConstants.userEditToken = raccessToken;
 
           userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
@@ -2329,6 +2462,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         //! Need to add to otherAddressList Value Here from Login/Register
       }
     });
+    // updateAddress.add(addUpdateAddress);
   }
 }
 

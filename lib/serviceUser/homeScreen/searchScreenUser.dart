@@ -545,6 +545,27 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   ),
                 ),
                 buildDayPicker(),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.065,
+                  child: RaisedButton(
+                    child: Text(
+                      '${HealingMatchConstants.loginUserButton}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oxygen',
+                          fontSize: 18),
+                    ),
+                    color: Colors.lime,
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

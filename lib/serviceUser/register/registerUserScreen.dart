@@ -2277,6 +2277,7 @@ class _RegisterUserState extends State<RegisterUser> {
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.data.token);
