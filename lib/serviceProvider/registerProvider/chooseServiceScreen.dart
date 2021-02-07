@@ -76,14 +76,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
           title: Text(
             HealingMatchConstants.registrationChooseServiceNavBtn,
             style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-                fontSize: 13.5),
+                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
@@ -1668,7 +1666,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   }
 
   //price values can't be decimal
-  void showDecimalError(){
+  void showDecimalError() {
     Toast.show("価格の値を10進数にすることはできません。", context,
         duration: Toast.LENGTH_LONG,
         gravity: Toast.BOTTOM,

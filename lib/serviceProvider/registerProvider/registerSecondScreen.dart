@@ -340,11 +340,18 @@ class _RegistrationSecondPageState
                                       : certificateImages
                                               .containsKey(qualification)
                                           ? false
-                                          : true;
+                                          : (value == "民間資格") &&
+                                                  (privateQualification
+                                                          .length ==
+                                                      5)
+                                              ? false
+                                              : true;
                                   if (value == "無資格") {
                                     certificateImages.clear();
                                     privateQualification.clear();
                                   }
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
                                 });
                               },
                               value: qualification,

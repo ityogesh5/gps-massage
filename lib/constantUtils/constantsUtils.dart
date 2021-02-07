@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as providerLogin;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -62,7 +64,7 @@ class HealingMatchConstants {
   static bool isUserLoggedIn = false;
 
   //UserForget Password
-  static const String userPasswordPhn = "電話番号 *";
+  static const String userPasswordPhn = "電話番号 ";
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
   static const String userPasswordTxt =
@@ -168,8 +170,8 @@ class HealingMatchConstants {
 
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
-  static const String registrationSecondText = 'は必項目です';
-  static const String registrationScndText = 'は必須項目';
+  static const String registrationSecondText = 'は必須項目です';
+  static const String registrationScndText = 'は必須項目です';
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
@@ -207,7 +209,7 @@ class HealingMatchConstants {
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
   static const String registrationBankDetails = '売り上げ振込先銀行口座';
-  static const String registrationBankName = '銀行名*';
+  static const String registrationBankName = '銀行名';
   static const String registrationBankBranchCode = '支店名';
   static const String registrationBankBranchNumber = '支店番号';
   static const String registrationBankAccountNumber = '口座番号';
@@ -242,6 +244,22 @@ class HealingMatchConstants {
 
   //Edit Profile
   static const String profileUpdateBtn = '更新';
+
+  //Provider Edit Screen
+  
+  static const String editProfileBuisnessForm = '事業形態';
+  static const String editProfileName = 'お名前';
+  static const String editProfileStoreName = '店舗名';
+  static const String editProfileDob = '生年月日';
+  static const String editProfilePhnNum = '電話番号';
+  static const String editProfileStorePhnNum = '店舗の電話番号';
+  static const String editProfileMailAdress = 'メールアドレス';
+  static const String editProfileBuildingName = '建物名';
+  static const String editProfileRoomNo = '部屋番号';
+  static const String editProfileGender = '性別';
+
+  //Provider Home
+  static providerLogin.Data userData;
 
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
