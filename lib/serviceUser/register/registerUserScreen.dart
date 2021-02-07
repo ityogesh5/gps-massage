@@ -642,8 +642,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         maxLength: 10,
                         controller: phoneNumberController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(signed: true),
+                        keyboardType: TextInputType.phone,
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1297,7 +1296,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '号室 *',
+                                                    labelText: '部屋番号 *',
                                                     /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
@@ -2278,6 +2277,7 @@ class _RegisterUserState extends State<RegisterUser> {
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.data.token);

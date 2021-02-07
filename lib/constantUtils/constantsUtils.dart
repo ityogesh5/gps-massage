@@ -266,6 +266,7 @@ class HealingMatchConstants {
   static const String demoLineChannelID = '1620019587';
   // Profile Edit screen user
   static Uint8List userEditProfile;
+  static String userEditToken = '';
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';
@@ -276,9 +277,15 @@ class HealingMatchConstants {
   static String userEditUserAddress = '';
   static String userEditBuildName = '';
   static String userEditRoomNo = '';
+  static String userEditCity = '';
+  static String userEditPrefecture = '';
   static String userEditPlaceForMassage = '';
   static String userEditArea = '';
-
+  static String userEditAddress = '';
+  static double mEditCurrentLatitude = 0.0;
+  static double mEditCurrentLongitude = 0.0;
+  static double editCurrentLatitude = 0.0;
+  static double editCurrentLongitude = 0.0;
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
@@ -290,6 +297,21 @@ class HealingMatchConstants {
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+
+  //User Search screen
+  static String searchKeyword = 'キーワードできがす';
+  static String searchAreaTxt = 'さがすエリアを選んでください';
+  static String searchGpsIconTxt = '現在地';
+  static String searchHomeIconTxt = '自宅';
+  static String searchOfficeIconTxt = 'オフィス';
+  static String searchPHomeIconTxt = '実家';
+  static String searchServiceSelTxt = '受けたい施術を選んでください';
+  static String searchEsteticTxt = 'エステ';
+  static String searchOsthepaticTxt = '整骨・整体';
+  static String searchRelaxationTxt = 'リラクゼーション';
+  static String searchFitnessTxt = 'フィットネス';
+  static String searchTravelTxt = '施術のタイプを選んでください';
+  static String searchDateTxt = 'さがす条件を選んでください';
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,
