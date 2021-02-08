@@ -2171,8 +2171,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: HealingMatchConstants.userEditToken,
-          userId: _userAddressID,
+          id: _userAddressID,
+          userId: HealingMatchConstants.userEditToken,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2245,7 +2245,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
 
     print('Address ID : $_userAddressID');
-
+    print(' ID : $HealingMatchConstants.userEditToken');
     print("json Converted:" + json.encode(otherUserAddress));
     print("json Converted Address:" + json.encode(updateAddress));
 
