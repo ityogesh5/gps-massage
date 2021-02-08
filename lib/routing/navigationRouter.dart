@@ -121,6 +121,13 @@ class NavigationRouter {
             builder: (BuildContext context) => ProviderTermsAndConditions()));
   }
 
+  static void switchToServiceUserTCScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderTermsAndConditions()));
+  }
+
 // Provider bottom bar homescreen
   static void switchToServiceProviderBottomBar(BuildContext context) {
     Navigator.push(
