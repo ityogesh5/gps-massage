@@ -2280,35 +2280,34 @@ class _RegisterUserState extends State<RegisterUser> {
         print('Response Status Message : ${serviceUserDetails.status}');
         _sharedPreferences.then((value) {
           value.clear();
-          value.setString('accessToken', serviceUserDetails.data.token);
-          value.setString('profileImage',
-              serviceUserDetails.data.userResponse.uploadProfileImgUrl);
+          value.setString('accessToken', serviceUserDetails.accessToken);
           value.setString(
-              'userName', serviceUserDetails.data.userResponse.userName);
+              'profileImage', serviceUserDetails.data.uploadProfileImgUrl);
+          value.setString('userName', serviceUserDetails.data.userName);
           value.setString('userPhoneNumber',
-              serviceUserDetails.data.userResponse.phoneNumber);
-          value.setString(
-              'userEmailAddress', serviceUserDetails.data.userResponse.email);
-          value.setString(
-              'userDOB', serviceUserDetails.data.userResponse.dob.toString());
-          value.setString('userAge', serviceUserDetails.data.userResponse.age);
+              serviceUserDetails.data.phoneNumber.toString());
+          value.setString('userEmailAddress', serviceUserDetails.data.email);
+          value.setString('userDOB', serviceUserDetails.data.dob.toString());
+          value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', japaneseGender);
-          value.setString('userOccupation',
-              serviceUserDetails.data.userResponse.userOccupation);
           value.setString(
-              'userAddress', serviceUserDetails.data.addressResponse.address);
-          value.setString('buildingName',
-              serviceUserDetails.data.addressResponse.buildingName);
-          value.setString('roomNumber',
-              serviceUserDetails.data.addressResponse.userRoomNumber);
-          value.setString(
-              'userArea', serviceUserDetails.data.addressResponse.area);
-          value.setString('addressType',
-              serviceUserDetails.data.addressResponse.addressTypeSelection);
-          value.setString('addressID',
-              serviceUserDetails.data.addressResponse.id.toString());
-          value.setString(
-              'userID', serviceUserDetails.data.userResponse.id.toString());
+              'userOccupation', serviceUserDetails.data.userOccupation);
+
+          // Way 1 for loop
+          for (var userAddressData in serviceUserDetails.data.addresses) {
+            print('Address of user : ${userAddressData.toJson()}');
+            print(
+                'Address of user : ${serviceUserDetails.data.addresses.length}');
+            value.setString('userAddress', userAddressData.address);
+            value.setString('buildingName', userAddressData.buildingName);
+            value.setString('roomNumber', userAddressData.userRoomNumber);
+            value.setString('userArea', userAddressData.area);
+            value.setString(
+                'addressType', userAddressData.addressTypeSelection);
+            value.setString('addressID', userAddressData.id.toString());
+            value.setString('userID', userAddressData.userId.toString());
+          }
+
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);

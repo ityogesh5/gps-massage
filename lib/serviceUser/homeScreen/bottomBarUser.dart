@@ -113,8 +113,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
                         DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 4:
-                        //DialogHelper.showUserLoginOrRegisterDialog(context);
-                        NavigationRouter.switchToServiceUserNoticeScreen(context);
+                        DialogHelper.showUserLoginOrRegisterDialog(context);
+                        //NavigationRouter.switchToServiceUserNoticeScreen(context);
                         break;
                     }
                   });
@@ -167,11 +167,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
                           pageController.jumpToPage(index);
                           break;
                         case 1:
-                          //Navigator.pushNamed(context, "/second");
                           NavigationRouter.switchToServiceUserSearchScreen(
                               context);
-                          /*Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => SearchScreenUser()),*/
                           break;
                         case 2:
                           NavigationRouter.switchToServiceUserViewProfileScreen(
@@ -182,7 +179,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                               context);
                           break;
                         case 4:
-                          NavigationRouter.switchToServiceUserChatScreen(
+                          NavigationRouter.switchToServiceUserNoticeScreen(
                               context);
                           break;
                       }

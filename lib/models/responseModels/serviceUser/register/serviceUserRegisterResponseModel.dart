@@ -4,198 +4,186 @@
 
 import 'dart:convert';
 
-ServiceUserRegisterModel serviceUserRegisterModelFromJson(String str) =>
-    ServiceUserRegisterModel.fromJson(json.decode(str));
+ServiceUserRegisterModel serviceUserRegisterModelFromJson(String str) => ServiceUserRegisterModel.fromJson(json.decode(str));
 
-String serviceUserRegisterModelToJson(ServiceUserRegisterModel data) =>
-    json.encode(data.toJson());
+String serviceUserRegisterModelToJson(ServiceUserRegisterModel data) => json.encode(data.toJson());
 
 class ServiceUserRegisterModel {
   ServiceUserRegisterModel({
     this.status,
+    this.accessToken,
     this.data,
   });
 
   String status;
+  String accessToken;
   Data data;
 
-  factory ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) =>
-      ServiceUserRegisterModel(
-        status: json["status"],
-        data: Data.fromJson(json["data"]),
-      );
+  factory ServiceUserRegisterModel.fromJson(Map<String, dynamic> json) => ServiceUserRegisterModel(
+    status: json["status"],
+    accessToken: json["accessToken"],
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "data": data.toJson(),
-      };
+    "status": status,
+    "accessToken": accessToken,
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   Data({
-    this.token,
-    this.userResponse,
-    this.addressResponse,
-  });
-
-  String token;
-  UserResponse userResponse;
-  AddressResponse addressResponse;
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        token: json["token"],
-        userResponse: UserResponse.fromJson(json["userResponse"]),
-        addressResponse: AddressResponse.fromJson(json["addressResponse"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "token": token,
-        "userResponse": userResponse.toJson(),
-        "addressResponse": addressResponse.toJson(),
-      };
-}
-
-class AddressResponse {
-  AddressResponse({
     this.id,
-    this.userPlaceForMassage,
-    this.buildingName,
-    this.area,
-    this.userRoomNumber,
-    this.address,
-    this.lat,
-    this.lon,
-    this.addressTypeSelection,
-    this.userId,
-    this.createdUser,
-    this.updatedUser,
-    this.updatedAt,
-    this.createdAt,
-  });
-
-  int id;
-  String userPlaceForMassage;
-  String buildingName;
-  String area;
-  String userRoomNumber;
-  String address;
-  String lat;
-  String lon;
-  String addressTypeSelection;
-  int userId;
-  String createdUser;
-  String updatedUser;
-  DateTime updatedAt;
-  DateTime createdAt;
-
-  factory AddressResponse.fromJson(Map<String, dynamic> json) =>
-      AddressResponse(
-        id: json["id"],
-        userPlaceForMassage: json["userPlaceForMassage"],
-        buildingName: json["buildingName"],
-        area: json["area"],
-        userRoomNumber: json["userRoomNumber"],
-        address: json["address"],
-        lat: json["lat"],
-        lon: json["lon"],
-        addressTypeSelection: json["addressTypeSelection"],
-        userId: json["userId"],
-        createdUser: json["createdUser"],
-        updatedUser: json["updatedUser"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "userPlaceForMassage": userPlaceForMassage,
-        "buildingName": buildingName,
-        "area": area,
-        "userRoomNumber": userRoomNumber,
-        "address": address,
-        "lat": lat,
-        "lon": lon,
-        "addressTypeSelection": addressTypeSelection,
-        "userId": userId,
-        "createdUser": createdUser,
-        "updatedUser": updatedUser,
-        "updatedAt": updatedAt.toIso8601String(),
-        "createdAt": createdAt.toIso8601String(),
-      };
-}
-
-class UserResponse {
-  UserResponse({
-    this.isVerified,
-    this.coronaMeasure,
-    this.id,
+    this.email,
+    this.phoneNumber,
     this.userName,
+    this.gender,
     this.dob,
     this.age,
-    this.userOccupation,
-    this.phoneNumber,
-    this.email,
     this.isTherapist,
-    this.gender,
-    this.isActive,
-    this.isAccepted,
+    this.userOccupation,
     this.uploadProfileImgUrl,
-    this.userId,
-    this.updatedAt,
-    this.createdAt,
+    this.addresses,
   });
 
-  bool isVerified;
-  bool coronaMeasure;
   int id;
-  String userName;
-  DateTime dob;
-  String age;
-  String userOccupation;
-  String phoneNumber;
   String email;
-  String isTherapist;
+  int phoneNumber;
+  String userName;
   String gender;
-  bool isActive;
-  bool isAccepted;
-  String uploadProfileImgUrl;
-  String userId;
-  DateTime updatedAt;
-  DateTime createdAt;
+  DateTime dob;
+  int age;
+  bool isTherapist;
+  String userOccupation;
+  dynamic uploadProfileImgUrl;
+  List<Address> addresses;
 
-  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
-      isVerified: json["isVerified"],
-      coronaMeasure: json["coronaMeasure"],
-      id: json["id"],
-      userName: json["userName"],
-      dob: DateTime.parse(json["dob"]),
-      age: json["age"],
-      userOccupation: json["userOccupation"],
-      phoneNumber: json["phoneNumber"],
-      email: json["email"],
-      isTherapist: json["isTherapist"],
-      gender: json["gender"],
-      isActive: json["isActive"],
-      isAccepted: json["isAccepted"],
-      uploadProfileImgUrl: json["uploadProfileImgUrl"],
-      userId: json["userId"]);
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    id: json["id"],
+    email: json["email"],
+    phoneNumber: json["phoneNumber"],
+    userName: json["userName"],
+    gender: json["gender"],
+    dob: DateTime.parse(json["dob"]),
+    age: json["age"],
+    isTherapist: json["isTherapist"],
+    userOccupation: json["userOccupation"],
+    uploadProfileImgUrl: json["uploadProfileImgUrl"],
+    addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "isVerified": isVerified,
-        "coronaMeasure": coronaMeasure,
-        "id": id,
-        "userName": userName,
-        "dob":
-            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
-        "age": age,
-        "userOccupation": userOccupation,
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "isTherapist": isTherapist,
-        "gender": gender,
-        "isActive": isActive,
-        "isAccepted": isAccepted,
-        "uploadProfileImgUrl": uploadProfileImgUrl,
-        "userId": userId
-      };
+    "id": id,
+    "email": email,
+    "phoneNumber": phoneNumber,
+    "userName": userName,
+    "gender": gender,
+    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+    "age": age,
+    "isTherapist": isTherapist,
+    "userOccupation": userOccupation,
+    "uploadProfileImgUrl": uploadProfileImgUrl,
+    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+  };
+}
+
+class Address {
+  Address({
+    this.id,
+    this.userId,
+    this.addressTypeSelection,
+    this.address,
+    this.userRoomNumber,
+    this.userPlaceForMassage,
+    this.otherAddressType,
+    this.capitalAndPrefecture,
+    this.capitalAndPrefectureId,
+    this.cityName,
+    this.citiesId,
+    this.area,
+    this.buildingName,
+    this.postalCode,
+    this.lat,
+    this.lon,
+    this.userSearchRadiusDistance,
+    this.createdUser,
+    this.updatedUser,
+    this.isDefault,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  String addressTypeSelection;
+  String address;
+  String userRoomNumber;
+  String userPlaceForMassage;
+  dynamic otherAddressType;
+  String capitalAndPrefecture;
+  dynamic capitalAndPrefectureId;
+  String cityName;
+  dynamic citiesId;
+  String area;
+  String buildingName;
+  dynamic postalCode;
+  double lat;
+  double lon;
+  dynamic userSearchRadiusDistance;
+  String createdUser;
+  String updatedUser;
+  bool isDefault;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+    id: json["id"],
+    userId: json["userId"],
+    addressTypeSelection: json["addressTypeSelection"],
+    address: json["address"],
+    userRoomNumber: json["userRoomNumber"],
+    userPlaceForMassage: json["userPlaceForMassage"],
+    otherAddressType: json["otherAddressType"],
+    capitalAndPrefecture: json["capitalAndPrefecture"],
+    capitalAndPrefectureId: json["capitalAndPrefectureId"],
+    cityName: json["cityName"],
+    citiesId: json["citiesId"],
+    area: json["area"],
+    buildingName: json["buildingName"],
+    postalCode: json["postalCode"],
+    lat: json["lat"].toDouble(),
+    lon: json["lon"].toDouble(),
+    userSearchRadiusDistance: json["userSearchRadiusDistance"],
+    createdUser: json["createdUser"],
+    updatedUser: json["updatedUser"],
+    isDefault: json["isDefault"],
+    createdAt: DateTime.parse(json["createdAt"]),
+    updatedAt: DateTime.parse(json["updatedAt"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "userId": userId,
+    "addressTypeSelection": addressTypeSelection,
+    "address": address,
+    "userRoomNumber": userRoomNumber,
+    "userPlaceForMassage": userPlaceForMassage,
+    "otherAddressType": otherAddressType,
+    "capitalAndPrefecture": capitalAndPrefecture,
+    "capitalAndPrefectureId": capitalAndPrefectureId,
+    "cityName": cityName,
+    "citiesId": citiesId,
+    "area": area,
+    "buildingName": buildingName,
+    "postalCode": postalCode,
+    "lat": lat,
+    "lon": lon,
+    "userSearchRadiusDistance": userSearchRadiusDistance,
+    "createdUser": createdUser,
+    "updatedUser": updatedUser,
+    "isDefault": isDefault,
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+  };
 }

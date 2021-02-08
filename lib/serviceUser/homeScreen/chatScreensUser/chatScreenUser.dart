@@ -49,17 +49,6 @@ class _ChatScreenUserState extends State<ChatScreenUser>
     setState(() {
       _tabIndex = _tabController.index;
       print("Tab Index : $_tabIndex");
-      setState(() {
-        switch (_tabIndex) {
-          case 0:
-            return NavigationRouter.switchToServiceUserNoticeScreen(
-                context);
-            break;
-          case 1:
-            return NavigationRouter.switchToServiceUserChatScreen(context);
-            break;
-        }
-      });
     });
   }
 
