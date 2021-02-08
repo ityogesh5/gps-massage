@@ -113,19 +113,16 @@ class DropDownFormField extends FormField<dynamic> {
                               : DropdownButton<dynamic>(
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
-                                    color: Color.fromRGBO(200, 200, 200, 1),
+                                    size: 30.0,
+                                    color: Colors
+                                        .black, // Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   hint: Text(
-                                    hintText,
-                                    style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: 14),
+                                    value,
+                                    style: HealingMatchConstants.formTextStyle,
                                   ),
                                   value: value == '' ? null : value,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontFamily: 'Oxygen',
-                                      fontSize: 14),
+                                  style: HealingMatchConstants.formTextStyle,
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);

@@ -340,11 +340,18 @@ class _RegistrationSecondPageState
                                       : certificateImages
                                               .containsKey(qualification)
                                           ? false
-                                          : true;
+                                          : (value == "民間資格") &&
+                                                  (privateQualification
+                                                          .length ==
+                                                      5)
+                                              ? false
+                                              : true;
                                   if (value == "無資格") {
                                     certificateImages.clear();
                                     privateQualification.clear();
                                   }
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
                                 });
                               },
                               value: qualification,
@@ -916,7 +923,7 @@ class _RegistrationSecondPageState
     }
 
     //Certificate validation
-    if (_myqualification.isEmpty || _myqualification == null) {
+    if ((_myqualification.isEmpty || _myqualification == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -931,7 +938,7 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (certificateImages.isEmpty) {
+    if (certificateImages.isEmpty && _myqualification != "無資格") {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
@@ -1075,8 +1082,8 @@ class _RegistrationSecondPageState
               : bankname,
       'branchCode': branchCodeController.text,
       'branchNumber': branchNumberController.text,
-      'accountNumber': accountType,
-      'accountType': accountnumberController.text,
+      'accountNumber': accountnumberController.text,
+      'accountType': accountType,
       'proofOfIdentityType': identificationverify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),
@@ -1506,6 +1513,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                 ),
                 FlatButton(
                   onPressed: () {
+                    HealingMatchConstants.bannerImages.clear();
                     HealingMatchConstants.bannerImages.addAll(images);
                     getFilePath();
                   },
@@ -1615,6 +1623,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
 
   //Get the file Path of the Assets Selected
   getFilePath() async {
+    files.clear();
     for (var asset in images) {
       final filePath =
           await FlutterAbsolutePath.getAbsolutePath(asset.identifier);

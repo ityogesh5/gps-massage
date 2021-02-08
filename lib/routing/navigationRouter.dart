@@ -5,6 +5,7 @@ import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/providerEditProfile.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/termsandConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
@@ -206,5 +207,13 @@ class NavigationRouter {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => ViewUserProfile()),
         (Route<dynamic> route) => false);
+  }
+
+  // Service Provider Terms and Contions Screen
+  static void switchToServiceProviderTCScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderTermsAndConditions()));
   }
 }

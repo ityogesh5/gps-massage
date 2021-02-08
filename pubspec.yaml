@@ -74,7 +74,7 @@ dependencies:
   horizontal_center_date_picker: ^1.0.0+2
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
-  syncfusion_flutter_calendar: ^18.4.35
+  url_launcher: ^5.7.10 #Aswin for Mail app launch
   #flutter_week_view: ^1.0.0+2
 
 
