@@ -16,6 +16,7 @@ import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScre
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/chatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/homeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/nearByProviderAndShop.dart';
@@ -234,6 +235,12 @@ class NavigationRouter {
   static void switchToServiceUserChatScreen(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => ChatScreenUser()));
+  }
+
+  // Service User Notifications Screen
+  static void switchToServiceUserNoticeScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => NoticeScreenUser()));
   }
 
   //ChatList User Screen

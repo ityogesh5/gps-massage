@@ -114,7 +114,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                         break;
                       case 4:
                         //DialogHelper.showUserLoginOrRegisterDialog(context);
-                        NavigationRouter.switchToServiceUserChatScreen(context);
+                        NavigationRouter.switchToServiceUserNoticeScreen(context);
                         break;
                     }
                   });

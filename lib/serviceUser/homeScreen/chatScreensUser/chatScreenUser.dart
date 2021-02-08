@@ -49,6 +49,17 @@ class _ChatScreenUserState extends State<ChatScreenUser>
     setState(() {
       _tabIndex = _tabController.index;
       print("Tab Index : $_tabIndex");
+      setState(() {
+        switch (_tabIndex) {
+          case 0:
+            return NavigationRouter.switchToServiceUserNoticeScreen(
+                context);
+            break;
+          case 1:
+            return NavigationRouter.switchToServiceUserChatScreen(context);
+            break;
+        }
+      });
     });
   }
 
@@ -104,7 +115,10 @@ class _ChatScreenUserState extends State<ChatScreenUser>
                   indicatorColor: Colors.lime,
                   tabBarIndicatorSize: TabBarIndicatorSize.tab,
                 ),
-                onTap: (index) {},
+                onTap: (index) {
+
+
+                },
                 dragStartBehavior: DragStartBehavior.start,
                 tabs: [
                   Tab(

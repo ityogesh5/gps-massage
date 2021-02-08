@@ -53,7 +53,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  NavigationRouter.switchToServiceUserChatScreen(context);
+                  Navigator.of(context, rootNavigator: true).pop(context);
                 },
                 color: Colors.black,
               ),
