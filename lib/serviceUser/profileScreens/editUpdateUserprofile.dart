@@ -12,8 +12,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/customModels/address.dart';
 import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
-import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
+
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -34,8 +34,9 @@ class UpdateServiceUserDetails extends StatefulWidget {
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   UpdateAddress addUpdateAddress;
-  // String userProfileImage = '';
+
   String rUserName = '';
+  String rid = '';
   String raccessToken = '';
   String rUserPhoneNumber = '';
   String rEmailAddress = '';
@@ -1354,6 +1355,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           color: Colors.grey),
                     ),
                     SizedBox(height: 15),
+
                     otherUserAddress != null
                         ? Container(
                             child: ListView.builder(
@@ -2169,15 +2171,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
+          id: HealingMatchConstants.userEditToken,
           userId: _userAddressID,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
           cityName: HealingMatchConstants.userEditCity,
-          citiesId: '',
-          area: '',
           buildingName: buildingNameController.text.toString(),
           postalCode: '',
           lat: HealingMatchConstants.editCurrentLatitude,
@@ -2191,12 +2191,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
+          id: HealingMatchConstants.userEditToken,
           userId: _userAddressID,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
+          // capitalAndPrefecture:_myPrefecture,
           cityName: _myCity,
           citiesId: '',
           area: userAreaController.text.toString(),
@@ -2264,7 +2265,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       request.files.add(profileImage);
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": _userAddressID,
+        "id": HealingMatchConstants.userEditToken,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2280,7 +2281,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     } else {
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": _userAddressID,
+        "id": HealingMatchConstants.userEditToken,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2311,7 +2312,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     final response = await http.Response.fromStream(userDetailsRequest);
     print('Success response code : ${response.statusCode}');
 
-    if (response.statusCode == 400) {
+    if (response.statusCode == 200) {
       // ProfileUpdateResponseModel profileUpdateResponseModel;
       final Map userDetailsResponse = json.decode(response.body);
       final profileUpdateResponseModel =
@@ -2369,6 +2370,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
         rUserArea = value.getString('area');
+        rid = value.getString('id');
 
         // Convert string url of image to base64 format
         // convertBase64ProfileImage(userProfileImage);
@@ -2384,6 +2386,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
+          HealingMatchConstants.userEditToken = rid;
 
           userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
@@ -2459,7 +2462,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           print('No addresstype mentioned');
         }
         print('Entering address fields....');
+
         //! Need to add to otherAddressList Value Here from Login/Register
+
       }
     });
     // updateAddress.add(addUpdateAddress);
@@ -3289,6 +3294,7 @@ class _AddAddressState extends State<AddAddress> {
         String gpsUserAddress =
             '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
         print('GPS FINAL ADDRESS : $gpsUserAddress');
+
         if (otherUserAddress.length <= 2) {
           setState(() {
             print('Entering if...');
@@ -3303,6 +3309,7 @@ class _AddAddressState extends State<AddAddress> {
               addedBuildingNameController.text.toString(),
               userGPSAddressPlaceMark.locality,
             );
+
             // Navigator.pop(context);
             Navigator.push(
                 context,
@@ -3411,6 +3418,7 @@ class _AddAddressState extends State<AddAddress> {
             '${HealingMatchConstants.manualAddressCurrentLongitude}');
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
+
         if (otherUserAddress.length <= 2) {
           String city = _myAddedCity;
           setState(() {
@@ -3426,6 +3434,7 @@ class _AddAddressState extends State<AddAddress> {
               addedUserAreaController.text.toString(),
             );
             print(_myAddedAddressInputType);
+
             Navigator.push(
                 context,
                 MaterialPageRoute(

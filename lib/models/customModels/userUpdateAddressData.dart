@@ -5,11 +5,11 @@ class AddUserAddress {
   String _lng;
   String _addressType;
 
-  AddUserAddress(this._addressKey, this._address);
+  AddUserAddress(this._address, this._lat, this._lng, this._addressType);
 
   AddUserAddress.fromAddress(this._lat, this._lng, this._addressType);
 
-  String get addressKey => _addressKey;
+  //String get addressKey => _addressKey;
 
   String get subAddress => _address;
 
@@ -19,9 +19,9 @@ class AddUserAddress {
 
   String get addressType => _addressType;
 
-  set addressKey(String addressKey) {
+  /*set addressKey(String addressKey) {
     this._addressKey = addressKey;
-  }
+  }*/
 
   set subAddress(String subAddress) {
     this._address = subAddress;

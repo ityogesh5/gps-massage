@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 main() {
   runApp(SplashScreen());
@@ -77,6 +77,8 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-      NavigationRouter.switchToTermsAndConditions(context);
+    DialogHelper.showNotificationDialog(context);
+    //NavigationRouter.switchToServiceUserViewProfileScreen(context);
+    //NavigationRouter.switchToServiceUserRegistration(context);
   }
 }

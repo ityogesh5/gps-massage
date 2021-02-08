@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'chooseServiceScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:dio/dio.dart';
@@ -466,8 +467,8 @@ class _RegistrationSecondPageState
                                                   .size
                                                   .width *
                                               0.38,
-                                          height:
-                                              140.0, //MediaQuery.of(context).size.height * 0.19,
+                                          height: 140.0,
+                                          //MediaQuery.of(context).size.height * 0.19,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,

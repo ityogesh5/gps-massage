@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +10,7 @@ class NotificationPopup extends StatefulWidget {
 class _NotificationPopupState extends State<NotificationPopup> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,7 +83,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     bool fcmStatus = value.getBool('fcmStatus');
                     //print('fcmStatus is false : $fcmStatus');
                   });
-                  NavigationRouter.switchToUserDefineScreen(context);
+                  //NavigationRouter.switchToUserDefineScreen(context);
+                  NavigationRouter.switchToTermsAndConditions(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.grey,
@@ -111,7 +112,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     bool fcmStatus = value.getBool('fcmStatus');
                     //print('fcmStatus is true : $fcmStatus');
                   });
-                  NavigationRouter.switchToUserDefineScreen(context);
+                  //NavigationRouter.switchToUserDefineScreen(context);
+                  NavigationRouter.switchToTermsAndConditions(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.pinkAccent[600],

@@ -10,7 +10,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;

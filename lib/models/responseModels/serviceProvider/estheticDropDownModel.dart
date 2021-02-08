@@ -8,8 +8,11 @@ class EstheticDropDownModel {
   }
 
   String get status => _status;
+
   set status(String status) => _status = status;
+
   List<Data> get data => _data;
+
   set data(List<Data> data) => _data = data;
 
   EstheticDropDownModel.fromJson(Map<String, dynamic> json) {
@@ -42,8 +45,11 @@ class Data {
   }
 
   int get id => _id;
+
   set id(int id) => _id = id;
+
   String get value => _value;
+
   set value(String value) => _value = value;
 
   Data.fromJson(Map<String, dynamic> json) {
