@@ -2282,13 +2282,16 @@ class _RegisterUserState extends State<RegisterUser> {
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
+
           value.setString('id', serviceUserDetails.data.id.toString());
+
           value.setString(
               'profileImage', serviceUserDetails.data.uploadProfileImgUrl);
           value.setString('userName', serviceUserDetails.data.userName);
           value.setString('userPhoneNumber',
               serviceUserDetails.data.phoneNumber.toString());
           value.setString('userEmailAddress', serviceUserDetails.data.email);
+
           // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString('userDOB', userDOB);
 
@@ -2316,36 +2319,6 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
           }
-          /* for (int i = 0; i < serviceUserDetails.data.addresses.length; i++) {
-            print(
-                'Address data : ${serviceUserDetails.data.addresses[i].address}');
-            value.setString('userAddress',
-                json.encode(serviceUserDetails.data.addresses[i].id));
-            value.setString(
-                'userAddress', serviceUserDetails.data.addresses[i].address);
-          }*/
-          /*  value.setString('buildingName',
-              serviceUserDetails.data.addressResponse.buildingName);
-
-          value.setString('roomNumber',
-              serviceUserDetails.data.addressResponse.userRoomNumber);
-          value.setString('area', serviceUserDetails.data.addressResponse.area);
-          value.setString('userPlaceForMassage',
-              serviceUserDetails.data.addressResponse.userPlaceForMassage);
-          print(
-              'userPlaceForMassage:${serviceUserDetails.data.addressResponse.userPlaceForMassage}');
-
-          value.setString(
-              'userArea', serviceUserDetails.data.addressResponse.area);
-          value.setString(
-              'cityName', serviceUserDetails.data.addressResponse.cityName);
-          value.setString('capitalAndPrefecture',
-              serviceUserDetails.data.addressResponse.capitalAndPrefecture);
-          value.setString('addressType',
-              serviceUserDetails.data.addressResponse.addressTypeSelection);
-          value.setString('addressID',
-              serviceUserDetails.data.addressResponse.id.toString());*/
-          // value.setString('userID', serviceUserDetails.data.userResponse);
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);

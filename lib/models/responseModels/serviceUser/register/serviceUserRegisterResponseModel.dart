@@ -59,6 +59,7 @@ class Data {
   int age;
   bool isTherapist;
   String userOccupation;
+
   String uploadProfileImgUrl;
   List<Address> addresses;
 

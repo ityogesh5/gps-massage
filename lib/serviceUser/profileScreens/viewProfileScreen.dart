@@ -9,6 +9,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewUserProfile extends StatefulWidget {
   @override
@@ -364,27 +365,50 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       ),
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         PopupMenuItem<String>(
-          value: "edit_user_profile",
+          value: "1",
           child: Text(
-            'プロフィール編集',
+            '利用規約とプライバシーポリシー', //Terms and Conditions
             style: TextStyle(fontFamily: 'Oxygen'),
           ),
         ),
-        /*PopupMenuItem<String>(
-          value: "sec_val",
+        PopupMenuItem<String>(
+          value: "2",
           child: Text(
-            'アカウントを無効化',
+            'アプリについて', //About the app
             style: TextStyle(fontFamily: 'Oxygen'),
           ),
-        ),*/
+        ),
+        PopupMenuItem<String>(
+          value: "3",
+          child: Text(
+            'お問い合わせ', //Contact Us
+            style: TextStyle(fontFamily: 'Oxygen'),
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: "4",
+          child: Text(
+            'ログアウト ト', //Log out
+            style: TextStyle(fontFamily: 'Oxygen'),
+          ),
+        ),
       ],
       onSelected: (retVal) {
-        if (retVal == "edit_user_profile") {
-          print('Editing screen not there!!');
-          NavigationRouter.switchToServiceUserEditProfileScreen(context);
-        } else if (retVal == "sec_val") {}
+        if (retVal == "1") {
+          NavigationRouter.switchToServiceProviderTCScreen(context);
+        } else if (retVal == "3") {
+          emailLaunch();
+        }
       },
     );
+  }
+
+  emailLaunch() {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'healingMatch@yopmail.com',
+        queryParameters: {'subject': 'QueryMail!'});
+    launch(_emailLaunchUri.toString());
   }
 
   getUserProfileData() async {

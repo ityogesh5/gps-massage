@@ -62,6 +62,7 @@ class HealingMatchConstants {
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
   static bool isUserLoggedIn = false;
+  static bool isBottomBarVisible = true;
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 ";
@@ -264,6 +265,7 @@ class HealingMatchConstants {
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+
   // Profile Edit screen user
   static Uint8List userEditProfile;
   static String userEditToken = '';
@@ -313,6 +315,7 @@ class HealingMatchConstants {
   static String searchFitnessTxt = 'フィットネス';
   static String searchTravelTxt = '施術のタイプを選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
+
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,

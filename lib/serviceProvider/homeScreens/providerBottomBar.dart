@@ -1,5 +1,6 @@
-import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
+
 import 'bookingStatus.dart';
 import 'chat.dart';
 import 'homeScreen.dart';
@@ -37,7 +38,8 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 60,
         buttonBackgroundColor: Colors.limeAccent,
-        backgroundColor: Colors.red.withOpacity(0), // Colors.red,
+        backgroundColor: Colors.red.withOpacity(0),
+        // Colors.red,
         color: Colors.white,
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
