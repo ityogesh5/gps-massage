@@ -24,6 +24,7 @@ import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.
 import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
+import 'package:gps_massageapp/serviceUser/searchScreens/searchResult.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -90,6 +91,12 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => NearByProviderAndShop()));
+  }
+
+  //User Search Result
+  static void switchToUserSearchResult(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => SearchResult()));
   }
 
   //UserSearchScreen

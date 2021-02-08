@@ -4,6 +4,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class SearchScreenUser extends StatefulWidget {
   @override
@@ -560,7 +561,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           fontSize: 18),
                     ),
                     color: Colors.lime,
-                    onPressed: () {},
+                    onPressed: () {
+                      NavigationRouter.switchToUserSearchResult(context);
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

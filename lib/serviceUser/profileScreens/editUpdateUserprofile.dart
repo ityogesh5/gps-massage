@@ -2197,6 +2197,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
+          // capitalAndPrefecture:_myPrefecture,
           cityName: _myCity,
           citiesId: '',
           area: userAreaController.text.toString(),
