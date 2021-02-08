@@ -522,7 +522,7 @@ class _UserLoginState extends State<UserLogin> {
 
           //value.setString('userAddress', loginResponseModel.data.addresses);
         });
-
+        HealingMatchConstants.isUserVerified = true;
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else {

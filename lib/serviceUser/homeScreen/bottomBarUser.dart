@@ -171,11 +171,12 @@ class _BottomBarUserState extends State<BottomBarUser> {
                               context);
                           break;
                         case 2:
-                          NavigationRouter.switchToServiceUserViewProfileScreen(
+                          NavigationRouter.switchToServiceUserBookingScreen(
                               context);
+
                           break;
                         case 3:
-                          NavigationRouter.switchToServiceUserBookingScreen(
+                          NavigationRouter.switchToServiceUserViewProfileScreen(
                               context);
                           break;
                         case 4:
