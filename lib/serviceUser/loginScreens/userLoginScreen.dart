@@ -5,7 +5,6 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -476,6 +475,7 @@ class _UserLoginState extends State<UserLogin> {
         // print('Login token : ${loginResponseModel.accessToken}');
         print('Login token : ${loginResponseModel.toJson()}');
         _sharedPreferences.then((value) {
+          value.clear();
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
           value.setString('userName', loginResponseModel.data.userName);
@@ -487,21 +487,28 @@ class _UserLoginState extends State<UserLogin> {
           value.setString('userGender', loginResponseModel.data.gender);
           value.setString(
               'userOccupation', loginResponseModel.data.userOccupation);
-          // final Map addressRes = json.decode(response.body);
-          // addressResponse = Address.fromJson(addressRes);
-
-          // value.setString('userAddress', loginResponseModel.data.addresses);
-
-          for (var address in loginResponseModel.data.addresses) {
-            setState(() {
-              addressList.add(address);
-
-              // for (var i = 0; i < addressList.length; i++) {
-              //   print(addressList[2]);
-              // }
-            });
+          value.setString(
+              'userAddress', json.encode(loginResponseModel.data.addresses));
+          for (var userAddressData in loginResponseModel.data.addresses) {
+            print('Address of user : ${userAddressData.toJson()}');
+            print(
+                'Address of user : ${loginResponseModel.data.addresses.length}');
+            value.setString('userAddress', userAddressData.address);
+            value.setString('buildingName', userAddressData.buildingName);
+            value.setString('roomNumber', userAddressData.userRoomNumber);
+            value.setString('area', userAddressData.area);
+            value.setString(
+                'addressType', userAddressData.addressTypeSelection);
+            value.setString('addressID', userAddressData.id.toString());
+            value.setString('userID', userAddressData.userId.toString());
+            value.setString(
+                'userPlaceForMassage', userAddressData.userPlaceForMassage);
+            value.setString('cityName', userAddressData.cityName);
+            value.setString(
+                'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
           }
-          HealingMatchConstants.addressList.addAll(addressList);
+
+          // HealingMatchConstants.addressList.addAll(addressList);
 
           print(loginResponseModel.data.userName);
           print(loginResponseModel.data.phoneNumber.toString());

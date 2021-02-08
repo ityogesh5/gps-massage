@@ -8,8 +8,12 @@ class BookingScreenUser extends StatefulWidget {
 class _BookingScreenUserState extends State<BookingScreenUser> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('BookingScreenUser'),
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: Text('BookingScreenUser'),
+        ),
+      ),
     );
   }
 }

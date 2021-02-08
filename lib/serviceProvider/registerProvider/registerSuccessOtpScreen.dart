@@ -220,7 +220,8 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
+            "phoneNumber":
+               HealingMatchConstants.serviceProviderPhoneNumber,
             "otp": pinCode,
             "isTherapist": "1"
           }));
@@ -230,7 +231,7 @@ class _RegistrationSuccessOtpScreenState
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
-        DialogHelper.showRegisterSuccessDialog(context);
+        DialogHelper.showProviderRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
       } else {
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
@@ -261,7 +262,7 @@ class _RegistrationSuccessOtpScreenState
         reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-   //     NavigationRouter.switchToUserChangePasswordScreen(context);
+        //     NavigationRouter.switchToUserChangePasswordScreen(context);
       } else {
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
         print('Response Failure !!');

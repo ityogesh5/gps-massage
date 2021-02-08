@@ -10,7 +10,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -49,6 +48,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   bool visible = false;
   bool showAddressField = false;
   bool _changeProgressText = false;
+  bool businessTripEnabled = true;
 
   List<String> businessFormDropDownValues = [
     "施術店舗あり 施術従業員あり",
@@ -389,6 +389,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   onChanged: (value) {
                     setState(() {
                       bussinessForm = value;
+                      if (value == "施術店舗なし 施術従業員あり（出張のみ)") {
+                        serviceBusinessTrips = "はい";
+                        businessTripEnabled = false;
+                      } else {
+                        businessTripEnabled = true;
+                      }
+
                       FocusScope.of(context).requestFocus(new FocusNode());
                     });
                   },
@@ -566,7 +573,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                           color: Colors.black12,
                                           border: Border.all(color: Colors.black12)), */
                         child: DropDownFormField(
-                          hintText: 'はい',
+                          enabled: businessTripEnabled,
+                          hintText: '',
                           value: serviceBusinessTrips,
                           onSaved: (value) {
                             setState(() {
@@ -616,7 +624,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Container(
                         height: containerHeight,
                         child: DropDownFormField(
-                          hintText: 'はい',
+                          hintText: '',
                           value: coronaMeasures,
                           onSaved: (value) {
                             setState(() {
@@ -1492,9 +1500,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                    validateFields();
-
-                    /*       NavigationRouter.switchToServiceProviderSecondScreen(
+                   validateFields();
+                  /*     NavigationRouter.switchToServiceProviderSecondScreen(
                                       context); */
                   },
                 ),

@@ -109,13 +109,18 @@ class _HomeScreenUserState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ),
-                  Text(
-                    'もっと見る',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline),
+                  GestureDetector(
+                    onTap: () {
+                      NavigationRouter.switchToNearByProviderAndShop(context);
+                    },
+                    child: Text(
+                      'もっと見る',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
                   ),
                 ],
               ),
@@ -268,12 +273,6 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                             ),
                             Row(
                               children: [
-                                Text(
-                                  ratingsValue.toString(),
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
                                 RatingBar.builder(
                                   initialRating: 3,
                                   minRating: 1,
@@ -292,9 +291,18 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
+                                      NavigationRouter
+                                          .switchToServiceUserRatingsAndReviewScreen(
+                                              context);
                                     });
                                     print(ratingsValue);
                                   },
+                                ),
+                                Text(
+                                  ratingsValue.toString(),
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                                 Text('(1518)'),
                               ],

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as providerLogin;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -59,9 +61,11 @@ class HealingMatchConstants {
   static bool isUserRegistrationSkipped = false;
   static bool isUserRegistered = false;
   static bool isUserVerified = false;
+  static bool isUserLoggedIn = false;
+  static bool isBottomBarVisible = true;
 
   //UserForget Password
-  static const String userPasswordPhn = "電話番号 *";
+  static const String userPasswordPhn = "電話番号 ";
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
   static const String userPasswordTxt =
@@ -167,8 +171,8 @@ class HealingMatchConstants {
 
   //RegistrationServiceProvider
   static const String registrationFirstText = 'セラピスト情報の入力';
-  static const String registrationSecondText = 'は必項目です';
-  static const String registrationScndText = 'は必須項目';
+  static const String registrationSecondText = 'は必須項目です';
+  static const String registrationScndText = 'は必須項目です';
   static const String registrationFacePhtoText =
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
@@ -206,7 +210,7 @@ class HealingMatchConstants {
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
   static const String registrationBankDetails = '売り上げ振込先銀行口座';
-  static const String registrationBankName = '銀行名*';
+  static const String registrationBankName = '銀行名';
   static const String registrationBankBranchCode = '支店名';
   static const String registrationBankBranchNumber = '支店番号';
   static const String registrationBankAccountNumber = '口座番号';
@@ -242,11 +246,30 @@ class HealingMatchConstants {
   //Edit Profile
   static const String profileUpdateBtn = '更新';
 
+  //Provider Edit Screen
+
+  static const String editProfileBuisnessForm = '事業形態';
+  static const String editProfileName = 'お名前';
+  static const String editProfileStoreName = '店舗名';
+  static const String editProfileDob = '生年月日';
+  static const String editProfilePhnNum = '電話番号';
+  static const String editProfileStorePhnNum = '店舗の電話番号';
+  static const String editProfileMailAdress = 'メールアドレス';
+  static const String editProfileBuildingName = '建物名';
+  static const String editProfileRoomNo = '部屋番号';
+  static const String editProfileGender = '性別';
+
+  //Provider Home
+  static providerLogin.Data userData;
+
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+
   // Profile Edit screen user
   static Uint8List userEditProfile;
+  static String userEditToken = '';
+  static String userEditId = '';
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';
@@ -257,9 +280,15 @@ class HealingMatchConstants {
   static String userEditUserAddress = '';
   static String userEditBuildName = '';
   static String userEditRoomNo = '';
+  static String userEditCity = '';
+  static String userEditPrefecture = '';
   static String userEditPlaceForMassage = '';
   static String userEditArea = '';
-
+  static String userEditAddress = '';
+  static double mEditCurrentLatitude = 0.0;
+  static double mEditCurrentLongitude = 0.0;
+  static double editCurrentLatitude = 0.0;
+  static double editCurrentLongitude = 0.0;
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
@@ -271,6 +300,22 @@ class HealingMatchConstants {
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+
+  //User Search screen
+  static String searchKeyword = 'キーワードできがす';
+  static String searchAreaTxt = 'さがすエリアを選んでください';
+  static String searchGpsIconTxt = '現在地';
+  static String searchHomeIconTxt = '自宅';
+  static String searchOfficeIconTxt = 'オフィス';
+  static String searchPHomeIconTxt = '実家';
+  static String searchServiceSelTxt = '受けたい施術を選んでください';
+  static String searchEsteticTxt = 'エステ';
+  static String searchOsthepaticTxt = '整骨・整体';
+  static String searchRelaxationTxt = 'リラクゼーション';
+  static String searchFitnessTxt = 'フィットネス';
+  static String searchTravelTxt = '施術のタイプを選んでください';
+  static String searchDateTxt = 'さがす条件を選んでください';
+
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,
@@ -293,6 +338,13 @@ class HealingMatchConstants {
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(
+      color: ColorConstants.formFieldBorderColor,
+    ),
+  );
+
+  static var multiTextFormInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15.0),
     borderSide: BorderSide(
       color: ColorConstants.formFieldBorderColor,
     ),

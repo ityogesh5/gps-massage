@@ -96,6 +96,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   List<dynamic> stateDropDownValues = List();
   List<dynamic> cityDropDownValues = List();
+  List<dynamic> addressValues = List();
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -536,15 +537,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "M",
+                                      "value": "男性",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "F",
+                                      "value": "女性",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "O",
+                                      "value": "どちらでもない",
                                     },
                                   ],
                                   textField: 'display',
@@ -642,8 +643,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         maxLength: 10,
                         controller: phoneNumberController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(signed: true),
+                        keyboardType: TextInputType.phone,
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1297,7 +1297,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '号室 *',
+                                                    labelText: '部屋番号 *',
                                                     /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
@@ -2278,46 +2278,47 @@ class _RegisterUserState extends State<RegisterUser> {
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
+        // print('Token : ${serviceUserDetails.data.token}');
         _sharedPreferences.then((value) {
-          value.setString('profileImage',
-              serviceUserDetails.data.userResponse.uploadProfileImgUrl);
+          value.clear();
+          value.setString('accessToken', serviceUserDetails.accessToken);
+
+          value.setString('id', serviceUserDetails.data.id.toString());
+
           value.setString(
-              'userName', serviceUserDetails.data.userResponse.userName);
+              'profileImage', serviceUserDetails.data.uploadProfileImgUrl);
+          value.setString('userName', serviceUserDetails.data.userName);
           value.setString('userPhoneNumber',
-              serviceUserDetails.data.userResponse.phoneNumber);
-          value.setString(
-              'userEmailAddress', serviceUserDetails.data.userResponse.email);
+              serviceUserDetails.data.phoneNumber.toString());
+          value.setString('userEmailAddress', serviceUserDetails.data.email);
+
           // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
           value.setString('userDOB', userDOB);
-          value.setString('userAge', serviceUserDetails.data.userResponse.age);
-          value.setString(
-              'userGender', serviceUserDetails.data.userResponse.gender);
+
+          value.setString('userAge', serviceUserDetails.data.age.toString());
+          value.setString('userGender', serviceUserDetails.data.gender);
           // value.setString('userGender', japaneseGender);
-          value.setString('userOccupation',
-              serviceUserDetails.data.userResponse.userOccupation);
           value.setString(
-              'userAddress', serviceUserDetails.data.addressResponse.address);
-          value.setString('buildingName',
-              serviceUserDetails.data.addressResponse.buildingName);
-
-          value.setString('roomNumber',
-              serviceUserDetails.data.addressResponse.userRoomNumber);
-          value.setString('area', serviceUserDetails.data.addressResponse.area);
-          value.setString('userPlaceForMassage',
-              serviceUserDetails.data.addressResponse.userPlaceForMassage);
-          print(
-              'userPlaceForMassage:${serviceUserDetails.data.addressResponse.userPlaceForMassage}');
-
-          value.setString(
-              'userArea', serviceUserDetails.data.addressResponse.area);
-          value.setString(
-              'cityName', serviceUserDetails.data.addressResponse.cityName);
-          value.setString('capitalAndPrefecture',
-              serviceUserDetails.data.addressResponse.capitalAndPrefecture);
-          value.setString('addressType',
-              serviceUserDetails.data.addressResponse.addressTypeSelection);
-          value.setString('addressID',
-              serviceUserDetails.data.addressResponse.id.toString());
+              'userOccupation', serviceUserDetails.data.userOccupation);
+          // Way 1 for loop
+          for (var userAddressData in serviceUserDetails.data.addresses) {
+            print('Address of user : ${userAddressData.toJson()}');
+            print(
+                'Address of user : ${serviceUserDetails.data.addresses.length}');
+            value.setString('userAddress', userAddressData.address);
+            value.setString('buildingName', userAddressData.buildingName);
+            value.setString('roomNumber', userAddressData.userRoomNumber);
+            value.setString('area', userAddressData.area);
+            value.setString(
+                'addressType', userAddressData.addressTypeSelection);
+            value.setString('addressID', userAddressData.id.toString());
+            value.setString('userID', userAddressData.userId.toString());
+            value.setString(
+                'userPlaceForMassage', userAddressData.userPlaceForMassage);
+            value.setString('cityName', userAddressData.cityName);
+            value.setString(
+                'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+          }
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         NavigationRouter.switchToUserOtpScreen(context);

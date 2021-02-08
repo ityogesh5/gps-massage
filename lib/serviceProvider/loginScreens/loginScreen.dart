@@ -1,19 +1,21 @@
 import 'dart:convert';
+import 'dart:core';
+
 import 'dart:io';
 
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -310,7 +312,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 InkWell(
                   onTap: () {
-                   NavigationRouter.switchToServiceProviderFirstScreen(context);
+                    NavigationRouter.switchToServiceProviderFirstScreen(
+                        context);
                   },
                   child: Text(
                     HealingMatchConstants.loginNewRegistrationText,
@@ -353,6 +356,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
   _providerLoginDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
+    SharedPreferences instances = await SharedPreferences.getInstance();
 
     // user phone number and password null check validation
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty) &&
@@ -436,6 +440,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
+        Data userData = loginResponseModel.data;
+        instances.setString("userData", json.encode(userData));
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         ProgressDialogBuilder.hideLoginProviderProgressDialog(context);

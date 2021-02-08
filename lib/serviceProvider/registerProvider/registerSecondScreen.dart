@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
@@ -11,14 +11,17 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart'
+    as Bank;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'chooseServiceScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:dio/dio.dart';
 
 List<File> files = List<File>();
@@ -50,7 +53,7 @@ class _RegistrationSecondPageState
   TextEditingController branchNumberController = TextEditingController();
   TextEditingController accountnumberController = TextEditingController();
   TextEditingController bankOtherFieldController = TextEditingController();
-  BankNameDropDownModel bankNameDropDownModel;
+  Bank.BankNameDropDownModel bankNameDropDownModel;
   List<String> bankNameDropDownList = List<String>();
   List<String> privateQualification = List<String>();
 
@@ -340,11 +343,18 @@ class _RegistrationSecondPageState
                                       : certificateImages
                                               .containsKey(qualification)
                                           ? false
-                                          : true;
+                                          : (value == "民間資格") &&
+                                                  (privateQualification
+                                                          .length ==
+                                                      5)
+                                              ? false
+                                              : true;
                                   if (value == "無資格") {
                                     certificateImages.clear();
                                     privateQualification.clear();
                                   }
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
                                 });
                               },
                               value: qualification,
@@ -457,8 +467,8 @@ class _RegistrationSecondPageState
                                                   .size
                                                   .width *
                                               0.38,
-                                          height:
-                                              140.0, //MediaQuery.of(context).size.height * 0.19,
+                                          height: 140.0,
+                                          //MediaQuery.of(context).size.height * 0.19,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
@@ -916,7 +926,7 @@ class _RegistrationSecondPageState
     }
 
     //Certificate validation
-    if (_myqualification.isEmpty || _myqualification == null) {
+    if ((_myqualification.isEmpty || _myqualification == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -931,7 +941,7 @@ class _RegistrationSecondPageState
       return;
     }
 
-    if (certificateImages.isEmpty) {
+    if (certificateImages.isEmpty && _myqualification != "無資格") {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
@@ -970,12 +980,29 @@ class _RegistrationSecondPageState
 
   //Registration Api
   registerProvider() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
     List<CertificateImageUpload> cImagesList =
         new List<CertificateImageUpload>();
+    String qualification = '';
+    int i = 0;
     certificateImages.forEach((key, value) {
       cImagesList.add(CertificateImageUpload(key, value));
+      if (i == 0) {
+        qualification = key;
+      } else {
+        qualification = qualification + "," + key;
+      }
+      i++;
     });
+
+    if (privateQualification.length != 0) {
+      if (qualification != '') {
+        qualification = qualification + "," + '民間資格';
+      } else {
+        qualification = '民間資格';
+      }
+    }
 
     String childrenMeasure = '';
     if (HealingMatchConstants.serviceProviderChildrenMeasure.isEmpty) {
@@ -1042,6 +1069,7 @@ class _RegistrationSecondPageState
               : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
+      'addressTypeSelection': HealingMatchConstants.serviceProviderAddressType,
       'address': HealingMatchConstants.serviceProviderAddress,
       'capitalAndPrefecture': HealingMatchConstants.serviceProviderPrefecture,
       'cityName': HealingMatchConstants.serviceProviderCity,
@@ -1069,14 +1097,15 @@ class _RegistrationSecondPageState
           ? HealingMatchConstants.serviceProviderBusinessForm
           : '',
       'userRoomNumber': HealingMatchConstants.serviceProviderRoomNumber,
+      'qulaificationCertImgUrl': qualification,
       'bankName':
           bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
               ? bankOtherFieldController.text
               : bankname,
       'branchCode': branchCodeController.text,
       'branchNumber': branchNumberController.text,
-      'accountNumber': accountType,
-      'accountType': accountnumberController.text,
+      'accountNumber': accountnumberController.text,
+      'accountType': accountType,
       'proofOfIdentityType': identificationverify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),
@@ -1120,8 +1149,24 @@ class _RegistrationSecondPageState
       print("This is request : ${userDetailsRequest.request}");
       final response = await http.Response.fromStream(userDetailsRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isRegisterSuccess(
+          response.statusCode, context, response.body)) {
+        RegisterResponseModel registerResponseModel =
+            RegisterResponseModel.fromJson(json.decode(response.body));
+        Data userData = registerResponseModel.data;
+        sharedPreferences.setString("userData", json.encode(userData));
+        sharedPreferences.setString(
+            "accessToken", registerResponseModel.accessToken);
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+        print('Login response : ${registerResponseModel.toJson()}');
+        print('Login token : ${registerResponseModel.accessToken}');
 
-      if (response.statusCode == 200) {
+        NavigationRouter.switchToProviderOtpScreen(context);
+      } else {
+        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+        print('Response error occured!');
+      }
+      /*  if (response.statusCode == 200) {
         print(response.body);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         /*   RegisterProviderResponseData registerProviderResponseData =
@@ -1133,7 +1178,7 @@ class _RegistrationSecondPageState
       } else {
         print(response.reasonPhrase);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      }
+      } */
     } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideRegisterProgressDialog(context);
@@ -1263,7 +1308,7 @@ class _RegistrationSecondPageState
         .then((response) {
       if (response.statusCode == 200) {
         bankNameDropDownModel =
-            BankNameDropDownModel.fromJson(json.decode(response.body));
+            Bank.BankNameDropDownModel.fromJson(json.decode(response.body));
         for (var bankList in bankNameDropDownModel.data) {
           bankNameDropDownList.add(bankList.value);
         }
@@ -1506,6 +1551,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                 ),
                 FlatButton(
                   onPressed: () {
+                    HealingMatchConstants.bannerImages.clear();
                     HealingMatchConstants.bannerImages.addAll(images);
                     getFilePath();
                   },
@@ -1615,6 +1661,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
 
   //Get the file Path of the Assets Selected
   getFilePath() async {
+    files.clear();
     for (var asset in images) {
       final filePath =
           await FlutterAbsolutePath.getAbsolutePath(asset.identifier);

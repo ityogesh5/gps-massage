@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/models/apiErrorModels/serviceUser/registerErrorHandler.dart';
 import 'package:toast/toast.dart';
 
-import 'alertDialogHelper/dialogHelper.dart';
-
 class StatusCodeHelper {
   //Checking register user response
   static bool isRegisterSuccess(
@@ -24,13 +22,13 @@ class StatusCodeHelper {
       if (errorDetails.status != null &&
           errorDetails.status.contains('error')) {
         Toast.show("この電話番号はすでに登録されています。", context,
-            duration: Toast.LENGTH_LONG,
+            duration: 4,
             gravity: Toast.CENTER,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white);
       } else {
         Toast.show("登録中にエラーが発生しました。再試行してください。", context,
-            duration: Toast.LENGTH_LONG,
+            duration: 4,
             gravity: Toast.CENTER,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white);
@@ -39,6 +37,13 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       print('Unauthorized User!!');
+      return false;
+    } else if (statusCode == 412) {
+      Toast.show("すべての必須値を入力してください。", context,
+          duration: 4,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
       return false;
     }
     return false;
@@ -58,7 +63,7 @@ class StatusCodeHelper {
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
       Toast.show("ユーザーが見つかりません。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
@@ -66,7 +71,7 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
@@ -89,7 +94,7 @@ class StatusCodeHelper {
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
       Toast.show("ユーザーが見つかりません。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
@@ -97,7 +102,7 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
@@ -116,6 +121,7 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
+
       Toast.show("正しい認証コードコードを入力してください。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
@@ -125,7 +131,7 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
@@ -143,6 +149,7 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
+
       Toast.show("正しい認証コードを入力してください。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
@@ -152,7 +159,7 @@ class StatusCodeHelper {
       return false;
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
-          duration: Toast.LENGTH_LONG,
+          duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);

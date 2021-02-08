@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,7 +10,10 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/models/customModels/userUpdateAddressData.dart';
+import 'package:gps_massageapp/models/customModels/address.dart';
+import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
+
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -18,21 +23,8 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<dynamic> addressValues = List();
-List<dynamic> latLngValues = List();
-List<dynamic> addressTypeValues = List();
-List<dynamic> subAddressValues = List();
-List<dynamic> spfAddressValues = List();
-List<dynamic> spfLatLngValues = List();
-List<dynamic> spfAddressTypeValues = List();
-List<dynamic> addressMap = List();
-List<dynamic> list = List();
-//final addressMap = [];
-final addedFirstSubAddressController = new TextEditingController();
-final addedSecondSubAddressController = new TextEditingController();
-final addedThirdSubAddressController = new TextEditingController();
-
-String jsonUser;
+List<UserAddressAdd> otherUserAddress = new List<UserAddressAdd>();
+List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
   @override
@@ -41,11 +33,35 @@ class UpdateServiceUserDetails extends StatefulWidget {
 }
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
+  UpdateAddress addUpdateAddress;
+
+  String rUserName = '';
+  String rid = '';
+  String raccessToken = '';
+  String rUserPhoneNumber = '';
+  String rEmailAddress = '';
+  String rDob = '';
+  String rUserAge = '';
+  String rUserGender = '';
+  String rUserOccupation = '';
+  String rUserAddress = '';
+  String rUserBuildName = '';
+  String rUserRoomNo = '';
+  String rUserPlaceMassage = '';
+  String rUserArea = '';
+
+  String imgBase64ProfileImage;
+  Uint8List profileImageInBytes;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getEditUserFields();
+    getUserProfileData();
+    // getUpdateAddress();
+
+    // _getStates();
+    // _getCities(_prefId);
   }
 
   var userAddressType = '';
@@ -480,15 +496,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "男性",
-                                      "value": "M",
+                                      "value": "男性",
                                     },
                                     {
                                       "display": "女性",
-                                      "value": "F",
+                                      "value": "女性",
                                     },
                                     {
                                       "display": "どちらでもない",
-                                      "value": "O",
+                                      "value": "どちらでもない",
                                     },
                                   ],
                                   textField: 'display',
@@ -1220,7 +1236,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
                         : SizedBox(),
-                    spfAddressValues != null
+                    otherUserAddress != null
                         ? Container(
                             // height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.85,
@@ -1235,7 +1251,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   icon: Icon(Icons.add,
                                       size: 28, color: Colors.black),
                                   onPressed: () {
-                                    if (spfAddressValues.length == 3) {
+                                    if (otherUserAddress.length == 3) {
                                       _scaffoldKey.currentState
                                           .showSnackBar(SnackBar(
                                         backgroundColor:
@@ -1339,192 +1355,74 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           color: Colors.grey),
                     ),
                     SizedBox(height: 15),
-                    spfAddressValues != null
+
+                    otherUserAddress != null
                         ? Container(
                             child: ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: spfAddressValues.length,
+                                itemCount: otherUserAddress.length,
                                 itemBuilder: (BuildContext ctxt, int index) {
-                                  return index == 0
-                                      ? Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.85,
-                                              child: TextFormField(
-                                                controller:
-                                                    addedFirstSubAddressController,
-                                                decoration: new InputDecoration(
-                                                    filled: true,
-                                                    fillColor: ColorConstants
-                                                        .formFieldFillColor,
-                                                    hintText:
-                                                        '${spfAddressValues[0]}',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey[400],
-                                                        fontSize: 14),
-                                                    focusColor:
-                                                        Colors.grey[100],
-                                                    border: HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    focusedBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    disabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    enabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    suffixIcon: IconButton(
-                                                      icon: Icon(Icons.delete),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          spfAddressValues
-                                                              .removeAt(0);
-                                                          spfAddressValues
-                                                              .remove(0);
-                                                        });
-                                                      },
-                                                    )),
-                                                style: TextStyle(
-                                                    color: Colors.black54),
-                                                // validator: (value) => _validateEmail(value),
-                                              ),
-                                            ),
-                                            SizedBox(height: 15),
-                                          ],
-                                        )
-                                      : index == 1
-                                          ? Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.85,
-                                                  child: TextFormField(
-                                                    controller:
-                                                        addedSecondSubAddressController,
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            filled: true,
-                                                            fillColor: ColorConstants
-                                                                .formFieldFillColor,
-                                                            hintText:
-                                                                '${spfAddressValues[1]}',
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey[400],
-                                                                fontSize: 14),
-                                                            focusColor: Colors
-                                                                .grey[100],
-                                                            border: HealingMatchConstants
-                                                                .textFormInputBorder,
-                                                            focusedBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            disabledBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            enabledBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            suffixIcon:
-                                                                IconButton(
-                                                              icon: Icon(
-                                                                  Icons.delete),
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  spfAddressValues
-                                                                      .removeAt(
-                                                                          1);
-                                                                  spfAddressValues
-                                                                      .remove(
-                                                                          1);
-                                                                });
-                                                              },
-                                                            )),
-                                                    style: TextStyle(
-                                                        color: Colors.black54),
-                                                    // validator: (value) => _validateEmail(value),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15),
-                                              ],
-                                            )
-                                          : Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.85,
-                                                  child: TextFormField(
-                                                    controller:
-                                                        addedThirdSubAddressController,
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            filled: true,
-                                                            fillColor: ColorConstants
-                                                                .formFieldFillColor,
-                                                            hintText:
-                                                                '${spfAddressValues[2]}',
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey[400],
-                                                                fontSize: 14),
-                                                            focusColor: Colors
-                                                                .grey[100],
-                                                            border: HealingMatchConstants
-                                                                .textFormInputBorder,
-                                                            focusedBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            disabledBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            enabledBorder:
-                                                                HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                            suffixIcon:
-                                                                IconButton(
-                                                              icon: Icon(
-                                                                  Icons.delete),
-                                                              onPressed: () {
-                                                                setState(() {
-                                                                  spfAddressValues
-                                                                      .removeAt(
-                                                                          2);
-                                                                  spfAddressValues
-                                                                      .remove(
-                                                                          2);
-                                                                });
-                                                              },
-                                                            )),
-                                                    style: TextStyle(
-                                                        color: Colors.black54),
-                                                    // validator: (value) => _validateEmail(value),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
+                                  return Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        child: TextFormField(
+                                          //display the address
+                                          initialValue: otherUserAddress[index]
+                                              .subAddress,
+                                          decoration: new InputDecoration(
+                                              filled: true,
+                                              fillColor: ColorConstants
+                                                  .formFieldFillColor,
+                                              hintText:
+                                                  '${otherUserAddress[index]}',
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey[400],
+                                                  fontSize: 14),
+                                              focusColor: Colors.grey[100],
+                                              border: HealingMatchConstants
+                                                  .textFormInputBorder,
+                                              focusedBorder:
+                                                  HealingMatchConstants
+                                                      .textFormInputBorder,
+                                              disabledBorder:
+                                                  HealingMatchConstants
+                                                      .textFormInputBorder,
+                                              enabledBorder:
+                                                  HealingMatchConstants
+                                                      .textFormInputBorder,
+                                              suffixIcon: IconButton(
+                                                icon: Icon(Icons.delete),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    //Delete Value at index
+                                                    otherUserAddress
+                                                        .removeAt(index);
+                                                  });
+                                                },
+                                              )),
+                                          style:
+                                              TextStyle(color: Colors.black54),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              otherUserAddress[index]
+                                                  .subAddress = value;
+                                            });
+                                          },
+                                          // validator: (value) => _validateEmail(value),
+                                        ),
+                                      ),
+                                      SizedBox(height: 15),
+                                    ],
+                                  );
                                 }),
                           )
                         : Container(),
@@ -1564,15 +1462,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "５Ｋｍ圏内",
-                                      "value": "５",
+                                      "value": "5",
                                     },
                                     {
                                       "display": "１０Ｋｍ圏内",
-                                      "value": "１０",
+                                      "value": "10",
                                     },
                                     {
                                       "display": "１５Ｋｍ圏内",
-                                      "value": "１５",
+                                      "value": "15",
+                                    },
+                                    {
+                                      "display": "２０Ｋｍ圏内",
+                                      "value": "20",
                                     },
                                   ],
                                   textField: 'display',
@@ -1639,8 +1541,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
       currentLocationPlaceMark = p[0];
 
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+      HealingMatchConstants.editCurrentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.editCurrentLongitude = _currentPosition.longitude;
 
       setState(() {
         _currentAddress =
@@ -1654,9 +1556,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           setState(() {
             _isGPSLocation = true;
           });
-          HealingMatchConstants.serviceUserCity =
+          HealingMatchConstants.userEditCity =
               currentLocationPlaceMark.locality;
-          HealingMatchConstants.serviceUserPrefecture =
+          HealingMatchConstants.userEditPrefecture =
               currentLocationPlaceMark.administrativeArea;
         } else {
           ProgressDialogBuilder.hideLocationProgressDialog(context);
@@ -1772,6 +1674,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
+
     //double searchRadisu =
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
@@ -2157,7 +2060,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     // user phone number validation
     if (userPhoneNumber != null || userPhoneNumber.isNotEmpty) {
       print('userPhoneNumber : $userPhoneNumber');
-      subAddressValues.add(userPhoneNumber);
     }
 
     // Email Validation
@@ -2253,19 +2155,59 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (_myCategoryPlaceForMassage != null ||
         _myCategoryPlaceForMassage.isNotEmpty) {
       print('_myCategoryPlaceForMassage : $_myCategoryPlaceForMassage');
-      subAddressValues.add(_myCategoryPlaceForMassage);
     }
 
     // user building name validation
     if (buildingName != null || buildingName.isNotEmpty) {
       print('buildingName : $buildingName');
-      subAddressValues.add(buildingName);
     }
 
     // room number validation
     if (roomNumber != null || roomNumber.isNotEmpty) {
-      print('roomNumber : $roomNumber');
-      subAddressValues.add(roomNumber);
+      print('numbers : $roomNumber');
+    }
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('現在地を取得する')) {
+      setState(() {
+        print('gowtham');
+        addUpdateAddress = UpdateAddress(
+          id: HealingMatchConstants.userEditToken,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: HealingMatchConstants.userEditCity,
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.editCurrentLatitude,
+          lon: HealingMatchConstants.editCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
+    }
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('直接入力する')) {
+      setState(() {
+        print('gowtham');
+        addUpdateAddress = UpdateAddress(
+          id: HealingMatchConstants.userEditToken,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          // capitalAndPrefecture:_myPrefecture,
+          cityName: _myCity,
+          citiesId: '',
+          area: userAreaController.text.toString(),
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.mEditCurrentLatitude,
+          lon: HealingMatchConstants.mEditCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
     }
 
     // Getting user GPS Address value
@@ -2274,8 +2216,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       String userCurrentLocation =
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
-      subAddressValues.add(_myAddressInputType);
-      subAddressValues.add(userCurrentLocation);
     } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
       String manualUserAddress = roomNumber +
           ',' +
@@ -2291,39 +2231,70 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           await geoLocator.placemarkFromAddress(manualUserAddress);
       userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
-      var currentLatitude = addressPosition.latitude;
-      var currentLongitude = addressPosition.longitude;
+      HealingMatchConstants.mEditCurrentLatitude = addressPosition.latitude;
+      HealingMatchConstants.mEditCurrentLongitude = addressPosition.longitude;
       var serviceUserCity = userAddedAddressPlaceMark.locality;
       var serviceUserPrefecture = userAddedAddressPlaceMark.administrativeArea;
-
+      HealingMatchConstants.userEditAddress = manualUserAddress;
       print(
           'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
           '${HealingMatchConstants.currentLongitude}');
       print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
-      subAddressValues.add(_myAddressInputType);
-      subAddressValues.add(manualUserAddress);
     }
 
-    if (addedFirstSubAddressController.text.toString().isNotEmpty ||
-        addedFirstSubAddressController.text.toString() != null) {
-      subAddressValues.add(addedFirstSubAddressController.text.toString());
-    }
-    if (addedSecondSubAddressController.text.toString().isNotEmpty ||
-        addedSecondSubAddressController.text.toString() != null) {
-      subAddressValues.add(addedSecondSubAddressController.text.toString());
-    }
-    if (addedThirdSubAddressController.text.toString().isNotEmpty ||
-        addedThirdSubAddressController.text.toString() != null) {
-      subAddressValues.add(addedThirdSubAddressController.text.toString());
-    }
-    print('Sub address list length : ${subAddressValues.length}');
     print('Address ID : $_userAddressID');
 
+    print("json Converted:" + json.encode(otherUserAddress));
+    print("json Converted Address:" + json.encode(updateAddress));
+
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    Uri updateProfile =
+        Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
     final url = HealingMatchConstants.UPDATE_USER_DETAILS_URL;
-    final response = await http.post(url,
+    var request = http.MultipartRequest('POST', updateProfile);
+    Map<String, String> headers = {
+      "Content-Type": "multipart/form-data",
+      "x-access-token": HealingMatchConstants.userEditToken
+    };
+    if (_profileImage != null) {
+      var profileImage = await http.MultipartFile.fromPath(
+          'uploadProfileImgUrl', _profileImage.path);
+      print('Image upload filename : $profileImage');
+      request.files.add(profileImage);
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "id": HealingMatchConstants.userEditToken,
+        "userName": userName,
+        "age": userAge,
+        "userOccupation": _myOccupation,
+        "dob": userDOB,
+        "phoneNumber": userPhoneNumber,
+        "email": email,
+        "gender": _myGender,
+        "uploadProfileImgUrl": _profileImage.path,
+        "isTherapist": "0",
+        "address": json.encode(updateAddress),
+        "subAddress": json.encode(otherUserAddress)
+      });
+    } else {
+      request.headers.addAll(headers);
+      request.fields.addAll({
+        "id": HealingMatchConstants.userEditToken,
+        "userName": userName,
+        "age": userAge,
+        "userOccupation": _myOccupation,
+        "dob": userDOB,
+        "phoneNumber": userPhoneNumber,
+        "email": email,
+        "gender": _myGender,
+        "isTherapist": "0",
+        "address": json.encode(updateAddress),
+        "subAddress": json.encode(otherUserAddress)
+      });
+    }
+    /*final response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
           'x-access-token': accessToken
@@ -2334,36 +2305,130 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "gender": _myGender,
           "dob": userDOB,
           "isTherapist": "0",
-          "address": subAddressValues.toString()
-        }));
+          "address": json.encode(otherUserAddress)
+        }));*/
+
+    final userDetailsRequest = await request.send();
+    final response = await http.Response.fromStream(userDetailsRequest);
     print('Success response code : ${response.statusCode}');
-    print('Sub address list values : ${subAddressValues.toList()}');
+
     if (response.statusCode == 200) {
-      print('User Edit Success !!');
+      // ProfileUpdateResponseModel profileUpdateResponseModel;
+      final Map userDetailsResponse = json.decode(response.body);
+      final profileUpdateResponseModel =
+          ProfileUpdateResponseModel.fromJson(userDetailsResponse);
+      print(profileUpdateResponseModel.status);
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
     } else {
-      subAddressValues.clear();
       print('User Edit failed !!');
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
     }
   }
 
+  /*getUpdateAddress() {
+    if (_myAddedAddressInputType.isNotEmpty &&
+        _myAddedAddressInputType.contains('現在地を取得する')) {
+      setState(() {
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+          userId: _userAddressID,
+          addressTypeSelection: _myAddedAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: HealingMatchConstants.userEditCity,
+          citiesId: '',
+          area: '',
+          buildingName: buildingNameController.text.toString(),
+          postalCode: '',
+          lat: HealingMatchConstants.editCurrentLatitude,
+          lon: HealingMatchConstants.editCurrentLongitude,
+        );
+      });
+    }
+  }*/
+
+  getUserProfileData() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      _sharedPreferences.then((value) {
+        print('Getting values...EPF');
+        // userProfileImage = value.getString('profileImage');
+        raccessToken = value.getString('accessToken');
+        rUserName = value.getString('userName');
+        rUserPhoneNumber = value.getString('userPhoneNumber');
+        rEmailAddress = value.getString('userEmailAddress');
+        rDob = value.getString('userDOB');
+        rUserAge = value.getString('userAge');
+        _myGender = value.getString('userGender');
+        _myOccupation = value.getString('userOccupation');
+        rUserAddress = value.getString('userAddress');
+        rUserBuildName = value.getString('buildingName');
+        rUserRoomNo = value.getString('roomNumber');
+        _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
+        _myCity = value.getString('cityName');
+        _myPrefecture = value.getString('capitalAndPrefecture');
+        rUserArea = value.getString('area');
+        rid = value.getString('id');
+
+        // Convert string url of image to base64 format
+        // convertBase64ProfileImage(userProfileImage);
+
+        setState(() {
+          HealingMatchConstants.userEditUserName = rUserName;
+          HealingMatchConstants.userEditPhoneNumber = rUserPhoneNumber;
+          HealingMatchConstants.userEditEmailAddress = rEmailAddress;
+          HealingMatchConstants.userEditDob = rDob;
+          HealingMatchConstants.userEditUserAge = rUserAge;
+          HealingMatchConstants.userEditUserAddress = rUserAddress;
+          HealingMatchConstants.userEditBuildName = rUserBuildName;
+          HealingMatchConstants.userEditRoomNo = rUserRoomNo;
+          HealingMatchConstants.userEditArea = rUserArea;
+          HealingMatchConstants.userEditToken = raccessToken;
+          HealingMatchConstants.userEditToken = rid;
+
+          userNameController.text = HealingMatchConstants.userEditUserName;
+          phoneNumberController.text =
+              HealingMatchConstants.userEditPhoneNumber;
+          emailController.text = HealingMatchConstants.userEditEmailAddress;
+          ageController.text = HealingMatchConstants.userEditUserAge;
+          _userDOBController.text = HealingMatchConstants.userEditDob;
+          buildingNameController.text = HealingMatchConstants.userEditBuildName;
+          roomNumberController.text = HealingMatchConstants.userEditRoomNo;
+          gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
+          userAreaController.text = HealingMatchConstants.userEditArea;
+        });
+        print(_myCategoryPlaceForMassage);
+        print('Prefectute: $_myPrefecture');
+        print('City: $_myCity');
+      });
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    } catch (e) {
+      print(e.toString());
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
+  }
+
+  /* convertBase64ProfileImage(String userProfileImage) async {
+    imgBase64ProfileImage =
+        await networkImageToBase64RightFront(userProfileImage);
+    profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
+    HealingMatchConstants.userEditProfile = profileImageInBytes;
+    // print('profile image : $profileImageInBytes');
+  }*/
+
+  Future<String> networkImageToBase64RightFront(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    final bytes = response?.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
+  }
+
   getEditUserFields() async {
     _sharedPreferences.then((value) {
       bool isUserVerified = value.getBool('isUserVerified');
-      spfAddressValues = value.getStringList('address');
-      spfLatLngValues = value.getStringList('latLngValues');
-      spfAddressTypeValues = value.getStringList('addressTypeValues');
+
       if (isUserVerified != null && isUserVerified) {
-        addressValues.clear();
-        subAddressValues.clear();
-        spfAddressValues.clear();
-        addressTypeValues.clear();
-        latLngValues.clear();
-        spfLatLngValues.clear();
-        spfAddressTypeValues.clear();
-        addressMap.clear();
         accessToken = value.getString('accessToken');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
@@ -2381,15 +2446,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           return;
         }
       } else {
-        /*addressValues.clear();
-        subAddressValues.clear();
-        spfAddressValues.clear();
-        addressTypeValues.clear();
-        latLngValues.clear();
-        spfLatLngValues.clear();
-        spfAddressTypeValues.clear();
-        addressMap.clear();*/
-        //print('SPF ADDRESS LIST LENGTH : ${spfAddressValues.length} && ${spfLatLngValues.toList()} && ${spfAddressTypeValues.length}');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         print('User Address Type : $_myAddressInputType');
@@ -2405,75 +2461,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         } else {
           print('No addresstype mentioned');
         }
-
         print('Entering address fields....');
-        if (spfAddressValues != null &&
-            spfLatLngValues != null &&
-            spfAddressTypeValues != null) {
-          setState(() {
-            for (int i = 0; i < spfAddressValues.length; i++) {
-              for (int j = 0; j < spfLatLngValues.length; j++) {
-                for (int k = 0; k < spfAddressTypeValues.length; k++) {
-                  if (i == 0 && k == 0) {
-                    addedFirstSubAddressController.value =
-                        TextEditingValue(text: '${spfAddressValues[0]}');
-                    addressMap.add(AddUserAddress(
-                        'userSubAddressOne',
-                        spfAddressValues[0],
-                        spfLatLngValues[0],
-                        spfLatLngValues[1],
-                        spfAddressTypeValues[0]));
-                  } else if (i == 1 && k == 1) {
-                    addedSecondSubAddressController.value =
-                        TextEditingValue(text: '${spfAddressValues[1]}');
-                    addressMap.add(AddUserAddress(
-                        'userSubAddressTwo',
-                        spfAddressValues[1],
-                        spfLatLngValues[2],
-                        spfLatLngValues[3],
-                        spfAddressTypeValues[1]));
-                  } else if (i == 2 && k == 2) {
-                    addedThirdSubAddressController.value =
-                        TextEditingValue(text: '${spfAddressValues[2]}');
-                    addressMap.add(AddUserAddress(
-                        'userSubAddressThree',
-                        spfAddressValues[2],
-                        spfLatLngValues[4],
-                        spfLatLngValues[5],
-                        spfAddressTypeValues[2]));
-                  }
-                  Map<String, dynamic> map1 = Map.fromIterable(addressMap,
-                      key: (e) => e.addressKey,
-                      value: (e) => e.subAddress);
-                  print('Map values : $map1');
-                  //mapToList(map1, addressMap);
 
-                  List<dynamic> list = List();
-                  map1.entries.forEach((e) => list.add(addressMap));
-                  print('Map to list : $list');
-                  String jsonUser = json.encode(list);
-                  print('JSON Convert : $jsonUser');
+        //! Need to add to otherAddressList Value Here from Login/Register
 
-                }
-              }
-            }
-          });
-        } else {
-          print('List is empty');
-        }
       }
     });
+    // updateAddress.add(addUpdateAddress);
   }
-}
-
-void mapToList(Map<String, dynamic> map1, List<dynamic> addressMap) {
-  List list = List();
-  map1.forEach((String key, dynamic value) {
-    list.add({key: value});
-  });
-  print(list.toString());
-  String jsonUser = json.encode(list);
-  print('JSON Convert : $jsonUser');
 }
 
 class AddAddress extends StatefulWidget {
@@ -2501,6 +2496,7 @@ class _AddAddressState extends State<AddAddress> {
   List<dynamic> addedAddressStateDropDownValues = List();
   List<dynamic> addedAddressCityDropDownValues = List();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  UserAddressAdd addUserAddress;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -3201,14 +3197,6 @@ class _AddAddressState extends State<AddAddress> {
       HealingMatchConstants.addedCurrentLongitude =
           _addAddressPosition.longitude;
 
-      latLngValues
-          .add('${HealingMatchConstants.addedCurrentLatitude.toString()}');
-      latLngValues
-          .add('${HealingMatchConstants.addedCurrentLongitude.toString()}');
-
-      print('Ltlng values : ${latLngValues.toString()}');
-      print('Ltlng values length : ${latLngValues.length}');
-
       setState(() {
         _addedAddress =
             '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
@@ -3306,11 +3294,22 @@ class _AddAddressState extends State<AddAddress> {
         String gpsUserAddress =
             '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
         print('GPS FINAL ADDRESS : $gpsUserAddress');
-        if (addressValues.length <= 2) {
+
+        if (otherUserAddress.length <= 2) {
           setState(() {
             print('Entering if...');
-            addressValues.add(gpsUserAddress);
-            print(addressValues.length);
+            addUserAddress = UserAddressAdd(
+              gpsUserAddress,
+              HealingMatchConstants.addedCurrentLatitude.toString(),
+              HealingMatchConstants.addedCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              userGPSAddressPlaceMark.administrativeArea,
+              userGPSAddressPlaceMark.subAdministrativeArea,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              userGPSAddressPlaceMark.locality,
+            );
+
             // Navigator.pop(context);
             Navigator.push(
                 context,
@@ -3419,19 +3418,23 @@ class _AddAddressState extends State<AddAddress> {
             '${HealingMatchConstants.manualAddressCurrentLongitude}');
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
-        if (addressValues.length <= 2) {
-          setState(() {
-            print('Entering if...');
-            addressValues.add(manualAddedAddress);
-            latLngValues.add(
-                '${HealingMatchConstants.manualAddressCurrentLatitude.toString()}');
-            latLngValues.add(
-                '${HealingMatchConstants.manualAddressCurrentLongitude.toString()}');
 
-            print(addressValues.length);
-            print('Ltlng values : ${latLngValues.toString()}');
-            print('Ltlng values length : ${latLngValues.length}');
-            //Navigator.pop(context);
+        if (otherUserAddress.length <= 2) {
+          String city = _myAddedCity;
+          setState(() {
+            addUserAddress = UserAddressAdd(
+              manualAddedAddress,
+              HealingMatchConstants.manualAddressCurrentLatitude.toString(),
+              HealingMatchConstants.manualAddressCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              _myAddedCity,
+              _myAddedPrefecture,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              addedUserAreaController.text.toString(),
+            );
+            print(_myAddedAddressInputType);
+
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -3504,16 +3507,10 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-    addressTypeValues.add(_myAddedAddressInputType);
-    print('AddressType values : ${addressTypeValues.toString()}');
-    print('AddressType values length : ${addressTypeValues.length}');
+
+    otherUserAddress.add(addUserAddress);
     _sharedPreferences.then((value) {
-      value.setStringList('address', addressValues.cast<String>());
-      value.setStringList('latLngValues', latLngValues.cast<String>());
-      value.setStringList(
-          'addressTypeValues', addressTypeValues.cast<String>());
       value.setBool('isUserVerified', false);
-      //print('SPF LIST LENGTH : ${spfAddressValues.length}');
     });
   }
 }

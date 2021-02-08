@@ -9,8 +9,8 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDrop
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 class ChooseServiceScreen extends StatefulWidget {
   @override
@@ -45,7 +45,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   int relaxtionStatus = 0;
   int treatmentStatus = 0;
   int fitnessStatus = 0;
-  TextEditingController sampleOthersController = TextEditingController();
+  // TextEditingController sampleOthersController = TextEditingController();
+  String otherValueText;
   EstheticDropDownModel estheticDropDownModel;
   RelaxationDropDownModel relaxationDropDownModel;
   TreatmentDropDownModel treatmentDropDownModel;
@@ -73,27 +74,45 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: Text(
+            HealingMatchConstants.registrationChooseServiceNavBtn,
+            style: TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          leading: IconButton(
+            padding:
+                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context),
+          )),
       body: SafeArea(
         child: SingleChildScrollView(
           primary: true,
           child: Container(
+            color: Colors.white,
             padding: EdgeInsets.only(
                 left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 20.0,
-                ),
                 Text(
                   HealingMatchConstants.chooseServiceFirstText,
                   style: TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.bold),
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13.5),
                 ),
                 SizedBox(
-                  height: 40.0,
+                  height: 20,
                 ),
-
                 //Esthetic DropDown
                 HealingMatchConstants.serviceProviderStoreType.contains('エステ')
                     ? InkWell(
@@ -670,7 +689,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                       margin: const EdgeInsets.all(8.0),
                       height: 50.0,
                       child: TextFormField(
-                        controller: sampleOthersController,
+                        //  controller: sampleOthersController,
+                        onChanged: (val) {
+                          otherValueText = val;
+                        },
                         decoration: new InputDecoration(
                           fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
@@ -711,49 +733,56 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
-                                  //Logic: check the value is already present, if not insert before other field index
-                                  if (mindex == 0) {
-                                    if (estheticDropDownValues.contains(
-                                        sampleOthersController.text)) {
-                                      showErrorMessage();
-                                    } else {
-                                      estheticDropDownValues.insert(
-                                          index, sampleOthersController.text);
-                                      otherEstheticDropDownValues
-                                          .add(sampleOthersController.text);
-                                    }
-                                  } else if (mindex == 1) {
-                                    if (relaxationDropDownValues.contains(
-                                        sampleOthersController.text)) {
-                                      showErrorMessage();
-                                    } else {
-                                      relaxationDropDownValues.insert(
-                                          index, sampleOthersController.text);
-                                      otherRelaxationDropDownValues
-                                          .add(sampleOthersController.text);
-                                    }
-                                  } else if (mindex == 2) {
-                                    if (treatmentDropDownValues.contains(
-                                        sampleOthersController.text)) {
-                                      showErrorMessage();
-                                    } else {
-                                      treatmentDropDownValues.insert(
-                                          index, sampleOthersController.text);
-                                      otherTreatmentDropDownValues
-                                          .add(sampleOthersController.text);
-                                    }
-                                  } else if (mindex == 3) {
-                                    if (fitnessDropDownValues.contains(
-                                        sampleOthersController.text)) {
-                                      showErrorMessage();
-                                    } else {
-                                      fitnessDropDownValues.insert(
-                                          index, sampleOthersController.text);
-                                      otherFitnessDropDownValues
-                                          .add(sampleOthersController.text);
+                                  //Logic: check the value is empty
+                                  if (otherValueText.isEmpty ||
+                                      otherValueText == '') {
+                                    showEmptyErrorMessage();
+                                  } else {
+                                    //Logic: check the value is already present, if not insert before other field index
+                                    if (mindex == 0) {
+                                      if (estheticDropDownValues
+                                          .contains(otherValueText)) {
+                                        showDuplicateErrorMessage();
+                                      } else {
+                                        estheticDropDownValues.insert(
+                                            index, otherValueText);
+                                        otherEstheticDropDownValues
+                                            .add(otherValueText);
+                                      }
+                                    } else if (mindex == 1) {
+                                      if (relaxationDropDownValues
+                                          .contains(otherValueText)) {
+                                        showDuplicateErrorMessage();
+                                      } else {
+                                        relaxationDropDownValues.insert(
+                                            index, otherValueText);
+                                        otherRelaxationDropDownValues
+                                            .add(otherValueText);
+                                      }
+                                    } else if (mindex == 2) {
+                                      if (treatmentDropDownValues
+                                          .contains(otherValueText)) {
+                                        showDuplicateErrorMessage();
+                                      } else {
+                                        treatmentDropDownValues.insert(
+                                            index, otherValueText);
+                                        otherTreatmentDropDownValues
+                                            .add(otherValueText);
+                                      }
+                                    } else if (mindex == 3) {
+                                      if (fitnessDropDownValues
+                                          .contains(otherValueText)) {
+                                        showDuplicateErrorMessage();
+                                      } else {
+                                        fitnessDropDownValues.insert(
+                                            index, otherValueText);
+                                        otherFitnessDropDownValues
+                                            .add(otherValueText);
+                                      }
                                     }
                                   }
-                                  sampleOthersController.clear();
+                                  otherValueText = "";
+                                  //  sampleOthersController.clear();
                                 });
                               },
                               child: Text(
@@ -831,17 +860,22 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     return Container(
       padding: EdgeInsets.all(10.0),
       height: 40.0,
-      width: 110.0,
+      // width: 110.0,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
             color: Colors.grey,
           )),
-      child: Center(
-        child: Text(
-          "¥$price/$min分",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: Text(
+              "¥$price/$min分",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -956,6 +990,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        enableInteractiveSelection: false,
                                         textAlign: TextAlign.center,
                                         controller: sixtyMinutesController,
                                         keyboardType: TextInputType.number,
@@ -1016,6 +1051,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        enableInteractiveSelection: false,
                                         textAlign: TextAlign.center,
                                         controller: nintyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1076,6 +1112,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        enableInteractiveSelection: false,
                                         controller: oneTwentyMinuteController,
                                         keyboardType: TextInputType.number,
                                         textAlign: TextAlign.center,
@@ -1136,6 +1173,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        enableInteractiveSelection: false,
                                         textAlign: TextAlign.center,
                                         controller: oneFiftyController,
                                         keyboardType: TextInputType.number,
@@ -1196,6 +1234,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                               children: [
                                 Expanded(
                                     child: TextFormField(
+                                        enableInteractiveSelection: false,
                                         textAlign: TextAlign.center,
                                         controller: oneEightyMinuteController,
                                         keyboardType: TextInputType.number,
@@ -1269,161 +1308,209 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                           borderRadius:
                                               new BorderRadius.circular(10.0)),
                                       onPressed: () {
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
                                         print(estheticServicePriceModel);
-                                        //if checkbox slected for the first time
-                                        if (!selected) {
-                                          //check if any values or entered or all empty
+                                        try {
+                                          //check if any 0 value is entered
                                           if (sixtyMinutesController.text !=
-                                                  "" ||
+                                                  "0" &&
                                               nintyMinuteController.text !=
-                                                  "" ||
+                                                  "0" &&
                                               oneTwentyMinuteController.text !=
-                                                  "" ||
-                                              oneFiftyController.text != "" ||
+                                                  "0" &&
+                                              oneFiftyController.text != "0" &&
                                               oneEightyMinuteController.text !=
-                                                  "") {
-                                            //if entered then the empty values are treated as 0
-                                            servicePriceModel.add(
-                                              ServicePriceModel(
-                                                  val,
-                                                  sixtyMinutesController.text != ""
+                                                  "0") {
+                                            //if checkbox slected for the first time
+                                            if (!selected) {
+                                              //check if any values or entered or all empty
+                                              if (sixtyMinutesController
+                                                          .text !=
+                                                      "" ||
+                                                  nintyMinuteController
+                                                          .text !=
+                                                      "" ||
+                                                  oneTwentyMinuteController
+                                                          .text !=
+                                                      "" ||
+                                                  oneFiftyController.text !=
+                                                      "" ||
+                                                  oneEightyMinuteController
+                                                          .text !=
+                                                      "") {
+                                                //if entered then the empty values are treated as 0
+
+                                                servicePriceModel.add(
+                                                  ServicePriceModel(
+                                                      val,
+                                                      sixtyMinutesController
+                                                                  .text !=
+                                                              ""
+                                                          ? int.parse(
+                                                              sixtyMinutesController
+                                                                  .text)
+                                                          : 0,
+                                                      nintyMinuteController.text != ""
+                                                          ? int.parse(
+                                                              nintyMinuteController
+                                                                  .text)
+                                                          : 0,
+                                                      oneTwentyMinuteController
+                                                                  .text !=
+                                                              ""
+                                                          ? int.parse(
+                                                              oneTwentyMinuteController
+                                                                  .text)
+                                                          : 0,
+                                                      oneFiftyController.text != ""
+                                                          ? int.parse(
+                                                              oneFiftyController
+                                                                  .text)
+                                                          : 0,
+                                                      oneEightyMinuteController
+                                                                  .text !=
+                                                              ""
+                                                          ? int.parse(
+                                                              oneEightyMinuteController
+                                                                  .text)
+                                                          : 0,
+                                                      getID(index, mindex)),
+                                                );
+
+                                                selectedDropdownValues
+                                                    .add(val.toLowerCase());
+                                                setState(() {
+                                                  //checking with the mindex the values are added to corresponding lists
+                                                  if (mindex == 0) {
+                                                    selectedEstheticDropdownValues
+                                                        .clear();
+                                                    estheticServicePriceModel
+                                                        .clear();
+                                                    selectedEstheticDropdownValues
+                                                        .addAll(
+                                                            selectedDropdownValues);
+                                                    estheticServicePriceModel
+                                                        .addAll(
+                                                            servicePriceModel);
+                                                  } else if (mindex == 1) {
+                                                    selectedRelaxationDropdownValues
+                                                        .clear();
+                                                    relaxationServicePriceModel
+                                                        .clear();
+                                                    selectedRelaxationDropdownValues
+                                                        .addAll(
+                                                            selectedDropdownValues);
+                                                    relaxationServicePriceModel
+                                                        .addAll(
+                                                            servicePriceModel);
+                                                  } else if (mindex == 2) {
+                                                    selectedTreatmentDropdownValues
+                                                        .clear();
+                                                    treatmentServicePriceModel
+                                                        .clear();
+                                                    selectedTreatmentDropdownValues
+                                                        .addAll(
+                                                            selectedDropdownValues);
+                                                    treatmentServicePriceModel
+                                                        .addAll(
+                                                            servicePriceModel);
+                                                  } else if (mindex == 3) {
+                                                    selectedFitnessDropdownValues
+                                                        .clear();
+                                                    fitnessServicePriceModel
+                                                        .clear();
+                                                    selectedFitnessDropdownValues
+                                                        .addAll(
+                                                            selectedDropdownValues);
+                                                    fitnessServicePriceModel
+                                                        .addAll(
+                                                            servicePriceModel);
+                                                  }
+                                                  Navigator.pop(context);
+                                                });
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
+                                            }
+                                            //if checkbox already selected then update logic is used
+                                            else {
+                                              servicePriceModel[indexPos]
+                                                      .sixtyMin =
+                                                  sixtyMinutesController.text !=
+                                                          ""
                                                       ? int.parse(
                                                           sixtyMinutesController
                                                               .text)
-                                                      : 0,
-                                                  nintyMinuteController.text != ""
+                                                      : 0;
+                                              servicePriceModel[indexPos]
+                                                      .nintyMin =
+                                                  nintyMinuteController.text !=
+                                                          ""
                                                       ? int.parse(
                                                           nintyMinuteController
                                                               .text)
-                                                      : 0,
+                                                      : 0;
+                                              servicePriceModel[indexPos]
+                                                      .oneTwentyMin =
                                                   oneTwentyMinuteController
                                                               .text !=
                                                           ""
                                                       ? int.parse(
                                                           oneTwentyMinuteController
                                                               .text)
-                                                      : 0,
+                                                      : 0;
+                                              servicePriceModel[indexPos]
+                                                      .oneFiftyMin =
                                                   oneFiftyController.text != ""
                                                       ? int.parse(
                                                           oneFiftyController
                                                               .text)
-                                                      : 0,
+                                                      : 0;
+                                              servicePriceModel[indexPos]
+                                                      .oneEightyMin =
                                                   oneEightyMinuteController
                                                               .text !=
                                                           ""
                                                       ? int.parse(
                                                           oneEightyMinuteController
                                                               .text)
-                                                      : 0,
-                                                  getID(index, mindex)),
-                                            );
-                                            selectedDropdownValues
-                                                .add(val.toLowerCase());
-                                            setState(() {
-                                              //checking with the mindex the values are added to corresponding lists
-                                              if (mindex == 0) {
-                                                selectedEstheticDropdownValues
-                                                    .clear();
-                                                estheticServicePriceModel
-                                                    .clear();
-                                                selectedEstheticDropdownValues
-                                                    .addAll(
-                                                        selectedDropdownValues);
-                                                estheticServicePriceModel
-                                                    .addAll(servicePriceModel);
-                                              } else if (mindex == 1) {
-                                                selectedRelaxationDropdownValues
-                                                    .clear();
-                                                relaxationServicePriceModel
-                                                    .clear();
-                                                selectedRelaxationDropdownValues
-                                                    .addAll(
-                                                        selectedDropdownValues);
-                                                relaxationServicePriceModel
-                                                    .addAll(servicePriceModel);
-                                              } else if (mindex == 2) {
-                                                selectedTreatmentDropdownValues
-                                                    .clear();
-                                                treatmentServicePriceModel
-                                                    .clear();
-                                                selectedTreatmentDropdownValues
-                                                    .addAll(
-                                                        selectedDropdownValues);
-                                                treatmentServicePriceModel
-                                                    .addAll(servicePriceModel);
-                                              } else if (mindex == 3) {
-                                                selectedFitnessDropdownValues
-                                                    .clear();
-                                                fitnessServicePriceModel
-                                                    .clear();
-                                                selectedFitnessDropdownValues
-                                                    .addAll(
-                                                        selectedDropdownValues);
-                                                fitnessServicePriceModel
-                                                    .addAll(servicePriceModel);
-                                              }
-                                            });
-                                          }
-                                        }
-                                        //if checkbox already selected then update logic is used
-                                        else {
-                                          servicePriceModel[indexPos].sixtyMin =
-                                              sixtyMinutesController.text != ""
-                                                  ? int.parse(
-                                                      sixtyMinutesController
-                                                          .text)
-                                                  : 0;
-                                          servicePriceModel[indexPos].nintyMin =
-                                              nintyMinuteController.text != ""
-                                                  ? int.parse(
-                                                      nintyMinuteController
-                                                          .text)
-                                                  : 0;
-                                          servicePriceModel[indexPos]
-                                                  .oneTwentyMin =
-                                              oneTwentyMinuteController.text !=
-                                                      ""
-                                                  ? int.parse(
-                                                      oneTwentyMinuteController
-                                                          .text)
-                                                  : 0;
-                                          servicePriceModel[indexPos]
-                                                  .oneFiftyMin =
-                                              oneFiftyController.text != ""
-                                                  ? int.parse(
-                                                      oneFiftyController.text)
-                                                  : 0;
-                                          servicePriceModel[indexPos]
-                                                  .oneEightyMin =
-                                              oneEightyMinuteController.text !=
-                                                      ""
-                                                  ? int.parse(
-                                                      oneEightyMinuteController
-                                                          .text)
-                                                  : 0;
-                                          setState(() {
-                                            if (mindex == 0) {
-                                              estheticServicePriceModel.clear();
-                                              estheticServicePriceModel
-                                                  .addAll(servicePriceModel);
-                                            } else if (mindex == 1) {
-                                              relaxationServicePriceModel
-                                                  .clear();
-                                              relaxationServicePriceModel
-                                                  .addAll(servicePriceModel);
-                                            } else if (mindex == 2) {
-                                              treatmentServicePriceModel
-                                                  .clear();
-                                              treatmentServicePriceModel
-                                                  .addAll(servicePriceModel);
-                                            } else if (mindex == 3) {
-                                              fitnessServicePriceModel.clear();
-                                              fitnessServicePriceModel
-                                                  .addAll(servicePriceModel);
+                                                      : 0;
+                                              setState(() {
+                                                if (mindex == 0) {
+                                                  estheticServicePriceModel
+                                                      .clear();
+                                                  estheticServicePriceModel
+                                                      .addAll(
+                                                          servicePriceModel);
+                                                } else if (mindex == 1) {
+                                                  relaxationServicePriceModel
+                                                      .clear();
+                                                  relaxationServicePriceModel
+                                                      .addAll(
+                                                          servicePriceModel);
+                                                } else if (mindex == 2) {
+                                                  treatmentServicePriceModel
+                                                      .clear();
+                                                  treatmentServicePriceModel
+                                                      .addAll(
+                                                          servicePriceModel);
+                                                } else if (mindex == 3) {
+                                                  fitnessServicePriceModel
+                                                      .clear();
+                                                  fitnessServicePriceModel
+                                                      .addAll(
+                                                          servicePriceModel);
+                                                }
+                                              });
+                                              Navigator.pop(context);
                                             }
-                                          });
+                                          } else {
+                                            showZeroError();
+                                          }
+                                        } catch (e) {
+                                          showDecimalError();
                                         }
-                                        Navigator.pop(context);
                                       },
                                     ),
                                   ),
@@ -1535,12 +1622,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     });
   }
 
-  //show the SnackBar Error
-  void showErrorMessage() {
+  //show the SnackBar Empty Error
+  void showEmptyErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content: Text('Value already exists',
-          style: TextStyle(fontFamily: 'Open Sans')),
+      content:
+          Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1548,6 +1635,43 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
           label: 'はい',
           textColor: Colors.white),
     ));
+    return;
+  }
+
+  //show the SnackBar Already Contains Error
+  void showDuplicateErrorMessage() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      backgroundColor: ColorConstants.snackBarColor,
+      content: Text('値はすでに存在します', style: TextStyle(fontFamily: 'Open Sans')),
+      action: SnackBarAction(
+          onPressed: () {
+            _scaffoldKey.currentState.hideCurrentSnackBar();
+          },
+          label: 'はい',
+          textColor: Colors.white),
+    ));
+    return;
+  }
+
+  //show price can't be zero
+  void showZeroError() {
+    Toast.show("価格値をゼロにすることはできません。", context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white);
+
+    return;
+  }
+
+  //price values can't be decimal
+  void showDecimalError() {
+    Toast.show("価格の値を10進数にすることはできません。", context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white);
+
     return;
   }
 
@@ -1568,7 +1692,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       if ((relaxationDropDownModel.data.length <
               relaxationDropDownValues.length) &&
           (index >
-              estheticDropDownModel.data.length -
+              relaxationDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
         id = constantID;
@@ -1579,7 +1703,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       if ((treatmentDropDownModel.data.length <
               treatmentDropDownValues.length) &&
           (index >
-              estheticDropDownModel.data.length -
+              treatmentDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
         id = constantID;
@@ -1589,7 +1713,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     } else if (mindex == 3) {
       if ((fitnessDropDownModel.data.length < fitnessDropDownValues.length) &&
           (index >
-              estheticDropDownModel.data.length -
+              fitnessDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
         id = constantID;
