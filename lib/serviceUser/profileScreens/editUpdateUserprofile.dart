@@ -35,7 +35,9 @@ class UpdateServiceUserDetails extends StatefulWidget {
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   UpdateAddress addUpdateAddress;
   // String userProfileImage = '';
+
   String rUserName = '';
+  String rid = '';
   String raccessToken = '';
   String rUserPhoneNumber = '';
   String rEmailAddress = '';
@@ -2176,8 +2178,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
           cityName: HealingMatchConstants.userEditCity,
-          citiesId: '',
-          area: '',
           buildingName: buildingNameController.text.toString(),
           postalCode: '',
           lat: HealingMatchConstants.editCurrentLatitude,
@@ -2370,6 +2370,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
         rUserArea = value.getString('area');
+        rid = value.getString('id');
 
         // Convert string url of image to base64 format
         // convertBase64ProfileImage(userProfileImage);
