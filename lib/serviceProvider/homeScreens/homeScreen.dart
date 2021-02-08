@@ -447,12 +447,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               Divider(color: Colors.grey),
                               Row(children: [
                                 Icon(Icons.location_on_outlined),
-                                Text(
-                                  userData.addresses[0].address,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                Flexible(
+                                  child: Text(
+                                    userData.addresses[0].address,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 )
                               ]),
                             ],

@@ -3173,10 +3173,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     storePhoneNumberController.text = userData.storePhone.toString();
     mailAddressController.text = userData.email;
     registrationAddressType = userData.addresses[0].addressTypeSelection;
+    showAddressField = true;
+    visible = true;
+    gpsAddressController.text = userData.addresses[0].address;
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
     bankname = userData.bankDetails[0].bankName;
-    //  accountType = userData.bankDetails[0].accountType;
+    accountType = userData.bankDetails[0].accountType;
     accountnumberController.text = userData.bankDetails[0].accountNumber;
     branchCodeController.text = userData.bankDetails[0].branchCode;
     branchNumberController.text = userData.bankDetails[0].branchNumber;
