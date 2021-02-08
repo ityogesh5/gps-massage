@@ -1082,8 +1082,8 @@ class _RegistrationSecondPageState
               : bankname,
       'branchCode': branchCodeController.text,
       'branchNumber': branchNumberController.text,
-      'accountNumber': accountType,
-      'accountType': accountnumberController.text,
+      'accountNumber': accountnumberController.text,
+      'accountType': accountType,
       'proofOfIdentityType': identificationverify,
       'estheticList':
           json.encode(HealingMatchConstants.estheticServicePriceModel),

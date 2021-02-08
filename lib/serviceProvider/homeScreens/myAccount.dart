@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -157,9 +158,8 @@ class _MyAccountState extends State<MyAccount> {
                                   MyRow(
                                       Icon(Icons.calendar_today_rounded,
                                           size: 30, color: Colors.grey[500]),
-                                      Text('性別',
-                                          style:
-                                              textStyle), //Business Store has
+                                      Text(userData.businessForm,
+                                          style: textStyle), //Business Form
                                       SizedBox(width: 0)),
                                   userData.numberOfEmp != null
                                       ? Divider(
@@ -227,7 +227,7 @@ class _MyAccountState extends State<MyAccount> {
                                               color: Colors.grey[
                                                   500]), //Children Measure
                                           Text(
-                                              '子供向け施策有無 ${userData.childrenMeasure}',
+                                              /* 子供向け施策有無 */ ' ${userData.childrenMeasure}',
                                               style: textStyle),
                                           SizedBox(width: 0),
                                         )
@@ -530,9 +530,19 @@ class _MyAccountState extends State<MyAccount> {
       onSelected: (retVal) {
         if (retVal == "1") {
           NavigationRouter.switchToServiceProviderTCScreen(context);
-        } else if (retVal == "sec_val") {}
+        } else if (retVal == "3") {
+          emailLaunch();
+        }
       },
     );
+  }
+
+  emailLaunch() {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'healingMatch@yopmail.com',
+        queryParameters: {'subject': 'QueryMail!'});
+    launch(_emailLaunchUri.toString());
   }
 
   getProfileDetails() async {
