@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'bookingStatus.dart';
 import 'chat.dart';
 import 'homeScreen.dart';
-import 'myAccount.dart';
-import 'operationManagement.dart';
+import 'myAccount/myAccount.dart';
+import 'operationManagement/operationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   @override

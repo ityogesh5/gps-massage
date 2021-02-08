@@ -246,7 +246,7 @@ class HealingMatchConstants {
   static const String profileUpdateBtn = '更新';
 
   //Provider Edit Screen
-  
+
   static const String editProfileBuisnessForm = '事業形態';
   static const String editProfileName = 'お名前';
   static const String editProfileStoreName = '店舗名';
@@ -334,6 +334,13 @@ class HealingMatchConstants {
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
+    borderSide: BorderSide(
+      color: ColorConstants.formFieldBorderColor,
+    ),
+  );
+
+  static var multiTextFormInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15.0),
     borderSide: BorderSide(
       color: ColorConstants.formFieldBorderColor,
     ),
