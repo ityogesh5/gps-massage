@@ -246,7 +246,7 @@ class HealingMatchConstants {
   static const String profileUpdateBtn = '更新';
 
   //Provider Edit Screen
-  
+
   static const String editProfileBuisnessForm = '事業形態';
   static const String editProfileName = 'お名前';
   static const String editProfileStoreName = '店舗名';
@@ -267,6 +267,7 @@ class HealingMatchConstants {
   // Profile Edit screen user
   static Uint8List userEditProfile;
   static String userEditToken = '';
+  static String userEditId = '';
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';

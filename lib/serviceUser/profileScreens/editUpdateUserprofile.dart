@@ -2386,6 +2386,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
+          HealingMatchConstants.userEditToken = rid;
 
           userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
