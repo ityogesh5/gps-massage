@@ -60,8 +60,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     getUserProfileData();
     // getUpdateAddress();
 
-    // _getStates();
-    // _getCities(_prefId);
+    _getStates();
+    _getCities(_prefId);
   }
 
   var userAddressType = '';
