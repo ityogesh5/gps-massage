@@ -2171,15 +2171,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-          userId: HealingMatchConstants.userEditToken,
+          id: HealingMatchConstants.userEditId,
+          userId: _userAddressID,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
           cityName: HealingMatchConstants.userEditCity,
           buildingName: buildingNameController.text.toString(),
-          postalCode: '',
+          // postalCode: '',
           lat: HealingMatchConstants.editCurrentLatitude,
           lon: HealingMatchConstants.editCurrentLongitude,
         );
@@ -2191,20 +2191,20 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: HealingMatchConstants.userEditToken,
-          userId: _userAddressID,
+          id: _userAddressID,
+          userId: HealingMatchConstants.userEditId,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
           // capitalAndPrefecture:_myPrefecture,
           cityName: _myCity,
-          citiesId: '',
+          // citiesId: '',
           area: userAreaController.text.toString(),
           buildingName: buildingNameController.text.toString(),
-          postalCode: '',
-          lat: HealingMatchConstants.mEditCurrentLatitude,
-          lon: HealingMatchConstants.mEditCurrentLongitude,
+          // postalCode: '',
+          // lat: HealingMatchConstants.mEditCurrentLatitude,
+          // lon: HealingMatchConstants.mEditCurrentLongitude,
         );
         updateAddress.add(addUpdateAddress);
       });
@@ -2245,7 +2245,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
 
     print('Address ID : $_userAddressID');
-    print(' ID : $HealingMatchConstants.userEditToken');
+    print(' ID : ${HealingMatchConstants.userEditId}');
+    print(' ID : ${HealingMatchConstants.userEditToken}');
     print("json Converted:" + json.encode(otherUserAddress));
     print("json Converted Address:" + json.encode(updateAddress));
 
@@ -2265,7 +2266,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       request.files.add(profileImage);
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": HealingMatchConstants.userEditToken,
+        "id": _userAddressID,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2275,13 +2276,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "gender": _myGender,
         "uploadProfileImgUrl": _profileImage.path,
         "isTherapist": "0",
+        "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
     } else {
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": HealingMatchConstants.userEditToken,
+        "id": _userAddressID,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2290,6 +2292,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "email": email,
         "gender": _myGender,
         "isTherapist": "0",
+        "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
@@ -2370,7 +2373,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
         rUserArea = value.getString('area');
-        rid = value.getString('id');
+        rid = value.getString('userID');
 
         // Convert string url of image to base64 format
         // convertBase64ProfileImage(userProfileImage);
@@ -2386,7 +2389,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
-          HealingMatchConstants.userEditToken = rid;
+          HealingMatchConstants.userEditId = rid;
 
           userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
@@ -2402,6 +2405,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print(_myCategoryPlaceForMassage);
         print('Prefectute: $_myPrefecture');
         print('City: $_myCity');
+        print('Token: ${HealingMatchConstants.userEditToken}');
+        print('Id: ${HealingMatchConstants.userEditId}');
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {

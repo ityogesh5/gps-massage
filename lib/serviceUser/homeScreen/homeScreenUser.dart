@@ -73,7 +73,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
                     decoration: new InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'キーワードで検索',
+                        hintText: 'キーワードでさがす',
                         suffixIcon: IconButton(
                           icon: Icon(Icons.search_rounded,
                               color: Colors.grey, size: 30),
@@ -129,9 +129,26 @@ class _HomeScreenUserState extends State<HomeScreen> {
           BuildMassageTypeChips(),
           BuildProviderLists(),
           ReservationList(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text('おすすめ'), Text('もっとみる')],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'おすすめ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'もっとみる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                )
+              ],
+            ),
           ),
           RecommendLists(),
           SizedBox(
@@ -354,41 +371,52 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Column(children: [
-        CarouselSlider(
-          items: imageSliders,
-          options: CarouselOptions(
-              autoPlay: true,
-              autoPlayCurve: Curves.easeInOutCubic,
-              enlargeCenterPage: true,
-              aspectRatio: 2.0,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Column(children: [
+            CarouselSlider(
+              items: imageSliders,
+              options: CarouselOptions(
+                  autoPlay: true,
+                  autoPlayCurve: Curves.easeInOutCubic,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1.0,
+                  aspectRatio: 2.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }),
+            ),
+          ]),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: imgList.map((url) {
-            int index = imgList.indexOf(url);
-            return Container(
-              width: 8.0,
-              height: 8.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == index
-                    ? Color.fromRGBO(0, 0, 0, 0.9)
-                    : Color.fromRGBO(0, 0, 0, 0.4),
-              ),
-            );
-          }).toList(),
+        Positioned(
+          bottom: 1.0,
+          left: 50.0,
+          right: 50.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: imgList.map((url) {
+              int index = imgList.indexOf(url);
+              return Container(
+                width: 36.0,
+                height: 4.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                  color: _current == index
+                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                      : Color.fromRGBO(0, 0, 0, 0.4),
+                ),
+              );
+            }).toList(),
+          ),
         ),
-      ]),
+      ],
     );
   }
 }
@@ -523,10 +551,10 @@ class _ReservationListState extends State<ReservationList> {
                     Text('お名前'),
                     Icon(Icons.ring_volume_outlined),
                     SizedBox(
-                      width: 60,
+                      width: 85,
                     ),
                     Icon(
-                      Icons.access_time_sharp,
+                      Icons.hourglass_bottom,
                       color: Colors.orange,
                     ),
                     Text(

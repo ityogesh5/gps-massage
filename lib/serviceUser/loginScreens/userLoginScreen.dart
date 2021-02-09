@@ -476,6 +476,7 @@ class _UserLoginState extends State<UserLogin> {
         print('Login token : ${loginResponseModel.toJson()}');
         _sharedPreferences.then((value) {
           value.clear();
+          value.setString('accessToken', loginResponseModel.accessToken);
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
           value.setString('userName', loginResponseModel.data.userName);
