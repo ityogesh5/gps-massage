@@ -4,8 +4,8 @@ import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_N
 import 'bookingStatus.dart';
 import 'chat.dart';
 import 'homeScreen.dart';
-import 'myAccount.dart';
-import 'operationManagement.dart';
+import 'myAccount/myAccount.dart';
+import 'operationManagement/operationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   @override

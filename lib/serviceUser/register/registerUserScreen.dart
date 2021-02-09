@@ -1009,6 +1009,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                                             setState(() {
                                                               _myPrefecture =
                                                                   value;
+                                                              HealingMatchConstants
+                                                                      .serviceUserPrefecture =
+                                                                  _myPrefecture;
                                                               print(
                                                                   'Prefecture value : ${_myPrefecture.toString()}');
                                                               _prefId = stateDropDownValues
@@ -1072,6 +1075,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                                           onChanged: (value) {
                                                             setState(() {
                                                               _myCity = value;
+                                                              HealingMatchConstants
+                                                                      .serviceUserCity =
+                                                                  _myCity;
                                                               //print(_myBldGrp.toString());
                                                             });
                                                           },
@@ -2191,10 +2197,6 @@ class _RegisterUserState extends State<RegisterUser> {
       Position addressPosition = userAddedAddressPlaceMark.position;
       HealingMatchConstants.currentLatitude = addressPosition.latitude;
       HealingMatchConstants.currentLongitude = addressPosition.longitude;
-      HealingMatchConstants.serviceUserCity =
-          userAddedAddressPlaceMark.locality;
-      HealingMatchConstants.serviceUserPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;
       HealingMatchConstants.userAddress = address;
 
       print(
@@ -2233,8 +2235,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "isTherapist": "0",
           "userPlaceForMassage": _myCategoryPlaceForMassage,
           "address": HealingMatchConstants.userAddress,
-          "capitalAndPrefecture": _myPrefecture,
-          "cityName": _myCity,
+          "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
+          "cityName": HealingMatchConstants.serviceUserCity,
           "buildingName": buildingName,
           "area": userArea,
           "userRoomNumber": roomNumber,
@@ -2258,8 +2260,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "isTherapist": "0",
           "userPlaceForMassage": _myCategoryPlaceForMassage,
           "address": HealingMatchConstants.userAddress,
-          // "capitalAndPrefecture": _myPrefecture,
-          // "cityName": _myCity,
+          "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
+          "cityName": HealingMatchConstants.serviceUserCity,
           "buildingName": buildingName,
           "area": userArea,
           "userRoomNumber": roomNumber,
