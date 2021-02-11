@@ -296,7 +296,8 @@ class NavigationRouter {
   }
 
 // Service User Confirm Booking Screen Screen
-  static void switchToServiceUserFinalConfirmBookingScreen(BuildContext context) {
+  static void switchToServiceUserFinalConfirmBookingScreen(
+      BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(

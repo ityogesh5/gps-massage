@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 double ratingsValue = 4.0;
 final _queriesAskController = new TextEditingController();
@@ -394,18 +393,18 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                     hintText: '質問、要望などメッセージがあれば入力してください。',
                     hintStyle: TextStyle(color: Colors.grey[300]),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.grey[300], width: 1.0),
+                      borderSide:
+                          BorderSide(color: Colors.grey[300], width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.grey[300], width: 1.0),
+                      borderSide:
+                          BorderSide(color: Colors.grey[300], width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.grey[300], width: 1.0),
+                      borderSide:
+                          BorderSide(color: Colors.grey[300], width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     )),
               ),
@@ -422,8 +421,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                     fontWeight: FontWeight.bold),
                 children: <TextSpan>[
                   new TextSpan(
-                      text:
-                      '${HealingMatchConstants.additionalDistanceCost}',
+                      text: '${HealingMatchConstants.additionalDistanceCost}',
                       style: new TextStyle(
                           fontSize: 16,
                           color: Colors.grey[300],

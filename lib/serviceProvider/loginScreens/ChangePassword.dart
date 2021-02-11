@@ -9,9 +9,9 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
 import 'package:http/http.dart' as http;
 
+import 'ForgetPassword.dart';
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
-import 'ForgetPassword.dart';
 
 class ChangePassword extends StatefulWidget {
   @override

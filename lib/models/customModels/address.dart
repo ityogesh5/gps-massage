@@ -20,6 +20,7 @@ class UpdateAddress {
     this.userRoomNumber,
     this.userPlaceForMassage,
     this.cityName,
+    this.capitalAndPrefecture,
     this.citiesId,
     this.area,
     this.buildingName,
@@ -35,6 +36,7 @@ class UpdateAddress {
   String userRoomNumber;
   String userPlaceForMassage;
   String cityName;
+  String capitalAndPrefecture;
   String citiesId;
   String area;
   String buildingName;
@@ -50,6 +52,7 @@ class UpdateAddress {
         userRoomNumber: json["userRoomNumber"],
         userPlaceForMassage: json["userPlaceForMassage"],
         cityName: json["cityName"],
+        capitalAndPrefecture: json["capitalAndPrefecture"],
         citiesId: json["citiesId"],
         area: json["area"],
         buildingName: json["buildingName"],
@@ -66,6 +69,7 @@ class UpdateAddress {
         "userRoomNumber": userRoomNumber,
         "userPlaceForMassage": userPlaceForMassage,
         "cityName": cityName,
+        "capitalAndPrefecture": capitalAndPrefecture,
         "citiesId": citiesId,
         "area": area,
         "buildingName": buildingName,

@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -228,7 +226,8 @@ class _MyAccountState extends State<MyAccount> {
                                               color: Colors.grey[
                                                   500]), //Children Measure
                                           Text(
-                                              /* 子供向け施策有無 */ ' ${userData.childrenMeasure}',
+                                              /* 子供向け施策有無 */
+                                              ' ${userData.childrenMeasure}',
                                               style: textStyle),
                                           SizedBox(width: 0),
                                         )

@@ -61,7 +61,7 @@ class RoundCheckbox extends StatefulWidget {
     this.visualDensity,
     this.focusNode,
     this.autofocus = false,
-  }) : assert(tristate != null),
+  })  : assert(tristate != null),
         assert(tristate || value != null),
         assert(autofocus != null),
         super(key: key);
@@ -177,7 +177,8 @@ class RoundCheckbox extends StatefulWidget {
   _RoundCheckboxState createState() => _RoundCheckboxState();
 }
 
-class _RoundCheckboxState extends State<RoundCheckbox> with TickerProviderStateMixin {
+class _RoundCheckboxState extends State<RoundCheckbox>
+    with TickerProviderStateMixin {
   bool get enabled => widget.onChanged != null;
   Map<Type, Action<Intent>> _actionMap;
 
@@ -208,16 +209,22 @@ class _RoundCheckboxState extends State<RoundCheckbox> with TickerProviderStateM
   }
 
   bool _focused = false;
+
   void _handleFocusHighlightChanged(bool focused) {
     if (focused != _focused) {
-      setState(() { _focused = focused; });
+      setState(() {
+        _focused = focused;
+      });
     }
   }
 
   bool _hovering = false;
+
   void _handleHoverChanged(bool hovering) {
     if (hovering != _hovering) {
-      setState(() { _hovering = hovering; });
+      setState(() {
+        _hovering = hovering;
+      });
     }
   }
 
@@ -228,15 +235,18 @@ class _RoundCheckboxState extends State<RoundCheckbox> with TickerProviderStateM
     Size size;
     switch (widget.materialTapTargetSize ?? themeData.materialTapTargetSize) {
       case MaterialTapTargetSize.padded:
-        size = const Size(2 * kRadialReactionRadius + 8.0, 2 * kRadialReactionRadius + 8.0);
+        size = const Size(
+            2 * kRadialReactionRadius + 8.0, 2 * kRadialReactionRadius + 8.0);
         break;
       case MaterialTapTargetSize.shrinkWrap:
         size = const Size(2 * kRadialReactionRadius, 2 * kRadialReactionRadius);
         break;
     }
-    size += (widget.visualDensity ?? themeData.visualDensity).baseSizeAdjustment;
+    size +=
+        (widget.visualDensity ?? themeData.visualDensity).baseSizeAdjustment;
     final BoxConstraints additionalConstraints = BoxConstraints.tight(size);
-    final MouseCursor effectiveMouseCursor = MaterialStateProperty.resolveAs<MouseCursor>(
+    final MouseCursor effectiveMouseCursor =
+        MaterialStateProperty.resolveAs<MouseCursor>(
       widget.mouseCursor ?? MaterialStateMouseCursor.clickable,
       <MaterialState>{
         if (!enabled) MaterialState.disabled,
@@ -261,7 +271,9 @@ class _RoundCheckboxState extends State<RoundCheckbox> with TickerProviderStateM
             tristate: widget.tristate,
             activeColor: widget.activeColor ?? themeData.toggleableActiveColor,
             checkColor: widget.checkColor ?? const Color(0xFFFFFFFF),
-            inactiveColor: enabled ? themeData.unselectedWidgetColor : themeData.disabledColor,
+            inactiveColor: enabled
+                ? themeData.unselectedWidgetColor
+                : themeData.disabledColor,
             focusColor: widget.focusColor ?? themeData.focusColor,
             hoverColor: widget.hoverColor ?? themeData.hoverColor,
             onChanged: widget.onChanged,
@@ -291,7 +303,7 @@ class _CheckboxRenderObjectWidget extends LeafRenderObjectWidget {
     @required this.additionalConstraints,
     @required this.hasFocus,
     @required this.hovering,
-  }) : assert(tristate != null),
+  })  : assert(tristate != null),
         assert(tristate || value != null),
         assert(activeColor != null),
         assert(inactiveColor != null),
@@ -313,25 +325,25 @@ class _CheckboxRenderObjectWidget extends LeafRenderObjectWidget {
 
   @override
   _RenderCheckbox createRenderObject(BuildContext context) => _RenderCheckbox(
-    value: value,
-    tristate: tristate,
-    activeColor: activeColor,
-    checkColor: checkColor,
-    inactiveColor: inactiveColor,
-    focusColor: focusColor,
-    hoverColor: hoverColor,
-    onChanged: onChanged,
-    vsync: vsync,
-    additionalConstraints: additionalConstraints,
-    hasFocus: hasFocus,
-    hovering: hovering,
-  );
+        value: value,
+        tristate: tristate,
+        activeColor: activeColor,
+        checkColor: checkColor,
+        inactiveColor: inactiveColor,
+        focusColor: focusColor,
+        hoverColor: hoverColor,
+        onChanged: onChanged,
+        vsync: vsync,
+        additionalConstraints: additionalConstraints,
+        hasFocus: hasFocus,
+        hovering: hovering,
+      );
 
   @override
   void updateRenderObject(BuildContext context, _RenderCheckbox renderObject) {
     renderObject
-    // The `tristate` must be changed before `value` due to the assertion at
-    // the beginning of `set value`.
+      // The `tristate` must be changed before `value` due to the assertion at
+      // the beginning of `set value`.
       ..tristate = tristate
       ..value = value
       ..activeColor = activeColor
@@ -365,28 +377,27 @@ class _RenderCheckbox extends RenderToggleable {
     bool hasFocus,
     bool hovering,
     @required TickerProvider vsync,
-  }) : _oldValue = value,
+  })  : _oldValue = value,
         super(
-        value: value,
-        tristate: tristate,
-        activeColor: activeColor,
-        inactiveColor: inactiveColor,
-        focusColor: focusColor,
-        hoverColor: hoverColor,
-        onChanged: onChanged,
-        additionalConstraints: additionalConstraints,
-        vsync: vsync,
-        hasFocus: hasFocus,
-        hovering: hovering,
-      );
+          value: value,
+          tristate: tristate,
+          activeColor: activeColor,
+          inactiveColor: inactiveColor,
+          focusColor: focusColor,
+          hoverColor: hoverColor,
+          onChanged: onChanged,
+          additionalConstraints: additionalConstraints,
+          vsync: vsync,
+          hasFocus: hasFocus,
+          hovering: hovering,
+        );
 
   bool _oldValue;
   Color checkColor;
 
   @override
   set value(bool newValue) {
-    if (newValue == value)
-      return;
+    if (newValue == value) return;
     _oldValue = value;
     super.value = newValue;
   }

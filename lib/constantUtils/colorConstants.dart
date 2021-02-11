@@ -5,5 +5,5 @@ class ColorConstants {
   static final formFieldFillColor = Colors.grey[200];
   static final formFieldBorderColor = Colors.transparent;
   static final formTextColor = Colors.black;
-  static final formHintTextColor =Colors.grey.shade500; 
+  static final formHintTextColor = Colors.grey.shade500;
 }

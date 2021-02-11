@@ -104,10 +104,7 @@ class _ChatScreenUserState extends State<ChatScreenUser>
                   indicatorColor: Colors.lime,
                   tabBarIndicatorSize: TabBarIndicatorSize.tab,
                 ),
-                onTap: (index) {
-
-
-                },
+                onTap: (index) {},
                 dragStartBehavior: DragStartBehavior.start,
                 tabs: [
                   Tab(

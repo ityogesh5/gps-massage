@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,20 +9,17 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
+    as loginResponse;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/MyAccount.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
-    as loginResponse;
 
 List<File> files = List<File>();
 
@@ -1835,8 +1833,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                     .size
                                                     .width *
                                                 0.38,
-                                            height:
-                                                140.0, //MediaQuery.of(context).size.height * 0.19,
+                                            height: 140.0,
+                                            //MediaQuery.of(context).size.height * 0.19,
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
