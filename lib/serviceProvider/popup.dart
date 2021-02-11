@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterFirstScreen.dart';
 
 //import 'package:dropdown_formfield/dropdown_formfield.dart';
 

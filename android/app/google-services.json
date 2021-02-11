@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659864886049",
+    "project_id": "healing-match",
+    "storage_bucket": "healing-match.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659864886049:android:56596e4240488e5185bc60",
+        "android_client_info": {
+          "package_name": "com.healingmatch.gpsmassageapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659864886049-op1i6ffm4smrr3urk6kl3nhal4fl6q61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUu9ONgV090jyqKUCxImXO1paLsUf_Qkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659864886049-op1i6ffm4smrr3urk6kl3nhal4fl6q61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

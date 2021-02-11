@@ -5,32 +5,30 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/sendProviderVerifyResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 import 'package:http/http.dart' as http;
 
-import 'loginScreen.dart';
-
-class ForgetPassword extends StatefulWidget {
+class UserForgetPassword extends StatefulWidget {
   @override
-  _ForgetPasswordState createState() => _ForgetPasswordState();
+  _UserForgetPasswordState createState() => _UserForgetPasswordState();
 }
 
-class _ForgetPasswordState extends State<ForgetPassword> {
+class _UserForgetPasswordState extends State<UserForgetPassword> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   FocusNode phoneNumberFocus = FocusNode();
-  List<String> forgetPasswordDetails = [];
-
   final formKey = GlobalKey<FormState>();
   bool autoValidate = false;
-  var sendProviderVerifyResponse = new SendProviderVerifyResponseModel();
+  List<String> forgetPasswordDetails = [];
+  var sendVerifyResponse = new SendVerifyResponseModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       key: _scaffoldKey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -43,7 +41,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             Navigator.pop(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => ProviderLogin()));
+                    builder: (BuildContext context) => UserLogin()));
           },
         ),
       ),
@@ -63,20 +61,24 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.forgetPasswordTxt,
+                        HealingMatchConstants.userPasswordTxt,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Oxygen',
+                            color: Colors.grey),
                       ),
                     ),
                     SizedBox(
                       height: 18,
                     ),
                     TextFormField(
+                      maxLength: 10,
                       textInputAction: TextInputAction.done,
                       focusNode: phoneNumberFocus,
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: new InputDecoration(
+                        counterText: '',
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                         border: HealingMatchConstants.textFormInputBorder,
                         focusedBorder:
@@ -86,9 +88,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
-                        labelText: HealingMatchConstants.forgetPasswordPhn,
-                        // hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
-                        // hintText: HealingMatchConstants.forgetPasswordPhn,
+                        labelText: HealingMatchConstants.userPasswordPhn,
+                        /* hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Oxygen',
+                            fontSize: 13),
+                        hintText: HealingMatchConstants.forgetPasswordPhn,*/
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -100,12 +105,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          '送信',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          HealingMatchConstants.userForgetPassBtn,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Oxygen',
+                              fontSize: 20),
                         ),
                         color: Colors.lime,
                         onPressed: () {
-                          _providerForgetPasswordDetails();
+                          _userForgetPasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -122,66 +130,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     );
   }
 
-  _providerForgetPasswordDetails() async {
+  _userForgetPasswordDetails() async {
     var userPhoneNumber = phoneNumberController.text.toString();
-/*
-    // user phone number
-    if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    // user phone number validation
-    if (userPhoneNumber.length > 10 ||
-        userPhoneNumber.length < 10 ||
-        userPhoneNumber == null ||
-        userPhoneNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('正しい電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    forgetPasswordDetails.add(userPhoneNumber);
-
-    print('User details length in array : ${forgetPasswordDetails.length}');
-
-    /*   final url = '';
-    http.post(url,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer ${'token'}"
-        },
-        body: json.encode({
-          "serviceUserDetails": forgetPasswordDetails,
-        })); */
-
-    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
-
-    NavigationRouter.switchToProviderChangePasswordScreen(context);
-
-*/
-
-    HealingMatchConstants.ProviderPhnNum =
-        phoneNumberController.text.toString();
+    HealingMatchConstants.userPhnNum = phoneNumberController.text.toString();
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -247,17 +198,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json
-              .encode({"phoneNumber": userPhoneNumber, "isTherapist": "1"}));
+              .encode({"phoneNumber": userPhoneNumber, "isTherapist": "0"}));
       print('Status code : ${response.statusCode}');
-      print('response code : ${response}');
       if (StatusCodeHelper.isSendVerify(
           response.statusCode, context, response.body)) {
         final sendVerify = json.decode(response.body);
-        sendProviderVerifyResponse =
-            SendProviderVerifyResponseModel.fromJson(sendVerify);
+        sendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
-        NavigationRouter.switchToProviderChangePasswordScreen(context);
+        NavigationRouter.switchToUserChangePasswordScreen(context);
       } else {
         ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
         print('Response Failure !!');
@@ -280,7 +229,5 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         body: json.encode({
           "serviceUserDetails": forgetPasswordDetails,
         })); */
-
-    HealingMatchConstants.userPhoneNumber = userPhoneNumber;
   }
 }

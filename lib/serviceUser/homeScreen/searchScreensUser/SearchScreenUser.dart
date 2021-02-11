@@ -31,6 +31,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   bool readonly = false;
   var yearString, monthString, dateString;
+
   void initState() {
     super.initState();
 
@@ -57,7 +58,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {},
+          onPressed: () {
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          },
           color: Colors.black,
         ),
         title: Container(

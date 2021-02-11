@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -12,6 +13,9 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:http/http.dart' as http;
+
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
 
 class RegisterOtpScreen extends StatefulWidget {
   @override
@@ -229,6 +233,10 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
         ProgressDialogBuilder.hideVerifyOtpProgressDialog(context);
+        _firebaseMessaging.getToken().then((value) {
+          HealingMatchConstants.userFcmToken = value;
+          print('FCM Token : ${value.toString()}');
+        });
         DialogHelper.showRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
       } else {

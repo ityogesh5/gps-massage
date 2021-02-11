@@ -63,6 +63,7 @@ class HealingMatchConstants {
   static bool isUserVerified = false;
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
+  static String userFcmToken = '';
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 ";
@@ -316,6 +317,17 @@ class HealingMatchConstants {
   static String searchFitnessTxt = 'フィットネス';
   static String searchTravelTxt = '施術のタイプを選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
+
+  //Booking confirm screen
+  //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
+  static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
+      '交通費等が発生する場合は予約完了前にセラピストから別途メッセージがあります。';
+
+  static String selectedBookingPlace = '';
+
+  // Chat Module
+  static String socketConnectURL  = '';
+  static String socketEmitURL  = '';
 
   //FontStyle
   static const headersText = TextStyle(

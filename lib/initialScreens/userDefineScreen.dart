@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 
 class UserDefineScreen extends StatefulWidget {
   @override

@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
-import 'forgetPassword.dart';
+import 'ForgetPassword.dart';
 
 class ChangePassword extends StatefulWidget {
   @override

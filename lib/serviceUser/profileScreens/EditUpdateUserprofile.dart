@@ -23,7 +23,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<UserAddressAdd> otherUserAddress = new List<UserAddressAdd>();
+List<AddUserSubAddress> otherUserAddress = new List<AddUserSubAddress>();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
@@ -2258,7 +2258,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
     Uri updateProfile =
         Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
-    final url = HealingMatchConstants.UPDATE_USER_DETAILS_URL;
     var request = http.MultipartRequest('POST', updateProfile);
     Map<String, String> headers = {
       "Content-Type": "multipart/form-data",
@@ -2511,7 +2510,7 @@ class _AddAddressState extends State<AddAddress> {
   List<dynamic> addedAddressStateDropDownValues = List();
   List<dynamic> addedAddressCityDropDownValues = List();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  UserAddressAdd addUserAddress;
+  AddUserSubAddress addUserAddress;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -3313,7 +3312,7 @@ class _AddAddressState extends State<AddAddress> {
         if (otherUserAddress.length <= 2) {
           setState(() {
             print('Entering if...');
-            addUserAddress = UserAddressAdd(
+            addUserAddress = AddUserSubAddress(
               gpsUserAddress,
               HealingMatchConstants.addedCurrentLatitude.toString(),
               HealingMatchConstants.addedCurrentLongitude.toString(),
@@ -3437,7 +3436,7 @@ class _AddAddressState extends State<AddAddress> {
         if (otherUserAddress.length <= 2) {
           String city = _myAddedCity;
           setState(() {
-            addUserAddress = UserAddressAdd(
+            addUserAddress = AddUserSubAddress(
               manualAddedAddress,
               HealingMatchConstants.manualAddressCurrentLatitude.toString(),
               HealingMatchConstants.manualAddressCurrentLongitude.toString(),
