@@ -36,7 +36,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   UpdateAddress addUpdateAddress;
 
   String rUserName = '';
-  String rid = '';
+  String rUserID = '';
+  String rID = '';
   String raccessToken = '';
   String rUserPhoneNumber = '';
   String rEmailAddress = '';
@@ -219,7 +220,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            NavigationRouter.switchToServiceUserViewProfileScreen(context);
+            // NavigationRouter.switchToServiceUserViewProfileScreen(context);
+            Navigator.pop(context);
           },
         ),
         centerTitle: true,
@@ -1462,19 +1464,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   dataSource: [
                                     {
                                       "display": "５Ｋｍ圏内",
-                                      "value": "5",
+                                      "value": "5.0",
                                     },
                                     {
                                       "display": "１０Ｋｍ圏内",
-                                      "value": "10",
+                                      "value": "10.0",
                                     },
                                     {
                                       "display": "１５Ｋｍ圏内",
-                                      "value": "15",
+                                      "value": "15.0",
                                     },
                                     {
                                       "display": "２０Ｋｍ圏内",
-                                      "value": "20",
+                                      "value": "20.0",
                                     },
                                   ],
                                   textField: 'display',
@@ -1498,6 +1500,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         color: Colors.lime,
                         onPressed: () {
                           _updateUserDetails();
+                          setState(() {});
                         },
                         child: new Text(
                           '更新',
@@ -1674,6 +1677,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
+    var searchRadius = _mySearchRadiusDistance;
 
     //double searchRadisu =
 
@@ -2171,8 +2175,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
-          id: HealingMatchConstants.userEditId,
-          userId: _userAddressID,
+          id: _userAddressID,
+          userId: HealingMatchConstants.userEditId,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2180,8 +2184,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           cityName: HealingMatchConstants.userEditCity,
           buildingName: buildingNameController.text.toString(),
           // postalCode: '',
-          lat: HealingMatchConstants.editCurrentLatitude,
-          lon: HealingMatchConstants.editCurrentLongitude,
+          // lat: HealingMatchConstants.editCurrentLatitude,
+          // lon: HealingMatchConstants.editCurrentLongitude,
         );
         updateAddress.add(addUpdateAddress);
       });
@@ -2192,7 +2196,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: HealingMatchConstants.userEditId,
+          userId: 2.toString(),
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2266,7 +2270,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       request.files.add(profileImage);
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": _userAddressID,
+        "id": rID,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2276,14 +2280,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "gender": _myGender,
         "uploadProfileImgUrl": _profileImage.path,
         "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance,
+        "userSearchRadiusDistance": searchRadius,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
     } else {
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": _userAddressID,
+        "id": rID,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2292,7 +2296,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "email": email,
         "gender": _myGender,
         "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance,
+        "userSearchRadiusDistance": searchRadius,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
@@ -2314,6 +2318,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     final userDetailsRequest = await request.send();
     final response = await http.Response.fromStream(userDetailsRequest);
     print('Success response code : ${response.statusCode}');
+    print('SuccessMessage : ${response.reasonPhrase}');
+    print('Response : ${response.body}');
 
     if (response.statusCode == 200) {
       // ProfileUpdateResponseModel profileUpdateResponseModel;
@@ -2373,7 +2379,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
         rUserArea = value.getString('area');
-        rid = value.getString('userID');
+        rUserID = value.getString('userID');
+        rID = value.getString('did');
 
         // Convert string url of image to base64 format
         // convertBase64ProfileImage(userProfileImage);
@@ -2389,7 +2396,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
-          HealingMatchConstants.userEditId = rid;
+          HealingMatchConstants.userEditId = rUserID;
 
           userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
@@ -2406,7 +2413,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('Prefectute: $_myPrefecture');
         print('City: $_myCity');
         print('Token: ${HealingMatchConstants.userEditToken}');
-        print('Id: ${HealingMatchConstants.userEditId}');
+        print('Id: $rID');
+        print('Address ID : $_userAddressID');
+        print('UserId: ${HealingMatchConstants.userEditId}');
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
@@ -3439,12 +3448,12 @@ class _AddAddressState extends State<AddAddress> {
               addedUserAreaController.text.toString(),
             );
             print(_myAddedAddressInputType);
-
-            Navigator.push(
+            Navigator.pop(context);
+            /*   Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));
+                        UpdateServiceUserDetails()));*/
           });
         } else {
           _scaffoldKey.currentState.showSnackBar(SnackBar(

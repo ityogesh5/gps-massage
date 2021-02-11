@@ -388,7 +388,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         PopupMenuItem<String>(
           value: "4",
           child: Text(
-            'ログアウト ト', //Log out
+            'ログアウト', //Log out
             style: TextStyle(fontFamily: 'Oxygen'),
           ),
         ),

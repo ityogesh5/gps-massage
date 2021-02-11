@@ -180,7 +180,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
 */
 
-    HealingMatchConstants.userPhnNum = phoneNumberController.text.toString();
+    HealingMatchConstants.ProviderPhnNum =
+        phoneNumberController.text.toString();
     // user phone number
     if ((userPhoneNumber == null || userPhoneNumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -242,6 +242,7 @@ class HealingMatchConstants {
   static const String changePasswordConfirmpass = "パスワード(確認用) *";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
+  static var ProviderPhnNum = '';
 
   //Edit Profile
   static const String profileUpdateBtn = '更新';

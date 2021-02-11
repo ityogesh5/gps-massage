@@ -14,7 +14,7 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
@@ -250,7 +250,7 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => BookingScreenUser()));
+            builder: (BuildContext context) => ReservationAndFavourite()));
   }
 
   // Service User Chat Screen

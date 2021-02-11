@@ -178,7 +178,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.22,
-        width: MediaQuery.of(context).size.width * 0.85,
+        width: MediaQuery.of(context).size.width * 0.95,
         child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -302,15 +302,12 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.amber,
+                                    color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
-                                      NavigationRouter
-                                          .switchToServiceUserRatingsAndReviewScreen(
-                                              context);
                                     });
                                     print(ratingsValue);
                                   },

@@ -474,9 +474,11 @@ class _UserLoginState extends State<UserLogin> {
         // print('Login response : ${loginResponseModel.toJson()}');
         // print('Login token : ${loginResponseModel.accessToken}');
         print('Login token : ${loginResponseModel.toJson()}');
+        print('response:${response.body}');
         _sharedPreferences.then((value) {
           value.clear();
           value.setString('accessToken', loginResponseModel.accessToken);
+          value.setString('did', loginResponseModel.data.id.toString());
           value.setString(
               'profileImage', loginResponseModel.data.uploadProfileImgUrl);
           value.setString('userName', loginResponseModel.data.userName);
@@ -509,8 +511,7 @@ class _UserLoginState extends State<UserLogin> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
           }
 
-          // HealingMatchConstants.addressList.addAll(addressList);
-
+          print('ID: ${loginResponseModel.data.id}');
           print(loginResponseModel.data.userName);
           print(loginResponseModel.data.phoneNumber.toString());
           print(loginResponseModel.data.email);
@@ -518,10 +519,6 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.age.toString());
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);
-          // print(addressList);
-          // print(addressResponse.addressTypeSelection);
-
-          //value.setString('userAddress', loginResponseModel.data.addresses);
         });
         HealingMatchConstants.isUserVerified = true;
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);

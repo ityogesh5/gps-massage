@@ -7,6 +7,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dia
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/changePasswordProviderResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 
 import 'OTPScreen/otp_field.dart';
@@ -19,6 +21,7 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  var reSendVerifyResponse = SendVerifyResponseModel();
   String userOTP;
   TextEditingController pinCodeText = TextEditingController();
   TextEditingController createPassword = TextEditingController();
@@ -84,7 +87,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   children: [
                     FittedBox(
                       child: Text(
-                        "+81 ${HealingMatchConstants.userPhoneNumber} " +
+                        "+81 ${HealingMatchConstants.ProviderPhnNum} " +
                             HealingMatchConstants.changePasswordTxt,
                         style: TextStyle(
                           color: Colors.grey,
@@ -224,28 +227,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     SizedBox(height: 20),
                     InkWell(
-                      child: InkWell(
-                        onTap: () {
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            backgroundColor: ColorConstants.snackBarColor,
-                            content: Text('認証コードが正常に送信されました。 ',
-                                style: TextStyle(fontFamily: 'Open Sans')),
-                            action: SnackBarAction(
-                                onPressed: () {
-                                  _scaffoldKey.currentState
-                                      .hideCurrentSnackBar();
-                                },
-                                label: 'はい',
-                                textColor: Colors.white),
-                          ));
-                        },
-                        child: Text(
-                          HealingMatchConstants.changeResendOtp,
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.black),
-                        ),
+                      child: Text(
+                        HealingMatchConstants.changeResendOtp,
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.black),
                       ),
+                      onTap: resendOtp,
                     ),
                   ],
                 ),
@@ -503,7 +491,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber": HealingMatchConstants.userPhnNum,
+            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
             "otp": pinCode,
             "password": password,
             "password_confirmation": confirmPassword,
@@ -528,5 +516,35 @@ class _ChangePasswordState extends State<ChangePassword> {
     changePasswordDetails.add(confirmPassword);
 
     print('User details length in array : ${changePasswordDetails.length}');
+  }
+
+  resendOtp() async {
+    try {
+      ProgressDialogBuilder.showForgetPasswordUserProgressDialog(context);
+      final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
+      final response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "phoneNumber": HealingMatchConstants.ProviderPhnNum,
+            "isTherapist": "1"
+          }));
+      print('Status code : ${response.statusCode}');
+      if (StatusCodeHelper.isSendVerify(
+          response.statusCode, context, response.body)) {
+        final sendVerify = json.decode(response.body);
+        reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
+
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        // NavigationRouter.switchToProviderChangePasswordScreen(context);
+      } else {
+        ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+        print('Response Failure !!');
+        return;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetPasswordUserProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
   }
 }

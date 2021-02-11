@@ -61,7 +61,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           color: Colors.black,
         ),
         title: Container(
-          height: MediaQuery.of(context).size.height * 0.07,
+          height: MediaQuery.of(context).size.height * 0.06,
           child: TextFormField(
             autofocus: false,
             textInputAction: TextInputAction.search,
@@ -71,13 +71,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 hintText: HealingMatchConstants.searchKeyword,
                 suffixIcon: IconButton(
                   icon:
-                      Icon(Icons.search_rounded, color: Colors.grey, size: 30),
+                      Icon(Icons.search_rounded, color: Colors.grey, size: 25),
                   onPressed: () {},
                 ),
                 hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(7),
                 )),
           ),
         ),

@@ -2285,7 +2285,7 @@ class _RegisterUserState extends State<RegisterUser> {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
 
-          value.setString('id', serviceUserDetails.data.id.toString());
+          value.setString('did', serviceUserDetails.data.id.toString());
 
           value.setString(
               'profileImage', serviceUserDetails.data.uploadProfileImgUrl);
