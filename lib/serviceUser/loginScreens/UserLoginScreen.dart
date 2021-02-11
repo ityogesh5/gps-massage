@@ -489,6 +489,8 @@ class _UserLoginState extends State<UserLogin> {
               'userOccupation', loginResponseModel.data.userOccupation);
           value.setString(
               'userAddress', json.encode(loginResponseModel.data.addresses));
+
+          print('DOB of user : ${loginResponseModel.data.dob.toString()}');
           for (var userAddressData in loginResponseModel.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
             print(

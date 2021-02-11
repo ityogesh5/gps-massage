@@ -44,6 +44,7 @@ class Data {
     this.dob,
     this.age,
     this.isTherapist,
+    this.isVerified,
     this.userOccupation,
     this.uploadProfileImgUrl,
     this.addresses,
@@ -56,6 +57,7 @@ class Data {
   DateTime dob;
   int age;
   bool isTherapist;
+  bool isVerified;
   String userOccupation;
   dynamic uploadProfileImgUrl;
   List<Address> addresses;
@@ -68,6 +70,7 @@ class Data {
         dob: DateTime.parse(json["dob"]),
         age: json["age"],
         isTherapist: json["isTherapist"],
+        isVerified: json["isVerified"],
         userOccupation: json["userOccupation"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
         addresses: List<Address>.from(
@@ -83,6 +86,7 @@ class Data {
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
         "age": age,
         "isTherapist": isTherapist,
+        "isVerified": isVerified,
         "userOccupation": userOccupation,
         "uploadProfileImgUrl": uploadProfileImgUrl,
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),

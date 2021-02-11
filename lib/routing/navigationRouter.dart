@@ -3,35 +3,38 @@ import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketE
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/providerBottomBar.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/providerEditProfile.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/termsandConditions.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/changePassword.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/forgetPassword.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/loginScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/chooseServiceScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerFirstScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSecondScreen.dart';
-import 'package:gps_massageapp/serviceProvider/registerProvider/registerSuccessOtpScreen.dart';
-import 'package:gps_massageapp/serviceProvider/weeklySchedule/weeklyScheduleScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/ChangePassword.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/ForgetPassword.dart';
+import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/ChooseServiceScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterFirstScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSecondScreen.dart';
+import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSuccessOTPScreen.dart';
+import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/BottomBarUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/chatScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/homeScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/nearByProviderAndShop.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userChangePassword.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userForgetPassword.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/userLoginScreen.dart';
-import 'package:gps_massageapp/serviceUser/profileScreens/editUpdateUserprofile.dart';
-import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart';
+import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/EditUpdateUserprofile.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/TermsAndConditions.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserReviewScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
-import 'package:gps_massageapp/serviceUser/register/registerOtpScreen.dart';
-import 'package:gps_massageapp/serviceUser/register/registerUserScreen.dart';
-import 'package:gps_massageapp/serviceUser/searchScreens/searchResult.dart';
+import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
+import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
+import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -125,7 +128,7 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => ProviderTermsAndConditions()));
+            builder: (BuildContext context) => UserTermsAndConditions()));
   }
 
 // Provider bottom bar homescreen
@@ -281,5 +284,22 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ServiceUserHomeScreen()));
+  }
+
+  // Service User Booking Confirmation Screen
+  static void switchToServiceUserBookingConfirmationScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingConfirmationScreen()));
+  }
+
+// Service User Confirm Booking Screen Screen
+  static void switchToServiceUserFinalConfirmBookingScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ConfirmBookingScreen()));
   }
 }

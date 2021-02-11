@@ -1009,7 +1009,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                                             setState(() {
                                                               _myPrefecture =
                                                                   value;
-                                                              HealingMatchConstants.serviceUserPrefecture = _myPrefecture;
+                                                              HealingMatchConstants
+                                                                      .serviceUserPrefecture =
+                                                                  _myPrefecture;
                                                               print(
                                                                   'Prefecture value : ${_myPrefecture.toString()}');
                                                               _prefId = stateDropDownValues
@@ -1073,7 +1075,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                                           onChanged: (value) {
                                                             setState(() {
                                                               _myCity = value;
-                                                              HealingMatchConstants.serviceUserCity = _myCity;
+                                                              HealingMatchConstants
+                                                                      .serviceUserCity =
+                                                                  _myCity;
                                                               //print(_myBldGrp.toString());
                                                             });
                                                           },
