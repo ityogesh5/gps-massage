@@ -20,7 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/myAccount.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/MyAccount.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as loginResponse;

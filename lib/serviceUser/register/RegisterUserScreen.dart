@@ -2285,7 +2285,7 @@ class _RegisterUserState extends State<RegisterUser> {
           value.clear();
           value.setString('accessToken', serviceUserDetails.accessToken);
 
-          value.setString('id', serviceUserDetails.data.id.toString());
+          value.setString('did', serviceUserDetails.data.id.toString());
 
           value.setString(
               'profileImage', serviceUserDetails.data.uploadProfileImgUrl);
@@ -2295,7 +2295,12 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('userEmailAddress', serviceUserDetails.data.email);
 
           // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
-          value.setString('userDOB', userDOB);
+          value.setString(
+              'userDOB',
+              DateFormat("yyyy-MM-dd")
+                  .format(serviceUserDetails.data.dob)
+                  .toString()
+                  .toString());
 
           value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', serviceUserDetails.data.gender);

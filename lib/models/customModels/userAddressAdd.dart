@@ -1,4 +1,4 @@
-class UserAddressAdd {
+class AddUserSubAddress {
   String _address;
   String _lat;
   String _lng;
@@ -9,7 +9,7 @@ class UserAddressAdd {
   String _buildingName;
   String _area;
 
-  UserAddressAdd(
+  AddUserSubAddress(
       this._address,
       this._lat,
       this._lng,
@@ -76,26 +76,7 @@ class UserAddressAdd {
     this._area = area;
   }
 
-  /*  Map<String, dynamic> toMap() {
-    var map = Map<String, dynamic>();
-    map['id'] = _addressKey;
-    map['subAddress'] = _address;
-    map['latitude'] = _lat;
-    map['longitude'] = _lng;
-    map['addressType'] = _addressType;
-
-    return map;
-  }
-
-  UserAddressAdd.fromMapObject(Map<String, dynamic> map) {
-    this._addressKey = map['id'];
-    this._address = map['subAddress'];
-    this._lat = map['latitude'];
-    this._lng = map['longitude'];
-    this._addressType = map['addressType'];
-  } */
-
-  UserAddressAdd.fromJson(Map<String, dynamic> json) {
+  AddUserSubAddress.fromJson(Map<String, dynamic> json) {
     //_addressKey = json['addressKey'];
     _address = json['subAddress'];
     _lat = json['lat'];

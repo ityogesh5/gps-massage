@@ -37,6 +37,7 @@ class LoginResponseModel {
 
 class Data {
   Data({
+    this.id,
     this.email,
     this.phoneNumber,
     this.userName,
@@ -44,11 +45,14 @@ class Data {
     this.dob,
     this.age,
     this.isTherapist,
+    this.isVerified,
     this.userOccupation,
     this.uploadProfileImgUrl,
+    this.userSearchRadiusDistance,
     this.addresses,
   });
 
+  int id;
   String email;
   int phoneNumber;
   String userName;
@@ -56,11 +60,14 @@ class Data {
   DateTime dob;
   int age;
   bool isTherapist;
+  bool isVerified;
   String userOccupation;
   dynamic uploadProfileImgUrl;
+  dynamic userSearchRadiusDistance;
   List<Address> addresses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        id: json["id"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
         userName: json["userName"],
@@ -68,13 +75,16 @@ class Data {
         dob: DateTime.parse(json["dob"]),
         age: json["age"],
         isTherapist: json["isTherapist"],
+        isVerified: json["isVerified"],
         userOccupation: json["userOccupation"],
         uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        userSearchRadiusDistance: json["userSearchRadiusDistance"],
         addresses: List<Address>.from(
             json["addresses"].map((x) => Address.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "email": email,
         "phoneNumber": phoneNumber,
         "userName": userName,
@@ -83,8 +93,10 @@ class Data {
             "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
         "age": age,
         "isTherapist": isTherapist,
+        "isVerified": isVerified,
         "userOccupation": userOccupation,
         "uploadProfileImgUrl": uploadProfileImgUrl,
+        "userSearchRadiusDistance": userSearchRadiusDistance,
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
       };
 }
@@ -130,11 +142,11 @@ class Address {
   String buildingName;
   dynamic postalCode;
   double lat;
-  double lon;
+  dynamic lon;
   dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
-  dynamic isDefault;
+  bool isDefault;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -143,21 +155,25 @@ class Address {
         userId: json["userId"],
         addressTypeSelection: json["addressTypeSelection"],
         address: json["address"],
-        userRoomNumber: json["userRoomNumber"],
-        userPlaceForMassage: json["userPlaceForMassage"],
+        userRoomNumber:
+            json["userRoomNumber"] == null ? null : json["userRoomNumber"],
+        userPlaceForMassage: json["userPlaceForMassage"] == null
+            ? null
+            : json["userPlaceForMassage"],
         otherAddressType: json["otherAddressType"],
         capitalAndPrefecture: json["capitalAndPrefecture"],
         capitalAndPrefectureId: json["capitalAndPrefectureId"],
         cityName: json["cityName"],
         citiesId: json["citiesId"],
-        area: json["area"],
-        buildingName: json["buildingName"],
+        area: json["area"] == null ? null : json["area"],
+        buildingName:
+            json["buildingName"] == null ? null : json["buildingName"],
         postalCode: json["postalCode"],
-        lat: json["lat"].toDouble(),
-        lon: json["lon"].toDouble(),
+        lat: json["lat"] == null ? null : json["lat"].toDouble(),
+        lon: json["lon"],
         userSearchRadiusDistance: json["userSearchRadiusDistance"],
-        createdUser: json["createdUser"],
-        updatedUser: json["updatedUser"],
+        createdUser: json["createdUser"] == null ? null : json["createdUser"],
+        updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
         isDefault: json["isDefault"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -168,21 +184,22 @@ class Address {
         "userId": userId,
         "addressTypeSelection": addressTypeSelection,
         "address": address,
-        "userRoomNumber": userRoomNumber,
-        "userPlaceForMassage": userPlaceForMassage,
+        "userRoomNumber": userRoomNumber == null ? null : userRoomNumber,
+        "userPlaceForMassage":
+            userPlaceForMassage == null ? null : userPlaceForMassage,
         "otherAddressType": otherAddressType,
         "capitalAndPrefecture": capitalAndPrefecture,
         "capitalAndPrefectureId": capitalAndPrefectureId,
         "cityName": cityName,
         "citiesId": citiesId,
-        "area": area,
-        "buildingName": buildingName,
+        "area": area == null ? null : area,
+        "buildingName": buildingName == null ? null : buildingName,
         "postalCode": postalCode,
-        "lat": lat,
+        "lat": lat == null ? null : lat,
         "lon": lon,
         "userSearchRadiusDistance": userSearchRadiusDistance,
-        "createdUser": createdUser,
-        "updatedUser": updatedUser,
+        "createdUser": createdUser == null ? null : createdUser,
+        "updatedUser": updatedUser == null ? null : updatedUser,
         "isDefault": isDefault,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

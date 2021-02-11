@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 
-import 'bookingStatus.dart';
-import 'chat.dart';
-import 'homeScreen.dart';
-import 'myAccount/myAccount.dart';
-import 'operationManagement/operationManagement.dart';
+import 'BookingStatus.dart';
+import 'Chat.dart';
+import 'HomeScreen.dart';
+import 'myAccount/MyAccount.dart';
+import 'operationManagement/OperationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   final int page;

@@ -320,6 +320,23 @@ class _SearchResultState extends State<SearchResult> {
                                   ),
                                 ],
                               ),
+                              Divider(
+                                color: Colors.black,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on_outlined),
+                                  Text(
+                                    '埼玉県浦和区高砂4丁目4',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 90,
+                                  ),
+                                  Text('1.5km圏内'),
+                                ],
+                              ),
                             ],
                           ),
                         ),

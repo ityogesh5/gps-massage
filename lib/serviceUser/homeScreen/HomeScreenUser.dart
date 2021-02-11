@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bottomBarUser.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -65,30 +64,38 @@ class _HomeScreenUserState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  child: TextFormField(
-                    autofocus: false,
-                    textInputAction: TextInputAction.search,
-                    decoration: new InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'キーワードで検索',
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.search_rounded,
-                              color: Colors.grey, size: 30),
-                          onPressed: () {
-                            pageController.jumpToPage(1);
-                            // NavigationRouter.switchToServiceUserSearchScreen(
-                            //     context);
-                          },
-                        ),
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.red, width: 2.0),
-                          borderRadius: BorderRadius.circular(10),
-                        )),
+                child: GestureDetector(
+                  onTap: () {
+                    NavigationRouter.switchToServiceUserSearchScreen(context);
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: TextFormField(
+                      readOnly: true,
+                      autofocus: false,
+                      textInputAction: TextInputAction.search,
+                      decoration: new InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'キーワードで検索',
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.search_rounded,
+                                color: Colors.grey, size: 30),
+                            onPressed: () {
+                              NavigationRouter.switchToServiceUserSearchScreen(
+                                  context);
+                            },
+                          ),
+                          hintStyle: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -129,9 +136,26 @@ class _HomeScreenUserState extends State<HomeScreen> {
           BuildMassageTypeChips(),
           BuildProviderLists(),
           ReservationList(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text('おすすめ'), Text('もっとみる')],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'おすすめ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'もっとみる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                )
+              ],
+            ),
           ),
           RecommendLists(),
           SizedBox(
@@ -161,7 +185,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.22,
-        width: MediaQuery.of(context).size.width * 0.85,
+        width: MediaQuery.of(context).size.width * 0.95,
         child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -285,15 +309,12 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.amber,
+                                    color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
-                                      NavigationRouter
-                                          .switchToServiceUserRatingsAndReviewScreen(
-                                              context);
                                     });
                                     print(ratingsValue);
                                   },
@@ -390,7 +411,11 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
+<<<<<<< HEAD:lib/serviceUser/homeScreen/homeScreenUser.dart
                   //  shape: BoxShape.circle,
+=======
+// shape: BoxShape.circle,
+>>>>>>> origin/origin/DEV/devGowtham:lib/serviceUser/homeScreen/HomeScreenUser.dart
                   color: _current == index
                       ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
                       : Color.fromRGBO(0, 0, 0, 0.4),
@@ -412,29 +437,7 @@ final List<Widget> imageSliders = imgList
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                    /*Positioned(
-      bottom: 0.0,
-      left: 0.0,
-      right: 0.0,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(200, 0, 0, 0),
-              Color.fromARGB(0, 0, 0, 0)
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        padding: EdgeInsets.symmetric(
-            vertical: 10.0, horizontal: 20.0),
-        child: Text(
-            //'No. ${imgList.indexOf(item)} image',
-            ''),
-      ),
-    ),*/
+                    Image.network(item, fit: BoxFit.cover, width: 2000.0),
                   ],
                 )),
           ),
@@ -534,10 +537,10 @@ class _ReservationListState extends State<ReservationList> {
                     Text('お名前'),
                     Icon(Icons.ring_volume_outlined),
                     SizedBox(
-                      width: 60,
+                      width: 85,
                     ),
                     Icon(
-                      Icons.access_time_sharp,
+                      Icons.hourglass_bottom,
                       color: Colors.orange,
                     ),
                     Text(

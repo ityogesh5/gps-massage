@@ -3,12 +3,13 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/profileScreens/viewProfileScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 
-import 'bookingScreensUser/bookingScreenUser.dart';
-import 'chatScreensUser/chatScreenUser.dart';
-import 'homeScreenUser.dart';
+import 'bookingScreensUser/BookingScreenUser.dart';
+import 'bookingScreensUser/reservationAndFavourites.dart';
+import 'chatScreensUser/ChatScreenUser.dart';
+import 'HomeScreenUser.dart';
 
 final pageController = PageController();
 
@@ -25,7 +26,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   final _pageOptions = [
     ServiceUserHomeScreen(),
     SearchScreenUser(),
-    BookingScreenUser(),
+    ReservationAndFavourite(),
     ViewUserProfile(),
     ChatScreenUser(),
   ];
@@ -52,7 +53,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
         children: [
           ServiceUserHomeScreen(),
           SearchScreenUser(),
-          BookingScreenUser(),
+          ReservationAndFavourite(),
           ViewUserProfile(),
           ChatScreenUser(),
         ],
@@ -107,7 +108,10 @@ class _BottomBarUserState extends State<BottomBarUser> {
                             context);
                         break;
                       case 2:
-                        DialogHelper.showUserLoginOrRegisterDialog(context);
+                        //DialogHelper.showUserLoginOrRegisterDialog(context);
+                        NavigationRouter
+                            .switchToServiceUserBookingConfirmationScreen(
+                                context);
                         break;
                       case 3:
                         DialogHelper.showUserLoginOrRegisterDialog(context);

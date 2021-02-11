@@ -20,7 +20,7 @@ import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-import 'chooseServiceScreen.dart';
+import 'ChooseServiceScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:dio/dio.dart';
 
