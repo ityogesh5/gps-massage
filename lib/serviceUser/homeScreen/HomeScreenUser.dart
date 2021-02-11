@@ -411,11 +411,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-<<<<<<< HEAD:lib/serviceUser/homeScreen/homeScreenUser.dart
-                  //  shape: BoxShape.circle,
-=======
 // shape: BoxShape.circle,
->>>>>>> origin/origin/DEV/devGowtham:lib/serviceUser/homeScreen/HomeScreenUser.dart
                   color: _current == index
                       ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
                       : Color.fromRGBO(0, 0, 0, 0.4),
