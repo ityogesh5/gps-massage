@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class PastReservations extends StatefulWidget {
   @override
@@ -188,7 +189,10 @@ class _PastReservationsState extends State<PastReservations> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today_outlined),
+                                    IconButton(
+                                      icon: Icon(Icons.calendar_today_outlined),
+                                      onPressed: () {},
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),

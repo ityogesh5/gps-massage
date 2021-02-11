@@ -2295,7 +2295,12 @@ class _RegisterUserState extends State<RegisterUser> {
           value.setString('userEmailAddress', serviceUserDetails.data.email);
 
           // value.setString('userDOB', serviceUserDetails.data.userResponse.dob.toString());
-          value.setString('userDOB', serviceUserDetails.data.dob.toString());
+          value.setString(
+              'userDOB',
+              DateFormat("yyyy-MM-dd")
+                  .format(serviceUserDetails.data.dob)
+                  .toString()
+                  .toString());
 
           value.setString('userAge', serviceUserDetails.data.age.toString());
           value.setString('userGender', serviceUserDetails.data.gender);

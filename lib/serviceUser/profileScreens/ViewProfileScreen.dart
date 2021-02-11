@@ -294,8 +294,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 Icon(Icons.location_on_outlined,
                                     size: 30, color: Colors.grey[500]),
-                                HealingMatchConstants.userAddress != null ||
-                                        userAddress != null
+                                HealingMatchConstants
+                                            .serviceUserAddress.isEmpty ||
+                                        userAddress.isEmpty
                                     ? Text(
                                         '436-C鉄道地区ウィンターペットアラコナム。',
                                         style: TextStyle(
@@ -305,7 +306,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                             fontWeight: FontWeight.w500),
                                       )
                                     : Text(
-                                        '${HealingMatchConstants.userAddress}',
+                                        '${HealingMatchConstants.serviceUserAddress}',
                                         style: TextStyle(
                                             fontFamily: 'Oxygen',
                                             fontSize: 14.0,
@@ -426,6 +427,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         userOccupation = value.getString('userOccupation');
         userAddress = value.getString('userAddress');
 
+        print(userAddress);
+
         if (userProfileImage != null) {
           // Convert string url of image to base64 format
           convertBase64ProfileImage(userProfileImage);
@@ -438,7 +441,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           HealingMatchConstants.serviceUserAge = userAge;
           HealingMatchConstants.serviceUserGender = userGender;
           HealingMatchConstants.serviceUserOccupation = userOccupation;
-          HealingMatchConstants.userAddress = userAddress;
+          HealingMatchConstants.serviceUserAddress = userAddress;
         });
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);

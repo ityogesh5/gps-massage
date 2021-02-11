@@ -13,6 +13,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLogin extends StatefulWidget {
@@ -485,13 +486,18 @@ class _UserLoginState extends State<UserLogin> {
           value.setString('userPhoneNumber',
               loginResponseModel.data.phoneNumber.toString());
           value.setString('userEmailAddress', loginResponseModel.data.email);
-          value.setString('userDOB', loginResponseModel.data.dob.toString());
+          value.setString(
+              'userDOB',
+              DateFormat("yyyy-MM-dd")
+                  .format(loginResponseModel.data.dob)
+                  .toString()
+                  .toString());
           value.setString('userAge', loginResponseModel.data.age.toString());
           value.setString('userGender', loginResponseModel.data.gender);
           value.setString(
               'userOccupation', loginResponseModel.data.userOccupation);
-          value.setString(
-              'userAddress', json.encode(loginResponseModel.data.addresses));
+          /* value.setString(
+              'userAddress', json.encode(loginResponseModel.data.addresses));*/
 
           print('DOB of user : ${loginResponseModel.data.dob.toString()}');
           for (var userAddressData in loginResponseModel.data.addresses) {
@@ -517,7 +523,10 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.userName);
           print(loginResponseModel.data.phoneNumber.toString());
           print(loginResponseModel.data.email);
-          print(loginResponseModel.data.dob.toString());
+          print(DateFormat("yyyy-MM-dd")
+              .format(loginResponseModel.data.dob)
+              .toString()
+              .toString());
           print(loginResponseModel.data.age.toString());
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);

@@ -82,6 +82,7 @@ class HealingMatchConstants {
   static String serviceUserEmailAddress = '';
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
+  static String serviceUserAddress = '';
   static String serviceUserPrefecture = '';
   static String serviceUserCity = '';
   static String serviceUserBuildingName = '';
@@ -326,8 +327,8 @@ class HealingMatchConstants {
   static String selectedBookingPlace = '';
 
   // Chat Module
-  static String socketConnectURL  = '';
-  static String socketEmitURL  = '';
+  static String socketConnectURL = '';
+  static String socketEmitURL = '';
 
   //FontStyle
   static const headersText = TextStyle(
