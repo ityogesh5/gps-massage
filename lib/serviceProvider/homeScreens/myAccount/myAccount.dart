@@ -304,12 +304,20 @@ class _MyAccountState extends State<MyAccount> {
                                           SizedBox(width: 0))
                                       : Container(),
                                   Divider(color: Colors.grey[300], height: 1),
-                                  MyRow(
-                                      Icon(Icons.location_pin,
-                                          size: 30, color: Colors.grey[500]),
-                                      Text(userData.addresses[0].address,
-                                          style: textStyle), //Provider address
-                                      SizedBox(width: 0)),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, bottom: 8.0),
+                                    child: MyRow(
+                                        Center(
+                                          child: Icon(Icons.location_pin,
+                                              size: 30,
+                                              color: Colors.grey[500]),
+                                        ),
+                                        Text(userData.addresses[0].address,
+                                            style:
+                                                textStyle), //Provider address
+                                        SizedBox(width: 0)),
+                                  ),
                                   Divider(color: Colors.grey[300], height: 1),
                                   MyRow(
                                       Icon(Icons.perm_identity,
@@ -473,7 +481,7 @@ class _MyAccountState extends State<MyAccount> {
   Widget MyRow(Widget image, Widget text, Widget circleAvatar) {
     return Expanded(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Padding(

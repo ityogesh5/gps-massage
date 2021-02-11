@@ -8,12 +8,14 @@ import 'myAccount/myAccount.dart';
 import 'operationManagement/operationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
+  final int page;
+  BottomBarProvider(this.page);
   @override
   _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
 }
 
 class _BottomBarProviderPageState extends State<BottomBarProvider> {
-  int selectedpage = 0; //initial value
+  int selectedpage; //initial value
 
   final _pageOptions = [
     ProviderHomeScreen(),
@@ -30,12 +32,19 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   ];*/ // changing color as per active index value
 
   @override
+  void initState() {
+    selectedpage = widget.page; //initial Page
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       body: _pageOptions[selectedpage],
       // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
+        index: selectedpage,
         height: 60,
         buttonBackgroundColor: Colors.limeAccent,
         backgroundColor: Colors.red.withOpacity(0),

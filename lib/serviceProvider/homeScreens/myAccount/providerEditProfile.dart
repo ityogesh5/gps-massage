@@ -374,53 +374,26 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       ),
                                     )),
                               ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit_outlined,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit_outlined,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                        Positioned(
+                          right: -60.0,
+                          top: 60,
+                          left: 10.0,
+                          child: InkWell(
+                            onTap: () {
+                              _showPicker(context, 0);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey[500],
+                              radius: 13,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[100],
+                                radius: 12,
+                                child: Icon(Icons.edit_outlined,
+                                    color: Colors.grey[400], size: 20.0),
                               ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 20.0),
@@ -1600,6 +1573,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 onPressed: () {
                                   setState(() {
                                     visible = true;
+                                    uploadVisible = false;
+                                    qualification = '';
                                   });
                                 },
                                 icon: Icon(
@@ -1664,7 +1639,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                             ? false
                                             : (value == "民間資格") &&
                                                     (privateQualification
-                                                            .length ==
+                                                                .length +
+                                                            oldPrivateQualification
+                                                                .length >=
                                                         5)
                                                 ? false
                                                 : true;
@@ -2661,10 +2638,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       }
     }
 
-    certificateImages.forEach((key, value) async {
-      multipartList.add(await http.MultipartFile.fromPath(key, value));
-    });
-
     updateAddressValues();
 
     updateBankValues();
@@ -2745,16 +2718,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //Upload Certificate Files
-    request.files.addAll(multipartList);
-
-    //Upload Old Private Qualification Images to avoid replace
-    for (var value in oldPrivateQualification) {
-      request.files.add(http.MultipartFile.fromString('民間資格', value));
-    }
+    certificateImages.forEach((key, value) async {
+      request.files.add(await http.MultipartFile.fromPath(key, value));
+      print('abc');
+    });
 
     //Upload Private Qualification Images
+    int privateQualificationLength = oldPrivateQualification.length + 1;
     for (var certificate in privateQualification) {
-      request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
+      request.files.add(await http.MultipartFile.fromPath(
+          'privateQualification' + (privateQualificationLength++).toString(),
+          certificate));
     }
     request.headers.addAll(headers);
 
@@ -2775,6 +2749,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         print(
             'Update response : ${providerProfileUpdateResponseModel.toJson()}');
         Navigator.pop(context);
+        NavigationRouter.switchToServiceProviderMyAccount(context);
       } else {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Response error occured!');
@@ -3190,18 +3165,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           color: Colors.black,
                           size: 20.0,
                         ),
-                      )) /* IconButton(
-                                                            padding: EdgeInsets.all(0.0),
-                                                            icon: Icon(Icons.remove_circle),
-                                                            iconSize: 30.0,
-                                                            color: Colors.red,
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                certificateImages.remove(key);
-                                                              });
-                                                            },
-                                                          ), */
-                  )
+                      )))
             ],
           ),
           SizedBox(
