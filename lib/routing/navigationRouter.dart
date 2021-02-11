@@ -134,24 +134,15 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => BottomBarProvider(0)),
         (Route<dynamic> route) => false);
-
-    /*  Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => BottomBarProvider())); */
   }
 
-  // Provider bottom bar homescreen
+  // Provider bottom bar myAccount
   static void switchToServiceProviderMyAccount(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-            builder: (BuildContext context) => BottomBarProvider(3)),
-        (Route<dynamic> route) => false);
-
-    /*  Navigator.push(
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => BottomBarProvider())); */
+            builder: (BuildContext context) => BottomBarProvider(3)));
   }
 
   //Provider Choose service screen

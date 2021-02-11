@@ -2745,6 +2745,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                 json.decode(response.body));
         profileUpdate.Data userData = providerProfileUpdateResponseModel.data;
         sharedPreferences.setString("userData", json.encode(userData));
+        HealingMatchConstants.userData = loginResponse.Data.fromJson(
+            json.decode(sharedPreferences.getString("userData")));
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print(
             'Update response : ${providerProfileUpdateResponseModel.toJson()}');

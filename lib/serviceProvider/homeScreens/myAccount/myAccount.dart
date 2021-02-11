@@ -60,6 +60,7 @@ class _MyAccountState extends State<MyAccount> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(height: 20.0),
                         Stack(
@@ -143,7 +144,7 @@ class _MyAccountState extends State<MyAccount> {
                                 borderRadius: BorderRadius.circular(16.0),
                                 color: Colors.white),
                             width: MediaQuery.of(context).size.width * 0.85,
-                            height: MediaQuery.of(context).size.height * 0.75,
+                          //  height: MediaQuery.of(context).size.height * 0.75,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -479,23 +480,21 @@ class _MyAccountState extends State<MyAccount> {
 
   // ignore: non_constant_identifier_names
   Widget MyRow(Widget image, Widget text, Widget circleAvatar) {
-    return Expanded(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: image,
-          ),
-          Flexible(
-              child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: circleAvatar,
-          )
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: image,
+        ),
+        Flexible(
+            child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
+        Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: circleAvatar,
+        )
+      ],
     );
   }
 
