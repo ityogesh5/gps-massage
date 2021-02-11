@@ -44,6 +44,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
   static const String UPDATE_USER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
+  static const String UPDATE_PROVIDER_DETAILS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/therapistUpdatebyId';
 
   // register service user
   static const String REGISTER_USER_URL =
@@ -261,6 +263,7 @@ class HealingMatchConstants {
 
   //Provider Home
   static providerLogin.Data userData;
+  static String accessToken = '';
 
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';

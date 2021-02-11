@@ -7,21 +7,24 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/providerProfileUpdateResponseModel.dart'
+    as profileUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/myAccount.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as loginResponse;
+import 'package:shared_preferences/shared_preferences.dart';
 
 List<File> files = List<File>();
 
@@ -55,6 +58,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
   bool visible = false;
+  bool gpsAddressVisible = false;
   bool showAddressField = false;
   bool _changeProgressText = false;
 
@@ -105,6 +109,18 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   List<String> registrationAddressTypeDropDownValues = [
     "現在地を取得する",
     "直接入力",
+  ];
+
+  List<String> qualificationCertificates = [
+    "はり師",
+    "きゅう師",
+    "鍼灸師",
+    "あん摩マッサージ指圧師",
+    "柔道整復師",
+    "理学療法士",
+    "国家資格取得予定（学生）",
+    "民間資格",
+    "無資格",
   ];
 
   List<dynamic> stateDropDownValues = List<dynamic>();
@@ -165,7 +181,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   PickedFile _profileImage;
   var identificationverify;
   PickedFile _idProfileImage;
-  bool idUploadVisible = false;
+  bool idUploadVisible = true;
   bool uploadVisible = false;
   final bankkey = new GlobalKey<FormState>();
   var qualification, bankname, accountType;
@@ -178,12 +194,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   Map<String, String> certificateImages = Map<String, String>();
   ProgressDialog _progressDialog = ProgressDialog();
   final identityverification = new GlobalKey<FormState>();
+  List<String> oldPrivateQualification = List<String>();
   List<String> privateQualification = List<String>();
   final qualificationupload = new GlobalKey<FormState>();
   Map<String, String> oldCertificateImages = Map<String, String>();
 
   void initState() {
     super.initState();
+    getBankName();
     identificationverify = '';
     myState = '';
     myCity = '';
@@ -194,7 +212,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     accountType = '';
     buildNumberOfEmployess();
     _getState();
-    getBankName();
     getProfileDetails();
   }
 
@@ -251,41 +268,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         51.0; //height of Every TextFormField wrapped with container
     double containerWidth =
         size.width * 0.9; //width of Every TextFormField wrapped with container
-    /*return Scaffold(
-              key: _scaffoldKey,
-              backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                title: Text(
-                  'マイアカウント',
-                  style: TextStyle(
-                      fontFamily: 'Oxygen',
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                centerTitle: true,
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      // do something
-                    },
-                  )
-                ],
-              ),
-              body: Center(
-                child: Text('Welcome to MyAccount'),
-              ),
-            );*/
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -353,7 +335,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                     Stack(
                       overflow: Overflow.visible,
                       children: [
-                        _idProfileImage != null
+                        _profileImage != null
                             ? InkWell(
                                 onTap: () {
                                   _showPicker(context, 0);
@@ -369,7 +351,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         image: new DecorationImage(
                                           fit: BoxFit.cover,
                                           image: FileImage(
-                                              File(_idProfileImage.path)),
+                                              File(_profileImage.path)),
                                         ),
                                       )),
                                 ),
@@ -906,6 +888,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
+                              enabled: false,
                               controller: providerNameController,
                               style: HealingMatchConstants.formTextStyle,
                               decoration: InputDecoration(
@@ -984,7 +967,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     .copyWith(splashColor: Colors.black12),
                                 child: InkWell(
                                   onTap: () {
-                                    _selectDate(context);
+                                    //   _selectDate(context);
                                   },
                                   child: TextFormField(
                                       enabled: false,
@@ -1075,6 +1058,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             child: Container(
                               height: containerHeight,
                               child: DropDownFormField(
+                                enabled: false,
                                 hintText: '',
                                 value: gender,
                                 onSaved: (value) {
@@ -1109,6 +1093,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
+                              enabled: false,
                               controller: phoneNumberController,
                               keyboardType: TextInputType.phone,
                               style: HealingMatchConstants.formTextStyle,
@@ -1208,14 +1193,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               gpsAddressController.clear();
                               registrationAddressType = value;
                               showAddressField = true;
-                              visible = true; // !visible;
+                              gpsAddressVisible = true; // !visible;
                               _getCurrentLocation();
                             });
                           } else {
                             setState(() {
                               registrationAddressType = value;
                               showAddressField = true;
-                              visible = false;
+                              gpsAddressVisible = false;
                             });
                           }
                           FocusScope.of(context).requestFocus(new FocusNode());
@@ -1253,7 +1238,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               child: Theme(
                                 data: Theme.of(context)
                                     .copyWith(splashColor: Colors.black12),
-                                child: visible
+                                child: gpsAddressVisible
                                     ? TextFormField(
                                         controller: gpsAddressController,
                                         style:
@@ -1305,7 +1290,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         ),
                                       ),
                               )),
-                          !visible
+                          !gpsAddressVisible
                               ? Column(
                                   children: [
                                     SizedBox(
@@ -1488,6 +1473,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                             Container(
                               margin: EdgeInsets.all(0.0),
                               child: DropDownFormField(
+                                enabled: false,
                                 autovalidate: false,
                                 titleText: null,
                                 hintText: readonly
@@ -1567,84 +1553,29 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                     Container(
                       width: containerWidth,
                       child: Visibility(
-                        visible: idUploadVisible,
-                        child: _idProfileImage == null
-                            ? InkWell(
-                                onTap: () {
-                                  _showPicker1(context, 0);
-                                },
-                                child: TextFormField(
-                                  enabled: false,
-                                  decoration: new InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(6, 3, 6, 3),
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    suffixIcon: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.file_upload)),
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    hintStyle: TextStyle(
-                                        color: Colors.black, fontSize: 13),
-                                    hintText: HealingMatchConstants
-                                        .registrationIdentityUpload,
-                                  ),
-                                ),
-                              )
-                            : Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      //width: 140.0, // MediaQuery.of(context).size.width * 0.38,
-                                      //height: MediaQuery.of(context).size.height * 0.19,
-                                      width: 140.0,
-                                      height: 140.0,
-                                      decoration: new BoxDecoration(
-                                        //   border: Border.all(color: Colors.black12),
-                                        //   shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: FileImage(
-                                              File(_idProfileImage.path)),
-                                        ),
-                                      ),
+                        visible: true,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  //width: 140.0, // MediaQuery.of(context).size.width * 0.38,
+                                  //height: MediaQuery.of(context).size.height * 0.19,
+                                  width: 140.0,
+                                  height: 140.0,
+                                  decoration: new BoxDecoration(
+                                    //   border: Border.all(color: Colors.black12),
+                                    //   shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          userData.proofOfIdentityImgUrl),
                                     ),
-                                  ),
-                                  Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _idProfileImage = null;
-                                            });
-                                          },
-                                          child: CircleAvatar(
-                                            radius: 15.0,
-                                            backgroundColor: Colors.white,
-                                            child: Icon(
-                                              Icons.close_outlined,
-                                              color: Colors.black,
-                                              size: 20.0,
-                                            ),
-                                          )) /* IconButton(
-                                            padding: EdgeInsets.all(0.0),
-                                            icon: Icon(Icons.remove_circle),
-                                            iconSize: 30.0,
-                                            color: Colors.red,
-                                            onPressed: () {
-                                              setState(() {
-                                                _idProfileImage = null;
-                                              });
-                                            },
-                                          ), */
-                                      )
-                                ],
-                              ),
+                                  )),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: sizedBoxFormHeight),
@@ -1745,44 +1676,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         .requestFocus(new FocusNode());
                                   });
                                 },
-                                dataSource: [
-                                  {
-                                    "display": "はり師",
-                                    "value": "はり師",
-                                  },
-                                  {
-                                    "display": "きゅう師",
-                                    "value": "きゅう師",
-                                  },
-                                  {
-                                    "display": "鍼灸師",
-                                    "value": "鍼灸師",
-                                  },
-                                  {
-                                    "display": "あん摩マッサージ指圧師",
-                                    "value": "あん摩マッサージ指圧師",
-                                  },
-                                  {
-                                    "display": "柔道整復師",
-                                    "value": "柔道整復師",
-                                  },
-                                  {
-                                    "display": "理学療法士",
-                                    "value": "理学療法士",
-                                  },
-                                  {
-                                    "display": "国家資格取得予定（学生）",
-                                    "value": "国家資格取得予定（学生）",
-                                  },
-                                  {
-                                    "display": "民間資格",
-                                    "value": "民間資格",
-                                  },
-                                  {
-                                    "display": "無資格",
-                                    "value": "無資格",
-                                  },
-                                ],
+                                dataSource: qualificationCertificates,
+                                isList: true,
                                 textField: 'display',
                                 valueField: 'value',
                               ),
@@ -1816,68 +1711,75 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       (!oldCertificateImages
                                               .containsKey(qualification) ||
                                           qualification == "民間資格")
-                                  ? Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            _showPicker(context, 1);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.all(0.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: ColorConstants
-                                                  .formFieldFillColor,
-                                            ),
-                                            padding: EdgeInsets.all(8),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.38,
-                                            height:
-                                                140.0, //MediaQuery.of(context).size.height * 0.19,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                /*  Text('アップロード'),
-                                                  Text('証明書'), */
-                                                Center(
-                                                  child: FittedBox(
-                                                      child: Text(
-                                                    "$qualification",
-                                                    textAlign: TextAlign.center,
-                                                  )),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    _showPicker(context, 1);
-                                                    /*  if (certificateImages.length ==
-                                                          5) {
-                                                        showCertificateImageError();
-                                                      } else {
-                                                        _showPicker(context, 1);
-                                                      } */
-                                                  },
-                                                  icon: Icon(Icons.file_upload),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  HealingMatchConstants
-                                                      .registrationQualificationUpload,
-                                                  style:
-                                                      TextStyle(fontSize: 8.5),
-                                                ),
-                                              ],
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              _showPicker(context, 1);
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.all(0.0),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                color: ColorConstants
+                                                    .formFieldFillColor,
+                                              ),
+                                              padding: EdgeInsets.all(8),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.38,
+                                              height:
+                                                  140.0, //MediaQuery.of(context).size.height * 0.19,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  /*  Text('アップロード'),
+                                                    Text('証明書'), */
+                                                  Center(
+                                                    child: FittedBox(
+                                                        child: Text(
+                                                      "$qualification",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    )),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      _showPicker(context, 1);
+                                                      /*  if (certificateImages.length ==
+                                                            5) {
+                                                          showCertificateImageError();
+                                                        } else {
+                                                          _showPicker(context, 1);
+                                                        } */
+                                                    },
+                                                    icon:
+                                                        Icon(Icons.file_upload),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    HealingMatchConstants
+                                                        .registrationQualificationUpload,
+                                                    style: TextStyle(
+                                                        fontSize: 8.5),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     )
                                   : Container(),
 
@@ -2273,7 +2175,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     var genderSelecetedValue = gender;
 
     //Profile image validation
-    if (_profileImage == null || _profileImage.path == null) {
+    if ((_profileImage == null) && userData.uploadProfileImgUrl == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
@@ -2670,6 +2572,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
     HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
+    HealingMatchConstants.serviceProviderStoreType.clear();
     HealingMatchConstants.serviceProviderStoreType
         .addAll(selectedStoreTypeDisplayValues);
     HealingMatchConstants.serviceProviderBusinessTripService =
@@ -2681,8 +2584,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
     // Getting user GPS Address value
-    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する' &&
-        _isGPSLocation) {
+    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する') {
       HealingMatchConstants.serviceProviderAddress = address;
       print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
     } else if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
@@ -2713,8 +2615,216 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = myCity;
     }
+    updateProfile();
+  }
 
-    NavigationRouter.switchToServiceProviderSecondScreen(context);
+  void updateProfile() async {
+    String qualification = '';
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    int i = 0;
+    List<MultipartFile> multipartList = new List<MultipartFile>();
+
+    certificateImages.forEach((key, value) {
+      if (i == 0) {
+        qualification = key;
+      } else {
+        qualification = qualification + "," + key;
+      }
+      i++;
+    });
+
+    if (privateQualification.length != 0 &&
+        !(oldPrivateQualification.length == 0)) {
+      if (qualification != '') {
+        qualification = qualification + "," + '民間資格';
+      } else {
+        qualification = '民間資格';
+      }
+    }
+
+    String childrenMeasure = '';
+    if (HealingMatchConstants.serviceProviderChildrenMeasure.isEmpty) {
+      childrenMeasure = '';
+    } else {
+      for (int i = 0;
+          i < HealingMatchConstants.serviceProviderChildrenMeasure.length;
+          i++) {
+        if (i == 0) {
+          childrenMeasure =
+              HealingMatchConstants.serviceProviderChildrenMeasure[0];
+        } else {
+          childrenMeasure = childrenMeasure +
+              "," +
+              HealingMatchConstants.serviceProviderChildrenMeasure[i];
+        }
+      }
+    }
+
+    certificateImages.forEach((key, value) async {
+      multipartList.add(await http.MultipartFile.fromPath(key, value));
+    });
+
+    updateAddressValues();
+
+    updateBankValues();
+
+    String storeTypeDisplay = '';
+    if (HealingMatchConstants.serviceProviderStoreType.isEmpty) {
+      storeTypeDisplay = '';
+    } else {
+      for (int i = 0;
+          i < HealingMatchConstants.serviceProviderStoreType.length;
+          i++) {
+        if (i == 0) {
+          storeTypeDisplay = HealingMatchConstants.serviceProviderStoreType[0];
+        } else {
+          storeTypeDisplay = storeTypeDisplay +
+              "," +
+              HealingMatchConstants.serviceProviderStoreType[i];
+        }
+      }
+    }
+
+    var headers = {
+      'Content-Type': 'application/json',
+      'x-access-token': HealingMatchConstants.accessToken
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(HealingMatchConstants.UPDATE_PROVIDER_DETAILS_URL));
+    request.fields.addAll({
+      'id': userData.id.toString(),
+      'isTherapist': '1',
+      'email': HealingMatchConstants.serviceProviderEmailAddress,
+      'storeName': HealingMatchConstants.serviceProviderStoreName,
+      'genderOfService':
+          HealingMatchConstants.serviceProviderGenderService != null
+              ? HealingMatchConstants.serviceProviderGenderService
+              : '',
+      'storeType': storeTypeDisplay,
+      'numberOfEmp': HealingMatchConstants.serviceProviderNumberOfEmpl != null
+          ? HealingMatchConstants.serviceProviderNumberOfEmpl
+          : '0',
+      'businessTrip':
+          HealingMatchConstants.serviceProviderBusinessTripService == "はい"
+              ? '1'
+              : '0',
+      'coronaMeasure':
+          HealingMatchConstants.serviceProviderCoronaMeasure == "はい"
+              ? '1'
+              : '0',
+      'childrenMeasure': childrenMeasure,
+      'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
+      'bankDetails': json.encode(userData.bankDetails),
+      'address': json.encode(userData.addresses),
+    });
+    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+      request.fields.addAll({
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
+      });
+    }
+    if (userData.qulaificationCertImgUrl != null &&
+        userData.qulaificationCertImgUrl != '') {
+      if (qualification != '') {
+        request.fields.addAll({
+          'qulaificationCertImgUrl':
+              userData.qulaificationCertImgUrl + ',' + qualification
+        });
+      } else {
+        request.fields.addAll(
+            {'qulaificationCertImgUrl': userData.qulaificationCertImgUrl});
+      }
+    } else {
+      request.fields.addAll({'qulaificationCertImgUrl': qualification});
+    }
+
+    //Upload Profile Image if not null
+    if (HealingMatchConstants.profileImage != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+          'uploadProfileImgUrl', HealingMatchConstants.profileImage.path));
+    }
+
+    //Upload Certificate Files
+    request.files.addAll(multipartList);
+
+    //Upload Old Private Qualification Images to avoid replace
+    for (var value in oldPrivateQualification) {
+      request.files.add(http.MultipartFile.fromString('民間資格', value));
+    }
+
+    //Upload Private Qualification Images
+    for (var certificate in privateQualification) {
+      request.files.add(await http.MultipartFile.fromPath('民間資格', certificate));
+    }
+    request.headers.addAll(headers);
+
+    try {
+      final userDetailsRequest = await request.send();
+      print("This is request : ${userDetailsRequest.request}");
+      final response = await http.Response.fromStream(userDetailsRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isRegisterSuccess(
+          response.statusCode, context, response.body)) {
+        profileUpdate.ProviderProfileUpdateResponseModel
+            providerProfileUpdateResponseModel =
+            profileUpdate.ProviderProfileUpdateResponseModel.fromJson(
+                json.decode(response.body));
+        profileUpdate.Data userData = providerProfileUpdateResponseModel.data;
+        sharedPreferences.setString("userData", json.encode(userData));
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print(
+            'Update response : ${providerProfileUpdateResponseModel.toJson()}');
+        Navigator.pop(context);
+      } else {
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
+      //handle socket Exception
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
+    } catch (_) {
+      //handle other error
+      print("Error");
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+    }
+  }
+
+  void updateBankValues() {
+    userData.bankDetails[0].bankName =
+        bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
+            ? bankOtherFieldController.text
+            : bankname;
+    userData.bankDetails[0].branchCode = branchCodeController.text;
+    userData.bankDetails[0].branchNumber = branchNumberController.text;
+    userData.bankDetails[0].accountNumber = accountnumberController.text;
+    userData.bankDetails[0].accountType = accountType;
+    userData.bankDetails[0].updatedAt = DateTime.now();
+  }
+
+  void updateAddressValues() {
+    userData.addresses[0].addressTypeSelection =
+        HealingMatchConstants.serviceProviderAddressType;
+    userData.addresses[0].address =
+        HealingMatchConstants.serviceProviderAddress;
+    userData.addresses[0].area = HealingMatchConstants.serviceProviderArea;
+    userData.addresses[0].buildingName =
+        HealingMatchConstants.serviceProviderBuildingName;
+    userData.addresses[0].userRoomNumber =
+        HealingMatchConstants.serviceProviderRoomNumber;
+    userData.addresses[0].cityName = HealingMatchConstants.serviceProviderCity;
+    userData.addresses[0].capitalAndPrefecture =
+        HealingMatchConstants.serviceProviderPrefecture;
+    userData.addresses[0].lat =
+        HealingMatchConstants.serviceProviderCurrentLatitude;
+    userData.addresses[0].lon =
+        HealingMatchConstants.serviceProviderCurrentLongitude;
+    if (HealingMatchConstants.serviceProviderAddressType == "直接入力") {
+      userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
+      userData.addresses[0].capitalAndPrefectureId =
+          stateDropDownValues.indexOf(myState) + 1;
+    }
   }
 
   void _showPicker(context, int index) {
@@ -2748,45 +2858,47 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   _imgFromCamera(int index) async {
+    PickedFile pickedFile;
     final image = await ImagePicker().getImage(
         source: ImageSource.camera,
         imageQuality: 50,
         preferredCameraDevice: CameraDevice.front);
 
     setState(() {
-      _profileImage = image;
+      pickedFile = image;
       if (index == 0) {
-        _idProfileImage = _profileImage;
+        _profileImage = pickedFile;
       } else {
         if (qualification == "民間資格") {
-          privateQualification.add(_profileImage.path);
+          privateQualification.add(pickedFile.path);
           uploadVisible = false;
         } else {
-          certificateImages[qualification] = _profileImage.path;
+          certificateImages[qualification] = pickedFile.path;
         }
       }
     });
-    print('image path : ${_profileImage.path}');
+    print('image path : ${pickedFile.path}');
   }
 
   _imgFromGallery(int index) async {
+    PickedFile pickedFile;
     final image = await ImagePicker()
         .getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
-      _profileImage = image;
+      pickedFile = image;
       if (index == 0) {
-        _idProfileImage = _profileImage;
+        _profileImage = pickedFile;
       } else {
         if (qualification == "民間資格") {
-          privateQualification.add(_profileImage.path);
+          privateQualification.add(pickedFile.path);
           uploadVisible = false;
         } else {
-          certificateImages[qualification] = _profileImage.path;
+          certificateImages[qualification] = pickedFile.path;
         }
       }
     });
-    print('image path : ${_profileImage.path}');
+    print('image path : ${pickedFile.path}');
   }
 
   // CityList cityResponse;
@@ -3006,6 +3118,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   Widget buildOldQualificationImage(String key, int index) {
+    String keyJaValue = getQualififcationJaWords(key);
     return Container(
       padding: EdgeInsets.only(left: 16.0),
       child: Column(
@@ -3032,7 +3145,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           SizedBox(
             height: 10,
           ),
-          Text("$key"),
+          Text("$keyJaValue"),
         ],
       ),
     );
@@ -3103,7 +3216,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   Widget buildPrivateQualificationImage(
       String privateQualificationImage, int index) {
     return Container(
-      padding: EdgeInsets.only(left: index == 0 ? 0.0 : 16.0),
+      padding: EdgeInsets.only(
+          left: index == 0 &&
+                  (oldCertificateImages.length == 0 &&
+                      certificateImages.length == 0)
+              ? 0.0
+              : 16.0),
       child: Column(
         children: [
           Stack(
@@ -3174,11 +3292,24 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     mailAddressController.text = userData.email;
     registrationAddressType = userData.addresses[0].addressTypeSelection;
     showAddressField = true;
-    visible = true;
-    gpsAddressController.text = userData.addresses[0].address;
+    if (registrationAddressType == '現在地を取得する') {
+      gpsAddressController.text = userData.addresses[0].address;
+      gpsAddressVisible = true;
+    } else {
+      manualAddressController.text = userData.addresses[0].address;
+      myCity = userData.addresses[0].cityName;
+      myState = userData.addresses[0].capitalAndPrefecture;
+    }
+    identificationverify = userData.proofOfIdentityType;
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
-    bankname = userData.bankDetails[0].bankName;
+    if (bankNameDropDownList.contains(userData.bankDetails[0].bankName)) {
+      bankname = userData.bankDetails[0].bankName;
+    } else {
+      bankname = HealingMatchConstants.registrationBankOtherDropdownFiled;
+      bankOtherFieldController.text = userData.bankDetails[0].bankName;
+    }
+
     accountType = userData.bankDetails[0].accountType;
     accountnumberController.text = userData.bankDetails[0].accountNumber;
     branchCodeController.text = userData.bankDetails[0].branchCode;
@@ -3191,9 +3322,16 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     certificateUpload.remove('updatedAt');
     certificateUpload.forEach((key, value) async {
       if (certificateUpload[key] != null) {
-        oldCertificateImages[getQualififcationJaWords(key)] = value;
+        oldCertificateImages[key] = value;
+        if (getQualififcationJaWords(key) == "民間資格") {
+          oldPrivateQualification.add(value);
+        }
       }
     });
+    //remove unqualified value from dropddown if certififcate already uploaded
+    if (oldCertificateImages.length != 0) {
+      qualificationCertificates.removeLast();
+    }
     setState(() {
       status = 1;
     });

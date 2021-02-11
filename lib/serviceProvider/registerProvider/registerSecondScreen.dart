@@ -982,12 +982,9 @@ class _RegistrationSecondPageState
   registerProvider() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
-    List<CertificateImageUpload> cImagesList =
-        new List<CertificateImageUpload>();
     String qualification = '';
     int i = 0;
     certificateImages.forEach((key, value) {
-      cImagesList.add(CertificateImageUpload(key, value));
       if (i == 0) {
         qualification = key;
       } else {
@@ -1063,10 +1060,6 @@ class _RegistrationSecondPageState
       'storeName': HealingMatchConstants.serviceProviderStoreName != null
           ? HealingMatchConstants.serviceProviderStoreName
           : '',
-      'storePhone':
-          HealingMatchConstants.serviceProviderStorePhoneNumber != null
-              ? HealingMatchConstants.serviceProviderStorePhoneNumber
-              : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
       'addressTypeSelection': HealingMatchConstants.serviceProviderAddressType,
@@ -1118,6 +1111,13 @@ class _RegistrationSecondPageState
         HealingMatchConstants.fitnessServicePriceModel,
       ),
     });
+
+    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+      request.fields.addAll({
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
+      });
+    }
+
     var a = request.fields.toString();
 
     //Upload Proof of ID

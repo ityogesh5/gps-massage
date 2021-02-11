@@ -558,6 +558,8 @@ class _MyAccountState extends State<MyAccount> {
           await SharedPreferences.getInstance();
       userData =
           Data.fromJson(json.decode(sharedPreferences.getString("userData")));
+      HealingMatchConstants.accessToken =
+          sharedPreferences.getString("accessToken");
       setState(() {
         status = 1;
       });

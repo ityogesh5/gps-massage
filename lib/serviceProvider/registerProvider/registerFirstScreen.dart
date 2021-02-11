@@ -1500,8 +1500,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                   validateFields();
-                  /*     NavigationRouter.switchToServiceProviderSecondScreen(
+                    validateFields();
+                    /*     NavigationRouter.switchToServiceProviderSecondScreen(
                                       context); */
                   },
                 ),
@@ -2124,6 +2124,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         confirmPasswordController.text;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
     HealingMatchConstants.serviceProviderNumberOfEmpl = numberOfEmployees;
+    HealingMatchConstants.serviceProviderStoreType.clear();
     HealingMatchConstants.serviceProviderStoreType
         .addAll(selectedStoreTypeDisplayValues);
     HealingMatchConstants.serviceProviderBusinessTripService =
@@ -2140,7 +2141,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         _isGPSLocation) {
       HealingMatchConstants.serviceProviderAddress = address;
       print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
+    } else //if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
+    {
       String address = roomnumber +
           ',' +
           buildingname +
@@ -2158,10 +2160,10 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           addressPosition.latitude;
       HealingMatchConstants.serviceProviderCurrentLongitude =
           addressPosition.longitude;
-      HealingMatchConstants.serviceProviderCity =
+      /* HealingMatchConstants.serviceProviderCity =
           userAddedAddressPlaceMark.locality;
-      HealingMatchConstants.serviceProviderPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;
+       HealingMatchConstants.serviceProviderPrefecture =
+          userAddedAddressPlaceMark.administrativeArea;*/
       HealingMatchConstants.serviceProviderAddress = address;
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;

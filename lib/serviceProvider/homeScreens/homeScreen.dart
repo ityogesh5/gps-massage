@@ -1231,6 +1231,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
+    HealingMatchConstants.accessToken = sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
     if (userData.childrenMeasure != null) {
       var split = userData.childrenMeasure.split(',');
