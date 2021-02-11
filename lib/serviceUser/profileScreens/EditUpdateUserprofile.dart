@@ -600,6 +600,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
+                        enabled: false,
                         autofocus: false,
                         //maxLength: 10,
                         controller: phoneNumberController,
@@ -2327,6 +2328,48 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       final profileUpdateResponseModel =
           ProfileUpdateResponseModel.fromJson(userDetailsResponse);
       print(profileUpdateResponseModel.status);
+      _sharedPreferences.then((value) {
+        value.clear();
+        // value.setString('accessToken', profileUpdateResponseModel.accessToken);
+        value.setString('did', profileUpdateResponseModel.data.id.toString());
+        value.setString('profileImage',
+            profileUpdateResponseModel.data.uploadProfileImgUrl);
+        value.setString('userName', profileUpdateResponseModel.data.userName);
+        value.setString('userPhoneNumber',
+            profileUpdateResponseModel.data.phoneNumber.toString());
+        value.setString(
+            'userEmailAddress', profileUpdateResponseModel.data.email);
+        value.setString(
+            'userDOB',
+            DateFormat("yyyy-MM-dd")
+                .format(profileUpdateResponseModel.data.dob)
+                .toString()
+                .toString());
+        value.setString(
+            'userAge', profileUpdateResponseModel.data.age.toString());
+        value.setString('userGender', profileUpdateResponseModel.data.gender);
+        value.setString(
+            'userOccupation', profileUpdateResponseModel.data.userOccupation);
+        value.setString(
+            'userAddress', profileUpdateResponseModel.address.address);
+        value.setString(
+            'buildingName', profileUpdateResponseModel.address.buildingName);
+        value.setString(
+            'roomNumber', profileUpdateResponseModel.address.userRoomNumber);
+        value.setString('area', profileUpdateResponseModel.address.area);
+        value.setString('addressType',
+            profileUpdateResponseModel.address.addressTypeSelection);
+        value.setString(
+            'addressID', profileUpdateResponseModel.address.id.toString());
+        value.setString(
+            'userID', profileUpdateResponseModel.address.userId.toString());
+        value.setString('userPlaceForMassage',
+            profileUpdateResponseModel.address.userPlaceForMassage);
+        value.setString(
+            'cityName', profileUpdateResponseModel.address.cityName);
+        value.setString('capitalAndPrefecture',
+            profileUpdateResponseModel.address.capitalAndPrefecture);
+      });
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
     } else {
