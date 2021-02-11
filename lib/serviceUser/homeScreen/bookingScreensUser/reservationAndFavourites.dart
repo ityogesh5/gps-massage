@@ -122,27 +122,27 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
               child: _tabIndex == 1
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("掲載コメント",
+                      child: Text("過去の予約",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
                               fontFamily: 'Oxygen',
                               fontWeight: FontWeight.bold)),
                     )
-                  : buildUnSelectedTabBar("掲載コメント"),
+                  : buildUnSelectedTabBar("過去の予約"),
             ),
             Tab(
               child: _tabIndex == 2
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text("サービス内容",
+                      child: Text("お気に入り",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
                               fontFamily: 'Oxygen',
                               fontWeight: FontWeight.bold)),
                     )
-                  : buildUnSelectedTabBar("サービス内容"),
+                  : buildUnSelectedTabBar("お気に入り"),
             ),
           ],
         ),

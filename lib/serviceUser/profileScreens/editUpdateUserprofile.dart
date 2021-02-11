@@ -1678,6 +1678,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
     var searchRadius = _mySearchRadiusDistance;
+    print('searchRadius: ${_mySearchRadiusDistance}');
 
     //double searchRadisu =
 
@@ -2196,12 +2197,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: 2.toString(),
+          userId: HealingMatchConstants.userEditId,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
           userPlaceForMassage: _myCategoryPlaceForMassage,
-          // capitalAndPrefecture:_myPrefecture,
+          capitalAndPrefecture: _myPrefecture,
           cityName: _myCity,
           // citiesId: '',
           area: userAreaController.text.toString(),
