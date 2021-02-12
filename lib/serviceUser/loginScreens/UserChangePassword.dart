@@ -170,6 +170,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       maxLength: 16,
                       controller: createPasswordController,
                       keyboardType: TextInputType.emailAddress,
+                      style: HealingMatchConstants.formTextStyle,
                       decoration: new InputDecoration(
                         counterText: "",
                         border: HealingMatchConstants.textFormInputBorder,
@@ -190,7 +191,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                             }),
                         filled: true,
                         labelText: HealingMatchConstants.changePasswordNewpass,
-                        labelStyle: TextStyle(fontFamily: 'Oxygen'),
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -203,6 +204,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       focusNode: confirmPasswordFocus,
                       controller: confirmPasswordController,
                       keyboardType: TextInputType.emailAddress,
+                      style: HealingMatchConstants.formTextStyle,
                       maxLength: 16,
                       decoration: new InputDecoration(
                         counterText: "",
@@ -225,7 +227,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         filled: true,
                         labelText:
                             HealingMatchConstants.changePasswordConfirmpass,
-                        labelStyle: TextStyle(fontFamily: 'Oxygen'),
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),

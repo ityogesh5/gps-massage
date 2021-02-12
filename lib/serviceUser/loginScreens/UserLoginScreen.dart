@@ -118,6 +118,7 @@ class _UserLoginState extends State<UserLogin> {
                   maxLength: 10,
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
+                  style: HealingMatchConstants.formTextStyle,
                   decoration: InputDecoration(
                     counterText: '',
                     contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -127,7 +128,7 @@ class _UserLoginState extends State<UserLogin> {
                     enabledBorder: HealingMatchConstants.textFormInputBorder,
                     filled: true,
                     labelText: HealingMatchConstants.loginPhoneNumber,
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -136,6 +137,7 @@ class _UserLoginState extends State<UserLogin> {
                 ),
                 TextFormField(
                   controller: passwordController,
+                  style: HealingMatchConstants.formTextStyle,
                   obscureText: passwordVisibility,
                   decoration: new InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -156,7 +158,7 @@ class _UserLoginState extends State<UserLogin> {
                     // hintStyle:
                     //     TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
                     labelText: HealingMatchConstants.loginUserPassword,
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),

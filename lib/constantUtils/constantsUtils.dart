@@ -234,7 +234,7 @@ class HealingMatchConstants {
   static const String chooseServiceAddtoDropdownButton = "追加";
 
   //Forget Password
-  static const String forgetPasswordPhn = "電話番号 *";
+  static const String forgetPasswordPhn = "電話番号 ";
   static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
       "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";

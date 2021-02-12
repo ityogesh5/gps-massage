@@ -74,6 +74,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                     TextFormField(
                       maxLength: 10,
                       textInputAction: TextInputAction.done,
+                      style: HealingMatchConstants.formTextStyle,
                       focusNode: phoneNumberFocus,
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
@@ -89,6 +90,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
                         labelText: HealingMatchConstants.userPasswordPhn,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         /* hintStyle: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Oxygen',
