@@ -557,7 +557,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   height: MediaQuery.of(context).size.height * 0.065,
                   child: RaisedButton(
                     child: Text(
-                      '${HealingMatchConstants.loginUserButton}',
+                      'さがす',
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Oxygen',

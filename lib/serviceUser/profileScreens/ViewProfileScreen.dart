@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
@@ -137,8 +138,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               fontWeight: FontWeight.bold),
                         ),
                   Chip(
-                      avatar:
-                          Icon(Icons.phone_rounded, color: Colors.grey[400]),
+                      avatar: SvgPicture.asset(
+                        'assets/images_gps/phone.svg',
+                        // height: 35,
+                        //  color: Colors.grey,
+                      ),
                       backgroundColor: Colors.grey[100],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -187,8 +191,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             MyRow(
-                                Icon(Icons.mail_outline_rounded,
-                                    size: 30, color: Colors.grey[500]),
+                                SvgPicture.asset(
+                                  'assets/images_gps/mail.svg',
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 HealingMatchConstants
                                             .serviceUserEmailAddress.isEmpty ||
                                         emailAddress.isEmpty
@@ -208,8 +215,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.calendar_today_rounded,
-                                    size: 30, color: Colors.grey[500]),
+                                SvgPicture.asset(
+                                  'assets/images_gps/calendar.svg',
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 HealingMatchConstants.serviceUserDOB.isEmpty ||
                                         dob.isEmpty
                                     ? Text('生年月日',
@@ -250,8 +260,18 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 )),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.person_outline_sharp,
-                                    size: 30, color: Colors.grey[500]),
+                                HealingMatchConstants.serviceUserGender
+                                        .contains('男性')
+                                    ? SvgPicture.asset(
+                                        'assets/images_gps/male.svg',
+                                        // height: 35,
+                                        //  color: Colors.grey,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/images_gps/female.svg',
+                                        // height: 35,
+                                        //  color: Colors.grey,
+                                      ),
                                 HealingMatchConstants
                                             .serviceUserGender.isEmpty ||
                                         userGender.isEmpty
@@ -271,8 +291,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.shopping_bag,
-                                    size: 30, color: Colors.grey[500]),
+                                SvgPicture.asset(
+                                  'assets/images_gps/work.svg',
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 HealingMatchConstants
                                             .serviceUserOccupation.isEmpty ||
                                         userOccupation.isEmpty
@@ -292,8 +315,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.location_on_outlined,
-                                    size: 30, color: Colors.grey[500]),
+                                SvgPicture.asset(
+                                  'assets/images_gps/address.svg',
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 HealingMatchConstants
                                             .serviceUserAddress.isEmpty ||
                                         userAddress.isEmpty
@@ -316,8 +342,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                Icon(Icons.settings_input_antenna_rounded,
-                                    size: 30, color: Colors.grey[500]),
+                                SvgPicture.asset(
+                                  'assets/images_gps/range.svg',
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 Text('セラピスト検索範囲5.0Km距離。',
                                     style: TextStyle(
                                         fontFamily: 'Oxygen',
@@ -347,6 +376,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Center(child: image),
+          SizedBox(
+            width: 5,
+          ),
           Flexible(child: text),
           Padding(
             padding: const EdgeInsets.all(8.0),

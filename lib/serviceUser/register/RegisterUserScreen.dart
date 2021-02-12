@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -343,9 +344,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       child: CircleAvatar(
                                         backgroundColor: Colors.grey[100],
                                         radius: 12,
-                                        child: Icon(Icons.upload_outlined,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
+                                        child: Image.asset(
+                                            "assets/images_gps/upload.png"),
                                       ),
                                     ),
                                   ),
@@ -422,10 +422,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                       labelStyle: TextStyle(
                                         color: Colors.grey[400],
                                       ),
-                                      suffixIcon: Icon(
-                                        Icons.calendar_today,
-                                        color: Color.fromRGBO(211, 211, 211, 1),
-                                      ),
+                                      suffixIcon: Image.asset(
+                                          "assets/images_gps/calendar.png"),
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
                                       focusedBorder: HealingMatchConstants
