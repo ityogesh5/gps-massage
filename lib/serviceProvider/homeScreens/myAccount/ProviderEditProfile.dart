@@ -2230,7 +2230,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
             }*/
 
     //storename Validation
-    if (storename.length == 0 || storename.isEmpty || storename == null) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storename.length == 0 || storename.isEmpty || storename == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2245,7 +2247,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    if (storename.length > 20) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storename.length > 20)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('店舗名は20文字以内で入力してください。',
@@ -2327,7 +2331,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     // store phone number validation
-    if ((storenumber == null || storenumber.isEmpty)) {
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storenumber == null || storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の電話番号を入力してください。',
@@ -2341,10 +2347,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       ));
       return;
     }
-    if (storenumber.length > 10 ||
-        storenumber.length < 10 ||
-        storenumber == null ||
-        storenumber.isEmpty) {
+
+    if ((bussinessForm == "施術店舗あり 施術従業員あり" ||
+            bussinessForm == "施術店舗あり 施術従業員なし（個人経営）") &&
+        (storenumber.length > 10 ||
+            storenumber.length < 10 ||
+            storenumber == null ||
+            storenumber.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',
@@ -2534,6 +2543,24 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
+    //certificate Validation
+    if (certificateImages.isEmpty &&
+        qualification != "無資格" &&
+        privateQualification.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('証明書ファイルをアップロードしてください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     //Save Values to Constants
     HealingMatchConstants.profileImage = _profileImage;
     HealingMatchConstants.serviceProviderUserName = userName;
@@ -2691,9 +2718,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'bankDetails': json.encode(userData.bankDetails),
       'address': json.encode(userData.addresses),
     });
-    if (HealingMatchConstants.serviceProviderStorePhoneNumber != '') {
+    if (storePhoneNumberController.text != '' &&
+        storePhoneNumberController.text != null) {
       request.fields.addAll({
-        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
+        'storePhone':
+            '9842765543' //HealingMatchConstants.serviceProviderStorePhoneNumber
       });
     }
     if (userData.qulaificationCertImgUrl != null &&
@@ -2891,7 +2920,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
           print(cityDropDownValues);
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
-        setState(() {});
+        setState(() {
+          if (registrationAddressType != '現在地を取得する') {
+            myCity = userData.addresses[0].cityName;
+          }
+        });
       }
     });
   }
@@ -3244,8 +3277,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     selectedStoreTypeDisplayValues = userData.storeType.split(',');
     serviceBusinessTrips = userData.businessTrip ? 'はい' : 'いいえ';
     coronaMeasures = userData.coronaMeasure ? 'はい' : 'いいえ';
-    childrenMeasuresDropDownValuesSelected =
-        userData.childrenMeasure.split(',');
+    if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
+      childrenMeasuresDropDownValuesSelected =
+          userData.childrenMeasure.split(',');
+    }
     genderTreatment = userData.genderOfService;
     providerNameController.text = userData.userName;
     storeNameController.text = userData.storeName;
@@ -3254,7 +3289,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     ageController.text = userData.age.toString();
     gender = userData.gender;
     phoneNumberController.text = userData.phoneNumber.toString();
-    storePhoneNumberController.text = userData.storePhone.toString();
+    if (userData.storePhone.toString() != '' &&
+        userData.storePhone.toString() != null) {
+      storePhoneNumberController.text = userData.storePhone.toString();
+    }
     mailAddressController.text = userData.email;
     registrationAddressType = userData.addresses[0].addressTypeSelection;
     showAddressField = true;
@@ -3269,11 +3307,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     identificationverify = userData.proofOfIdentityType;
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
-    if (bankNameDropDownList.contains(userData.bankDetails[0].bankName)) {
-      bankname = userData.bankDetails[0].bankName;
-    } else {
-      bankname = HealingMatchConstants.registrationBankOtherDropdownFiled;
-      bankOtherFieldController.text = userData.bankDetails[0].bankName;
+    if (userData.bankDetails[0].bankName != '') {
+      if (bankNameDropDownList.contains(userData.bankDetails[0].bankName)) {
+        bankname = userData.bankDetails[0].bankName;
+      } else {
+        bankname = HealingMatchConstants.registrationBankOtherDropdownFiled;
+        bankOtherFieldController.text = userData.bankDetails[0].bankName;
+      }
     }
 
     accountType = userData.bankDetails[0].accountType;
@@ -3312,7 +3352,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         stateDropDownValues.add(stateList.prefectureJa);
         // print(stateDropDownValues);
       }
-      setState(() {});
+      setState(() {
+        if (myState != null && myState != '') {
+          _prefid = stateDropDownValues.indexOf(myState) + 1;
+          print('prefID : ${_prefid.toString()}');
+          cityDropDownValues.clear();
+          myCity = '';
+          _getCityDropDown(_prefid);
+        }
+      });
       // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
   }

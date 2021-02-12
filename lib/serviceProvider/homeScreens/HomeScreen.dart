@@ -238,12 +238,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                           ],
                                         ),
                                         SizedBox(
-                                          height:
-                                              userData.genderOfService != null
-                                                  ? 10.0
-                                                  : 0.0,
+                                          height: userData.genderOfService !=
+                                                      null &&
+                                                  userData.genderOfService != ''
+                                              ? 10.0
+                                              : 0.0,
                                         ),
-                                        userData.genderOfService != null
+                                        userData.genderOfService != null &&
+                                                userData.genderOfService != ''
                                             ? Container(
                                                 padding: EdgeInsets.all(8.0),
                                                 decoration: boxDecoration,
@@ -278,48 +280,57 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               )
                                             : Container(),
                                         SizedBox(
-                                          height: childrenMeasure.length != 0
+                                          height: childrenMeasure != null
                                               ? 6.0
                                               : 0.0,
                                         ),
-                                        Container(
-                                          height: 45.0,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              130.0, //200.0,
-                                          child: ListView.builder(
-                                              itemCount: childrenMeasure.length,
-                                              padding: EdgeInsets.all(0.0),
-                                              scrollDirection: Axis.horizontal,
-                                              shrinkWrap: true,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Padding(
-                                                  padding: index == 0
-                                                      ? const EdgeInsets.only(
-                                                          left: 0.0,
-                                                          top: 4.0,
-                                                          right: 4.0,
-                                                          bottom: 4.0)
-                                                      : const EdgeInsets.all(
-                                                          4.0),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8),
-                                                    decoration: boxDecoration,
-                                                    child: Text(
-                                                      childrenMeasure[
-                                                          index], //Children Measure
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
-                                              }),
-                                        ),
+                                        childrenMeasure != null
+                                            ? Container(
+                                                height: 45.0,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    130.0, //200.0,
+                                                child: ListView.builder(
+                                                    itemCount:
+                                                        childrenMeasure.length,
+                                                    padding:
+                                                        EdgeInsets.all(0.0),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return Padding(
+                                                        padding: index == 0
+                                                            ? const EdgeInsets
+                                                                    .only(
+                                                                left: 0.0,
+                                                                top: 4.0,
+                                                                right: 4.0,
+                                                                bottom: 4.0)
+                                                            : const EdgeInsets
+                                                                .all(4.0),
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          decoration:
+                                                              boxDecoration,
+                                                          child: Text(
+                                                            childrenMeasure[
+                                                                index], //Children Measure
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }),
+                                              )
+                                            : Container(),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 0.0,
@@ -1253,34 +1264,38 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     HealingMatchConstants.accessToken =
         sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
-    if (userData.childrenMeasure != null) {
+    if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       var split = userData.childrenMeasure.split(',');
       childrenMeasure = {for (int i = 0; i < split.length; i++) i: split[i]};
-      certificateUpload = userData.certificationUploads[0].toJson();
-      certificateUpload.remove('id');
-      certificateUpload.remove('userId');
-      certificateUpload.remove('createdAt');
-      certificateUpload.remove('updatedAt');
-      certificateUpload.forEach((key, value) async {
-        if (certificateUpload[key] != null) {
-          String jKey = getQualififcationJaWords(key);
-          if (jKey == "はり師" ||
-              jKey == "きゅう師" ||
-              jKey == "鍼灸師" ||
-              jKey == "あん摩マッサージ指圧師" ||
-              jKey == "柔道整復師" ||
-              jKey == "理学療法士") {
-            certificateImages["国家資格保有"] = "国家資格保有";
-          } else if (jKey == "国家資格取得予定（学生）") {
-            certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-          } else if (jKey == "民間資格") {
-            certificateImages["民間資格"] = "民間資格";
-          } else if (jKey == "無資格") {
-            certificateImages["無資格"] = "無資格";
-          }
-        }
-      });
     }
+    certificateUpload = userData.certificationUploads[0].toJson();
+    certificateUpload.remove('id');
+    certificateUpload.remove('userId');
+    certificateUpload.remove('createdAt');
+    certificateUpload.remove('updatedAt');
+    certificateUpload.forEach((key, value) async {
+      if (certificateUpload[key] != null) {
+        String jKey = getQualififcationJaWords(key);
+        if (jKey == "はり師" ||
+            jKey == "きゅう師" ||
+            jKey == "鍼灸師" ||
+            jKey == "あん摩マッサージ指圧師" ||
+            jKey == "柔道整復師" ||
+            jKey == "理学療法士") {
+          certificateImages["国家資格保有"] = "国家資格保有";
+        } else if (jKey == "国家資格取得予定（学生）") {
+          certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+        } else if (jKey == "民間資格") {
+          certificateImages["民間資格"] = "民間資格";
+        } else if (jKey == "無資格") {
+          certificateImages["無資格"] = "無資格";
+        }
+      }
+    });
+    if (certificateImages.length == 0) {
+      certificateImages["無資格"] = "無資格";
+    }
+
     setState(() {
       status = 1;
     });

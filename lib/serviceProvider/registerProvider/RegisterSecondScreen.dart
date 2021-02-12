@@ -926,7 +926,7 @@ class _RegistrationSecondPageState
     }
 
     //Certificate validation
-   /*  if ((_myqualification.isEmpty || _myqualification == null)) {
+    /*  if ((_myqualification.isEmpty || _myqualification == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -941,7 +941,9 @@ class _RegistrationSecondPageState
       return;
     } */
 
-    if (certificateImages.isEmpty && _myqualification != "無資格" && privateQualification.isEmpty) {
+    if (certificateImages.isEmpty &&
+        _myqualification != "無資格" &&
+        privateQualification.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
@@ -984,20 +986,24 @@ class _RegistrationSecondPageState
     ProgressDialogBuilder.showProviderRegisterProgressDialog(context);
     String qualification = '';
     int i = 0;
-    certificateImages.forEach((key, value) {
-      if (i == 0) {
-        qualification = key;
-      } else {
-        qualification = qualification + "," + key;
-      }
-      i++;
-    });
+    if (this.qualification == "無資格") {
+      qualification = "無資格";
+    } else {
+      certificateImages.forEach((key, value) {
+        if (i == 0) {
+          qualification = key;
+        } else {
+          qualification = qualification + "," + key;
+        }
+        i++;
+      });
 
-    if (privateQualification.length != 0) {
-      if (qualification != '') {
-        qualification = qualification + "," + '民間資格';
-      } else {
-        qualification = '民間資格';
+      if (privateQualification.length != 0) {
+        if (qualification != '') {
+          qualification = qualification + "," + '民間資格';
+        } else {
+          qualification = '民間資格';
+        }
       }
     }
 

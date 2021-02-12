@@ -2328,7 +2328,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   Widget buildStoreTypeDisplayBoxContent(
       String storeTypeDisplayValues, int index) {
-    bool checkValue = false;
+    bool checkValue =
+        selectedStoreTypeDisplayValues.contains(storeTypeDisplayValues);
     return Column(
       children: [
         Row(
@@ -2344,15 +2345,15 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Checkbox(
-                      tristate: false,
+                      tristate: true,
                       activeColor: Colors.black,
                       checkColor: Colors.black,
                       value: checkValue,
                       onChanged: (value) {
-                        setState(() {
+                       /*  setState(() {
                           checkValue = value;
-                        });
-                        /*if (value == null) {
+                        }); */
+                        if (value == null) {
                           setState(() {
                             selectedStoreTypeDisplayValues
                                 .remove(storeTypeDisplayValues);
@@ -2362,7 +2363,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             selectedStoreTypeDisplayValues
                                 .add(storeTypeDisplayValues);
                           });
-                        }*/
+                        }
                       },
                     ),
                   )

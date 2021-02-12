@@ -218,11 +218,13 @@ class _MyAccountState extends State<MyAccount> {
                                                 ),
                                           SizedBox(width: 0))
                                       : Container(),
-                                  userData.childrenMeasure != null
+                                  userData.childrenMeasure != null &&
+                                          userData.childrenMeasure != ''
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.childrenMeasure != null
+                                  userData.childrenMeasure != null &&
+                                          userData.childrenMeasure != ''
                                       ? MyRow(
                                           Icon(Icons.location_on_outlined,
                                               size: 30,
@@ -234,11 +236,13 @@ class _MyAccountState extends State<MyAccount> {
                                           SizedBox(width: 0),
                                         )
                                       : Container(),
-                                  userData.genderOfService != null
+                                  userData.genderOfService != null &&
+                                          userData.genderOfService != ''
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.genderOfService != null
+                                  userData.genderOfService != null &&
+                                          userData.genderOfService != ''
                                       ? MyRow(
                                           Icon(
                                               Icons.supervisor_account_outlined,
@@ -249,11 +253,13 @@ class _MyAccountState extends State<MyAccount> {
                                                   textStyle), //Gender of Service Provided
                                           SizedBox(width: 0))
                                       : Container(),
-                                  userData.storeName != null
+                                  userData.storeName != null &&
+                                          userData.storeName != ''
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.storeName != null
+                                  userData.storeName != null &&
+                                          userData.storeName != ''
                                       ? MyRow(
                                           Icon(Icons.house,
                                               size: 30,
@@ -354,8 +360,8 @@ class _MyAccountState extends State<MyAccount> {
                           ],
                         )
                       : Container(),
-                  userData.bankDetails[0].bankName != null &&
-                          userData.bankDetails[0] != null
+                  userData.bankDetails[0].bankName != '' &&
+                          userData.bankDetails[0].accountNumber != ''
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -558,6 +564,7 @@ class _MyAccountState extends State<MyAccount> {
   getProfileDetails() async {
     if (HealingMatchConstants.userData != null) {
       userData = HealingMatchConstants.userData;
+      print("Qualififcation:+${userData.qulaificationCertImgUrl}");
       setState(() {
         status = 1;
       });
