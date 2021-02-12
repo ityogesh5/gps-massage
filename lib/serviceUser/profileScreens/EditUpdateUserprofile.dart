@@ -1678,7 +1678,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
-    var searchRadius = _mySearchRadiusDistance;
+    // var searchRadius = _mySearchRadiusDistance;
     print('searchRadius: ${_mySearchRadiusDistance}');
 
     //double searchRadisu =
@@ -2178,7 +2178,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: HealingMatchConstants.userEditId,
+          userId: rUserID,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2192,13 +2192,23 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         updateAddress.add(addUpdateAddress);
       });
     }
+    print('Id: ${HealingMatchConstants.userEditToken}');
+    print('Id: $rID');
+    print('Address ID : $_userAddressID');
+    print('UserId: $rUserID');
+    print('Name: $userName');
+    print('Dob: $userDOB');
+    print('Age: ${userAge}');
+    print('occupation: $_myOccupation');
+    print('phn: $userPhoneNumber');
+    print('email: $email');
     if (_myAddressInputType.isNotEmpty &&
         _myAddressInputType.contains('直接入力する')) {
       setState(() {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: HealingMatchConstants.userEditId,
+          userId: rUserID,
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2250,9 +2260,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Modified Address : ${manualUserAddress.trim()}');
     }
 
+    print('Id: $rID');
     print('Address ID : $_userAddressID');
-    print(' ID : ${HealingMatchConstants.userEditId}');
-    print(' ID : ${HealingMatchConstants.userEditToken}');
+    print('UserId: $rUserID');
+
     print("json Converted:" + json.encode(otherUserAddress));
     print("json Converted Address:" + json.encode(updateAddress));
 
@@ -2281,7 +2292,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "gender": _myGender,
         "uploadProfileImgUrl": _profileImage.path,
         "isTherapist": "0",
-        "userSearchRadiusDistance": searchRadius,
+        "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
@@ -2297,7 +2308,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "email": email,
         "gender": _myGender,
         "isTherapist": "0",
-        "userSearchRadiusDistance": searchRadius,
+        "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
         "subAddress": json.encode(otherUserAddress)
       });
@@ -2318,6 +2329,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     final userDetailsRequest = await request.send();
     final response = await http.Response.fromStream(userDetailsRequest);
+
     print('Success response code : ${response.statusCode}');
     print('SuccessMessage : ${response.reasonPhrase}');
     print('Response : ${response.body}');
@@ -2374,6 +2386,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               'subUserAddress', userAddressData.);*/
         }*/
       });
+      updateAddress.clear();
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
     } else {
@@ -2388,7 +2401,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       _sharedPreferences.then((value) {
         print('Getting values...EPF');
         // userProfileImage = value.getString('profileImage');
-        raccessToken = value.getString('accessToken');
+
         rUserName = value.getString('userName');
         rUserPhoneNumber = value.getString('userPhoneNumber');
         rEmailAddress = value.getString('userEmailAddress');
@@ -2410,7 +2423,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         // convertBase64ProfileImage(userProfileImage);
 
         setState(() {
-          HealingMatchConstants.userEditUserName = rUserName;
+          /* HealingMatchConstants.userEditUserName = rUserName;
           HealingMatchConstants.userEditPhoneNumber = rUserPhoneNumber;
           HealingMatchConstants.userEditEmailAddress = rEmailAddress;
           HealingMatchConstants.userEditDob = rDob;
@@ -2420,9 +2433,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
-          HealingMatchConstants.userEditId = rUserID;
+          HealingMatchConstants.userEditId = rUserID;*/
+          HealingMatchConstants.userEditToken = value.getString('accessToken');
+          userNameController.text = rUserName;
+          phoneNumberController.text = rUserPhoneNumber;
+          emailController.text = rEmailAddress;
+          ageController.text = rUserAge;
+          _userDOBController.text = rDob;
+          buildingNameController.text = rUserBuildName;
+          roomNumberController.text = rUserRoomNo;
+          gpsAddressController.text = rUserAddress;
+          userAreaController.text = rUserArea;
 
-          userNameController.text = HealingMatchConstants.userEditUserName;
+          /*userNameController.text = HealingMatchConstants.userEditUserName;
           phoneNumberController.text =
               HealingMatchConstants.userEditPhoneNumber;
           emailController.text = HealingMatchConstants.userEditEmailAddress;
@@ -2431,7 +2454,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           buildingNameController.text = HealingMatchConstants.userEditBuildName;
           roomNumberController.text = HealingMatchConstants.userEditRoomNo;
           gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
-          userAreaController.text = HealingMatchConstants.userEditArea;
+          userAreaController.text = HealingMatchConstants.userEditArea;*/
         });
         print(_myCategoryPlaceForMassage);
         print('Prefectute: $_myPrefecture');
@@ -2439,7 +2462,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('Token: ${HealingMatchConstants.userEditToken}');
         print('Id: $rID');
         print('Address ID : $_userAddressID');
-        print('UserId: ${HealingMatchConstants.userEditId}');
+        print('UserId: $rUserID');
+        print('UserBuildName: $rUserBuildName');
+        print('UserRoomNo: $rUserRoomNo');
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {

@@ -321,8 +321,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 child: CircleAvatar(
                                   backgroundColor: Colors.grey[100],
                                   radius: 12,
-                                  child: Icon(Icons.upload_outlined,
-                                      color: Colors.grey[400], size: 20.0),
+                                  child: Image.asset(
+                                      "assets/images_gps/upload.png"),
                                 ),
                               ),
                             ),
@@ -344,8 +344,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 child: CircleAvatar(
                                   backgroundColor: Colors.grey[100],
                                   radius: 12,
-                                  child: Icon(Icons.upload_outlined,
-                                      color: Colors.grey[400], size: 20.0),
+                                  child: Image.asset(
+                                      "assets/images_gps/upload.png"),
                                 ),
                               ),
                             ),
@@ -889,25 +889,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 controller: userDOBController,
                                 style: HealingMatchConstants.formTextStyle,
                                 decoration: InputDecoration(
-                                    labelText:
-                                        HealingMatchConstants.registrationDob,
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    suffixIcon: IconButton(
-                                        icon: Icon(Icons.calendar_today,
-                                            size: 28),
-                                        onPressed: () {
-                                          _selectDate(context);
-                                        }))),
+                                  labelText:
+                                      HealingMatchConstants.registrationDob,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle,
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  suffixIcon: Image.asset(
+                                      "assets/images_gps/calendar.png"),
+                                )),
                           ),
                         )),
                     SizedBox(

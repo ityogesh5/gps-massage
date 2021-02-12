@@ -32,7 +32,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
