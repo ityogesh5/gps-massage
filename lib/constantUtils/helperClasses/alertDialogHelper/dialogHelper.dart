@@ -982,7 +982,7 @@ class DialogHelper {
                       child: CircleAvatar(
                         backgroundColor: Colors.grey[100],
                         maxRadius: 8.0,
-                        child: Icon(Icons.clear,size: 12,color: Colors.black),
+                        child: Icon(Icons.clear, size: 12, color: Colors.black),
                       ),
                     ))
               ],

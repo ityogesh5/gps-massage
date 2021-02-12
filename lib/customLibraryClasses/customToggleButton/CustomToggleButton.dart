@@ -70,27 +70,27 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
           elevation: widget.elevation,
           shape: widget.enableShape
               ? widget.customShape == null
-              ? RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(50)),
-          )
-              : widget.customShape
+                  ? RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                    )
+                  : widget.customShape
               : null,
           child: Container(
             height: widget.height,
             child: MaterialButton(
               shape: widget.enableShape
                   ? widget.customShape == null
-                  ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.grey[100], width: 0.0),
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-              )
-                  : widget.customShape
+                      ? OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey[100], width: 0.0),
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                        )
+                      : widget.customShape
                   : OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.grey[100], width: 0.0),
-                borderRadius: BorderRadius.zero,
-              ),
+                      borderSide:
+                          BorderSide(color: Colors.grey[100], width: 0.0),
+                      borderRadius: BorderRadius.zero,
+                    ),
               onPressed: () {
                 widget.radioButtonValue(widget.buttonValues[index]);
                 setState(() {
@@ -127,10 +127,10 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
         elevation: widget.elevation,
         shape: widget.enableShape
             ? widget.customShape == null
-            ? RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        )
-            : widget.customShape
+                ? RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                  )
+                : widget.customShape
             : null,
         child: Container(
           height: widget.height,
@@ -139,17 +139,17 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
           child: MaterialButton(
             shape: widget.enableShape
                 ? widget.customShape == null
-                ? OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            )
-                : widget.customShape
+                    ? OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      )
+                    : widget.customShape
                 : OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor, width: 1),
-              borderRadius: BorderRadius.zero,
-            ),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 1),
+                    borderRadius: BorderRadius.zero,
+                  ),
             onPressed: () {
               widget.radioButtonValue(widget.buttonValues[index]);
               setState(() {
@@ -180,19 +180,19 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
     return Container(
       height: widget.horizontal
           ? widget.height * (widget.buttonLables.length * 1.5) +
-          widget.padding * 2 * widget.buttonLables.length
+              widget.padding * 2 * widget.buttonLables.length
           : widget.height + widget.padding * 2,
       child: Center(
         child: widget.horizontal
             ? ListView(
-            scrollDirection: Axis.vertical,
-            children: buildButtonsRow() //buildButtonsRow,
-        )
+                scrollDirection: Axis.vertical,
+                children: buildButtonsRow() //buildButtonsRow,
+                )
             : ListView(
-          scrollDirection: Axis.horizontal,
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: buildButtonsColumn(),
-        ),
+                scrollDirection: Axis.horizontal,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: buildButtonsColumn(),
+              ),
       ),
     );
   }
