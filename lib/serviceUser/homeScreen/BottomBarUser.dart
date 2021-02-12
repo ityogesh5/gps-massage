@@ -70,7 +70,12 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 animationCurve: Curves.decelerate,
                 animationDuration: Duration(milliseconds: 200),
                 items: <Widget>[
-                  Icon(
+                  Image.asset("assets/images_gps/home.png"),
+                  Image.asset("assets/images_gps/search.png"),
+                  Image.asset("assets/images_gps/status.png"),
+                  Image.asset("assets/images_gps/profile.png"),
+                  Image.asset("assets/images_gps/norification_chat.png"),
+                  /* Icon(
                     Icons.home,
                     size: 30,
                     color: Colors.black,
@@ -94,7 +99,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                     Icons.chat,
                     size: 30,
                     color: Colors.black,
-                  ),
+                  ),*/
                 ],
                 onTap: (index) {
                   setState(() {
@@ -136,12 +141,17 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 animationCurve: Curves.decelerate,
                 animationDuration: Duration(milliseconds: 200),
                 items: <Widget>[
-                  Icon(
+                  Image.asset("assets/images_gps/home.png"),
+                  Image.asset("assets/images_gps/search.png"),
+                  Image.asset("assets/images_gps/status.png"),
+                  Image.asset("assets/images_gps/profile.png"),
+                  Image.asset(
+                      "assets/images_gps/search.png"), /*Icon(
                     Icons.home,
                     size: 30,
                     color: selectedPage == 0 ? Colors.white : Colors.black,
-                  ),
-                  Icon(
+                  ),*/
+                  /*  Icon(
                     Icons.search,
                     size: 30,
                     color: selectedPage == 1 ? Colors.white : Colors.black,
@@ -160,7 +170,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                     Icons.chat,
                     size: 30,
                     color: selectedPage == 4 ? Colors.white : Colors.black,
-                  ),
+                  ),*/
                 ],
                 onTap: (index) {
                   setState(() {

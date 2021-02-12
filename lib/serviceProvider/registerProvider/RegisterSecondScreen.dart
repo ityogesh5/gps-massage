@@ -214,9 +214,8 @@ class _RegistrationSecondPageState
                                 contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                                 disabledBorder:
                                     HealingMatchConstants.textFormInputBorder,
-                                suffixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.file_upload)),
+                                suffixIcon:
+                                    Image.asset("assets/images_gps/upload.png"),
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
                                 hintStyle:
@@ -589,8 +588,7 @@ class _RegistrationSecondPageState
                         contentPadding: EdgeInsets.fromLTRB(8, 3, 6, 3),
                         disabledBorder:
                             HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.file_upload)),
+                        suffixIcon: Image.asset("assets/images_gps/upload.png"),
                         filled: true,
                         hintStyle: HealingMatchConstants.formHintTextStyle,
                         hintText:
