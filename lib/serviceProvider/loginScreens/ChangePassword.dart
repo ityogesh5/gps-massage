@@ -10,6 +10,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/changePassw
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'OTPScreen/otp_field.dart';
 import 'OTPScreen/style.dart';
@@ -26,6 +27,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController pinCodeText = TextEditingController();
   TextEditingController createPassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
+  TextEditingController pin = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool createPasswordVisibility = true;
   bool confirmPasswordVisibility = true;
@@ -101,6 +103,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                     Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
+                      // margin: const EdgeInsets.all(8.0),
+                      /*     padding: const EdgeInsets.only(bottom: 8.0), */
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 5.0,
@@ -120,18 +124,46 @@ class _ChangePasswordState extends State<ChangePassword> {
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: OTPTextField(
-                        length: 4,
-                        keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                        textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                        fieldStyle: FieldStyle.underline,
-                        onCompleted: (pin) {
-                          print("Completed: " + pin);
-                          userOTP = pin;
-                          pinCodeText.text = pin;
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.0),
+                        child: PinCodeTextField(
+                          backgroundColor: ColorConstants.formFieldFillColor,
+                          //controller: pin,
+                          textInputAction: TextInputAction.next,
+                          //focusNode: pinCodeFoucs,
+                          keyboardType: TextInputType.number,
+                          appContext: context,
+                          length: 4,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          onSubmitted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                            pinCodeText.text = pin;
+                          },
+                          onChanged: (val) {},
+                          onCompleted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                            pinCodeText.text = pin;
+                          },
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontFamily: 'Oxygen',
+                          ),
+                          enableActiveFill: true,
+                          pinTheme: PinTheme(
+                              fieldHeight: 40.0,
+                              borderRadius: BorderRadius.circular(10.0),
+                              selectedFillColor: Colors.transparent,
+                              selectedColor: Colors.black,
+                              inactiveFillColor: Colors.transparent,
+                              inactiveColor: Colors.black,
+                              activeColor: Colors.black,
+                              fieldWidth: 50.0,
+                              activeFillColor: Colors.transparent,
+                              shape: PinCodeFieldShape.underline),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -141,6 +173,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       obscureText: createPasswordVisibility,
                       textInputAction: TextInputAction.next,
                       focusNode: createPasswordFocus,
+                      style: HealingMatchConstants.formTextStyle,
                       maxLength: 16,
                       controller: createPassword,
                       decoration: new InputDecoration(
@@ -165,6 +198,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             }),
                         filled: true,
                         labelText: HealingMatchConstants.changePasswordNewpass,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),
@@ -176,6 +210,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       textInputAction: TextInputAction.done,
                       focusNode: confrimPasswordFocus,
                       controller: confirmpassword,
+                      style: HealingMatchConstants.formTextStyle,
                       maxLength: 16,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -200,6 +235,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         filled: true,
                         labelText:
                             HealingMatchConstants.changePasswordConfirmpass,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         fillColor: ColorConstants.formFieldFillColor,
                       ),
                     ),

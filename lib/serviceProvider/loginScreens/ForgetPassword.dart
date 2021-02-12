@@ -53,7 +53,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         },
         child: Form(
           key: formKey,
-          autovalidate: autoValidate,
           child: Center(
             child: SingleChildScrollView(
               child: Container(
@@ -76,6 +75,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       focusNode: phoneNumberFocus,
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
+                      style: HealingMatchConstants.formTextStyle,
                       decoration: new InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
                         border: HealingMatchConstants.textFormInputBorder,
@@ -87,6 +87,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                             HealingMatchConstants.textFormInputBorder,
                         filled: true,
                         labelText: HealingMatchConstants.forgetPasswordPhn,
+                        labelStyle: HealingMatchConstants.formLabelTextStyle,
                         // hintStyle: TextStyle(color: Colors.grey, fontSize: 13),
                         // hintText: HealingMatchConstants.forgetPasswordPhn,
                         fillColor: ColorConstants.formFieldFillColor,

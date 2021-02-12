@@ -39,7 +39,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
         children: [
           FittedBox(
             child: Text(
-              '"Healing Match"は通知を送信します。\nよろしいでしょうか？',
+              'Healing Matchは通知を送信します。\nよろしいでしょうか？',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -52,7 +52,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
           ),
           FittedBox(
             child: Text(
-              '通知方法には、テキスト、サウンド、アイコン\nバッジがあります。 ',
+              '通知方法は、テキスト、サウンド、\nアイコンバッジがあります。',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 14,
@@ -62,7 +62,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
           ),
           FittedBox(
             child: Text(
-              '”設定”で指定できます。',
+              '"設定"で指定できます。',
               style: TextStyle(fontSize: 14, fontFamily: 'Open Sans'),
             ),
           ),
@@ -84,11 +84,12 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     //print('fcmStatus is false : $fcmStatus');
                   });
                   //NavigationRouter.switchToUserDefineScreen(context);
-                  NavigationRouter.switchToTermsAndConditions(context);
+                  // NavigationRouter.switchToTermsAndConditions(context);
+                  Navigator.pop(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
-                splashColor: Colors.grey,
-                color: Colors.white70,
+                // splashColor: Colors.grey,
+                color: Colors.grey[400],
                 padding: EdgeInsets.symmetric(
                   vertical: 10.0,
                 ),
@@ -97,7 +98,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                   style: TextStyle(
                     fontSize: 12.0,
                     fontFamily: 'Open Sans',
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -113,7 +114,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     //print('fcmStatus is true : $fcmStatus');
                   });
                   //NavigationRouter.switchToUserDefineScreen(context);
-                  NavigationRouter.switchToTermsAndConditions(context);
+                  //NavigationRouter.switchToTermsAndConditions(context);
+                  Navigator.pop(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.pinkAccent[600],
@@ -122,7 +124,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                   vertical: 10.0,
                 ),
                 child: Text(
-                  '許可',
+                  'OK',
                   style: TextStyle(
                       fontSize: 12.0,
                       color: Colors.white,

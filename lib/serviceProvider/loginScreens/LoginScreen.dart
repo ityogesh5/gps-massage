@@ -84,6 +84,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 TextFormField(
                   textInputAction: TextInputAction.done,
+                  style: HealingMatchConstants.formTextStyle,
                   focusNode: phoneNumberFocus,
                   controller: phoneNumberController,
                   keyboardType: TextInputType.phone,
@@ -98,7 +99,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       color: Colors.grey,
                     ),
                     labelText: HealingMatchConstants.loginUserPhoneNumber,
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),
@@ -107,6 +108,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                 ),
                 TextFormField(
                   textInputAction: TextInputAction.done,
+                  style: HealingMatchConstants.formTextStyle,
                   focusNode: createPasswordFocus,
                   controller: passwordController,
                   obscureText: passwordVisibility,
@@ -127,7 +129,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                         }),
                     filled: true,
                     labelText: HealingMatchConstants.loginPassword,
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
                 ),

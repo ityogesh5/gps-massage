@@ -926,7 +926,7 @@ class _RegistrationSecondPageState
     }
 
     //Certificate validation
-    if ((_myqualification.isEmpty || _myqualification == null)) {
+   /*  if ((_myqualification.isEmpty || _myqualification == null)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -939,9 +939,9 @@ class _RegistrationSecondPageState
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
-    if (certificateImages.isEmpty && _myqualification != "無資格") {
+    if (certificateImages.isEmpty && _myqualification != "無資格" && privateQualification.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',

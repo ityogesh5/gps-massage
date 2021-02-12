@@ -12,6 +12,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:http/http.dart' as http;
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class UserChangePassword extends StatefulWidget {
   @override
@@ -98,6 +99,8 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                     Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
+                      // margin: const EdgeInsets.all(8.0),
+                      /*     padding: const EdgeInsets.only(bottom: 8.0), */
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
                         vertical: 5.0,
@@ -117,20 +120,44 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: OTPTextField(
-                        length: 4,
-                        keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width,
-                        style: TextStyle(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.0),
+                        child: PinCodeTextField(
+                          backgroundColor: ColorConstants.formFieldFillColor,
+                          //controller: pin,
+                          textInputAction: TextInputAction.next,
+                          //focusNode: pinCodeFoucs,
+                          keyboardType: TextInputType.number,
+                          appContext: context,
+                          length: 4,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          onSubmitted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                          },
+                          onChanged: (val) {},
+                          onCompleted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                          },
+                          textStyle: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
-                            fontFamily: 'Oxygen'),
-                        textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                        fieldStyle: FieldStyle.underline,
-                        onCompleted: (pin) {
-                          print("Completed: " + pin);
-                          userOTP = pin;
-                        },
+                            fontFamily: 'Oxygen',
+                          ),
+                          enableActiveFill: true,
+                          pinTheme: PinTheme(
+                              fieldHeight: 40.0,
+                              borderRadius: BorderRadius.circular(10.0),
+                              selectedFillColor: Colors.transparent,
+                              selectedColor: Colors.black,
+                              inactiveFillColor: Colors.transparent,
+                              inactiveColor: Colors.black,
+                              activeColor: Colors.black,
+                              fieldWidth: 50.0,
+                              activeFillColor: Colors.transparent,
+                              shape: PinCodeFieldShape.underline),
+                        ),
                       ),
                     ),
                     SizedBox(

@@ -494,7 +494,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                           height: 15.0,
                                           fit: BoxFit.fill,
                                         ),*/
-                                      Text('今週の売り上げ'),
+                                      FittedBox(
+                                          child: Text(
+                                        '今週の売り上げ',
+                                        style: TextStyle(fontSize: 12),
+                                      )),
                                       Text('¥150,00'),
                                     ],
                                   ),
@@ -523,7 +527,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     children: [
                                       Icon(Icons.calendar_today,
                                           size: 30, color: Colors.black),
-                                      Text('今月の売り上げ'),
+                                      FittedBox(
+                                          child: Text(
+                                        '今月の売り上げ',
+                                        style: TextStyle(fontSize: 12),
+                                      )),
                                       Text('¥ 500,000'),
                                     ],
                                   ),
@@ -553,7 +561,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     children: [
                                       Icon(Icons.calendar_today_sharp,
                                           size: 30, color: Colors.black),
-                                      Text('本年度の売り上げ'),
+                                      FittedBox(
+                                          child: Text(
+                                        '本年度の売り上げ',
+                                        style: TextStyle(fontSize: 12),
+                                      )),
                                       Text('¥10,876,68'),
                                     ],
                                   ),
@@ -1231,7 +1243,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
-    HealingMatchConstants.accessToken = sharedPreferences.getString("accessToken");
+    HealingMatchConstants.accessToken =
+        sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
     if (userData.childrenMeasure != null) {
       var split = userData.childrenMeasure.split(',');

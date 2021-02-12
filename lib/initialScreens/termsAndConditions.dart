@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class IntroTermsAndPolicy extends StatefulWidget {
@@ -16,12 +17,14 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
     with SingleTickerProviderStateMixin {
   bool _value = false;
   int _tabIndex = 0;
+  int _state = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(_handleTabSelection);
   }
@@ -76,6 +79,13 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
 
   @override
   Widget build(BuildContext context) {
+    if (_state == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        _state = 1;
+        DialogHelper.showNotificationDialog(context);
+      });
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       // backgroundColor: Color.fromRGBO(243, 249, 250, 1),

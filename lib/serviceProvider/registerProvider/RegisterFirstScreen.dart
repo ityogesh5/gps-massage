@@ -1829,7 +1829,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if ((email == null || email.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('あなたのメールアドレスを入力してください',
+        content: Text('メールアドレスを入力してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {

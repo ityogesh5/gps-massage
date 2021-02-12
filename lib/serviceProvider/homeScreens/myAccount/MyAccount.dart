@@ -144,7 +144,7 @@ class _MyAccountState extends State<MyAccount> {
                                 borderRadius: BorderRadius.circular(16.0),
                                 color: Colors.white),
                             width: MediaQuery.of(context).size.width * 0.85,
-                          //  height: MediaQuery.of(context).size.height * 0.75,
+                            //  height: MediaQuery.of(context).size.height * 0.75,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -335,23 +335,25 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      Text('メールアドレス',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontFamily: 'Oxygen',
-                              fontSize: 14.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w900)),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  BuildCertificatesLists(),
-                  SizedBox(height: 10),
+                  userData.qulaificationCertImgUrl != "無資格"
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 10),
+                            Text('保有資格',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontFamily: 'Oxygen',
+                                    fontSize: 14.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w900)),
+                            SizedBox(height: 5),
+                            BuildCertificatesLists(),
+                            SizedBox(height: 10),
+                          ],
+                        )
+                      : Container(),
                   userData.bankDetails[0].bankName != null &&
                           userData.bankDetails[0] != null
                       ? Column(
@@ -359,7 +361,7 @@ class _MyAccountState extends State<MyAccount> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(width: 10),
-                            Text('メールアドレス',
+                            Text('売上金振込先銀行情報',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontFamily: 'Oxygen',
