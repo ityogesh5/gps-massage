@@ -295,12 +295,8 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     color: Colors.amber,
                                   ),
                                   onRatingUpdate: (rating) {
-                                    // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
-                                      NavigationRouter
-                                          .switchToServiceUserRatingsAndReviewScreen(
-                                              context);
                                     });
                                     print(ratingsValue);
                                   },

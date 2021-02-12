@@ -323,6 +323,12 @@ class HealingMatchConstants {
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
       '交通費等が発生する場合は予約完了前にセラピストから別途メッセージがあります。';
 
+  //Booking cancel screen
+  //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
+  static String cancellationFeeCost = '予約確定（支払い完了）した案件で、施術時間から'
+      '逆算して48時間以内でのキャンセルはキャンセル料が発生します。（詳細は利用規約をご参照ください。）';
+
+
   static String selectedBookingPlace = '';
 
   // Chat Module
