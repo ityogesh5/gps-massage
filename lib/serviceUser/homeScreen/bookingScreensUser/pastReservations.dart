@@ -274,8 +274,13 @@ class _PastReservationsState extends State<PastReservations> {
                                     ),
                                   ),
                                   IconButton(
-                                      icon: Icon(Icons.fingerprint_outlined),
-                                      onPressed: () {}),
+                                    icon: Icon(Icons.filter_alt_outlined),
+                                    onPressed: () {
+                                      NavigationRouter
+                                          .switchToServiceUserRatingsAndReviewScreen(
+                                              context);
+                                    },
+                                  ),
                                 ]),
                                 Row(
                                   children: [

@@ -2369,6 +2369,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             'cityName', profileUpdateResponseModel.address.cityName);
         value.setString('capitalAndPrefecture',
             profileUpdateResponseModel.address.capitalAndPrefecture);
+        /*  for (var userAddressData in profileUpdateResponseModel.subAddress) {
+          /*  value.setString(
+              'subUserAddress', userAddressData.);*/
+        }*/
       });
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
@@ -2377,29 +2381,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
     }
   }
-
-  /*getUpdateAddress() {
-    if (_myAddedAddressInputType.isNotEmpty &&
-        _myAddedAddressInputType.contains('現在地を取得する')) {
-      setState(() {
-        addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-          userId: _userAddressID,
-          addressTypeSelection: _myAddedAddressInputType,
-          address: gpsAddressController.text.toString(),
-          userRoomNumber: roomNumberController.text.toString(),
-          userPlaceForMassage: _myCategoryPlaceForMassage,
-          cityName: HealingMatchConstants.userEditCity,
-          citiesId: '',
-          area: '',
-          buildingName: buildingNameController.text.toString(),
-          postalCode: '',
-          lat: HealingMatchConstants.editCurrentLatitude,
-          lon: HealingMatchConstants.editCurrentLongitude,
-        );
-      });
-    }
-  }*/
 
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
@@ -3377,12 +3358,12 @@ class _AddAddressState extends State<AddAddress> {
               userGPSAddressPlaceMark.locality,
             );
 
-            // Navigator.pop(context);
-            Navigator.push(
+            Navigator.pop(context);
+            /* Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));
+                        UpdateServiceUserDetails()));*/
           });
         } else {
 //メインの地点以外に3箇所まで地点登録ができます
@@ -3401,11 +3382,12 @@ class _AddAddressState extends State<AddAddress> {
                 InkWell(
                   onTap: () {
                     _scaffoldKey.currentState.hideCurrentSnackBar();
-                    Navigator.push(
+                    /* Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                UpdateServiceUserDetails()));
+                                UpdateServiceUserDetails()));*/
+                    Navigator.pop(context);
                   },
                   child: Text('はい',
                       style: TextStyle(
@@ -3524,12 +3506,12 @@ class _AddAddressState extends State<AddAddress> {
                 InkWell(
                   onTap: () {
                     _scaffoldKey.currentState.hideCurrentSnackBar();
-                    //Navigator.pop(context);
-                    Navigator.push(
+                    Navigator.pop(context);
+                    /*  Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                UpdateServiceUserDetails()));
+                                UpdateServiceUserDetails()));*/
                   },
                   child: Text('はい',
                       style: TextStyle(

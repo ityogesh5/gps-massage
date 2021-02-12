@@ -102,7 +102,7 @@ class DialogHelper {
                         shape: BoxShape.circle,
                         color: Colors.white,
                         image: DecorationImage(
-                          image: AssetImage('assets/images_gps/tick.png'),
+                          image: AssetImage('assets/images_gps/correct.png'),
                           fit: BoxFit.none,
                         ),
                       ),
@@ -286,7 +286,7 @@ class DialogHelper {
                         shape: BoxShape.circle,
                         color: Colors.white,
                         image: DecorationImage(
-                          image: AssetImage('assets/images_gps/padlock.png'),
+                          image: AssetImage('assets/images_gps/lock.png'),
                           fit: BoxFit.none,
                         ),
                       ),
