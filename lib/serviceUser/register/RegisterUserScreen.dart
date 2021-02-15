@@ -102,12 +102,6 @@ class _RegisterUserState extends State<RegisterUser> {
   CitiesListResponseModel cities;
   var _prefId;
 
-  //CityListResponseModel city;
-
-  _dismissKeyboard(BuildContext context) {
-    FocusScope.of(context).requestFocus(new FocusNode());
-  }
-
   showHide() {
     setState(() {
       _secureText = !_secureText;
