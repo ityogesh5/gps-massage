@@ -493,7 +493,8 @@ class _RegistrationSecondPageState
                                                     _showPicker(context, 1);
                                                   } */
                                                 },
-                                                icon: Icon(Icons.file_upload),
+                                                icon: Image.asset(
+                                                    "assets/images_gps/upload.png"),
                                               ),
                                               SizedBox(
                                                 height: 10,

@@ -1196,7 +1196,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         registrationAddressType = value;
                         showAddressField = true;
                         visible = true; // !visible;
-                        _getCurrentLocation();
+                        //_getCurrentLocation();
                       });
                     } else {
                       setState(() {
