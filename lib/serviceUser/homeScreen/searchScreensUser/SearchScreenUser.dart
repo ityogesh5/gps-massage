@@ -530,21 +530,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               ],
                             ),
                           )),
-
-                      /* Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.calendar_today_outlined,
-                              size: 35.0,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                        ],
-                      ),*/
                     ],
                   ),
                 ),

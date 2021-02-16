@@ -251,7 +251,11 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     icon:
                                         Icon(Icons.notifications_none_outlined),
                                     color: Colors.grey,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      NavigationRouter
+                                          .switchToUserSearchDetailPageOne(
+                                              context);
+                                    },
                                   ),
                                 ),
                                 SizedBox(
