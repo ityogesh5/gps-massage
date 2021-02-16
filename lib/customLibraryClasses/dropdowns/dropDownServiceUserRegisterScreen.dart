@@ -78,6 +78,7 @@ class DropDownFormField extends FormField<dynamic> {
                                     color: Colors
                                         .black, //Color.fromRGBO(200, 200, 200, 1),
                                   ),
+                                  isExpanded: true,
                                   hint: Text(
                                     hintText,
                                     style:

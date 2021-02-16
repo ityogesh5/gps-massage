@@ -74,7 +74,7 @@ dependencies:
   horizontal_center_date_picker: ^1.0.0+2
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
-  lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar
+  #lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar
   url_launcher: ^5.7.10 #Aswin for Mail app launch
   flutter_statusbarcolor: ^0.2.3 #Aswin StatusBar Color
   #flutter_week_view: ^1.0.0+2
