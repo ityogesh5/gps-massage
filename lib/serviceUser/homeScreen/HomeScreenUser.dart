@@ -316,7 +316,6 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
-                                    // print(rating);
                                     setState(() {
                                       ratingsValue = rating;
                                     });

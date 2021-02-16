@@ -78,9 +78,6 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-    NavigationRouter.switchToTermsAndConditions(context);
-    //DialogHelper.showNotificationDialog(context);
-    //NavigationRouter.switchToServiceUserViewProfileScreen(context);
-    //NavigationRouter.switchToServiceUserRegistration(context);
+    DialogHelper.showNotificationDialog(context);
   }
 }

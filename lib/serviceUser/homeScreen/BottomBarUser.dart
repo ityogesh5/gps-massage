@@ -6,10 +6,10 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 
+import 'HomeScreenUser.dart';
 import 'bookingScreensUser/BookingScreenUser.dart';
 import 'bookingScreensUser/reservationAndFavourites.dart';
 import 'chatScreensUser/ChatScreenUser.dart';
-import 'HomeScreenUser.dart';
 
 final pageController = PageController();
 
@@ -185,8 +185,9 @@ class _BottomBarUserState extends State<BottomBarUser> {
                               context);
                           break;
                         case 2:
-                          NavigationRouter.switchToServiceUserBookingScreen(
-                              context);
+                          NavigationRouter
+                              .switchToServiceUserBookingConfirmationScreen(
+                                  context);
 
                           break;
                         case 3:
