@@ -84,8 +84,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     //print('fcmStatus is false : $fcmStatus');
                   });
                   //NavigationRouter.switchToUserDefineScreen(context);
-                  NavigationRouter.switchToTermsAndConditions(context);
-                  // Navigator.pop(context);
+                  // NavigationRouter.switchToTermsAndConditions(context);
+                  Navigator.pop(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 // splashColor: Colors.grey,
@@ -114,8 +114,8 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     //print('fcmStatus is true : $fcmStatus');
                   });
                   //NavigationRouter.switchToUserDefineScreen(context);
-                  NavigationRouter.switchToTermsAndConditions(context);
-                  // Navigator.pop(context);
+                  //NavigationRouter.switchToTermsAndConditions(context);
+                  Navigator.pop(context);
                 },
                 minWidth: MediaQuery.of(context).size.width * 0.28,
                 splashColor: Colors.pinkAccent[600],
