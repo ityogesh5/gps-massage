@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/CustomHeartFavorite.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -51,6 +52,59 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         ]),
                       ),
                       Positioned(
+                        top: 30.0,
+                        left: 20.0,
+                        right: 20.0,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 18,
+                                backgroundColor: Colors.white,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back_ios_outlined,
+                                    size: 20,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ),
+                              Spacer(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 18,
+                                    backgroundColor: Colors.white,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.share,
+                                        size: 20,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.03),
+                                  CircleAvatar(
+                                    maxRadius: 18,
+                                    backgroundColor: Colors.white,
+                                    child: CustomFavoriteButton(
+                                        iconSize: 40,
+                                        iconColor: Colors.red,
+                                        valueChanged: (_isFavorite) {
+                                          print('Is Favorite : $_isFavorite');
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                      ),
+                      Positioned(
                         bottom: 1.0,
                         left: 50.0,
                         right: 50.0,
@@ -77,6 +131,19 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                        child: Image.asset("assets/images_gps/calendar.png")),
+                    Text('エステ'),
+                    Container(
+                        child: Image.asset("assets/images_gps/calendar.png")),
+                    Text('整骨・整体'),
+                    Container(
+                        child: Image.asset("assets/images_gps/calendar.png")),
+                    Text('リラクゼーション'),
+                  ],
                 ),
                 Row(
                   children: [],
