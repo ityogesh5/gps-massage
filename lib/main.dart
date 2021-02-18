@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/initialScreens/splashScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/waitingDetailPage/ApprovalWaitingScreen.dart';
 
 void main() {
@@ -15,6 +16,6 @@ class HealingMatchApp extends StatelessWidget {
         ),
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: ApprovalWaitingScreen()); //BookingCancelScreen());
+        home: SplashScreen()); //BookingCancelScreen());
   }
 }

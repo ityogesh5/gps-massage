@@ -257,9 +257,9 @@ class NavigationRouter {
   }
 
   // Service User Chat Screen
-  static void switchToServiceUserChatScreen(BuildContext context) {
+  static void switchToServiceUserChatHistoryScreen(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => ChatScreenUser()));
+        MaterialPageRoute(builder: (BuildContext context) => ChatHistoryScreenUser()));
   }
 
   // Service User Notifications Screen
@@ -271,11 +271,11 @@ class NavigationRouter {
   }
 
   //ChatList User Screen
-  static void switchToServiceUserChatListScreen(BuildContext context) {
+  static void switchToServiceUserChatScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => ChatListUserScreen()));
+            builder: (BuildContext context) => ChatUserScreen()));
   }
 
 // Service User Home Screen

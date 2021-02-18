@@ -22,13 +22,6 @@ class _BottomBarUserState extends State<BottomBarUser> {
   static int returnPage = 0;
   ScrollController _hideBottomNavController;
 
-  final _pageOptions = [
-    ServiceUserHomeScreen(),
-    SearchScreenUser(),
-    BookingScreenUser(),
-    ViewUserProfile(),
-    ChatScreenUser(),
-  ];
 
   @override
   void initState() {
@@ -54,7 +47,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
           SearchScreenUser(),
           BookingScreenUser(),
           ViewUserProfile(),
-          ChatScreenUser(),
+          ChatHistoryScreenUser(),
         ],
       ), // initial value is 0 so HomePage will be shown
       bottomNavigationBar: HealingMatchConstants.isUserRegistrationSkipped &&
@@ -107,17 +100,13 @@ class _BottomBarUserState extends State<BottomBarUser> {
                             context);
                         break;
                       case 2:
-                        //DialogHelper.showUserLoginOrRegisterDialog(context);
-                        NavigationRouter
-                            .switchToServiceUserBookingConfirmationScreen(
-                                context);
+                        DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 3:
                         DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 4:
                         DialogHelper.showUserLoginOrRegisterDialog(context);
-                        //NavigationRouter.switchToServiceUserNoticeScreen(context);
                         break;
                     }
                   });

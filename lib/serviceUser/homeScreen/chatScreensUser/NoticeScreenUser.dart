@@ -391,7 +391,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                           onTap: () {
                             print('Row on tap');
                             print('Item index : $index');
-                            NavigationRouter.switchToServiceUserChatListScreen(
+                            NavigationRouter.switchToServiceUserChatScreen(
                                 context);
                           },
                           splashColor: Colors.lime,

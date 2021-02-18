@@ -3,12 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
-class ChatScreenUser extends StatefulWidget {
+class ChatHistoryScreenUser extends StatefulWidget {
   @override
-  _ChatScreenUserState createState() => _ChatScreenUserState();
+  _ChatHistoryScreenUserState createState() => _ChatHistoryScreenUserState();
 }
 
-class _ChatScreenUserState extends State<ChatScreenUser>
+class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
     with SingleTickerProviderStateMixin {
   bool _value = false;
   int _tabIndex = 0;
@@ -184,7 +184,7 @@ class _ChatScreenUserState extends State<ChatScreenUser>
                       onTap: () {
                         print('Row on tap');
                         print('Item index : $index');
-                        NavigationRouter.switchToServiceUserChatListScreen(
+                        NavigationRouter.switchToServiceUserChatHistoryScreen(
                             context);
                       },
                       splashColor: Colors.lime,
