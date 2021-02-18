@@ -16,7 +16,6 @@ import 'package:http/http.dart' as http;
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-
 class RegisterOtpScreen extends StatefulWidget {
   @override
   _RegisterOtpScreenState createState() => _RegisterOtpScreenState();

@@ -28,6 +28,7 @@ class _RegistrationSuccessOtpScreenState
   bool autoValidate = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var UserVerifyOtp = VerifyOtpModel();
+
   void initState() {
     super.initState();
   }
@@ -220,8 +221,7 @@ class _RegistrationSuccessOtpScreenState
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: json.encode({
-            "phoneNumber":
-               HealingMatchConstants.serviceProviderPhoneNumber,
+            "phoneNumber": HealingMatchConstants.serviceProviderPhoneNumber,
             "otp": pinCode,
             "isTherapist": "1"
           }));

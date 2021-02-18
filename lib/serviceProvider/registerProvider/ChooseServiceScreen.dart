@@ -45,6 +45,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   int relaxtionStatus = 0;
   int treatmentStatus = 0;
   int fitnessStatus = 0;
+
   // TextEditingController sampleOthersController = TextEditingController();
   String otherValueText;
   EstheticDropDownModel estheticDropDownModel;

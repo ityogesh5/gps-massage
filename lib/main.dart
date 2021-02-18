@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -14,7 +15,7 @@ class HealingMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FlutterStatusbarcolor.setStatusBarColor(ColorConstants.statusBarColor);
-   /*  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    /*  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: ColorConstants.statusBarColor,
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark)); */

@@ -6,10 +6,10 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 
+import 'HomeScreenUser.dart';
 import 'bookingScreensUser/BookingScreenUser.dart';
 import 'bookingScreensUser/reservationAndFavourites.dart';
 import 'chatScreensUser/ChatScreenUser.dart';
-import 'HomeScreenUser.dart';
 
 final pageController = PageController();
 
@@ -28,7 +28,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
     SearchScreenUser(),
     ReservationAndFavourite(),
     ViewUserProfile(),
-    ChatScreenUser(),
+    ChatHistoryScreenUser(),
   ];
 
   @override
@@ -55,7 +55,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
           SearchScreenUser(),
           ReservationAndFavourite(),
           ViewUserProfile(),
-          ChatScreenUser(),
+          ChatHistoryScreenUser(),
         ],
       ), // initial value is 0 so HomePage will be shown
       bottomNavigationBar: HealingMatchConstants.isUserRegistrationSkipped &&
@@ -113,17 +113,13 @@ class _BottomBarUserState extends State<BottomBarUser> {
                             context);
                         break;
                       case 2:
-                        //DialogHelper.showUserLoginOrRegisterDialog(context);
-                        NavigationRouter
-                            .switchToServiceUserBookingConfirmationScreen(
-                                context);
+                        DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 3:
                         DialogHelper.showUserLoginOrRegisterDialog(context);
                         break;
                       case 4:
                         DialogHelper.showUserLoginOrRegisterDialog(context);
-                        //NavigationRouter.switchToServiceUserNoticeScreen(context);
                         break;
                     }
                   });
@@ -185,8 +181,9 @@ class _BottomBarUserState extends State<BottomBarUser> {
                               context);
                           break;
                         case 2:
-                          NavigationRouter.switchToServiceUserBookingScreen(
-                              context);
+                          NavigationRouter
+                              .switchToServiceUserBookingConfirmationScreen(
+                                  context);
 
                           break;
                         case 3:

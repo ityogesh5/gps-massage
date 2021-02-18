@@ -102,8 +102,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         radius: 32.0,
                                         backgroundColor: Colors.white,
                                         child: Image.network(
-                                          userData
-                                              .uploadProfileImgUrl, //User Profile Pic
+                                          userData.uploadProfileImgUrl,
+                                          //User Profile Pic
                                           fit: BoxFit.cover,
                                           width: 100.0,
                                           height: 100.0,
@@ -253,7 +253,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                             .genderOfService ==
                                                         "男性女性両方"
                                                     ? Text(
-                                                        '男性と女性の両方が予約できます', //both men and women can book
+                                                        '男性と女性の両方が予約できます',
+                                                        //both men and women can book
                                                         style: TextStyle(
                                                           fontSize: 12,
                                                           color: Colors.black,

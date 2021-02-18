@@ -6,5 +6,6 @@ class ColorConstants {
   static final formFieldBorderColor = Colors.transparent;
   static final formTextColor = Colors.black;
   static final formHintTextColor = Colors.grey.shade500;
+
   static final statusBarColor = Colors.grey[200];
 }

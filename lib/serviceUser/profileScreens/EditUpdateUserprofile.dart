@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -13,7 +12,6 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/models/customModels/address.dart';
 import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
-
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -53,6 +51,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -1678,11 +1677,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
     int phoneNumber = int.tryParse(userPhoneNumber);
-    // var searchRadius = _mySearchRadiusDistance;
+
     print('searchRadius: ${_mySearchRadiusDistance}');
-
-    //double searchRadisu =
-
     var userGPSAddress = gpsAddressController.text.toString().trim();
 
     // user perfecture validation
@@ -2178,7 +2174,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
+
           userId: rUserID,
+
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2205,10 +2203,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (_myAddressInputType.isNotEmpty &&
         _myAddressInputType.contains('直接入力する')) {
       setState(() {
-        print('gowtham');
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
+
           userId: rUserID,
+
           addressTypeSelection: _myAddressInputType,
           address: gpsAddressController.text.toString(),
           userRoomNumber: roomNumberController.text.toString(),
@@ -2262,6 +2261,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('Id: $rID');
     print('Address ID : $_userAddressID');
+
     print('UserId: $rUserID');
 
     print("json Converted:" + json.encode(otherUserAddress));
@@ -2313,19 +2313,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "subAddress": json.encode(otherUserAddress)
       });
     }
-    /*final response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': accessToken
-        },
-        body: json.encode({
-          "id": _userAddressID,
-          "userName": userName,
-          "gender": _myGender,
-          "dob": userDOB,
-          "isTherapist": "0",
-          "address": json.encode(otherUserAddress)
-        }));*/
 
     final userDetailsRequest = await request.send();
     final response = await http.Response.fromStream(userDetailsRequest);
@@ -2335,7 +2322,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('Response : ${response.body}');
 
     if (response.statusCode == 200) {
-      // ProfileUpdateResponseModel profileUpdateResponseModel;
       final Map userDetailsResponse = json.decode(response.body);
       final profileUpdateResponseModel =
           ProfileUpdateResponseModel.fromJson(userDetailsResponse);
@@ -2433,6 +2419,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
+<<<<<<< HEAD
           HealingMatchConstants.userEditId = rUserID;*/
           HealingMatchConstants.userEditToken = value.getString('accessToken');
           userNameController.text = rUserName;
@@ -2446,6 +2433,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           userAreaController.text = rUserArea;
 
           /*userNameController.text = HealingMatchConstants.userEditUserName;
+=======
+          HealingMatchConstants.userEditId = rUserID;
+
+          userNameController.text = HealingMatchConstants.userEditUserName;
+>>>>>>> origin/origin/DEV/devYogesh
           phoneNumberController.text =
               HealingMatchConstants.userEditPhoneNumber;
           emailController.text = HealingMatchConstants.userEditEmailAddress;
@@ -2462,6 +2454,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         print('Token: ${HealingMatchConstants.userEditToken}');
         print('Id: $rID');
         print('Address ID : $_userAddressID');
+
         print('UserId: $rUserID');
         print('UserBuildName: $rUserBuildName');
         print('UserRoomNo: $rUserRoomNo');
@@ -2472,14 +2465,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
   }
-
-  /* convertBase64ProfileImage(String userProfileImage) async {
-    imgBase64ProfileImage =
-        await networkImageToBase64RightFront(userProfileImage);
-    profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
-    HealingMatchConstants.userEditProfile = profileImageInBytes;
-    // print('profile image : $profileImageInBytes');
-  }*/
 
   Future<String> networkImageToBase64RightFront(String imageUrl) async {
     http.Response response = await http.get(imageUrl);

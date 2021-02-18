@@ -4,10 +4,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
+import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -66,6 +66,13 @@ class HealingMatchConstants {
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String userFcmToken = '';
+  static String sampleText =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+      'Sed eu consequat mauris, non rutrum felis. Nam facilisis felis vel sapien convallis volutpat. '
+      'Nullam maximus aliquam ante eu aliquam. Vestibulum ante ipsum primis in faucibus orci '
+      'luctus et ultrices posuere cubilia curae; Praesent ultrices, odio in dignissim consectetur, '
+      'justo lectus iaculis massa, eu vulputate leo enim sit amet elit. Vivamus condimentum sem lorem, eget lacinia arcu commodo ac. '
+      'Duis sagittis nisi lacus, a sollicitudin metus dignissim eu. Quisque in ex sed justo efficitur pharetra sit amet eu felis.';
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 ";
@@ -303,6 +310,7 @@ class HealingMatchConstants {
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
   static List<Address> addressList = List<Address>();
+
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
@@ -326,6 +334,11 @@ class HealingMatchConstants {
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
   static String additionalDistanceCost = '出張での施術は距離、場所によって別途交通費等がかかる場合があります。\n'
       '交通費等が発生する場合は予約完了前にセラピストから別途メッセージがあります。';
+
+  //Booking cancel screen
+  //出張での施術は距離、場所によって別途交通費等がかかる場合があります。
+  static String cancellationFeeCost = '予約確定（支払い完了）した案件で、施術時間から'
+      '逆算して48時間以内でのキャンセルはキャンセル料が発生します。（詳細は利用規約をご参照ください。）';
 
   static String selectedBookingPlace = '';
 

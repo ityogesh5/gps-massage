@@ -4,122 +4,125 @@
 
 import 'dart:convert';
 
-LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
+LoginResponseModel loginResponseModelFromJson(String str) =>
+    LoginResponseModel.fromJson(json.decode(str));
 
-String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
+String loginResponseModelToJson(LoginResponseModel data) =>
+    json.encode(data.toJson());
 
 class LoginResponseModel {
-    LoginResponseModel({
-        this.status,
-        this.accessToken,
-        this.data,
-    });
+  LoginResponseModel({
+    this.status,
+    this.accessToken,
+    this.data,
+  });
 
-    String status;
-    String accessToken;
-    Data data;
+  String status;
+  String accessToken;
+  Data data;
 
-    factory LoginResponseModel.fromJson(Map<String, dynamic> json) => LoginResponseModel(
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
+      LoginResponseModel(
         status: json["status"],
         accessToken: json["accessToken"],
         data: Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "accessToken": accessToken,
         "data": data.toJson(),
-    };
+      };
 }
 
 class Data {
-    Data({
-        this.id,
-        this.userId,
-        this.email,
-        this.phoneNumber,
-        this.fcmToken,
-        this.lineBotUserId,
-        this.appleUserId,
-        this.userName,
-        this.dob,
-        this.age,
-        this.gender,
-        this.isTherapist,
-        this.isVerified,
-        this.isActive,
-        this.isAccepted,
-        this.rejectReason,
-        this.updatedUser,
-        this.uploadProfileImgUrl,
-        this.proofOfIdentityType,
-        this.proofOfIdentityImgUrl,
-        this.qulaificationCertImgUrl,
-        this.businessForm,
-        this.numberOfEmp,
-        this.businessTrip,
-        this.coronaMeasure,
-        this.storeName,
-        this.storeType,
-        this.storePhone,
-        this.userOccupation,
-        this.genderOfService,
-        this.childrenMeasure,
-        this.createdAt,
-        this.updatedAt,
-        this.addresses,
-        this.certificationUploads,
-        this.bankDetails,
-        this.banners,
-        this.estheticLists,
-        this.fitnessLists,
-        this.orteopathicLists,
-        this.relaxationLists,
-    });
+  Data({
+    this.id,
+    this.userId,
+    this.email,
+    this.phoneNumber,
+    this.fcmToken,
+    this.lineBotUserId,
+    this.appleUserId,
+    this.userName,
+    this.dob,
+    this.age,
+    this.gender,
+    this.isTherapist,
+    this.isVerified,
+    this.isActive,
+    this.isAccepted,
+    this.rejectReason,
+    this.updatedUser,
+    this.uploadProfileImgUrl,
+    this.proofOfIdentityType,
+    this.proofOfIdentityImgUrl,
+    this.qulaificationCertImgUrl,
+    this.businessForm,
+    this.numberOfEmp,
+    this.businessTrip,
+    this.coronaMeasure,
+    this.storeName,
+    this.storeType,
+    this.storePhone,
+    this.userOccupation,
+    this.genderOfService,
+    this.childrenMeasure,
+    this.createdAt,
+    this.updatedAt,
+    this.addresses,
+    this.certificationUploads,
+    this.bankDetails,
+    this.banners,
+    this.estheticLists,
+    this.fitnessLists,
+    this.orteopathicLists,
+    this.relaxationLists,
+  });
 
-    int id;
-    String userId;
-    String email;
-    int phoneNumber;
-    dynamic fcmToken;
-    dynamic lineBotUserId;
-    dynamic appleUserId;
-    String userName;
-    DateTime dob;
-    int age;
-    String gender;
-    bool isTherapist;
-    bool isVerified;
-    bool isActive;
-    int isAccepted;
-    dynamic rejectReason;
-    dynamic updatedUser;
-    String uploadProfileImgUrl;
-    String proofOfIdentityType;
-    String proofOfIdentityImgUrl;
-    String qulaificationCertImgUrl;
-    String businessForm;
-    int numberOfEmp;
-    bool businessTrip;
-    bool coronaMeasure;
-    String storeName;
-    String storeType;
-    int storePhone;
-    dynamic userOccupation;
-    String genderOfService;
-    String childrenMeasure;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<Address> addresses;
-    List<CertificationUpload> certificationUploads;
-    List<BankDetail> bankDetails;
-    List<Banner> banners;
-    List<EstheticListElement> estheticLists;
-    List<EstheticListElement> fitnessLists;
-    List<EstheticListElement> orteopathicLists;
-    List<EstheticListElement> relaxationLists;
+  int id;
+  String userId;
+  String email;
+  int phoneNumber;
+  dynamic fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
+  String userName;
+  DateTime dob;
+  int age;
+  String gender;
+  bool isTherapist;
+  bool isVerified;
+  bool isActive;
+  int isAccepted;
+  dynamic rejectReason;
+  dynamic updatedUser;
+  String uploadProfileImgUrl;
+  String proofOfIdentityType;
+  String proofOfIdentityImgUrl;
+  String qulaificationCertImgUrl;
+  String businessForm;
+  int numberOfEmp;
+  bool businessTrip;
+  bool coronaMeasure;
+  String storeName;
+  String storeType;
+  int storePhone;
+  dynamic userOccupation;
+  String genderOfService;
+  String childrenMeasure;
+  DateTime createdAt;
+  DateTime updatedAt;
+  List<Address> addresses;
+  List<CertificationUpload> certificationUploads;
+  List<BankDetail> bankDetails;
+  List<Banner> banners;
+  List<EstheticListElement> estheticLists;
+  List<EstheticListElement> fitnessLists;
+  List<EstheticListElement> orteopathicLists;
+  List<EstheticListElement> relaxationLists;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         userId: json["userId"],
         email: json["email"],
@@ -153,17 +156,27 @@ class Data {
         childrenMeasure: json["childrenMeasure"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
-        certificationUploads: List<CertificationUpload>.from(json["certification_uploads"].map((x) => CertificationUpload.fromJson(x))),
-        bankDetails: List<BankDetail>.from(json["bankDetails"].map((x) => BankDetail.fromJson(x))),
-        banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
-        estheticLists: List<EstheticListElement>.from(json["estheticLists"].map((x) => EstheticListElement.fromJson(x))),
-        fitnessLists: List<EstheticListElement>.from(json["fitnessLists"].map((x) => EstheticListElement.fromJson(x))),
-        orteopathicLists: List<EstheticListElement>.from(json["orteopathicLists"].map((x) => EstheticListElement.fromJson(x))),
-        relaxationLists: List<EstheticListElement>.from(json["relaxationLists"].map((x) => EstheticListElement.fromJson(x))),
-    );
+        addresses: List<Address>.from(
+            json["addresses"].map((x) => Address.fromJson(x))),
+        certificationUploads: List<CertificationUpload>.from(
+            json["certification_uploads"]
+                .map((x) => CertificationUpload.fromJson(x))),
+        bankDetails: List<BankDetail>.from(
+            json["bankDetails"].map((x) => BankDetail.fromJson(x))),
+        banners:
+            List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
+        estheticLists: List<EstheticListElement>.from(
+            json["estheticLists"].map((x) => EstheticListElement.fromJson(x))),
+        fitnessLists: List<EstheticListElement>.from(
+            json["fitnessLists"].map((x) => EstheticListElement.fromJson(x))),
+        orteopathicLists: List<EstheticListElement>.from(
+            json["orteopathicLists"]
+                .map((x) => EstheticListElement.fromJson(x))),
+        relaxationLists: List<EstheticListElement>.from(json["relaxationLists"]
+            .map((x) => EstheticListElement.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "email": email,
@@ -172,7 +185,8 @@ class Data {
         "lineBotUserId": lineBotUserId,
         "appleUserId": appleUserId,
         "userName": userName,
-        "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+        "dob":
+            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
         "age": age,
         "gender": gender,
         "isTherapist": isTherapist,
@@ -198,66 +212,70 @@ class Data {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
-        "certification_uploads": List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
+        "certification_uploads":
+            List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
         "bankDetails": List<dynamic>.from(bankDetails.map((x) => x.toJson())),
         "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-        "estheticLists": List<dynamic>.from(estheticLists.map((x) => x.toJson())),
+        "estheticLists":
+            List<dynamic>.from(estheticLists.map((x) => x.toJson())),
         "fitnessLists": List<dynamic>.from(fitnessLists.map((x) => x.toJson())),
-        "orteopathicLists": List<dynamic>.from(orteopathicLists.map((x) => x.toJson())),
-        "relaxationLists": List<dynamic>.from(relaxationLists.map((x) => x.toJson())),
-    };
+        "orteopathicLists":
+            List<dynamic>.from(orteopathicLists.map((x) => x.toJson())),
+        "relaxationLists":
+            List<dynamic>.from(relaxationLists.map((x) => x.toJson())),
+      };
 }
 
 class Address {
-    Address({
-        this.id,
-        this.userId,
-        this.addressTypeSelection,
-        this.address,
-        this.userRoomNumber,
-        this.userPlaceForMassage,
-        this.otherAddressType,
-        this.capitalAndPrefecture,
-        this.capitalAndPrefectureId,
-        this.cityName,
-        this.citiesId,
-        this.area,
-        this.buildingName,
-        this.postalCode,
-        this.lat,
-        this.lon,
-        this.userSearchRadiusDistance,
-        this.createdUser,
-        this.updatedUser,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Address({
+    this.id,
+    this.userId,
+    this.addressTypeSelection,
+    this.address,
+    this.userRoomNumber,
+    this.userPlaceForMassage,
+    this.otherAddressType,
+    this.capitalAndPrefecture,
+    this.capitalAndPrefectureId,
+    this.cityName,
+    this.citiesId,
+    this.area,
+    this.buildingName,
+    this.postalCode,
+    this.lat,
+    this.lon,
+    this.userSearchRadiusDistance,
+    this.createdUser,
+    this.updatedUser,
+    this.isDefault,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    int id;
-    int userId;
-    String addressTypeSelection;
-    String address;
-    String userRoomNumber;
-    dynamic userPlaceForMassage;
-    dynamic otherAddressType;
-    String capitalAndPrefecture;
-    dynamic capitalAndPrefectureId;
-    String cityName;
-    dynamic citiesId;
-    String area;
-    String buildingName;
-    dynamic postalCode;
-    double lat;
-    double lon;
-    dynamic userSearchRadiusDistance;
-    String createdUser;
-    String updatedUser;
-    bool isDefault;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  int userId;
+  String addressTypeSelection;
+  String address;
+  String userRoomNumber;
+  dynamic userPlaceForMassage;
+  dynamic otherAddressType;
+  String capitalAndPrefecture;
+  dynamic capitalAndPrefectureId;
+  String cityName;
+  dynamic citiesId;
+  String area;
+  String buildingName;
+  dynamic postalCode;
+  double lat;
+  double lon;
+  dynamic userSearchRadiusDistance;
+  String createdUser;
+  String updatedUser;
+  bool isDefault;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    factory Address.fromJson(Map<String, dynamic> json) => Address(
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
         userId: json["userId"],
         addressTypeSelection: json["addressTypeSelection"],
@@ -280,9 +298,9 @@ class Address {
         isDefault: json["isDefault"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "addressTypeSelection": addressTypeSelection,
@@ -305,33 +323,33 @@ class Address {
         "isDefault": isDefault,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-    };
+      };
 }
 
 class BankDetail {
-    BankDetail({
-        this.id,
-        this.userId,
-        this.bankName,
-        this.branchCode,
-        this.branchNumber,
-        this.accountNumber,
-        this.accountType,
-        this.createdAt,
-        this.updatedAt,
-    });
+  BankDetail({
+    this.id,
+    this.userId,
+    this.bankName,
+    this.branchCode,
+    this.branchNumber,
+    this.accountNumber,
+    this.accountType,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    int id;
-    int userId;
-    String bankName;
-    String branchCode;
-    String branchNumber;
-    String accountNumber;
-    String accountType;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  int userId;
+  String bankName;
+  String branchCode;
+  String branchNumber;
+  String accountNumber;
+  String accountType;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    factory BankDetail.fromJson(Map<String, dynamic> json) => BankDetail(
+  factory BankDetail.fromJson(Map<String, dynamic> json) => BankDetail(
         id: json["id"],
         userId: json["userId"],
         bankName: json["bankName"],
@@ -341,9 +359,9 @@ class BankDetail {
         accountType: json["accountType"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "bankName": bankName,
@@ -353,33 +371,33 @@ class BankDetail {
         "accountType": accountType,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-    };
+      };
 }
 
 class Banner {
-    Banner({
-        this.id,
-        this.userId,
-        this.bannerImageUrl1,
-        this.bannerImageUrl2,
-        this.bannerImageUrl3,
-        this.bannerImageUrl4,
-        this.bannerImageUrl5,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Banner({
+    this.id,
+    this.userId,
+    this.bannerImageUrl1,
+    this.bannerImageUrl2,
+    this.bannerImageUrl3,
+    this.bannerImageUrl4,
+    this.bannerImageUrl5,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    int id;
-    int userId;
-    String bannerImageUrl1;
-    String bannerImageUrl2;
-    String bannerImageUrl3;
-    String bannerImageUrl4;
-    dynamic bannerImageUrl5;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  int userId;
+  String bannerImageUrl1;
+  String bannerImageUrl2;
+  String bannerImageUrl3;
+  String bannerImageUrl4;
+  dynamic bannerImageUrl5;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
         id: json["id"],
         userId: json["userId"],
         bannerImageUrl1: json["bannerImageUrl1"],
@@ -389,9 +407,9 @@ class Banner {
         bannerImageUrl5: json["bannerImageUrl5"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "bannerImageUrl1": bannerImageUrl1,
@@ -401,47 +419,48 @@ class Banner {
         "bannerImageUrl5": bannerImageUrl5,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-    };
+      };
 }
 
 class CertificationUpload {
-    CertificationUpload({
-        this.id,
-        this.userId,
-        this.acupuncturist,
-        this.moxibutionist,
-        this.acupuncturistAndMoxibustion,
-        this.anmaMassageShiatsushi,
-        this.judoRehabilitationTeacher,
-        this.physicalTherapist,
-        this.acquireNationalQualifications,
-        this.privateQualification1,
-        this.privateQualification2,
-        this.privateQualification3,
-        this.privateQualification4,
-        this.privateQualification5,
-        this.createdAt,
-        this.updatedAt,
-    });
+  CertificationUpload({
+    this.id,
+    this.userId,
+    this.acupuncturist,
+    this.moxibutionist,
+    this.acupuncturistAndMoxibustion,
+    this.anmaMassageShiatsushi,
+    this.judoRehabilitationTeacher,
+    this.physicalTherapist,
+    this.acquireNationalQualifications,
+    this.privateQualification1,
+    this.privateQualification2,
+    this.privateQualification3,
+    this.privateQualification4,
+    this.privateQualification5,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    int id;
-    int userId;
-    String acupuncturist;
-    String moxibutionist;
-    dynamic acupuncturistAndMoxibustion;
-    dynamic anmaMassageShiatsushi;
-    dynamic judoRehabilitationTeacher;
-    dynamic physicalTherapist;
-    dynamic acquireNationalQualifications;
-    String privateQualification1;
-    dynamic privateQualification2;
-    dynamic privateQualification3;
-    dynamic privateQualification4;
-    dynamic privateQualification5;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  int userId;
+  String acupuncturist;
+  String moxibutionist;
+  dynamic acupuncturistAndMoxibustion;
+  dynamic anmaMassageShiatsushi;
+  dynamic judoRehabilitationTeacher;
+  dynamic physicalTherapist;
+  dynamic acquireNationalQualifications;
+  String privateQualification1;
+  dynamic privateQualification2;
+  dynamic privateQualification3;
+  dynamic privateQualification4;
+  dynamic privateQualification5;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    factory CertificationUpload.fromJson(Map<String, dynamic> json) => CertificationUpload(
+  factory CertificationUpload.fromJson(Map<String, dynamic> json) =>
+      CertificationUpload(
         id: json["id"],
         userId: json["userId"],
         acupuncturist: json["acupuncturist"],
@@ -458,9 +477,9 @@ class CertificationUpload {
         privateQualification5: json["privateQualification5"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "acupuncturist": acupuncturist,
@@ -477,41 +496,42 @@ class CertificationUpload {
         "privateQualification5": privateQualification5,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-    };
+      };
 }
 
 class EstheticListElement {
-    EstheticListElement({
-        this.id,
-        this.userId,
-        this.estheticId,
-        this.name,
-        this.sixtyMin,
-        this.nintyMin,
-        this.oneTwentyMin,
-        this.oneFifityMin,
-        this.oneEightyMin,
-        this.createdAt,
-        this.updatedAt,
-        this.orteopathicId,
-        this.relaxationId,
-    });
+  EstheticListElement({
+    this.id,
+    this.userId,
+    this.estheticId,
+    this.name,
+    this.sixtyMin,
+    this.nintyMin,
+    this.oneTwentyMin,
+    this.oneFifityMin,
+    this.oneEightyMin,
+    this.createdAt,
+    this.updatedAt,
+    this.orteopathicId,
+    this.relaxationId,
+  });
 
-    int id;
-    int userId;
-    int estheticId;
-    String name;
-    int sixtyMin;
-    int nintyMin;
-    int oneTwentyMin;
-    int oneFifityMin;
-    int oneEightyMin;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int orteopathicId;
-    int relaxationId;
+  int id;
+  int userId;
+  int estheticId;
+  String name;
+  int sixtyMin;
+  int nintyMin;
+  int oneTwentyMin;
+  int oneFifityMin;
+  int oneEightyMin;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int orteopathicId;
+  int relaxationId;
 
-    factory EstheticListElement.fromJson(Map<String, dynamic> json) => EstheticListElement(
+  factory EstheticListElement.fromJson(Map<String, dynamic> json) =>
+      EstheticListElement(
         id: json["id"],
         userId: json["userId"],
         estheticId: json["estheticId"] == null ? null : json["estheticId"],
@@ -523,11 +543,13 @@ class EstheticListElement {
         oneEightyMin: json["oneEightyMin"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        orteopathicId: json["orteopathicId"] == null ? null : json["orteopathicId"],
-        relaxationId: json["relaxationId"] == null ? null : json["relaxationId"],
-    );
+        orteopathicId:
+            json["orteopathicId"] == null ? null : json["orteopathicId"],
+        relaxationId:
+            json["relaxationId"] == null ? null : json["relaxationId"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "estheticId": estheticId == null ? null : estheticId,
@@ -541,5 +563,5 @@ class EstheticListElement {
         "updatedAt": updatedAt.toIso8601String(),
         "orteopathicId": orteopathicId == null ? null : orteopathicId,
         "relaxationId": relaxationId == null ? null : relaxationId,
-    };
+      };
 }

@@ -6,19 +6,18 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/CustomChatBubbles.dart';
 import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/customChatBubbleReceiver.dart';
 import 'package:gps_massageapp/customLibraryClasses/cusTomChatBubbles/customChatBubbleSender.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 
-void main() => runApp(ChatListUserScreen());
+void main() => runApp(ChatUserScreen());
 GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 bool userIsOnline = true;
 final _chatMessagesController = new TextEditingController();
 
-class ChatListUserScreen extends StatefulWidget {
+class ChatUserScreen extends StatefulWidget {
   @override
-  _ChatListUserScreenState createState() => _ChatListUserScreenState();
+  _ChatUserScreenState createState() => _ChatUserScreenState();
 }
 
-class _ChatListUserScreenState extends State<ChatListUserScreen> {
+class _ChatUserScreenState extends State<ChatUserScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

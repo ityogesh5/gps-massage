@@ -5,12 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class UserTermsAndConditions extends StatefulWidget {
   @override
-  _UserTermsAndConditionsState createState() =>
-      _UserTermsAndConditionsState();
+  _UserTermsAndConditionsState createState() => _UserTermsAndConditionsState();
 }
 
-class _UserTermsAndConditionsState
-    extends State<UserTermsAndConditions> {
+class _UserTermsAndConditionsState extends State<UserTermsAndConditions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
