@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
 
@@ -23,6 +24,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
   List<String> time = List<String>();
   Map<String, DateTime> schedule = Map<String, DateTime>();
   int min;
+  bool status = false;
+  bool timePicker = false;
 
   @override
   void initState() {
@@ -378,9 +381,59 @@ class _ShiftTimingState extends State<ShiftTiming> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text("Mon"),
-                        
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              timePicker = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                        ),
+                        Text("~"),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey[400]),
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text("12:30")),
+                          ),
+                        ),
+                        CustomSwitch(
+                          activeColor: Colors.lime,
+                          value: status,
+                          onChanged: (value) {
+                            print("VALUE : $value");
+                            setState(() {
+                              status = value;
+                            });
+                          },
+                        ),
                       ],
-                    )
+                    ),
+                    timePicker
+                        ? Container(
+                            height: 50.0,
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Center(
+                              child: Text("09 : 45"),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

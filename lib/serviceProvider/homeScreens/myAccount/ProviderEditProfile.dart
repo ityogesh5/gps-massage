@@ -202,6 +202,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   void initState() {
     super.initState();
     getBankName();
+    _getState();
     identificationverify = '';
     myState = '';
     myCity = '';
@@ -211,7 +212,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     qualification = '';
     accountType = '';
     buildNumberOfEmployess();
-    _getState();
     getProfileDetails();
   }
 
@@ -298,39 +298,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 40.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          HealingMatchConstants.registrationFirstText,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "*",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          HealingMatchConstants.registrationSecondText,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
                     SizedBox(height: 20.0),
                     Stack(
                       overflow: Overflow.visible,
@@ -2543,7 +2510,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       return;
     }
 
-    //certificate Validation
+    /*  //certificate Validation
     if (certificateImages.isEmpty &&
         qualification != "無資格" &&
         privateQualification.isEmpty) {
@@ -2559,7 +2526,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //Save Values to Constants
     HealingMatchConstants.profileImage = _profileImage;
@@ -3301,8 +3268,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       gpsAddressVisible = true;
     } else {
       manualAddressController.text = userData.addresses[0].address;
-      myCity = userData.addresses[0].cityName;
-      myState = userData.addresses[0].capitalAndPrefecture;
+      //   myCity = userData.addresses[0].cityName;
+      //   myState = userData.addresses[0].capitalAndPrefecture;
     }
     identificationverify = userData.proofOfIdentityType;
     roomNumberController.text = userData.addresses[0].userRoomNumber;
