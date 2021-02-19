@@ -1,6 +1,7 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class NoticeScreenUser extends StatefulWidget {
@@ -266,13 +267,13 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                         ],
                                       ),
                                       Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.calendar_today_rounded,
-                                              color: Colors.black26),
+                                          SvgPicture.asset(
+                                              'assets/images_gps/calendar.svg',
+                                              height: 15,
+                                              width: 15),
                                           Text(
                                             "\t10月17\t",
                                             style: TextStyle(
@@ -300,8 +301,10 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Icon(Icons.blur_circular,
-                                                color: Colors.black26),
+                                            SvgPicture.asset(
+                                                'assets/images_gps/cost.svg',
+                                                height: 15,
+                                                width: 15),
                                             //SizedBox(width: 5),
                                             Chip(
                                               label: Text('足つぼ'),

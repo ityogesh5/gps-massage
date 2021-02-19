@@ -58,20 +58,17 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       child: CircleAvatar(
                         maxRadius: 10,
                         backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset('assets/images_gps/serviceTypeOne.svg',height: 15,width: 15),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeOne.svg',
+                            height: 15,
+                            width: 15),
                       ),
                     ),
-                    SizedBox(width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.01),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                     Text('エステ'),
                   ],
                 ),
-                SizedBox(width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.02),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                 Row(
                   children: [
                     CircleAvatar(
@@ -80,20 +77,17 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       child: CircleAvatar(
                         maxRadius: 10,
                         backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset('assets/images_gps/serviceTypeTwo.svg',height: 15,width: 15),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeTwo.svg',
+                            height: 15,
+                            width: 15),
                       ),
                     ),
-                    SizedBox(width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.01),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                     Text('整骨・整体'),
                   ],
                 ),
-                SizedBox(width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.02),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                 Row(
                   children: [
                     CircleAvatar(
@@ -102,13 +96,13 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       child: CircleAvatar(
                         maxRadius: 10,
                         backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset('assets/images_gps/serviceTypeThree.svg',height: 15,width: 15),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeThree.svg',
+                            height: 15,
+                            width: 15),
                       ),
                     ),
-                    SizedBox(width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.01),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
                     Text('リラクゼーション'),
                   ],
                 ),
@@ -155,10 +149,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             ),
                             SizedBox(
                                 width:
-                                MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.02),
+                                    MediaQuery.of(context).size.width * 0.02),
                             FittedBox(
                               child: Row(
                                 children: [
@@ -177,7 +168,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('店舗')),
                                   SizedBox(
@@ -198,7 +189,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('出張')),
                                   SizedBox(
@@ -219,7 +210,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('コロナ対策実施有無')),
                                 ],
@@ -228,10 +219,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                           ],
                         ),
                         SizedBox(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.01),
+                            height: MediaQuery.of(context).size.height * 0.01),
                         Row(
                           children: [
                             Text(
@@ -249,13 +237,12 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               itemCount: 5,
                               itemSize: 25,
                               itemPadding:
-                              EdgeInsets.symmetric(horizontal: 1.0),
-                              itemBuilder: (context, _) =>
-                                  Icon(
-                                    Icons.star,
-                                    size: 5,
-                                    color: Colors.black,
-                                  ),
+                                  EdgeInsets.symmetric(horizontal: 1.0),
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                size: 5,
+                                color: Colors.black,
+                              ),
                               onRatingUpdate: (rating) {
                                 // print(rating);
                                 setState(() {
@@ -441,14 +428,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   ),
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.90,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.16,
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Container(
@@ -540,9 +521,9 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(),
-                )),
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
           ]),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -589,9 +570,9 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(),
-                )),
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
           ]),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -620,14 +601,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   ),
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.90,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.38,
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.45,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -639,10 +614,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         Image.asset('assets/images_gps/calendar.png',
                             height: 25, width: 25),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         Text(
                           '10月17',
                           style: TextStyle(
@@ -652,10 +624,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               fontFamily: 'Oxygen'),
                         ),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.03),
+                            width: MediaQuery.of(context).size.width * 0.03),
                         Text(
                           '月曜日出張',
                           style: TextStyle(
@@ -680,10 +649,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         SvgPicture.asset('assets/images_gps/clock.svg',
                             height: 25, width: 25),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         new Text(
                           '09:  00～10:  00',
                           style: TextStyle(
@@ -693,10 +659,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               fontFamily: 'Oxygen'),
                         ),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         new Text(
                           '60分',
                           style: TextStyle(
@@ -713,10 +676,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         SvgPicture.asset('assets/images_gps/cost.svg',
                             height: 25, width: 25),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         Chip(
                           label: Text('足つぼ'),
                           backgroundColor: Colors.grey[100],
@@ -730,10 +690,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                           textAlign: TextAlign.left,
                         ),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.01),
+                            width: MediaQuery.of(context).size.width * 0.01),
                         Text(
                           '(交通費込み-1,000)',
                           style: TextStyle(
@@ -746,19 +703,16 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                     Row(children: <Widget>[
                       Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Divider(),
-                          )),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(),
+                      )),
                     ]),
                     Row(
                       children: [
                         SvgPicture.asset('assets/images_gps/gps.svg',
                             height: 25, width: 25),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         Text(
                           '施術を受ける場所',
                           style: TextStyle(
@@ -803,10 +757,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               )),
                         ),
                         SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.02),
                         Text(
                           '埼玉県浦和区高砂4丁目4',
                           style: TextStyle(
@@ -824,35 +775,26 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
           SizedBox(height: 20),
           Container(
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 SvgPicture.asset('assets/images_gps/processing.svg',
-                height: 25, width: 25, color: Colors.black),
-            SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.02),
-            Text(
-              'セラピストの承認待ち',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Oxygen'),
-            ),
-            SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.01),
-            Text(
-              '(5分60秒)',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[400],
-                  fontFamily: 'Oxygen')),
+                    height: 25, width: 25, color: Colors.black),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                Text(
+                  'セラピストの承認待ち',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Oxygen'),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                Text('(5分60秒)',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[400],
+                        fontFamily: 'Oxygen')),
               ],
             ),
           )
@@ -931,10 +873,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                     onPressed: () {},
                   ),
                 ),
-                SizedBox(width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.03),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
@@ -978,22 +917,21 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 }
 
 final List<Widget> imageSliders = imgList
-    .map((item) =>
-    Container(
-      child: Container(
-        margin: EdgeInsets.all(5.0),
-        child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(5.0),
-              bottomRight: Radius.circular(40.0),
-              topLeft: Radius.circular(5.0),
-              bottomLeft: Radius.circular(40.0),
-            ),
-            child: Stack(
-              children: <Widget>[
-                Image.network(item, fit: BoxFit.cover, width: 2000.0),
-              ],
-            )),
-      ),
-    ))
+    .map((item) => Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(5.0),
+                  bottomRight: Radius.circular(40.0),
+                  topLeft: Radius.circular(5.0),
+                  bottomLeft: Radius.circular(40.0),
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 2000.0),
+                  ],
+                )),
+          ),
+        ))
     .toList();

@@ -117,6 +117,21 @@ class _SearchResultState extends State<SearchResult> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           SizedBox(
+                                            width: 5,
+                                          ),
+                                          CircleAvatar(
+                                            maxRadius: 10,
+                                            backgroundColor: Colors.black26,
+                                            child: CircleAvatar(
+                                              maxRadius: 8,
+                                              backgroundColor: Colors.white,
+                                              child: SvgPicture.asset(
+                                                  'assets/images_gps/info.svg',
+                                                  height: 15,
+                                                  width: 15),
+                                            ),
+                                          ),
+                                          SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -326,7 +341,13 @@ class _SearchResultState extends State<SearchResult> {
                               ),
                               Row(
                                 children: [
-                                  Icon(Icons.location_on_outlined),
+                                  SvgPicture.asset(
+                                      'assets/images_gps/location.svg',
+                                      height: 20,
+                                      width: 15),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text(
                                     '埼玉県浦和区高砂4丁目4',
                                     style:
