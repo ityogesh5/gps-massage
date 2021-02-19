@@ -242,20 +242,23 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 4),
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 16,
-                                  child: IconButton(
-                                    // remove default padding here
-                                    padding: EdgeInsets.zero,
-                                    icon:
-                                        Icon(Icons.notifications_none_outlined),
-                                    color: Colors.grey,
-                                    onPressed: () {
-                                      NavigationRouter
-                                          .switchToUserSearchDetailPageOne(
-                                              context);
-                                    },
+                                InkWell(
+                                  onTap: () {
+                                    NavigationRouter
+                                        .switchToServiceUserReservationAndFavourite(
+                                            context);
+                                  },
+                                  child: CircleAvatar(
+                                    maxRadius: 10,
+                                    backgroundColor: Colors.black26,
+                                    child: CircleAvatar(
+                                      maxRadius: 8,
+                                      backgroundColor: Colors.white,
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/info.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -534,13 +537,26 @@ class _ReservationListState extends State<ReservationList> {
                 title: Row(
                   children: [
                     Text('お名前'),
-                    Icon(Icons.ring_volume_outlined),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    CircleAvatar(
+                      maxRadius: 10,
+                      backgroundColor: Colors.black26,
+                      child: CircleAvatar(
+                        maxRadius: 8,
+                        backgroundColor: Colors.white,
+                        child: SvgPicture.asset('assets/images_gps/info.svg',
+                            height: 15, width: 15),
+                      ),
+                    ),
                     SizedBox(
                       width: 85,
                     ),
-                    Icon(
-                      Icons.hourglass_bottom,
-                      color: Colors.orange,
+                    SvgPicture.asset('assets/images_gps/processing.svg',
+                        height: 17, width: 15),
+                    SizedBox(
+                      width: 5,
                     ),
                     Text(
                       '承認待ち',
@@ -587,7 +603,11 @@ class _ReservationListState extends State<ReservationList> {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.timelapse),
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 15, width: 15),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           '09: 00 ~ 10: 00',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -624,7 +644,8 @@ class _ReservationListState extends State<ReservationList> {
               ),
               Row(
                 children: [
-                  Icon(Icons.location_on),
+                  SvgPicture.asset('assets/images_gps/location.svg',
+                      height: 20, width: 15),
                   Text('オフィス'),
                 ],
               ),
