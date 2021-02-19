@@ -1710,8 +1710,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                       .size
                                                       .width *
                                                   0.38,
-                                              height:
-                                                  140.0, //MediaQuery.of(context).size.height * 0.19,
+                                              height: 140.0,
+                                              //MediaQuery.of(context).size.height * 0.19,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

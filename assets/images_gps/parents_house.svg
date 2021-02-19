@@ -1,32 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="31.256" height="25.675" viewBox="0 0 31.256 25.675">
-  <g id="parents_house" transform="translate(-265 -84)">
-    <path id="Path_201555" data-name="Path 201555" d="M4.465,4.465,0,0" transform="translate(277.279 94.047)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_519" data-name="Path 519" d="M157.465,385,153,389.465h7.256L164.721,385H159.7" transform="translate(112.558 -290.953)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_201556" data-name="Path 201556" d="M0,0V4.465" transform="translate(267.233 98.512)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201557" data-name="Path 201557" d="M0,0V5.581" transform="translate(273.93 97.396)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201558" data-name="Path 201558" d="M0,0V5.581" transform="translate(280.628 97.396)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201559" data-name="Path 201559" d="M0,0H31.256" transform="translate(265 102.977)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_520" data-name="Path 520" d="M172,397.349V394h2.233v3.349" transform="translate(104.163 -294.93)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_521" data-name="Path 521" d="M160,395v1.116h2.233V395" transform="translate(109.465 -295.372)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_522" data-name="Path 522" d="M161,385.349V382h2.233v3.349" transform="translate(109.023 -289.628)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_523" data-name="Path 523" d="M161.009,367c0,1.547-2.009,1.438-2.009,2.576,0,1.5,3.349.558,3.349,2.061,0,.859-1.34.558-1.34,2.061" transform="translate(109.907 -283)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_201560" data-name="Path 201560" d="M31.256,0H0" transform="translate(265 108.559)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201561" data-name="Path 201561" d="M31.256,0H0" transform="translate(265 106.326)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201562" data-name="Path 201562" d="M0,0V5.023" transform="translate(295.698 104.651)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201563" data-name="Path 201563" d="M0,0V4.465" transform="translate(292.349 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201564" data-name="Path 201564" d="M0,0V4.465" transform="translate(289 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201565" data-name="Path 201565" d="M0,0V5.023" transform="translate(285.651 104.651)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201566" data-name="Path 201566" d="M0,0V4.465" transform="translate(282.303 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201567" data-name="Path 201567" d="M0,0V4.465" transform="translate(278.954 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201568" data-name="Path 201568" d="M0,0V5.023" transform="translate(275.605 104.651)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201569" data-name="Path 201569" d="M0,0V4.465" transform="translate(272.256 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201570" data-name="Path 201570" d="M0,0V4.465" transform="translate(268.907 105.21)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201571" data-name="Path 201571" d="M0,0V5.023" transform="translate(265.558 104.651)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_524" data-name="Path 524" d="M201.233,369c.837,0,2.233,7.028,2.233,10.791,0,1.949-.651,3.721-2.233,3.721S199,381.739,199,379.791C199,376.028,200.4,369,201.233,369Z" transform="translate(92.233 -283.884)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_201572" data-name="Path 201572" d="M0,0V6.7" transform="translate(293.466 96.279)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_525" data-name="Path 525" d="M198.06,381.047a8.742,8.742,0,0,1,.7,1.28" transform="translate(92.648 -289.207)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_526" data-name="Path 526" d="M195.014,387.968a2.714,2.714,0,0,1-1.223.272A2.863,2.863,0,0,1,191,385.265c0-2.316,1.741-5.955,2.791-5.955.34,0,.751.378,1.15.969" transform="translate(95.768 -288.439)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1"/>
-    <path id="Path_527" data-name="Path 527" d="M199.223,393.141a2.623,2.623,0,0,1-1.032.938" transform="translate(92.59 -294.55)" fill="none" stroke="#000" stroke-width="1"/>
-    <path id="Path_201573" data-name="Path 201573" d="M0,0V6.14" transform="translate(289.559 96.837)" fill="none" stroke="#000" stroke-width="1"/>
-  </g>
+<svg height="25.675" viewBox="0 0 31.256 25.675" width="31.256" xmlns="http://www.w3.org/2000/svg">
+    <g id="parents_house" transform="translate(-265 -84)">
+        <path d="M4.465,4.465,0,0" data-name="Path 201555" fill="none"
+            id="Path_201555" stroke="#000" stroke-width="1" transform="translate(277.279 94.047)" />
+        <path d="M157.465,385,153,389.465h7.256L164.721,385H159.7" data-name="Path 519"
+            fill="none"
+            id="Path_519" stroke="#000" stroke-linejoin="round"
+            stroke-width="1" transform="translate(112.558 -290.953)" />
+        <path d="M0,0V4.465" data-name="Path 201556" fill="none"
+            id="Path_201556" stroke="#000" stroke-width="1" transform="translate(267.233 98.512)" />
+        <path d="M0,0V5.581" data-name="Path 201557" fill="none"
+            id="Path_201557" stroke="#000" stroke-width="1" transform="translate(273.93 97.396)" />
+        <path d="M0,0V5.581" data-name="Path 201558" fill="none"
+            id="Path_201558" stroke="#000" stroke-width="1" transform="translate(280.628 97.396)" />
+        <path d="M0,0H31.256" data-name="Path 201559" fill="none"
+            id="Path_201559" stroke="#000" stroke-width="1" transform="translate(265 102.977)" />
+        <path d="M172,397.349V394h2.233v3.349" data-name="Path 520" fill="none"
+            id="Path_520" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(104.163 -294.93)" />
+        <path d="M160,395v1.116h2.233V395" data-name="Path 521" fill="none"
+            id="Path_521" stroke="#000" stroke-linejoin="round"
+            stroke-width="1" transform="translate(109.465 -295.372)" />
+        <path d="M161,385.349V382h2.233v3.349" data-name="Path 522" fill="none"
+            id="Path_522" stroke="#000" stroke-linejoin="round"
+            stroke-width="1" transform="translate(109.023 -289.628)" />
+        <path d="M161.009,367c0,1.547-2.009,1.438-2.009,2.576,0,1.5,3.349.558,3.349,2.061,0,.859-1.34.558-1.34,2.061" data-name="Path 523"
+            fill="none"
+            id="Path_523" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(109.907 -283)" />
+        <path d="M31.256,0H0" data-name="Path 201560" fill="none"
+            id="Path_201560" stroke="#000" stroke-width="1" transform="translate(265 108.559)" />
+        <path d="M31.256,0H0" data-name="Path 201561" fill="none"
+            id="Path_201561" stroke="#000" stroke-width="1" transform="translate(265 106.326)" />
+        <path d="M0,0V5.023" data-name="Path 201562" fill="none"
+            id="Path_201562" stroke="#000" stroke-width="1" transform="translate(295.698 104.651)" />
+        <path d="M0,0V4.465" data-name="Path 201563" fill="none"
+            id="Path_201563" stroke="#000" stroke-width="1" transform="translate(292.349 105.21)" />
+        <path d="M0,0V4.465" data-name="Path 201564" fill="none"
+            id="Path_201564" stroke="#000" stroke-width="1" transform="translate(289 105.21)" />
+        <path d="M0,0V5.023" data-name="Path 201565" fill="none"
+            id="Path_201565" stroke="#000" stroke-width="1" transform="translate(285.651 104.651)" />
+        <path d="M0,0V4.465" data-name="Path 201566" fill="none"
+            id="Path_201566" stroke="#000" stroke-width="1" transform="translate(282.303 105.21)" />
+        <path d="M0,0V4.465" data-name="Path 201567" fill="none"
+            id="Path_201567" stroke="#000" stroke-width="1" transform="translate(278.954 105.21)" />
+        <path d="M0,0V5.023" data-name="Path 201568" fill="none"
+            id="Path_201568" stroke="#000" stroke-width="1" transform="translate(275.605 104.651)" />
+        <path d="M0,0V4.465" data-name="Path 201569" fill="none"
+            id="Path_201569" stroke="#000" stroke-width="1" transform="translate(272.256 105.21)" />
+        <path d="M0,0V4.465" data-name="Path 201570" fill="none"
+            id="Path_201570" stroke="#000" stroke-width="1" transform="translate(268.907 105.21)" />
+        <path d="M0,0V5.023" data-name="Path 201571" fill="none"
+            id="Path_201571" stroke="#000" stroke-width="1" transform="translate(265.558 104.651)" />
+        <path d="M201.233,369c.837,0,2.233,7.028,2.233,10.791,0,1.949-.651,3.721-2.233,3.721S199,381.739,199,379.791C199,376.028,200.4,369,201.233,369Z" data-name="Path 524"
+            fill="none"
+            id="Path_524" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(92.233 -283.884)" />
+        <path d="M0,0V6.7" data-name="Path 201572" fill="none"
+            id="Path_201572" stroke="#000" stroke-width="1" transform="translate(293.466 96.279)" />
+        <path d="M198.06,381.047a8.742,8.742,0,0,1,.7,1.28" data-name="Path 525" fill="none"
+            id="Path_525" stroke="#000" stroke-width="1" transform="translate(92.648 -289.207)" />
+        <path d="M195.014,387.968a2.714,2.714,0,0,1-1.223.272A2.863,2.863,0,0,1,191,385.265c0-2.316,1.741-5.955,2.791-5.955.34,0,.751.378,1.15.969" data-name="Path 526"
+            fill="none"
+            id="Path_526" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(95.768 -288.439)" />
+        <path d="M199.223,393.141a2.623,2.623,0,0,1-1.032.938" data-name="Path 527" fill="none"
+            id="Path_527" stroke="#000" stroke-width="1" transform="translate(92.59 -294.55)" />
+        <path d="M0,0V6.14" data-name="Path 201573" fill="none"
+            id="Path_201573" stroke="#000" stroke-width="1" transform="translate(289.559 96.837)" />
+    </g>
 </svg>

@@ -69,10 +69,7 @@ class HealingMatchConstants {
   static String sampleText =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
       'Sed eu consequat mauris, non rutrum felis. Nam facilisis felis vel sapien convallis volutpat. '
-      'Nullam maximus aliquam ante eu aliquam. Vestibulum ante ipsum primis in faucibus orci '
-      'luctus et ultrices posuere cubilia curae; Praesent ultrices, odio in dignissim consectetur, '
-      'justo lectus iaculis massa, eu vulputate leo enim sit amet elit. Vivamus condimentum sem lorem, eget lacinia arcu commodo ac. '
-      'Duis sagittis nisi lacus, a sollicitudin metus dignissim eu. Quisque in ex sed justo efficitur pharetra sit amet eu felis.';
+      'Nullam maximus aliquam ante eu aliquam. Vestibulum ante ipsum primis in faucibus orci...';
 
   //UserForget Password
   static const String userPasswordPhn = "電話番号 ";
