@@ -3,7 +3,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketE
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
-
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
@@ -20,9 +19,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
-
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';

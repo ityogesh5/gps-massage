@@ -8,8 +8,6 @@ import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchSc
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 
 import 'HomeScreenUser.dart';
-import 'bookingScreensUser/BookingScreenUser.dart';
-
 import 'chatScreensUser/ChatScreenUser.dart';
 
 final pageController = PageController();

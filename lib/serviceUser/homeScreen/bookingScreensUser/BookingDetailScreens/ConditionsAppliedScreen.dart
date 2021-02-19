@@ -27,18 +27,26 @@ double ratingsValue = 4.0;
 
 int _selectedIndex;
 
-class ApprovalWaitingScreen extends StatefulWidget {
+class ConditionsApplyBookingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ApprovalWaitingScreenState();
+    return _ConditionsApplyBookingScreenState();
   }
 }
 
-class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
+class _ConditionsApplyBookingScreenState
+    extends State<ConditionsApplyBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: CircleAvatar(
+          maxRadius: 25,
+          backgroundColor: Colors.grey[100],
+          child: SvgPicture.asset('assets/images_gps/chat.svg',
+              height: 35, width: 35)),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
@@ -602,7 +610,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.45,
+              height: MediaQuery.of(context).size.height * 0.38,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -773,31 +781,234 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
             ),
           ),
           SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images_gps/processing.svg',
-                    height: 25, width: 25, color: Colors.black),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Text(
-                  'セラピストの承認待ち',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Oxygen'),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                Text('(5分60秒)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[400],
-                        fontFamily: 'Oxygen')),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Text(
+                'リクエスト理由',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontFamily: 'Oxygen'),
+              ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.grey[200], Colors.grey[200]]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[300],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[200]),
+              width: MediaQuery.of(context).size.width * 0.89,
+              height: MediaQuery.of(context).size.height * 0.08,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    new Text(
+                      '距離が遠い為',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Oxygen',
+                          color: Colors.grey[500]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Text(
+                'セラピストからのリクエスト内容',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontFamily: 'Oxygen'),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.grey[300], Colors.grey[300]]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[100],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[100]),
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.27,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    new Row(
+                      children: [
+                        Text(
+                          '提案時間',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.07),
+                        Spacer(),
+                        Text(
+                          '10:  00~11:  00',
+                          style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 12,
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03),
+                        Icon(Icons.arrow_forward,
+                            color: Colors.grey[400], size: 20),
+                        Spacer(),
+                        Text(
+                          '10:  30~11:  30',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        new Text(
+                          'サービス料金',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                        Spacer(),
+                        //¥4,500
+                        new Text(
+                          '¥3,500',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        new Text(
+                          '交通費',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.07),
+                        Spacer(),
+                        Text(
+                          '¥0',
+                          style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 12,
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03),
+                        Icon(Icons.arrow_forward,
+                            color: Colors.grey[400], size: 20),
+                        Spacer(),
+                        new Text(
+                          '¥1,000',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
+                    ),
+                    Row(children: <Widget>[
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(),
+                      )),
+                    ]),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        new Text(
+                          '合計',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.07),
+                        Spacer(),
+                        Text(
+                          '¥3,500',
+                          style: TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 12,
+                              color: Colors.grey[400],
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.03),
+                        Icon(Icons.arrow_forward,
+                            color: Colors.grey[400], size: 20),
+                        Spacer(),
+                        new Text(
+                          '¥4,500',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -829,8 +1040,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   autoPlay: true,
                   autoPlayCurve: Curves.easeInOutCubic,
                   enlargeCenterPage: false,
-                  viewportFraction: 1.0,
-                  aspectRatio: 2.0,
+                  viewportFraction: 1.02,
+                  aspectRatio: 1.5,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;
@@ -889,7 +1100,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           ]),
         ),
         Positioned(
-          bottom: 1.0,
+          bottom: 5.0,
           left: 50.0,
           right: 50.0,
           child: Row(
@@ -897,7 +1108,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
               return Container(
-                width: 36.0,
+                width: 45.0,
                 height: 4.0,
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(

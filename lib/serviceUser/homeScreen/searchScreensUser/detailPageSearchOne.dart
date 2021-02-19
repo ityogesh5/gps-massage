@@ -18,6 +18,7 @@ class DetailPageSearchOne extends StatefulWidget {
 
 class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
   int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,9 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationStatus.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/pastReservations.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/favorite.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/pastReservations.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationStatus.dart';
 
 class ReservationAndFavourite extends StatefulWidget {
   @override

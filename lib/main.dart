@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/waitingDetailPage/ApprovalWaitingScreen.dart';
 
 import 'initialScreens/splashScreen.dart';
 
@@ -26,6 +25,6 @@ class HealingMatchApp extends StatelessWidget {
         ),
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: ApprovalWaitingScreen()); //SplashScreen());
+        home: SplashScreen()); //SplashScreen());
   }
 }

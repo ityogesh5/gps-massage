@@ -10,6 +10,7 @@ class ReservationStatus extends StatefulWidget {
 
 class _ReservationStatusState extends State<ReservationStatus> {
   double ratingsValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

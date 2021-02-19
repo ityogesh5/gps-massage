@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationPopup extends StatefulWidget {
@@ -96,7 +95,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                 child: Text(
                   '許可しない',
                   style: TextStyle(
-                    fontSize: 12.0,
+                    fontSize: 14.0,
                     fontFamily: 'Open Sans',
                     color: Colors.white,
                   ),
@@ -126,7 +125,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                 child: Text(
                   'OK',
                   style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 14.0,
                       color: Colors.white,
                       fontFamily: 'Open Sans'),
                 ),
