@@ -46,6 +46,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
   static const String UPDATE_PROVIDER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/therapistUpdatebyId';
+  static const String UPDATE_BANNER_IMAGE_URL =
+      ON_PREMISE_USER_BASE_URL + '/banner/bannerImgUpdate';
 
   // register service user
   static const String REGISTER_USER_URL =

@@ -49,7 +49,7 @@ class _CustomSwitchState extends State<CustomSwitch>
           },
           child: Container(
             width: 50.0,
-            height: 30.0,
+            height: 25.0,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey[400]),
                 borderRadius: BorderRadius.circular(20.0),

@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
 
 class ShiftTiming extends StatefulWidget {
@@ -25,7 +29,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
   Map<String, DateTime> schedule = Map<String, DateTime>();
   int min;
   bool status = false;
-  bool timePicker = false;
+  GlobalKey key = new GlobalKey();
 
   @override
   void initState() {
@@ -346,48 +350,74 @@ class _ShiftTimingState extends State<ShiftTiming> {
   }
 
   setDayTiming() {
+    bool timePicker = false;
+    DateTime _dateTime = DateTime.now();
     return showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            elevation: 16,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.close,
-                            size: 25.0,
-                            color: Colors.black,
+          double width = MediaQuery.of(context).size.width;
+          return StatefulBuilder(builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              elevation: 16,
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.close,
+                              size: 25.0,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 5),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Mon"),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              timePicker = true;
-                            });
-                          },
-                          child: Container(
+                          SizedBox(width: 5),
+                        ],
+                      ),
+                      Text(
+                        "営業日時を設定してください。",
+                        style: TextStyle(
+                            fontSize: 14.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("月曜日"),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                timePicker = !timePicker;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                    child: Text(
+                                  "12:30",
+                                  key: key,
+                                )),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey[400]),
                                 borderRadius: BorderRadius.circular(5.0),
@@ -397,48 +427,365 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               child: Center(child: Text("12:30")),
                             ),
                           ),
-                        ),
-                        Text("~"),
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey[400]),
-                              borderRadius: BorderRadius.circular(5.0),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(child: Text("12:30")),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
                           ),
-                        ),
-                        CustomSwitch(
-                          activeColor: Colors.lime,
-                          value: status,
-                          onChanged: (value) {
-                            print("VALUE : $value");
-                            setState(() {
-                              status = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    timePicker
-                        ? Container(
-                            height: 50.0,
-                            padding: EdgeInsets.all(8.0),
+                        ],
+                      ),
+                      timePicker
+                          ? Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(width: 50.0),
+                                          CustomPaint(
+                                            size: Size(15.0, 10.0),
+                                            painter: TrianglePainter(
+                                                isDownArrow: false,
+                                                color: Colors.grey[100]),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomPaint(
+                                            size: Size(15.0, 10.0),
+                                            painter: TrianglePainter(
+                                                isDownArrow: false,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                    height: 120.0,
+                                    padding: EdgeInsets.all(8.0),
+                                    // margin: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.grey[100]),
+                                    child: TimePickerSpinner(
+                                      alignment: Alignment.topCenter,
+                                      is24HourMode: true,
+                                      normalTextStyle: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      highlightedTextStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.black),
+                                      spacing: 50,
+                                      itemHeight: 40,
+                                      isForce2Digits: true,
+                                      onTimeChange: (time) {
+                                        setState(() {
+                                          _dateTime = time;
+                                        });
+                                      },
+                                    )),
+                              ],
+                            )
+                          : Container(),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("火曜日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.transparent),
+                                border: Border.all(color: Colors.grey[400]),
                                 borderRadius: BorderRadius.circular(5.0),
                                 color: Colors.white),
-                            child: Center(
-                              child: Text("09 : 45"),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
                             ),
-                          )
-                        : Container(),
-                  ],
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("水曜日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("木曜日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("金曜日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("土曜日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("日曜 日"),
+                          InkWell(
+                            onTap: () {
+                              /* setState(() {
+                                timePicker = true;
+                              }); */
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: Text("12:30")),
+                              ),
+                            ),
+                          ),
+                          Text("~"),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[400]),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(child: Text("12:30")),
+                            ),
+                          ),
+                          CustomSwitch(
+                            activeColor: Colors.lime,
+                            value: status,
+                            onChanged: (value) {
+                              print("VALUE : $value");
+                              setState(() {
+                                status = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15.0),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 }
