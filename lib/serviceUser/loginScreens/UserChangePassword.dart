@@ -27,6 +27,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool _secureText = true;
+  bool passwordConfirmVisibility = true;
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confirmPasswordFocus = FocusNode();
@@ -197,7 +198,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 15,
                     ),
                     TextFormField(
-                      obscureText: _secureText,
+                      obscureText: passwordConfirmVisibility,
                       textInputAction: TextInputAction.done,
                       focusNode: confirmPasswordFocus,
                       controller: confirmPasswordController,
@@ -214,12 +215,13 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: _secureText
+                            icon: passwordConfirmVisibility
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                _secureText = !_secureText;
+                                passwordConfirmVisibility =
+                                    !passwordConfirmVisibility;
                               });
                             }),
                         filled: true,

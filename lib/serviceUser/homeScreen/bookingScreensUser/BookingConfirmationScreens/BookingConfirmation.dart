@@ -88,7 +88,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.29,
+              height: MediaQuery.of(context).size.height * 0.37,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
@@ -275,7 +275,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: MediaQuery.of(context).size.height * 0.22,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(

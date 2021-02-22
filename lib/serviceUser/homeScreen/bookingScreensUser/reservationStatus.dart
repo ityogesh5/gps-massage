@@ -221,7 +221,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(
@@ -255,7 +261,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -493,7 +502,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ]),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(
@@ -527,7 +542,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -770,7 +788,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ]),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(
@@ -804,7 +828,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -1042,7 +1069,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ]),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(
@@ -1076,7 +1109,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -1301,7 +1337,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(
@@ -1335,7 +1377,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.calendar_today),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),

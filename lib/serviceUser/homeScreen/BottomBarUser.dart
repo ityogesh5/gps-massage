@@ -141,7 +141,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                   Image.asset("assets/images_gps/status.png"),
                   Image.asset("assets/images_gps/profile.png"),
                   Image.asset(
-                      "assets/images_gps/profile.png"), /*Icon(
+                      "assets/images_gps/norification_chat.png"), /*Icon(
                     Icons.home,
                     size: 30,
                     color: selectedPage == 0 ? Colors.white : Colors.black,
@@ -181,7 +181,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                           break;
                         case 2:
                           NavigationRouter
-                              .switchToServiceUserBookingConfirmationScreen(
+                              .switchToServiceUserReservationAndFavourite(
                                   context);
 
                           break;

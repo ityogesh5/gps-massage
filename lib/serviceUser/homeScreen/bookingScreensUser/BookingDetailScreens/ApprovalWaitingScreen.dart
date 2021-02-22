@@ -602,11 +602,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
               width: MediaQuery.of(context).size.width * 0.90,
-<<<<<<< HEAD:lib/serviceUser/homeScreen/bookingScreensUser/waitingDetailPage/ApprovalWaitingScreen.dart
               height: MediaQuery.of(context).size.height * 0.45,
-=======
-              height: MediaQuery.of(context).size.height * 0.38,
->>>>>>> origin/origin/DEV/devYogeshwar:lib/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

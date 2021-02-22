@@ -73,11 +73,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 filled: true,
                 fillColor: Colors.white,
                 hintText: HealingMatchConstants.searchKeyword,
-                suffixIcon: IconButton(
-                  icon:
-                      Icon(Icons.search_rounded, color: Colors.grey, size: 25),
-                  onPressed: () {},
-                ),
+                suffixIcon: Image.asset("assets/images_gps/search.png"),
                 hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),

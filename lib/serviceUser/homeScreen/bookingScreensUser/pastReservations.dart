@@ -189,10 +189,10 @@ class _PastReservationsState extends State<PastReservations> {
                                 ),
                                 Row(
                                   children: [
-                                    IconButton(
-                                      icon: Icon(Icons.calendar_today_outlined),
-                                      onPressed: () {},
-                                    ),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/calendar.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -215,7 +215,10 @@ class _PastReservationsState extends State<PastReservations> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.lock_clock),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/clock.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -238,7 +241,10 @@ class _PastReservationsState extends State<PastReservations> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.monetization_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/cost.svg',
+                                        height: 20,
+                                        width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -284,7 +290,13 @@ class _PastReservationsState extends State<PastReservations> {
                                 ]),
                                 Row(
                                   children: [
-                                    Icon(Icons.location_on_outlined),
+                                    SvgPicture.asset(
+                                        'assets/images_gps/gps.svg',
+                                        height: 20,
+                                        width: 20),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       '埼玉県浦和区高砂4丁目4',
                                       style: TextStyle(

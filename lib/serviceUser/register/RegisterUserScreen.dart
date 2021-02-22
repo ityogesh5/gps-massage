@@ -69,6 +69,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
+  bool passwordConfirmVisibility = true;
   bool _isLoggedIn = false;
   bool _isGPSLocation = false;
   final _registerUserFormKey = new GlobalKey<FormState>();
@@ -742,7 +743,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         //enableInteractiveSelection: false,
                         autofocus: false,
                         controller: confirmPasswordController,
-                        obscureText: _secureText,
+                        obscureText: passwordConfirmVisibility,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
@@ -752,11 +753,15 @@ class _RegisterUserState extends State<RegisterUser> {
                             color: Colors.grey[400],
                           ),*/
                           suffixIcon: IconButton(
-                            onPressed: showHide,
-                            icon: Icon(_secureText
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                          ),
+                              icon: passwordConfirmVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordConfirmVisibility =
+                                      !passwordConfirmVisibility;
+                                });
+                              }),
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
                               fontFamily: 'Oxygen',

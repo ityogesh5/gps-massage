@@ -78,10 +78,9 @@ class _HomeScreenUserState extends State<HomeScreen> {
                           filled: true,
                           fillColor: Colors.white,
                           hintText: 'キーワードで検索',
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.search_rounded,
-                                color: Colors.grey, size: 30),
-                            onPressed: () {
+                          suffixIcon: InkWell(
+                            child: Image.asset("assets/images_gps/search.png"),
+                            onTap: () {
                               NavigationRouter.switchToServiceUserSearchScreen(
                                   context);
                             },
@@ -589,7 +588,7 @@ class _ReservationListState extends State<ReservationList> {
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
                             size: 5,
-                            color: Colors.amber,
+                            color: Colors.black,
                           ),
                           onRatingUpdate: (rating) {
                             print(rating);
@@ -814,7 +813,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.amber,
+                                    color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);

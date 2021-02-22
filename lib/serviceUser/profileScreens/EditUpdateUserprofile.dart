@@ -1145,7 +1145,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '号室',
+                                                    labelText: '部屋番号',
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
                                                         fontFamily: 'Oxygen',
@@ -1436,7 +1436,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'セラピスト検索範囲値',
+                            'セラピスト検索範囲',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Oxygen',
