@@ -1,4 +1,4 @@
-import 'package:adhara_socket_io/adhara_socket_io.dart';
+/* import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:gps_massageapp/models/customModels/User.dart';
 
 import 'ChatMessageModel.dart';
@@ -144,3 +144,4 @@ class SocketUtils {
     }
   }
 }
+ */
