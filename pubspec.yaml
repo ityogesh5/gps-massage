@@ -78,7 +78,7 @@ dependencies:
   url_launcher: ^5.7.10 #Aswin for Mail app launch
   flutter_statusbarcolor: ^0.2.3 #Aswin StatusBar Color
   #flutter_week_view: ^1.0.0+2
- 
+
 
 
   syncfusion_flutter_calendar: ^18.4.35
@@ -125,7 +125,7 @@ flutter:
 
 
       # An image asset can refer to one or more resolution-specific "variants", see
-      # https://flutter.dev/assets-and-images/#resolution-aware.
+    # https://flutter.dev/assets-and-images/#resolution-aware.
 
     # For details regarding adding assets from package dependencies, see
     # https://flutter.dev/assets-and-images/#from-packages

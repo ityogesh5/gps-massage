@@ -1,5 +1,6 @@
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -72,11 +73,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 filled: true,
                 fillColor: Colors.white,
                 hintText: HealingMatchConstants.searchKeyword,
-                suffixIcon: IconButton(
-                  icon:
-                      Icon(Icons.search_rounded, color: Colors.grey, size: 25),
-                  onPressed: () {},
-                ),
+                suffixIcon: Image.asset("assets/images_gps/search.png"),
                 hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
@@ -97,88 +94,128 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   HealingMatchConstants.searchAreaTxt,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.location_on_rounded,
-                            size: 45,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 38,
+                            backgroundColor: Colors.lime,
+                            child: SvgPicture.asset(
+                                'assets/images_gps/current_location.svg',
+                                height: 45,
+                                width: 45),
                           ),
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          HealingMatchConstants.searchGpsIconTxt,
-                          style: TextStyle(),
-                        ),
-                        Text('(GPS)'),
-                      ],
-                    ),
-                    SizedBox(width: 15),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.home_work_outlined,
-                            size: 45,
+                          SizedBox(
+                            height: 5,
                           ),
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(HealingMatchConstants.searchHomeIconTxt)
-                      ],
-                    ),
-                    SizedBox(width: 15),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.apartment_rounded,
-                            size: 45,
+                          Text(
+                            HealingMatchConstants.searchGpsIconTxt,
+                            style: TextStyle(),
                           ),
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(HealingMatchConstants.searchOfficeIconTxt)
-                      ],
-                    ),
-                    SizedBox(width: 15),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.home_filled,
-                            size: 45,
+                          Text('(GPS)'),
+                        ],
+                      ),
+                      SizedBox(width: 5),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 38,
+                            backgroundColor: Colors.black26,
+                            child: CircleAvatar(
+                              maxRadius: 36,
+                              backgroundColor: Colors.white,
+                              child: IconButton(
+                                icon: new Icon(Icons.add),
+                                highlightColor: Colors.black,
+                                iconSize: 45,
+                                onPressed: () {},
+                              ),
+                            ),
                           ),
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          HealingMatchConstants.searchPHomeIconTxt,
-                        ),
-                      ],
-                    ),
-                  ],
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text('地点を追加')
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              maxRadius: 38,
+                              backgroundColor: Colors.grey[200],
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/house.svg',
+                                  height: 45,
+                                  width: 42),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(HealingMatchConstants.searchHomeIconTxt)
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              maxRadius: 38,
+                              backgroundColor: Colors.grey[200],
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/office.svg',
+                                  height: 45,
+                                  width: 42),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(HealingMatchConstants.searchOfficeIconTxt)
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: CircleAvatar(
+                              maxRadius: 38,
+                              backgroundColor: Colors.grey[200],
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/parents_house.svg',
+                                  height: 45,
+                                  width: 42),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            HealingMatchConstants.searchPHomeIconTxt,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 7,
@@ -197,7 +234,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           Container(
                             height: 85,
-                            width: 85,
+                            width: 70,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 0
@@ -205,8 +242,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   : Colors.transparent,
                               border: Border.all(),
                             ),
-                            child: Icon(
-                                Icons.airline_seat_legroom_normal_outlined),
+                            child: SvgPicture.asset(
+                              'assets/images_gps/Esthetic.svg',
+                              height: 60,
+                              width: 50,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           Text(
                             HealingMatchConstants.searchEsteticTxt,
@@ -223,7 +264,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           Container(
                             height: 85,
-                            width: 85,
+                            width: 70,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 1
@@ -231,7 +272,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   : Colors.transparent,
                               border: Border.all(),
                             ),
-                            child: Icon(Icons.handyman_rounded),
+                            child: SvgPicture.asset(
+                              'assets/images_gps/Fitness.svg',
+                              height: 60,
+                              width: 50,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           Text(
                             HealingMatchConstants.searchOsthepaticTxt,
@@ -248,7 +294,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           Container(
                             height: 85,
-                            width: 85,
+                            width: 70,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 2
@@ -256,7 +302,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   : Colors.transparent,
                               border: Border.all(),
                             ),
-                            child: Icon(Icons.receipt_outlined),
+                            child: SvgPicture.asset(
+                              'assets/images_gps/Osteopathic.svg',
+                              height: 60,
+                              width: 50,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           Text(
                             HealingMatchConstants.searchRelaxationTxt,
@@ -273,7 +324,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           Container(
                             height: 85,
-                            width: 85,
+                            width: 70,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 3
@@ -281,7 +332,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   : Colors.transparent,
                               border: Border.all(),
                             ),
-                            child: Icon(Icons.call),
+                            child: SvgPicture.asset(
+                              'assets/images_gps/relaxation.svg',
+                              height: 60,
+                              width: 50,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                           Text(
                             HealingMatchConstants.searchFitnessTxt,

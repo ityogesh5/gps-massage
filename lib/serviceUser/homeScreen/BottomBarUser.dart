@@ -3,12 +3,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 
 import 'HomeScreenUser.dart';
-import 'bookingScreensUser/BookingScreenUser.dart';
-import 'bookingScreensUser/reservationAndFavourites.dart';
 import 'chatScreensUser/ChatScreenUser.dart';
 
 final pageController = PageController();
@@ -142,7 +141,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                   Image.asset("assets/images_gps/status.png"),
                   Image.asset("assets/images_gps/profile.png"),
                   Image.asset(
-                      "assets/images_gps/search.png"), /*Icon(
+                      "assets/images_gps/norification_chat.png"), /*Icon(
                     Icons.home,
                     size: 30,
                     color: selectedPage == 0 ? Colors.white : Colors.black,
@@ -182,7 +181,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
                           break;
                         case 2:
                           NavigationRouter
-                              .switchToServiceUserBookingConfirmationScreen(
+                              .switchToServiceUserReservationAndFavourite(
                                   context);
 
                           break;

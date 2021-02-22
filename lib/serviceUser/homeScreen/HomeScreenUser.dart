@@ -78,10 +78,9 @@ class _HomeScreenUserState extends State<HomeScreen> {
                           filled: true,
                           fillColor: Colors.white,
                           hintText: 'キーワードで検索',
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.search_rounded,
-                                color: Colors.grey, size: 30),
-                            onPressed: () {
+                          suffixIcon: InkWell(
+                            child: Image.asset("assets/images_gps/search.png"),
+                            onTap: () {
                               NavigationRouter.switchToServiceUserSearchScreen(
                                   context);
                             },
@@ -228,131 +227,136 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                           ),
                         ),
                         SizedBox(height: 5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'お名前',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(width: 4),
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 16,
-                                  child: IconButton(
-                                    // remove default padding here
-                                    padding: EdgeInsets.zero,
-                                    icon:
-                                        Icon(Icons.notifications_none_outlined),
-                                    color: Colors.grey,
-                                    onPressed: () {
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'お名前',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(width: 4),
+                                  InkWell(
+                                    onTap: () {
                                       NavigationRouter
-                                          .switchToUserSearchDetailPageOne(
+                                          .switchToServiceUserReservationAndFavourite(
                                               context);
                                     },
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor: Colors.black26,
+                                      child: CircleAvatar(
+                                        maxRadius: 8,
+                                        backgroundColor: Colors.white,
+                                        child: SvgPicture.asset(
+                                            'assets/images_gps/info.svg',
+                                            height: 15,
+                                            width: 15),
+                                      ),
+                                    ),
                                   ),
+                                  Spacer(),
+                                  FavoriteButton(
+                                      iconSize: 40,
+                                      iconColor: Colors.red,
+                                      valueChanged: (_isFavorite) {
+                                        print('Is Favorite : $_isFavorite');
+                                      }),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              FittedBox(
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 5),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('オフィス')),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('出張')),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('コロナ対策実施有無')),
+                                  ],
                                 ),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.33),
-                                FavoriteButton(
-                                    iconSize: 40,
-                                    iconColor: Colors.red,
-                                    valueChanged: (_isFavorite) {
-                                      print('Is Favorite : $_isFavorite');
-                                    }),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            FittedBox(
-                              child: Row(
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  RatingBar.builder(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 25,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Colors.black,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        ratingsValue = rating;
+                                      });
+                                      print(ratingsValue);
+                                    },
+                                  ),
+                                  Text(
+                                    ratingsValue.toString(),
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  Text('(1518)'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
                                 children: [
                                   Container(
                                       padding: EdgeInsets.all(4),
                                       color: Colors.white,
-                                      child: Text('オフィス')),
-                                  SizedBox(
-                                    width: 5,
+                                      child: Text('コロナ対策実施')),
+                                  Spacer(),
+                                  Text(
+                                    '¥4,500',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19),
                                   ),
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('出張')),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('コロナ対策実施有無')),
+                                  Text('/60分')
                                 ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 25,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    size: 5,
-                                    color: Colors.black,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    setState(() {
-                                      ratingsValue = rating;
-                                    });
-                                    print(ratingsValue);
-                                  },
-                                ),
-                                Text(
-                                  ratingsValue.toString(),
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                Text('(1518)'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('コロナ対策実施')),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.15),
-                                Text(
-                                  '¥4,500',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 19),
-                                ),
-                                Text('/60分')
-                              ],
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -390,7 +394,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   autoPlay: true,
                   autoPlayCurve: Curves.easeInOutCubic,
                   enlargeCenterPage: false,
-                  viewportFraction: 1.0,
+                  viewportFraction: 1.02,
                   aspectRatio: 2.0,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -401,7 +405,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           ]),
         ),
         Positioned(
-          bottom: 1.0,
+          bottom: 5.0,
           left: 50.0,
           right: 50.0,
           child: Row(
@@ -409,7 +413,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
               return Container(
-                width: 36.0,
+                width: 45.0,
                 height: 4.0,
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
@@ -511,11 +515,11 @@ class _ReservationListState extends State<ReservationList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(5.0),
       child: Card(
         elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(5.0),
           child: Column(
             children: [
               Row(
@@ -534,13 +538,24 @@ class _ReservationListState extends State<ReservationList> {
                 title: Row(
                   children: [
                     Text('お名前'),
-                    Icon(Icons.ring_volume_outlined),
                     SizedBox(
-                      width: 85,
+                      width: 5,
                     ),
-                    Icon(
-                      Icons.hourglass_bottom,
-                      color: Colors.orange,
+                    CircleAvatar(
+                      maxRadius: 10,
+                      backgroundColor: Colors.black26,
+                      child: CircleAvatar(
+                        maxRadius: 8,
+                        backgroundColor: Colors.white,
+                        child: SvgPicture.asset('assets/images_gps/info.svg',
+                            height: 15, width: 15),
+                      ),
+                    ),
+                    Spacer(),
+                    SvgPicture.asset('assets/images_gps/processing.svg',
+                        height: 17, width: 15),
+                    SizedBox(
+                      width: 5,
                     ),
                     Text(
                       '承認待ち',
@@ -573,7 +588,7 @@ class _ReservationListState extends State<ReservationList> {
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
                             size: 5,
-                            color: Colors.amber,
+                            color: Colors.black,
                           ),
                           onRatingUpdate: (rating) {
                             print(rating);
@@ -587,7 +602,11 @@ class _ReservationListState extends State<ReservationList> {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.timelapse),
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 15, width: 15),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           '09: 00 ~ 10: 00',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -624,7 +643,8 @@ class _ReservationListState extends State<ReservationList> {
               ),
               Row(
                 children: [
-                  Icon(Icons.location_on),
+                  SvgPicture.asset('assets/images_gps/location.svg',
+                      height: 20, width: 15),
                   Text('オフィス'),
                 ],
               ),
@@ -719,115 +739,115 @@ class _RecommendListsState extends State<RecommendLists> {
                       SizedBox(
                         width: 5,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'お店名',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'お店名',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                                FavoriteButton(
+                                    iconSize: 40,
+                                    iconColor: Colors.red,
+                                    valueChanged: (_isFavorite) {
+                                      print('Is Favorite : $_isFavorite');
+                                    }),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            FittedBox(
+                              child: Row(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text('オフィス')),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text('出張')),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施有無')),
+                                ],
                               ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.38),
-                              FavoriteButton(
-                                  iconSize: 40,
-                                  iconColor: Colors.red,
-                                  valueChanged: (_isFavorite) {
-                                    print('Is Favorite : $_isFavorite');
-                                  }),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          FittedBox(
-                            child: Row(
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  ratingValue.toString(),
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                RatingBar.builder(
+                                  initialRating: 3,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 25,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    size: 5,
+                                    color: Colors.black,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    // print(rating);
+                                    setState(() {
+                                      ratingValue = rating;
+                                    });
+
+                                    print(ratingValue);
+                                  },
+                                ),
+                                Text('(1518)'),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
                               children: [
                                 Container(
                                     padding: EdgeInsets.all(4),
                                     color: Colors.white,
-                                    child: Text('オフィス')),
-                                SizedBox(
-                                  width: 5,
+                                    child: Text('コロナ対策実施')),
+                                Spacer(),
+                                Text(
+                                  '¥4,500',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 19),
                                 ),
-                                Container(
-                                    padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('出張')),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Container(
-                                    padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('コロナ対策実施有無')),
+                                Text('/60分')
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                ratingValue.toString(),
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              RatingBar.builder(
-                                initialRating: 3,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 25,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  size: 5,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  // print(rating);
-                                  setState(() {
-                                    ratingValue = rating;
-                                  });
-
-                                  print(ratingValue);
-                                },
-                              ),
-                              Text('(1518)'),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.all(4),
-                                  color: Colors.white,
-                                  child: Text('コロナ対策実施')),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.15),
-                              Text(
-                                '¥4,500',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 19),
-                              ),
-                              Text('/60分')
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     ],
                   ),

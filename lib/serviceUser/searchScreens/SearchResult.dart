@@ -52,7 +52,15 @@ class _SearchResultState extends State<SearchResult> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        leading: Icon(Icons.arrow_back_ios, color: Colors.black),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Center(
           child: Text(
             '検索結果',
@@ -115,6 +123,21 @@ class _SearchResultState extends State<SearchResult> {
                                                 fontSize: 14,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          CircleAvatar(
+                                            maxRadius: 10,
+                                            backgroundColor: Colors.black26,
+                                            child: CircleAvatar(
+                                              maxRadius: 8,
+                                              backgroundColor: Colors.white,
+                                              child: SvgPicture.asset(
+                                                  'assets/images_gps/info.svg',
+                                                  height: 15,
+                                                  width: 15),
+                                            ),
                                           ),
                                           SizedBox(
                                               width: MediaQuery.of(context)
@@ -326,7 +349,13 @@ class _SearchResultState extends State<SearchResult> {
                               ),
                               Row(
                                 children: [
-                                  Icon(Icons.location_on_outlined),
+                                  SvgPicture.asset(
+                                      'assets/images_gps/location.svg',
+                                      height: 20,
+                                      width: 15),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text(
                                     '埼玉県浦和区高砂4丁目4',
                                     style:

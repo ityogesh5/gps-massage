@@ -9,8 +9,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHel
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/changePasswordResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -29,6 +27,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool _secureText = true;
+  bool passwordConfirmVisibility = true;
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confirmPasswordFocus = FocusNode();
@@ -199,7 +198,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                       height: 15,
                     ),
                     TextFormField(
-                      obscureText: _secureText,
+                      obscureText: passwordConfirmVisibility,
                       textInputAction: TextInputAction.done,
                       focusNode: confirmPasswordFocus,
                       controller: confirmPasswordController,
@@ -216,12 +215,13 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                         enabledBorder:
                             HealingMatchConstants.textFormInputBorder,
                         suffixIcon: IconButton(
-                            icon: _secureText
+                            icon: passwordConfirmVisibility
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                _secureText = !_secureText;
+                                passwordConfirmVisibility =
+                                    !passwordConfirmVisibility;
                               });
                             }),
                         filled: true,

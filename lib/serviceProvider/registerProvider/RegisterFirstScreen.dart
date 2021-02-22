@@ -2346,7 +2346,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       checkColor: Colors.black,
                       value: checkValue,
                       onChanged: (value) {
-                       /*  setState(() {
+                        /*  setState(() {
                           checkValue = value;
                         }); */
                         if (value == null) {

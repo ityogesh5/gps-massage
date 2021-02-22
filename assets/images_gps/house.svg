@@ -1,0 +1,56 @@
+<svg height="21.321" viewBox="0 0 31.19 21.321" width="31.19" xmlns="http://www.w3.org/2000/svg">
+    <g id="house" transform="translate(-196.5 -86.5)">
+        <path d="M362,79.369,371.369,70l9.369,9.369" data-name="Path 455" fill="none"
+            id="Path_455" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-159.274 17)" />
+        <path d="M388,75h4.685l6.246,6.246h-4.685" data-name="Path 456" fill="none"
+            id="Path_456" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-171.741 14.603)" />
+        <path d="M361.931,75h-4.685L351,81.246h4.685" data-name="Path 457" fill="none"
+            id="Path_457" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-154 14.603)" />
+        <path d="M380.533,86V97.451H367V86" data-name="Path 458" fill="none"
+            id="Path_458" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-161.672 9.328)" />
+        <path d="M380.369,102.246V96H371v6.246" data-name="Path 459" fill="none"
+            id="Path_459" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-163.59 4.533)" />
+        <path d="M0,0V6.246" data-name="Path 201474" fill="none"
+            id="Path_201474" stroke="#000" stroke-width="1" transform="translate(213.657 100.533)" />
+        <path d="M0,0V6.246" data-name="Path 201475" fill="none"
+            id="Path_201475" stroke="#000" stroke-width="1" transform="translate(210.533 100.533)" />
+        <path d="M0,0H8.328V2.6H0Z" data-name="Path 201476" fill="none"
+            id="Path_201476" stroke="#000" stroke-width="1" transform="translate(207.931 95.849)" />
+        <path d="M0,0V2.6" data-name="Path 201477" fill="none"
+            id="Path_201477" stroke="#000" stroke-width="1" transform="translate(214.177 95.849)" />
+        <path d="M0,0V2.6" data-name="Path 201478" fill="none"
+            id="Path_201478" stroke="#000" stroke-width="1" transform="translate(210.013 95.849)" />
+        <path d="M380.164,82.663V80.125H376v2.538" data-name="Path 460" fill="none"
+            id="Path_460" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-165.987 12.145)" />
+        <path d="M397.562,97c.586,0,1.562,2.121,1.562,3.47a1.57,1.57,0,1,1-3.123,0C396,99.121,396.976,97,397.562,97Z" data-name="Path 461"
+            fill="none"
+            id="Path_461" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-175.577 4.054)" />
+        <path d="M359.562,97c-.586,0-1.562,2.121-1.562,3.47a1.57,1.57,0,1,0,3.123,0C361.123,99.121,360.147,97,359.562,97Z" data-name="Path 462"
+            fill="none"
+            id="Path_462" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-157.356 4.054)" />
+        <path d="M0,0V3.644" data-name="Path 201479" fill="none"
+            id="Path_201479" stroke="#000" stroke-width="1" transform="translate(221.985 104.177)" />
+        <path d="M0,0V3.644" data-name="Path 201480" fill="none"
+            id="Path_201480" stroke="#000" stroke-width="1" transform="translate(202.205 104.177)" />
+        <path d="M405.562,90v8.849H404" data-name="Path 463" fill="none"
+            id="Path_463" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-179.413 7.41)" />
+        <path d="M353,90v8.849h1.562" data-name="Path 464" fill="none"
+            id="Path_464" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-154.959 7.41)" />
+        <path d="M397,92.562V91h3.123v2.6" data-name="Path 465" fill="none"
+            id="Path_465" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-176.056 6.931)" />
+        <path d="M360.123,92.562V91H357v2.6" data-name="Path 466" fill="none"
+            id="Path_466" stroke="#000" stroke-linejoin="round" stroke-width="1"
+            transform="translate(-156.877 6.931)" />
+    </g>
+</svg>

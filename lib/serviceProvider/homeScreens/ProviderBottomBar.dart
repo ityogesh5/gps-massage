@@ -10,7 +10,9 @@ import 'operationManagement/OperationManagement.dart';
 
 class BottomBarProvider extends StatefulWidget {
   final int page;
+
   BottomBarProvider(this.page);
+
   @override
   _BottomBarProviderPageState createState() => _BottomBarProviderPageState();
 }
