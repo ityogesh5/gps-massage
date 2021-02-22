@@ -428,6 +428,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       onSelected: (retVal) {
         if (retVal == "1") {
           NavigationRouter.switchToServiceUserTCScreen(context);
+        }
+        if (retVal == "2") {
+          NavigationRouter.switchToUserTutorialScreen(context);
         } else if (retVal == "3") {
           emailLaunch();
         }

@@ -113,7 +113,8 @@ flutter:
   assets:
     - assets/images_gps/
     - assets/privacy_policy/
-
+    - assets/provider_tutorial/
+    - assets/user_tutorial/
 
 
 

@@ -89,7 +89,7 @@ class _MyAccountState extends State<MyAccount> {
                                   backgroundColor: Colors.grey[100],
                                   radius: 15,
                                   child: IconButton(
-                                      icon:  SvgPicture.asset(
+                                      icon: SvgPicture.asset(
                                         "assets/images_gps/edit_button.svg",
                                         height: iconHeight,
                                         width: iconWidth,
@@ -187,7 +187,7 @@ class _MyAccountState extends State<MyAccount> {
                                             "assets/images_gps/number_of_employee.png",
                                             height: iconHeight,
                                             width: iconWidth,
-                                        //    color: iconColor,
+                                            //    color: iconColor,
                                           ),
                                           Text(
                                               userData.numberOfEmp
@@ -599,6 +599,8 @@ class _MyAccountState extends State<MyAccount> {
       onSelected: (retVal) {
         if (retVal == "1") {
           NavigationRouter.switchToServiceProviderTCScreen(context);
+        } else if (retVal == "2") {
+          NavigationRouter.switchToProviderTutorialScreen(context);
         } else if (retVal == "3") {
           emailLaunch();
         }

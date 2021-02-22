@@ -3,7 +3,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketE
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
-
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
@@ -33,6 +33,7 @@ import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart'
 import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/EditUpdateUserprofile.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/TermsAndConditions.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/UserTutorial.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserReviewScreen.dart';
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
@@ -229,6 +230,20 @@ class NavigationRouter {
             builder: (BuildContext context) => ProviderEditProfile()));
   }
 
+  //Provider MyAccount Tutorial Screen
+  static void switchToProviderTutorialScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderTutorial()));
+  }
+
+  //Provider MyAccount Tutorial Screen
+  static void switchToUserTutorialScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => UserTutorial()));
+  }
+
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context) {
     Navigator.push(context,
@@ -274,8 +289,10 @@ class NavigationRouter {
 
   // Service User Chat Screen
   static void switchToServiceUserChatHistoryScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => ChatHistoryScreenUser()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ChatHistoryScreenUser()));
   }
 
   // Service User Notifications Screen
@@ -288,10 +305,8 @@ class NavigationRouter {
 
   //ChatList User Screen
   static void switchToServiceUserChatScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => ChatUserScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => ChatUserScreen()));
   }
 
 // Service User Home Screen
