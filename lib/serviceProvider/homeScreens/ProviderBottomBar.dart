@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 
 import 'BookingStatus.dart';
@@ -53,30 +54,35 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
         animationCurve: Curves.decelerate,
         animationDuration: Duration(milliseconds: 200),
         items: <Widget>[
-          Icon(
-            Icons.home_outlined,
-            size: 30,
-            color: selectedpage == 0 ? Colors.white : Colors.black54,
+          SvgPicture.asset(
+            "assets/images_gps/provicer_home_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 0 ? Colors.white : Colors.black,
           ),
-          Icon(
-            Icons.computer,
-            size: 30,
-            color: selectedpage == 1 ? Colors.white : Colors.black54,
+          SvgPicture.asset(
+            "assets/images_gps/provider_shift_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 1 ? Colors.white : Colors.black,
           ),
-          Icon(
-            Icons.library_books,
-            size: 30,
-            color: selectedpage == 2 ? Colors.white : Colors.black54,
+          SvgPicture.asset(
+            "assets/images_gps/provider_history_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 2 ? Colors.white : Colors.black,
           ),
-          Icon(
-            Icons.account_circle_outlined,
-            size: 30,
-            color: selectedpage == 3 ? Colors.white : Colors.black54,
+          SvgPicture.asset(
+            "assets/images_gps/provider_profile_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 3 ? Colors.white : Colors.black,
           ),
-          Icon(
-            Icons.chat,
-            size: 30,
-            color: selectedpage == 4 ? Colors.white : Colors.black54,
+          SvgPicture.asset(
+            "assets/images_gps/provider_notification_chat_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 4 ? Colors.white : Colors.black,
           ),
         ],
         onTap: (index) {

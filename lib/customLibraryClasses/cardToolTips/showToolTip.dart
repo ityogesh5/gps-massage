@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ShowToolTip {
   double _popupWidth = 200.0;
@@ -156,8 +157,31 @@ class ShowToolTip {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Icon(Icons.shopping_bag_rounded,
-                                        color: Colors.black),
+                                    child:  storeType[index] == "エステ" ?
+                                    SvgPicture.asset(
+                                      "assets/images_gps/Esthetic.svg",
+                                      height: 15.0,
+                                      width: 15.0,
+                                      color: Colors.black,
+                                    ): storeType[index] == "整体" ?
+                                    SvgPicture.asset(
+                                      "assets/images_gps/Osteopathic.svg",
+                                      height: 15.0,
+                                      width: 15.0,
+                                      color: Colors.black,
+                                    ): storeType[index] == "リラクゼーション" ?
+                                    SvgPicture.asset(
+                                      "assets/images_gps/relaxation.svg",
+                                      height: 15.0,
+                                      width: 15.0,
+                                      color: Colors.black,
+                                    ):/*  storeType[index] == "フィットネス" ? */
+                                    SvgPicture.asset(
+                                      "assets/images_gps/Fitness.svg",
+                                      height: 15.0,
+                                      width: 15.0,
+                                      color: Colors.black,
+                                    )
                                   ),
                                 ),
                                 SizedBox(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -199,6 +200,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   final qualificationupload = new GlobalKey<FormState>();
   Map<String, String> oldCertificateImages = Map<String, String>();
 
+  double iconHeight = 20.0;
+  double iconWidth = 20.0;
+  Color iconColor = Colors.black;
+
   void initState() {
     super.initState();
     getBankName();
@@ -355,8 +360,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.grey[100],
                                 radius: 12,
-                                child: Icon(Icons.edit_outlined,
-                                    color: Colors.grey[400], size: 20.0),
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/edit_button.svg",
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
+                                ),
                               ),
                             ),
                           ),
@@ -929,8 +938,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           enabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           suffixIcon: IconButton(
-                                              icon: Icon(Icons.calendar_today,
-                                                  size: 28),
+                                              icon: SvgPicture.asset(
+                                                "assets/images_gps/calendar.svg",
+                                                height: iconHeight,
+                                                width: iconWidth,
+                                                color: iconColor,
+                                              ),
                                               onPressed: () {
                                                 _selectDate(context);
                                               }))),
@@ -1197,8 +1210,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           enabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
                                           suffixIcon: IconButton(
-                                            icon: Icon(Icons.location_on,
-                                                size: 28),
+                                            icon: SvgPicture.asset(
+                                              "assets/images_gps/gps.svg",
+                                              height: iconHeight,
+                                              width: iconWidth,
+                                              color: iconColor,
+                                            ),
                                             onPressed: () {
                                               setState(() {
                                                 _changeProgressText = true;
@@ -1706,8 +1723,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                           _showPicker(context, 1);
                                                         } */
                                                     },
-                                                    icon:
-                                                        Icon(Icons.file_upload),
+                                                    icon: SvgPicture.asset(
+                                                      "assets/images_gps/upload.svg",
+                                                      height: iconHeight,
+                                                      width: iconWidth,
+                                                      color: iconColor,
+                                                    ),
                                                   ),
                                                   SizedBox(
                                                     height: 10,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
@@ -234,7 +235,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: SvgPicture.asset(
+                    "assets/images_gps/settings.svg",
+                    height: 25.0,
+                    width: 25.0,
+                  ),
                   onPressed: () {
                     setDayTiming();
                   },

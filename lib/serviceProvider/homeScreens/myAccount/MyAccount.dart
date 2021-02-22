@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
@@ -18,6 +19,9 @@ class _MyAccountState extends State<MyAccount> {
   Data userData;
   int status = 0;
   TextStyle textStyle = TextStyle(fontFamily: 'Oxygen', fontSize: 14.0);
+  double iconHeight = 20.0;
+  double iconWidth = 20.0;
+  Color iconColor = Colors.black;
 
   void initState() {
     getProfileDetails();
@@ -85,10 +89,11 @@ class _MyAccountState extends State<MyAccount> {
                                   backgroundColor: Colors.grey[100],
                                   radius: 15,
                                   child: IconButton(
-                                      icon: Icon(
-                                        Icons.edit_rounded,
-                                        size: 15,
-                                        color: Colors.grey[400],
+                                      icon:  SvgPicture.asset(
+                                        "assets/images_gps/edit_button.svg",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                        color: iconColor,
                                       ),
                                       onPressed: () {
                                         NavigationRouter
@@ -109,8 +114,12 @@ class _MyAccountState extends State<MyAccount> {
                               fontWeight: FontWeight.bold),
                         ),
                         Chip(
-                            avatar: Icon(Icons.phone_rounded,
-                                color: Colors.grey[400]),
+                            avatar: SvgPicture.asset(
+                              "assets/images_gps/phone.svg",
+                              height: iconHeight,
+                              width: iconWidth,
+                              color: iconColor,
+                            ),
                             backgroundColor: Colors.grey[100],
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
@@ -149,15 +158,22 @@ class _MyAccountState extends State<MyAccount> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   MyRow(
-                                      Icon(Icons.mail_outline_rounded,
-                                          size: 30, color: Colors.grey[500]),
+                                      SvgPicture.asset(
+                                        "assets/images_gps/mail.svg",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                        color: iconColor,
+                                      ),
                                       Text(userData.email,
                                           style: textStyle), //Email address
                                       SizedBox(width: 0)),
                                   Divider(color: Colors.grey[300], height: 1),
                                   MyRow(
-                                      Icon(Icons.calendar_today_rounded,
-                                          size: 30, color: Colors.grey[500]),
+                                      Image.asset(
+                                        "assets/images_gps/business_type.png",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                      ),
                                       Text(userData.businessForm,
                                           style: textStyle), //Business Form
                                       SizedBox(width: 0)),
@@ -167,9 +183,12 @@ class _MyAccountState extends State<MyAccount> {
                                       : Container(),
                                   userData.numberOfEmp != null
                                       ? MyRow(
-                                          Icon(Icons.anchor_outlined,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          Image.asset(
+                                            "assets/images_gps/number_of_employee.png",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                        //    color: iconColor,
+                                          ),
                                           Text(
                                               userData.numberOfEmp
                                                   .toString(), //Number of Employees
@@ -182,9 +201,12 @@ class _MyAccountState extends State<MyAccount> {
                                       : Container(),
                                   userData.businessTrip != null
                                       ? MyRow(
-                                          Icon(Icons.add_location_alt_sharp,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          SvgPicture.asset(
+                                            "assets/images_gps/business_trip.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            // color: iconColor,
+                                          ),
                                           userData.businessTrip //Business Trip
                                               ? Text(
                                                   '出張でのサービス対応可否 -はい',
@@ -202,9 +224,12 @@ class _MyAccountState extends State<MyAccount> {
                                       : Container(),
                                   userData.coronaMeasure != null
                                       ? MyRow(
-                                          Icon(Icons.bug_report_outlined,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          SvgPicture.asset(
+                                            "assets/images_gps/corona.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ),
                                           userData.coronaMeasure //Corona Measure
                                               ? Text(
                                                   'コロナ対策実施有無 -はい',
@@ -224,10 +249,12 @@ class _MyAccountState extends State<MyAccount> {
                                   userData.childrenMeasure != null &&
                                           userData.childrenMeasure != ''
                                       ? MyRow(
-                                          Icon(Icons.location_on_outlined,
-                                              size: 30,
-                                              color: Colors.grey[
-                                                  500]), //Children Measure
+                                          SvgPicture.asset(
+                                            "assets/images_gps/child.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ), //Children Measure
                                           Text(
                                               /* 子供向け施策有無 */
                                               ' ${userData.childrenMeasure}',
@@ -243,10 +270,12 @@ class _MyAccountState extends State<MyAccount> {
                                   userData.genderOfService != null &&
                                           userData.genderOfService != ''
                                       ? MyRow(
-                                          Icon(
-                                              Icons.supervisor_account_outlined,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          SvgPicture.asset(
+                                            "assets/images_gps/service_gender.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ),
                                           Text(userData.genderOfService,
                                               style:
                                                   textStyle), //Gender of Service Provided
@@ -260,17 +289,24 @@ class _MyAccountState extends State<MyAccount> {
                                   userData.storeName != null &&
                                           userData.storeName != ''
                                       ? MyRow(
-                                          Icon(Icons.house,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          SvgPicture.asset(
+                                            "assets/images_gps/shop.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ),
                                           Text(userData.storeName,
                                               style: textStyle), //StoreName
                                           SizedBox(width: 0))
                                       : Container(),
                                   Divider(color: Colors.grey[300], height: 1),
                                   MyRow(
-                                      Icon(Icons.calendar_today_rounded,
-                                          size: 30, color: Colors.grey[500]),
+                                      SvgPicture.asset(
+                                        "assets/images_gps/calendar.svg",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                        color: iconColor,
+                                      ),
                                       Text(
                                         "${userData.dob.day}/${userData.dob.month}/${userData.dob.year}",
                                         style: textStyle,
@@ -289,8 +325,16 @@ class _MyAccountState extends State<MyAccount> {
                                       )),
                                   Divider(color: Colors.grey[300], height: 1),
                                   MyRow(
-                                      Icon(Icons.perm_identity,
-                                          size: 30, color: Colors.grey[500]),
+                                      SvgPicture.asset(
+                                        userData.gender == "男性"
+                                            ? "assets/images_gps/male.svg"
+                                            : userData.gender == "女性"
+                                                ? "assets/images_gps/female.svg"
+                                                : "assets/images_gps/profile_pic_user.svg",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                        color: iconColor,
+                                      ),
                                       Text(userData.gender,
                                           style: textStyle), //gender
                                       SizedBox(width: 0)),
@@ -300,9 +344,12 @@ class _MyAccountState extends State<MyAccount> {
                                       : Container(),
                                   userData.storePhone != null
                                       ? MyRow(
-                                          Icon(Icons.phone,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          SvgPicture.asset(
+                                            "assets/images_gps/shop_number.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ),
                                           Text(
                                               userData.storePhone
                                                   .toString(), //store phone number
@@ -315,9 +362,12 @@ class _MyAccountState extends State<MyAccount> {
                                         top: 8.0, bottom: 8.0),
                                     child: MyRow(
                                         Center(
-                                          child: Icon(Icons.location_pin,
-                                              size: 30,
-                                              color: Colors.grey[500]),
+                                          child: SvgPicture.asset(
+                                            "assets/images_gps/gps.svg",
+                                            height: iconHeight,
+                                            width: iconWidth,
+                                            color: iconColor,
+                                          ),
                                         ),
                                         Text(userData.addresses[0].address,
                                             style:
@@ -326,8 +376,12 @@ class _MyAccountState extends State<MyAccount> {
                                   ),
                                   Divider(color: Colors.grey[300], height: 1),
                                   MyRow(
-                                      Icon(Icons.perm_identity,
-                                          size: 30, color: Colors.grey[500]),
+                                      SvgPicture.asset(
+                                        "assets/images_gps/verification.svg",
+                                        height: iconHeight,
+                                        width: iconWidth,
+                                        color: iconColor,
+                                      ),
                                       Text(userData.proofOfIdentityType,
                                           style: textStyle), //id type
                                       SizedBox(width: 0)),

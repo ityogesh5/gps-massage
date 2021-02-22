@@ -4,6 +4,7 @@ import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
@@ -143,12 +144,18 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 ),
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: Icon(
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SvgPicture.asset(
+                                                    "assets/images_gps/info.svg",
+                                                    height: 15.0,
+                                                    width: 15.0,
+                                                    key: key,
+                                                    color: Colors.black,
+                                                  ), /* Icon( 
                                                       Icons
                                                           .shopping_bag_rounded,
                                                       key: key,
-                                                      color: Colors.black),
+                                                      color: Colors.black ), */
                                                 ),
                                               ),
                                             ),
@@ -368,7 +375,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 itemPadding:
                                                     new EdgeInsets.only(
                                                         bottom: 3.0),
-                                                itemBuilder: (context, _) =>
+                                                itemBuilder: (context, index) =>
                                                     new SizedBox(
                                                         height: 20.0,
                                                         width: 18.0,
@@ -378,9 +385,25 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                               new EdgeInsets
                                                                   .all(0.0),
                                                           color: Colors.black,
-                                                          icon: new Icon(
+                                                          icon: index == 4
+                                                              ? SvgPicture
+                                                                  .asset(
+                                                                  "assets/images_gps/star_2.svg",
+                                                                  height: 15.0,
+                                                                  width: 15.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              : SvgPicture
+                                                                  .asset(
+                                                                  "assets/images_gps/star_1.svg",
+                                                                  height: 15.0,
+                                                                  width: 15.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ), /*  new Icon(
                                                               Icons.star,
-                                                              size: 20.0),
+                                                              size: 20.0), */
                                                         )),
                                                 onRatingUpdate: (rating) {
                                                   print(rating);
@@ -465,7 +488,13 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               ),
                               Divider(color: Colors.grey),
                               Row(children: [
-                                Icon(Icons.location_on_outlined),
+                                SizedBox(width: 5.0),
+                                SvgPicture.asset(
+                                  "assets/images_gps/gps.svg",
+                                  height: 25.0,
+                                  width: 25.0,
+                                ),
+                                SizedBox(width: 8.0),
                                 Flexible(
                                   child: Text(
                                     userData.addresses[0].address,
@@ -505,14 +534,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Icon(Icons.calendar_today_outlined,
-                                          size: 30, color: Colors.black),
-                                      /*Image.asset(
-                                          'assets/images_gps/car.jpg',
-                                          width: 15.0,
-                                          height: 15.0,
-                                          fit: BoxFit.fill,
-                                        ),*/
+                                      SvgPicture.asset(
+                                        "assets/images_gps/c_weekly.svg",
+                                        height: 30.0,
+                                        width: 30.0,
+                                        color: Colors.black,
+                                      ),
                                       FittedBox(
                                           child: Text(
                                         '今週の売り上げ',
@@ -544,8 +571,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Icon(Icons.calendar_today,
-                                          size: 30, color: Colors.black),
+                                      SvgPicture.asset(
+                                        "assets/images_gps/c_monthly.svg",
+                                        height: 30.0,
+                                        width: 30.0,
+                                        color: Colors.black,
+                                      ),
                                       FittedBox(
                                           child: Text(
                                         '今月の売り上げ',
@@ -578,8 +609,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Icon(Icons.calendar_today_sharp,
-                                          size: 30, color: Colors.black),
+                                      SvgPicture.asset(
+                                        "assets/images_gps/c_yearly.svg",
+                                        height: 30.0,
+                                        width: 30.0,
+                                        color: Colors.black,
+                                      ),
                                       FittedBox(
                                           child: Text(
                                         '本年度の売り上げ',
@@ -778,10 +813,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             children: [
                               InkWell(
                                 onTap: () {},
-                                child: Icon(
-                                  Icons.calendar_today_outlined,
-                                  size: 35.0,
-                                  color: Colors.black,
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/calendar.svg",
+                                  height: 25.0,
+                                  width: 25.0,
                                 ),
                               ),
                               SizedBox(width: 5),
