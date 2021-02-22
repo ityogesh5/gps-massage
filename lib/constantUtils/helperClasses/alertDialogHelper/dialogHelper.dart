@@ -934,7 +934,9 @@ class DialogHelper {
                               borderRadius: new BorderRadius.circular(10.0),
                             ),
                             color: Colors.lime,
-                            onPressed: () {},
+                            onPressed: () {
+                              NavigationRouter.switchToServiceUserBottomBar(context);
+                            },
                             child: new Text(
                               'OK',
                               style: TextStyle(
