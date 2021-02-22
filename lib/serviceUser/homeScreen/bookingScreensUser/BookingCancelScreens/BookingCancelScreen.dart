@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 
@@ -152,7 +153,15 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                                 "Y",
                                 "N",
                               ],
-                              radioButtonValue: (value) {},
+                              radioButtonValue: (value) {
+                                if (value == 'Y') {
+                                  DialogHelper.showUserBookingCancelDialog(
+                                      context);
+                                } else if (value == 'N') {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(context);
+                                }
+                              },
                               selectedColor: Theme.of(context).accentColor,
                             ),
                           ),

@@ -17,8 +17,10 @@ import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScre
 import 'package:gps_massageapp/serviceUser/homeScreen/BottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingCancelScreens/BookingCancelScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
@@ -316,4 +318,22 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ConfirmBookingScreen()));
   }
+
+  //BookingCancelScreen
+  static void switchToServiceUserBookingCancelScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingCancelScreen()));
+  }
+  //Waiting for approval
+  static void switchToServiceUserWaitingForApprovalScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ApprovalWaitingScreen()));
+  }
+
 }

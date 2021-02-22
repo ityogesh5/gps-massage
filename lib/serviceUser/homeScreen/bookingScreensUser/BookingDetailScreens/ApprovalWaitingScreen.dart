@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -40,6 +41,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: ListView(
+        padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
         children: [
           CarouselWithIndicatorDemo(),
@@ -602,7 +604,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.45,
+              height: MediaQuery.of(context).size.height * 0.40,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -633,13 +635,20 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               fontFamily: 'Oxygen'),
                         ),
                         Spacer(),
-                        Text(
-                          'キャンセルする',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.red[200],
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                        GestureDetector(
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(
+                                    context);
+                          },
+                          child: Text(
+                            'キャンセルする',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red[200],
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Oxygen'),
+                          ),
                         ),
                       ],
                     ),
@@ -853,7 +862,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   size: 20,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                },
               ),
             ),
             Spacer(),

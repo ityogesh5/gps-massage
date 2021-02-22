@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -48,6 +49,7 @@ class _ConditionsApplyBookingScreenState
           child: SvgPicture.asset('assets/images_gps/chat.svg',
               height: 35, width: 35)),
       body: ListView(
+        padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
         children: [
           CarouselWithIndicatorDemo(),
@@ -552,6 +554,7 @@ class _ConditionsApplyBookingScreenState
                     padding: const EdgeInsets.all(8.0),
                     child: RichText(
                       textAlign: TextAlign.start,
+                      softWrap: true,
                       text: new TextSpan(
                         text: '${HealingMatchConstants.sampleText}',
                         style: TextStyle(
@@ -724,7 +727,7 @@ class _ConditionsApplyBookingScreenState
                         Text(
                           '施術を受ける場所',
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Oxygen'),
@@ -868,7 +871,7 @@ class _ConditionsApplyBookingScreenState
                         Text(
                           '提案時間',
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Oxygen'),
@@ -907,7 +910,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize: 16,
                               fontFamily: 'Oxygen'),
                         ),
                         Spacer(),
@@ -931,7 +934,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize: 16,
                               fontFamily: 'Oxygen'),
                         ),
                         SizedBox(
@@ -975,7 +978,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize: 16,
                               fontFamily: 'Oxygen'),
                         ),
                         SizedBox(
@@ -1009,6 +1012,27 @@ class _ConditionsApplyBookingScreenState
               ),
             ),
           ),
+          SizedBox(height: 10),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: RaisedButton(
+              padding: EdgeInsets.all(10.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                //side: BorderSide(color: Colors.black),
+              ),
+              color: Colors.red,
+              onPressed: () {},
+              child: new Text(
+                '支払いに進む',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Oxygen',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -1029,6 +1053,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -1064,7 +1089,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   size: 20,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                },
               ),
             ),
             Spacer(),

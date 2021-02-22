@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/roundedRadioButton.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -37,9 +38,12 @@ class BookingConfirmationScreen extends StatefulWidget {
 }
 
 class _BookingConfirmationState extends State<BookingConfirmationScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
@@ -88,7 +92,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.37,
+              height: MediaQuery.of(context).size.height * 0.30,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
@@ -123,15 +127,17 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(width: 4),
+                                SizedBox(width: 5),
                                 CircleAvatar(
                                   backgroundColor: Colors.grey[100],
-                                  radius: 16,
+                                  radius: 14,
                                   child: IconButton(
                                     // remove default padding here
                                     padding: EdgeInsets.zero,
-                                    icon:
-                                        Icon(Icons.notifications_none_outlined),
+                                    icon: SvgPicture.asset(
+                                        'assets/images_gps/info.svg',
+                                        height: 20,
+                                        width: 20),
                                     color: Colors.grey,
                                     onPressed: () {},
                                   ),
@@ -234,14 +240,19 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(Icons.location_on_outlined, size: 30),
-                          Text(
-                            '埼玉県浦和区高砂4丁目4',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: 'oxygen'),
+                          SvgPicture.asset('assets/images_gps/gps.svg',
+                              height: 25, width: 25),
+                          SizedBox(width: 5),
+                          Flexible(
+                            child: Text(
+                              '埼玉県浦和区高砂4丁目4',
+                              softWrap: true,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: 'oxygen'),
+                            ),
                           ),
                           Spacer(),
                           Row(
@@ -285,7 +296,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.calendar_today, size: 25),
+                        SvgPicture.asset('assets/images_gps/calendar.svg',
+                            height: 25, width: 25),
                         Text(
                           ' 10月17\t\t\t',
                           style: TextStyle(
@@ -306,7 +318,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                     SizedBox(height: 15),
                     Row(
                       children: [
-                        Icon(Icons.alarm, size: 25),
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 25, width: 25),
                         Text(
                           '\t9：00～10: 00\t\t\t',
                           style: TextStyle(
@@ -327,8 +340,9 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.blur_circular,
-                            color: Colors.black26, size: 25),
+                        SvgPicture.asset('assets/images_gps/cost.svg',
+                            height: 25, width: 25),
+                        SizedBox(width: 3),
                         Chip(
                           label: Text('足つぼ'),
                           backgroundColor: Colors.grey[300],
@@ -390,13 +404,15 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.white),
                         child: Text('オフィス')),
-                    Text(
-                      "\t\t\t\t埼玉県浦和区高砂4丁目4",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
+                    Flexible(
+                      child: Text(
+                        "\t\t\t\t埼玉県浦和区高砂4丁目4",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                   ],
                 ),
@@ -623,7 +639,21 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
 
   _updateUserBookingDetails() {
     print('Entering on press');
-    if (isOtherSelected && selectedBuildingType.toString().contains('その他')) {
+    if (selectedBuildingType == null || selectedBuildingType.isEmpty) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('施術を受ける建物を選んでください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    } else if (isOtherSelected &&
+        selectedBuildingType.toString().contains('その他')) {
       HealingMatchConstants.selectedBookingPlace = '公園';
       print('Entering on if : ${HealingMatchConstants.selectedBookingPlace}');
     } else {
