@@ -604,7 +604,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.40,
+              height: MediaQuery.of(context).size.height * 0.46,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -653,30 +653,32 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/clock.svg',
-                            height: 25, width: 25),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        new Text(
-                          '09:  00～10:  00',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              fontFamily: 'Oxygen'),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        new Text(
-                          '60分',
-                          style: TextStyle(
-                              color: Colors.grey[400],
-                              fontSize: 14,
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/clock.svg',
+                              height: 25, width: 25),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          new Text(
+                            '09:  00～10:  00',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontFamily: 'Oxygen'),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          new Text(
+                            '60分',
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontSize: 14,
+                                fontFamily: 'Oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 15),
                     Row(
@@ -716,28 +718,31 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         child: Divider(),
                       )),
                     ]),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/gps.svg',
-                            height: 25, width: 25),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '施術を受ける場所',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/gps.svg',
+                              height: 25, width: 25),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Text(
+                            '施術を受ける場所',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 10),
+                    // SizedBox(height: 10),
                     Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
+                              // height: 40,
                               padding: EdgeInsets.only(left: 15, right: 15),
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(

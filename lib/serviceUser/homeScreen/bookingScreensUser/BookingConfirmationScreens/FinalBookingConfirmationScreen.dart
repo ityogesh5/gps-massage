@@ -68,7 +68,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.30,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   children: [
                     Row(
@@ -210,40 +210,37 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       Expanded(child: Divider()),
                     ]),
                     SizedBox(height: 10),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(width: 5),
-                          Flexible(
-                            fit: FlexFit.loose,
-                            child: Text(
+                    Expanded(
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            Text(
                               '埼玉県浦和区高砂4丁目4',
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: 'oxygen'),
                             ),
-                          ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                '５Ｋｍ圏内',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[400],
-                                    fontFamily: 'oxygen'),
-                              ),
-                            ],
-                          )
-                        ])
+                            Spacer(),
+                            Row(
+                              children: [
+                                Text(
+                                  '５Ｋｍ圏内',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[400],
+                                      fontFamily: 'oxygen'),
+                                ),
+                              ],
+                            )
+                          ]),
+                    )
                   ],
                 ),
               ),
@@ -270,68 +267,74 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/calendar.svg',
-                            height: 25, width: 25),
-                        Text(
-                          ' 10月17\t\t\t',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
-                        ),
-                        Text(
-                          '月曜日出張',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/calendar.svg',
+                              height: 25, width: 25),
+                          Text(
+                            ' 10月17\t\t\t',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'oxygen'),
+                          ),
+                          Text(
+                            '月曜日出張',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[400],
+                                fontFamily: 'oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 15),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/clock.svg',
-                            height: 25, width: 25),
-                        Text(
-                          '\t9：00～10: 00\t\t\t',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
-                        ),
-                        Text(
-                          '60分',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/clock.svg',
+                              height: 25, width: 25),
+                          Text(
+                            '\t9：00～10: 00\t\t\t',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'oxygen'),
+                          ),
+                          Text(
+                            '60分',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[400],
+                                fontFamily: 'oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/images_gps/cost.svg',
-                            height: 25, width: 25),
-                        SizedBox(width: 4),
-                        Chip(
-                          label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[300],
-                        ),
-                        Text(
-                          "\t\t¥4,500",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/images_gps/cost.svg',
+                              height: 25, width: 25),
+                          SizedBox(width: 4),
+                          Chip(
+                            label: Text('足つぼ'),
+                            backgroundColor: Colors.grey[300],
+                          ),
+                          Text(
+                            "\t\t¥4,500",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

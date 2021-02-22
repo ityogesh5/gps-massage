@@ -279,7 +279,6 @@ class NavigationRouter {
             builder: (BuildContext context) => DisplayUserReview()));
   }
 
-  // Service User Booking Screen
   static void switchToServiceUserReservationAndFavourite(BuildContext context) {
     Navigator.push(
         context,
@@ -316,6 +315,7 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ServiceUserHomeScreen()));
   }
+  // search approval scrren one
 
   // Service User Booking Confirmation Screen
   static void switchToServiceUserBookingConfirmationScreen(
@@ -336,13 +336,13 @@ class NavigationRouter {
   }
 
   //BookingCancelScreen
-  static void switchToServiceUserBookingCancelScreen(
-      BuildContext context) {
+  static void switchToServiceUserBookingCancelScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => BookingCancelScreen()));
   }
+
   //Waiting for approval
   static void switchToServiceUserWaitingForApprovalScreen(
       BuildContext context) {
@@ -351,5 +351,4 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ApprovalWaitingScreen()));
   }
-
 }
