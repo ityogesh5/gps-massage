@@ -2,6 +2,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class SearchResult extends StatefulWidget {
   @override
@@ -274,13 +275,19 @@ class _SearchResultState extends State<SearchResult> {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            ratingsValue.toString(),
-                                            style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
-                                          ),
+                                          InkWell(
+                                              child: Text(
+                                                ratingsValue.toString(),
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                NavigationRouter
+                                                    .switchToUserSearchDetailPageOne(
+                                                        context);
+                                              }),
                                           RatingBar.builder(
                                             initialRating: 3,
                                             minRating: 1,
