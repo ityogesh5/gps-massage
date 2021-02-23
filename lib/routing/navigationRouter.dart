@@ -153,6 +153,15 @@ class NavigationRouter {
   }
 
   // Provider bottom bar myAccount
+  static void switchToServiceProviderShiftBanner(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BottomBarProvider(1)));
+  }
+
+  // Provider bottom bar myAccount
   static void switchToServiceProviderMyAccount(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(

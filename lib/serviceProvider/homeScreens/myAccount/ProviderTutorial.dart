@@ -17,24 +17,23 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
     return Scaffold(
         // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
-        body: PageView(
-          onPageChanged: (page) {
-            setState(() {
-              currentPage = page;
-            });
-          },
-          controller: pageController,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images_gps/provider_page_1.png'),
-                  fit: BoxFit.cover,
+        body: SafeArea(
+                  child: PageView(
+            onPageChanged: (page) {
+              setState(() {
+                currentPage = page;
+              });
+            },
+            controller: pageController,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images_gps/provider_tutorial_1.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              //color: Colors.deepPurple,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
+                //color: Colors.deepPurple,
                 child: FutureBuilder(
                     future: rootBundle.loadString(
                         "assets/provider_tutorial/service_provider_page_1.md"),
@@ -60,16 +59,13 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                       );
                     }),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images_gps/provider_page_2.png'),
-                  fit: BoxFit.cover,
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images_gps/provider_tutorial_2.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
                 child: FutureBuilder(
                     future: rootBundle.loadString(
                         "assets/provider_tutorial/service_provider_page_2.md"),
@@ -95,8 +91,8 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                       );
                     }),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 

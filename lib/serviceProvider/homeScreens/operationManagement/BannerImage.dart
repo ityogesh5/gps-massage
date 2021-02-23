@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/providerBannerDeleteResponseModel.dart'
+    as BannerDeleteResponse;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -24,6 +26,7 @@ class _BannerImageState extends State<BannerImage> {
   Map<String, String> oldBannerImages = Map<String, String>();
   List<String> bannerImages = List<String>();
   int oldBannerImageLength;
+  List<int> availBannerImages = List<int>();
   Data userData;
   int status = 0;
 
@@ -255,7 +258,9 @@ class _BannerImageState extends State<BannerImage> {
                 child: InkWell(
                     onTap: () {
                       setState(() {
-                        oldBannerImages.remove(bannerImage);
+                        //     oldBannerImages.remove(bannerImage);
+                        deleteBannerImage(
+                            bannerImage.substring(bannerImage.length - 1));
                       });
                     },
                     child: CircleAvatar(
@@ -342,6 +347,8 @@ class _BannerImageState extends State<BannerImage> {
       bannerUpload.forEach((key, value) {
         if (bannerUpload[key] != null) {
           oldBannerImages[key] = value;
+        } else {
+          availBannerImages.add(int.parse(key.substring(key.length - 1)));
         }
       });
       oldBannerImageLength = oldBannerImages.length;
@@ -361,7 +368,9 @@ class _BannerImageState extends State<BannerImage> {
       bannerUpload.remove('updatedAt');
       bannerUpload.forEach((key, value) {
         if (bannerUpload[key] != null) {
-          oldBannerImages[key] = value;
+          availBannerImages.add(int.parse(key.substring(key.length - 1)));
+        } else {
+          availBannerImages.add(key);
         }
       });
       oldBannerImageLength = oldBannerImages.length;
@@ -372,7 +381,64 @@ class _BannerImageState extends State<BannerImage> {
     }
   }
 
+  deleteBannerImage(String bannerKey) async {
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var headers = {
+      'Content-Type': 'application/json',
+      'x-access-token': HealingMatchConstants.accessToken
+    };
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(HealingMatchConstants.DELETE_BANNER_IMAGE_URL),
+    );
+    request.fields.addAll({
+      'id': userData.banners[0].id.toString(),
+      'deleteBannerUrl': bannerKey
+    });
+    request.headers.addAll(headers);
+
+    try {
+      final bannerImageRequest = await request.send();
+      print("This is request : ${bannerImageRequest.request}");
+      final response = await http.Response.fromStream(bannerImageRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isBannerDeleteSuccess(
+          response.statusCode, context, response.body)) {
+        BannerDeleteResponse.ProviderBannerDeleteResponseModel
+            providerBannerDeleteResponseModel =
+            BannerDeleteResponse.ProviderBannerDeleteResponseModel.fromJson(
+                json.decode(response.body));
+        var banner = providerBannerDeleteResponseModel.data;
+        userData.banners[0].bannerImageUrl1 = banner.bannerImageUrl1;
+        userData.banners[0].bannerImageUrl2 = banner.bannerImageUrl2;
+        userData.banners[0].bannerImageUrl3 = banner.bannerImageUrl3;
+        userData.banners[0].bannerImageUrl4 = banner.bannerImageUrl4;
+        userData.banners[0].bannerImageUrl5 = banner.bannerImageUrl5;
+        sharedPreferences.setString("userData", json.encode(userData));
+        HealingMatchConstants.userData =
+            Data.fromJson(json.decode(sharedPreferences.getString("userData")));
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        NavigationRouter.switchToServiceProviderShiftBanner(context);
+      } else {
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
+      //handle socket Exception
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
+    } catch (_) {
+      //handle other error
+      print("Error");
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+    }
+  }
+
   updateBannerImage() async {
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var headers = {
       'Content-Type': 'application/json',
       'x-access-token': HealingMatchConstants.accessToken
@@ -383,14 +449,12 @@ class _BannerImageState extends State<BannerImage> {
     );
     request.fields.addAll({'id': userData.banners[0].id.toString()});
 
-    int shiftImagesLength = oldBannerImages.length + 1;
+    int i = 0;
     //Upload New Banner Images
-    if (oldBannerImages.length == oldBannerImageLength) {
-      for (var bimage in bannerImages) {
-        request.files.add(await http.MultipartFile.fromPath(
-            'bannerImageUrl' + (shiftImagesLength++).toString(), bimage));
-      }
-    } else {}
+    for (var bimage in bannerImages) {
+      request.files.add(await http.MultipartFile.fromPath(
+          'bannerImageUrl' + (availBannerImages[i++]).toString(), bimage));
+    }
     /* request.files.add(await http.MultipartFile.fromPath(
         'bannerImageUrl2', bannerImages[0])); */
 
@@ -407,7 +471,16 @@ class _BannerImageState extends State<BannerImage> {
             ProviderBannerUpdateResponseModel.fromJson(
                 json.decode(response.body));
         var banner = providerBannerUpdateResponseModel.message;
-     //   userData.banners[0] = banner.;
+        userData.banners[0].bannerImageUrl1 = banner.bannerImageUrl1;
+        userData.banners[0].bannerImageUrl2 = banner.bannerImageUrl2;
+        userData.banners[0].bannerImageUrl3 = banner.bannerImageUrl3;
+        userData.banners[0].bannerImageUrl4 = banner.bannerImageUrl4;
+        userData.banners[0].bannerImageUrl5 = banner.bannerImageUrl5;
+        sharedPreferences.setString("userData", json.encode(userData));
+        HealingMatchConstants.userData =
+            Data.fromJson(json.decode(sharedPreferences.getString("userData")));
+        // ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        NavigationRouter.switchToServiceProviderShiftBanner(context);
       } else {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Response error occured!');
