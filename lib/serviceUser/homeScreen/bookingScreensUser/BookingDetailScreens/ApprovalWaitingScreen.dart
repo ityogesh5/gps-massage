@@ -731,48 +731,53 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.grey[200],
-                                        Colors.grey[200]
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.grey[200],
+                                          Colors.grey[200]
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Colors.grey[300],
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: Colors.grey[200]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '店舗',
+                                    //'店舗gnihnotinmhomn',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Oxygen'),
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Colors.grey[200]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '埼玉県浦和区高砂4丁目4',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[500],
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                                )),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Flexible(
+                            child: Text(
+                              '埼玉県浦和区高砂4丁目4',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[500],
+                                  fontFamily: 'Oxygen'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
