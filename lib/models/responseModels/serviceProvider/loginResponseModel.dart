@@ -65,6 +65,7 @@ class Data {
     this.storeName,
     this.storeType,
     this.storePhone,
+    this.storeDescription,
     this.userOccupation,
     this.genderOfService,
     this.childrenMeasure,
@@ -108,6 +109,7 @@ class Data {
   String storeName;
   String storeType;
   int storePhone;
+  dynamic storeDescription;
   dynamic userOccupation;
   String genderOfService;
   String childrenMeasure;
@@ -151,6 +153,7 @@ class Data {
         storeName: json["storeName"],
         storeType: json["storeType"],
         storePhone: json["storePhone"],
+        storeDescription: json["storeDescription"],
         userOccupation: json["userOccupation"],
         genderOfService: json["genderOfService"],
         childrenMeasure: json["childrenMeasure"],
@@ -206,6 +209,7 @@ class Data {
         "storeName": storeName,
         "storeType": storeType,
         "storePhone": storePhone,
+        "storeDescription": storeDescription,
         "userOccupation": userOccupation,
         "genderOfService": genderOfService,
         "childrenMeasure": childrenMeasure,
@@ -444,14 +448,14 @@ class CertificationUpload {
 
   int id;
   int userId;
-  String acupuncturist;
-  String moxibutionist;
+  dynamic acupuncturist;
+  dynamic moxibutionist;
   dynamic acupuncturistAndMoxibustion;
   dynamic anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
   dynamic physicalTherapist;
   dynamic acquireNationalQualifications;
-  String privateQualification1;
+  dynamic privateQualification1;
   dynamic privateQualification2;
   dynamic privateQualification3;
   dynamic privateQualification4;
@@ -512,6 +516,7 @@ class EstheticListElement {
     this.oneEightyMin,
     this.createdAt,
     this.updatedAt,
+    this.fitnessId,
     this.orteopathicId,
     this.relaxationId,
   });
@@ -527,6 +532,7 @@ class EstheticListElement {
   int oneEightyMin;
   DateTime createdAt;
   DateTime updatedAt;
+  int fitnessId;
   int orteopathicId;
   int relaxationId;
 
@@ -543,6 +549,7 @@ class EstheticListElement {
         oneEightyMin: json["oneEightyMin"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        fitnessId: json["fitnessId"] == null ? null : json["fitnessId"],
         orteopathicId:
             json["orteopathicId"] == null ? null : json["orteopathicId"],
         relaxationId:
@@ -561,6 +568,7 @@ class EstheticListElement {
         "oneEightyMin": oneEightyMin,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "fitnessId": fitnessId == null ? null : fitnessId,
         "orteopathicId": orteopathicId == null ? null : orteopathicId,
         "relaxationId": relaxationId == null ? null : relaxationId,
       };

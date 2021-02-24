@@ -1,5 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/providerStoreDescriptionUpdateResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class ShiftDescription extends StatefulWidget {
   @override
@@ -7,6 +16,14 @@ class ShiftDescription extends StatefulWidget {
 }
 
 class _ShiftDescriptionState extends State<ShiftDescription> {
+  TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    getDescription();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -31,6 +48,8 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                 // hack textfield height
                 // padding: EdgeInsets.only(bottom: 40.0),
                 child: TextField(
+                  controller: textEditingController,
+                  textInputAction: TextInputAction.done,
                   expands: false,
                   maxLines: 10,
                   decoration: InputDecoration(
@@ -40,6 +59,8 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                     focusedBorder:
                         HealingMatchConstants.multiTextFormInputBorder,
                     disabledBorder:
+                        HealingMatchConstants.multiTextFormInputBorder,
+                    enabledBorder:
                         HealingMatchConstants.multiTextFormInputBorder,
                   ),
                 ),
@@ -109,7 +130,9 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    updateStoreDescription();
+                  },
                 ),
               ),
             ],
@@ -117,5 +140,67 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
         ),
       ),
     );
+  }
+
+  void getDescription() {
+    if (HealingMatchConstants.userData.storeDescription != null ||
+        HealingMatchConstants.userData.storeDescription != "") {
+      textEditingController.text =
+          HealingMatchConstants.userData.storeDescription;
+    }
+  }
+
+  updateStoreDescription() async {
+    String storeDescription = textEditingController.text;
+    if (storeDescription != null || storeDescription != "") {
+      ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': HealingMatchConstants.accessToken
+      };
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(HealingMatchConstants.STORE_DESCRIPTION_UPDATE),
+      );
+      request.fields.addAll({
+        'id': HealingMatchConstants.userData.id.toString(),
+        'storeDescription': storeDescription
+      });
+      request.headers.addAll(headers);
+
+      try {
+        final bannerImageRequest = await request.send();
+        print("This is request : ${bannerImageRequest.request}");
+        final response = await http.Response.fromStream(bannerImageRequest);
+        print("This is response: ${response.statusCode}\n${response.body}");
+        if (StatusCodeHelper.isBannerDeleteSuccess(
+            response.statusCode, context, response.body)) {
+          ProviderStoreDescriptionUpdateResponseModel
+              descriptionUpdateResponseModel =
+              ProviderStoreDescriptionUpdateResponseModel.fromJson(
+                  json.decode(response.body));
+          HealingMatchConstants.userData.storeDescription =
+              descriptionUpdateResponseModel.data.storeDescription;
+          sharedPreferences.setString(
+              "userData", json.encode(HealingMatchConstants.userData));
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          //    NavigationRouter.switchToServiceProviderShiftBanner(context);
+        } else {
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          print('Response error occured!');
+        }
+      } on SocketException catch (_) {
+        //handle socket Exception
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        NavigationRouter.switchToNetworkHandler(context);
+        print('Network error !!');
+      } catch (_) {
+        //handle other error
+        print("Error");
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      }
+    }
   }
 }

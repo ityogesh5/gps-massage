@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
@@ -661,9 +662,10 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             shape: BoxShape.circle),
                         child: Center(
                           child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.black,
+                              icon: SvgPicture.asset(
+                                "assets/images_gps/edit_button.svg",
+                                height: 20.0,
+                                width: 20.0,
                               ),
                               onPressed: () {
                                 showTimeandPriceDialog(
