@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -302,7 +303,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 image: new DecorationImage(
                                   fit: BoxFit.none,
                                   image: new AssetImage(
-                                      'assets/images_gps/user.png'),
+                                      'assets/images_gps/female.png'),
                                 ),
                               )),
                         ),
@@ -388,13 +389,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      bussinessForm = value;
                       if (value == "施術店舗なし 施術従業員あり（出張のみ)") {
                         serviceBusinessTrips = "はい";
                         businessTripEnabled = false;
                       } else {
                         businessTripEnabled = true;
                       }
+                      if (bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)") {
+                        serviceBusinessTrips = "";
+                        businessTripEnabled = true;
+                      }
+                      bussinessForm = value;
 
                       FocusScope.of(context).requestFocus(new FocusNode());
                     });
@@ -652,6 +657,26 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: sizedBoxFormHeight,
               ),
               Container(
+                width: containerWidth,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("*", style: TextStyle(color: Colors.red)),
+                    Text(
+                      HealingMatchConstants.registrationJapanAssociationTxt,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: sizedBoxFormHeight,
+              ),
+              Container(
                 height: containerHeight,
                 width: containerWidth,
                 child: InkWell(
@@ -776,26 +801,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   isList: true,
                   textField: 'display',
                   valueField: 'value',
-                ),
-              ),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                width: containerWidth,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("*", style: TextStyle(color: Colors.red)),
-                    Text(
-                      HealingMatchConstants.registrationJapanAssociationTxt,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
                 ),
               ),
               SizedBox(
@@ -1430,6 +1435,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   controller: roomNumberController,
                                   style: HealingMatchConstants.formTextStyle,
                                   keyboardType: TextInputType.text,
+                                  maxLengthEnforced: true,
                                   maxLength: 4,
                                   decoration: InputDecoration(
                                     counterText: "",
@@ -2092,6 +2098,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    //roomno Validation
+    if (roomnumber.length > 4) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('4文字の部屋番号を入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -199,6 +200,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   List<String> privateQualification = List<String>();
   final qualificationupload = new GlobalKey<FormState>();
   Map<String, String> oldCertificateImages = Map<String, String>();
+  List<String> oldCertificateImagesJaNames = List<String>();
 
   double iconHeight = 20.0;
   double iconWidth = 20.0;
@@ -217,7 +219,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     qualification = '';
     accountType = '';
     buildNumberOfEmployess();
-    getProfileDetails();
+    //  getProfileDetails();
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -297,8 +299,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         ),
         centerTitle: true,
       ),
-      body: status == 0
-          ? Container(color: Colors.white)
+      body: status != 3
+          ? Center(
+              child: SpinKitDoubleBounce(color: Colors.limeAccent),
+            )
           : SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -355,17 +359,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               _showPicker(context, 0);
                             },
                             child: CircleAvatar(
-                              backgroundColor: Colors.grey[500],
+                              backgroundColor: Colors.grey[100],
                               radius: 13,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.grey[100],
-                                radius: 12,
-                                child: SvgPicture.asset(
-                                  "assets/images_gps/edit_button.svg",
-                                  height: iconHeight,
-                                  width: iconWidth,
-                                  color: iconColor,
-                                ),
+                              child: SvgPicture.asset(
+                                "assets/images_gps/edit_button.svg",
+                                /*  height: iconHeight,
+                                width: iconWidth, */
+                                color: iconColor,
                               ),
                             ),
                           ),
@@ -1669,8 +1669,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               (uploadVisible &&
                                           !certificateImages
                                               .containsKey(qualification)) &&
-                                      (!oldCertificateImages
-                                              .containsKey(qualification) ||
+                                      (!oldCertificateImages.containsKey(
+                                              getQualififcationEngWords(
+                                                  qualification)) ||
                                           qualification == "民間資格")
                                   ? Padding(
                                       padding:
@@ -1753,8 +1754,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 width: (uploadVisible &&
                                             !certificateImages
                                                 .containsKey(qualification)) &&
-                                        (!oldCertificateImages
-                                                .containsKey(qualification) ||
+                                        (!oldCertificateImages.containsKey(
+                                                getQualififcationEngWords(
+                                                    qualification)) ||
                                             qualification == "民間資格")
                                     ? 10
                                     : 0,
@@ -2579,7 +2581,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する') {
       HealingMatchConstants.serviceProviderAddress = address;
       print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
+    } else {
       String address = roomnumber +
           ',' +
           buildingname +
@@ -2925,27 +2927,62 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       children: [
         Row(
           children: [
-            Checkbox(
-              tristate: true,
-              activeColor: Colors.lime,
-              checkColor: Colors.lime,
-              value: checkValue,
-              onChanged: (value) {
-                if (value == null) {
-                  setState(() {
-                    childrenMeasuresDropDownValuesSelected
-                        .remove(childrenMeasuresValue);
-                  });
-                } else {
-                  setState(() {
-                    childrenMeasuresDropDownValuesSelected
-                        .add(childrenMeasuresValue);
-                  });
-                }
-              },
+            checkValue
+                ? Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Checkbox(
+                      tristate: true,
+                      activeColor: Colors.black,
+                      checkColor: Colors.black,
+                      value: checkValue,
+                      onChanged: (value) {
+                        if (value == null) {
+                          setState(() {
+                            childrenMeasuresDropDownValuesSelected
+                                .remove(childrenMeasuresValue);
+                          });
+                        } else {
+                          setState(() {
+                            childrenMeasuresDropDownValuesSelected
+                                .add(childrenMeasuresValue);
+                          });
+                        }
+                      },
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        childrenMeasuresDropDownValuesSelected
+                            .add(childrenMeasuresValue);
+                      });
+                    },
+                    child: Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[400],
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+            SizedBox(
+              width: 10.0,
             ),
             Text("$childrenMeasuresValue", style: TextStyle(fontSize: 14.0)),
           ],
+        ),
+        SizedBox(
+          height: 15.0,
         ),
       ],
     );
@@ -2959,26 +2996,65 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       children: [
         Row(
           children: [
-            Checkbox(
-              tristate: true,
-              activeColor: Colors.lime,
-              checkColor: Colors.lime,
-              value: checkValue,
-              onChanged: (value) {
-                if (value == null) {
-                  setState(() {
-                    selectedStoreTypeDisplayValues
-                        .remove(storeTypeDisplayValues);
-                  });
-                } else {
-                  setState(() {
-                    selectedStoreTypeDisplayValues.add(storeTypeDisplayValues);
-                  });
-                }
-              },
+            checkValue
+                ? Container(
+                    height: 25.0,
+                    width: 25.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Checkbox(
+                      tristate: true,
+                      activeColor: Colors.black,
+                      checkColor: Colors.black,
+                      value: checkValue,
+                      onChanged: (value) {
+                        /*  setState(() {
+                          checkValue = value;
+                        }); */
+                        if (value == null) {
+                          setState(() {
+                            selectedStoreTypeDisplayValues
+                                .remove(storeTypeDisplayValues);
+                          });
+                        } else {
+                          setState(() {
+                            selectedStoreTypeDisplayValues
+                                .add(storeTypeDisplayValues);
+                          });
+                        }
+                      },
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedStoreTypeDisplayValues
+                            .add(storeTypeDisplayValues);
+                      });
+                    },
+                    child: Container(
+                      height: 25.0,
+                      width: 25.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey[400],
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+            SizedBox(
+              width: 10.0,
             ),
             Text("$storeTypeDisplayValues", style: TextStyle(fontSize: 14.0)),
           ],
+        ),
+        SizedBox(
+          height: 15.0,
         ),
       ],
     );
@@ -3108,6 +3184,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         setState(() {
           bankNameDropDownList
               .add(HealingMatchConstants.registrationBankOtherDropdownFiled);
+          status = status + 1;
+          print("b Status: $status");
+          if (status == 2) {
+            getProfileDetails();
+          }
         });
       } else {
         print(response.reasonPhrase);
@@ -3290,7 +3371,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     } else {
       manualAddressController.text = userData.addresses[0].address;
       //   myCity = userData.addresses[0].cityName;
-      //   myState = userData.addresses[0].capitalAndPrefecture;
+      myState = userData.addresses[0].capitalAndPrefecture;
+      _prefid = stateDropDownValues.indexOf(myState) + 1;
+      _getCityDropDown(_prefid);
     }
     identificationverify = userData.proofOfIdentityType;
     roomNumberController.text = userData.addresses[0].userRoomNumber;
@@ -3327,7 +3410,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       qualificationCertificates.removeLast();
     }
     setState(() {
-      status = 1;
+      status = 3;
     });
   }
 
@@ -3341,13 +3424,18 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         // print(stateDropDownValues);
       }
       setState(() {
-        if (myState != null && myState != '') {
+        /*   if (myState != null && myState != '') {
           _prefid = stateDropDownValues.indexOf(myState) + 1;
-          print('prefID : ${_prefid.toString()}');
-          cityDropDownValues.clear();
-          myCity = '';
-          _getCityDropDown(_prefid);
+          print('prefID : ${_prefid.toString()}'); */
+        status = status + 1;
+        print("s Status: $status");
+        if (status == 2) {
+          getProfileDetails();
         }
+        /*   cityDropDownValues.clear();
+          myCity = '';
+          _getCityDropDown(_prefid); */
+        /*   } */
       });
       // print('prefID : ${stateDropDownValues.indexOf(_mystate).toString()}');
     });
@@ -3386,6 +3474,35 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         return '民間資格';
       case 'privateQualification5':
         return '民間資格';
+        break;
+    }
+  }
+
+  String getQualififcationEngWords(String key) {
+    switch (key) {
+      case 'はり師':
+        return 'acupuncturist';
+        break;
+      case 'きゅう師':
+        return 'moxibutionist';
+        break;
+      case '鍼灸師':
+        return 'acupuncturistAndMoxibustion';
+        break;
+      case 'あん摩マッサージ指圧師':
+        return 'anmaMassageShiatsushi';
+        break;
+      case '柔道整復師':
+        return 'judoRehabilitationTeacher';
+        break;
+      case '理学療法士':
+        return 'physicalTherapist';
+        break;
+      case '国家資格取得予定（学生）':
+        return 'acquireNationalQualifications';
+        break;
+      case '民間資格':
+        return 'privateQualification1';
         break;
     }
   }

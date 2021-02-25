@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/networkHelper/socketExceptionHandler.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
+import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
+import 'package:gps_massageapp/initialScreens/userTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
@@ -237,6 +239,22 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ProviderEditProfile()));
+  }
+
+  //Provider Initial Tutorial Screen
+  static void switchToProviderInitialTutorialScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderInitialTutorial()));
+  }
+
+  //Provider Initial Tutorial Screen
+  static void switchToUserInitialTutorialScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => UserInitialTutorial()));
   }
 
   //Provider MyAccount Tutorial Screen
