@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
@@ -10,20 +11,20 @@ import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart
 import 'HomeScreenUser.dart';
 import 'chatScreensUser/ChatScreenUser.dart';
 
-final pageController = PageController();
-
 class BottomBarUser extends StatefulWidget {
+  final int page;
+
+  BottomBarUser(this.page);
+
   @override
   _BottomBarUserState createState() => _BottomBarUserState();
 }
 
 class _BottomBarUserState extends State<BottomBarUser> {
-  static int selectedPage = 0; //initial value
-  static int returnPage = 0;
-  ScrollController _hideBottomNavController;
+  int selectedpage; //
 
   final _pageOptions = [
-    ServiceUserHomeScreen(),
+    HomeScreen(),
     SearchScreenUser(),
     ReservationAndFavourite(),
     ViewUserProfile(),
@@ -32,7 +33,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    selectedpage = widget.page; //initial Page
     super.initState();
   }
 
@@ -40,167 +41,56 @@ class _BottomBarUserState extends State<BottomBarUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: pageController,
-        onPageChanged: (index) {
+      body: _pageOptions[selectedpage],
+      // initial value is 0 so HomePage will be shown
+      bottomNavigationBar: CurvedNavigationBar(
+        index: selectedpage,
+        height: 60,
+        buttonBackgroundColor: Colors.limeAccent,
+        backgroundColor: Colors.red.withOpacity(0),
+        // Colors.red,
+        color: Colors.white,
+        animationCurve: Curves.decelerate,
+        animationDuration: Duration(milliseconds: 200),
+        items: <Widget>[
+          SvgPicture.asset(
+            "assets/images_gps/provicer_home_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 0 ? Colors.white : Colors.black,
+          ),
+          SvgPicture.asset(
+            "assets/images_gps/search.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 1 ? Colors.white : Colors.black,
+          ),
+          SvgPicture.asset(
+            "assets/images_gps/status.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 2 ? Colors.white : Colors.black,
+          ),
+          SvgPicture.asset(
+            "assets/images_gps/provider_profile_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 3 ? Colors.white : Colors.black,
+          ),
+          SvgPicture.asset(
+            "assets/images_gps/provider_notification_chat_black.svg",
+            height: 25.0,
+            width: 25.0,
+            color: selectedpage == 4 ? Colors.white : Colors.black,
+          ),
+        ],
+        onTap: (index) {
           setState(() {
-            returnPage = index;
-            pageController.jumpToPage(index);
+            selectedpage =
+                index; // changing selected page as per bar index selected by the user
           });
         },
-        children: [
-          ServiceUserHomeScreen(),
-          SearchScreenUser(),
-          ReservationAndFavourite(),
-          ViewUserProfile(),
-          ChatHistoryScreenUser(),
-        ],
-      ), // initial value is 0 so HomePage will be shown
-      bottomNavigationBar: HealingMatchConstants.isUserRegistrationSkipped &&
-              HealingMatchConstants.isUserVerified == false
-          ? Visibility(
-              visible: HealingMatchConstants.isBottomBarVisible,
-              child: CurvedNavigationBar(
-                height: 60,
-                buttonBackgroundColor: Colors.limeAccent,
-                backgroundColor: Colors.white,
-                color: Colors.white,
-                animationCurve: Curves.decelerate,
-                animationDuration: Duration(milliseconds: 200),
-                items: <Widget>[
-                  Image.asset("assets/images_gps/home.png"),
-                  Image.asset("assets/images_gps/search.png"),
-                  Image.asset("assets/images_gps/status.png"),
-                  Image.asset("assets/images_gps/profile.png"),
-                  Image.asset("assets/images_gps/norification_chat.png"),
-                  /* Icon(
-                    Icons.home,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                  Icon(
-                    Icons.search,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                  Icon(
-                    Icons.library_books,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                  Icon(
-                    Icons.account_box,
-                    size: 30,
-                    color: Colors.black,
-                  ),
-                  Icon(
-                    Icons.chat,
-                    size: 30,
-                    color: Colors.black,
-                  ),*/
-                ],
-                onTap: (index) {
-                  setState(() {
-                    switch (index) {
-                      case 0:
-                        pageController.jumpToPage(index);
-                        break;
-                      case 1:
-                        //Navigator.pushNamed(context, "/second");
-                        NavigationRouter.switchToServiceUserSearchScreen(
-                            context);
-                        break;
-                      case 2:
-                        DialogHelper.showUserLoginOrRegisterDialog(context);
-                        break;
-                      case 3:
-                        DialogHelper.showUserLoginOrRegisterDialog(context);
-                        break;
-                      case 4:
-                        DialogHelper.showUserLoginOrRegisterDialog(context);
-                        break;
-                    }
-                  });
-                },
-                //index: selectedPage,
-              ),
-            )
-          : Visibility(
-              visible: HealingMatchConstants.isBottomBarVisible,
-              child: CurvedNavigationBar(
-                height: 60,
-                buttonBackgroundColor: Colors.limeAccent,
-                backgroundColor: Colors.white,
-                color: Colors.white,
-                animationCurve: Curves.decelerate,
-                animationDuration: Duration(milliseconds: 200),
-                items: <Widget>[
-                  Image.asset("assets/images_gps/home.png"),
-                  Image.asset("assets/images_gps/search.png"),
-                  Image.asset("assets/images_gps/status.png"),
-                  Image.asset("assets/images_gps/profile.png"),
-                  Image.asset(
-                      "assets/images_gps/norification_chat.png"), /*Icon(
-                    Icons.home,
-                    size: 30,
-                    color: selectedPage == 0 ? Colors.white : Colors.black,
-                  ),*/
-                  /*  Icon(
-                    Icons.search,
-                    size: 30,
-                    color: selectedPage == 1 ? Colors.white : Colors.black,
-                  ),
-                  Icon(
-                    Icons.library_books,
-                    size: 30,
-                    color: selectedPage == 2 ? Colors.white : Colors.black,
-                  ),
-                  Icon(
-                    Icons.account_box,
-                    size: 30,
-                    color: selectedPage == 3 ? Colors.white : Colors.black,
-                  ),
-                  Icon(
-                    Icons.chat,
-                    size: 30,
-                    color: selectedPage == 4 ? Colors.white : Colors.black,
-                  ),*/
-                ],
-                onTap: (index) {
-                  setState(() {
-                    selectedPage = index;
-                    setState(() {
-                      switch (index) {
-                        case 0:
-                          pageController.jumpToPage(index);
-                          break;
-                        case 1:
-                          NavigationRouter.switchToServiceUserSearchScreen(
-                              context);
-                          break;
-                        case 2:
-                          NavigationRouter
-                              .switchToServiceUserReservationAndFavourite(
-                                  context);
-
-                          break;
-                        case 3:
-                          NavigationRouter.switchToServiceUserViewProfileScreen(
-                              context);
-                          break;
-                        case 4:
-                          NavigationRouter.switchToServiceUserNoticeScreen(
-                              context);
-                          break;
-                      }
-                    }); // changing selected page as per bar index selected by the user
-                    //pageController.jumpToPage(index);
-                  });
-                },
-                index: selectedPage,
-              ),
-            ),
+      ),
     );
   }
 }

@@ -50,6 +50,7 @@ class _SearchResultState extends State<SearchResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -62,12 +63,11 @@ class _SearchResultState extends State<SearchResult> {
             Navigator.pop(context);
           },
         ),
-        title: Center(
-          child: Text(
-            '検索結果',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          '検索結果',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
       ),
       body: Stack(
         children: [
@@ -383,7 +383,7 @@ class _SearchResultState extends State<SearchResult> {
             ),
           ),
           Positioned(
-            top: 0.0,
+            top: 10,
             right: 50,
             left: 50,
             child: Container(

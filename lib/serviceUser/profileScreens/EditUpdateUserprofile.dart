@@ -2327,7 +2327,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           ProfileUpdateResponseModel.fromJson(userDetailsResponse);
       print(profileUpdateResponseModel.status);
       _sharedPreferences.then((value) {
-        value.clear();
+        // value.clear();
         // value.setString('accessToken', profileUpdateResponseModel.accessToken);
         value.setString('did', profileUpdateResponseModel.data.id.toString());
         value.setString('profileImage',

@@ -15,13 +15,14 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
+            // NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
@@ -121,13 +122,23 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                         children: [
                                           Container(
                                               decoration: BoxDecoration(
-                                                  color: Colors.white,
+                                                  gradient: LinearGradient(
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                      colors: [
+                                                        Colors.white,
+                                                        Colors.white,
+                                                      ]),
+                                                  shape: BoxShape.rectangle,
                                                   border: Border.all(
-                                                    color: Colors.transparent,
+                                                    color: Colors.grey[300],
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12))),
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.grey[200]),
                                               padding: EdgeInsets.all(4),
                                               child: Text('店舗')),
                                           SizedBox(
@@ -136,13 +147,23 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                           Container(
                                               padding: EdgeInsets.all(4),
                                               decoration: BoxDecoration(
-                                                  color: Colors.white,
+                                                  gradient: LinearGradient(
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                      colors: [
+                                                        Colors.white,
+                                                        Colors.white,
+                                                      ]),
+                                                  shape: BoxShape.rectangle,
                                                   border: Border.all(
-                                                    color: Colors.transparent,
+                                                    color: Colors.grey[300],
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12))),
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.grey[200]),
                                               child: Text('出張')),
                                           SizedBox(
                                             width: 5,
@@ -150,13 +171,23 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                           Container(
                                               padding: EdgeInsets.all(4),
                                               decoration: BoxDecoration(
-                                                  color: Colors.white,
+                                                  gradient: LinearGradient(
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                      colors: [
+                                                        Colors.white,
+                                                        Colors.white,
+                                                      ]),
+                                                  shape: BoxShape.rectangle,
                                                   border: Border.all(
-                                                    color: Colors.transparent,
+                                                    color: Colors.grey[300],
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12))),
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.grey[200]),
                                               child: Text('コロナ対策実施')),
                                         ],
                                       ),
@@ -206,12 +237,20 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                         Container(
                                             padding: EdgeInsets.all(4),
                                             decoration: BoxDecoration(
-                                                color: Colors.white,
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Colors.white,
+                                                      Colors.white,
+                                                    ]),
+                                                shape: BoxShape.rectangle,
                                                 border: Border.all(
-                                                  color: Colors.transparent,
+                                                  color: Colors.grey[300],
                                                 ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(12))),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                color: Colors.grey[200]),
                                             child: Text('国家資格保有')),
                                         SizedBox(
                                             width: MediaQuery.of(context)
@@ -246,7 +285,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
             right: 20,
             left: 20,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.068,
+              height: MediaQuery.of(context).size.height * 0.069,
               width: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
                   color: Colors.white,

@@ -92,7 +92,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.34,
+              height: MediaQuery.of(context).size.height * 0.30,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -232,9 +232,11 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         ),
                       ],
                     ),
-                    Row(children: <Widget>[
-                      Expanded(child: Divider()),
-                    ]),
+                    Expanded(
+                      child: Row(children: <Widget>[
+                        Expanded(child: Divider()),
+                      ]),
+                    ),
                     SizedBox(height: 10),
                     Expanded(
                       child: Row(
@@ -285,7 +287,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.22,
+              height: MediaQuery.of(context).size.height * 0.21,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
@@ -336,25 +338,27 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/images_gps/cost.svg',
-                            height: 25, width: 25),
-                        SizedBox(width: 3),
-                        Chip(
-                          label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[300],
-                        ),
-                        Text(
-                          "\t\t¥4,500",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset('assets/images_gps/cost.svg',
+                              height: 25, width: 25),
+                          SizedBox(width: 3),
+                          Chip(
+                            label: Text('足つぼ'),
+                            backgroundColor: Colors.grey[300],
+                          ),
+                          Text(
+                            "\t\t¥4,500",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
