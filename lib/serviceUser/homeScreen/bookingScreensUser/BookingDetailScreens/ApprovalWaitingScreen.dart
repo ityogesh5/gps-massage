@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/CustomHeartFavorite.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [
@@ -732,11 +732,11 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                     ),
                     SizedBox(height: 10),
                     Expanded(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Container(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -756,7 +756,6 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     '店舗',
-                                    //'店舗gnihnotinmhomn',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -764,19 +763,19 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                         fontFamily: 'Oxygen'),
                                   ),
                                 )),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Flexible(
-                            child: Text(
-                              '埼玉県浦和区高砂4丁目4',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[500],
-                                  fontFamily: 'Oxygen'),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.02),
+                            Flexible(
+                              child: Text(
+                                '埼玉県浦和区高砂4丁目4',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[500],
+                                    fontFamily: 'Oxygen'),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

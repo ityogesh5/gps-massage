@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
+import 'package:gps_massageapp/utils/Tooltipclasses/basicexample.dart';
 
 import 'initialScreens/splashScreen.dart';
 
@@ -24,6 +25,6 @@ class HealingMatchApp extends StatelessWidget {
         ),
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: ApprovalWaitingScreen()); //SplashScreen());
+        home: SplashScreen()); //SplashScreen());
   }
 }
