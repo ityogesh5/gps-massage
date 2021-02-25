@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/customLibraryClasses/customRadioButtonList/CustomHeartFavorite.dart';
+import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -1059,6 +1059,7 @@ class _CauroselWithIndicatorSearchPageState
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         Container(
           decoration: BoxDecoration(

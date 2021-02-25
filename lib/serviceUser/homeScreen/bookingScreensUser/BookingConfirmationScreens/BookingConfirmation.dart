@@ -236,38 +236,37 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       Expanded(child: Divider()),
                     ]),
                     SizedBox(height: 10),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(width: 5),
-                          Flexible(
-                            child: Text(
+                    Expanded(
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            Text(
                               '埼玉県浦和区高砂4丁目4',
-                              softWrap: true,
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: 'oxygen'),
                             ),
-                          ),
-                          Spacer(),
-                          Row(
-                            children: [
-                              Text(
-                                '５Ｋｍ圏内',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[400],
-                                    fontFamily: 'oxygen'),
-                              ),
-                            ],
-                          )
-                        ])
+                            Spacer(),
+                            Row(
+                              children: [
+                                Text(
+                                  '５Ｋｍ圏内',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[400],
+                                      fontFamily: 'oxygen'),
+                                ),
+                              ],
+                            )
+                          ]),
+                    )
                   ],
                 ),
               ),
