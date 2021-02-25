@@ -29,7 +29,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.40,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -38,7 +38,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return Container(
-                        // height: MediaQuery.of(context).size.height * 0.22,
+                        // height: MediaQuery.of(context).size.height * 0.30,
                         width: MediaQuery.of(context).size.width * 0.90,
                         child: new Card(
                           color: Colors.grey[200],
@@ -110,15 +110,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             children: [
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   padding: EdgeInsets.all(4),
                                                   child: Text('店舗')),
                                               SizedBox(
@@ -127,15 +135,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('出張')),
                                               SizedBox(
                                                 width: 5,
@@ -143,15 +159,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('コロナ対策実施')),
                                             ],
                                           ),
@@ -159,97 +183,126 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              ratingsValue.toString(),
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
+                                        FittedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                ratingsValue.toString(),
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
                                               ),
-                                            ),
-                                            RatingBar.builder(
-                                              initialRating: 3,
-                                              minRating: 1,
-                                              direction: Axis.horizontal,
-                                              allowHalfRating: true,
-                                              itemCount: 5,
-                                              itemSize: 25,
-                                              itemPadding: EdgeInsets.symmetric(
-                                                  horizontal: 4.0),
-                                              itemBuilder: (context, _) => Icon(
-                                                Icons.star,
-                                                size: 5,
-                                                color: Colors.black,
+                                              RatingBar.builder(
+                                                initialRating: 3,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemSize: 25,
+                                                itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                itemBuilder: (context, _) =>
+                                                    Icon(
+                                                  Icons.star,
+                                                  size: 5,
+                                                  color: Colors.black,
+                                                ),
+                                                onRatingUpdate: (rating) {
+                                                  // print(rating);
+                                                  setState(() {
+                                                    ratingsValue = rating;
+                                                  });
+                                                  print(ratingsValue);
+                                                },
                                               ),
-                                              onRatingUpdate: (rating) {
-                                                // print(rating);
-                                                setState(() {
-                                                  ratingsValue = rating;
-                                                });
-                                                print(ratingsValue);
-                                              },
-                                            ),
-                                            Text('(1518)'),
-                                          ],
+                                              Text('(1518)'),
+                                            ],
+                                          ),
                                         ),
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    border: Border.all(
-                                                      color: Colors.transparent,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
-                                                child: Text('国家資格保有')),
-                                          ],
+                                        FittedBox(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                  padding: EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
+                                                      border: Border.all(
+                                                        color: Colors.grey[300],
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
+                                                  child: Text('国家資格保有')),
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
                                   ],
                                 ),
-                                Divider(
-                                  color: Colors.black,
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.black,
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images_gps/gps.svg',
-                                        height: 20,
-                                        width: 20),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Text(
-                                      '埼玉県浦和区高砂4丁目4',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images_gps/gps.svg',
+                                          height: 20,
+                                          width: 20),
+                                      SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        '埼玉県浦和区高砂4丁目4',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
                                   children: [
-                                    Container(
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              color: Colors.transparent,
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12))),
-                                        child: Text('オフィス')),
+                                    FittedBox(
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text('オフィス')),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -259,25 +312,27 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images_gps/calendar.svg',
-                                        height: 20,
-                                        width: 20),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '予約日時：10月17',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text('10:30~11:30')
-                                  ],
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images_gps/calendar.svg',
+                                          height: 20,
+                                          width: 20),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        '予約日時：10月17',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text('10:30~11:30')
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -297,7 +352,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.38,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -378,15 +433,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             children: [
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   padding: EdgeInsets.all(4),
                                                   child: Text('店舗')),
                                               SizedBox(
@@ -395,15 +458,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('出張')),
                                               SizedBox(
                                                 width: 5,
@@ -411,15 +482,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('コロナ対策実施')),
                                             ],
                                           ),
@@ -469,14 +548,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Container(
                                                 padding: EdgeInsets.all(4),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
                                                     border: Border.all(
-                                                      color: Colors.transparent,
+                                                      color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
                                                 child: Text('国家資格保有')),
                                           ],
                                         )
@@ -484,22 +572,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     ),
                                   ],
                                 ),
-                                Row(children: <Widget>[
-                                  Expanded(
-                                    child: Divider(
-                                      // height: 50,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(Icons.cancel_rounded),
-                                      onPressed: () {}),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.check_circle,
+                                Expanded(
+                                  child: Row(children: <Widget>[
+                                    Expanded(
+                                      child: Divider(
+                                        // height: 50,
+                                        color: Colors.grey,
                                       ),
-                                      onPressed: () {})
-                                ]),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.cancel_rounded),
+                                        onPressed: () {}),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.check_circle,
+                                        ),
+                                        onPressed: () {})
+                                  ]),
+                                ),
                                 Row(
                                   children: [
                                     SvgPicture.asset(
@@ -521,16 +611,26 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                 ),
                                 Row(
                                   children: [
-                                    Container(
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              color: Colors.transparent,
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12))),
-                                        child: Text('オフィス')),
+                                    FittedBox(
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    Colors.white,
+                                                    Colors.white,
+                                                  ]),
+                                              shape: BoxShape.rectangle,
+                                              border: Border.all(
+                                                color: Colors.grey[300],
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                              color: Colors.grey[200]),
+                                          child: Text('オフィス')),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
@@ -578,7 +678,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.39,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -659,15 +759,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             children: [
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   padding: EdgeInsets.all(4),
                                                   child: Text('店舗')),
                                               SizedBox(
@@ -676,15 +784,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('出張')),
                                               SizedBox(
                                                 width: 5,
@@ -692,15 +808,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('コロナ対策実施')),
                                             ],
                                           ),
@@ -750,14 +874,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Container(
                                                 padding: EdgeInsets.all(4),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
                                                     border: Border.all(
-                                                      color: Colors.transparent,
+                                                      color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
                                                 child: Text('国家資格保有')),
                                           ],
                                         )
@@ -765,27 +898,29 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     ),
                                   ],
                                 ),
-                                Row(children: <Widget>[
-                                  Expanded(
-                                    child: Divider(
-                                      // height: 50,
-                                      color: Colors.grey,
+                                Expanded(
+                                  child: Row(children: <Widget>[
+                                    Expanded(
+                                      child: Divider(
+                                        // height: 50,
+                                        color: Colors.grey,
+                                      ),
                                     ),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(Icons.cancel_rounded),
-                                      onPressed: () {}),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.check_circle,
-                                      ),
-                                      onPressed: () {}),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.chat_bubble_outline,
-                                      ),
-                                      onPressed: () {}),
-                                ]),
+                                    IconButton(
+                                        icon: Icon(Icons.cancel_rounded),
+                                        onPressed: () {}),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.check_circle,
+                                        ),
+                                        onPressed: () {}),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.chat_bubble_outline,
+                                        ),
+                                        onPressed: () {}),
+                                  ]),
+                                ),
                                 Row(
                                   children: [
                                     SvgPicture.asset(
@@ -810,12 +945,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Colors.white,
+                                                  Colors.white,
+                                                ]),
+                                            shape: BoxShape.rectangle,
                                             border: Border.all(
-                                              color: Colors.transparent,
+                                              color: Colors.grey[300],
                                             ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12))),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            color: Colors.grey[200]),
                                         child: Text('オフィス')),
                                     SizedBox(
                                       width: 5,
@@ -864,7 +1007,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.height * 0.39,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -945,15 +1088,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             children: [
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   padding: EdgeInsets.all(4),
                                                   child: Text('店舗')),
                                               SizedBox(
@@ -962,15 +1113,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('出張')),
                                               SizedBox(
                                                 width: 5,
@@ -978,15 +1137,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('コロナ対策実施')),
                                             ],
                                           ),
@@ -1036,14 +1203,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Container(
                                                 padding: EdgeInsets.all(4),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
                                                     border: Border.all(
-                                                      color: Colors.transparent,
+                                                      color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
                                                 child: Text('国家資格保有')),
                                           ],
                                         )
@@ -1051,22 +1227,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     ),
                                   ],
                                 ),
-                                Row(children: <Widget>[
-                                  Expanded(
-                                    child: Divider(
-                                      // height: 50,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(Icons.chat_outlined),
-                                      onPressed: () {}),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.cancel_rounded,
+                                Expanded(
+                                  child: Row(children: <Widget>[
+                                    Expanded(
+                                      child: Divider(
+                                        // height: 50,
+                                        color: Colors.grey,
                                       ),
-                                      onPressed: () {})
-                                ]),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.chat_outlined),
+                                        onPressed: () {}),
+                                    IconButton(
+                                        icon: Icon(
+                                          Icons.cancel_rounded,
+                                        ),
+                                        onPressed: () {})
+                                  ]),
+                                ),
                                 Row(
                                   children: [
                                     SvgPicture.asset(
@@ -1091,12 +1269,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Colors.white,
+                                                  Colors.white,
+                                                ]),
+                                            shape: BoxShape.rectangle,
                                             border: Border.all(
-                                              color: Colors.transparent,
+                                              color: Colors.grey[300],
                                             ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12))),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            color: Colors.grey[200]),
                                         child: Text('オフィス')),
                                     SizedBox(
                                       width: 5,
@@ -1145,7 +1331,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.40,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -1226,15 +1412,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             children: [
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   padding: EdgeInsets.all(4),
                                                   child: Text('店舗')),
                                               SizedBox(
@@ -1243,15 +1437,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('出張')),
                                               SizedBox(
                                                 width: 5,
@@ -1259,15 +1461,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Container(
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
                                                       border: Border.all(
-                                                        color:
-                                                            Colors.transparent,
+                                                        color: Colors.grey[300],
                                                       ),
                                                       borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  12))),
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
                                                   child: Text('コロナ対策実施')),
                                             ],
                                           ),
@@ -1317,14 +1527,23 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Container(
                                                 padding: EdgeInsets.all(4),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white,
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
                                                     border: Border.all(
-                                                      color: Colors.transparent,
+                                                      color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12))),
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
                                                 child: Text('国家資格保有')),
                                           ],
                                         )
@@ -1332,8 +1551,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     ),
                                   ],
                                 ),
-                                Divider(
-                                  color: Colors.black,
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 Row(
                                   children: [
@@ -1359,12 +1580,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     Container(
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [
+                                                  Colors.white,
+                                                  Colors.white,
+                                                ]),
+                                            shape: BoxShape.rectangle,
                                             border: Border.all(
-                                              color: Colors.transparent,
+                                              color: Colors.grey[300],
                                             ),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12))),
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            color: Colors.grey[200]),
                                         child: Text('オフィス')),
                                     SizedBox(
                                       width: 5,

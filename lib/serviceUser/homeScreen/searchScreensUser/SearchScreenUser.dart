@@ -105,15 +105,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            maxRadius: 38,
+                            maxRadius: 32,
                             backgroundColor: Colors.lime,
                             child: SvgPicture.asset(
                                 'assets/images_gps/current_location.svg',
-                                height: 45,
-                                width: 45),
+                                height: 30,
+                                width: 30),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 8,
                           ),
                           Text(
                             HealingMatchConstants.searchGpsIconTxt,
@@ -122,27 +122,27 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           Text('(GPS)'),
                         ],
                       ),
-                      SizedBox(width: 5),
+                      SizedBox(width: 8),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            maxRadius: 38,
+                            maxRadius: 32,
                             backgroundColor: Colors.black26,
                             child: CircleAvatar(
-                              maxRadius: 36,
+                              maxRadius: 30,
                               backgroundColor: Colors.white,
                               child: IconButton(
                                 icon: new Icon(Icons.add),
                                 highlightColor: Colors.black,
-                                iconSize: 45,
+                                iconSize: 35,
                                 onPressed: () {},
                               ),
                             ),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 8,
                           ),
                           Text('地点を追加')
                         ],
@@ -154,16 +154,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           InkWell(
                             onTap: () {},
                             child: CircleAvatar(
-                              maxRadius: 38,
+                              maxRadius: 32,
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/house.svg',
-                                  height: 45,
-                                  width: 42),
+                                  height: 30,
+                                  width: 30),
                             ),
                           ),
                           SizedBox(
-                            height: 5,
+                            height: 8,
                           ),
                           Text(HealingMatchConstants.searchHomeIconTxt)
                         ],
@@ -176,12 +176,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           InkWell(
                             onTap: () {},
                             child: CircleAvatar(
-                              maxRadius: 38,
+                              maxRadius: 32,
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/office.svg',
-                                  height: 45,
-                                  width: 42),
+                                  height: 30,
+                                  width: 30),
                             ),
                           ),
                           SizedBox(
@@ -198,12 +198,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           InkWell(
                             onTap: () {},
                             child: CircleAvatar(
-                              maxRadius: 38,
+                              maxRadius: 32,
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/parents_house.svg',
-                                  height: 45,
-                                  width: 42),
+                                  height: 30,
+                                  width: 30),
                             ),
                           ),
                           SizedBox(
@@ -233,8 +233,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       child: Column(
                         children: [
                           Container(
-                            height: 85,
-                            width: 70,
+                            height: 65,
+                            width: 65,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 0
@@ -244,8 +244,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ),
                             child: SvgPicture.asset(
                               'assets/images_gps/Esthetic.svg',
-                              height: 60,
-                              width: 50,
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -263,8 +261,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       child: Column(
                         children: [
                           Container(
-                            height: 85,
-                            width: 70,
+                            height: 65,
+                            width: 65,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 1
@@ -273,9 +271,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/Fitness.svg',
-                              height: 60,
-                              width: 50,
+                              'assets/images_gps/Osteopathic.svg',
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -293,8 +289,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       child: Column(
                         children: [
                           Container(
-                            height: 85,
-                            width: 70,
+                            height: 65,
+                            width: 65,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 2
@@ -303,9 +299,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/Osteopathic.svg',
-                              height: 60,
-                              width: 50,
+                              'assets/images_gps/relaxation.svg',
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -323,8 +317,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       child: Column(
                         children: [
                           Container(
-                            height: 85,
-                            width: 70,
+                            height: 65,
+                            width: 65,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 3
@@ -333,9 +327,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/relaxation.svg',
-                              height: 60,
-                              width: 50,
+                              'assets/images_gps/Fitness.svg',
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -362,11 +354,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.45,
+                  minWidth: MediaQuery.of(context).size.width * 0.40,
+                  height: MediaQuery.of(context).size.height * 0.07,
                   child: CustomRadioButton(
                     padding: 5.0,
                     elevation: 0,
-                    height: MediaQuery.of(context).size.height * 0.09,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     width: MediaQuery.of(context).size.width * 0.40,
                     buttonColor: Theme.of(context).canvasColor,
                     enableShape: true,
@@ -374,7 +367,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: Colors.black38)),
                     buttonLables: ["店舗に行く", "来てもらう"],
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                     buttonValues: [
                       "S",
                       "R",
@@ -397,11 +390,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.45,
+                  minWidth: MediaQuery.of(context).size.width * 0.40,
+                  height: MediaQuery.of(context).size.height * 0.07,
                   child: CustomRadioButton(
                     padding: 5.0,
                     elevation: 0,
-                    height: MediaQuery.of(context).size.height * 0.09,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     width: MediaQuery.of(context).size.width * 0.40,
                     buttonColor: Theme.of(context).canvasColor,
                     enableShape: true,
@@ -409,7 +403,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: Colors.black38)),
                     buttonLables: ["受けたい日時でさがす", "セラピストをさがす"],
-                    fontSize: 15.0,
+                    fontSize: 12.0,
                     buttonValues: [
                       "D",
                       "T",

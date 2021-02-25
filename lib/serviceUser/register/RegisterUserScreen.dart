@@ -1291,12 +1291,14 @@ class _RegisterUserState extends State<RegisterUser> {
                                                         .width *
                                                     0.39,
                                                 child: TextFormField(
+                                                  maxLength: 4,
                                                   //enableInteractiveSelection: false,
                                                   autofocus: false,
                                                   controller:
                                                       roomNumberController,
                                                   decoration:
                                                       new InputDecoration(
+                                                    counterText: '',
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
@@ -1356,13 +1358,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 0.39,
                                             child: TextFormField(
                                               //enableInteractiveSelection: false,
+                                              maxLength: 4,
                                               autofocus: false,
                                               controller: roomNumberController,
                                               decoration: new InputDecoration(
+                                                counterText: '',
                                                 filled: true,
                                                 fillColor: ColorConstants
                                                     .formFieldFillColor,
-                                                labelText: '号室 *',
+                                                labelText: '部屋番号 *',
                                                 /*hintText: '部屋番号 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],

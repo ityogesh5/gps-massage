@@ -96,8 +96,9 @@ class NavigationRouter {
 
   // User bottom bar homescreen
   static void switchToServiceUserBottomBar(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser()));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(0)),
+        (Route<dynamic> route) => false);
   }
 
   //User NearByProviderAndShop
@@ -309,12 +310,12 @@ class NavigationRouter {
   }
 
 // Service User Home Screen
-  static void switchToServiceUserHomeScreen(BuildContext context) {
+  /* static void switchToServiceUserHomeScreen(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ServiceUserHomeScreen()));
-  }
+  }*/
   // search approval scrren one
 
   // Service User Booking Confirmation Screen

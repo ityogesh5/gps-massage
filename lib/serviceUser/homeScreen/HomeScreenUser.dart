@@ -25,7 +25,7 @@ List<String> _options = [
 
 int _selectedIndex;
 
-class ServiceUserHomeScreen extends StatefulWidget {
+/*class ServiceUserHomeScreen extends StatefulWidget {
   @override
   _ServiceUserHomeScreenScreenState createState() =>
       _ServiceUserHomeScreenScreenState();
@@ -41,7 +41,7 @@ class _ServiceUserHomeScreenScreenState extends State<ServiceUserHomeScreen> {
       home: HomeScreen(),
     );
   }
-}
+}*/
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -154,7 +154,7 @@ class StatusCodeHelper {
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
 
-      Toast.show("正しい認証コードコードを入力してください。", context,
+      Toast.show("正しい認証コードを入力してください。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,

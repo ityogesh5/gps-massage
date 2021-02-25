@@ -1059,6 +1059,7 @@ class _CauroselWithIndicatorSearchPageState
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         Container(
           decoration: BoxDecoration(
