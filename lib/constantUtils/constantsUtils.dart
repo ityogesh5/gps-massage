@@ -379,8 +379,8 @@ class HealingMatchConstants {
   static var multiTextFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(15.0),
     borderSide: BorderSide(
-      color: ColorConstants.formFieldBorderColor,
-    ),
+        color: Colors.grey[200] // ColorConstants.formFieldBorderColor,
+        ),
   );
 
   static var otherFiledTextFormInputBorder = OutlineInputBorder(

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
@@ -12,6 +14,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerBannerUpdateResponseModel.dart';
+import 'package:toast/toast.dart';
 
 class BannerImage extends StatefulWidget {
   @override
@@ -70,7 +73,7 @@ class _BannerImageState extends State<BannerImage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "日付を選",
+                              "掲載写真",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14,
@@ -87,7 +90,17 @@ class _BannerImageState extends State<BannerImage> {
                         children: [
                           InkWell(
                             onTap: () {
-                              _showPicker(context);
+                              if (oldBannerImages.length +
+                                      bannerImages.length !=
+                                  5) {
+                                _showPicker(context);
+                              } else {
+                                Toast.show("アップロードできる写真は5枚のみです。", context,
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.BOTTOM,
+                                    backgroundColor: Colors.lime,
+                                    textColor: Colors.white);
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -143,29 +156,31 @@ class _BannerImageState extends State<BannerImage> {
                       )
                     : Container(),
                 //      SizedBox(height: 0.5),
-                Container(
-                  height: containerHeight,
-                  width: containerWidth,
-                  //margin: EdgeInsets.only(top: 1.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.lime,
-                  ),
-                  child: RaisedButton(
-                    child: Text(
-                      '日付を選',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    color: Colors.lime,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      updateBannerImage();
-                    },
-                  ),
-                ),
+                oldBannerImages.length != 0 || bannerImages.length != 0
+                    ? Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        //margin: EdgeInsets.only(top: 1.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.lime,
+                        ),
+                        child: RaisedButton(
+                          child: Text(
+                            '日付を選',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          color: Colors.lime,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0)),
+                          onPressed: () {
+                            updateBannerImage();
+                          },
+                        ),
+                      )
+                    : Container(),
                 SizedBox(height: 100.0),
               ],
             ),
@@ -242,7 +257,7 @@ class _BannerImageState extends State<BannerImage> {
               borderRadius: BorderRadius.circular(20.0),
               child: Container(
                   width: containerWidth,
-                  height: 250.0,
+                  height: 200.0,
                   decoration: new BoxDecoration(
                     border: Border.all(color: Colors.black12),
                     shape: BoxShape.rectangle,
@@ -269,10 +284,11 @@ class _BannerImageState extends State<BannerImage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                         ),
-                        child: Icon(
-                          Icons.delete_forever_outlined,
+                        child: SvgPicture.asset(
+                          "assets/images_gps/delete.svg",
                           color: Colors.black,
-                          size: 30.0,
+                          height: 20.0,
+                          width: 20.0,
                         ),
                       ),
                     )))
@@ -296,7 +312,7 @@ class _BannerImageState extends State<BannerImage> {
                 borderRadius: BorderRadius.circular(20.0),
                 child: Container(
                     width: containerWidth,
-                    height: 250.0,
+                    height: 200.0,
                     decoration: new BoxDecoration(
                       border: Border.all(color: Colors.black12),
                       shape: BoxShape.rectangle,
@@ -321,10 +337,11 @@ class _BannerImageState extends State<BannerImage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                           ),
-                          child: Icon(
-                            Icons.delete_forever_outlined,
+                          child: SvgPicture.asset(
+                            "assets/images_gps/delete.svg",
                             color: Colors.black,
-                            size: 30.0,
+                            height: 20.0,
+                            width: 20.0,
                           ),
                         ),
                       )))
