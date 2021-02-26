@@ -5,7 +5,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [
@@ -29,14 +28,15 @@ double ratingsValue = 4.0;
 
 int _selectedIndex;
 
-class ApprovalWaitingScreen extends StatefulWidget {
+class BookingDetailsConfirmedScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ApprovalWaitingScreenState();
+    return _BookingDetailsConfirmedScreenState();
   }
 }
 
-class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
+class _BookingDetailsConfirmedScreenState
+    extends State<BookingDetailsConfirmedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -605,7 +605,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[100]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.46,
+              height: MediaQuery.of(context).size.height * 0.40,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -654,32 +654,30 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       ],
                     ),
                     SizedBox(height: 20),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/clock.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '09:  00～10:  00',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Oxygen'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '60分',
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 14,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            height: 25, width: 25),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        new Text(
+                          '09:  00～10:  00',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontFamily: 'Oxygen'),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        new Text(
+                          '60分',
+                          style: TextStyle(
+                              color: Colors.grey[400],
+                              fontSize: 14,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 15),
                     Row(
@@ -712,32 +710,28 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: Row(children: <Widget>[
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Divider(),
-                        )),
-                      ]),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
-                      ),
+                    Row(children: <Widget>[
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(),
+                      )),
+                    ]),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/gps.svg',
+                            height: 25, width: 25),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        Text(
+                          '施術を受ける場所',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Oxygen'),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10),
                     Expanded(
@@ -761,23 +755,28 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                     ),
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Colors.grey[200]),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '店舗',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Oxygen'),
+                                  ),
                                 )),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              '埼玉県浦和区高砂4丁目4',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[500],
-                                  fontFamily: 'Oxygen'),
+                            Flexible(
+                              child: Text(
+                                '埼玉県浦和区高砂4丁目4',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[500],
+                                    fontFamily: 'Oxygen'),
+                              ),
                             ),
                           ],
                         ),
@@ -788,32 +787,6 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images_gps/processing.svg',
-                    height: 25, width: 25, color: Colors.black),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Text(
-                  'セラピストの承認待ち',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Oxygen'),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                Text('(5分60秒)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[400],
-                        fontFamily: 'Oxygen')),
-              ],
-            ),
-          )
         ],
       ),
     );
@@ -898,6 +871,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   child: CustomFavoriteButton(
                       iconSize: 40,
                       iconColor: Colors.red,
+                      isFavorite: false,
                       valueChanged: (_isFavorite) {
                         print('Is Favorite : $_isFavorite');
                       }),

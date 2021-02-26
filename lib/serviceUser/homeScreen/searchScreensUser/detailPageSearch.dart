@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [
@@ -29,23 +29,30 @@ double ratingsValue = 4.0;
 
 int _selectedIndex;
 
-class ApprovalWaitingScreen extends StatefulWidget {
+class DetailPageSearch extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _ApprovalWaitingScreenState();
-  }
+  _DetailPageSearchState createState() => _DetailPageSearchState();
 }
 
-class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
+class _DetailPageSearchState extends State<DetailPageSearch> {
+  int _current = 0;
+  int _value = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      /*    floatingActionButton: CircleAvatar(
+          maxRadius: 25,
+          backgroundColor: Colors.grey[100],
+          child: SvgPicture.asset('assets/images_gps/chat.svg',
+              height: 35, width: 35)),*/
       body: ListView(
-        padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
         children: [
-          CarouselWithIndicatorDemo(),
+          SearchCauroselWithIndicator(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
@@ -163,8 +170,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Colors.white,
+                                                Colors.white,
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -184,8 +191,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Colors.white,
+                                                Colors.white,
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -205,8 +212,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Colors.white,
+                                                Colors.white,
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -294,7 +301,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -313,7 +323,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -330,7 +343,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -352,7 +368,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -369,7 +388,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -386,7 +408,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -403,7 +428,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -424,7 +452,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Colors.white,
+                        Colors.white,
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -579,261 +610,388 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
           ]),
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '施術を受ける場所',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Container(
-              child: Text(
-                '予約の内容',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    fontFamily: 'Oxygen'),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Colors.white,
+                      ]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[300],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[200]),
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.09,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(width: 5),
+                            Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.white,
+                                          Colors.white,
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Colors.grey[300],
+                                    ),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.grey[200]),
+                                child: Text('店舗')),
+                            SizedBox(width: 5),
+                            new Text(
+                              '東京都',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 16,
+                                  fontFamily: 'Oxygen'),
+                            ),
+                            SizedBox(width: 5),
+                            new Text(
+                              '墨田区',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 16,
+                                  fontFamily: 'Oxygen'),
+                            ),
+                            SizedBox(width: 5),
+                            new Text(
+                              '押上',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 16,
+                                  fontFamily: 'Oxygen'),
+                            ),
+                            SizedBox(width: 5),
+                            new Text(
+                              '1-1-2',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 16,
+                                  fontFamily: 'Oxygen'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () => setState(() => _value = 0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _value == 0 ? Colors.grey : Colors.transparent,
+                          border: Border.all(),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images_gps/Esthetic.svg',
+                          height: 60,
+                          width: 50,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Text(
+                        'マッサージ',
+                        style: TextStyle(
+                          color: _value == 0 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '（全身）',
+                        style: TextStyle(
+                          color: _value == 0 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _value = 1),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _value == 1 ? Colors.grey : Colors.transparent,
+                          border: Border.all(),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images_gps/Fitness.svg',
+                          height: 60,
+                          width: 50,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Text(
+                        'ストレッチ',
+                        style: TextStyle(
+                          color: _value == 1 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '（全身）',
+                        style: TextStyle(
+                          color: _value == 0 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _value = 2),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _value == 2 ? Colors.grey : Colors.transparent,
+                          border: Border.all(),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images_gps/Osteopathic.svg',
+                          height: 60,
+                          width: 50,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Text(
+                        'カッピング',
+                        style: TextStyle(
+                          color: _value == 2 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '（全身）',
+                        style: TextStyle(
+                          color: _value == 0 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _value = 3),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _value == 3 ? Colors.grey : Colors.transparent,
+                          border: Border.all(),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images_gps/relaxation.svg',
+                          height: 60,
+                          width: 50,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Text(
+                        'マダニティ',
+                        style: TextStyle(
+                          color: _value == 3 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '',
+                        style: TextStyle(
+                          color: _value == 0 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () => setState(() => _value = 4),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 85,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: _value == 4 ? Colors.grey : Colors.transparent,
+                          border: Border.all(),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images_gps/relaxation.svg',
+                          height: 60,
+                          width: 50,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Text(
+                        'ベビーマッサ',
+                        style: TextStyle(
+                          color: _value == 4 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        '',
+                        style: TextStyle(
+                          color: _value == 4 ? Colors.black : Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.white, Colors.white]),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.grey[300],
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.grey[200]),
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.16,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [Text('サービスを受ける日時を\nカレンダーから選択してください')],
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingConfirmationScreen(
+                                    context);
+                          },
+                          child: CircleAvatar(
+                            maxRadius: 38,
+                            backgroundColor: Colors.grey,
+                            child: CircleAvatar(
+                              maxRadius: 38,
+                              backgroundColor: Colors.white,
+                              child: SvgPicture.asset(
+                                'assets/images_gps/calendar.svg',
+                                height: 20,
+                                width: 20,
+                                color: Colors.lime,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[100],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[100]),
-              width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.46,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    new Row(
-                      children: [
-                        Image.asset('assets/images_gps/calendar.png',
-                            height: 25, width: 25),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '10月17',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.03),
-                        Text(
-                          '月曜日出張',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
-                                    context);
-                          },
-                          child: Text(
-                            'キャンセルする',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.red[200],
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/clock.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '09:  00～10:  00',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Oxygen'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '60分',
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 14,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset('assets/images_gps/cost.svg',
-                            height: 25, width: 25),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Chip(
-                          label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[100],
-                        ),
-                        Text(
-                          "\t\t¥4,500",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.01),
-                        Text(
-                          '(交通費込み-1,000)',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Row(children: <Widget>[
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Divider(),
-                        )),
-                      ]),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.grey[200],
-                                          Colors.grey[200]
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
-                                )),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              '埼玉県浦和区高砂4丁目4',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[500],
-                                  fontFamily: 'Oxygen'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.065,
+              child: RaisedButton(
+                child: Text(
+                  '予約に進む',
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: 'Oxygen', fontSize: 18),
+                ),
+                color: Colors.red,
+                onPressed: () {},
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images_gps/processing.svg',
-                    height: 25, width: 25, color: Colors.black),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Text(
-                  'セラピストの承認待ち',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Oxygen'),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                Text('(5分60秒)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[400],
-                        fontFamily: 'Oxygen')),
-              ],
-            ),
-          )
         ],
       ),
     );
   }
 }
 
-//Build Carousel images for banner
-class CarouselWithIndicatorDemo extends StatefulWidget {
+class SearchCauroselWithIndicator extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _CarouselWithIndicatorState();
-  }
+  _SearchCauroselWithIndicatorState createState() =>
+      _SearchCauroselWithIndicatorState();
 }
 
-class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
+class _SearchCauroselWithIndicatorState
+    extends State<SearchCauroselWithIndicator> {
+  int _value = 0;
   int _current = 0;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -869,9 +1027,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   size: 20,
                   color: Colors.black,
                 ),
-                onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
-                },
+                onPressed: () {},
               ),
             ),
             Spacer(),
