@@ -892,6 +892,8 @@ class _RegistrationSecondPageState
   _providerRegistrationDetails() {
     var _myidentificationverify = identificationverify.toString().trim();
     var _myqualification = qualification.toString().trim();
+    String branchNumber = branchNumberController.text;
+    String accountNumber = accountnumberController.text;
 
     //id Validation
     if (_myidentificationverify.isEmpty || _myidentificationverify == null) {
@@ -976,6 +978,40 @@ class _RegistrationSecondPageState
       return;
     } */
 
+    if (branchNumber != null) {
+      if (branchNumber.length > 5) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          content: Text('支店番号は5文字以内で入力してください。',
+              style: TextStyle(fontFamily: 'Open Sans')),
+          action: SnackBarAction(
+              onPressed: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              label: 'はい',
+              textColor: Colors.white),
+        ));
+        return;
+      }
+    }
+
+    if (accountNumber != null) {
+      if (accountNumber.length > 10) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          content: Text('アカウント番号は10文字以内で入力してください。',
+              style: TextStyle(fontFamily: 'Open Sans')),
+          action: SnackBarAction(
+              onPressed: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              label: 'はい',
+              textColor: Colors.white),
+        ));
+        return;
+      }
+    }
+    print("Success");
     registerProvider();
   }
 

@@ -16,7 +16,6 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBody: true,
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
           child: PageView(
