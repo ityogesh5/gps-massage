@@ -153,7 +153,7 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
   updateStoreDescription() async {
     String storeDescription = textEditingController.text;
     if (storeDescription != null || storeDescription != "") {
-      ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.showCommonProgressDialog(context);
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       var headers = {
@@ -175,7 +175,7 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
         print("This is request : ${bannerImageRequest.request}");
         final response = await http.Response.fromStream(bannerImageRequest);
         print("This is response: ${response.statusCode}\n${response.body}");
-        if (StatusCodeHelper.isBannerDeleteSuccess(
+        if (StatusCodeHelper.isStoreDescriptionSuccess(
             response.statusCode, context, response.body)) {
           ProviderStoreDescriptionUpdateResponseModel
               descriptionUpdateResponseModel =
@@ -185,21 +185,21 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
               descriptionUpdateResponseModel.data.storeDescription;
           sharedPreferences.setString(
               "userData", json.encode(HealingMatchConstants.userData));
-          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
           //    NavigationRouter.switchToServiceProviderShiftBanner(context);
         } else {
-          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
           print('Response error occured!');
         }
       } on SocketException catch (_) {
         //handle socket Exception
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToNetworkHandler(context);
         print('Network error !!');
       } catch (_) {
         //handle other error
         print("Error");
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
       }
     }
   }

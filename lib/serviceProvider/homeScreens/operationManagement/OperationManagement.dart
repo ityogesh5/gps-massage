@@ -61,7 +61,7 @@ class _OperationManagementState extends State<OperationManagement>
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white, brightness: Brightness.light,
         elevation: 2.0,
         automaticallyImplyLeading: false,
         leading: IconButton(

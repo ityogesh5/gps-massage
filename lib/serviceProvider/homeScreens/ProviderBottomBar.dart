@@ -45,6 +45,11 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
     return Scaffold(
       extendBody: true,
       body: _pageOptions[selectedpage],
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        toolbarHeight: 0.0,
+      ),
       // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         index: selectedpage,

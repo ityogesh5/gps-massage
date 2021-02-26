@@ -219,6 +219,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         size.width * 0.9; //width of Every TextFormField wrapped with container
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0.0,
+        toolbarHeight: 0.0,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -1438,6 +1443,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   maxLengthEnforced: true,
                                   maxLength: 4,
                                   decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4.0),
                                     counterText: "",
                                     labelText: HealingMatchConstants
                                         .registrationRoomNo,

@@ -399,7 +399,7 @@ class _BannerImageState extends State<BannerImage> {
   }
 
   deleteBannerImage(String bannerKey) async {
-    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    ProgressDialogBuilder.showCommonProgressDialog(context);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var headers = {
       'Content-Type': 'application/json',
@@ -435,26 +435,26 @@ class _BannerImageState extends State<BannerImage> {
         sharedPreferences.setString("userData", json.encode(userData));
         HealingMatchConstants.userData =
             Data.fromJson(json.decode(sharedPreferences.getString("userData")));
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToServiceProviderShiftBanner(context);
       } else {
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         print('Response error occured!');
       }
     } on SocketException catch (_) {
       //handle socket Exception
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
     } catch (_) {
       //handle other error
       print("Error");
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
   }
 
   updateBannerImage() async {
-    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+    ProgressDialogBuilder.showCommonProgressDialog(context);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var headers = {
       'Content-Type': 'application/json',
@@ -496,21 +496,21 @@ class _BannerImageState extends State<BannerImage> {
         sharedPreferences.setString("userData", json.encode(userData));
         HealingMatchConstants.userData =
             Data.fromJson(json.decode(sharedPreferences.getString("userData")));
-        // ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        // ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToServiceProviderShiftBanner(context);
       } else {
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         print('Response error occured!');
       }
     } on SocketException catch (_) {
       //handle socket Exception
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
     } catch (_) {
       //handle other error
       print("Error");
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
   }
 }

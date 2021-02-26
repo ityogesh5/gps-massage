@@ -121,4 +121,14 @@ class ProgressDialogBuilder {
   static void hideUserDetailsUpdateProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
+
+  // update provider shop description details 更新中。
+  static void showProviderShopDescription(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5));
+  }
+
+   static void hideProviderShopDescription(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
 }

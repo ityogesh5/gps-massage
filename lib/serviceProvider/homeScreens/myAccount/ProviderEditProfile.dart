@@ -279,7 +279,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent, brightness: Brightness.light,
         elevation: 0.0,
         leading: IconButton(
           padding:

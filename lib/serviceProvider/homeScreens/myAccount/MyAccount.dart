@@ -33,7 +33,7 @@ class _MyAccountState extends State<MyAccount> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white, brightness: Brightness.light,
         elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),

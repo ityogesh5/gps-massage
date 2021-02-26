@@ -1139,6 +1139,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                         userAreaController,
                                                     decoration:
                                                         new InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.all(4.0),
                                                       filled: true,
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
@@ -1187,6 +1189,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       buildingNameController,
                                                   decoration:
                                                       new InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.all(4.0),
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
@@ -1250,6 +1254,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                         buildingNameController,
                                                     decoration:
                                                         new InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.all(4.0),
                                                       filled: true,
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
@@ -1298,6 +1304,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       roomNumberController,
                                                   decoration:
                                                       new InputDecoration(
+                                                    contentPadding:
+                                                        EdgeInsets.all(4.0),
                                                     counterText: '',
                                                     filled: true,
                                                     fillColor: ColorConstants
@@ -1362,6 +1370,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                               autofocus: false,
                                               controller: roomNumberController,
                                               decoration: new InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.all(4.0),
                                                 counterText: '',
                                                 filled: true,
                                                 fillColor: ColorConstants

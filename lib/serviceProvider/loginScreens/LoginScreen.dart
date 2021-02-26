@@ -6,6 +6,7 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -43,6 +44,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
 
   void initState() {
     super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+
     if (Platform.isIOS) {
       //check for ios if developing for both android & ios
       AppleSignIn.onCredentialRevoked.listen((_) {
@@ -54,7 +57,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0.0),
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          brightness: Brightness.light,
+          elevation: 0.0),
       bottomNavigationBar: buildBottomBar(),
       key: _scaffoldKey,
       backgroundColor: Colors.white,

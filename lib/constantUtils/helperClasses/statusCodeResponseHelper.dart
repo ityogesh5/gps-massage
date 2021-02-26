@@ -94,7 +94,7 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
-      Toast.show("ユーザーが見つかりません。", context,
+      Toast.show("もう一度やり直してください。", context,
           duration: 4,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,
@@ -117,7 +117,7 @@ class StatusCodeHelper {
   static bool isBannerDeleteSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
-      Toast.show("バナー画像が正常にアップロードされました。", context,
+      Toast.show("バナー画像は正常に削除されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
@@ -126,7 +126,39 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
-      Toast.show("ユーザーが見つかりません。", context,
+      Toast.show("もう一度やり直してください。", context,
+          duration: 4,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('User Not Found!!');
+      return false;
+    } else if (statusCode == 401) {
+      Toast.show("許可されていないユーザー。", context,
+          duration: 4,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unauthorized User!!');
+      return false;
+    }
+    return false;
+  }
+
+  // 200 response banner image delet success
+  static bool isStoreDescriptionSuccess(
+      int statusCode, BuildContext context, String body) {
+    if (statusCode == 200) {
+      Toast.show("ストアの説明が正常に更新されました。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      //ユーザーが見つかりません。
+      Toast.show("もう一度やり直してください。", context,
           duration: 4,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,

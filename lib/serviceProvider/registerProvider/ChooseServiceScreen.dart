@@ -77,7 +77,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent, brightness: Brightness.light,
           elevation: 0.0,
           title: Text(
             HealingMatchConstants.registrationChooseServiceNavBtn,
