@@ -54,7 +54,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
         children: [
           SearchCauroselWithIndicator(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,23 +98,25 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 12,
-                      backgroundColor: Colors.black45,
-                      child: CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset(
-                            'assets/images_gps/serviceTypeThree.svg',
-                            height: 15,
-                            width: 15),
+                FittedBox(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 12,
+                        backgroundColor: Colors.black45,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: Colors.grey[200],
+                          child: SvgPicture.asset(
+                              'assets/images_gps/serviceTypeThree.svg',
+                              height: 15,
+                              width: 15),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('リラクゼーション'),
-                  ],
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      Text('リラクゼーション'),
+                    ],
+                  ),
                 ),
               ],
             ),

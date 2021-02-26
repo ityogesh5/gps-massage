@@ -54,7 +54,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
         children: [
           CauroselWithIndicatorSearchPage(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,23 +98,25 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 12,
-                      backgroundColor: Colors.black45,
-                      child: CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset(
-                            'assets/images_gps/serviceTypeThree.svg',
-                            height: 15,
-                            width: 15),
+                FittedBox(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 12,
+                        backgroundColor: Colors.black45,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: Colors.grey[200],
+                          child: SvgPicture.asset(
+                              'assets/images_gps/serviceTypeThree.svg',
+                              height: 15,
+                              width: 15),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('リラクゼーション'),
-                  ],
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      Text('リラクゼーション'),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -965,12 +967,14 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                         fontSize: 16,
                                         fontFamily: 'Oxygen'),
                                   ),
-                                  new Text(
-                                    '60分',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'Oxygen'),
+                                  Expanded(
+                                    child: new Text(
+                                      '60分',
+                                      style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 16,
+                                          fontFamily: 'Oxygen'),
+                                    ),
                                   ),
                                 ],
                               ),
