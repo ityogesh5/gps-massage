@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/favorite.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/pastReservations.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationStatus.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ReservationAndFavourite extends StatefulWidget {
   @override
@@ -70,7 +71,9 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          },
         ),
         title: Text(
           '運営管理',

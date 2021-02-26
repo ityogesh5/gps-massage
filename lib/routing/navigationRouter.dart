@@ -42,6 +42,7 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndRevi
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -343,7 +344,13 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => ServiceUserHomeScreen()));
   }*/
-  // search approval scrren one
+  // search detailScreen
+  static void switchToServiceUserDetailScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => DetailPageSearch()));
+  }
 
   // Service User Booking Confirmation Screen
   static void switchToServiceUserBookingConfirmationScreen(

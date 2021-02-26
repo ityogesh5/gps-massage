@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -722,7 +724,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Esthetic.svg',
+                          'assets/images_gps/Massage.svg',
                           height: 60,
                           width: 50,
                           fit: BoxFit.contain,
@@ -759,7 +761,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Fitness.svg',
+                          'assets/images_gps/stretch.svg',
                           height: 60,
                           width: 50,
                           fit: BoxFit.contain,
@@ -796,7 +798,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Osteopathic.svg',
+                          'assets/images_gps/Cupping.svg',
                           height: 60,
                           width: 50,
                           fit: BoxFit.contain,
@@ -833,7 +835,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/relaxation.svg',
+                          'assets/images_gps/Maternity.svg',
                           height: 60,
                           width: 50,
                           fit: BoxFit.contain,
@@ -870,7 +872,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/relaxation.svg',
+                          'assets/images_gps/Baby.svg',
                           height: 60,
                           width: 50,
                           fit: BoxFit.contain,
@@ -1034,7 +1036,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       color: Colors.white, fontFamily: 'Oxygen', fontSize: 18),
                 ),
                 color: Colors.red,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationRouter.switchToServiceUserDetailScreen(context);
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
