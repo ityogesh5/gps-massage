@@ -17,87 +17,83 @@ class _UserTutorialState extends State<UserTutorial> {
     return Scaffold(
         // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
-       // backgroundColor: Colors.red,
-        body: PageView(
-          onPageChanged: (page) {
-            setState(() {
-              currentPage = page;
-            });
-          },
-          controller: pageController,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images_gps/user_page_1.png'),
-                  fit: BoxFit.cover,
+        // backgroundColor: Colors.red,
+        body: SafeArea(
+          child: PageView(
+            onPageChanged: (page) {
+              setState(() {
+                currentPage = page;
+              });
+            },
+            controller: pageController,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images_gps/user_tutorial_1.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              //color: Colors.deepPurple,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
+                //color: Colors.deepPurple,
                 child: FutureBuilder(
                     future: rootBundle
                         .loadString("assets/user_tutorial/user_page_1.md"),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return Markdown(
                             data: snapshot.data,
-                            styleSheet:
-                                MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                    .copyWith(
-                                        p: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .copyWith(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontFamily: 'Oxygen')));
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                                    Theme.of(context))
+                                .copyWith(
+                                    p: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontFamily: 'Oxygen')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
                       );
                     }),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images_gps/user_page_2.png'),
-                  fit: BoxFit.cover,
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images_gps/user_tutorial_2.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
                 child: FutureBuilder(
                     future: rootBundle
                         .loadString("assets/user_tutorial/user_page_2.md"),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return Markdown(
                             data: snapshot.data,
-                            styleSheet:
-                                MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                    .copyWith(
-                                        p: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .copyWith(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontFamily: 'Oxygen')));
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                                    Theme.of(context))
+                                .copyWith(
+                                    p: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .copyWith(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontFamily: 'Oxygen')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
                       );
                     }),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 

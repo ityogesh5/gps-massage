@@ -69,8 +69,8 @@ class _MyAccountState extends State<MyAccount> {
                           children: [
                             Center(
                               child: new Container(
-                                  width: 80.0,
-                                  height: 80.0,
+                                  width: 100.0,
+                                  height: 100.0,
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.black12),
                                     shape: BoxShape.circle,
@@ -84,7 +84,7 @@ class _MyAccountState extends State<MyAccount> {
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 68.0, top: 48.0),
+                                    left: 78.0, top: 58.0),
                                 child: CircleAvatar(
                                   backgroundColor: Colors.grey[100],
                                   radius: 15,
@@ -120,8 +120,9 @@ class _MyAccountState extends State<MyAccount> {
                               width: iconWidth,
                               color: iconColor,
                             ),
-                            backgroundColor: Colors.grey[100],
+                            backgroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.grey[100]),
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10),
                                     bottomRight: Radius.circular(10),

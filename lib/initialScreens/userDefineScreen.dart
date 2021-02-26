@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 
@@ -335,11 +336,14 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                                   InkWell(
                                     onTap: () {
                                       print("User onTapped");
-                                      Navigator.push(
+                                      NavigationRouter
+                                          .switchToUserInitialTutorialScreen(
+                                              context);
+                                      /*  Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  UserLogin()));
+                                                  UserLogin())); */
                                     },
                                     child: Image.asset(
                                       'assets/images_gps/user_image.png',
@@ -362,11 +366,14 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                                   InkWell(
                                     onTap: () {
                                       print("Provider onTapped");
-                                      Navigator.push(
+                                      NavigationRouter
+                                          .switchToProviderInitialTutorialScreen(
+                                              context);
+                                      /*  Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
-                                                  ProviderLogin()));
+                                                  ProviderLogin())); */
                                     },
                                     child: Image.asset(
                                       'assets/images_gps/Provider_image.png',

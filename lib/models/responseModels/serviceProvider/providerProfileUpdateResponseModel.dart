@@ -64,6 +64,7 @@ class Data {
     this.storeName,
     this.storeType,
     this.storePhone,
+    this.storeDescription,
     this.userOccupation,
     this.genderOfService,
     this.childrenMeasure,
@@ -99,7 +100,7 @@ class Data {
   dynamic uploadProfileImgUrl;
   String proofOfIdentityType;
   dynamic proofOfIdentityImgUrl;
-  dynamic qulaificationCertImgUrl;
+  String qulaificationCertImgUrl;
   String businessForm;
   int numberOfEmp;
   bool businessTrip;
@@ -107,6 +108,7 @@ class Data {
   String storeName;
   String storeType;
   int storePhone;
+  dynamic storeDescription;
   dynamic userOccupation;
   String genderOfService;
   String childrenMeasure;
@@ -150,6 +152,7 @@ class Data {
         storeName: json["storeName"],
         storeType: json["storeType"],
         storePhone: json["storePhone"],
+        storeDescription: json["storeDescription"],
         userOccupation: json["userOccupation"],
         genderOfService: json["genderOfService"],
         childrenMeasure: json["childrenMeasure"],
@@ -205,6 +208,7 @@ class Data {
         "storeName": storeName,
         "storeType": storeType,
         "storePhone": storePhone,
+        "storeDescription": storeDescription,
         "userOccupation": userOccupation,
         "genderOfService": genderOfService,
         "childrenMeasure": childrenMeasure,
@@ -340,11 +344,11 @@ class BankDetail {
 
   int id;
   int userId;
-  dynamic bankName;
-  dynamic branchCode;
-  dynamic branchNumber;
-  dynamic accountNumber;
-  dynamic accountType;
+  String bankName;
+  String branchCode;
+  String branchNumber;
+  String accountNumber;
+  String accountType;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -443,15 +447,15 @@ class CertificationUpload {
 
   int id;
   int userId;
-  dynamic acupuncturist;
-  dynamic moxibutionist;
+  String acupuncturist;
+  String moxibutionist;
   dynamic acupuncturistAndMoxibustion;
-  dynamic anmaMassageShiatsushi;
+  String anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
   dynamic physicalTherapist;
   dynamic acquireNationalQualifications;
-  dynamic privateQualification1;
-  dynamic privateQualification2;
+  String privateQualification1;
+  String privateQualification2;
   dynamic privateQualification3;
   dynamic privateQualification4;
   dynamic privateQualification5;

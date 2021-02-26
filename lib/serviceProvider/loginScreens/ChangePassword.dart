@@ -366,7 +366,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       return null;
     }
 
-    if (password.length < 8 || confirmPassword.length < 8) {
+    if (password.length < 8) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
@@ -381,7 +381,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       return;
     }
 
-    if (password.length > 16 || confirmPassword.length > 16) {
+    if (password.length > 16) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),

@@ -785,6 +785,34 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         ],
                       ),
                       SizedBox(height: 15.0),
+                      Container(
+                        height: 45,
+                        width: MediaQuery.of(context).size.width * 0.90,
+                        margin: EdgeInsets.all(8.0),
+                        color: Colors.transparent,
+                        child: RaisedButton(
+                          elevation: 0.0,
+                          textColor: Colors.white60,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          color: Colors.lime,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              '保存',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Oxygen',
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

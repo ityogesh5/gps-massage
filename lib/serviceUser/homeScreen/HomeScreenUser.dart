@@ -77,7 +77,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
                       decoration: new InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: 'キーワードで検索',
+                          hintText: 'キーワードでさがす',
                           suffixIcon: InkWell(
                             child: Image.asset("assets/images_gps/search.png"),
                             onTap: () {
@@ -306,6 +306,12 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                               ),
                               Row(
                                 children: [
+                                  Text(
+                                    ratingsValue.toString(),
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                   RatingBar.builder(
                                     initialRating: 3,
                                     minRating: 1,
@@ -326,12 +332,6 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                       });
                                       print(ratingsValue);
                                     },
-                                  ),
-                                  Text(
-                                    ratingsValue.toString(),
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                    ),
                                   ),
                                   Text('(1518)'),
                                 ],
@@ -619,13 +619,8 @@ class _ReservationListState extends State<ReservationList> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          '¥',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.black26),
-                        ),
+                        SvgPicture.asset('assets/images_gps/cost.svg',
+                            height: 20, width: 20),
                         Text(
                           '¥4,500',
                           style: TextStyle(

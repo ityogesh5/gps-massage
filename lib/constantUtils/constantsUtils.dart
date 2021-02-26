@@ -48,6 +48,10 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/therapistUpdatebyId';
   static const String UPDATE_BANNER_IMAGE_URL =
       ON_PREMISE_USER_BASE_URL + '/banner/bannerImgUpdate';
+  static const String DELETE_BANNER_IMAGE_URL =
+      ON_PREMISE_USER_BASE_URL + '/banner/bannerImgDelete';
+  static const String STORE_DESCRIPTION_UPDATE =
+      ON_PREMISE_USER_BASE_URL + '/user/therapistStoreDescUpdatebyId';
 
   // register service user
   static const String REGISTER_USER_URL =
@@ -187,7 +191,7 @@ class HealingMatchConstants {
       '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
   static const String registrationBuisnessForm = '事業形態';
   static const String registrationBuisnessTrip = '出張でのサービス対応可否';
-  static const String registrationStoretype = 'お店の種類表示*';
+  static const String registrationStoretype = '提供サービスのジャンル*';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =
@@ -375,8 +379,8 @@ class HealingMatchConstants {
   static var multiTextFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(15.0),
     borderSide: BorderSide(
-      color: ColorConstants.formFieldBorderColor,
-    ),
+        color: Colors.grey[200] // ColorConstants.formFieldBorderColor,
+        ),
   );
 
   static var otherFiledTextFormInputBorder = OutlineInputBorder(

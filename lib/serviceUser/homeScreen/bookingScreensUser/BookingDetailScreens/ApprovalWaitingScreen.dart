@@ -745,30 +745,35 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.grey[200],
-                                          Colors.grey[200]
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
+                            FittedBox(
+                              child: Container(
+                                  padding: EdgeInsets.only(left: 15, right: 15),
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.grey[200],
+                                            Colors.grey[200]
+                                          ]),
+                                      shape: BoxShape.rectangle,
+                                      border: Border.all(
+                                        color: Colors.grey[300],
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: Colors.grey[200]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '店舗',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'Oxygen'),
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
-                                )),
+                                  )),
+                            ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
