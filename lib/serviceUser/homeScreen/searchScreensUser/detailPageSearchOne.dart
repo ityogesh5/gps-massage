@@ -915,7 +915,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(7.0),
                 child: Container(
                   child: Row(
                     children: [
@@ -960,7 +960,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                       height: 25,
                                       width: 25),
                                   SizedBox(width: 5),
-                                  new Text(
+                                  Text(
                                     '10:30 ～ 11:30',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -982,6 +982,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           ],
                         ),
                       ),
+                      // SizedBox(
+                      //   width: 70,
+                      // ),
                       Expanded(
                         child: InkWell(
                           onTap: () {
@@ -1146,16 +1149,18 @@ class _CauroselWithIndicatorSearchPageState
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
-              return Container(
-                width: 45.0,
-                height: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+              return Expanded(
+                child: Container(
+                  width: 45.0,
+                  height: 4.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                  color: _current == index
-                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: _current == index
+                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 ),
               );
             }).toList(),
