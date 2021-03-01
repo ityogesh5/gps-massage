@@ -7,7 +7,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
-
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'HomeScreenUser.dart';
 import 'chatScreensUser/ChatScreenUser.dart';
 
@@ -28,7 +28,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
     SearchScreenUser(),
     ReservationAndFavourite(),
     ViewUserProfile(),
-    ChatHistoryScreenUser(),
+    NoticeScreenUser(),
   ];
 
   @override
