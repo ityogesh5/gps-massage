@@ -2126,7 +2126,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
   }
 
-  validateFields() async {
+    validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var email = mailAddressController.text.toString();
     var userName = providerNameController.text.toString();

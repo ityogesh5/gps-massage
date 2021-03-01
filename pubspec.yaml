@@ -86,7 +86,7 @@ dependencies:
 
 
   firebase_messaging: ^6.0.16
-  adhara_socket_io: ^0.4.2+1
+  #adhara_socket_io: ^0.4.2+1
   simple_tooltip: ^0.1.16
 
 
