@@ -33,42 +33,42 @@ dependencies:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
   flutter_rating_bar: ^3.2.0+1
-  connectivity:
-  shared_preferences:
+  connectivity: # Yogeshwar for checking Internet connection
+  shared_preferences: # Yogeshwar storing data locally throughout the app
   provider: any
-  dio: any
-  toast:
-  sqflite: any
-  getwidget: any
-  http: ^0.12.2
+  dio: any # Yogeshwar DIO Multipart API Call library / Netwrok call library for processing large data at a time
+  toast: # Yogeshwar Toast messages to indicate the progress completion
+  sqflite: any # Yogeshwar Local database for storing data locally for App
+  getwidget: any # Yogeshwar get widget for Loading indicators
+  http: ^0.12.2 # Yogeshwar HTTP Network calls for API's
   uuid: ^2.0.4
-  flutter_google_places: any
+  flutter_google_places: any # Yogeshwar
   #  font_awesome_flutter: ^8.10.0
   google_fonts: ^1.1.1
-  intl: any
-  geolocator: ^5.3.1
-  animated_text_kit: ^1.1.0
-  flutter_svg: any
+  intl: any # Yogeshwar Date / Time format parsing
+  geolocator: ^5.3.1 # Yogeshwar Finding Location of user to fetch Latitude and Longitude
+  animated_text_kit: ^1.1.0 # Yogeshwar Text kit with Text display animation
+  flutter_svg: any # Yogeshwar SVG Picture inclusion library from assets
   multiselect_formfield: ^0.1.5
-  image_picker: ^0.6.7+17
-  flutter_spinkit: ^4.1.2+1
+  image_picker: ^0.6.7+17 # Yogeshwar
+  flutter_spinkit: ^4.1.2+1 # Yogeshwar Spin kits for loading indicators during API calls
   flutter_icons: any
   logger: ^0.8.3
   pretty_dio_logger: ^1.1.0
   protobuf: ^1.0.1
-  progress_dialog: ^1.2.4
-  keyboard_service: ^1.0.3
-  share: ^0.6.5+4
-  io: ^0.3.4
+  progress_dialog: ^1.2.4 # Yogeshwar Dialog to show loading progress during API calls
+  keyboard_service: ^1.0.3 # Yogeshwar Service to dismiss keyboard
+  share: ^0.6.5+4 # Yogeshwar sharing app
+  io: ^0.3.4 # Yogeshwar File Input / Output addition
   multi_image_picker: any #Aswin To select the Multiple Images from gallery
   flutter_absolute_path: ^1.0.6 #Aswin To Get the path of the Assets
-  flutter_bloc: any
+  flutter_bloc: any # Yogeshwar BLOC Pattern for parsing API / Network calls
   equatable: ^1.0.3
-  carousel_slider: ^2.3.1
+  carousel_slider: ^2.3.1 # Yogeshwar Images corousel for sliding various images
   bubble_tab_indicator: ^0.1.4 #Aswin Terms and Conditions Bubble Tab Bar View
-  chips_choice: ^2.0.1
-  shimmer: ^1.1.2
-  favorite_button: ^0.0.3
+  chips_choice: ^2.0.1 # Yogeshwar make chips dynamically from list
+  shimmer: ^1.1.2 # Yogeshwar shimmer loading effect for loading API response and parsing data
+  favorite_button: ^0.0.3 # Yogeshwar Favorite button for making Therapist
   path_provider: any
   infinite_listview: ^1.0.0
   horizontal_center_date_picker: ^1.0.0+2
@@ -82,11 +82,11 @@ dependencies:
 
 
   syncfusion_flutter_calendar: ^18.4.35
-  flutter_chat_bubble: ^1.0.2
-  firebase_messaging: ^6.0.16
-  adhara_socket_io: ^0.4.2+1
-  simple_tooltip: ^0.1.16
-  dotted_border: ^1.0.7
+  flutter_chat_bubble: ^1.0.2 # Yogeshwar chat bubbles for one to one chat user screen
+  firebase_messaging: ^6.0.16 # Yogeshwar Firebase push notification configuration
+  adhara_socket_io: ^0.4.2+1 # Yogeshwar socket connection for One to one chat
+  simple_tooltip: ^0.1.16 # Yogeshwar tooltip customize popup
+  dotted_border: ^1.0.7 # Yogeshwar for Circle rounded border
 
 
 #  flutter_line_login: ^0.2.0
