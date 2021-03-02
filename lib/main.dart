@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
-import 'package:gps_massageapp/utils/Tooltipclasses/basicexample.dart';
 
 import 'initialScreens/splashScreen.dart';
 

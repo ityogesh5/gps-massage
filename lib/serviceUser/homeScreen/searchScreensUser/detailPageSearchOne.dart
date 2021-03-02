@@ -1056,6 +1056,7 @@ class CauroselWithIndicatorSearchPage extends StatefulWidget {
 class _CauroselWithIndicatorSearchPageState
     extends State<CauroselWithIndicatorSearchPage> {
   int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     return Stack(

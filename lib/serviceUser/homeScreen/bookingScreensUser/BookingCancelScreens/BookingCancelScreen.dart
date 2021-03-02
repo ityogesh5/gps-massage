@@ -128,7 +128,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                     ),
                     SizedBox(height: 5),
                     Padding(
-                      padding: const EdgeInsets.only(right: 3, left: 15),
+                      padding: const EdgeInsets.only(right: 10, left: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,16 +138,14 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                             child: CustomToggleButton(
                               elevation: 0,
                               height: 55.0,
-                              buttonColor: Theme.of(context).canvasColor,
+                              width: 155.0,
+                              autoWidth: false,
+                              buttonColor: Colors.grey[300],
                               enableShape: true,
-                              autoWidth: true,
                               customShape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(color: Colors.transparent)),
-                              buttonLables: [
-                                "はい",
-                                "いいえ",
-                              ],
+                              buttonLables: ["はい", "いいえ"],
                               fontSize: 16.0,
                               buttonValues: [
                                 "Y",
@@ -162,7 +160,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                                       .pop(context);
                                 }
                               },
-                              selectedColor: Theme.of(context).accentColor,
+                              selectedColor: Colors.lime,
                             ),
                           ),
                           SizedBox(height: 20)

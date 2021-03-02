@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/customFavoriteButton/CustomHeartFavorite.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -636,8 +637,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         ),
                         Spacer(),
                         GestureDetector(
-                          onTap: (){
-                            NavigationRouter.switchToServiceUserBookingCancelScreen(context);
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(
+                                    context);
                           },
                           child: Text(
                             'キャンセルする',
@@ -764,7 +767,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                   ),
                                 )),
                             SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.02),
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
                             Flexible(
                               child: Text(
                                 '埼玉県浦和区高砂4丁目4',

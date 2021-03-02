@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/customFavoriteButton/CustomHeartFavorite.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -35,7 +36,8 @@ class BookingDetailsConfirmedScreen extends StatefulWidget {
   }
 }
 
-class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedScreen> {
+class _BookingDetailsConfirmedScreenState
+    extends State<BookingDetailsConfirmedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +153,7 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                             ),
                             SizedBox(
                                 width:
-                                MediaQuery.of(context).size.width * 0.02),
+                                    MediaQuery.of(context).size.width * 0.02),
                             FittedBox(
                               child: Row(
                                 children: [
@@ -170,7 +172,7 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('店舗')),
                                   SizedBox(
@@ -191,7 +193,7 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('出張')),
                                   SizedBox(
@@ -212,7 +214,7 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                                             color: Colors.grey[300],
                                           ),
                                           borderRadius:
-                                          BorderRadius.circular(5.0),
+                                              BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('コロナ対策実施有無')),
                                 ],
@@ -239,7 +241,7 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                               itemCount: 5,
                               itemSize: 25,
                               itemPadding:
-                              EdgeInsets.symmetric(horizontal: 1.0),
+                                  EdgeInsets.symmetric(horizontal: 1.0),
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
@@ -523,9 +525,9 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(),
-                )),
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
           ]),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -572,9 +574,9 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Divider(),
-                )),
+              padding: const EdgeInsets.all(15.0),
+              child: Divider(),
+            )),
           ]),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -636,8 +638,10 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                         ),
                         Spacer(),
                         GestureDetector(
-                          onTap: (){
-                            NavigationRouter.switchToServiceUserBookingCancelScreen(context);
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(
+                                    context);
                           },
                           child: Text(
                             'キャンセルする',
@@ -710,9 +714,9 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                     Row(children: <Widget>[
                       Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Divider(),
-                          )),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(),
+                      )),
                     ]),
                     Row(
                       children: [
@@ -764,7 +768,8 @@ class _BookingDetailsConfirmedScreenState extends State<BookingDetailsConfirmedS
                                   ),
                                 )),
                             SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.02),
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
                             Flexible(
                               child: Text(
                                 '埼玉県浦和区高砂4丁目4',
@@ -906,20 +911,20 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
-  child: Container(
-    margin: EdgeInsets.all(5.0),
-    child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(5.0),
-          bottomRight: Radius.circular(40.0),
-          topLeft: Radius.circular(5.0),
-          bottomLeft: Radius.circular(40.0),
-        ),
-        child: Stack(
-          children: <Widget>[
-            Image.network(item, fit: BoxFit.cover, width: 2000.0),
-          ],
-        )),
-  ),
-))
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(5.0),
+                  bottomRight: Radius.circular(40.0),
+                  topLeft: Radius.circular(5.0),
+                  bottomLeft: Radius.circular(40.0),
+                ),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 2000.0),
+                  ],
+                )),
+          ),
+        ))
     .toList();
