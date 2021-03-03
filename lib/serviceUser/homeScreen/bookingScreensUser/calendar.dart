@@ -69,7 +69,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.3,
-                                color: Colors.transparent,
+                                color: Colors.white,
                                 child: DropDownFormField(
                                   titleText: null,
                                   hintText: readonly
@@ -124,6 +124,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         SizedBox(width: 10),
                         Container(
                             width: MediaQuery.of(context).size.width * 0.3,
+                            color: Colors.white,
                             child: Form(
                               key: monthKey,
                               child: Column(
@@ -225,6 +226,35 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                // side: BorderSide(width: 5, color: Colors.green),
+              ),
+              elevation: 5.0,
+              // margin: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: TableCalendar(
+                // locale: 'ja_JP',
+                calendarController: _calendarController,
+                headerVisible: false,
+                initialCalendarFormat: CalendarFormat.month,
+                calendarStyle: CalendarStyle(
+                  todayColor: Colors.lime,
+                  selectedColor: Colors.lime,
+                  outsideDaysVisible: true,
+                  outsideStyle: TextStyle(color: Colors.grey),
+                  outsideWeekendStyle: TextStyle(color: Colors.grey),
+                  weekendStyle: TextStyle().copyWith(color: Colors.black),
+                  holidayStyle: TextStyle().copyWith(color: Colors.black),
+                ),
               ),
             )
           ],
