@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -24,8 +24,15 @@ class HealingMatchApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Oxygen',
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('ja'),
+        ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //SplashScreen());
+        home: CalendarScreen());
   }
 }

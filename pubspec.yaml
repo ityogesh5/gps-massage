@@ -24,6 +24,8 @@ dependencies:
   flutter_line_sdk: ^1.3.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
 
 

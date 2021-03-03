@@ -228,6 +228,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 15,
+            ),
             Card(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -241,19 +244,26 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               elevation: 5.0,
               // margin: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: TableCalendar(
-                // locale: 'ja_JP',
-                calendarController: _calendarController,
-                headerVisible: false,
-                initialCalendarFormat: CalendarFormat.month,
-                calendarStyle: CalendarStyle(
-                  todayColor: Colors.lime,
-                  selectedColor: Colors.lime,
-                  outsideDaysVisible: true,
-                  outsideStyle: TextStyle(color: Colors.grey),
-                  outsideWeekendStyle: TextStyle(color: Colors.grey),
-                  weekendStyle: TextStyle().copyWith(color: Colors.black),
-                  holidayStyle: TextStyle().copyWith(color: Colors.black),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TableCalendar(
+                  locale: "ja_JP",
+                  calendarController: _calendarController,
+                  headerVisible: false,
+                  initialCalendarFormat: CalendarFormat.month,
+                  startingDayOfWeek: StartingDayOfWeek.sunday,
+                  daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(color: Colors.grey),
+                      weekendStyle: TextStyle(color: Colors.grey)),
+                  calendarStyle: CalendarStyle(
+                    todayColor: Colors.lime,
+                    selectedColor: Colors.lime,
+                    outsideDaysVisible: true,
+                    outsideStyle: TextStyle(color: Colors.grey),
+                    outsideWeekendStyle: TextStyle(color: Colors.grey),
+                    weekendStyle: TextStyle(color: Colors.black),
+                    holidayStyle: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
             )
