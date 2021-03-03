@@ -935,7 +935,8 @@ class DialogHelper {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-                              NavigationRouter.switchToServiceUserBottomBar(context);
+                              NavigationRouter.switchToServiceUserBottomBar(
+                                  context);
                             },
                             child: new Text(
                               'OK',

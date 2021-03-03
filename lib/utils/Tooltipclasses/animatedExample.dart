@@ -55,22 +55,22 @@ class _AnimatedExamplePageState extends State<AnimatedExamplePage> {
                       print("tooltip tap ${Random().nextDouble()}");
                     },
                     backgroundColor:
-                    _marginAnimationStatus == AnimationStatus.forward
-                        ? Colors.white
-                        : Colors.blue[300],
+                        _marginAnimationStatus == AnimationStatus.forward
+                            ? Colors.white
+                            : Colors.blue[300],
                     borderColor:
-                    _marginAnimationStatus == AnimationStatus.forward
-                        ? Colors.purple
-                        : Colors.orange,
+                        _marginAnimationStatus == AnimationStatus.forward
+                            ? Colors.purple
+                            : Colors.orange,
                     show: true,
                     arrowTipDistance: 10,
                     tooltipDirection: _restartCount > 2
                         ? _marginAnimationStatus == AnimationStatus.reverse
-                        ? TooltipDirection.up
-                        : TooltipDirection.down
+                            ? TooltipDirection.up
+                            : TooltipDirection.down
                         : _marginAnimationStatus == AnimationStatus.reverse
-                        ? TooltipDirection.right
-                        : TooltipDirection.left,
+                            ? TooltipDirection.right
+                            : TooltipDirection.left,
                     child: child,
                     content: Text(
                       "Some text example!!!!",
@@ -120,18 +120,18 @@ class _MarginTransitionState extends State<MarginTransition>
         AnimationController(vsync: this, duration: Duration(seconds: 4));
     _animationController.forward();
     _animation =
-    Tween<double>(begin: 10, end: 300).animate(_animationController)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _animationController.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          _animationController.forward();
-        }
+        Tween<double>(begin: 10, end: 300).animate(_animationController)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _animationController.reverse();
+            } else if (status == AnimationStatus.dismissed) {
+              _animationController.forward();
+            }
 
-        if (widget.animationStatusChange != null) {
-          widget.animationStatusChange(_animationController.status);
-        }
-      });
+            if (widget.animationStatusChange != null) {
+              widget.animationStatusChange(_animationController.status);
+            }
+          });
   }
 
   @override

@@ -119,8 +119,10 @@ class _BasicsExamplePageState extends State<BasicsExamplePage> {
                                 children: [
                                   Container(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(
                                             'assets/images_gps/processing.svg',
@@ -132,7 +134,10 @@ class _BasicsExamplePageState extends State<BasicsExamplePage> {
                                           '60分',
                                           style: TextStyle(
                                               decoration: TextDecoration.none,
-                                              color: Colors.black, fontSize: 14,fontFamily: 'Oxygen',fontWeight: FontWeight.w400),
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Oxygen',
+                                              fontWeight: FontWeight.w400),
                                         ),
                                       ],
                                     ),
@@ -141,7 +146,10 @@ class _BasicsExamplePageState extends State<BasicsExamplePage> {
                                     '\t¥4,500',
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
-                                        color: Colors.black, fontSize: 16,fontFamily: 'Oxygen',fontWeight: FontWeight.bold),
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               )),
@@ -149,210 +157,238 @@ class _BasicsExamplePageState extends State<BasicsExamplePage> {
                           Container(
                               height: 80,
                               width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey[100],
-                              border: Border.all(),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images_gps/processing.svg',
-                                          height: 25,
-                                          width: 25,
-                                          color: Colors.black),
-                                      SizedBox(width: 5),
-                                      new Text(
-                                        '90分',
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            color: Colors.black, fontSize: 14,fontFamily: 'Oxygen',fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey[100],
+                                border: Border.all(),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/processing.svg',
+                                            height: 25,
+                                            width: 25,
+                                            color: Colors.black),
+                                        SizedBox(width: 5),
+                                        new Text(
+                                          '90分',
+                                          style: TextStyle(
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Oxygen',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                new Text(
-                                  '\t¥4,500',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      color: Colors.black, fontSize: 16,fontFamily: 'Oxygen',fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ),
+                                  new Text(
+                                    '\t¥4,500',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                           SizedBox(width: 10),
                           Container(
                               height: 80,
                               width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey[100],
-                              border: Border.all(),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images_gps/processing.svg',
-                                          height: 25,
-                                          width: 25,
-                                          color: Colors.black),
-                                      SizedBox(width: 5),
-                                      new Text(
-                                        '120分',
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            color: Colors.black, fontSize: 14,fontFamily: 'Oxygen',fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey[100],
+                                border: Border.all(),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/processing.svg',
+                                            height: 25,
+                                            width: 25,
+                                            color: Colors.black),
+                                        SizedBox(width: 5),
+                                        new Text(
+                                          '120分',
+                                          style: TextStyle(
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Oxygen',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                new Text(
-                                  '\t¥4,500',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      color: Colors.black, fontSize: 16,fontFamily: 'Oxygen',fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ),
+                                  new Text(
+                                    '\t¥4,500',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                           SizedBox(width: 10),
                           Container(
                               height: 80,
                               width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey[100],
-                              border: Border.all(),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images_gps/processing.svg',
-                                          height: 25,
-                                          width: 25,
-                                          color: Colors.black),
-                                      SizedBox(width: 5),
-                                      new Text(
-                                        '150分',
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            color: Colors.black, fontSize: 14,fontFamily: 'Oxygen',fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey[100],
+                                border: Border.all(),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/processing.svg',
+                                            height: 25,
+                                            width: 25,
+                                            color: Colors.black),
+                                        SizedBox(width: 5),
+                                        new Text(
+                                          '150分',
+                                          style: TextStyle(
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Oxygen',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                new Text(
-                                  '\t¥4,500',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      color: Colors.black, fontSize: 16,fontFamily: 'Oxygen',fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ),
+                                  new Text(
+                                    '\t¥4,500',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                           SizedBox(width: 10),
                           Container(
                               height: 80,
                               width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey[100],
-                              border: Border.all(),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/images_gps/processing.svg',
-                                          height: 25,
-                                          width: 25,
-                                          color: Colors.black),
-                                      SizedBox(width: 5),
-                                      new Text(
-                                        '180分',
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            color: Colors.black, fontSize: 14,fontFamily: 'Oxygen',fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey[100],
+                                border: Border.all(),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images_gps/processing.svg',
+                                            height: 25,
+                                            width: 25,
+                                            color: Colors.black),
+                                        SizedBox(width: 5),
+                                        new Text(
+                                          '180分',
+                                          style: TextStyle(
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Oxygen',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                new Text(
-                                  '\t¥4,500',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      color: Colors.black, fontSize: 16,fontFamily: 'Oxygen',fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )
-                          ),
+                                  new Text(
+                                    '\t¥4,500',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontFamily: 'Oxygen',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
                         ],
                       ),
                     ),

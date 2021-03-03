@@ -5,6 +5,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/controller/day_view.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  CalendarController _calendarController;
   final yearKey = new GlobalKey<FormState>();
   final monthKey = new GlobalKey<FormState>();
   DayViewController dayViewController = DayViewController();
@@ -26,6 +28,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   int _lastday;
   int _counter = 0;
   int daysToDisplay;
+
+  @override
+  void initState() {
+    super.initState();
+    _calendarController = CalendarController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
