@@ -77,7 +77,9 @@ class _UserLoginState extends State<UserLogin> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
-                HealingMatchConstants.isUserRegistrationSkipped = true;
+                _sharedPreferences.then((value) {
+                  value.setBool('userLoginSkipped', true);
+                });
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
@@ -519,6 +521,9 @@ class _UserLoginState extends State<UserLogin> {
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+            value.setBool('isUserLoggedIn', true);
+            value.setBool('userLoginSkipped', false);
+            value.setBool('isProviderLoggedIn', false);
           }
 
           print('ID: ${loginResponseModel.data.id}');
@@ -533,7 +538,7 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);
         });
-        HealingMatchConstants.isUserVerified = true;
+        print('Is User verified : ${loginResponseModel.data.isVerified}');
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         NavigationRouter.switchToServiceUserBottomBar(context);
       } else {

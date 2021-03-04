@@ -27,6 +27,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   final passwordController = new TextEditingController();
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
 
   FocusNode phoneNumberFocus = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
@@ -445,6 +447,11 @@ class _ProviderLoginState extends State<ProviderLogin> {
         instances.setString("userData", json.encode(userData));
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
+        print('Is Provider verified : ${loginResponseModel.data.isVerified}');
+        _sharedPreferences.then((value) {
+          value.setBool('isProviderLoggedIn', true);
+          value.setBool('isUserLoggedIn', false);
+        });
         ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
         NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {

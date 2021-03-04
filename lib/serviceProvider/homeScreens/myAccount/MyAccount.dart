@@ -22,6 +22,8 @@ class _MyAccountState extends State<MyAccount> {
   double iconHeight = 20.0;
   double iconWidth = 20.0;
   Color iconColor = Colors.black;
+  Future<SharedPreferences> _sharedPreferences =
+  SharedPreferences.getInstance();
 
   void initState() {
     getProfileDetails();
@@ -604,6 +606,14 @@ class _MyAccountState extends State<MyAccount> {
           NavigationRouter.switchToProviderTutorialScreen(context);
         } else if (retVal == "3") {
           emailLaunch();
+        }else if(retVal == "4"){
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', '');
+            value.setBool('isProviderLoggedOut', true);
+            value.setBool('isProviderLoggedIn', false);
+            value.setBool('isUserLoggedOut', false);
+          });
+          NavigationRouter.switchToProviderLogin(context);
         }
       },
     );

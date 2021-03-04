@@ -3,13 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'HomeScreenUser.dart';
-import 'chatScreensUser/ChatScreenUser.dart';
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class BottomBarUser extends StatefulWidget {
   final int page;
@@ -35,6 +37,10 @@ class _BottomBarUserState extends State<BottomBarUser> {
   void initState() {
     selectedpage = widget.page; //initial Page
     super.initState();
+    _sharedPreferences.then((value) {
+      HealingMatchConstants.isUserRegistrationSkipped =
+          value.getBool('userLoginSkipped');
+    });
   }
 
   @override
@@ -86,8 +92,23 @@ class _BottomBarUserState extends State<BottomBarUser> {
         ],
         onTap: (index) {
           setState(() {
-            selectedpage =
-                index; // changing selected page as per bar index selected by the user
+            if (HealingMatchConstants.isUserRegistrationSkipped != null &&
+                HealingMatchConstants.isUserRegistrationSkipped) {
+              if (index == 0) {
+                selectedpage = index;
+              } else if (index == 1) {
+                selectedpage = index;
+              } else if (index == 2) {
+                DialogHelper.showUserLoginOrRegisterDialog(context);
+              } else if (index == 3) {
+                DialogHelper.showUserLoginOrRegisterDialog(context);
+              } else if (index == 4) {
+                DialogHelper.showUserLoginOrRegisterDialog(context);
+              }
+            } else {
+              selectedpage =
+                  index; // changing selected page as per bar index selected by the user
+            }
           });
         },
       ),

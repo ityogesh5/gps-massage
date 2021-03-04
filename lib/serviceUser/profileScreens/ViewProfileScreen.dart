@@ -428,11 +428,18 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       onSelected: (retVal) {
         if (retVal == "1") {
           NavigationRouter.switchToServiceUserTCScreen(context);
-        }
-        if (retVal == "2") {
+        } else if (retVal == "2") {
           NavigationRouter.switchToUserTutorialScreen(context);
         } else if (retVal == "3") {
           emailLaunch();
+        } else if (retVal == "4") {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', '');
+            value.setBool('isUserLoggedOut', true);
+            value.setBool('isUserLoggedIn', false);
+            value.setBool('isProviderLoggedOut', false);
+          });
+          NavigationRouter.switchToUserLogin(context);
         }
       },
     );
