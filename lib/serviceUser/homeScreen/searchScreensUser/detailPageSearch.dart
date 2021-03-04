@@ -54,7 +54,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
         children: [
           SearchCauroselWithIndicator(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,23 +98,25 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 12,
-                      backgroundColor: Colors.black45,
-                      child: CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset(
-                            'assets/images_gps/serviceTypeThree.svg',
-                            height: 15,
-                            width: 15),
+                FittedBox(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 12,
+                        backgroundColor: Colors.black45,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: Colors.grey[200],
+                          child: SvgPicture.asset(
+                              'assets/images_gps/serviceTypeThree.svg',
+                              height: 15,
+                              width: 15),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('リラクゼーション'),
-                  ],
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      Text('リラクゼーション'),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -1070,16 +1072,18 @@ class _SearchCauroselWithIndicatorState
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
-              return Container(
-                width: 45.0,
-                height: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+              return Expanded(
+                child: Container(
+                  width: 45.0,
+                  height: 4.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                  color: _current == index
-                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: _current == index
+                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 ),
               );
             }).toList(),

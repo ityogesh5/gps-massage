@@ -349,6 +349,11 @@ class HealingMatchConstants {
   static String socketConnectURL = '';
   static String socketEmitURL = '';
 
+  // Cancel screens
+  static String therapistResponseText =
+      '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
+  static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
+
   //FontStyle
   static const headersText = TextStyle(
     fontSize: 18.0,

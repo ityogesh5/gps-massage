@@ -54,7 +54,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
         children: [
           CauroselWithIndicatorSearchPage(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,23 +98,25 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 12,
-                      backgroundColor: Colors.black45,
-                      child: CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
-                        child: SvgPicture.asset(
-                            'assets/images_gps/serviceTypeThree.svg',
-                            height: 15,
-                            width: 15),
+                FittedBox(
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 12,
+                        backgroundColor: Colors.black45,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: Colors.grey[200],
+                          child: SvgPicture.asset(
+                              'assets/images_gps/serviceTypeThree.svg',
+                              height: 15,
+                              width: 15),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('リラクゼーション'),
-                  ],
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      Text('リラクゼーション'),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -913,7 +915,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(7.0),
                 child: Container(
                   child: Row(
                     children: [
@@ -958,19 +960,21 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                       height: 25,
                                       width: 25),
                                   SizedBox(width: 5),
-                                  new Text(
+                                  Text(
                                     '10:30 ～ 11:30',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                         fontFamily: 'Oxygen'),
                                   ),
-                                  new Text(
-                                    '60分',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'Oxygen'),
+                                  Expanded(
+                                    child: new Text(
+                                      '60分',
+                                      style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 16,
+                                          fontFamily: 'Oxygen'),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -978,6 +982,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                           ],
                         ),
                       ),
+                      // SizedBox(
+                      //   width: 70,
+                      // ),
                       Expanded(
                         child: InkWell(
                           onTap: () {
@@ -1060,6 +1067,7 @@ class CauroselWithIndicatorSearchPage extends StatefulWidget {
 class _CauroselWithIndicatorSearchPageState
     extends State<CauroselWithIndicatorSearchPage> {
   int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -1142,16 +1150,18 @@ class _CauroselWithIndicatorSearchPageState
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
-              return Container(
-                width: 45.0,
-                height: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+              return Expanded(
+                child: Container(
+                  width: 45.0,
+                  height: 4.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                  color: _current == index
-                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: _current == index
+                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 ),
               );
             }).toList(),

@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/utils/Tooltipclasses/animatedExample.dart';
 import 'package:gps_massageapp/utils/Tooltipclasses/basicexample.dart';
 import 'package:gps_massageapp/utils/Tooltipclasses/obfuscated_example.dart';
-
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -75,7 +73,8 @@ class OptionsPage extends StatelessWidget {
                 child: Text("Animated example"),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => AnimatedExamplePage(title: 'Flutter Demo Home Page'),
+                    builder: (ctx) =>
+                        AnimatedExamplePage(title: 'Flutter Demo Home Page'),
                   ));
                 },
               ),

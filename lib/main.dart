@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
-import 'package:gps_massageapp/utils/Tooltipclasses/basicexample.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
-
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
-
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedThirdScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/calendar.dart';
 import 'initialScreens/splashScreen.dart';
 
 void main() {
@@ -31,8 +24,15 @@ class HealingMatchApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Oxygen',
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('ja'),
+        ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()); //SplashScreen());
+        home: CalendarScreen());
   }
 }

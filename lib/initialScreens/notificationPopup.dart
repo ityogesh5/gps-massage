@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationPopup extends StatefulWidget {
@@ -68,7 +69,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
           SizedBox(
             height: 5,
           ),
-          Row(
+          /*Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               MaterialButton(
@@ -131,7 +132,54 @@ class _NotificationPopupState extends State<NotificationPopup> {
                 ),
               ),
             ],
-          )
+          )*/
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.30,
+                child: CustomToggleButton(
+                  elevation: 0,
+                  height: 50.0,
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["許可しない", "OK"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "N",
+                    "Y",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                      Navigator.pop(context);
+                      print('Notification permission accepted!!');
+                      _sharedPreferences.then((value) {
+                        value.setBool('fcmStatus', true);
+                        bool fcmStatus = value.getBool('fcmStatus');
+                        print('fcmStatus is false : $fcmStatus');
+                      });
+                    } else {
+                      Navigator.pop(context);
+                      _sharedPreferences.then((value) {
+                        value.setBool('fcmStatus', false);
+                        bool fcmStatus = value.getBool('fcmStatus');
+                        print('fcmStatus is false : $fcmStatus');
+                      });
+                      print('Notification permission rejected!!');
+                    }
+                    print('Radio value : $value');
+                  },
+                  selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

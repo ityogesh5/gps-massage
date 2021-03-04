@@ -369,7 +369,7 @@ class _SearchResultState extends State<SearchResult> {
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
-                                    width: 90,
+                                    width: 85,
                                   ),
                                   Text('1.5km圏内'),
                                 ],

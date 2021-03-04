@@ -8,9 +8,9 @@ class CustomToggleButton extends StatefulWidget {
     this.fontSize = 20,
     this.autoWidth = true,
     this.radioButtonValue,
-    this.buttonColor = Colors.white60,
+    this.buttonColor,
     this.padding = 3,
-    this.selectedColor = Colors.lime,
+    this.selectedColor,
     this.height = 0,
     this.width = 0,
     this.horizontal = false,
@@ -65,8 +65,8 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
         padding: EdgeInsets.all(widget.padding),
         child: Card(
           color: currentSelectedLabel == widget.buttonLables[index]
-              ? Colors.lime
-              : Colors.grey[200],
+              ? widget.selectedColor
+              : widget.buttonColor,
           elevation: widget.elevation,
           shape: widget.enableShape
               ? widget.customShape == null
@@ -77,6 +77,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
               : null,
           child: Container(
             height: widget.height,
+            width: widget.width,
             child: MaterialButton(
               shape: widget.enableShape
                   ? widget.customShape == null
@@ -102,8 +103,8 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                 widget.buttonLables[index],
                 style: TextStyle(
                     color: currentSelectedLabel == widget.buttonLables[index]
-                        ? Colors.white
-                        : Colors.white,
+                        ? Color.fromRGBO(255, 255, 255, 1)
+                        : Color.fromRGBO(255, 255, 255, 1),
                     fontSize: widget.fontSize,
                     fontFamily: 'Oxygen',
                     fontWeight: FontWeight.bold),
@@ -161,11 +162,11 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
               widget.buttonLables[index],
               style: TextStyle(
                   color: currentSelectedLabel == widget.buttonLables[index]
-                      ? Colors.white
-                      : Theme.of(context).textTheme.bodyText1.color,
+                      ? Color.fromRGBO(255, 255, 255, 1)
+                      : Color.fromRGBO(255, 255, 255, 1),
                   fontSize: widget.fontSize,
-                  fontFamily: 'Open Sans',
-                  fontWeight: FontWeight.w600),
+                  fontFamily: 'Oxygen',
+                  fontWeight: FontWeight.w500),
             ),
           ),
         ),

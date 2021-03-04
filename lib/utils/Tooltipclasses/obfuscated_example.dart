@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 
@@ -13,8 +12,10 @@ class ObfuscateExamplePage extends StatefulWidget {
 
 class _ObfuscateExamplePageState extends State<ObfuscateExamplePage> {
   bool _show = false;
+
   // bool hideOnTap = false;
   TooltipDirection _direction = TooltipDirection.down;
+
   // bool _changeBorder = false;
   GlobalKey<SimpleTooltipState> _exampleTooltipKey = GlobalKey();
 

@@ -20,7 +20,13 @@ import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScre
 import 'package:gps_massageapp/serviceUser/homeScreen/BottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedFirstScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedSecondScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedThirdScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingCancelScreens/BookingCancelScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingCancelScreens/BookingCancelTherapistReason.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingCancelScreens/BookingCancelTherapistResponseScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingCancelScreens/BookingCancelTimerScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
@@ -386,5 +392,57 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ApprovalWaitingScreen()));
+  }
+
+  //Booking approved screen one
+  static void switchToUserBookingApprovedFirstScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingApproveFirstScreen()));
+  }
+
+//Booking approved screen two
+  static void switchToUserBookingApprovedSecondScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingApproveSecondScreen()));
+  }
+
+  //Booking approved screen three
+  static void switchToUserBookingApprovedThirdScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingApproveThirdScreen()));
+  }
+
+  //Booking cancel therapist reason screen
+  static void switchToUserBookingCancelTherapistReasonScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                BookingCancelTherapistReasonScreen()));
+  }
+
+//Booking cancel therapist response screen
+  static void switchToUserBookingCancelTherapistResponseScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                BookingCancelTherapistResponseScreen()));
+  }
+
+//Booking cancel timer screen
+  static void switchToUserBookingCancelTimerUserScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingCancelTimerUserScreen()));
   }
 }

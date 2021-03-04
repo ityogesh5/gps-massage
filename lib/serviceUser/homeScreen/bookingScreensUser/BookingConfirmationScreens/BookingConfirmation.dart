@@ -237,7 +237,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                         Expanded(child: Divider()),
                       ]),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 7),
                     Expanded(
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,7 +246,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             SvgPicture.asset('assets/images_gps/gps.svg',
                                 height: 25, width: 25),
                             SizedBox(width: 5),
-                            Flexible(
+                            FittedBox(
                               child: Text(
                                 '埼玉県浦和区高砂4丁目4',
                                 softWrap: true,

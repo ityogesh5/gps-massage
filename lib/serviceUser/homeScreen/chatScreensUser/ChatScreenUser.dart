@@ -79,14 +79,12 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                     fontFamily: 'Oxygen',
                     fontWeight: FontWeight.bold),
               ),
-              leading: Expanded(
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    NavigationRouter.switchToServiceUserBottomBar(context);
-                  },
-                  color: Colors.black,
-                ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                },
+                color: Colors.black,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
