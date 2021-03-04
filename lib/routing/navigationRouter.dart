@@ -43,6 +43,7 @@ import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
+import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScreen.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -179,7 +180,7 @@ class NavigationRouter {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
   }
-
+ 
   // Provider Register 1st screen
   static void switchToServiceProviderFirstScreen(BuildContext context) {
     Navigator.push(context,

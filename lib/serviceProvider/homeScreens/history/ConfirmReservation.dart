@@ -2,112 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
 
-class WeeklySchedule extends StatefulWidget {
+class ProviderConfirmReservationScreen extends StatefulWidget {
   @override
-  _WeeklyScheduleState createState() => _WeeklyScheduleState();
+  _ProviderConfirmReservationScreenState createState() =>
+      _ProviderConfirmReservationScreenState();
 }
 
-class _WeeklyScheduleState extends State<WeeklySchedule> {
+class _ProviderConfirmReservationScreenState
+    extends State<ProviderConfirmReservationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
-        elevation: 0.0,
-        leading: IconButton(
-          padding:
-              EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          '一週間のスケジュール',
-          style: TextStyle(
-              fontSize: 18.0,
-              fontFamily: 'Oxygen',
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
+    return SingleChildScrollView(
+      primary: true,
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        //  margin: EdgeInsets.all(8.0),
+        child: Column(
           children: [
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(children: <Widget>[
-              Expanded(
-                child: new Container(
-                    margin: const EdgeInsets.only(left: 10.0, right: 15.0),
-                    child: Divider(
-                      // height: 50,
-                      color: Colors.grey,
-                    )),
-              ),
-              Text(
-                "2020-10-19 月",
+            Center(
+              child: Text(
+                "サービス利用者の支払いが完了し確定した予約",
+                // textAlign: TextAlign.center,
                 style: TextStyle(
+                  color: Color.fromRGBO(102, 102, 102, 1),
                   fontSize: 12.0,
-                  color: Colors.grey,
+                  fontFamily: 'Oxygen',
                 ),
               ),
-              Expanded(
-                child: new Container(
-                    margin: const EdgeInsets.only(left: 15.0, right: 10.0),
-                    child: Divider(
-                      color: Colors.grey,
-                      // height: 50,
-                    )),
-              ),
-            ]),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              '09: 00~10: 00',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
             ),
             SizedBox(
-              height: 10.0,
+              height: 15,
             ),
-            weeklyScheduleCard(),
+            ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                      height: 15,
+                    ),
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return buildBookingCard(index);
+                }),
           ],
         ),
       ),
-    );
-  }
-}
-
-class weeklyScheduleCard extends StatefulWidget {
-  @override
-  _weeklyScheduleCardState createState() => _weeklyScheduleCardState();
-}
-
-class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView.separated(
-          separatorBuilder: (context, index) => SizedBox(
-                height: 15,
-              ),
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          itemCount: 2,
-          itemBuilder: (context, index) {
-            return buildBookingCard(index);
-          }),
     );
   }
 
@@ -165,62 +103,91 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                   height: 15,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        padding: EdgeInsets.all(4),
-                        child: Text(
-                          '足つぼ',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )),
+                    SvgPicture.asset(
+                      "assets/images_gps/calendar.svg",
+                      height: 14.77,
+                      width: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      '10月17',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      ' 月曜日 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                Row(children: [
-                  SvgPicture.asset(
-                    "assets/images_gps/clock.svg",
-                    height: 14.77,
-                    width: 16.0,
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    '09: 00 ~ 10: 00',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images_gps/clock.svg",
+                      height: 14.77,
+                      width: 16.0,
                     ),
-                  ),
-                  Text(
-                    ' 60分 ',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromRGBO(102, 102, 102, 1),
+                    SizedBox(
+                      width: 8,
                     ),
-                  ),
-                ]),
+                    Text(
+                      '09: 00 ~ 10: 00',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      ' 60分 ',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      padding: EdgeInsets.all(4),
+                      child: Text(
+                        '足つぼ',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 2,
                 ),
                 Row(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: index == 0 ? 2 : 4,
                       child: Divider(
                         // height: 50,
                         color: Color.fromRGBO(217, 217, 217, 1),
@@ -292,41 +259,44 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                 )
               ],
             ),
-            Positioned(
-              top: 88.0,
-              right: 70.0,
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20.0)), //this right here
-                          child: CancelBooking(),
-                        );
-                      });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.white,
+            index == 0
+                ? Positioned(
+                    top: 88.0,
+                    right: 70.0,
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20.0)), //this right here
+                                child: CancelBooking(),
+                              );
+                            });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset(
+                            "assets/images_gps/cancel.svg",
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                            height: 20.0,
+                            width: 20.0,
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: SvgPicture.asset(
-                      "assets/images_gps/cancel.svg",
-                      color: Color.fromRGBO(217, 217, 217, 1),
-                      height: 20.0,
-                      width: 20.0,
                     ),
-                  ),
-                ),
-              ),
-            ),
+                  )
+                : Container(),
             index == 0
                 ? Positioned(
                     top: 88.0,
@@ -374,7 +344,35 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: SvgPicture.asset(
-                            "assets/images_gps/providerChat.svg",
+                            "assets/images_gps/giveRating.svg",
+                            height: 20.0,
+                            width: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+            index == 2
+                ? Positioned(
+                    top: 88.0,
+                    right: 10.0,
+                    child: InkWell(
+                      onTap: () {
+                        print('abc');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset(
+                            "assets/images_gps/givenReview.svg",
                             height: 20.0,
                             width: 20.0,
                           ),

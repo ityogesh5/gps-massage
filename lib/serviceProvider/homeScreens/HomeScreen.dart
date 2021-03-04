@@ -13,6 +13,7 @@ import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   @override
@@ -812,7 +813,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  NavigationRouter.switchToWeeklySchedule(context);
+                                },
                                 child: SvgPicture.asset(
                                   "assets/images_gps/calendar.svg",
                                   height: 25.0,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
-
+import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
 import 'BookingStatus.dart';
 import 'Chat.dart';
 import 'HomeScreen.dart';
@@ -23,7 +23,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
   final _pageOptions = [
     ProviderHomeScreen(),
     OperationManagement(),
-    BookingStatus(),
+    History(),
     MyAccount(),
     Chat(),
   ]; // listing of all 3 pages index wise
