@@ -612,6 +612,7 @@ class _MyAccountState extends State<MyAccount> {
             value.setBool('isProviderLoggedOut', true);
             value.setBool('isProviderLoggedIn', false);
             value.setBool('isUserLoggedOut', false);
+            value.setBool('isProviderRegister', false);
           });
           NavigationRouter.switchToProviderLogin(context);
         }

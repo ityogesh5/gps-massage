@@ -15,6 +15,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -539,8 +540,19 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.userOccupation);
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
-        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
-        NavigationRouter.switchToServiceUserBottomBar(context);
+        if (loginResponseModel.data.isVerified) {
+          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          Toast.show("許可されていないユーザー。", context,
+              duration: 4,
+              gravity: Toast.CENTER,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+          print('Unverified User!!');
+          return;
+        }
       } else {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         print('Response Failure !!');

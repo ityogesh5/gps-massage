@@ -438,6 +438,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
             value.setBool('isUserLoggedOut', true);
             value.setBool('isUserLoggedIn', false);
             value.setBool('isProviderLoggedOut', false);
+            value.setBool('isUserRegister', false);
           });
           NavigationRouter.switchToUserLogin(context);
         }

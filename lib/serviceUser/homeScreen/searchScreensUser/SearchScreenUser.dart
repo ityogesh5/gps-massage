@@ -273,6 +273,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             child: SvgPicture.asset(
                               'assets/images_gps/Osteopathic.svg',
                               fit: BoxFit.contain,
+
                             ),
                           ),
                           Text(
