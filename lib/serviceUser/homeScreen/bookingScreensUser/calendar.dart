@@ -49,6 +49,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {},
         ),
       ),
       body: SingleChildScrollView(
@@ -133,7 +134,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.38,
-                                    color: Colors.transparent,
+                                    color: Colors.white,
                                     child: DropDownFormField(
                                       titleText: null,
                                       hintText: readonly
@@ -244,27 +245,43 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
               elevation: 5.0,
               // margin: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TableCalendar(
-                  locale: "ja_JP",
-                  calendarController: _calendarController,
-                  headerVisible: false,
-                  initialCalendarFormat: CalendarFormat.month,
-                  startingDayOfWeek: StartingDayOfWeek.sunday,
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                      weekdayStyle: TextStyle(color: Colors.grey),
-                      weekendStyle: TextStyle(color: Colors.grey)),
-                  calendarStyle: CalendarStyle(
-                    todayColor: Colors.lime,
-                    selectedColor: Colors.lime,
-                    outsideDaysVisible: true,
-                    outsideStyle: TextStyle(color: Colors.grey),
-                    outsideWeekendStyle: TextStyle(color: Colors.grey),
-                    weekendStyle: TextStyle(color: Colors.black),
-                    holidayStyle: TextStyle(color: Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 0,
+                      child: IconButton(
+                          icon: Icon(Icons.arrow_back_ios), onPressed: null)),
+                  Expanded(
+                    flex: 4,
+                    child: TableCalendar(
+                      locale: "ja_JP",
+                      calendarController: _calendarController,
+                      headerVisible: false,
+                      initialCalendarFormat: CalendarFormat.month,
+                      startingDayOfWeek: StartingDayOfWeek.sunday,
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                          weekdayStyle: TextStyle(color: Colors.grey),
+                          weekendStyle: TextStyle(color: Colors.grey)),
+                      availableGestures: AvailableGestures.horizontalSwipe,
+                      calendarStyle: CalendarStyle(
+                        todayColor: Colors.lime,
+                        selectedColor: Colors.lime,
+                        outsideDaysVisible: true,
+                        outsideStyle: TextStyle(color: Colors.grey),
+                        outsideWeekendStyle: TextStyle(color: Colors.grey),
+                        weekendStyle: TextStyle(color: Colors.black),
+                        holidayStyle: TextStyle(color: Colors.black),
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    flex: 0,
+                    child: IconButton(
+                        icon: Icon(Icons.arrow_forward_ios), onPressed: null),
+                  ),
+                ],
               ),
             )
           ],

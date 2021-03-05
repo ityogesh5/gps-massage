@@ -33,6 +33,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: CalendarScreen());
+        home: SplashScreen());
   }
 }

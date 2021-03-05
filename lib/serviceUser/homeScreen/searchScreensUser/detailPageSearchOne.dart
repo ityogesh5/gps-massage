@@ -951,33 +951,29 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images_gps/clock.svg',
-                                      height: 25,
-                                      width: 25),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    '10:30 ～ 11:30',
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset('assets/images_gps/clock.svg',
+                                    height: 25, width: 25),
+                                SizedBox(width: 5),
+                                Text(
+                                  '10:30 ～ 11:30',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontFamily: 'Oxygen'),
+                                ),
+                                Expanded(
+                                  child: new Text(
+                                    '60分',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey[400],
                                         fontSize: 16,
                                         fontFamily: 'Oxygen'),
                                   ),
-                                  Expanded(
-                                    child: new Text(
-                                      '60分',
-                                      style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 16,
-                                          fontFamily: 'Oxygen'),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -985,25 +981,24 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       // SizedBox(
                       //   width: 70,
                       // ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingConfirmationScreen(
-                                    context);
-                          },
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          NavigationRouter
+                              .switchToServiceUserBookingConfirmationScreen(
+                                  context);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 38,
+                          backgroundColor: Colors.grey,
                           child: CircleAvatar(
                             maxRadius: 38,
-                            backgroundColor: Colors.grey,
-                            child: CircleAvatar(
-                              maxRadius: 38,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                'assets/images_gps/calendar.svg',
-                                height: 20,
-                                width: 20,
-                                color: Colors.lime,
-                              ),
+                            backgroundColor: Colors.white,
+                            child: SvgPicture.asset(
+                              'assets/images_gps/calendar.svg',
+                              height: 20,
+                              width: 20,
+                              color: Colors.lime,
                             ),
                           ),
                         ),

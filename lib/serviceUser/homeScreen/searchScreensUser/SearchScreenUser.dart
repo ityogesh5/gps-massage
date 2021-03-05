@@ -243,8 +243,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/Esthetic.svg',
-                              fit: BoxFit.contain,
+                              'assets/images_gps/serviceTypeOne.svg',
+                              height: 25,
+                              width: 25,
                             ),
                           ),
                           Text(
@@ -271,8 +272,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/Osteopathic.svg',
-                              fit: BoxFit.contain,
+                              'assets/images_gps/serviceTypeTwo.svg',
+                              height: 25,
+                              width: 25,
                             ),
                           ),
                           Text(
@@ -299,8 +301,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/relaxation.svg',
-                              fit: BoxFit.contain,
+                              'assets/images_gps/serviceTypeThree.svg',
+                              height: 25,
+                              width: 25,
                             ),
                           ),
                           Text(
@@ -327,7 +330,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               border: Border.all(),
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/Fitness.svg',
+                              'assets/images_gps/serviceTypeFour.svg',
                               fit: BoxFit.contain,
                             ),
                           ),

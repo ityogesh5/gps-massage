@@ -919,32 +919,29 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                 child: Container(
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('サービスを受ける日時を\nカレンダーから選択してください')],
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('サービスを受ける日時を\nカレンダーから選択してください')],
                       ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingConfirmationScreen(
-                                    context);
-                          },
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          NavigationRouter
+                              .switchToServiceUserBookingConfirmationScreen(
+                                  context);
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 38,
+                          backgroundColor: Colors.grey,
                           child: CircleAvatar(
                             maxRadius: 38,
-                            backgroundColor: Colors.grey,
-                            child: CircleAvatar(
-                              maxRadius: 38,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                'assets/images_gps/calendar.svg',
-                                height: 20,
-                                width: 20,
-                                color: Colors.lime,
-                              ),
+                            backgroundColor: Colors.white,
+                            child: SvgPicture.asset(
+                              'assets/images_gps/calendar.svg',
+                              height: 20,
+                              width: 20,
+                              color: Colors.lime,
                             ),
                           ),
                         ),

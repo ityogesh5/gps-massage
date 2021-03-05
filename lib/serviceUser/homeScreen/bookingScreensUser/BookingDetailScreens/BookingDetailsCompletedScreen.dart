@@ -888,7 +888,7 @@ class _BookingDetailsCompletedScreenState
                           ],
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Esthetic.svg',
+                          'assets/images_gps/serviceTypeOne.svg',
                           height: 40,
                           width: 40,
                           fit: BoxFit.contain,
@@ -937,7 +937,7 @@ class _BookingDetailsCompletedScreenState
                           ],
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Osteopathic.svg',
+                          'assets/images_gps/serviceTypeTwo.svg',
                           height: 40,
                           width: 40,
                           fit: BoxFit.contain,
@@ -986,7 +986,7 @@ class _BookingDetailsCompletedScreenState
                           ],
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/relaxation.svg',
+                          'assets/images_gps/serviceTypeThree.svg',
                           height: 40,
                           width: 40,
                           fit: BoxFit.contain,
@@ -1035,7 +1035,7 @@ class _BookingDetailsCompletedScreenState
                           ],
                         ),
                         child: SvgPicture.asset(
-                          'assets/images_gps/Fitness.svg',
+                          'assets/images_gps/serviceTypeFour.svg',
                           height: 40,
                           width: 40,
                           fit: BoxFit.contain,
@@ -1416,7 +1416,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/Esthetic.svg',
+                                'assets/images_gps/serviceTypeOne.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -1799,7 +1799,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/Fitness.svg',
+                                'assets/images_gps/serviceTypeFour.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -2182,7 +2182,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/Osteopathic.svg',
+                                'assets/images_gps/serviceTypeTwo.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -2553,7 +2553,7 @@ class _BookingDetailsCompletedScreenState
                               ],
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/relaxation.svg',
+                              'assets/images_gps/serviceTypeThree.svg',
                               height: 40,
                               width: 40,
                               fit: BoxFit.contain,
@@ -2923,7 +2923,7 @@ class _BookingDetailsCompletedScreenState
                               ],
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/relaxation.svg',
+                              'assets/images_gps/serviceTypeThree.svg',
                               height: 40,
                               width: 40,
                               fit: BoxFit.contain,
