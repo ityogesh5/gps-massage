@@ -316,7 +316,7 @@ class _ProviderConfirmReservationScreenState
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: SvgPicture.asset(
-                            "assets/images_gps/accept.svg",
+                            "assets/images_gps/mark_completed.svg",
                             height: 20.0,
                             width: 20.0,
                           ),

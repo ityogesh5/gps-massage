@@ -4,11 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-
-main() {
-  runApp(SplashScreen());
-}
-
 class SplashScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
   @override

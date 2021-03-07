@@ -19,6 +19,8 @@ class DropDownFormField extends FormField<dynamic> {
   final bool enabled;
   final dynamic items;
   final bool isList;
+  final Color fillColor;
+  final Color borderColor;
 
   DropDownFormField(
       {FormFieldSetter<dynamic> onSaved,
@@ -37,6 +39,8 @@ class DropDownFormField extends FormField<dynamic> {
       this.filled = true,
       this.enabled = true,
       this.isList = false,
+      this.fillColor,
+      this.borderColor,
       this.contentPadding = const EdgeInsets.fromLTRB(10, 10, 5, 0)})
       : super(
           onSaved: onSaved,
@@ -48,9 +52,13 @@ class DropDownFormField extends FormField<dynamic> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: ColorConstants.formFieldFillColor,
-                    border:
-                        Border.all(color: ColorConstants.formFieldBorderColor)),
+                    color: fillColor != null
+                        ? fillColor
+                        : ColorConstants.formFieldFillColor,
+                    border: Border.all(
+                        color: borderColor != null
+                            ? borderColor
+                            : ColorConstants.formFieldBorderColor)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   //   crossAxisAlignment: CrossAxisAlignment.start,

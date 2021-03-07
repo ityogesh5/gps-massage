@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/History.dart';
-import 'BookingStatus.dart';
-import 'Chat.dart';
 import 'HomeScreen.dart';
 import 'myAccount/MyAccount.dart';
 import 'operationManagement/OperationManagement.dart';
@@ -25,7 +24,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
     OperationManagement(),
     History(),
     MyAccount(),
-    Chat(),
+    ChatTabBar(),
   ]; // listing of all 3 pages index wise
 
   /*final bgcolor = [

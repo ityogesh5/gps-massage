@@ -50,6 +50,13 @@ import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScreen.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderReceiveBooking.dart';
+
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferConfirmed.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerUser.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerProvider.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -186,7 +193,7 @@ class NavigationRouter {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ChooseServiceScreen()));
   }
- 
+
   // Provider Register 1st screen
   static void switchToServiceProviderFirstScreen(BuildContext context) {
     Navigator.push(context,
@@ -200,6 +207,51 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (context) => RegistrationProviderSecondScreen()));
+  }
+
+  //Provider Receive Booking Screen
+
+  static void switchToReceiveBookingScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProviderReceiveBooking()));
+  }
+  //Provider Offer Cancel Screen
+
+  static void switchToOfferCancelScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProviderOfferCancel()));
+  }
+
+  //Provider Offer Confirmed Screen
+
+  static void switchToOfferConfirmedScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProviderOfferConfirmed()));
+  }
+
+  //Provider Offer Cancel Timer User Screen
+
+  static void switchToOfferCancelScreenTimerUser(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProviderOfferCancelTimerUser()));
+  }
+
+  //Provider Offer Cancel Timer Provider Screen
+
+  static void switchToOfferCancelScreenTimerProvider(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProviderOfferCancelTimerProvider()));
+  }
+
+  //Provider Admin Notification Provider Screen
+
+  static void switchToAdminNotificationScreen(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AdminNotification()));
   }
 
   //Provider Phone number input Forget Password Screen
