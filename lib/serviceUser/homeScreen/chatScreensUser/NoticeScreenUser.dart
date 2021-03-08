@@ -40,7 +40,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
         "$title",
         style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -77,7 +77,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                 'メッセージ',
                 style: TextStyle(
                     color: Colors.black,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
@@ -114,7 +114,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                             "お知らせ",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold),
                           )
                         : buildUnSelectedTabBar("お知らせ"),
@@ -124,7 +124,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                         ? Text("チャット",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold))
                         : buildUnSelectedTabBar("チャット"),
                   ),
@@ -227,7 +227,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                         style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 14,
-                                            fontFamily: 'Oxygen'),
+                                            fontFamily: 'NotoSansJP'),
                                       ),
                                     ],
                                   ),
@@ -517,7 +517,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                             '0',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                fontFamily: 'Oxygen',
+                                                fontFamily: 'NotoSansJP',
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           )),

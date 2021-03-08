@@ -31,7 +31,7 @@ class _BookingCancelTimerUserScreenState
           style: TextStyle(
               color: Colors.black,
               fontSize: 16,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -101,7 +101,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                   ),
                 ),
@@ -154,7 +154,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -173,7 +173,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03),
@@ -182,7 +182,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -201,7 +201,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02),
@@ -210,7 +210,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                             style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -243,7 +243,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -270,7 +270,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                 fontSize: 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -305,7 +305,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
                             SizedBox(
@@ -317,7 +317,7 @@ class _ApprovalThirdScreenState extends State<ApprovalThirdScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[500],
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                           ],

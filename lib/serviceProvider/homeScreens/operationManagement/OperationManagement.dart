@@ -41,7 +41,7 @@ class _OperationManagementState extends State<OperationManagement>
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.0,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -76,7 +76,7 @@ class _OperationManagementState extends State<OperationManagement>
           '運営管理',
           style: TextStyle(
               color: Colors.black,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class _OperationManagementState extends State<OperationManagement>
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -126,7 +126,7 @@ class _OperationManagementState extends State<OperationManagement>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("掲載コメント"),
@@ -139,7 +139,7 @@ class _OperationManagementState extends State<OperationManagement>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("サービス内容"),
@@ -152,7 +152,7 @@ class _OperationManagementState extends State<OperationManagement>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("シフト"),

@@ -58,7 +58,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         title: Text(
           '予約確認',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
@@ -73,7 +73,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             Text(
               '予約の詳細',
               style: TextStyle(
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontSize: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
@@ -181,7 +181,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 14,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                                 RatingBar.builder(
                                   initialRating: 3,
@@ -210,7 +210,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 12,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             ),
@@ -254,7 +254,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w300,
-                                    fontFamily: 'oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                             Spacer(),
@@ -266,7 +266,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[400],
-                                      fontFamily: 'oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             )
@@ -308,14 +308,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Text(
                           '月曜日出張',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -330,14 +330,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Text(
                           '60分',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -482,7 +482,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.red,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
                 children: <TextSpan>[
                   new TextSpan(
@@ -490,7 +490,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       style: new TextStyle(
                           fontSize: 16,
                           color: Colors.grey[300],
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w100)),
                 ],
@@ -513,7 +513,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   '予約する',
                   style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
@@ -548,7 +548,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
-                            fontFamily: 'Oxygen')),
+                            fontFamily: 'NotoSansJP')),
                   ),
                 ),
                 leading: CustomRadioButton(

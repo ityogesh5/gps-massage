@@ -816,7 +816,7 @@ class DialogHelper {
                               style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.w100,
                                   decoration: TextDecoration.underline)),
                         )),
@@ -861,7 +861,7 @@ class DialogHelper {
                               style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w100,
                                   decoration: TextDecoration.underline)),

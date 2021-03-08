@@ -596,7 +596,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       'さがす',
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 18),
                     ),
                     color: Colors.lime,

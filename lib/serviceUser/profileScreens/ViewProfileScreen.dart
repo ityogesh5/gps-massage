@@ -60,7 +60,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
@@ -126,14 +126,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           'お名前',
                           style: TextStyle(
                               fontSize: 14.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold),
                         )
                       : new Text(
                           '${HealingMatchConstants.serviceUserName}',
                           style: TextStyle(
                               fontSize: 14.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold),
                         ),
                   Chip(
@@ -200,14 +200,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         emailAddress.isEmpty
                                     ? Text('メールアドレス',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500))
                                     : Text(
                                         '${HealingMatchConstants.serviceUserEmailAddress}',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14.0)),
@@ -223,14 +223,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         dob.isEmpty
                                     ? Text('生年月日',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500))
                                     : Text(
                                         '${HealingMatchConstants.serviceUserDOB}',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500)),
@@ -244,7 +244,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                           '0',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              fontFamily: 'Oxygen',
+                                              fontFamily: 'NotoSansJP',
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500),
                                         )
@@ -252,7 +252,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                           '${HealingMatchConstants.serviceUserAge}',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              fontFamily: 'Oxygen',
+                                              fontFamily: 'NotoSansJP',
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
@@ -276,14 +276,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         userGender.isEmpty
                                     ? Text('性別',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500))
                                     : Text(
                                         '${HealingMatchConstants.serviceUserGender}',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500)),
@@ -300,14 +300,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         userOccupation.isEmpty
                                     ? Text('職業',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500))
                                     : Text(
                                         '${HealingMatchConstants.serviceUserOccupation}',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500)),
@@ -325,7 +325,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                     ? Text(
                                         '436-C鉄道地区ウィンターペットアラコナム。',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500),
@@ -333,7 +333,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                     : Text(
                                         '${HealingMatchConstants.serviceUserAddress}',
                                         style: TextStyle(
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14.0,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500),
@@ -348,7 +348,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 ),
                                 Text('セラピスト検索範囲5.0Km距離。',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 14.0,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500)),
@@ -400,28 +400,28 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           value: "1",
           child: Text(
             '利用規約とプライバシーポリシー', //Terms and Conditions
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "2",
           child: Text(
             'アプリについて', //About the app
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "3",
           child: Text(
             'お問い合わせ', //Contact Us
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "4",
           child: Text(
             'ログアウト', //Log out
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
       ],

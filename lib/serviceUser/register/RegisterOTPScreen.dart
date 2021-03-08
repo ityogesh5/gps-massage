@@ -70,7 +70,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                         "+81 ${HealingMatchConstants.serviceUserPhoneNumber} " +
                             HealingMatchConstants.serviceUserOtpTxt,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontFamily: 'Oxygen'),
+                        style: TextStyle(fontFamily: 'NotoSansJP'),
                       ),
                     ),
                     SizedBox(
@@ -105,7 +105,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                         textFieldAlignment: MainAxisAlignment.spaceEvenly,
                         fieldStyle: FieldStyle.underline,
                         onCompleted: (pin) {
@@ -172,7 +172,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
               child: Text('認証コード入力は必須項目なので入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -180,7 +180,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -199,7 +199,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
               child: Text('認証コードと一致しませんのでもう一度お試しください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -207,7 +207,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],

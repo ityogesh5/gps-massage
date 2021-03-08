@@ -88,7 +88,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
                           hintStyle: TextStyle(
                               color: Colors.grey[300],
                               fontSize: 14,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                           border: OutlineInputBorder(
                             borderSide:
                                 const BorderSide(color: Colors.red, width: 2.0),

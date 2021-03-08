@@ -54,7 +54,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                     decoration: TextDecoration.underline,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontSize: 18.0),
               ),
             ),
@@ -77,7 +77,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold))),
                 SizedBox(
                   height: 20,
@@ -118,7 +118,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                         }),
                     filled: true,
                     // hintStyle:
-                    //     TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
+                    //     TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'),
                     labelText: HealingMatchConstants.loginUserPassword,
                     fillColor: ColorConstants.formFieldFillColor,
                   ),
@@ -134,7 +134,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
                         style:
-                            TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
+                            TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
                                 ),
                       ),
@@ -152,7 +152,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                       '${HealingMatchConstants.loginUserButton}',
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 18),
                     ),
                     color: Colors.lime,
@@ -263,7 +263,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                     HealingMatchConstants.loginUserNewRegistrationText,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
-                        fontFamily: 'Oxygen',
+                        fontFamily: 'NotoSansJP',
                         fontWeight: FontWeight.w100),
                   ),
                 ),
@@ -285,7 +285,7 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
         child: Center(
           child: Text(
             HealingMatchConstants.loginServiceProvider,
-            style: TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
+            style: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
 //                            decoration: TextDecoration.underline,
                 ),
           ),

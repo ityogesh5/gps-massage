@@ -239,7 +239,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -268,14 +268,14 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Container(
                               child: Text(
                                 'もっとみる',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     fontSize: 14),
@@ -485,7 +485,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -493,7 +493,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -501,7 +501,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -509,7 +509,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -517,7 +517,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -534,7 +534,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -542,7 +542,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -574,7 +574,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        fontFamily: 'Oxygen'),
+                        fontFamily: 'NotoSansJP'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -585,7 +585,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                         children: <TextSpan>[
                           new TextSpan(
                               text: 'もっとみる',
@@ -593,7 +593,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                   decoration: TextDecoration.underline,
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -673,7 +673,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -681,7 +681,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -689,7 +689,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -697,7 +697,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -938,7 +938,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                   SizedBox(width: 5),
                                   new Text(
@@ -946,7 +946,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                     style: TextStyle(
                                         color: Colors.grey[400],
                                         fontSize: 16,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 ],
                               ),
@@ -965,7 +965,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                   Expanded(
                                     child: new Text(
@@ -973,7 +973,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                       style: TextStyle(
                                           color: Colors.grey[400],
                                           fontSize: 16,
-                                          fontFamily: 'Oxygen'),
+                                          fontFamily: 'NotoSansJP'),
                                     ),
                                   ),
                                 ],
@@ -1040,7 +1040,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                 child: Text(
                   '予約に進む',
                   style: TextStyle(
-                      color: Colors.white, fontFamily: 'Oxygen', fontSize: 18),
+                      color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 18),
                 ),
                 color: Colors.red,
                 onPressed: () {

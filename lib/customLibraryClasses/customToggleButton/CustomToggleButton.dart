@@ -106,7 +106,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                         ? Color.fromRGBO(255, 255, 255, 1)
                         : Color.fromRGBO(255, 255, 255, 1),
                     fontSize: widget.fontSize,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -165,7 +165,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
                       ? Color.fromRGBO(255, 255, 255, 1)
                       : Color.fromRGBO(255, 255, 255, 1),
                   fontSize: widget.fontSize,
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontWeight: FontWeight.w500),
             ),
           ),

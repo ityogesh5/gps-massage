@@ -18,7 +18,7 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   Data userData;
   int status = 0;
-  TextStyle textStyle = TextStyle(fontFamily: 'Oxygen', fontSize: 14.0);
+  TextStyle textStyle = TextStyle(fontFamily: 'NotoSansJP', fontSize: 14.0);
   double iconHeight = 20.0;
   double iconWidth = 20.0;
   Color iconColor = Colors.black;
@@ -47,7 +47,7 @@ class _MyAccountState extends State<MyAccount> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
@@ -112,7 +112,7 @@ class _MyAccountState extends State<MyAccount> {
                           userData.userName,
                           style: TextStyle(
                               fontSize: 14.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold),
                         ),
                         Chip(
@@ -406,7 +406,7 @@ class _MyAccountState extends State<MyAccount> {
                             Text('保有資格',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 14.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w900)),
@@ -426,7 +426,7 @@ class _MyAccountState extends State<MyAccount> {
                             Text('売上金振込先銀行情報',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 14.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w900)),
@@ -449,13 +449,13 @@ class _MyAccountState extends State<MyAccount> {
                                       children: [
                                         Text(userData.bankDetails[0].bankName,
                                             style: TextStyle(
-                                                fontFamily: 'Oxygen',
+                                                fontFamily: 'NotoSansJP',
                                                 fontSize: 14.0,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w900)),
                                         Text(userData.bankDetails[0].branchCode,
                                             style: TextStyle(
-                                                fontFamily: 'Oxygen',
+                                                fontFamily: 'NotoSansJP',
                                                 fontSize: 14.0,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w900))
@@ -476,7 +476,7 @@ class _MyAccountState extends State<MyAccount> {
                                                   .bankDetails[0].branchNumber,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
-                                                  fontFamily: 'Oxygen',
+                                                  fontFamily: 'NotoSansJP',
                                                   fontSize: 14.0,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w900)),
@@ -492,7 +492,7 @@ class _MyAccountState extends State<MyAccount> {
                                         /*   Text('****',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      fontFamily: 'Oxygen',
+                                      fontFamily: 'NotoSansJP',
                                       fontSize: 14.0,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w900)),
@@ -502,7 +502,7 @@ class _MyAccountState extends State<MyAccount> {
                                                 .bankDetails[0].accountNumber,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
-                                                fontFamily: 'Oxygen',
+                                                fontFamily: 'NotoSansJP',
                                                 fontSize: 16.0,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w900))
@@ -523,7 +523,7 @@ class _MyAccountState extends State<MyAccount> {
                                                   .bankDetails[0].accountType,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
-                                                  fontFamily: 'Oxygen',
+                                                  fontFamily: 'NotoSansJP',
                                                   fontSize: 14.0,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w900)),
@@ -574,28 +574,28 @@ class _MyAccountState extends State<MyAccount> {
           value: "1",
           child: Text(
             '利用規約とプライバシーポリシー', //Terms and Conditions
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "2",
           child: Text(
             'アプリについて', //About the app
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "3",
           child: Text(
             'お問い合わせ', //Contact Us
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
         PopupMenuItem<String>(
           value: "4",
           child: Text(
             'ログアウト', //Log out
-            style: TextStyle(fontFamily: 'Oxygen'),
+            style: TextStyle(fontFamily: 'NotoSansJP'),
           ),
         ),
       ],

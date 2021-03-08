@@ -361,17 +361,17 @@ class HealingMatchConstants {
   );
 
   static TextStyle formTextStyle = TextStyle(
-      color: ColorConstants.formTextColor, fontFamily: 'Oxygen', fontSize: 14);
+      color: ColorConstants.formTextColor, fontFamily: 'NotoSansJP', fontSize: 14);
 
   static TextStyle formLabelTextStyle = TextStyle(
     fontSize: 14.0,
-    fontFamily: 'Oxygen',
+    fontFamily: 'NotoSansJP',
     color: ColorConstants.formHintTextColor,
   );
 
   static TextStyle formHintTextStyle = TextStyle(
       color: ColorConstants.formHintTextColor,
-      fontFamily: 'Oxygen',
+      fontFamily: 'NotoSansJP',
       fontSize: 14);
 
   static var textFormInputBorder = OutlineInputBorder(

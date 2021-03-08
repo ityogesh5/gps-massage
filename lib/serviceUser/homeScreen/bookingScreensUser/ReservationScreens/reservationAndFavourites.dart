@@ -42,7 +42,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.0,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -79,7 +79,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
           '運営管理',
           style: TextStyle(
               color: Colors.black,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(
@@ -115,7 +115,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -129,7 +129,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("過去の予約"),
@@ -142,7 +142,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("お気に入り"),

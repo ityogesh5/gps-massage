@@ -146,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           textStyle: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                           ),
                           enableActiveFill: true,
                           pinTheme: PinTheme(
@@ -295,7 +295,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('認証コード入力は必須項目なので入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -303,7 +303,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -322,7 +322,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('認証コードと一致しませんのでもう一度お試しください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -330,7 +330,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -349,7 +349,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('パスワードは必須項目なので入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -357,7 +357,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -370,7 +370,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
-            style: TextStyle(fontFamily: 'Oxygen')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -391,7 +391,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('パスワードは16文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -399,7 +399,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -420,7 +420,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -428,7 +428,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -447,7 +447,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('有効な文字でパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -455,7 +455,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -475,7 +475,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('パスワード再確認は必須項目なので入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -483,7 +483,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -502,7 +502,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text('パスワードが一致がしませんのでもう一度お試しください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -510,7 +510,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],

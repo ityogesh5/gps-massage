@@ -303,7 +303,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -332,7 +332,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -349,14 +349,14 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Text(
                               '月曜日出張',
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[400],
-                                  fontFamily: 'oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -373,14 +373,14 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Text(
                               '60分',
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[400],
-                                  fontFamily: 'oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -426,7 +426,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -460,7 +460,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
                             SizedBox(
@@ -471,7 +471,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey[500],
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),

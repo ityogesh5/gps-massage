@@ -194,7 +194,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -202,7 +202,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -225,7 +225,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -233,7 +233,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
