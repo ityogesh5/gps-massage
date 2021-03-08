@@ -1,9 +1,9 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/favorite.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/pastReservations.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationStatus.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/favorite.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/pastReservations.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationStatus.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ReservationAndFavourite extends StatefulWidget {
