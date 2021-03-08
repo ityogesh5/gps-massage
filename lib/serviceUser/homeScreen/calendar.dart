@@ -42,14 +42,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+            // NavigationRouter.switchToServiceUserBottomBar(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
+        ),
         centerTitle: true,
         title: Text(
           'カレンダー',
           style: TextStyle(color: Colors.black),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {},
         ),
       ),
       body: SingleChildScrollView(

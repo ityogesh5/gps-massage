@@ -263,13 +263,20 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             ),
                             Spacer(),
                             Container(
-                              child: Text(
-                                'もっとみる',
-                                style: TextStyle(
-                                    fontFamily: 'Oxygen',
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 14),
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserRatingsAndReviewScreen(
+                                          context);
+                                },
+                                child: Text(
+                                  'もっとみる',
+                                  style: TextStyle(
+                                      fontFamily: 'Oxygen',
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 14),
+                                ),
                               ),
                             )
                           ],

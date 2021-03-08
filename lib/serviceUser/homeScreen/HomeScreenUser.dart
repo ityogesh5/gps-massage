@@ -125,7 +125,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
                       NavigationRouter.switchToNearByProviderAndShop(context);
                     },
                     child: Text(
-                      'もっと見る',
+                      'もっとみる',
                       style: TextStyle(
                           color: Color.fromRGBO(0, 0, 0, 1),
                           fontWeight: FontWeight.bold,
@@ -153,12 +153,17 @@ class _HomeScreenUserState extends State<HomeScreen> {
                     fontFamily: ColorConstants.fontFamily,
                   ),
                 ),
-                Text(
-                  'もっとみる',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: ColorConstants.fontFamily,
-                    decoration: TextDecoration.underline,
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToRecommended(context);
+                  },
+                  child: Text(
+                    'もっとみる',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: ColorConstants.fontFamily,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 )
               ],
@@ -271,6 +276,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                         backgroundColor: Colors.white,
                                         child: SvgPicture.asset(
                                             'assets/images_gps/info.svg',
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             height: 15,
                                             width: 15),
                                       ),
@@ -631,228 +637,233 @@ class _ReservationListState extends State<ReservationList> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(5.0),
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    '今後の予約',
-                    style: TextStyle(
-                        fontFamily: ColorConstants.fontFamily,
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  child: SvgPicture.asset(
-                    'assets/images_gps/gpsLogo.svg',
-                    height: 30,
-                    color: Colors.lightBlueAccent,
-                  ),
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                ),
-                title: Row(
+      child: GestureDetector(
+        onTap: () {
+          NavigationRouter.switchToCalendarScreen(context);
+        },
+        child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
                     Text(
-                      'お名前',
+                      '今後の予約',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: ColorConstants.fontFamily,
-                        color: Color.fromRGBO(0, 0, 0, 1),
+                          fontFamily: ColorConstants.fontFamily,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    child: SvgPicture.asset(
+                      'assets/images_gps/gpsLogo.svg',
+                      height: 30,
+                      color: Colors.lightBlueAccent,
+                    ),
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                  ),
+                  title: Row(
+                    children: [
+                      Text(
+                        'お名前',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: ColorConstants.fontFamily,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    CircleAvatar(
-                      maxRadius: 10,
-                      backgroundColor: Colors.black26,
-                      child: CircleAvatar(
-                        maxRadius: 8,
-                        backgroundColor: Colors.white,
-                        child: SvgPicture.asset('assets/images_gps/info.svg',
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            height: 15,
-                            width: 15),
+                      SizedBox(
+                        width: 5,
                       ),
-                    ),
-                    Spacer(),
-                    SvgPicture.asset('assets/images_gps/processing.svg',
-                        color: Color.fromRGBO(255, 193, 7, 1),
-                        height: 17,
+                      CircleAvatar(
+                        maxRadius: 10,
+                        backgroundColor: Colors.black26,
+                        child: CircleAvatar(
+                          maxRadius: 8,
+                          backgroundColor: Colors.white,
+                          child: SvgPicture.asset('assets/images_gps/info.svg',
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              height: 15,
+                              width: 15),
+                        ),
+                      ),
+                      Spacer(),
+                      SvgPicture.asset('assets/images_gps/processing.svg',
+                          color: Color.fromRGBO(255, 193, 7, 1),
+                          height: 17,
+                          width: 15),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '承認待ち',
+                        style: TextStyle(
+                            color: Color.fromRGBO(255, 193, 7, 1),
+                            fontFamily: ColorConstants.fontFamily),
+                      )
+                    ],
+                  ),
+
+                  // trailing: Text('承認待ち'),
+                  subtitle: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '4.0',
+                            style: TextStyle(
+                                color: Color.fromRGBO(153, 153, 153, 1),
+                                decoration: TextDecoration.underline,
+                                fontFamily: ColorConstants.fontFamily),
+                          ),
+                          RatingBar.builder(
+                            initialRating: 3,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 25,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              size: 5,
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
+                          Text(
+                            '(1518)',
+                            style: TextStyle(
+                                color: Color.fromRGBO(153, 153, 153, 1),
+                                fontFamily: ColorConstants.fontFamily),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/clock.svg',
+                              color: Color.fromRGBO(26, 26, 26, 1),
+                              height: 15,
+                              width: 15),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '09: 00 ~ 10: 00',
+                            style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: ColorConstants.fontFamily),
+                          ),
+                          Text(
+                            '(60分)',
+                            style: TextStyle(
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: ColorConstants.fontFamily),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images_gps/cost.svg',
+                              color: Color.fromRGBO(26, 26, 26, 1),
+                              height: 20,
+                              width: 20),
+                          Text(
+                            '¥4,500',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontSize: 19,
+                                fontFamily: ColorConstants.fontFamily),
+                          ),
+                          Text(
+                            '(交通費込み - ¥1,000)',
+                            style: TextStyle(
+                                color: Color.fromRGBO(153, 153, 153, 1),
+                                fontFamily: ColorConstants.fontFamily),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Divider(
+                  color: Color.fromRGBO(153, 153, 153, 1),
+                  // height: 50,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset('assets/images_gps/location.svg',
+                        color: Color.fromRGBO(26, 26, 26, 1),
+                        height: 20,
                         width: 15),
                     SizedBox(
                       width: 5,
                     ),
                     Text(
-                      '承認待ち',
+                      '施術を受ける場所',
                       style: TextStyle(
-                          color: Color.fromRGBO(255, 193, 7, 1),
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: ColorConstants.fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                ]),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.grey[200]),
+                        child: Text(
+                          'オフィス',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontFamily: ColorConstants.fontFamily),
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '埼玉県浦和区高砂4丁目4',
+                      style: TextStyle(
+                          color: Color.fromRGBO(102, 102, 102, 1),
                           fontFamily: ColorConstants.fontFamily),
                     )
                   ],
                 ),
-
-                // trailing: Text('承認待ち'),
-                subtitle: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          '4.0',
-                          style: TextStyle(
-                              color: Color.fromRGBO(153, 153, 153, 1),
-                              decoration: TextDecoration.underline,
-                              fontFamily: ColorConstants.fontFamily),
-                        ),
-                        RatingBar.builder(
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemSize: 25,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            size: 5,
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                          ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        ),
-                        Text(
-                          '(1518)',
-                          style: TextStyle(
-                              color: Color.fromRGBO(153, 153, 153, 1),
-                              fontFamily: ColorConstants.fontFamily),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/clock.svg',
-                            color: Color.fromRGBO(26, 26, 26, 1),
-                            height: 15,
-                            width: 15),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '09: 00 ~ 10: 00',
-                          style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: ColorConstants.fontFamily),
-                        ),
-                        Text(
-                          '(60分)',
-                          style: TextStyle(
-                              color: Color.fromRGBO(102, 102, 102, 1),
-                              fontFamily: ColorConstants.fontFamily),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images_gps/cost.svg',
-                            color: Color.fromRGBO(26, 26, 26, 1),
-                            height: 20,
-                            width: 20),
-                        Text(
-                          '¥4,500',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                              fontSize: 19,
-                              fontFamily: ColorConstants.fontFamily),
-                        ),
-                        Text(
-                          '(交通費込み - ¥1,000)',
-                          style: TextStyle(
-                              color: Color.fromRGBO(153, 153, 153, 1),
-                              fontFamily: ColorConstants.fontFamily),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Divider(
-                color: Color.fromRGBO(153, 153, 153, 1),
-                // height: 50,
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset('assets/images_gps/location.svg',
-                      color: Color.fromRGBO(26, 26, 26, 1),
-                      height: 20,
-                      width: 15),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '施術を受ける場所',
-                    style: TextStyle(
-                      color: Color.fromRGBO(0, 0, 0, 1),
-                      fontFamily: ColorConstants.fontFamily,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.white,
-                                Colors.white,
-                              ]),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: Colors.grey[200]),
-                      child: Text(
-                        'オフィス',
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            fontFamily: ColorConstants.fontFamily),
-                      )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '埼玉県浦和区高砂4丁目4',
-                    style: TextStyle(
-                        color: Color.fromRGBO(102, 102, 102, 1),
-                        fontFamily: ColorConstants.fontFamily),
-                  )
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

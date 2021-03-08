@@ -38,7 +38,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,

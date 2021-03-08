@@ -17,7 +17,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
       padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width * 0.98,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Color.fromRGBO(255, 255, 255, 1),
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
@@ -44,6 +44,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
+                  color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
             ),
           ),
@@ -56,14 +57,18 @@ class _NotificationPopupState extends State<NotificationPopup> {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 14,
-                  color: Color.fromRGBO(0, 0, 0, 1),
+                  color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
             ),
           ),
           FittedBox(
             child: Text(
               '"設定"で指定できます。',
-              style: TextStyle(fontSize: 14, fontFamily: 'Open Sans'),
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'Open Sans',
+                color: Color.fromRGBO(35, 24, 21, 1),
+              ),
             ),
           ),
           SizedBox(

@@ -53,12 +53,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
           onPressed: () {
             NavigationRouter.switchToServiceUserBottomBar(context);
           },
@@ -73,8 +76,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 filled: true,
                 fillColor: Colors.white,
                 hintText: HealingMatchConstants.searchKeyword,
-                suffixIcon: Image.asset("assets/images_gps/search.png"),
-                hintStyle: TextStyle(color: Colors.grey),
+                suffixIcon: Image.asset("assets/images_gps/search.png",
+                    color: Color.fromRGBO(225, 225, 225, 1)),
+                hintStyle: TextStyle(
+                  color: Color.fromRGBO(225, 225, 225, 1),
+                ),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
                   borderRadius: BorderRadius.circular(7),
@@ -92,7 +98,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               children: [
                 Text(
                   HealingMatchConstants.searchAreaTxt,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                  ),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -106,9 +115,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           CircleAvatar(
                             maxRadius: 32,
-                            backgroundColor: Colors.lime,
+                            backgroundColor: Color.fromRGBO(200, 217, 33, 1),
                             child: SvgPicture.asset(
                                 'assets/images_gps/current_location.svg',
+                                color: Color.fromRGBO(255, 255, 255, 1),
                                 height: 30,
                                 width: 30),
                           ),
@@ -117,9 +127,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           ),
                           Text(
                             HealingMatchConstants.searchGpsIconTxt,
-                            style: TextStyle(),
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
                           ),
-                          Text('(GPS)'),
                         ],
                       ),
                       SizedBox(width: 8),
@@ -129,13 +140,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         children: [
                           CircleAvatar(
                             maxRadius: 32,
-                            backgroundColor: Colors.black26,
+                            backgroundColor: Color.fromRGBO(0, 0, 0, 1),
                             child: CircleAvatar(
                               maxRadius: 30,
                               backgroundColor: Colors.white,
                               child: IconButton(
                                 icon: new Icon(Icons.add),
-                                highlightColor: Colors.black,
+                                highlightColor: Color.fromRGBO(0, 0, 0, 1),
                                 iconSize: 35,
                                 onPressed: () {},
                               ),
@@ -144,7 +155,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text('地点を追加')
+                          Text(
+                            '地点を追加',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
                         ],
                       ),
                       Column(
@@ -158,6 +174,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/house.svg',
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   height: 30,
                                   width: 30),
                             ),
@@ -165,7 +182,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           SizedBox(
                             height: 8,
                           ),
-                          Text(HealingMatchConstants.searchHomeIconTxt)
+                          Text(
+                            HealingMatchConstants.searchHomeIconTxt,
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(width: 15),
@@ -180,6 +202,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/office.svg',
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   height: 30,
                                   width: 30),
                             ),
@@ -187,7 +210,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           SizedBox(
                             height: 5,
                           ),
-                          Text(HealingMatchConstants.searchOfficeIconTxt)
+                          Text(
+                            HealingMatchConstants.searchOfficeIconTxt,
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(width: 15),
@@ -202,6 +230,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               backgroundColor: Colors.grey[200],
                               child: SvgPicture.asset(
                                   'assets/images_gps/parents_house.svg',
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   height: 30,
                                   width: 30),
                             ),
@@ -211,6 +240,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           ),
                           Text(
                             HealingMatchConstants.searchPHomeIconTxt,
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
                           ),
                         ],
                       ),
@@ -218,10 +250,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   ),
                 ),
                 SizedBox(
-                  height: 7,
+                  height: 10,
                 ),
                 Text(HealingMatchConstants.searchServiceSelTxt,
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontWeight: FontWeight.bold)),
                 SizedBox(
                   height: 7,
                 ),
@@ -238,12 +272,19 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 0
-                                  ? Colors.grey
-                                  : Colors.transparent,
-                              border: Border.all(),
+                                  ? Color.fromRGBO(242, 242, 242, 1)
+                                  : Color.fromRGBO(255, 255, 255, 1),
+                              border: Border.all(
+                                color: _value == 0
+                                    ? Color.fromRGBO(102, 102, 102, 1)
+                                    : Color.fromRGBO(228, 228, 228, 1),
+                              ),
                             ),
                             child: SvgPicture.asset(
                               'assets/images_gps/serviceTypeOne.svg',
+                              color: _value == 0
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                               height: 25,
                               width: 25,
                             ),
@@ -251,7 +292,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           Text(
                             HealingMatchConstants.searchEsteticTxt,
                             style: TextStyle(
-                              color: _value == 0 ? Colors.black : Colors.grey,
+                              color: _value == 0
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                             ),
                           ),
                         ],
@@ -267,12 +310,19 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 1
-                                  ? Colors.grey
-                                  : Colors.transparent,
-                              border: Border.all(),
+                                  ? Color.fromRGBO(242, 242, 242, 1)
+                                  : Color.fromRGBO(255, 255, 255, 1),
+                              border: Border.all(
+                                color: _value == 1
+                                    ? Color.fromRGBO(102, 102, 102, 1)
+                                    : Color.fromRGBO(228, 228, 228, 1),
+                              ),
                             ),
                             child: SvgPicture.asset(
                               'assets/images_gps/serviceTypeTwo.svg',
+                              color: _value == 1
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                               height: 25,
                               width: 25,
                             ),
@@ -280,7 +330,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           Text(
                             HealingMatchConstants.searchOsthepaticTxt,
                             style: TextStyle(
-                              color: _value == 1 ? Colors.black : Colors.grey,
+                              color: _value == 1
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                             ),
                           ),
                         ],
@@ -296,12 +348,19 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 2
-                                  ? Colors.grey
-                                  : Colors.transparent,
-                              border: Border.all(),
+                                  ? Color.fromRGBO(242, 242, 242, 1)
+                                  : Color.fromRGBO(255, 255, 255, 1),
+                              border: Border.all(
+                                color: _value == 2
+                                    ? Color.fromRGBO(102, 102, 102, 1)
+                                    : Color.fromRGBO(228, 228, 228, 1),
+                              ),
                             ),
                             child: SvgPicture.asset(
                               'assets/images_gps/serviceTypeThree.svg',
+                              color: _value == 2
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                               height: 25,
                               width: 25,
                             ),
@@ -309,7 +368,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           Text(
                             HealingMatchConstants.searchRelaxationTxt,
                             style: TextStyle(
-                              color: _value == 2 ? Colors.black : Colors.grey,
+                              color: _value == 2
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                             ),
                           ),
                         ],
@@ -325,19 +386,28 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: _value == 3
-                                  ? Colors.grey
-                                  : Colors.transparent,
-                              border: Border.all(),
+                                  ? Color.fromRGBO(242, 242, 242, 1)
+                                  : Color.fromRGBO(255, 255, 255, 1),
+                              border: Border.all(
+                                color: _value == 3
+                                    ? Color.fromRGBO(102, 102, 102, 1)
+                                    : Color.fromRGBO(228, 228, 228, 1),
+                              ),
                             ),
                             child: SvgPicture.asset(
                               'assets/images_gps/serviceTypeFour.svg',
+                              color: _value == 3
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                               fit: BoxFit.contain,
                             ),
                           ),
                           Text(
                             HealingMatchConstants.searchFitnessTxt,
                             style: TextStyle(
-                              color: _value == 3 ? Colors.black : Colors.grey,
+                              color: _value == 3
+                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                  : Color.fromRGBO(217, 217, 217, 1),
                             ),
                           ),
                         ],
@@ -350,11 +420,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 ),
                 Divider(
                   // height: 50,
-                  color: Colors.grey,
+                  color: Color.fromRGBO(236, 236, 236, 1),
                 ),
                 Text(
                   HealingMatchConstants.searchTravelTxt,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 ButtonTheme(
                   minWidth: MediaQuery.of(context).size.width * 0.40,
@@ -390,7 +462,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 ),
                 Text(
                   HealingMatchConstants.searchDateTxt,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                  ),
                 ),
                 ButtonTheme(
                   minWidth: MediaQuery.of(context).size.width * 0.40,
@@ -431,7 +506,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width * 0.3,
-                              color: Colors.transparent,
+                              color: Color.fromRGBO(255, 255, 255, 1),
                               child: DropDownFormField(
                                 titleText: null,
                                 hintText: readonly
@@ -597,11 +672,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     child: Text(
                       'さがす',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          color: Color.fromRGBO(255, 255, 255, 1),
                           fontSize: 18),
                     ),
-                    color: Colors.lime,
+                    color: Color.fromRGBO(200, 217, 33, 1),
                     onPressed: () {
                       NavigationRouter.switchToUserSearchResult(context);
                     },

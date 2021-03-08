@@ -667,7 +667,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           selectedBuildingType.toString();
       print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
     }
-    NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(context);
+    // NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(context);
   }
 }
 

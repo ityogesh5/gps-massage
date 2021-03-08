@@ -61,6 +61,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 2.0,
         automaticallyImplyLeading: false,
@@ -76,7 +77,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
           },
         ),
         title: Text(
-          '運営管理',
+          '予約 & お気に入り',
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'Oxygen',
@@ -90,7 +91,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
         ),
 
         // backgroundColor: Color.fromRGBO(243, 249, 250, 1),
-        centerTitle: true,
+
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,

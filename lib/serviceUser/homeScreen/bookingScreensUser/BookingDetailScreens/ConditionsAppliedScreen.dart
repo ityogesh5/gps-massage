@@ -44,11 +44,16 @@ class _ConditionsApplyBookingScreenState
       backgroundColor: Colors.grey[200],
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: CircleAvatar(
-          maxRadius: 25,
-          backgroundColor: Colors.grey[100],
-          child: SvgPicture.asset('assets/images_gps/chat.svg',
-              height: 35, width: 35)),
+      floatingActionButton: InkWell(
+        onTap: () {
+          NavigationRouter.switchToServiceUserChatScreen(context);
+        },
+        child: CircleAvatar(
+            maxRadius: 25,
+            backgroundColor: Colors.grey[100],
+            child: SvgPicture.asset('assets/images_gps/chat.svg',
+                height: 35, width: 35)),
+      ),
       body: ListView(
         padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
@@ -655,7 +660,7 @@ class _ConditionsApplyBookingScreenState
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       children: [
                         SvgPicture.asset('assets/images_gps/clock.svg',
@@ -681,7 +686,7 @@ class _ConditionsApplyBookingScreenState
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -736,48 +741,49 @@ class _ConditionsApplyBookingScreenState
                       ],
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.grey[200],
-                                        Colors.grey[200]
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          FittedBox(
+                            child: Container(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.grey[200],
+                                          Colors.grey[200]
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Colors.grey[300],
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: Colors.grey[200]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    '店舗',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Oxygen'),
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: Colors.grey[200]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
-                                ),
-                              )),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '埼玉県浦和区高砂4丁目4',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[500],
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                                )),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Text(
+                            '埼玉県浦和区高砂4丁目4',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[500],
+                                fontFamily: 'Oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -903,7 +909,7 @@ class _ConditionsApplyBookingScreenState
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     Row(
                       children: [
                         new Text(
@@ -965,48 +971,46 @@ class _ConditionsApplyBookingScreenState
                       ],
                     ),
                     Row(children: <Widget>[
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Divider(),
-                      )),
+                      Expanded(child: Divider()),
                     ]),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        new Text(
-                          '合計',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              fontFamily: 'Oxygen'),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.07),
-                        Spacer(),
-                        Text(
-                          '¥3,500',
-                          style: TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              fontSize: 12,
-                              color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.03),
-                        Icon(Icons.arrow_forward,
-                            color: Colors.grey[400], size: 20),
-                        Spacer(),
-                        new Text(
-                          '¥4,500',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          new Text(
+                            '合計',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                fontFamily: 'Oxygen'),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.07),
+                          Spacer(),
+                          Text(
+                            '¥3,500',
+                            style: TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 12,
+                                color: Colors.grey[400],
+                                fontFamily: 'Oxygen'),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03),
+                          Icon(Icons.arrow_forward,
+                              color: Colors.grey[400], size: 20),
+                          Spacer(),
+                          new Text(
+                            '¥4,500',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                fontFamily: 'Oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

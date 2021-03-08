@@ -481,6 +481,6 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
 
   _updateUserBookingDetails() {
     print('API ACCESS');
-    NavigationRouter.switchToServiceUserWaitingForApprovalScreen(context);
+    // NavigationRouter.switchToServiceUserWaitingForApprovalScreen(context);
   }
 }

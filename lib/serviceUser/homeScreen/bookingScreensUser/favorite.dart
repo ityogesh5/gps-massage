@@ -265,6 +265,8 @@ class _FavoriteState extends State<Favorite> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      Spacer(),
+                                      Text('１.５ｋｍ圏内')
                                     ],
                                   ),
                                 ),

@@ -139,7 +139,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       Row(
                         children: [
                           SizedBox(
@@ -167,7 +167,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       Row(
                         children: [
                           SizedBox(
@@ -236,35 +236,41 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                               padding: const EdgeInsets.all(14.0),
                               child: Divider(),
                             )),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
+                            InkWell(
+                              onTap: () {
+                                NavigationRouter.switchToServiceUserChatScreen(
+                                    context);
+                              },
                               child: CircleAvatar(
-                                  maxRadius: 20,
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
+                                  maxRadius: 25,
+                                  backgroundColor: Colors.white,
                                   child: SvgPicture.asset(
                                       'assets/images_gps/chat.svg',
                                       height: 30,
                                       width: 30)),
                             ),
                           ]),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '施術を受ける場所',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Oxygen'),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       Expanded(
@@ -289,16 +295,13 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                     ),
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Colors.grey[200]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '店舗',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
-                                  ),
+                                child: Text(
+                                  '店舗',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Oxygen'),
                                 )),
                             SizedBox(
                                 width:
@@ -458,46 +461,48 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                 Row(children: <Widget>[
                   Expanded(
                       child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Divider(),
                   )),
                 ]),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    new Text(
-                      '合計',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Spacer(),
-                    Text(
-                      '¥3,500',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 12,
-                          color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(Icons.arrow_forward,
-                        color: Colors.grey[400], size: 20),
-                    Spacer(),
-                    new Text(
-                      '¥4,500',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      new Text(
+                        '合計',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            fontFamily: 'Oxygen'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                      Spacer(),
+                      Text(
+                        '¥3,500',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                            fontFamily: 'Oxygen'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Icon(Icons.arrow_forward,
+                          color: Colors.grey[400], size: 20),
+                      Spacer(),
+                      new Text(
+                        '¥4,500',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            fontFamily: 'Oxygen'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
               ],
             ),

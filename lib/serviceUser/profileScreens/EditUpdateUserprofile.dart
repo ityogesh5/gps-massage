@@ -2628,7 +2628,8 @@ class _AddAddressState extends State<AddAddress> {
                                         additionalAddressController.clear();
                                         addedBuildingNameController.clear();
                                         addedRoomNumberController.clear();
-                                        _additionalAddressCurrentLocation();
+                                        _isAddedGPSLocation = true;
+                                        // _additionalAddressCurrentLocation();
                                       } else if (_myAddedAddressInputType !=
                                               null &&
                                           _myAddedAddressInputType
@@ -2787,14 +2788,16 @@ class _AddAddressState extends State<AddAddress> {
                                                     child: TextFormField(
                                                       //enableInteractiveSelection: false,
                                                       autofocus: false,
+                                                      maxLength: 4,
                                                       controller:
                                                           addedRoomNumberController,
                                                       decoration:
                                                           new InputDecoration(
+                                                        counterText: '',
                                                         filled: true,
                                                         fillColor: ColorConstants
                                                             .formFieldFillColor,
-                                                        labelText: '号室',
+                                                        labelText: '部屋番号',
                                                         /*hintText: '都、県選 *',
                                                   hintStyle: TextStyle(
                                                     color: Colors.grey[400],
@@ -3150,15 +3153,17 @@ class _AddAddressState extends State<AddAddress> {
                                                         child: TextFormField(
                                                           //enableInteractiveSelection: false,
                                                           autofocus: false,
+                                                          maxLength: 4,
                                                           controller:
                                                               addedRoomNumberController,
                                                           decoration:
                                                               new InputDecoration(
+                                                            counterText: '',
                                                             filled: true,
                                                             fillColor:
                                                                 ColorConstants
                                                                     .formFieldFillColor,
-                                                            labelText: '号室',
+                                                            labelText: '部屋番号',
                                                             labelStyle: TextStyle(
                                                                 color: Colors
                                                                     .grey[400],

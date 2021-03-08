@@ -24,13 +24,18 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
             Navigator.pop(context);
             // NavigationRouter.switchToServiceUserBottomBar(context);
           },
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
         ),
         centerTitle: true,
         title: Text(
           '近くのセラピスト＆お店',
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Color.fromRGBO(0, 0, 0, 1),
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
         ),
       ),
       body: Stack(
@@ -47,7 +52,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                     itemCount: 12,
                     itemBuilder: (context, index) {
                       return Container(
-                        // height: MediaQuery.of(context).size.height * 0.22,
+                        height: MediaQuery.of(context).size.height * 0.22,
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: new Card(
                           elevation: 0.0,
@@ -76,200 +81,245 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                         child: Text(
                                           '1.5km園内',
                                           style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
+                                            fontSize: 14,
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 SizedBox(height: 5),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '店舗名',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.45),
-                                        FittedBox(
-                                          child: FavoriteButton(
-                                              iconSize: 40,
-                                              iconColor: Colors.red,
-                                              valueChanged: (_isFavorite) {
-                                                print(
-                                                    'Is Favorite : $_isFavorite');
-                                              }),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    FittedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                Expanded(
+                                  flex: 4,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              padding: EdgeInsets.all(4),
-                                              child: Text('店舗')),
-                                          SizedBox(
-                                            width: 5,
+                                          Text(
+                                            '店舗名',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('出張')),
-                                          SizedBox(
-                                            width: 5,
+                                          Spacer(),
+                                          Row(
+                                            children: [
+                                              FittedBox(
+                                                child: FavoriteButton(
+                                                    iconSize: 40,
+                                                    iconColor: Colors.red,
+                                                    valueChanged:
+                                                        (_isFavorite) {
+                                                      print(
+                                                          'Is Favorite : $_isFavorite');
+                                                    }),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('コロナ対策実施')),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          ratingsValue.toString(),
-                                          style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      FittedBox(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                padding: EdgeInsets.all(4),
+                                                child: Text(
+                                                  '店舗',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                  ),
+                                                )),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text(
+                                                  '出張',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                  ),
+                                                )),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Colors.white,
+                                                          Colors.white,
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text(
+                                                  'コロナ対策実施',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
+                                                  ),
+                                                )),
+                                          ],
                                         ),
-                                        RatingBar.builder(
-                                          initialRating: 3,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 25,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            ratingsValue.toString(),
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
                                           ),
-                                          onRatingUpdate: (rating) {
-                                            // print(rating);
-                                            setState(() {
-                                              ratingsValue = rating;
-                                            });
-                                            print(ratingsValue);
-                                          },
-                                        ),
-                                        Text('(1518)'),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      Colors.white,
-                                                      Colors.white,
-                                                    ]),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: Colors.grey[300],
+                                          RatingBar.builder(
+                                            initialRating: 3,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemSize: 25,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              size: 5,
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              // print(rating);
+                                              setState(() {
+                                                ratingsValue = rating;
+                                              });
+                                              print(ratingsValue);
+                                            },
+                                          ),
+                                          Text(
+                                            '(1518,)',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                              padding: EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                      colors: [
+                                                        Colors.white,
+                                                        Colors.white,
+                                                      ]),
+                                                  shape: BoxShape.rectangle,
+                                                  border: Border.all(
+                                                    color: Colors.grey[300],
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: Colors.grey[200]),
+                                              child: Text(
+                                                '国家資格保有',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                                color: Colors.grey[200]),
-                                            child: Text('国家資格保有')),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15),
-                                        Text(
-                                          '¥4,500',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 19),
-                                        ),
-                                        Text(
-                                          '/60分',
-                                          style: TextStyle(color: Colors.grey),
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                              )),
+                                          Spacer(),
+                                          Text(
+                                            '¥4,500',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                fontSize: 19),
+                                          ),
+                                          Text(
+                                            '/60分',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -317,7 +367,10 @@ class _MassageTypeChipsState extends State<MassageTypeChips> {
     for (int i = 0; i < _options.length; i++) {
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
-        label: Text(_options[i], style: TextStyle(color: Colors.black)),
+        label: Text(_options[i],
+            style: TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 1),
+            )),
         backgroundColor: Colors.white70,
         selectedColor: Colors.lime,
         onSelected: (bool selected) {

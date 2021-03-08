@@ -612,7 +612,7 @@ class _BookingDetailsCompletedScreenState
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.38,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -731,12 +731,11 @@ class _BookingDetailsCompletedScreenState
                       ],
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              padding: EdgeInsets.only(left: 15, right: 15),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                              // padding: EdgeInsets.only(left: 15, right: 15),
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                       begin: Alignment.topCenter,
@@ -751,28 +750,30 @@ class _BookingDetailsCompletedScreenState
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.grey[200]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '店舗',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
+                              child: FittedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '店舗',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Oxygen'),
+                                  ),
                                 ),
                               )),
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        Text(
-                          '埼玉県浦和区高砂4丁目4',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[500],
-                              fontFamily: 'Oxygen'),
-                        ),
-                      ],
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Text(
+                            '埼玉県浦和区高砂4丁目4',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[500],
+                                fontFamily: 'Oxygen'),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -3023,7 +3024,10 @@ class _BookingDetailsCompletedScreenState
                 //side: BorderSide(color: Colors.black),
               ),
               color: Colors.lime,
-              onPressed: () {},
+              onPressed: () {
+                NavigationRouter.switchToServiceUserBookingConfirmationScreen(
+                    context);
+              },
               child: new Text(
                 'もう一度予約する',
                 style: TextStyle(
