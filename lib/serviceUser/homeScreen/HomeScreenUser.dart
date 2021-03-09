@@ -92,7 +92,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
                           hintStyle: TextStyle(
                               color: Color.fromRGBO(225, 225, 225, 1),
                               fontSize: 14,
-                              fontFamily: ColorConstants.fontFamily),
+                              fontFamily: 'NotoSansJP'),
                           border: OutlineInputBorder(
                             borderSide:
                                 const BorderSide(color: Colors.red, width: 2.0),

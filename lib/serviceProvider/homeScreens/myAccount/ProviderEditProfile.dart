@@ -293,7 +293,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),

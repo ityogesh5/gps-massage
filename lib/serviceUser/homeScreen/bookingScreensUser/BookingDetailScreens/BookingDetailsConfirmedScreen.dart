@@ -230,7 +230,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -259,14 +259,14 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Container(
                               child: Text(
                                 'もっとみる',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     fontSize: 14),
@@ -452,7 +452,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -460,7 +460,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -468,7 +468,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -476,7 +476,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -484,7 +484,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -501,7 +501,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -509,7 +509,7 @@ class _BookingDetailsConfirmedScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -541,7 +541,7 @@ class _BookingDetailsConfirmedScreenState
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        fontFamily: 'Oxygen'),
+                        fontFamily: 'NotoSansJP'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -552,7 +552,7 @@ class _BookingDetailsConfirmedScreenState
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                         children: <TextSpan>[
                           new TextSpan(
                               text: 'もっとみる',
@@ -560,7 +560,7 @@ class _BookingDetailsConfirmedScreenState
                                   decoration: TextDecoration.underline,
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -586,7 +586,7 @@ class _BookingDetailsConfirmedScreenState
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    fontFamily: 'Oxygen'),
+                    fontFamily: 'NotoSansJP'),
               ),
             ),
           ),
@@ -624,7 +624,7 @@ class _BookingDetailsConfirmedScreenState
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
@@ -633,7 +633,7 @@ class _BookingDetailsConfirmedScreenState
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Spacer(),
                         GestureDetector(
@@ -648,7 +648,7 @@ class _BookingDetailsConfirmedScreenState
                                 fontSize: 14,
                                 color: Colors.red[200],
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ),
                       ],
@@ -666,7 +666,7 @@ class _BookingDetailsConfirmedScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
@@ -675,7 +675,7 @@ class _BookingDetailsConfirmedScreenState
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 14,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -706,7 +706,7 @@ class _BookingDetailsConfirmedScreenState
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -729,7 +729,7 @@ class _BookingDetailsConfirmedScreenState
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -763,7 +763,7 @@ class _BookingDetailsConfirmedScreenState
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
                             SizedBox(
@@ -775,7 +775,7 @@ class _BookingDetailsConfirmedScreenState
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[500],
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                           ],

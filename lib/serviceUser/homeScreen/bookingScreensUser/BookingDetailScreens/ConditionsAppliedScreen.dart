@@ -243,7 +243,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -272,14 +272,14 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Container(
                               child: Text(
                                 'もっとみる',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     fontSize: 14),
@@ -465,7 +465,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -473,7 +473,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -481,7 +481,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -489,7 +489,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -497,7 +497,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -514,7 +514,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -522,7 +522,7 @@ class _ConditionsApplyBookingScreenState
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -554,7 +554,7 @@ class _ConditionsApplyBookingScreenState
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        fontFamily: 'Oxygen'),
+                        fontFamily: 'NotoSansJP'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -566,7 +566,7 @@ class _ConditionsApplyBookingScreenState
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                         children: <TextSpan>[
                           new TextSpan(
                               text: 'もっとみる',
@@ -574,7 +574,7 @@ class _ConditionsApplyBookingScreenState
                                   decoration: TextDecoration.underline,
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -600,7 +600,7 @@ class _ConditionsApplyBookingScreenState
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    fontFamily: 'Oxygen'),
+                    fontFamily: 'NotoSansJP'),
               ),
             ),
           ),
@@ -638,7 +638,7 @@ class _ConditionsApplyBookingScreenState
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
@@ -647,7 +647,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Spacer(),
                         Text(
@@ -656,7 +656,7 @@ class _ConditionsApplyBookingScreenState
                               fontSize: 14,
                               color: Colors.red[200],
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -673,7 +673,7 @@ class _ConditionsApplyBookingScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
@@ -682,7 +682,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               color: Colors.grey[400],
                               fontSize: 14,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -713,7 +713,7 @@ class _ConditionsApplyBookingScreenState
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -736,7 +736,7 @@ class _ConditionsApplyBookingScreenState
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -769,7 +769,7 @@ class _ConditionsApplyBookingScreenState
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
                           ),
@@ -780,7 +780,7 @@ class _ConditionsApplyBookingScreenState
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[500],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -800,7 +800,7 @@ class _ConditionsApplyBookingScreenState
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    fontFamily: 'Oxygen'),
+                    fontFamily: 'NotoSansJP'),
               ),
             ),
           ),
@@ -828,7 +828,7 @@ class _ConditionsApplyBookingScreenState
                       '距離が遠い為',
                       style: TextStyle(
                           fontSize: 16,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           color: Colors.grey[500]),
                     ),
                   ],
@@ -846,7 +846,7 @@ class _ConditionsApplyBookingScreenState
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    fontFamily: 'Oxygen'),
+                    fontFamily: 'NotoSansJP'),
               ),
             ),
           ),
@@ -881,7 +881,7 @@ class _ConditionsApplyBookingScreenState
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.07),
@@ -892,7 +892,7 @@ class _ConditionsApplyBookingScreenState
                               decoration: TextDecoration.lineThrough,
                               fontSize: 12,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
@@ -905,7 +905,7 @@ class _ConditionsApplyBookingScreenState
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -918,7 +918,7 @@ class _ConditionsApplyBookingScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Spacer(),
                         //¥4,500
@@ -928,7 +928,7 @@ class _ConditionsApplyBookingScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -942,7 +942,7 @@ class _ConditionsApplyBookingScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.07),
@@ -953,7 +953,7 @@ class _ConditionsApplyBookingScreenState
                               decoration: TextDecoration.lineThrough,
                               fontSize: 12,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
@@ -966,7 +966,7 @@ class _ConditionsApplyBookingScreenState
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -983,7 +983,7 @@ class _ConditionsApplyBookingScreenState
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.07),
@@ -994,7 +994,7 @@ class _ConditionsApplyBookingScreenState
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 12,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03),
@@ -1007,7 +1007,7 @@ class _ConditionsApplyBookingScreenState
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -1032,7 +1032,7 @@ class _ConditionsApplyBookingScreenState
                 '支払いに進む',
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold,
                     fontSize: 16),
               ),

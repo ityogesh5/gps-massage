@@ -41,7 +41,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
-              fontFamily: 'Oxygen'),
+              fontFamily: 'NotoSansJP'),
         ),
         centerTitle: true,
       ),
@@ -65,7 +65,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         Text(
                           '店舗についてのレビュー',
                           style: TextStyle(
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14,
                               color: Colors.black87,
                               fontWeight: FontWeight.bold),
@@ -73,7 +73,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         Text(
                           '（052レビュー）',
                           style: TextStyle(
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 12,
                               color: Colors.grey[400],
                               fontWeight: FontWeight.w300),
@@ -153,7 +153,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     "when an unknown printer took a galley of type and scrambled "
                                     "it to make a type specimen book when an unknown printer took a galley of type and scrambled  when an unknown printer took a galley of type and scrambled .",
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w300),
@@ -184,7 +184,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   Text(
                                     'お名前',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 14,
                                         color: Colors.black87,
                                         fontWeight: FontWeight.bold),
@@ -192,7 +192,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   Text(
                                     '10月７',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 12,
                                         color: Colors.grey[400],
                                         fontWeight: FontWeight.w300),
@@ -250,7 +250,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                       "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
                                       "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                                       style: TextStyle(
-                                          fontFamily: 'Oxygen',
+                                          fontFamily: 'NotoSansJP',
                                           fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w300),

@@ -48,7 +48,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
-              fontFamily: 'Oxygen'),
+              fontFamily: 'NotoSansJP'),
         ),
         centerTitle: true,
       ),
@@ -68,7 +68,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                     Text(
                       '店舗についてのレビュー',
                       style: TextStyle(
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 14,
                           color: Colors.black87,
                           fontWeight: FontWeight.bold),
@@ -76,7 +76,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                     Text(
                       '（052レビュー）',
                       style: TextStyle(
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 12,
                           color: Colors.grey[400],
                           fontWeight: FontWeight.w300),
@@ -94,7 +94,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                     Text(
                       'セラピストを5段階で評価してください',
                       style: TextStyle(
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 14,
                           color: Colors.black87,
                           fontWeight: FontWeight.normal),
@@ -188,7 +188,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       ),
                                       labelStyle: TextStyle(
                                           color: Colors.grey[400],
-                                          fontFamily: 'Oxygen',
+                                          fontFamily: 'NotoSansJP',
                                           fontSize: 14),
                                       focusColor: Colors.grey[100],
                                       border: HealingMatchConstants
@@ -238,7 +238,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                 child: Text(
                   'レビューをした隙に名前、施術日時の詳細がセラビストに知られることはありません',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontSize: 14,
                       color: Colors.black,
                       fontWeight: FontWeight.normal),
@@ -262,7 +262,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               Text(
                                 'お名前',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 14,
                                     color: Colors.black87,
                                     fontWeight: FontWeight.bold),
@@ -270,7 +270,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               Text(
                                 '10月７',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 12,
                                     color: Colors.grey[400],
                                     fontWeight: FontWeight.w300),
@@ -328,7 +328,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                   "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
                                   "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                                   style: TextStyle(
-                                      fontFamily: 'Oxygen',
+                                      fontFamily: 'NotoSansJP',
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w300),

@@ -39,7 +39,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
         "$title",
         style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -76,7 +76,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                 'メッセージ',
                 style: TextStyle(
                     color: Colors.black,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
@@ -113,7 +113,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                             "お知らせ",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold),
                           )
                         : buildUnSelectedTabBar("お知らせ"),
@@ -123,7 +123,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                         ? Text("チャット",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold))
                         : buildUnSelectedTabBar("チャット"),
                   ),
@@ -302,7 +302,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                                         '0',
                                         style: TextStyle(
                                             fontSize: 12,
-                                            fontFamily: 'Oxygen',
+                                            fontFamily: 'NotoSansJP',
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       )),

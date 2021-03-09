@@ -64,7 +64,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                         HealingMatchConstants.userPasswordTxt,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             color: Colors.grey),
                       ),
                     ),
@@ -93,7 +93,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                         labelStyle: HealingMatchConstants.formLabelTextStyle,
                         /* hintStyle: TextStyle(
                             color: Colors.black,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontSize: 13),
                         hintText: HealingMatchConstants.forgetPasswordPhn,*/
                         fillColor: ColorConstants.formFieldFillColor,
@@ -110,7 +110,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                           HealingMatchConstants.userForgetPassBtn,
                           style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 20),
                         ),
                         color: Colors.lime,
@@ -146,7 +146,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -154,7 +154,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -177,7 +177,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -185,7 +185,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],

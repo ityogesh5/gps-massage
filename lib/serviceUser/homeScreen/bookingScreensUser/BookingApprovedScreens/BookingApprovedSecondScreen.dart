@@ -31,7 +31,7 @@ class _BookingApproveSecondScreenState
           style: TextStyle(
               color: Colors.black,
               fontSize: 16,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -84,7 +84,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
-                      fontFamily: 'Oxygen'),
+                      fontFamily: 'NotoSansJP'),
                 ),
                 SizedBox(height: 15),
                 Container(
@@ -135,7 +135,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -154,7 +154,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03),
@@ -163,7 +163,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -182,7 +182,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02),
@@ -191,7 +191,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -224,7 +224,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -267,7 +267,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -280,29 +280,28 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.03),
                             Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                          Color.fromRGBO(255, 255, 255, 1)
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Text(
-                                  '店舗',
+                              padding: EdgeInsets.only(left: 15, right: 15),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                        Color.fromRGBO(255, 255, 255, 1)
+                                      ]),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: Colors.grey[300],
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.grey[200]),
+                              child: Text('店舗',
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Oxygen'),
-                                )),
+                                      fontFamily: 'NotoSansJP')),
+                            ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
@@ -312,7 +311,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[500],
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                           ],
@@ -332,7 +331,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16.0,
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -368,7 +367,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.07),
                     Spacer(),
@@ -378,7 +377,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           decoration: TextDecoration.lineThrough,
                           fontSize: 12,
                           color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(Icons.arrow_forward,
@@ -390,7 +389,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -405,7 +404,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 16,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     Spacer(),
                     //¥4,500
@@ -415,7 +414,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 14,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -431,7 +430,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 16,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.07),
                     Spacer(),
@@ -441,7 +440,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           decoration: TextDecoration.lineThrough,
                           fontSize: 12,
                           color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(Icons.arrow_forward,
@@ -453,7 +452,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 14,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -476,7 +475,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
                             fontSize: 16,
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                       Spacer(),
@@ -486,7 +485,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             decoration: TextDecoration.lineThrough,
                             fontSize: 12,
                             color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                       Icon(Icons.arrow_forward,
@@ -498,7 +497,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
                             fontSize: 14,
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     ],

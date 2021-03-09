@@ -52,7 +52,7 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                                fontFamily: 'Oxygen')));
+                                                fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -84,7 +84,7 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                                fontFamily: 'Oxygen')));
+                                                fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedThirdScreen.dart';
 import 'file:///D:/Gps/lib/serviceUser/homeScreen/calendar.dart';
+
 import 'initialScreens/splashScreen.dart';
 
 void main() {
@@ -22,7 +24,7 @@ class HealingMatchApp extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark)); */
     return MaterialApp(
         theme: ThemeData(
-          fontFamily: 'Oxygen',
+          fontFamily: 'NotoSansJP',
         ),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

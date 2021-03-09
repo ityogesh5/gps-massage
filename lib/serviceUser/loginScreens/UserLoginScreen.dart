@@ -15,6 +15,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -77,7 +78,9 @@ class _UserLoginState extends State<UserLogin> {
             padding: const EdgeInsets.only(top: 15, right: 20),
             child: InkWell(
               onTap: () {
-                HealingMatchConstants.isUserRegistrationSkipped = true;
+                _sharedPreferences.then((value) {
+                  value.setBool('userLoginSkipped', true);
+                });
                 NavigationRouter.switchToServiceUserBottomBar(context);
               },
               child: Text(
@@ -86,7 +89,7 @@ class _UserLoginState extends State<UserLogin> {
                     decoration: TextDecoration.underline,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontSize: 18.0),
               ),
             ),
@@ -109,7 +112,7 @@ class _UserLoginState extends State<UserLogin> {
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold))),
                 SizedBox(
                   height: 20,
@@ -156,7 +159,7 @@ class _UserLoginState extends State<UserLogin> {
                         }),
                     filled: true,
                     // hintStyle:
-                    //     TextStyle(color: Colors.grey, fontFamily: 'Oxygen'),
+                    //     TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'),
                     labelText: HealingMatchConstants.loginUserPassword,
                     labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
@@ -177,7 +180,7 @@ class _UserLoginState extends State<UserLogin> {
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
                         style:
-                            TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
+                            TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
                                 ),
                       ),
@@ -195,7 +198,7 @@ class _UserLoginState extends State<UserLogin> {
                       '${HealingMatchConstants.loginUserButton}',
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 18),
                     ),
                     color: Colors.lime,
@@ -308,7 +311,7 @@ class _UserLoginState extends State<UserLogin> {
                     HealingMatchConstants.loginUserNewRegistrationText,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
-                        fontFamily: 'Oxygen',
+                        fontFamily: 'NotoSansJP',
                         fontWeight: FontWeight.w100),
                   ),
                 ),
@@ -330,7 +333,7 @@ class _UserLoginState extends State<UserLogin> {
         child: Center(
           child: Text(
             HealingMatchConstants.loginServiceProvider,
-            style: TextStyle(color: Colors.grey, fontFamily: 'Oxygen'
+            style: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
 //                            decoration: TextDecoration.underline,
                 ),
           ),
@@ -355,7 +358,7 @@ class _UserLoginState extends State<UserLogin> {
               child: Text('電話番号とパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -363,7 +366,7 @@ class _UserLoginState extends State<UserLogin> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -386,7 +389,7 @@ class _UserLoginState extends State<UserLogin> {
               child: Text('正しい電話番号とパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -394,7 +397,7 @@ class _UserLoginState extends State<UserLogin> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -413,7 +416,7 @@ class _UserLoginState extends State<UserLogin> {
               child: Text('パスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -421,7 +424,7 @@ class _UserLoginState extends State<UserLogin> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -440,7 +443,7 @@ class _UserLoginState extends State<UserLogin> {
               child: Text('正しい電話番号とパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -448,7 +451,7 @@ class _UserLoginState extends State<UserLogin> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -519,6 +522,9 @@ class _UserLoginState extends State<UserLogin> {
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+            value.setBool('isUserLoggedIn', true);
+            value.setBool('userLoginSkipped', false);
+            value.setBool('isProviderLoggedIn', false);
           }
 
           print('ID: ${loginResponseModel.data.id}');
@@ -533,9 +539,20 @@ class _UserLoginState extends State<UserLogin> {
           print(loginResponseModel.data.gender);
           print(loginResponseModel.data.userOccupation);
         });
-        HealingMatchConstants.isUserVerified = true;
-        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
-        NavigationRouter.switchToServiceUserBottomBar(context);
+        print('Is User verified : ${loginResponseModel.data.isVerified}');
+        if (loginResponseModel.data.isVerified) {
+          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          Toast.show("許可されていないユーザー。", context,
+              duration: 4,
+              gravity: Toast.CENTER,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+          print('Unverified User!!');
+          return;
+        }
       } else {
         ProgressDialogBuilder.hideLoginUserProgressDialog(context);
         print('Response Failure !!');

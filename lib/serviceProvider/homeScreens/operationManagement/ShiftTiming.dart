@@ -84,7 +84,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
             Text(
               "営業日時を自由に組むことができます。",
               style: TextStyle(
-                  fontSize: 12.0, color: Colors.grey, fontFamily: 'Oxygen'),
+                  fontSize: 12.0, color: Colors.grey, fontFamily: 'NotoSansJP'),
             ),
             SizedBox(
               height: 10.0,
@@ -305,7 +305,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   style: TextStyle(
                                       fontSize: 20.0,
                                       color: Colors.grey,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 )));
                           } else {
                             return InkWell(
@@ -319,7 +319,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                 child: Text(
                                   "O",
                                   style: TextStyle(
-                                      fontSize: 20.0, fontFamily: 'Oxygen'),
+                                      fontSize: 20.0, fontFamily: 'NotoSansJP'),
                                 ),
                               ),
                             );
@@ -806,7 +806,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               '保存',
                               style: TextStyle(
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white),
                             ),

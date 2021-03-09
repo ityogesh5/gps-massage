@@ -673,6 +673,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       'さがす',
                       style: TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 1),
+                          fontFamily: 'NotoSansJP',
                           fontSize: 18),
                     ),
                     color: Color.fromRGBO(200, 217, 33, 1),
