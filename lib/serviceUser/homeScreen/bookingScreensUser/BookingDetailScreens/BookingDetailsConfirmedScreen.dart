@@ -713,7 +713,7 @@ class _BookingDetailsConfirmedScreenState
                     Row(children: <Widget>[
                       Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Divider(),
                       )),
                     ]),
@@ -735,11 +735,10 @@ class _BookingDetailsConfirmedScreenState
                     ),
                     SizedBox(height: 10),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
+                      child: Row(
+                        children: [
+                          FittedBox(
+                            child: Container(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -766,20 +765,19 @@ class _BookingDetailsConfirmedScreenState
                                         fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Flexible(
-                              child: Text(
-                                '埼玉県浦和区高砂4丁目4',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[500],
-                                    fontFamily: 'NotoSansJP'),
-                              ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Flexible(
+                            child: Text(
+                              '埼玉県浦和区高砂4丁目4',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[500],
+                                  fontFamily: 'NotoSansJP'),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

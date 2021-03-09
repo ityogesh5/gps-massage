@@ -162,52 +162,52 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
-                            FittedBox(
-                              child: Row(
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text('店舗')),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text('出張')),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Container(
+                            Row(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.white,
+                                              Colors.white,
+                                            ]),
+                                        shape: BoxShape.rectangle,
+                                        border: Border.all(
+                                          color: Colors.grey[300],
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.grey[200]),
+                                    child: Text('店舗')),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.white,
+                                              Colors.white,
+                                            ]),
+                                        shape: BoxShape.rectangle,
+                                        border: Border.all(
+                                          color: Colors.grey[300],
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.grey[200]),
+                                    child: Text('出張')),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                           gradient: LinearGradient(
@@ -225,8 +225,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                               BorderRadius.circular(5.0),
                                           color: Colors.grey[200]),
                                       child: Text('コロナ対策実施有無')),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -919,68 +919,61 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                 child: Container(
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images_gps/calendar.svg',
-                                      height: 25,
-                                      width: 25),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '10月17',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '月曜日',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SvgPicture.asset('assets/images_gps/clock.svg',
-                                    height: 25, width: 25),
+                                SvgPicture.asset(
+                                    'assets/images_gps/calendar.svg',
+                                    height: 25,
+                                    width: 25),
                                 SizedBox(width: 5),
-                                Text(
-                                  '10:30 ～ 11:30',
+                                new Text(
+                                  '10月17',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                       fontFamily: 'NotoSansJP'),
                                 ),
-                                Expanded(
-                                  child: new Text(
-                                    '60分',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
+                                SizedBox(width: 5),
+                                new Text(
+                                  '月曜日',
+                                  style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontSize: 16,
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset('assets/images_gps/clock.svg',
+                                  height: 25, width: 25),
+                              SizedBox(width: 5),
+                              Text(
+                                '10:30 ～ 11:30',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                              new Text(
+                                '60分',
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 16,
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   width: 70,
-                      // ),
                       Spacer(),
                       InkWell(
                         onTap: () {
@@ -1026,30 +1019,33 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.065,
-              child: RaisedButton(
-                child: Text(
-                  '予約に進む',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'NotoSansJP',
-                      fontSize: 18),
-                ),
-                color: Colors.red,
-                onPressed: () {
-                  NavigationRouter.switchToServiceUserDetailScreen(context);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: proceedToPayment(),
+    );
+  }
+
+  Widget proceedToPayment() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.065,
+        child: RaisedButton(
+          child: Text(
+            '予約に進む',
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 18),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
+                context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
       ),
     );
   }

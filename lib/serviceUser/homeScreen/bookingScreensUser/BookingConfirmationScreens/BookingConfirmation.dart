@@ -44,7 +44,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         elevation: 0,
@@ -496,30 +496,37 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            ButtonTheme(
-              minWidth: MediaQuery.of(context).size.width * 0.82,
-              height: MediaQuery.of(context).size.height * 0.06,
-              child: new RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                  //side: BorderSide(color: Colors.black),
-                ),
-                color: Colors.red,
-                onPressed: () {
-                  _updateUserBookingDetails();
-                },
-                child: new Text(
-                  '予約する',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'NotoSansJP',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-              ),
-            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: reservation(),
+    );
+  }
+
+  Widget reservation() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      height: 45,
+      child: ButtonTheme(
+        minWidth: MediaQuery.of(context).size.width * 0.82,
+        height: MediaQuery.of(context).size.height * 0.06,
+        child: new RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+            //side: BorderSide(color: Colors.black),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            _updateUserBookingDetails();
+          },
+          child: new Text(
+            '予約する',
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.bold,
+                fontSize: 16),
+          ),
         ),
       ),
     );

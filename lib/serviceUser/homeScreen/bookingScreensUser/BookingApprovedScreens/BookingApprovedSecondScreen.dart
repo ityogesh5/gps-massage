@@ -507,39 +507,36 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
             ),
           ),
           SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.35,
-                  child: CustomToggleButton(
-                    elevation: 0,
-                    height: 55.0,
-                    width: 170.0,
-                    autoWidth: false,
-                    buttonColor: Color.fromRGBO(217, 217, 217, 1),
-                    enableShape: true,
-                    customShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.transparent)),
-                    buttonLables: ["キャンセルする", "支払に進む"],
-                    fontSize: 16.0,
-                    buttonValues: [
-                      "Y",
-                      "N",
-                    ],
-                    radioButtonValue: (value) {
-                      if (value == 'Y') {
-                      } else {}
-                    },
-                    selectedColor: Color.fromRGBO(255, 0, 0, 1),
-                  ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.35,
+                child: CustomToggleButton(
+                  elevation: 0,
+                  height: 55.0,
+                  width: 170.0,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["キャンセルする", "支払に進む"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "Y",
+                    "N",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                    } else {}
+                  },
+                  selectedColor: Color.fromRGBO(255, 0, 0, 1),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

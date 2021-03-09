@@ -41,7 +41,7 @@ class _BookingDetailsApprovedScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: CircleAvatar(
@@ -743,11 +743,10 @@ class _BookingDetailsApprovedScreenState
                     ),
                     SizedBox(height: 10),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
+                      child: Row(
+                        children: [
+                          FittedBox(
+                            child: Container(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
@@ -774,20 +773,17 @@ class _BookingDetailsApprovedScreenState
                                         fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Flexible(
-                              child: Text(
-                                '埼玉県浦和区高砂4丁目4',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[500],
-                                    fontFamily: 'NotoSansJP'),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Text(
+                            '埼玉県浦和区高砂4丁目4',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[500],
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -796,6 +792,31 @@ class _BookingDetailsApprovedScreenState
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: paymentButton(),
+    );
+  }
+
+  Widget paymentButton() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.red,
+        onPressed: () {},
+        child: new Text(
+          '支払いに進む',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
       ),
     );
   }

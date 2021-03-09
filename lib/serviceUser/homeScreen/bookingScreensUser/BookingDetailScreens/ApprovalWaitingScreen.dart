@@ -801,31 +801,36 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
             ),
           ),
           SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images_gps/processing.svg',
-                    height: 25, width: 25, color: Colors.black),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Text(
-                  'セラピストの承認待ち',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'NotoSansJP'),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                Text('(5分60秒)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[400],
-                        fontFamily: 'NotoSansJP')),
-              ],
-            ),
-          )
+        ],
+      ),
+      bottomNavigationBar: processing(),
+    );
+  }
+
+  Widget processing() {
+    return Container(
+      height: 70,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset('assets/images_gps/processing.svg',
+              height: 25, width: 25, color: Colors.black),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          Text(
+            'セラピストの承認待ち',
+            style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansJP'),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+          Text('(5分60秒)',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[400],
+                  fontFamily: 'NotoSansJP')),
         ],
       ),
     );

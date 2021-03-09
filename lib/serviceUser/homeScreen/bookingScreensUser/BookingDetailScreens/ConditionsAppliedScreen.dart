@@ -41,7 +41,7 @@ class _ConditionsApplyBookingScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: InkWell(
@@ -1018,27 +1018,32 @@ class _ConditionsApplyBookingScreenState
             ),
           ),
           SizedBox(height: 10),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: RaisedButton(
-              padding: EdgeInsets.all(10.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-                //side: BorderSide(color: Colors.black),
-              ),
-              color: Colors.red,
-              onPressed: () {},
-              child: new Text(
-                '支払いに進む',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'NotoSansJP',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: paymentButton(),
+    );
+  }
+
+  Widget paymentButton() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.red,
+        onPressed: () {},
+        child: new Text(
+          '支払いに進む',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
       ),
     );
   }

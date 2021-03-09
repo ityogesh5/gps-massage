@@ -44,7 +44,7 @@ class _BookingDetailsCompletedScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: ListView(
         padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
@@ -3014,31 +3014,34 @@ class _BookingDetailsCompletedScreenState
               ),
             ),
           ),
-          SizedBox(height: 10),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: RaisedButton(
-              padding: EdgeInsets.all(10.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-                //side: BorderSide(color: Colors.black),
-              ),
-              color: Colors.lime,
-              onPressed: () {
-                NavigationRouter.switchToServiceUserBookingConfirmationScreen(
-                    context);
-              },
-              child: new Text(
-                'もう一度予約する',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'NotoSansJP',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: bookAgain(),
+    );
+  }
+
+  Widget bookAgain() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: RaisedButton(
+        padding: EdgeInsets.all(10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+          //side: BorderSide(color: Colors.black),
+        ),
+        color: Colors.lime,
+        onPressed: () {
+          NavigationRouter.switchToServiceUserBookingConfirmationScreen(
+              context);
+        },
+        child: new Text(
+          'もう一度予約する',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'NotoSansJP',
+              fontWeight: FontWeight.bold,
+              fontSize: 16),
+        ),
       ),
     );
   }

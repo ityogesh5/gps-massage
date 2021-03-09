@@ -952,26 +952,33 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.065,
-              child: RaisedButton(
-                child: Text(
-                  '予約に進む',
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 18),
-                ),
-                color: Colors.red,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: proceedToPayment(),
+    );
+  }
+
+  Widget proceedToPayment() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.065,
+        child: RaisedButton(
+          child: Text(
+            '予約に進む',
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 18),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
+                context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
       ),
     );
   }
