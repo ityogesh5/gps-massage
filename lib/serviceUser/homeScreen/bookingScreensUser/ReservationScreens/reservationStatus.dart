@@ -24,13 +24,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
             children: [
               Text(
                 'セラビストの承認待ちの予約',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.35,
+                height: MediaQuery.of(context).size.height * 0.37,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -47,7 +50,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           // height: MediaQuery.of(context).size.height * 0.32,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: new Card(
-                            color: Colors.grey[200],
+                            color: Color.fromRGBO(242, 242, 242, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -71,7 +74,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内'),
+                                            Text(
+                                              '1.5km圏内',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -90,7 +99,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   '店舗名',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -158,7 +168,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Colors.grey[200]),
                                                       padding:
                                                           EdgeInsets.all(4),
-                                                      child: Text('店舗')),
+                                                      child: Text(
+                                                        '店舗',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -187,7 +203,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('出張')),
+                                                      child: Text(
+                                                        '出張',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -216,7 +238,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('コロナ対策実施')),
+                                                      child: Text(
+                                                        'コロナ対策実施',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -231,6 +259,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
                                                     ),
                                                   ),
                                                   RatingBar.builder(
@@ -247,7 +277,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Icon(
                                                       Icons.star,
                                                       size: 5,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                     ),
                                                     onRatingUpdate: (rating) {
                                                       // print(rating);
@@ -257,7 +288,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       print(ratingsValue);
                                                     },
                                                   ),
-                                                  Text('(1518)'),
+                                                  Text(
+                                                    '(1518)',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -292,7 +329,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('国家資格保有')),
+                                                      child: Text(
+                                                        '国家資格保有',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             )
@@ -302,8 +345,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     ],
                                   ),
                                   Expanded(
-                                    child: Divider(
-                                      color: Colors.black,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Divider(
+                                        color: Color.fromRGBO(242, 242, 242, 1),
+                                      ),
                                     ),
                                   ),
                                   Row(
@@ -311,6 +357,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       FittedBox(
                                         child: SvgPicture.asset(
                                             'assets/images_gps/gps.svg',
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             height: 20,
                                             width: 20),
                                       ),
@@ -320,6 +367,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '埼玉県浦和区高砂4丁目4',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -347,13 +395,25 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
                                                 color: Colors.grey[200]),
-                                            child: Text('オフィス')),
+                                            child: Text(
+                                              'オフィス',
+                                              style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              ),
+                                            )),
                                       ),
                                       SizedBox(
                                         width: 5,
                                       ),
                                       FittedBox(
-                                          child: Text('東京都 墨田区 押上 1-1-2')),
+                                          child: Text(
+                                        '東京都 墨田区 押上 1-1-2',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(152, 152, 152, 1),
+                                        ),
+                                      )),
                                     ],
                                   ),
                                   SizedBox(
@@ -364,6 +424,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       FittedBox(
                                         child: SvgPicture.asset(
                                             'assets/images_gps/calendar.svg',
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             height: 20,
                                             width: 20),
                                       ),
@@ -374,13 +435,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         child: Text(
                                           '予約日時：10月17',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      FittedBox(child: Text('10:30~11:30'))
+                                      FittedBox(
+                                          child: Text(
+                                        '10:30~11:30',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      ))
                                     ],
                                   )
                                 ],
@@ -396,7 +466,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
               ),
               Text(
                 'セラピストから追加の要望があった予約',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -420,7 +493,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           // height: MediaQuery.of(context).size.height * 0.22,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: new Card(
-                            color: Colors.grey[200],
+                            color: Color.fromRGBO(242, 242, 242, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -444,7 +517,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内'),
+                                            Text(
+                                              '1.5km圏内',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -463,7 +542,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   '店舗名',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -531,7 +611,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Colors.grey[200]),
                                                       padding:
                                                           EdgeInsets.all(4),
-                                                      child: Text('店舗')),
+                                                      child: Text(
+                                                        '店舗',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -560,7 +646,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('出張')),
+                                                      child: Text(
+                                                        '出張',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -589,7 +681,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('コロナ対策実施')),
+                                                      child: Text(
+                                                        'コロナ対策実施',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -601,6 +699,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 Text(
                                                   ratingsValue.toString(),
                                                   style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
                                                     decoration: TextDecoration
                                                         .underline,
                                                   ),
@@ -619,7 +719,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       Icon(
                                                     Icons.star,
                                                     size: 5,
-                                                    color: Colors.black,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);
@@ -629,7 +730,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     print(ratingsValue);
                                                   },
                                                 ),
-                                                Text('(1518)'),
+                                                Text(
+                                                  '(1518)',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             SizedBox(
@@ -660,7 +767,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('国家資格保有')),
+                                                    child: Text(
+                                                      '国家資格保有',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             )
                                           ],
@@ -673,7 +786,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Expanded(
                                         child: Divider(
                                           // height: 50,
-                                          color: Colors.grey,
+
+                                          color:
+                                              Color.fromRGBO(242, 242, 242, 1),
                                         ),
                                       ),
                                       InkWell(
@@ -687,6 +802,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
+                                                color: Color.fromRGBO(
+                                                    255, 128, 0, 1),
                                                 height: 30,
                                                 width: 30)),
                                       ),
@@ -710,6 +827,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/gps.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -718,6 +836,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '埼玉県浦和区高砂4丁目4',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -745,12 +864,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
                                                 color: Colors.grey[200]),
-                                            child: Text('オフィス')),
+                                            child: Text(
+                                              'オフィス',
+                                              style: TextStyle(
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              ),
+                                            )),
                                       ),
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text('東京都 墨田区 押上 1-1-2'),
+                                      Text(
+                                        '東京都 墨田区 押上 1-1-2',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
@@ -760,6 +891,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/calendar.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -768,12 +900,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '予約日時：10月17',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      Text('10:30~11:30')
+                                      Text(
+                                        '10:30~11:30',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
+                                            fontWeight: FontWeight.bold),
+                                      )
                                     ],
                                   )
                                 ],
@@ -789,7 +928,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
               ),
               Text(
                 'セラビストから承認された予約',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(0, 0, 0, 1)),
               ),
               SizedBox(
                 height: 10,
@@ -813,7 +954,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           // height: MediaQuery.of(context).size.height * 0.22,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: new Card(
-                            color: Colors.grey[200],
+                            color: Color.fromRGBO(242, 242, 242, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -837,7 +978,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内'),
+                                            Text('1.5km圏内',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                )),
                                           ],
                                         ),
                                       ),
@@ -856,7 +1001,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   '店舗名',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -924,7 +1070,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Colors.grey[200]),
                                                       padding:
                                                           EdgeInsets.all(4),
-                                                      child: Text('店舗')),
+                                                      child: Text(
+                                                        '店舗',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -953,7 +1105,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('出張')),
+                                                      child: Text(
+                                                        '出張',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -982,7 +1140,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('コロナ対策実施')),
+                                                      child: Text(
+                                                        'コロナ対策実施',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -996,6 +1160,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .underline,
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
                                                   ),
                                                 ),
                                                 RatingBar.builder(
@@ -1012,7 +1178,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       Icon(
                                                     Icons.star,
                                                     size: 5,
-                                                    color: Colors.black,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);
@@ -1022,7 +1189,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     print(ratingsValue);
                                                   },
                                                 ),
-                                                Text('(1518)'),
+                                                Text(
+                                                  '(1518)',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             SizedBox(
@@ -1053,7 +1226,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('国家資格保有')),
+                                                    child: Text(
+                                                      '国家資格保有',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             )
                                           ],
@@ -1066,7 +1245,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Expanded(
                                         child: Divider(
                                           // height: 50,
-                                          color: Colors.grey,
+                                          color:
+                                              Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ),
                                       InkWell(
@@ -1080,6 +1260,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
+                                                color: Color.fromRGBO(
+                                                    255, 128, 0, 1),
                                                 height: 25,
                                                 width: 25)),
                                       ),
@@ -1088,6 +1270,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           backgroundColor: Colors.white,
                                           child: SvgPicture.asset(
                                               'assets/images_gps/pay.svg',
+                                              color: Color.fromRGBO(
+                                                  255, 193, 7, 1),
                                               height: 25,
                                               width: 25)),
                                       InkWell(
@@ -1101,6 +1285,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/cancel.svg',
+                                                color: Color.fromRGBO(
+                                                    217, 217, 217, 1),
                                                 height: 20,
                                                 width: 20)),
                                       ),
@@ -1110,6 +1296,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/gps.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1118,6 +1305,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '埼玉県浦和区高砂4丁目4',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -1144,11 +1332,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               borderRadius:
                                                   BorderRadius.circular(5.0),
                                               color: Colors.grey[200]),
-                                          child: Text('オフィス')),
+                                          child: Text(
+                                            'オフィス',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text('東京都 墨田区 押上 1-1-2'),
+                                      Text(
+                                        '東京都 墨田区 押上 1-1-2',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
@@ -1158,6 +1357,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/calendar.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1166,12 +1366,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '予約日時：10月17',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      Text('10:30~11:30')
+                                      Text(
+                                        '10:30~11:30',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      )
                                     ],
                                   )
                                 ],
@@ -1187,7 +1394,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
               ),
               Text(
                 '確定した予約（支払い完了）',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -1211,7 +1421,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                           // height: MediaQuery.of(context).size.height * 0.22,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: new Card(
-                            color: Colors.grey[200],
+                            color: Color.fromRGBO(242, 242, 242, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -1235,7 +1445,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内'),
+                                            Text(
+                                              '1.5km圏内',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -1254,7 +1470,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   '店舗名',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -1322,7 +1539,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Colors.grey[200]),
                                                       padding:
                                                           EdgeInsets.all(4),
-                                                      child: Text('店舗')),
+                                                      child: Text(
+                                                        '店舗',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -1351,7 +1574,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('出張')),
+                                                      child: Text(
+                                                        '出張',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -1380,7 +1609,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('コロナ対策実施')),
+                                                      child: Text(
+                                                        'コロナ対策実施',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -1394,6 +1629,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .underline,
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
                                                   ),
                                                 ),
                                                 RatingBar.builder(
@@ -1410,7 +1647,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       Icon(
                                                     Icons.star,
                                                     size: 5,
-                                                    color: Colors.black,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);
@@ -1420,7 +1658,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     print(ratingsValue);
                                                   },
                                                 ),
-                                                Text('(1518)'),
+                                                Text(
+                                                  '(1518)',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             SizedBox(
@@ -1451,7 +1695,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('国家資格保有')),
+                                                    child: Text(
+                                                      '国家資格保有',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             )
                                           ],
@@ -1464,7 +1714,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Expanded(
                                         child: Divider(
                                           // height: 50,
-                                          color: Colors.grey,
+
+                                          color:
+                                              Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ),
                                       InkWell(
@@ -1478,6 +1730,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
+                                                color: Color.fromRGBO(
+                                                    255, 128, 0, 1),
                                                 height: 25,
                                                 width: 25)),
                                       ),
@@ -1492,6 +1746,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/cancel.svg',
+                                                color: Color.fromRGBO(
+                                                    217, 217, 217, 1),
                                                 height: 20,
                                                 width: 20)),
                                       ),
@@ -1501,6 +1757,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/gps.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1509,6 +1766,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '埼玉県浦和区高砂4丁目4',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -1535,11 +1793,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               borderRadius:
                                                   BorderRadius.circular(5.0),
                                               color: Colors.grey[200]),
-                                          child: Text('オフィス')),
+                                          child: Text(
+                                            'オフィス',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text('東京都 墨田区 押上 1-1-2'),
+                                      Text(
+                                        '東京都 墨田区 押上 1-1-2',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
@@ -1549,6 +1818,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/calendar.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1557,12 +1827,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '予約日時：10月17',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      Text('10:30~11:30')
+                                      Text(
+                                        '10:30~11:30',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )
                                     ],
                                   )
                                 ],
@@ -1578,7 +1855,10 @@ class _ReservationStatusState extends State<ReservationStatus> {
               ),
               Text(
                 'キャンセルされた予約',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -1626,7 +1906,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内'),
+                                            Text(
+                                              '1.5km圏内',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -1645,7 +1931,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   '店舗名',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -1713,7 +2000,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               Colors.grey[200]),
                                                       padding:
                                                           EdgeInsets.all(4),
-                                                      child: Text('店舗')),
+                                                      child: Text(
+                                                        '店舗',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -1742,7 +2035,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('出張')),
+                                                      child: Text(
+                                                        '出張',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                   SizedBox(
                                                     width: 5,
                                                   ),
@@ -1771,7 +2070,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       5.0),
                                                           color:
                                                               Colors.grey[200]),
-                                                      child: Text('コロナ対策実施')),
+                                                      child: Text(
+                                                        'コロナ対策実施',
+                                                        style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              0, 0, 0, 1),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -1783,6 +2088,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 Text(
                                                   ratingsValue.toString(),
                                                   style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
                                                     decoration: TextDecoration
                                                         .underline,
                                                   ),
@@ -1801,7 +2108,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       Icon(
                                                     Icons.star,
                                                     size: 5,
-                                                    color: Colors.black,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);
@@ -1811,7 +2119,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     print(ratingsValue);
                                                   },
                                                 ),
-                                                Text('(1518)'),
+                                                Text(
+                                                  '(1518)',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             SizedBox(
@@ -1842,7 +2156,13 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('国家資格保有')),
+                                                    child: Text(
+                                                      '国家資格保有',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             )
                                           ],
@@ -1852,13 +2172,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                   ),
                                   Expanded(
                                     child: Divider(
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
                                     ),
                                   ),
                                   Row(
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/gps.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1867,6 +2188,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '埼玉県浦和区高砂4丁目4',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -1893,11 +2215,22 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               borderRadius:
                                                   BorderRadius.circular(5.0),
                                               color: Colors.grey[200]),
-                                          child: Text('オフィス')),
+                                          child: Text(
+                                            'オフィス',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                            ),
+                                          )),
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text('東京都 墨田区 押上 1-1-2'),
+                                      Text(
+                                        '東京都 墨田区 押上 1-1-2',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
@@ -1907,6 +2240,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images_gps/calendar.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           height: 20,
                                           width: 20),
                                       SizedBox(
@@ -1915,12 +2249,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       Text(
                                         '予約日時：10月17',
                                         style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SizedBox(
                                         width: 8,
                                       ),
-                                      Text('10:30~11:30')
+                                      Text(
+                                        '10:30~11:30',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(102, 102, 102, 1),
+                                        ),
+                                      )
                                     ],
                                   )
                                 ],

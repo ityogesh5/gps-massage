@@ -58,6 +58,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
@@ -205,7 +206,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
             itemCount: 10,
             itemBuilder: (context, index) {
               return new Card(
-                color: Colors.grey[200],
+                color: Color.fromRGBO(242, 242, 242, 1),
                 semanticContainer: true,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -891,7 +892,7 @@ class _RecommendListsState extends State<RecommendLists> {
           itemCount: 10,
           itemBuilder: (context, index) {
             return new Card(
-              color: Colors.grey[200],
+              color: Color.fromRGBO(242, 242, 242, 1),
               semanticContainer: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),

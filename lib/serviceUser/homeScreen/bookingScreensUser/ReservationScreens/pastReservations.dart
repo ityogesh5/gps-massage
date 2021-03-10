@@ -61,8 +61,10 @@ class _PastReservationsState extends State<PastReservations> {
                                           ),
                                           Text(
                                             '1.5km圏内',
-                                            style:
-                                                TextStyle(color: Colors.grey),
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -82,7 +84,8 @@ class _PastReservationsState extends State<PastReservations> {
                                                 '店舗名',
                                                 style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
@@ -145,7 +148,13 @@ class _PastReservationsState extends State<PastReservations> {
                                                         color:
                                                             Colors.grey[200]),
                                                     padding: EdgeInsets.all(4),
-                                                    child: Text('店舗')),
+                                                    child: Text(
+                                                      '店舗',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
@@ -172,7 +181,13 @@ class _PastReservationsState extends State<PastReservations> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('出張')),
+                                                    child: Text(
+                                                      '出張',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
@@ -199,7 +214,13 @@ class _PastReservationsState extends State<PastReservations> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('コロナ対策実施')),
+                                                    child: Text(
+                                                      'コロナ対策実施',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             ),
                                           ),
@@ -232,7 +253,13 @@ class _PastReservationsState extends State<PastReservations> {
                                                                 .circular(5.0),
                                                         color:
                                                             Colors.grey[200]),
-                                                    child: Text('国家資格保有')),
+                                                    child: Text(
+                                                      '国家資格保有',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            0, 0, 0, 1),
+                                                      ),
+                                                    )),
                                               ],
                                             ),
                                           )
@@ -245,7 +272,7 @@ class _PastReservationsState extends State<PastReservations> {
                                   height: 10,
                                 ),
                                 Divider(
-                                  color: Colors.grey,
+                                  color: Color.fromRGBO(217, 217, 217, 1),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -254,6 +281,7 @@ class _PastReservationsState extends State<PastReservations> {
                                   children: [
                                     SvgPicture.asset(
                                         'assets/images_gps/calendar.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         height: 20,
                                         width: 20),
                                     SizedBox(
@@ -262,6 +290,7 @@ class _PastReservationsState extends State<PastReservations> {
                                     Text(
                                       '10月17',
                                       style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
@@ -269,7 +298,9 @@ class _PastReservationsState extends State<PastReservations> {
                                     ),
                                     Text(
                                       '月曜日出張',
-                                      style: TextStyle(color: Colors.grey),
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -280,6 +311,7 @@ class _PastReservationsState extends State<PastReservations> {
                                   children: [
                                     SvgPicture.asset(
                                         'assets/images_gps/clock.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         height: 20,
                                         width: 20),
                                     SizedBox(
@@ -288,6 +320,7 @@ class _PastReservationsState extends State<PastReservations> {
                                     Text(
                                       '10:00 ~11:00',
                                       style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
@@ -295,7 +328,9 @@ class _PastReservationsState extends State<PastReservations> {
                                     ),
                                     Text(
                                       '60分',
-                                      style: TextStyle(color: Colors.grey),
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -306,6 +341,7 @@ class _PastReservationsState extends State<PastReservations> {
                                   children: [
                                     SvgPicture.asset(
                                         'assets/images_gps/cost.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         height: 20,
                                         width: 20),
                                     SizedBox(
@@ -320,31 +356,44 @@ class _PastReservationsState extends State<PastReservations> {
                                             ),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(12))),
-                                        child: Text('足つぼ')),
+                                        child: Text(
+                                          '足つぼ',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                          ),
+                                        )),
                                     SizedBox(
                                       width: 7,
                                     ),
                                     Text(
                                       '¥4,500',
                                       style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
                                       width: 8,
                                     ),
-                                    Text('(交通費込み-¥1,000)')
+                                    Text(
+                                      '(交通費込み-¥1,000)',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(153, 153, 153, 1),
+                                      ),
+                                    )
                                   ],
                                 ),
                                 Row(children: <Widget>[
                                   Expanded(
                                     child: Divider(
                                       // height: 50,
-                                      color: Colors.grey,
+
+                                      color: Color.fromRGBO(217, 217, 217, 1),
                                     ),
                                   ),
                                   CircleAvatar(
                                       maxRadius: 25,
-                                      backgroundColor: Colors.white,
+                                      backgroundColor:
+                                          Color.fromRGBO(253, 253, 253, 1),
                                       child: SvgPicture.asset(
                                           'assets/images_gps/give_rating.svg',
                                           height: 30,
@@ -354,14 +403,16 @@ class _PastReservationsState extends State<PastReservations> {
                                   children: [
                                     SvgPicture.asset(
                                         'assets/images_gps/gps.svg',
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         height: 20,
                                         width: 20),
                                     SizedBox(
                                       width: 5,
                                     ),
                                     Text(
-                                      '埼玉県浦和区高砂4丁目4',
+                                      '施術を受ける場所',
                                       style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],
@@ -377,8 +428,10 @@ class _PastReservationsState extends State<PastReservations> {
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                                 colors: [
-                                                  Colors.white,
-                                                  Colors.white,
+                                                  Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  Color.fromRGBO(
+                                                      255, 255, 255, 1),
                                                 ]),
                                             shape: BoxShape.rectangle,
                                             border: Border.all(
@@ -388,11 +441,21 @@ class _PastReservationsState extends State<PastReservations> {
                                                 BorderRadius.circular(5.0),
                                             color: Colors.grey[200]),
                                         padding: EdgeInsets.all(4),
-                                        child: Text('店舗')),
+                                        child: Text(
+                                          '店舗',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                          ),
+                                        )),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text('東京都 墨田区 押上 1-1-2'),
+                                    Text(
+                                      '東京都 墨田区 押上 1-1-2',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(102, 102, 102, 1),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],

@@ -21,7 +21,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
         Center(child: Container(child: CancelPopupScreen())),
         Positioned(
           left: 360,
-          bottom: 580,
+          bottom: 475,
           child: CircleAvatar(
             maxRadius: 18,
             backgroundColor: Color.fromRGBO(255, 255, 255, 1),
@@ -287,45 +287,49 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Container(
                             child: Divider(color: Colors.grey[300], height: 1)),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Expanded(
                         child: Row(
                           children: [
                             SizedBox(width: 15),
-                            Text(
-                              '(${ratingsValue.toString()})',
-                              style: TextStyle(
-                                  color: Colors.grey[400],
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            RatingBar.builder(
-                              initialRating: 3,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 25,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                size: 5,
-                                color: Colors.black,
+                            FittedBox(
+                              child: Text(
+                                '(${ratingsValue.toString()})',
+                                style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP'),
                               ),
-                              onRatingUpdate: (rating) {
-                                // print(rating);
-                                setState(() {
-                                  ratingsValue = rating;
-                                });
-                                print(ratingsValue);
-                              },
+                            ),
+                            FittedBox(
+                              child: RatingBar.builder(
+                                initialRating: 3,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 25,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  size: 5,
+                                  color: Colors.black,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  // print(rating);
+                                  setState(() {
+                                    ratingsValue = rating;
+                                  });
+                                  print(ratingsValue);
+                                },
+                              ),
                             ),
                             Text(
                               '(1518)',
@@ -337,6 +341,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 5),
                       Expanded(
                         child: Row(
                           children: [
@@ -361,6 +366,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 5),
                       Expanded(
                         child: Row(
                           children: [
@@ -385,6 +391,7 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 5),
                       Expanded(
                         child: Row(
                           children: [
@@ -407,13 +414,13 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Container(
                             child: Divider(color: Colors.grey[300], height: 1)),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Row(
                         children: [
                           SizedBox(width: 15),
@@ -431,50 +438,46 @@ class _EventPopupScreenState extends State<EventPopupScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 10),
-                            Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.grey[200],
-                                          Colors.grey[200]
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '店舗',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'NotoSansJP'),
+                      Row(
+                        children: [
+                          SizedBox(width: 10),
+                          Container(
+                              padding: EdgeInsets.only(left: 15, right: 15),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.grey[200],
+                                        Colors.grey[200]
+                                      ]),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: Colors.grey[300],
                                   ),
-                                )),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.02),
-                            Text(
-                              '埼玉県浦和区高砂4丁目4',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[500],
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                          ],
-                        ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.grey[200]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '店舗',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'NotoSansJP'),
+                                ),
+                              )),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.02),
+                          Text(
+                            '埼玉県浦和区高砂4丁目4',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[500],
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                        ],
                       ),
                     ],
                   ),

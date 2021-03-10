@@ -33,7 +33,9 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
       padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.grey),
+        border: Border.all(
+          color: Color.fromRGBO(225, 225, 225, 1),
+        ),
         borderRadius: BorderRadius.all(
           Radius.circular(15.0),
         ),
@@ -41,7 +43,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
       child: Text(
         "$title",
         style: TextStyle(
-            color: Colors.black,
+            color: Color.fromRGBO(0, 0, 0, 1),
             fontSize: 12.0,
             fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
@@ -60,10 +62,10 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 2.0,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -71,7 +73,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
               EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: Color.fromRGBO(0, 0, 0, 1),
           ),
           onPressed: () {
             NavigationRouter.switchToServiceUserBottomBar(context);
@@ -80,7 +82,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
         title: Text(
           '予約 & お気に入り',
           style: TextStyle(
-              color: Colors.black,
+              color: Color.fromRGBO(0, 0, 0, 1),
               fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
@@ -102,7 +104,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
           indicator: new BubbleTabIndicator(
             padding: EdgeInsets.all(8.0),
             indicatorHeight: 30.0,
-            indicatorColor: Colors.lime,
+            indicatorColor: Color.fromRGBO(200, 217, 37, 1),
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
           onTap: (index) {},
@@ -115,7 +117,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                       child: Text(
                         "予約状況",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: Color.fromRGBO(255, 255, 255, 1),
                             fontSize: 12.0,
                             fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold),
@@ -129,7 +131,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                       padding: const EdgeInsets.all(10.0),
                       child: Text("過去の予約",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 12.0,
                               fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
@@ -142,7 +144,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
                       padding: const EdgeInsets.all(10.0),
                       child: Text("お気に入り",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 12.0,
                               fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
