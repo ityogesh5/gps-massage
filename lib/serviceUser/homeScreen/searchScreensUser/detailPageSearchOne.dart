@@ -182,19 +182,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               Container(
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Colors.white,
-                                            Colors.white,
-                                          ]),
-                                      shape: BoxShape.rectangle,
-                                      border: Border.all(
-                                        color: Colors.grey[300],
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.grey[200]),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Color.fromRGBO(228, 228, 228, 1),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Color.fromRGBO(228, 228, 228, 1),
+                                  ),
                                   child: Text(
                                     '店舗',
                                     style: TextStyle(
@@ -207,19 +208,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               Container(
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Colors.white,
-                                            Colors.white,
-                                          ]),
-                                      shape: BoxShape.rectangle,
-                                      border: Border.all(
-                                        color: Colors.grey[300],
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.grey[200]),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Color.fromRGBO(228, 228, 228, 1),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Color.fromRGBO(228, 228, 228, 1),
+                                  ),
                                   child: Text(
                                     '出張',
                                     style: TextStyle(
@@ -232,19 +234,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               Container(
                                   padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Colors.white,
-                                            Colors.white,
-                                          ]),
-                                      shape: BoxShape.rectangle,
-                                      border: Border.all(
-                                        color: Colors.grey[300],
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.grey[200]),
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                        ]),
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                      color: Color.fromRGBO(228, 228, 228, 1),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Color.fromRGBO(228, 228, 228, 1),
+                                  ),
                                   child: Text(
                                     'コロナ対策実施有無',
                                     style: TextStyle(
@@ -324,19 +327,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           '女性のみ予約可',
                           style: TextStyle(
@@ -351,19 +355,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           'キッズスペース有',
                           style: TextStyle(
@@ -376,19 +381,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           '保育士常駐',
                           style: TextStyle(
@@ -415,7 +421,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
-                              color: Colors.grey[300],
+                              color: Color.fromRGBO(228, 228, 228, 1),
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                             color: Colors.grey[200]),
@@ -431,19 +437,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           '民間資格',
                           style: TextStyle(
@@ -456,19 +463,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                  Color.fromRGBO(255, 255, 255, 1),
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           '国家資格',
                           style: TextStyle(
@@ -481,19 +489,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white,
+                                Colors.white,
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
                         child: Text(
                           '民間資格',
                           style: TextStyle(
@@ -801,7 +810,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 0 ? Colors.grey : Colors.transparent,
+                          color: _value == 0
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -814,13 +825,17 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Text(
                         'マッサージ',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 0
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 0
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -838,7 +853,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 1 ? Colors.grey : Colors.transparent,
+                          color: _value == 1
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -851,13 +868,17 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Text(
                         'ストレッチ',
                         style: TextStyle(
-                          color: _value == 1 ? Colors.black : Colors.grey,
+                          color: _value == 1
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 1
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -875,7 +896,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 2 ? Colors.grey : Colors.transparent,
+                          color: _value == 2
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -888,13 +911,17 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Text(
                         'カッピング',
                         style: TextStyle(
-                          color: _value == 2 ? Colors.black : Colors.grey,
+                          color: _value == 2
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 2
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -912,7 +939,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 3 ? Colors.grey : Colors.transparent,
+                          color: _value == 3
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -925,13 +954,17 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Text(
                         'マダニティ',
                         style: TextStyle(
-                          color: _value == 3 ? Colors.black : Colors.grey,
+                          color: _value == 3
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 3
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -949,7 +982,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 4 ? Colors.grey : Colors.transparent,
+                          color: _value == 4
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -962,13 +997,17 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Text(
                         'ベビーマッサ',
                         style: TextStyle(
-                          color: _value == 4 ? Colors.black : Colors.grey,
+                          color: _value == 4
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '',
                         style: TextStyle(
-                          color: _value == 4 ? Colors.black : Colors.grey,
+                          color: _value == 4
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -981,16 +1020,20 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.white, Colors.white]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[300],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
@@ -1008,6 +1051,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               children: [
                                 SvgPicture.asset(
                                     'assets/images_gps/calendar.svg',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                     height: 25,
                                     width: 25),
                                 SizedBox(width: 5),
@@ -1015,6 +1059,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                   '10月17',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
                                       fontSize: 16,
                                       fontFamily: 'NotoSansJP'),
                                 ),
@@ -1022,7 +1067,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 new Text(
                                   '月曜日',
                                   style: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(102, 102, 102, 1),
                                       fontSize: 16,
                                       fontFamily: 'NotoSansJP'),
                                 ),
@@ -1033,11 +1078,14 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SvgPicture.asset('assets/images_gps/clock.svg',
-                                  height: 25, width: 25),
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                  height: 25,
+                                  width: 25),
                               SizedBox(width: 5),
                               Text(
                                 '10:30 ～ 11:30',
                                 style: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     fontFamily: 'NotoSansJP'),
@@ -1045,7 +1093,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               new Text(
                                 '60分',
                                 style: TextStyle(
-                                    color: Colors.grey[400],
+                                    color: Color.fromRGBO(102, 102, 102, 1),
                                     fontSize: 16,
                                     fontFamily: 'NotoSansJP'),
                               ),
@@ -1062,15 +1110,15 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                         },
                         child: CircleAvatar(
                           maxRadius: 38,
-                          backgroundColor: Colors.grey,
+                          backgroundColor: Color.fromRGBO(217, 217, 217, 1),
                           child: CircleAvatar(
                             maxRadius: 38,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                             child: SvgPicture.asset(
                               'assets/images_gps/calendar.svg',
                               height: 20,
                               width: 20,
-                              color: Colors.lime,
+                              color: Color.fromRGBO(200, 217, 33, 1),
                             ),
                           ),
                         ),
@@ -1092,7 +1140,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                   ),
                   Text(
                     '選択した日時で既に予約が入っているので、日時を変更してください',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(
+                      color: Color.fromRGBO(255, 0, 0, 1),
+                    ),
                   )
                 ],
               ),
@@ -1114,9 +1164,11 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
           child: Text(
             '予約に進む',
             style: TextStyle(
-                color: Colors.white, fontFamily: 'NotoSansJP', fontSize: 18),
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontFamily: 'NotoSansJP',
+                fontSize: 18),
           ),
-          color: Colors.red,
+          color: Color.fromRGBO(255, 0, 0, 1),
           onPressed: () {
             NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
                 context);
