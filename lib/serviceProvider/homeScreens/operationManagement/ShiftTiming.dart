@@ -84,7 +84,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
             Text(
               "営業日時を自由に組むことができます。",
               style: TextStyle(
-                  fontSize: 12.0, color: Color.fromRGBO(102, 102, 102, 1)),
+                  fontSize: 12.0, color: Color.fromRGBO(102, 102, 102, 1), fontFamily: 'NotoSansJP'),
             ),
             SizedBox(
               height: 10.0,
@@ -324,7 +324,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     child: Text(
                                   "X",
                                   style: TextStyle(
-                                    fontSize: 20.0,
+                                    fontSize: 20.0, fontFamily: 'NotoSansJP',
                                     color: Color.fromRGBO(193, 193, 193, 1),
                                   ),
                                 )));
@@ -339,7 +339,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               child: Center(
                                 child: Text(
                                   "O",
-                                  style: TextStyle(fontSize: 20.0),
+                                  style: TextStyle(
+                                      fontSize: 20.0, fontFamily: 'NotoSansJP'),
                                 ),
                               ),
                             );
@@ -835,8 +836,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               child: Text(
                                 '保存',
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
+                                    fontSize: 14,  fontFamily: 'NotoSansJP',
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
                             ),

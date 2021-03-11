@@ -40,7 +40,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: ListView(
         padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
@@ -60,7 +60,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeOne.svg',
                             height: 15,
@@ -79,7 +79,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeTwo.svg',
                             height: 15,
@@ -98,7 +98,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeThree.svg',
                             height: 15,
@@ -163,8 +163,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -184,8 +186,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -205,8 +209,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -230,7 +236,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -259,17 +265,24 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Container(
-                              child: Text(
-                                'もっとみる',
-                                style: TextStyle(
-                                    fontFamily: 'Oxygen',
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 14),
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserRatingsAndReviewScreen(
+                                          context);
+                                },
+                                child: Text(
+                                  'もっとみる',
+                                  style: TextStyle(
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 14),
+                                ),
                               ),
                             )
                           ],
@@ -294,7 +307,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -313,7 +329,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -330,7 +349,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -352,7 +374,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -369,7 +394,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -386,7 +414,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -403,7 +434,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -424,7 +458,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -452,7 +489,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -460,7 +497,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -468,7 +505,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -476,7 +513,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -484,7 +521,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -501,7 +538,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
@@ -509,7 +546,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -541,7 +578,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        fontFamily: 'Oxygen'),
+                        fontFamily: 'NotoSansJP'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -552,7 +589,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            fontFamily: 'NotoSansJP'),
                         children: <TextSpan>[
                           new TextSpan(
                               text: 'もっとみる',
@@ -560,7 +597,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                   decoration: TextDecoration.underline,
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -586,7 +623,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    fontFamily: 'Oxygen'),
+                    fontFamily: 'NotoSansJP'),
               ),
             ),
           ),
@@ -597,7 +634,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
+                      colors: [
+                        Color.fromRGBO(242, 242, 242, 1),
+                        Color.fromRGBO(242, 242, 242, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[100],
@@ -624,7 +664,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03),
@@ -633,7 +673,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Spacer(),
                         GestureDetector(
@@ -648,7 +688,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                 fontSize: 14,
                                 color: Colors.red[200],
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ),
                       ],
@@ -667,7 +707,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02),
@@ -676,7 +716,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 14,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -691,7 +731,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             width: MediaQuery.of(context).size.width * 0.02),
                         Chip(
                           label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         ),
                         Text(
                           "\t\t¥4,500",
@@ -708,7 +748,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -734,7 +774,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                 fontSize: 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -753,8 +793,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                           colors: [
-                                            Colors.grey[200],
-                                            Colors.grey[200]
+                                            Color.fromRGBO(255, 255, 255, 1),
+                                            Color.fromRGBO(255, 255, 255, 1),
                                           ]),
                                       shape: BoxShape.rectangle,
                                       border: Border.all(
@@ -770,7 +810,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                           fontSize: 16,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: 'Oxygen'),
+                                          fontFamily: 'NotoSansJP'),
                                     ),
                                   )),
                             ),
@@ -782,7 +822,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey[500],
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -794,31 +834,36 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
             ),
           ),
           SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/images_gps/processing.svg',
-                    height: 25, width: 25, color: Colors.black),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                Text(
-                  'セラピストの承認待ち',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Oxygen'),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                Text('(5分60秒)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[400],
-                        fontFamily: 'Oxygen')),
-              ],
-            ),
-          )
+        ],
+      ),
+      bottomNavigationBar: processing(),
+    );
+  }
+
+  Widget processing() {
+    return Container(
+      height: 70,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset('assets/images_gps/processing.svg',
+              height: 25, width: 25, color: Colors.black),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          Text(
+            'セラピストの承認待ち',
+            style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansJP'),
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+          Text('(5分60秒)',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[400],
+                  fontFamily: 'NotoSansJP')),
         ],
       ),
     );
@@ -887,13 +932,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: SvgPicture.asset(
+                    'assets/images_gps/share.svg',
+                    height: 20,
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),

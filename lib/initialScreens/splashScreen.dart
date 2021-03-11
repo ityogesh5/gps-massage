@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class SplashScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
   @override
@@ -18,6 +19,14 @@ class _SplashScreenPageState extends State<SplashScreen>
 
   AnimationController animationController;
   Animation<double> animation;
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
+  bool userLoggedIn = false;
+  bool providerLoggedIn = false;
+  bool userLoggedOut = false;
+  bool providerLoggedOut = false;
+  bool userRegistered = false;
+  bool providerRegistered = false;
 
   startTime() async {
     var _duration = new Duration(seconds: 7);
@@ -72,9 +81,38 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   _navigateUser() async {
-    NavigationRouter.switchToTermsAndConditions(context);
-    //DialogHelper.showNotificationDialog(context);
-    //NavigationRouter.switchToServiceUserViewProfileScreen(context);
-    //NavigationRouter.switchToServiceUserRegistration(context);
+    print('Entering loops !!');
+    _sharedPreferences.then((value) {
+      userLoggedIn = value.getBool('isUserLoggedIn');
+      providerLoggedIn = value.getBool('isProviderLoggedIn');
+      userRegistered = value.getBool('isUserRegister');
+      providerRegistered = value.getBool('isProviderRegister');
+      if (userLoggedIn != null && userLoggedIn) {
+        print('Entering 1 loop !!');
+        NavigationRouter.switchToServiceUserBottomBar(context);
+      } else {
+        if (providerLoggedIn != null && providerLoggedIn) {
+          print('Entering 2 loop !!');
+          NavigationRouter.switchToServiceProviderBottomBar(context);
+        } else if (userRegistered != null && userRegistered) {
+          print('Entering 3 loop !!');
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else if (providerRegistered != null && providerRegistered) {
+          print('Entering 4 loop !!');
+          NavigationRouter.switchToServiceProviderBottomBar(context);
+        } else if (userLoggedOut != null && userLoggedOut) {
+          NavigationRouter.switchToUserLogin(context);
+        } else if (providerLoggedOut != null && providerLoggedOut) {
+          NavigationRouter.switchToProviderLogin(context);
+        } else if (userLoggedIn == null ||
+            !userLoggedIn && providerLoggedIn == null ||
+            !providerLoggedIn && userRegistered == null ||
+            !userRegistered && providerRegistered == null ||
+            !providerRegistered) {
+          print('Entering last loop !!');
+          NavigationRouter.switchToTermsAndConditions(context);
+        }
+      }
+    });
   }
 }

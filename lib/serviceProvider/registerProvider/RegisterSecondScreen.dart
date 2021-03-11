@@ -25,7 +25,6 @@ import 'ChooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
 List<File> files = List<File>();
-
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
@@ -1203,28 +1202,15 @@ class _RegistrationSecondPageState
         sharedPreferences.setString("userData", json.encode(userData));
         sharedPreferences.setString(
             "accessToken", registerResponseModel.accessToken);
+        sharedPreferences.setBool('isProviderRegister', true);
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Login response : ${registerResponseModel.toJson()}');
         print('Login token : ${registerResponseModel.accessToken}');
-
         NavigationRouter.switchToProviderOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
       }
-      /*  if (response.statusCode == 200) {
-        print(response.body);
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
-        /*   RegisterProviderResponseData registerProviderResponseData =
-            RegisterProviderResponseData.fromJson(json.decode(response.body));
-       */
-        NavigationRouter.switchToProviderOtpScreen(context);
-        //DialogHelper.showProviderRegisterSuccessDialog(context);
-        // NavigationRouter.switchToServiceProviderBottomBar(context);
-      } else {
-        print(response.reasonPhrase);
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
-      } */
     } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideRegisterProgressDialog(context);

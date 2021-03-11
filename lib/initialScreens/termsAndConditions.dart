@@ -45,7 +45,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
         "$title",
         style: TextStyle(
             color: Colors.black,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -65,7 +65,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('利用規約とプライバシーポリシーに同意してください。',
-            style: TextStyle(fontFamily: 'Oxygen')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -98,7 +98,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
           '利用規約とプライバシーポリシー',
           style: TextStyle(
               color: Colors.black,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(
@@ -128,7 +128,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                       "サービス利用者",
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontWeight: FontWeight.bold),
                     )
                   : buildUnSelectedTabBar("サービス利用者"),
@@ -138,7 +138,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   ? Text("セラピスト",
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontWeight: FontWeight.bold))
                   : buildUnSelectedTabBar("セラピスト"),
             ),
@@ -167,7 +167,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                         .bodyText1
                                         .copyWith(
                                             fontSize: 14.0,
-                                            fontFamily: 'Oxygen')));
+                                            fontFamily: 'NotoSansJP')));
                   }
                   return Center(
                     child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -192,7 +192,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                                         .bodyText1
                                         .copyWith(
                                             fontSize: 14.0,
-                                            fontFamily: 'Oxygen')));
+                                            fontFamily: 'NotoSansJP')));
                   }
                   return Center(
                     child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -233,7 +233,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               ),
               Text(
                 '上記の利用規約に同意する',
-                style: TextStyle(fontSize: 14, fontFamily: 'Oxygen'),
+                style: TextStyle(fontSize: 14, fontFamily: 'NotoSansJP'),
               )
             ],
           ),
@@ -256,7 +256,7 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
                   '同意',
                   style: TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),

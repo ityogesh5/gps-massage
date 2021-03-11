@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -207,7 +206,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontSize: 18.0,
                     decoration: TextDecoration.underline),
               ),
@@ -233,7 +232,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             fontSize: 14,
                             color: Colors.black,
                             fontStyle: FontStyle.normal,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.w100)),
                     SizedBox(height: 5),
                     RichText(
@@ -243,7 +242,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         style: TextStyle(
                             fontSize: 14.0,
                             color: Colors.red,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold),
                         children: <TextSpan>[
                           new TextSpan(
@@ -251,7 +250,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               style: new TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w100)),
                         ],
@@ -367,7 +366,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -402,7 +401,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     keyboardType: TextInputType.text,
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                     cursorColor: Colors.redAccent,
                                     readOnly: true,
                                     decoration: new InputDecoration(
@@ -452,7 +451,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
                                       color: Colors.grey[400],
-                                      fontFamily: 'Oxygen',
+                                      fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
@@ -483,7 +482,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             '性別 *',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.w300),
                           ),
                           Form(
@@ -648,7 +647,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -678,7 +677,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           labelText: 'メールアドレス*',
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -719,7 +718,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -764,7 +763,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               }),
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -797,7 +796,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     text: '半角英数 8 ～１６文字以内',
                                     style: new TextStyle(
                                         fontSize: 16,
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         color: Colors.grey[400],
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w100)),
@@ -1152,7 +1151,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'Oxygen',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1201,7 +1200,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'Oxygen',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1267,7 +1266,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'Oxygen',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1317,7 +1316,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'Oxygen',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1383,7 +1382,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             ),*/
                                                 labelStyle: TextStyle(
                                                     color: Colors.grey[400],
-                                                    fontFamily: 'Oxygen',
+                                                    fontFamily: 'NotoSansJP',
                                                     fontSize: 14),
                                                 focusColor: Colors.grey[100],
                                                 border: HealingMatchConstants
@@ -1421,7 +1420,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         text: '* ',
                         style: TextStyle(
                             fontSize: 16.0,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             color: Colors.red,
                             fontWeight: FontWeight.bold),
                         children: <TextSpan>[
@@ -1453,7 +1452,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           '入力完了',
                           style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
@@ -1468,7 +1467,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           style: new TextStyle(
                               fontSize: 14,
                               color: Colors.black,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w100,
                               decoration: TextDecoration.underline)),
@@ -1570,7 +1569,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('ユーザー名は20文字以内で入力してください。',
                   overflow: TextOverflow.clip,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1578,7 +1577,7 @@ class _RegisterUserState extends State<RegisterUser> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       color: Colors.black,
                       decoration: TextDecoration.underline)),
             ),
@@ -1597,7 +1596,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効なユーザー名を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1606,7 +1605,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1627,7 +1626,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な生年月日を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1636,7 +1635,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1657,7 +1656,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な性別を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1666,7 +1665,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1687,7 +1686,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な職業を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1696,7 +1695,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1720,7 +1719,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1729,7 +1728,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1749,7 +1748,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効なメールアドレスを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1758,7 +1757,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1777,7 +1776,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('メールアドレスは100文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1786,7 +1785,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1805,7 +1804,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効なメールアドレスを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1814,7 +1813,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1834,7 +1833,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('パスワードは8文字以上で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1843,7 +1842,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1863,7 +1862,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('パスワードは16文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1872,7 +1871,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1894,7 +1893,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1903,7 +1902,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1924,7 +1923,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('パスワードと確認パスワードの入力が一致しません。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1933,7 +1932,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1952,7 +1951,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な文字でパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1961,7 +1960,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1981,7 +1980,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な検索地点の登録を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1990,7 +1989,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2012,7 +2011,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な登録する地点のカテゴリーを選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2021,7 +2020,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2044,7 +2043,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な府県を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2053,7 +2052,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2076,7 +2075,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な市を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2085,7 +2084,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2108,7 +2107,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な都、県選 を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2117,7 +2116,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2138,7 +2137,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効なビル名を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2147,7 +2146,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2169,7 +2168,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('有効な部屋番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2178,7 +2177,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2336,6 +2335,8 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
+
+            value.setBool('isUserRegister', true);
           }
         });
         ProgressDialogBuilder.hideRegisterProgressDialog(context);

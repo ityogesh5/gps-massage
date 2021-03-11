@@ -18,10 +18,12 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   Data userData;
   int status = 0;
-  TextStyle textStyle = TextStyle(fontSize: 14.0);
+  TextStyle textStyle = TextStyle(fontFamily: 'NotoSansJP', fontSize: 14.0);
   double iconHeight = 20.0;
   double iconWidth = 20.0;
   Color iconColor = Colors.black;
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
 
   void initState() {
     getProfileDetails();
@@ -46,7 +48,10 @@ class _MyAccountState extends State<MyAccount> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
-              fontSize: 18.0, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 18.0,
+              fontFamily: 'NotoSansJP',
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[popupMenuButton()],
       ),
@@ -108,7 +113,9 @@ class _MyAccountState extends State<MyAccount> {
                         new Text(
                           userData.userName,
                           style: TextStyle(
-                              fontSize: 14.0, fontWeight: FontWeight.bold),
+                              fontSize: 14.0,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold),
                         ),
                         Chip(
                             avatar: SvgPicture.asset(
@@ -399,6 +406,7 @@ class _MyAccountState extends State<MyAccount> {
                             Text('保有資格',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 14.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold)),
@@ -418,6 +426,7 @@ class _MyAccountState extends State<MyAccount> {
                             Text('売上金振込先銀行情報',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
+                                    fontFamily: 'NotoSansJP',
                                     fontSize: 14.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold)),
@@ -441,11 +450,13 @@ class _MyAccountState extends State<MyAccount> {
                                         Text(userData.bankDetails[0].bankName,
                                             style: TextStyle(
                                                 fontSize: 16.0,
+                                                fontFamily: 'NotoSansJP',
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold)),
                                         Text(userData.bankDetails[0].branchCode,
                                             style: TextStyle(
                                               fontSize: 14.0,
+                                              fontFamily: 'NotoSansJP',
                                               color: Colors.black,
                                             ))
                                       ],
@@ -465,6 +476,7 @@ class _MyAccountState extends State<MyAccount> {
                                                   .bankDetails[0].branchNumber,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
+                                                  fontFamily: 'NotoSansJP',
                                                   fontSize: 14.0,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold)),
@@ -483,6 +495,7 @@ class _MyAccountState extends State<MyAccount> {
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                                 fontSize: 20.0,
+                                                fontFamily: 'NotoSansJP',
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold))
                                       ],
@@ -503,6 +516,7 @@ class _MyAccountState extends State<MyAccount> {
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                 fontSize: 14.0,
+                                                fontFamily: 'NotoSansJP',
                                                 color: Colors.black,
                                               )),
                                         ]),
@@ -552,28 +566,40 @@ class _MyAccountState extends State<MyAccount> {
           value: "1",
           child: Text(
             '利用規約とプライバシーポリシー', //Terms and Conditions
-            style: TextStyle(fontSize: 13.0),
+            style: TextStyle(
+              fontSize: 13.0,
+              fontFamily: 'NotoSansJP',
+            ),
           ),
         ),
         PopupMenuItem<String>(
           value: "2",
           child: Text(
             'アプリについて', //About the app
-            style: TextStyle(fontSize: 13.0),
+            style: TextStyle(
+              fontSize: 13.0,
+              fontFamily: 'NotoSansJP',
+            ),
           ),
         ),
         PopupMenuItem<String>(
           value: "3",
           child: Text(
             'お問い合わせ', //Contact Us
-            style: TextStyle(fontSize: 13.0),
+            style: TextStyle(
+              fontSize: 13.0,
+              fontFamily: 'NotoSansJP',
+            ),
           ),
         ),
         PopupMenuItem<String>(
           value: "4",
           child: Text(
             'ログアウト', //Log out
-            style: TextStyle(fontSize: 13.0),
+            style: TextStyle(
+              fontSize: 13.0,
+              fontFamily: 'NotoSansJP',
+            ),
           ),
         ),
       ],
@@ -584,6 +610,15 @@ class _MyAccountState extends State<MyAccount> {
           NavigationRouter.switchToProviderTutorialScreen(context);
         } else if (retVal == "3") {
           emailLaunch();
+        } else if (retVal == "4") {
+          _sharedPreferences.then((value) {
+            value.setString('accessToken', '');
+            value.setBool('isProviderLoggedOut', true);
+            value.setBool('isProviderLoggedIn', false);
+            value.setBool('isUserLoggedOut', false);
+            value.setBool('isProviderRegister', false);
+          });
+          NavigationRouter.switchToProviderLogin(context);
         }
       },
     );

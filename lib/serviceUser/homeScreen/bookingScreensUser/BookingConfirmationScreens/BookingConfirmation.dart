@@ -44,7 +44,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         elevation: 0,
@@ -58,7 +58,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
         title: Text(
           '予約確認',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
@@ -73,7 +73,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             Text(
               '予約の詳細',
               style: TextStyle(
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontSize: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
@@ -181,7 +181,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 14,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                                 RatingBar.builder(
                                   initialRating: 3,
@@ -210,7 +210,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 12,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             ),
@@ -254,7 +254,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                     fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w300,
-                                    fontFamily: 'oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                             Spacer(),
@@ -266,7 +266,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey[400],
-                                      fontFamily: 'oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             )
@@ -308,14 +308,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Text(
                           '月曜日出張',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -330,14 +330,14 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                         Text(
                           '60分',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[400],
-                              fontFamily: 'oxygen'),
+                              fontFamily: 'NotoSansJP'),
                         ),
                       ],
                     ),
@@ -482,7 +482,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                 style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.red,
-                    fontFamily: 'Oxygen',
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
                 children: <TextSpan>[
                   new TextSpan(
@@ -490,36 +490,43 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       style: new TextStyle(
                           fontSize: 16,
                           color: Colors.grey[300],
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w100)),
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            ButtonTheme(
-              minWidth: MediaQuery.of(context).size.width * 0.82,
-              height: MediaQuery.of(context).size.height * 0.06,
-              child: new RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                  //side: BorderSide(color: Colors.black),
-                ),
-                color: Colors.red,
-                onPressed: () {
-                  _updateUserBookingDetails();
-                },
-                child: new Text(
-                  '予約する',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Oxygen',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-              ),
-            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: reservation(),
+    );
+  }
+
+  Widget reservation() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      height: 45,
+      child: ButtonTheme(
+        minWidth: MediaQuery.of(context).size.width * 0.82,
+        height: MediaQuery.of(context).size.height * 0.06,
+        child: new RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+            //side: BorderSide(color: Colors.black),
+          ),
+          color: Colors.red,
+          onPressed: () {
+            _updateUserBookingDetails();
+          },
+          child: new Text(
+            '予約する',
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'NotoSansJP',
+                fontWeight: FontWeight.bold,
+                fontSize: 16),
+          ),
         ),
       ),
     );
@@ -548,7 +555,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
-                            fontFamily: 'Oxygen')),
+                            fontFamily: 'NotoSansJP')),
                   ),
                 ),
                 leading: CustomRadioButton(
@@ -667,7 +674,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           selectedBuildingType.toString();
       print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
     }
-    NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(context);
+    // NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(context);
   }
 }
 

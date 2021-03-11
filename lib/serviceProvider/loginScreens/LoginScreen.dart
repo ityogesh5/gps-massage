@@ -16,6 +16,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/loginRespon
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class ProviderLogin extends StatefulWidget {
   @override
@@ -28,6 +29,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final phoneNumberController = new TextEditingController();
   final passwordController = new TextEditingController();
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
 
   FocusNode phoneNumberFocus = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
@@ -451,8 +454,24 @@ class _ProviderLoginState extends State<ProviderLogin> {
         instances.setString("userData", json.encode(userData));
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
-        ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
-        NavigationRouter.switchToServiceProviderBottomBar(context);
+        print('Is Provider verified : ${loginResponseModel.data.isVerified}');
+        _sharedPreferences.then((value) {
+          value.setBool('isProviderLoggedIn', true);
+          value.setBool('isUserLoggedIn', false);
+        });
+        if (loginResponseModel.data.isVerified) {
+          ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+          NavigationRouter.switchToServiceProviderBottomBar(context);
+        } else {
+          ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+          Toast.show("許可されていないユーザー。", context,
+              duration: 4,
+              gravity: Toast.CENTER,
+              backgroundColor: Colors.redAccent,
+              textColor: Colors.white);
+          print('Unverified User!!');
+          return;
+        }
       } else {
         ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
         print('Response Failure !!');

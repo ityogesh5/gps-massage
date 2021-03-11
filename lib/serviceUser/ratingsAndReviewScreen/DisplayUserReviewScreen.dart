@@ -25,11 +25,14 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
           onPressed: () {
             NavigationRouter.switchToServiceUserBottomBar(context);
           },
@@ -40,8 +43,8 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
           style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontFamily: 'Oxygen'),
+              color: Color.fromRGBO(0, 0, 0, 1),
+              fontFamily: 'NotoSansJP'),
         ),
         centerTitle: true,
       ),
@@ -65,17 +68,17 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         Text(
                           '店舗についてのレビュー',
                           style: TextStyle(
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14,
-                              color: Colors.black87,
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '（052レビュー）',
                           style: TextStyle(
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 12,
-                              color: Colors.grey[400],
+                              color: Color.fromRGBO(153, 153, 153, 1),
                               fontWeight: FontWeight.w300),
                         ),
                       ],
@@ -90,10 +93,13 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Colors.grey[400], Colors.grey[400]]),
+                            colors: [
+                              Color.fromRGBO(242, 242, 242, 1),
+                              Color.fromRGBO(242, 242, 242, 1),
+                            ]),
                         shape: BoxShape.rectangle,
                         border: Border.all(
-                          color: Colors.grey[300],
+                          color: Color.fromRGBO(242, 242, 242, 1),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(16.0),
@@ -113,7 +119,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     glow: true,
                                     glowColor: Colors.lime,
                                     glowRadius: 2,
-                                    initialRating: 2,
+                                    initialRating: 3.5,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -124,7 +130,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
                                     ),
                                     onRatingUpdate: (rating) {
                                       // print(rating);
@@ -139,6 +145,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     ratingsValue.toString(),
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
+                                      color: Color.fromRGBO(153, 153, 153, 1),
                                     ),
                                   ),
                                 ],
@@ -153,9 +160,9 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     "when an unknown printer took a galley of type and scrambled "
                                     "it to make a type specimen book when an unknown printer took a galley of type and scrambled  when an unknown printer took a galley of type and scrambled .",
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 14,
-                                        color: Colors.black,
+                                        color: Color.fromRGBO(51, 51, 51, 1),
                                         fontWeight: FontWeight.w300),
                                   ),
                                 ),
@@ -184,17 +191,17 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   Text(
                                     'お名前',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 14,
-                                        color: Colors.black87,
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     '10月７',
                                     style: TextStyle(
-                                        fontFamily: 'Oxygen',
+                                        fontFamily: 'NotoSansJP',
                                         fontSize: 12,
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         fontWeight: FontWeight.w300),
                                   ),
                                 ],
@@ -221,7 +228,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.black,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -236,6 +243,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   ratingsValue.toString(),
                                   style: TextStyle(
                                     decoration: TextDecoration.underline,
+                                    color: Color.fromRGBO(153, 153, 153, 1),
                                   ),
                                 ),
                               ],
@@ -250,9 +258,9 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                       "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
                                       "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                                       style: TextStyle(
-                                          fontFamily: 'Oxygen',
+                                          fontFamily: 'NotoSansJP',
                                           fontSize: 14,
-                                          color: Colors.black,
+                                          color: Color.fromRGBO(51, 51, 51, 1),
                                           fontWeight: FontWeight.w300),
                                     ),
                                   ),

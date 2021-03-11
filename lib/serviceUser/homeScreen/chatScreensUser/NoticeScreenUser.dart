@@ -31,7 +31,9 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.transparent),
+        border: Border.all(
+          color: Color.fromRGBO(225, 225, 225, 1),
+        ),
         borderRadius: BorderRadius.all(
           Radius.circular(15.0),
         ),
@@ -39,8 +41,8 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
       child: Text(
         "$title",
         style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Oxygen',
+            color: Color.fromRGBO(0, 0, 0, 1),
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -57,40 +59,42 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: PreferredSize(
           preferredSize:
-              Size.fromHeight(MediaQuery.of(context).size.height * 0.11),
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.12),
           child: Container(
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(
-                color: Colors.grey[200],
+                color: Color.fromRGBO(255, 255, 255, 1),
                 offset: Offset(0, 0.0),
                 blurRadius: 8.0,
               )
             ]),
             child: AppBar(
-              backgroundColor: Colors.grey[100],
-              elevation: 0.0,
+              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+              elevation: 5.0,
               automaticallyImplyLeading: false,
               title: Text(
                 'メッセージ',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Oxygen',
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
                 onPressed: () {
                   NavigationRouter.switchToServiceUserBottomBar(context);
                 },
-                color: Colors.black,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(20.0),
+                  bottomLeft: Radius.circular(25.0),
+                  bottomRight: Radius.circular(25.0),
                 ),
               ),
 
@@ -113,8 +117,8 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                         ? Text(
                             "お知らせ",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold),
                           )
                         : buildUnSelectedTabBar("お知らせ"),
@@ -123,8 +127,8 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                     child: _tabIndex == 1
                         ? Text("チャット",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Oxygen',
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.bold))
                         : buildUnSelectedTabBar("チャット"),
                   ),
@@ -138,11 +142,11 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
         children: [
           // Notice User Screen
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                Column(
+                /* Column(
                   children: [
                     SizedBox(
                       height: 15,
@@ -178,7 +182,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                     ),
                     SizedBox(height: 15),
                   ],
-                ),
+                ),*/
                 Container(
                   child: new ListView.builder(
                       shrinkWrap: true,
@@ -194,7 +198,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                           splashColor: Colors.lime,
                           child: Card(
                             elevation: 0.0,
-                            color: Colors.grey[100],
+                            color: Color.fromRGBO(255, 255, 255, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -213,8 +217,10 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                           width: 60.0,
                                           height: 60.0,
                                           decoration: new BoxDecoration(
-                                            border:
-                                                Border.all(color: Colors.grey),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                            ),
                                             shape: BoxShape.circle,
                                             image: new DecorationImage(
                                               fit: BoxFit.fitHeight,
@@ -227,7 +233,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                         style: TextStyle(
                                             color: Colors.grey[400],
                                             fontSize: 14,
-                                            fontFamily: 'Oxygen'),
+                                            fontFamily: 'NotoSansJP'),
                                       ),
                                     ],
                                   ),
@@ -342,7 +348,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
 
           // Chat List User Screen
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
@@ -351,33 +357,37 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[500],
-                          offset: Offset(2.0, 2.0),
-                          blurRadius: 8.0,
-                        )
-                      ]),
-                      child: TextFormField(
-                        autofocus: false,
-                        textInputAction: TextInputAction.search,
-                        decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'キーワードで検索',
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.search_rounded,
-                                  color: Colors.grey, size: 30),
-                              onPressed: () {},
-                            ),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.red, width: 2.0),
-                              borderRadius: BorderRadius.circular(10),
-                            )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 8.0,
+                          )
+                        ]),
+                        child: TextFormField(
+                          autofocus: false,
+                          textInputAction: TextInputAction.search,
+                          decoration: new InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: '検索',
+                              suffixIcon: Image.asset(
+                                "assets/images_gps/search.png",
+                                color: Color.fromRGBO(225, 225, 225, 1),
+                              ),
+                              hintStyle: TextStyle(
+                                color: Color.fromRGBO(225, 225, 225, 1),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 2.0),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -400,7 +410,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                           splashColor: Colors.lime,
                           child: Card(
                             elevation: 0.0,
-                            color: Colors.grey[100],
+                            color: Color.fromRGBO(255, 255, 255, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -492,7 +502,8 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                       SizedBox(height: 8),
                                       Text("はじめまして、とても嬉しいです！",
                                           style: TextStyle(
-                                              color: Colors.grey[300],
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
                                               fontSize: 12),
                                           textAlign: TextAlign.left),
                                     ],
@@ -507,17 +518,19 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                     children: <Widget>[
                                       Text("3時午後",
                                           style: TextStyle(
-                                              color: Colors.grey[300],
+                                              color: Color.fromRGBO(
+                                                  153, 153, 153, 1),
                                               fontSize: 12)),
                                       SizedBox(height: 8),
                                       CircleAvatar(
                                           radius: 12,
-                                          backgroundColor: Colors.lime,
+                                          backgroundColor:
+                                              Color.fromRGBO(200, 217, 33, 1),
                                           child: Text(
                                             '0',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                fontFamily: 'Oxygen',
+                                                fontFamily: 'NotoSansJP',
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           )),

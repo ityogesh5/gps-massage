@@ -23,7 +23,7 @@ class _ChatUserScreenState extends State<ChatUserScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         body: MainChatScreen(),
       ),
     );
@@ -163,7 +163,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
                                     fontSize: 12,
                                     color: Colors.grey[400],
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                               Text('')
                             ],
@@ -183,7 +183,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
                                     fontSize: 12,
                                     color: Colors.grey[400],
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                               Text('')
                             ],

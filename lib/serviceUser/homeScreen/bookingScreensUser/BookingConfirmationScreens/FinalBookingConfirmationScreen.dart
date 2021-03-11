@@ -18,22 +18,24 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop(context);
           },
-          color: Colors.black,
         ),
         title: Text(
           '予約確認',
           style: TextStyle(
-              fontFamily: 'Oxygen',
-              color: Colors.black,
+              fontFamily: 'NotoSansJP',
+              color: Color.fromRGBO(0, 0, 0, 1),
               fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -47,9 +49,9 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             Text(
               '予約の詳細',
               style: TextStyle(
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontSize: 16,
-                  color: Colors.black,
+                  color: Color.fromRGBO(0, 0, 0, 1),
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 15),
@@ -58,10 +60,13 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(242, 242, 242, 1),
+                        Color.fromRGBO(242, 242, 242, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
-                    color: Colors.grey[300],
+                    color: Color.fromRGBO(242, 242, 242, 1),
                   ),
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
@@ -98,7 +103,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                   '店舗名',
                                   style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 5),
@@ -126,22 +131,37 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                 children: [
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('店舗')),
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      child: Text(
+                                        '店舗',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('出張')),
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      child: Text(
+                                        '出張',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('コロナ対策実施有無')),
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      child: Text(
+                                        'コロナ対策実施有無',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                 ],
                               ),
                             ),
@@ -153,9 +173,9 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                 Text(
                                   '(${ratingsValue.toString()})',
                                   style: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(153, 153, 153, 1),
                                       fontSize: 14,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                                 RatingBar.builder(
                                   initialRating: 3,
@@ -169,7 +189,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.black,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -182,9 +202,9 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                 Text(
                                   '(1518)',
                                   style: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(153, 153, 153, 1),
                                       fontSize: 12,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             ),
@@ -195,8 +215,13 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                               children: [
                                 Container(
                                     padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('コロナ対策実施')),
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    child: Text(
+                                      'コロナ対策実施',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                      ),
+                                    )),
                               ],
                             ),
                             SizedBox(
@@ -207,7 +232,10 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       ],
                     ),
                     Row(children: <Widget>[
-                      Expanded(child: Divider()),
+                      Expanded(
+                          child: Divider(
+                        color: Color.fromRGBO(217, 217, 217, 1),
+                      )),
                     ]),
                     SizedBox(height: 10),
                     Expanded(
@@ -216,15 +244,17 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             SvgPicture.asset('assets/images_gps/gps.svg',
-                                height: 25, width: 25),
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                height: 25,
+                                width: 25),
                             SizedBox(width: 5),
                             Text(
                               '埼玉県浦和区高砂4丁目4',
                               style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   fontWeight: FontWeight.w300,
-                                  fontFamily: 'oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Row(
@@ -234,8 +264,8 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.grey[400],
-                                      fontFamily: 'oxygen'),
+                                      color: Color.fromRGBO(153, 153, 153, 1),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                               ],
                             )
@@ -248,16 +278,20 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[400],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.18,
               child: Padding(
@@ -271,21 +305,23 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       child: Row(
                         children: [
                           SvgPicture.asset('assets/images_gps/calendar.svg',
-                              height: 25, width: 25),
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              height: 25,
+                              width: 25),
                           Text(
                             ' 10月17\t\t\t',
                             style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.black,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           Text(
                             '月曜日出張',
                             style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey[400],
-                                fontFamily: 'oxygen'),
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -295,21 +331,23 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       child: Row(
                         children: [
                           SvgPicture.asset('assets/images_gps/clock.svg',
-                              height: 25, width: 25),
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              height: 25,
+                              width: 25),
                           Text(
                             '\t9：00～10: 00\t\t\t',
                             style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.black,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           Text(
                             '60分',
                             style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.grey[400],
-                                fontFamily: 'oxygen'),
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -319,16 +357,18 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset('assets/images_gps/cost.svg',
-                              height: 25, width: 25),
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              height: 25,
+                              width: 25),
                           SizedBox(width: 4),
                           Chip(
                             label: Text('足つぼ'),
-                            backgroundColor: Colors.grey[300],
+                            backgroundColor: Color.fromRGBO(242, 242, 242, 1),
                           ),
                           Text(
                             "\t\t¥4,500",
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.left,
@@ -344,7 +384,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             Text(
               "\t\t施術を受ける場所",
               style: TextStyle(
-                  color: Colors.black,
+                  color: Color.fromRGBO(0, 0, 0, 1),
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
               textAlign: TextAlign.left,
@@ -352,47 +392,58 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             SizedBox(height: 15),
             Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[200],
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(242, 242, 242, 1),
+                      Color.fromRGBO(242, 242, 242, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(242, 242, 242, 1),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+                color: Color.fromRGBO(242, 242, 242, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.08,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [Colors.white30, Colors.white30]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                        ),
                         child: Text(
-                            '${HealingMatchConstants.selectedBookingPlace}')),
-                    Flexible(
-                      child: Text(
-                        "\t\t\t\t埼玉県浦和区高砂4丁目4",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.left,
-                      ),
+                          '店舗',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                          /* '${HealingMatchConstants.selectedBookingPlace}'*/
+                        )),
+                    Text(
+                      "\t\t\t\t埼玉県浦和区高砂4丁目4",
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300),
+                      textAlign: TextAlign.left,
                     ),
                   ],
                 ),
@@ -408,22 +459,24 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                 maxLines: 5,
                 decoration: new InputDecoration(
                     filled: false,
-                    fillColor: Colors.white,
+                    fillColor: Color.fromRGBO(255, 255, 255, 1),
                     hintText: '質問、要望などメッセージがあれば入力してください。',
-                    hintStyle: TextStyle(color: Colors.grey[300]),
+                    hintStyle: TextStyle(
+                      color: Color.fromRGBO(217, 217, 217, 1),
+                    ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(217, 217, 217, 1), width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(217, 217, 217, 1), width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey[300], width: 1.0),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(217, 217, 217, 1), width: 1.0),
                       borderRadius: BorderRadius.circular(10.0),
                     )),
               ),
@@ -435,16 +488,16 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                 text: '*\t\t',
                 style: TextStyle(
                     fontSize: 16.0,
-                    color: Colors.red,
-                    fontFamily: 'Oxygen',
+                    color: Color.fromRGBO(255, 0, 0, 1),
+                    fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
                 children: <TextSpan>[
                   new TextSpan(
                       text: '${HealingMatchConstants.additionalDistanceCost}',
                       style: new TextStyle(
                           fontSize: 16,
-                          color: Colors.grey[300],
-                          fontFamily: 'Oxygen',
+                          color: Color.fromRGBO(217, 217, 217, 1),
+                          fontFamily: 'NotoSansJP',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w100)),
                 ],
@@ -459,15 +512,15 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                   borderRadius: new BorderRadius.circular(10.0),
                   //side: BorderSide(color: Colors.black),
                 ),
-                color: Colors.red,
+                color: Color.fromRGBO(255, 0, 0, 1),
                 onPressed: () {
                   _updateUserBookingDetails();
                 },
                 child: new Text(
                   '予約する',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Oxygen',
+                      color: Color.fromRGBO(255, 255, 255, 1),
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
@@ -481,6 +534,6 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
 
   _updateUserBookingDetails() {
     print('API ACCESS');
-    NavigationRouter.switchToServiceUserWaitingForApprovalScreen(context);
+    // NavigationRouter.switchToServiceUserWaitingForApprovalScreen(context);
   }
 }

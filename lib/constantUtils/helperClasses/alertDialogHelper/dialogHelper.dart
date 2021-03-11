@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DialogHelper {
+  static Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
+
   // notification popup
   static void showNotificationDialog(BuildContext context) {
     showDialog(
@@ -69,6 +73,9 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
                               //Navigator.pop(context);
+                              _sharedPreferences.then((value){
+                                    value.setBool('isUserVerified', true);
+                                  });
                               NavigationRouter.switchToServiceUserBottomBar(
                                   context);
                             },
@@ -438,6 +445,9 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
                               //Navigator.pop(context);
+                              _sharedPreferences.then((value){
+                                value.setBool('isProviderVerified', true);
+                              });
                               NavigationRouter.switchToServiceProviderBottomBar(
                                   context);
                             },
@@ -806,7 +816,7 @@ class DialogHelper {
                               style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.w100,
                                   decoration: TextDecoration.underline)),
                         )),
@@ -851,7 +861,7 @@ class DialogHelper {
                               style: new TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  fontFamily: 'NotoSansJP',
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w100,
                                   decoration: TextDecoration.underline)),

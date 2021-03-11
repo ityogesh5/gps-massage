@@ -30,7 +30,7 @@ class _BookingApproveFirstScreenState extends State<BookingApproveFirstScreen> {
           style: TextStyle(
               color: Colors.black,
               fontSize: 16,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -83,7 +83,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
-                      fontFamily: 'Oxygen'),
+                      fontFamily: 'NotoSansJP'),
                 ),
                 SizedBox(height: 15),
                 Container(
@@ -134,7 +134,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -153,7 +153,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03),
@@ -162,7 +162,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -181,7 +181,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02),
@@ -190,7 +190,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                             style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -223,7 +223,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -261,7 +261,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                 fontSize: 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -296,7 +296,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 )),
                             SizedBox(
@@ -308,7 +308,7 @@ class _ApprovalFirstScreenState extends State<ApprovalFirstScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[500],
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                           ],

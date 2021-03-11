@@ -53,7 +53,7 @@ class _UserTutorialState extends State<UserTutorial> {
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
-                                            fontFamily: 'Oxygen')));
+                                            fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -85,7 +85,7 @@ class _UserTutorialState extends State<UserTutorial> {
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
-                                            fontFamily: 'Oxygen')));
+                                            fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),

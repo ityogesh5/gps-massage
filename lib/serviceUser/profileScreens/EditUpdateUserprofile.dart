@@ -227,7 +227,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
@@ -356,7 +356,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           ),*/
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -390,7 +390,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     keyboardType: TextInputType.text,
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                     cursorColor: Colors.redAccent,
                                     readOnly: true,
                                     decoration: new InputDecoration(
@@ -441,7 +441,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
                                       color: Colors.grey[400],
-                                      fontFamily: 'Oxygen',
+                                      fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
                                       HealingMatchConstants.textFormInputBorder,
@@ -472,7 +472,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             '性別',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.w300),
                           ),
                           Form(
@@ -615,7 +615,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           ),*/
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -644,7 +644,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           labelText: 'メールアドレス',
                           labelStyle: TextStyle(
                               color: Colors.grey[400],
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
@@ -1002,7 +1002,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'Oxygen',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1048,7 +1048,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'Oxygen',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1107,7 +1107,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'Oxygen',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1148,7 +1148,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     labelText: '部屋番号',
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'Oxygen',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1205,7 +1205,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 labelText: '号室',
                                                 labelStyle: TextStyle(
                                                     color: Colors.grey[400],
-                                                    fontFamily: 'Oxygen',
+                                                    fontFamily: 'NotoSansJP',
                                                     fontSize: 14),
                                                 focusColor: Colors.grey[100],
                                                 border: HealingMatchConstants
@@ -1270,7 +1270,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                   style: TextStyle(
-                                                      fontFamily: 'Oxygen')),
+                                                      fontFamily: 'NotoSansJP')),
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -1280,7 +1280,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               child: Text('はい',
                                                   style: TextStyle(
                                                       color: Colors.black,
-                                                      fontFamily: 'Oxygen',
+                                                      fontFamily: 'NotoSansJP',
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       decoration: TextDecoration
@@ -1352,7 +1352,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     Text(
                       'メインの地点以外に3箇所まで地点登録ができます',
                       style: TextStyle(
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: 14,
                           color: Colors.grey),
                     ),
@@ -1439,7 +1439,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             'セラピスト検索範囲',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontFamily: 'Oxygen',
+                                fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.normal),
                           ),
                           Form(
@@ -1506,7 +1506,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           '更新',
                           style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
@@ -1695,7 +1695,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な府県を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1704,7 +1704,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1727,7 +1727,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な市を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1736,7 +1736,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1759,7 +1759,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な都、県選 を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1768,7 +1768,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1790,7 +1790,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効なビル名を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1799,7 +1799,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1821,7 +1821,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な号室を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1830,7 +1830,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1852,7 +1852,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な現在地の住所を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1861,7 +1861,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1882,7 +1882,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効なビル名を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1891,7 +1891,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1913,7 +1913,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効な号室を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1922,7 +1922,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -1967,7 +1967,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('ユーザー名は20文字以内で入力してください。',
                   overflow: TextOverflow.clip,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -1975,7 +1975,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               },
               child: Text('はい',
                   style: TextStyle(
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       color: Colors.black,
                       decoration: TextDecoration.underline)),
             ),
@@ -2010,7 +2010,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2019,7 +2019,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2041,7 +2041,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('正しい電話番号を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2050,7 +2050,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2076,7 +2076,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効なメールアドレスを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2085,7 +2085,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2104,7 +2104,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('メールアドレスは50文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2113,7 +2113,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2132,7 +2132,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('有効なメールアドレスを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -2141,7 +2141,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       decoration: TextDecoration.underline)),
             ),
           ],
@@ -2601,7 +2601,7 @@ class _AddAddressState extends State<AddAddress> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w300,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ),
                         SizedBox(height: 10),
@@ -2628,7 +2628,8 @@ class _AddAddressState extends State<AddAddress> {
                                         additionalAddressController.clear();
                                         addedBuildingNameController.clear();
                                         addedRoomNumberController.clear();
-                                        _additionalAddressCurrentLocation();
+                                        _isAddedGPSLocation = true;
+                                        // _additionalAddressCurrentLocation();
                                       } else if (_myAddedAddressInputType !=
                                               null &&
                                           _myAddedAddressInputType
@@ -2755,7 +2756,7 @@ class _AddAddressState extends State<AddAddress> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'Oxygen',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -2787,14 +2788,16 @@ class _AddAddressState extends State<AddAddress> {
                                                     child: TextFormField(
                                                       //enableInteractiveSelection: false,
                                                       autofocus: false,
+                                                      maxLength: 4,
                                                       controller:
                                                           addedRoomNumberController,
                                                       decoration:
                                                           new InputDecoration(
+                                                        counterText: '',
                                                         filled: true,
                                                         fillColor: ColorConstants
                                                             .formFieldFillColor,
-                                                        labelText: '号室',
+                                                        labelText: '部屋番号',
                                                         /*hintText: '都、県選 *',
                                                   hintStyle: TextStyle(
                                                     color: Colors.grey[400],
@@ -2803,7 +2806,7 @@ class _AddAddressState extends State<AddAddress> {
                                                             color: Colors
                                                                 .grey[400],
                                                             fontFamily:
-                                                                'Oxygen',
+                                                                'NotoSansJP',
                                                             fontSize: 14),
                                                         focusColor:
                                                             Colors.grey[100],
@@ -3053,7 +3056,7 @@ class _AddAddressState extends State<AddAddress> {
                                                                 color: Colors
                                                                     .grey[400],
                                                                 fontFamily:
-                                                                    'Oxygen',
+                                                                    'NotoSansJP',
                                                                 fontSize: 14),
                                                             focusColor: Colors
                                                                 .grey[100],
@@ -3102,7 +3105,7 @@ class _AddAddressState extends State<AddAddress> {
                                                               color: Colors
                                                                   .grey[400],
                                                               fontFamily:
-                                                                  'Oxygen',
+                                                                  'NotoSansJP',
                                                               fontSize: 14),
                                                           focusColor:
                                                               Colors.grey[100],
@@ -3150,20 +3153,22 @@ class _AddAddressState extends State<AddAddress> {
                                                         child: TextFormField(
                                                           //enableInteractiveSelection: false,
                                                           autofocus: false,
+                                                          maxLength: 4,
                                                           controller:
                                                               addedRoomNumberController,
                                                           decoration:
                                                               new InputDecoration(
+                                                            counterText: '',
                                                             filled: true,
                                                             fillColor:
                                                                 ColorConstants
                                                                     .formFieldFillColor,
-                                                            labelText: '号室',
+                                                            labelText: '部屋番号',
                                                             labelStyle: TextStyle(
                                                                 color: Colors
                                                                     .grey[400],
                                                                 fontFamily:
-                                                                    'Oxygen',
+                                                                    'NotoSansJP',
                                                                 fontSize: 14),
                                                             focusColor: Colors
                                                                 .grey[100],
@@ -3331,7 +3336,7 @@ class _AddAddressState extends State<AddAddress> {
                 child: Text('必須値を入力してください。',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(fontFamily: 'Oxygen')),
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
               ),
               InkWell(
                 onTap: () {
@@ -3340,7 +3345,7 @@ class _AddAddressState extends State<AddAddress> {
                 child: Text('はい',
                     style: TextStyle(
                         color: Colors.black,
-                        fontFamily: 'Oxygen',
+                        fontFamily: 'NotoSansJP',
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline)),
               ),
@@ -3387,7 +3392,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: Text('メインの地点以外に3箇所まで地点登録ができます。',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(fontFamily: 'Oxygen')),
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
                 ),
                 InkWell(
                   onTap: () {
@@ -3402,7 +3407,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: Text('はい',
                       style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline)),
                 ),
@@ -3430,7 +3435,7 @@ class _AddAddressState extends State<AddAddress> {
                 child: Text('必須値を入力してください。',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: TextStyle(fontFamily: 'Oxygen')),
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
               ),
               InkWell(
                 onTap: () {
@@ -3439,7 +3444,7 @@ class _AddAddressState extends State<AddAddress> {
                 child: Text('はい',
                     style: TextStyle(
                         color: Colors.black,
-                        fontFamily: 'Oxygen',
+                        fontFamily: 'NotoSansJP',
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline)),
               ),
@@ -3511,7 +3516,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: Text('メインの地点以外に3箇所まで地点登録ができます。',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(fontFamily: 'Oxygen')),
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
                 ),
                 InkWell(
                   onTap: () {
@@ -3526,7 +3531,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: Text('はい',
                       style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline)),
                 ),
@@ -3548,7 +3553,7 @@ class _AddAddressState extends State<AddAddress> {
               child: Text('検索地点の登録を選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontFamily: 'Oxygen')),
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
             InkWell(
               onTap: () {
@@ -3557,7 +3562,7 @@ class _AddAddressState extends State<AddAddress> {
               child: Text('はい',
                   style: TextStyle(
                       color: Colors.black,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline)),
             ),

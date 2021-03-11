@@ -52,7 +52,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                                fontFamily: 'Oxygen')));
+                                                fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -110,7 +110,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
-                                                  fontFamily: 'Oxygen')));
+                                                  fontFamily: 'NotoSansJP')));
                             }
                             return Center(
                               child:
@@ -151,7 +151,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                   '次へ',
                   style: TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),
@@ -179,7 +179,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                   'はじめる',
                   style: TextStyle(
                       fontSize: 14,
-                      fontFamily: 'Oxygen',
+                      fontFamily: 'NotoSansJP',
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),

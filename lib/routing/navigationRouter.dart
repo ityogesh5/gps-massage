@@ -30,10 +30,18 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/reservationAndFavourites.dart';
+
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
+
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/recommended.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
@@ -130,6 +138,18 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => NearByProviderAndShop()));
+  }
+
+  //User Recommended
+  static void switchToRecommended(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => Recommend()));
+  }
+
+  //User CalendarScreen
+  static void switchToCalendarScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => CalendarScreen()));
   }
 
   //UserSearchScreen
@@ -384,6 +404,24 @@ class NavigationRouter {
         MaterialPageRoute(builder: (context) => UpdateServiceUserDetails()));
   }
 
+  //User BookingDetailsConfirmedScreen
+  static void switchToServiceUserBookingDetailsConfirmedScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BookingDetailsConfirmedScreen()));
+  }
+
+  //User BookingDetailsCompletedScreen
+  static void switchToServiceUserBookingDetailsCompletedScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BookingDetailsCompletedScreen()));
+  }
+
   // Service User View Profile Screen
   static void switchToServiceUserViewProfileScreen(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
@@ -457,6 +495,15 @@ class NavigationRouter {
             builder: (BuildContext context) => DetailPageSearch()));
   }
 
+  //User BookingDetailsApprovedScreen
+  static void switchToServiceUserBookingDetailsApprovedScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BookingDetailsApprovedScreen()));
+  }
+
   // Service User Booking Confirmation Screen
   static void switchToServiceUserBookingConfirmationScreen(
       BuildContext context) {
@@ -490,6 +537,15 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ApprovalWaitingScreen()));
+  }
+
+  //ConditionsApplyBookingScreen
+  static void switchToServiceUserConditionsApplyBookingScreen(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ConditionsApplyBookingScreen()));
   }
 
   //Booking approved screen one

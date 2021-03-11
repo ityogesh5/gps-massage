@@ -145,7 +145,7 @@ class DropDownFormField extends FormField<dynamic> {
                       state.hasError ? state.errorText : '',
                       style: TextStyle(
                           color: Colors.redAccent.shade700,
-                          fontFamily: 'Oxygen',
+                          fontFamily: 'NotoSansJP',
                           fontSize: state.hasError ? 12.0 : 0.0),
                     ),
                   ],

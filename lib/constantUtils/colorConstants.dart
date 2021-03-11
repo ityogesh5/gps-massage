@@ -7,5 +7,7 @@ class ColorConstants {
   static final formTextColor = Colors.black;
   static final formHintTextColor = Color.fromRGBO(197, 197, 197, 1);
   static final multiTextHintTextColor = Color.fromRGBO(217, 217, 217, 1);
+  static final fontFamily = 'Oxygen';
+
   static final statusBarColor = Colors.grey[200];
 }

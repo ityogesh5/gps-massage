@@ -70,12 +70,18 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         backgroundColor: Colors.grey[200],
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeOne.svg',
+                            color: Color.fromRGBO(0, 0, 0, 1),
                             height: 15,
                             width: 15),
                       ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('エステ'),
+                    Text(
+                      'エステ',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
@@ -89,12 +95,18 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         backgroundColor: Colors.grey[200],
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeTwo.svg',
+                            color: Color.fromRGBO(0, 0, 0, 1),
                             height: 15,
                             width: 15),
                       ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                    Text('整骨・整体'),
+                    Text(
+                      '整骨・整体',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.02),
@@ -109,12 +121,18 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                           backgroundColor: Colors.grey[200],
                           child: SvgPicture.asset(
                               'assets/images_gps/serviceTypeThree.svg',
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               height: 15,
                               width: 15),
                         ),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-                      Text('リラクゼーション'),
+                      Text(
+                        'リラクゼーション',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -154,7 +172,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                             Text(
                               "店舗名",
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.left,
@@ -168,63 +186,84 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                                   Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text('店舗')),
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                            ]),
+                                        shape: BoxShape.rectangle,
+                                        border: Border.all(
+                                          color:
+                                              Color.fromRGBO(228, 228, 228, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                      child: Text(
+                                        '店舗',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text('出張')),
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                            ]),
+                                        shape: BoxShape.rectangle,
+                                        border: Border.all(
+                                          color:
+                                              Color.fromRGBO(228, 228, 228, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                      child: Text(
+                                        '出張',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text('コロナ対策実施有無')),
+                                        gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                              Color.fromRGBO(255, 255, 255, 1),
+                                            ]),
+                                        shape: BoxShape.rectangle,
+                                        border: Border.all(
+                                          color:
+                                              Color.fromRGBO(228, 228, 228, 1),
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                      child: Text(
+                                        'コロナ対策実施有無',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                        ),
+                                      )),
                                 ],
                               ),
                             ),
@@ -237,9 +276,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                             Text(
                               '(${ratingsValue.toString()})',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(153, 153, 153, 1),
                                   fontSize: 14,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             RatingBar.builder(
                               initialRating: 3,
@@ -253,7 +292,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
-                                color: Colors.black,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                               ),
                               onRatingUpdate: (rating) {
                                 // print(rating);
@@ -266,16 +305,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                             Text(
                               '(1518)',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(153, 153, 153, 1),
                                   fontSize: 12,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
                             Container(
                               child: Text(
                                 'もっとみる',
                                 style: TextStyle(
-                                    fontFamily: 'Oxygen',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline,
                                     fontSize: 14),
@@ -300,20 +340,83 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('女性のみ予約可')),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          '女性のみ予約可',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          'キッズスペース有',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          '保育士常駐',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
+                    SizedBox(
+                      width: 5,
+                    ),
                   ],
                 ),
                 SizedBox(height: 10),
@@ -326,121 +429,99 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  Colors.white,
-                                  Colors.white,
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
                                 ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
-                              color: Colors.grey[300],
+                              color: Color.fromRGBO(228, 228, 228, 1),
                             ),
                             borderRadius: BorderRadius.circular(5.0),
                             color: Colors.grey[200]),
-                        child: Text('キッズスペース有')),
+                        child: Text(
+                          '国家資格',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
                     SizedBox(
                       width: 5,
                     ),
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('保育士常駐')),
-                    SizedBox(
-                      width: 5,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('国家資格')),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          '民間資格',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
                     SizedBox(
                       width: 5,
                     ),
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('民間資格')),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 255, 255, 1),
+                                Color.fromRGBO(255, 255, 255, 1),
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          '国家資格',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
                     SizedBox(
                       width: 5,
                     ),
                     Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('国家資格')),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text('民間資格')),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white,
+                                Colors.white,
+                              ]),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Color.fromRGBO(228, 228, 228, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Color.fromRGBO(228, 228, 228, 1),
+                        ),
+                        child: Text(
+                          '民間資格',
+                          style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                          ),
+                        )),
                   ],
                 ),
               ],
@@ -451,19 +532,20 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
             padding: const EdgeInsets.all(10.0),
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white,
-                        Colors.white,
-                      ]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[300],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
@@ -478,46 +560,49 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset('assets/images_gps/gps.svg',
-                                height: 25, width: 25),
+                                color: Color.fromRGBO(26, 26, 26, 1),
+                                height: 25,
+                                width: 25),
                             SizedBox(width: 5),
                             new Text(
                               '住所:',
                               style: TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '東京都',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '墨田区',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '押上',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '1-1-2',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -527,22 +612,25 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset('assets/images_gps/clock.svg',
-                                height: 25, width: 25),
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                height: 25,
+                                width: 25),
                             SizedBox(width: 5),
                             new Text(
                               '営業時間:',
                               style: TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '10:30 ～ 11:30',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -558,7 +646,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Divider(),
+              child: Divider(
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
             )),
           ]),
           Padding(
@@ -571,10 +661,10 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                   Text(
                     'メッセージ',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Color.fromRGBO(0, 0, 0, 1),
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        fontFamily: 'Oxygen'),
+                        fontFamily: 'NotoSansJP'),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -584,16 +674,16 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         text: '${HealingMatchConstants.sampleText}',
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: Colors.grey[400],
-                            fontFamily: 'Oxygen'),
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                            fontFamily: 'NotoSansJP'),
                         children: <TextSpan>[
                           new TextSpan(
                               text: 'もっとみる',
                               style: new TextStyle(
                                   decoration: TextDecoration.underline,
                                   fontSize: 16,
-                                  color: Colors.black,
-                                  fontFamily: 'Oxygen',
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                  fontFamily: 'NotoSansJP',
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -614,26 +704,30 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               '施術を受ける場所',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(0, 0, 0, 1),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.white,
-                        Colors.white,
-                      ]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[300],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.09,
               child: Padding(
@@ -648,7 +742,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SvgPicture.asset('assets/images_gps/gps.svg',
-                                height: 25, width: 25),
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                height: 25,
+                                width: 25),
                             SizedBox(width: 5),
                             Container(
                                 padding: EdgeInsets.all(4),
@@ -657,8 +753,8 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
                                         colors: [
-                                          Colors.white,
-                                          Colors.white,
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
                                         ]),
                                     shape: BoxShape.rectangle,
                                     border: Border.all(
@@ -666,38 +762,43 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                                     ),
                                     borderRadius: BorderRadius.circular(5.0),
                                     color: Colors.grey[200]),
-                                child: Text('店舗')),
+                                child: Text(
+                                  '店舗',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                  ),
+                                )),
                             SizedBox(width: 5),
                             new Text(
                               '東京都',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '墨田区',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '押上',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                             SizedBox(width: 5),
                             new Text(
                               '1-1-2',
                               style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: Color.fromRGBO(102, 102, 102, 1),
                                   fontSize: 16,
-                                  fontFamily: 'Oxygen'),
+                                  fontFamily: 'NotoSansJP'),
                             ),
                           ],
                         ),
@@ -722,7 +823,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 0 ? Colors.grey : Colors.transparent,
+                          color: _value == 0
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -735,13 +838,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       Text(
                         'マッサージ',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 0
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 0
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -759,7 +866,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 1 ? Colors.grey : Colors.transparent,
+                          color: _value == 1
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -772,13 +881,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       Text(
                         'ストレッチ',
                         style: TextStyle(
-                          color: _value == 1 ? Colors.black : Colors.grey,
+                          color: _value == 1
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 1
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -796,7 +909,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 2 ? Colors.grey : Colors.transparent,
+                          color: _value == 2
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -809,13 +924,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       Text(
                         'カッピング',
                         style: TextStyle(
-                          color: _value == 2 ? Colors.black : Colors.grey,
+                          color: _value == 2
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '（全身）',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 2
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -833,7 +952,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 3 ? Colors.grey : Colors.transparent,
+                          color: _value == 3
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -846,13 +967,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       Text(
                         'マダニティ',
                         style: TextStyle(
-                          color: _value == 3 ? Colors.black : Colors.grey,
+                          color: _value == 3
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '',
                         style: TextStyle(
-                          color: _value == 0 ? Colors.black : Colors.grey,
+                          color: _value == 3
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -870,7 +995,9 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                         width: 70,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: _value == 4 ? Colors.grey : Colors.transparent,
+                          color: _value == 4
+                              ? Color.fromRGBO(242, 242, 242, 1)
+                              : Color.fromRGBO(255, 255, 255, 1),
                           border: Border.all(),
                         ),
                         child: SvgPicture.asset(
@@ -883,13 +1010,17 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       Text(
                         'ベビーマッサ',
                         style: TextStyle(
-                          color: _value == 4 ? Colors.black : Colors.grey,
+                          color: _value == 4
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                       Text(
                         '',
                         style: TextStyle(
-                          color: _value == 4 ? Colors.black : Colors.grey,
+                          color: _value == 4
+                              ? Color.fromRGBO(0, 0, 0, 1)
+                              : Color.fromRGBO(102, 102, 102, 1),
                         ),
                       ),
                     ],
@@ -899,19 +1030,33 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '施術を受ける日時',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(0, 0, 0, 1),
+              ),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.white, Colors.white]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[300],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(217, 217, 217, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(217, 217, 217, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.16,
               child: Padding(
@@ -919,32 +1064,27 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                 child: Container(
                   child: Row(
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('サービスを受ける日時を\nカレンダーから選択してください')],
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text('サービスを受ける日時を\nカレンダーから選択してください')],
                       ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            NavigationRouter
-                                .switchToServiceUserBookingConfirmationScreen(
-                                    context);
-                          },
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          /* NavigationRouter.switchToServiceUserBookingConfirmationScreen(context);*/
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 38,
+                          backgroundColor: Colors.grey,
                           child: CircleAvatar(
                             maxRadius: 38,
-                            backgroundColor: Colors.grey,
-                            child: CircleAvatar(
-                              maxRadius: 38,
-                              backgroundColor: Colors.white,
-                              child: SvgPicture.asset(
-                                'assets/images_gps/calendar.svg',
-                                height: 20,
-                                width: 20,
-                                color: Colors.lime,
-                              ),
+                            backgroundColor: Colors.white,
+                            child: SvgPicture.asset(
+                              'assets/images_gps/calendar.svg',
+                              height: 20,
+                              width: 20,
+                              color: Color.fromRGBO(200, 217, 33, 1),
                             ),
                           ),
                         ),
@@ -955,26 +1095,35 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.065,
-              child: RaisedButton(
-                child: Text(
-                  '予約に進む',
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Oxygen', fontSize: 18),
-                ),
-                color: Colors.red,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: proceedToPayment(),
+    );
+  }
+
+  Widget proceedToPayment() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.065,
+        child: RaisedButton(
+          child: Text(
+            '予約に進む',
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontFamily: 'NotoSansJP',
+                fontSize: 18),
+          ),
+          color: Color.fromRGBO(255, 0, 0, 1),
+          onPressed: () {
+            NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
+                context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
       ),
     );
   }
@@ -1040,13 +1189,9 @@ class _SearchCauroselWithIndicatorState
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: SvgPicture.asset(
+                    'assets/images_gps/share.svg',
+                    height: 20,
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),

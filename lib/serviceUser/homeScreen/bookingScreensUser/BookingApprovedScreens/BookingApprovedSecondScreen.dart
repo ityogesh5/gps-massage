@@ -31,7 +31,7 @@ class _BookingApproveSecondScreenState
           style: TextStyle(
               color: Colors.black,
               fontSize: 16,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -84,7 +84,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
-                      fontFamily: 'Oxygen'),
+                      fontFamily: 'NotoSansJP'),
                 ),
                 SizedBox(height: 15),
                 Container(
@@ -135,11 +135,11 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       Row(
                         children: [
                           SizedBox(
@@ -154,7 +154,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.03),
@@ -163,11 +163,11 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       Row(
                         children: [
                           SizedBox(
@@ -182,7 +182,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02),
@@ -191,7 +191,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 color: Colors.grey[400],
                                 fontSize: 16,
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -224,7 +224,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[400],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -236,35 +236,41 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                               padding: const EdgeInsets.all(14.0),
                               child: Divider(),
                             )),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
+                            InkWell(
+                              onTap: () {
+                                NavigationRouter.switchToServiceUserChatScreen(
+                                    context);
+                              },
                               child: CircleAvatar(
-                                  maxRadius: 20,
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
+                                  maxRadius: 25,
+                                  backgroundColor: Colors.white,
                                   child: SvgPicture.asset(
                                       'assets/images_gps/chat.svg',
                                       height: 30,
                                       width: 30)),
                             ),
                           ]),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Oxygen'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '施術を受ける場所',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       Expanded(
@@ -274,32 +280,28 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.03),
                             Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                          Color.fromRGBO(255, 255, 255, 1)
-                                        ]),
-                                    shape: BoxShape.rectangle,
-                                    border: Border.all(
-                                      color: Colors.grey[300],
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.grey[200]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '店舗',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                              padding: EdgeInsets.only(left: 15, right: 15),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                        Color.fromRGBO(255, 255, 255, 1)
+                                      ]),
+                                  shape: BoxShape.rectangle,
+                                  border: Border.all(
+                                    color: Colors.grey[300],
                                   ),
-                                )),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.grey[200]),
+                              child: Text('店舗',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'NotoSansJP')),
+                            ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
@@ -309,7 +311,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[500],
-                                    fontFamily: 'Oxygen'),
+                                    fontFamily: 'NotoSansJP'),
                               ),
                             ),
                           ],
@@ -329,7 +331,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16.0,
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -365,7 +367,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.07),
                     Spacer(),
@@ -375,7 +377,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           decoration: TextDecoration.lineThrough,
                           fontSize: 12,
                           color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(Icons.arrow_forward,
@@ -387,7 +389,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -402,7 +404,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 16,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     Spacer(),
                     //¥4,500
@@ -412,7 +414,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 14,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -428,7 +430,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 16,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.07),
                     Spacer(),
@@ -438,7 +440,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           decoration: TextDecoration.lineThrough,
                           fontSize: 12,
                           color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(Icons.arrow_forward,
@@ -450,7 +452,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                           fontSize: 14,
-                          fontFamily: 'Oxygen'),
+                          fontFamily: 'NotoSansJP'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                   ],
@@ -458,84 +460,83 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                 Row(children: <Widget>[
                   Expanded(
                       child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Divider(),
                   )),
                 ]),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    new Text(
-                      '合計',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Spacer(),
-                    Text(
-                      '¥3,500',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 12,
-                          color: Colors.grey[400],
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(Icons.arrow_forward,
-                        color: Colors.grey[400], size: 20),
-                    Spacer(),
-                    new Text(
-                      '¥4,500',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          fontFamily: 'Oxygen'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      new Text(
+                        '合計',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                      Spacer(),
+                      Text(
+                        '¥3,500',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Icon(Icons.arrow_forward,
+                          color: Colors.grey[400], size: 20),
+                      Spacer(),
+                      new Text(
+                        '¥4,500',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.35,
-                  child: CustomToggleButton(
-                    elevation: 0,
-                    height: 55.0,
-                    width: 170.0,
-                    autoWidth: false,
-                    buttonColor: Color.fromRGBO(217, 217, 217, 1),
-                    enableShape: true,
-                    customShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.transparent)),
-                    buttonLables: ["キャンセルする", "支払に進む"],
-                    fontSize: 16.0,
-                    buttonValues: [
-                      "Y",
-                      "N",
-                    ],
-                    radioButtonValue: (value) {
-                      if (value == 'Y') {
-                      } else {}
-                    },
-                    selectedColor: Color.fromRGBO(255, 0, 0, 1),
-                  ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.35,
+                child: CustomToggleButton(
+                  elevation: 0,
+                  height: 55.0,
+                  width: 155.0,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["キャンセルする", "支払に進む"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "Y",
+                    "N",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                    } else {}
+                  },
+                  selectedColor: Color.fromRGBO(255, 0, 0, 1),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
