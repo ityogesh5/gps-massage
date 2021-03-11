@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ProviderApprovedScreen extends StatefulWidget {
   @override
@@ -261,7 +262,8 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
               right: 10.0,
               child: InkWell(
                 onTap: () {
-                  print('abc');
+                    NavigationRouter.switchToServiceProviderChatHistoryScreen(
+                          context);
                 },
                 child: Container(
                   decoration: BoxDecoration(

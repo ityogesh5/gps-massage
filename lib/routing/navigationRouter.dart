@@ -57,6 +57,12 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopu
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancelTimerProvider.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
+import 'package:gps_massageapp/serviceProvider/ratingsReview/userRatingReviewScreen.dart';
+import 'package:gps_massageapp/serviceProvider/ratingsReview/selfReviewScreen.dart';
+
+import 'package:gps_massageapp/serviceProvider/ratingsReview/providerRatingsReviewScreen.dart';
+
+import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -332,6 +338,40 @@ class NavigationRouter {
         MaterialPageRoute(builder: (BuildContext context) => UserTutorial()));
   }
 
+  //Provider User Rating Screen
+  static void switchToProviderSideUserReviewScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => UserRatingReviewScreen()));
+  }
+
+  //Provider Self Review Screen
+  static void switchToProviderSelfReviewScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => ProviderSelfReviewScreen()));
+  }
+
+  //Provider Provider Review Screen
+  static void switchToProviderReviewScreen(BuildContext context, int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProviderRatingsAndReviewUser(index)));
+  }
+
+  //Provider Provider Review Screen
+  static void switchToProviderReviewScreenSent(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProviderRatingsAndReviewUser(1)));
+  }
+
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context) {
     Navigator.push(context,
@@ -380,6 +420,12 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => ChatHistoryScreenUser()));
+  }
+
+  // Service Provider Chat Screen
+  static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => Chat()));
   }
 
   // Service User Notifications Screen

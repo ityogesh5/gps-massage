@@ -78,6 +78,7 @@ class _OperationManagementState extends State<OperationManagement>
           '運営管理',
           style: TextStyle(
               color: Colors.black,
+              fontSize: 18.0,
               fontFamily: 'Oxygen',
               fontWeight: FontWeight.bold),
         ),

@@ -62,7 +62,7 @@ class _CancelBookingState extends State<CancelBooking> {
                   maxLines: 5,
                   decoration: InputDecoration(
                     hintText: "キャンセルする理由を記入ください",
-                    hintStyle: HealingMatchConstants.formHintTextStyle,
+                    hintStyle: HealingMatchConstants.multiTextHintTextStyle,
                     border: HealingMatchConstants.multiTextFormInputBorder,
                     focusedBorder:
                         HealingMatchConstants.multiTextFormInputBorder,
@@ -127,8 +127,6 @@ class _CancelBookingState extends State<CancelBooking> {
             onPressed: () {
               Navigator.pop(context);
             },
-            //  minWidth: MediaQuery.of(context).size.width * 0.38,
-            // splashColor: Colors.grey,
             color: Color.fromRGBO(217, 217, 217, 1),
             padding: EdgeInsets.symmetric(
               vertical: 10.0,
@@ -136,10 +134,9 @@ class _CancelBookingState extends State<CancelBooking> {
             child: Text(
               'はい',
               style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-              ),
+                  fontSize: 16.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -155,7 +152,7 @@ class _CancelBookingState extends State<CancelBooking> {
               Navigator.pop(context);
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
-            splashColor: Colors.pinkAccent[600],
+
             color: Color.fromRGBO(200, 217, 33, 1),
             padding: EdgeInsets.symmetric(
               vertical: 10.0,
@@ -163,10 +160,9 @@ class _CancelBookingState extends State<CancelBooking> {
             child: Text(
               'いいえ',
               style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-              ),
+                  fontSize: 16.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

@@ -33,12 +33,12 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
           child: Column(
             children: [
               Text(
-                "PR(施術内容、特徴) 注意事項等を自由に記載できます",
+                "PR（施術内容、特徴）、注意事項等を自由に記載できます",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 12,
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                ),
               ),
               SizedBox(
                 height: 10.0,
@@ -53,8 +53,8 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                   expands: false,
                   maxLines: 10,
                   decoration: InputDecoration(
-                    hintText: "買問、要望なとメッセージがあれば入力してください。",
-                    hintStyle: HealingMatchConstants.formHintTextStyle,
+                    hintText: "PRメッセージを2000文字以内で記載ください。",
+                    hintStyle: HealingMatchConstants.multiTextHintTextStyle,
                     border: HealingMatchConstants.multiTextFormInputBorder,
                     focusedBorder:
                         HealingMatchConstants.multiTextFormInputBorder,
@@ -73,17 +73,17 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                 child: Row(
                   children: [
                     Text(
-                      "*",
+                       "※",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 12,
+                        color: Color.fromRGBO(255, 0, 0, 1),
+                      ),
                     ),
                     Text(
-                      "リービス利用者に向けたPRコメントを記入してください。",
+                      "サービス利用者に向けたPRコメントを記入してください。",
                       textAlign: TextAlign.center,
-                      style: HealingMatchConstants.formHintTextStyle,
+                      style: HealingMatchConstants.multiTextHintTextStyle,
                     ),
                   ],
                 ),
@@ -95,17 +95,17 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "*",
+                      "※",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 12,
+                        color: Color.fromRGBO(255, 0, 0, 1),
+                      ),
                     ),
                     Text(
-                      "電話番号、メールアドレス、 SNSのアカウント、\n ホームページURL等の記載はお控えください。\n (詳しくは利用規をご覧ください。) ",
+                      "電話番号、メールアドレス、SNSのアカウント、\n ホームページURL等の記載はお控えください。\n（詳しくは利用規約をご覧ください。）",
                       //textAlign: TextAlign.center,
-                      style: HealingMatchConstants.formHintTextStyle,
+                      style: HealingMatchConstants.multiTextHintTextStyle,
                     ),
                   ],
                 ),
@@ -119,14 +119,14 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                 //margin: EdgeInsets.only(top: 1.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.lime,
+                  color: Color.fromRGBO(200, 217, 33, 1),
                 ),
                 child: RaisedButton(
                   child: Text(
                     'アップロードする',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
-                  color: Colors.lime,
+                  color: Color.fromRGBO(200, 217, 33, 1),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),

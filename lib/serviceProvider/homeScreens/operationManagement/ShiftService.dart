@@ -110,9 +110,7 @@ class _ShiftServiceState extends State<ShiftService> {
                 Text(
                   '施術メニューをアレンジできます。',
                   style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13.5),
+                      color: Color.fromRGBO(102, 102, 102, 1), fontSize: 12),
                 ),
                 SizedBox(
                   height: 20,
@@ -461,11 +459,11 @@ class _ShiftServiceState extends State<ShiftService> {
                         height: 50.0,
                         child: RaisedButton(
                           child: Text(
-                            "更新",
+                            "保存",
                             style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                          color: Colors.lime,
+                          color: Color.fromRGBO(200, 217, 33, 1),
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(10.0),
@@ -784,7 +782,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              color: Colors.lime,
+                              color: Color.fromRGBO(200, 217, 33, 1),
                             ),
                           ),
                           filled: true,
@@ -995,14 +993,16 @@ class _ShiftServiceState extends State<ShiftService> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blue,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.grey,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                               width: 1.0,
                                             ),
                                           ),
@@ -1017,10 +1017,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            ColorConstants.formFieldFillColor,
+                                        color: Color.fromRGBO(245, 245, 245, 1),
                                         border: Border.all(
-                                          color: Colors.grey[200],
+                                          color:
+                                              Color.fromRGBO(245, 245, 245, 1),
                                         )),
                                     child: Center(
                                       child: Text(
@@ -1056,14 +1056,16 @@ class _ShiftServiceState extends State<ShiftService> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blue,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.grey,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                               width: 1.0,
                                             ),
                                           ),
@@ -1078,10 +1080,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            ColorConstants.formFieldFillColor,
+                                        color: Color.fromRGBO(245, 245, 245, 1),
                                         border: Border.all(
-                                          color: Colors.grey[200],
+                                          color:
+                                              Color.fromRGBO(245, 245, 245, 1),
                                         )),
                                     child: Center(
                                       child: Text(
@@ -1117,14 +1119,16 @@ class _ShiftServiceState extends State<ShiftService> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blue,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.grey,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                               width: 1.0,
                                             ),
                                           ),
@@ -1139,10 +1143,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            ColorConstants.formFieldFillColor,
+                                        color: Color.fromRGBO(245, 245, 245, 1),
                                         border: Border.all(
-                                          color: Colors.grey[200],
+                                          color:
+                                              Color.fromRGBO(245, 245, 245, 1),
                                         )),
                                     child: Center(
                                       child: Text(
@@ -1178,14 +1182,16 @@ class _ShiftServiceState extends State<ShiftService> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blue,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.grey,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                               width: 1.0,
                                             ),
                                           ),
@@ -1200,10 +1206,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            ColorConstants.formFieldFillColor,
+                                        color: Color.fromRGBO(245, 245, 245, 1),
                                         border: Border.all(
-                                          color: Colors.grey[200],
+                                          color:
+                                              Color.fromRGBO(245, 245, 245, 1),
                                         )),
                                     child: Center(
                                       child: Text(
@@ -1239,14 +1245,16 @@ class _ShiftServiceState extends State<ShiftService> {
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.blue,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
-                                              color: Colors.grey,
+                                              color: Color.fromRGBO(
+                                                  225, 225, 225, 1),
                                               width: 1.0,
                                             ),
                                           ),
@@ -1261,10 +1269,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(10.0),
-                                        color:
-                                            ColorConstants.formFieldFillColor,
+                                        color: Color.fromRGBO(245, 245, 245, 1),
                                         border: Border.all(
-                                          color: Colors.grey[200],
+                                          color:
+                                              Color.fromRGBO(245, 245, 245, 1),
                                         )),
                                     child: Center(
                                       child: Text(
@@ -1294,7 +1302,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      color: Colors.lime,
+                                      color: Color.fromRGBO(200, 217, 33, 1),
                                       textColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -1766,7 +1774,7 @@ class _ShiftServiceState extends State<ShiftService> {
       selectedFitnessDropdownValues.add(serviceItem.name);
     }
     //Get the Selected CheckBox Values
-   /*  selectedEstheticDropdownValues
+    /*  selectedEstheticDropdownValues
         .addAll(HealingMatchConstants.selectedEstheticDropdownValues);
     selectedRelaxationDropdownValues
         .addAll(HealingMatchConstants.selectedRelaxationDropdownValues);
@@ -1786,7 +1794,7 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   saveSelectedValues() {
-  /*   //Clear and Saving the Price Model
+    /*   //Clear and Saving the Price Model
     HealingMatchConstants.estheticServicePriceModel.clear();
     HealingMatchConstants.relaxationServicePriceModel.clear();
     HealingMatchConstants.treatmentServicePriceModel.clear();

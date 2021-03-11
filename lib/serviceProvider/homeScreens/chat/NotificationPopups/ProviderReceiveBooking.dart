@@ -475,70 +475,76 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
                 SizedBox(
                   height: 15,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      '(4.0)',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                          shadows: [
-                            Shadow(color: Colors.black, offset: Offset(0, -3))
-                          ],
-                          fontSize: 14,
-                          color: Colors.transparent,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 5.0),
-                    RatingBar.builder(
-                      initialRating: 4,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 24.0,
-                      itemPadding: new EdgeInsets.only(bottom: 3.0),
-                      itemBuilder: (context, index) => new SizedBox(
-                          height: 20.0,
-                          width: 18.0,
-                          child: new IconButton(
-                            onPressed: () {},
-                            padding: new EdgeInsets.all(0.0),
-                            color: Colors.black,
-                            icon: index == 4
-                                ? SvgPicture.asset(
-                                    "assets/images_gps/star_2.svg",
-                                    height: 13.0,
-                                    width: 12.5,
-                                    color: Colors.black,
-                                  )
-                                : SvgPicture.asset(
-                                    "assets/images_gps/star_1.svg",
-                                    height: 13.0,
-                                    width: 12.5,
-                                    color: Colors.black,
-                                  ), /*  new Icon(
-                                                              Icons.star,
-                                                              size: 20.0), */
-                          )),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
-                    SizedBox(width: 5.0),
-                    Text(
-                      '(152 レビュー)',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                          shadows: [
-                            Shadow(color: Colors.black, offset: Offset(0, -3))
-                          ],
-                          fontSize: 14,
-                          color: Colors.transparent,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToProviderSideUserReviewScreen(
+                        context);
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        '(4.0)',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.black,
+                            shadows: [
+                              Shadow(color: Colors.black, offset: Offset(0, -3))
+                            ],
+                            fontSize: 14,
+                            color: Colors.transparent,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 5.0),
+                      RatingBar.builder(
+                        initialRating: 4,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 24.0,
+                        itemPadding: new EdgeInsets.only(bottom: 3.0),
+                        itemBuilder: (context, index) => new SizedBox(
+                            height: 20.0,
+                            width: 18.0,
+                            child: new IconButton(
+                              onPressed: () {},
+                              padding: new EdgeInsets.all(0.0),
+                              color: Colors.black,
+                              icon: index == 4
+                                  ? SvgPicture.asset(
+                                      "assets/images_gps/star_2.svg",
+                                      height: 13.0,
+                                      width: 12.5,
+                                      color: Colors.black,
+                                    )
+                                  : SvgPicture.asset(
+                                      "assets/images_gps/star_1.svg",
+                                      height: 13.0,
+                                      width: 12.5,
+                                      color: Colors.black,
+                                    ), /*  new Icon(
+                                                                Icons.star,
+                                                                size: 20.0), */
+                            )),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      ),
+                      SizedBox(width: 5.0),
+                      Text(
+                        '(152 レビュー)',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.black,
+                            shadows: [
+                              Shadow(color: Colors.black, offset: Offset(0, -3))
+                            ],
+                            fontSize: 14,
+                            color: Colors.transparent,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 15,

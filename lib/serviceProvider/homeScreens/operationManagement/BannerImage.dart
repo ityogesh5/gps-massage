@@ -55,12 +55,12 @@ class _BannerImageState extends State<BannerImage> {
                 Container(
                   //height: containerHeight,
                   width: containerWidth,
-                  child: Text('掲載する店舗・施術風景等の写真をアレンジできます。\n アップロードできる写真は5枚までです。',
+                  child: Text('掲載写真（店舗、施術風景等）を5枚まで 　\nアップロードできます。',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold)),
+                        fontSize: 12,
+                        color: Color.fromRGBO(102, 102, 102, 1),
+                      )),
                 ),
                 SizedBox(height: sizedBoxFormHeight),
                 Container(
@@ -78,7 +78,7 @@ class _BannerImageState extends State<BannerImage> {
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -167,11 +167,11 @@ class _BannerImageState extends State<BannerImage> {
                         ),
                         child: RaisedButton(
                           child: Text(
-                            '日付を選',
+                            'アップロードする',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
-                          color: Colors.lime,
+                          color: Color.fromRGBO(200, 217, 33, 1),
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),

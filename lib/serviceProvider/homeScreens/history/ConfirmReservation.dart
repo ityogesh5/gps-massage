@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ProviderConfirmReservationScreen extends StatefulWidget {
   @override
@@ -331,7 +332,8 @@ class _ProviderConfirmReservationScreenState
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
-                        print('abc');
+                        NavigationRouter.switchToProviderReviewScreen(
+                            context, 0);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -359,7 +361,8 @@ class _ProviderConfirmReservationScreenState
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
-                        print('abc');
+                        NavigationRouter.switchToProviderReviewScreenSent(
+                            context);
                       },
                       child: Container(
                         decoration: BoxDecoration(

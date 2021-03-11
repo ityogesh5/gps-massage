@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
 
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+
 class WeeklySchedule extends StatefulWidget {
   @override
   _WeeklyScheduleState createState() => _WeeklyScheduleState();
@@ -361,7 +363,8 @@ class _weeklyScheduleCardState extends State<weeklyScheduleCard> {
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
-                        print('abc');
+                        NavigationRouter
+                            .switchToServiceProviderChatHistoryScreen(context);
                       },
                       child: Container(
                         decoration: BoxDecoration(

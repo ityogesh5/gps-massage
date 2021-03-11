@@ -84,7 +84,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
             Text(
               "営業日時を自由に組むことができます。",
               style: TextStyle(
-                  fontSize: 12.0, color: Colors.grey, fontFamily: 'Oxygen'),
+                  fontSize: 12.0, color: Color.fromRGBO(102, 102, 102, 1)),
             ),
             SizedBox(
               height: 10.0,
@@ -100,6 +100,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         width: MediaQuery.of(context).size.width * 0.2,
                         color: Colors.transparent,
                         child: DropDownFormField(
+                          fillColor: Colors.white,
+                          borderColor: Color.fromRGBO(228, 228, 228, 1),
                           contentPadding: EdgeInsets.all(1.0),
                           titleText: null,
                           hintText: readonly
@@ -152,6 +154,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.2,
                         child: DropDownFormField(
+                          fillColor: Colors.white,
+                          borderColor: Color.fromRGBO(228, 228, 228, 1),
                           titleText: null,
                           hintText: readonly
                               ? monthString
@@ -258,24 +262,28 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         rows: 45,
                         columns: daysToDisplay,
                         tableTheme: LazyDataTableTheme(
-                          columnHeaderColor: Colors.grey[200],
+                          columnHeaderColor: Color.fromRGBO(247, 247, 247, 1),
                           columnHeaderBorder: Border.fromBorderSide(
                             BorderSide(color: Colors.transparent),
                           ),
                           rowHeaderBorder: Border.fromBorderSide(
                             BorderSide(color: Colors.transparent),
                           ),
-                          rowHeaderColor: Colors.grey[200],
+                          rowHeaderColor: Color.fromRGBO(247, 247, 247, 1),
                           cornerBorder: Border.fromBorderSide(
                             BorderSide(color: Colors.transparent),
                           ),
-                          cornerColor: Colors.grey[200],
+                          cornerColor: Color.fromRGBO(247, 247, 247, 1),
                           cellBorder: Border.symmetric(
                               horizontal: BorderSide.none,
-                              vertical: BorderSide(color: Colors.grey[400])),
+                              vertical: BorderSide(
+                                color: Color.fromRGBO(240, 240, 240, 1),
+                              )),
                           alternateCellBorder: Border.symmetric(
                               horizontal: BorderSide.none,
-                              vertical: BorderSide(color: Colors.grey[400])),
+                              vertical: BorderSide(
+                                color: Color.fromRGBO(240, 240, 240, 1),
+                              )),
                           alternateCellColor: Colors.white,
                         ),
                         tableDimensions: LazyDataTableDimensions(
@@ -284,10 +292,23 @@ class _ShiftTimingState extends State<ShiftTiming> {
                           columnHeaderHeight: 50,
                           rowHeaderWidth: 50,
                         ),
-                        columnHeaderBuilder: (i) =>
-                            Center(child: Text("${i + 1}")),
+                        columnHeaderBuilder: (i) => Center(
+                          child: Text(
+                            "${i + 1}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                         rowHeaderBuilder: (i) {
-                          return Center(child: Text("${time[i]}"));
+                          return Center(
+                            child: Text(
+                              "${time[i]}",
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(158, 158, 158, 1),
+                              ),
+                            ),
+                          );
                         },
                         dataCellBuilder: (i, j) {
                           if ((schedule.containsKey(time[i])) &&
@@ -303,9 +324,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     child: Text(
                                   "X",
                                   style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.grey,
-                                      fontFamily: 'Oxygen'),
+                                    fontSize: 20.0,
+                                    color: Color.fromRGBO(193, 193, 193, 1),
+                                  ),
                                 )));
                           } else {
                             return InkWell(
@@ -318,14 +339,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               child: Center(
                                 child: Text(
                                   "O",
-                                  style: TextStyle(
-                                      fontSize: 20.0, fontFamily: 'Oxygen'),
+                                  style: TextStyle(fontSize: 20.0),
                                 ),
                               ),
                             );
                           }
                         },
-                        cornerWidget: Center(child: Text("日時")),
+                        cornerWidget: Center(
+                          child: Text(
+                            "日時",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(158, 158, 158, 1),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -367,7 +396,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                   borderRadius: BorderRadius.circular(20)),
               elevation: 16,
               child: SingleChildScrollView(
-                              child: Container(
+                child: Container(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -394,7 +423,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Text(
                           "営業日時を設定してください。",
                           style: TextStyle(
-                              fontSize: 14.0, fontWeight: FontWeight.bold),
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 15.0),
                         Row(
@@ -797,9 +826,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            color: Colors.lime,
+                            color: Color.fromRGBO(200, 217, 33, 1),
                             onPressed: () {
-                              Navigator.pop(context);
+                              showConfirmDialog();
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -807,7 +836,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                 '保存',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontFamily: 'Oxygen',
                                     fontWeight: FontWeight.w800,
                                     color: Colors.white),
                               ),
@@ -822,5 +850,90 @@ class _ShiftTimingState extends State<ShiftTiming> {
             );
           });
         });
+  }
+
+  showConfirmDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            elevation: 16,
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "全ての金曜日をXにします",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  buildButton()
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  buildButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Expanded(
+          child: MaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            //  minWidth: MediaQuery.of(context).size.width * 0.38,
+            // splashColor: Colors.grey,
+            color: Color.fromRGBO(217, 217, 217, 1),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+            ),
+            child: Text(
+              'キャンセル',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 15.0,
+        ),
+        Expanded(
+          child: MaterialButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            //   minWidth: MediaQuery.of(context).size.width * 0.38,
+            color: Color.fromRGBO(200, 217, 33, 1),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.0,
+            ),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -369,10 +369,8 @@ class HealingMatchConstants {
     color: ColorConstants.formHintTextColor,
   );
 
-  static TextStyle formHintTextStyle = TextStyle(
-      color: ColorConstants.formHintTextColor,
-      fontFamily: 'Oxygen',
-      fontSize: 14);
+  static TextStyle formHintTextStyle =
+      TextStyle(color: ColorConstants.formHintTextColor, fontSize: 14);
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
@@ -380,6 +378,9 @@ class HealingMatchConstants {
       color: ColorConstants.formFieldBorderColor,
     ),
   );
+
+  static TextStyle multiTextHintTextStyle =
+      TextStyle(color: ColorConstants.multiTextHintTextColor, fontSize: 14);
 
   static var multiTextFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(15.0),

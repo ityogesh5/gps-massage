@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
 
 class ProviderRequestScreen extends StatefulWidget {
   @override
@@ -286,7 +287,16 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
               right: 70.0,
               child: InkWell(
                 onTap: () {
-                  print('abc');
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0)), //this right here
+                          child: CancelBooking(),
+                        );
+                      });
                 },
                 child: Container(
                   decoration: BoxDecoration(
