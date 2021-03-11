@@ -66,12 +66,12 @@ class _HomeScreenUserState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: InkWell(
+                    onTap: () {
+                      NavigationRouter.switchToServiceUserSearchScreen(context);
+                    },
                     child: TextFormField(
                       readOnly: true,
                       autofocus: false,
@@ -403,7 +403,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemSize: 25,
+                                    itemSize: 22,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     itemBuilder: (context, _) => Icon(
@@ -729,7 +729,7 @@ class _ReservationListState extends State<ReservationList> {
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
-                            itemSize: 25,
+                            itemSize: 22,
                             itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
@@ -1064,7 +1064,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemCount: 5,
-                                  itemSize: 25,
+                                  itemSize: 22,
                                   itemPadding:
                                       EdgeInsets.symmetric(horizontal: 4.0),
                                   itemBuilder: (context, _) => Icon(

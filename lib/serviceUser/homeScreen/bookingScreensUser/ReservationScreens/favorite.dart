@@ -29,7 +29,7 @@ class _FavoriteState extends State<Favorite> {
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.30,
+                        height: MediaQuery.of(context).size.height * 0.28,
                         width: MediaQuery.of(context).size.width * 0.90,
                         child: new Card(
                           color: Color.fromRGBO(242, 242, 242, 1),
@@ -42,6 +42,8 @@ class _FavoriteState extends State<Favorite> {
                             child: Column(
                               children: [
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       flex: 1,
@@ -50,15 +52,16 @@ class _FavoriteState extends State<Favorite> {
                                           CircleAvatar(
                                             child: SvgPicture.asset(
                                               'assets/images_gps/gpsLogo.svg',
-                                              height: 35,
+                                              height: 40,
                                               color: Colors.blue,
                                             ),
-                                            radius: 30,
+                                            radius: 40,
                                             backgroundColor: Colors.white,
                                           ),
                                         ],
                                       ),
                                     ),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       flex: 3,
                                       child: Column(

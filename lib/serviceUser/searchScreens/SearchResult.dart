@@ -98,6 +98,8 @@ class _SearchResultState extends State<SearchResult> {
                             child: Column(
                               children: [
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       flex: 1,
@@ -106,10 +108,10 @@ class _SearchResultState extends State<SearchResult> {
                                           CircleAvatar(
                                             child: SvgPicture.asset(
                                               'assets/images_gps/gpsLogo.svg',
-                                              height: 35,
+                                              height: 40,
                                               color: Colors.blue,
                                             ),
-                                            radius: 30,
+                                            radius: 45,
                                             backgroundColor: Colors.white,
                                           ),
                                         ],

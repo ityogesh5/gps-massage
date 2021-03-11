@@ -39,7 +39,7 @@ class _PastReservationsState extends State<PastReservations> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Column(
                               children: [
                                 Row(
@@ -59,17 +59,19 @@ class _PastReservationsState extends State<PastReservations> {
                                           SizedBox(
                                             height: 5,
                                           ),
-                                          Text(
-                                            '1.5km圏内',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  153, 153, 153, 1),
+                                          FittedBox(
+                                            child: Text(
+                                              '1.5km圏内',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    153, 153, 153, 1),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       flex: 4,
                                       child: Column(

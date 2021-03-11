@@ -74,17 +74,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
+                                            FittedBox(
+                                              child: Text(
+                                                '1.5km圏内',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(width: 10),
                                       Expanded(
                                         flex: 4,
                                         child: Column(
@@ -348,7 +350,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Divider(
-                                        color: Color.fromRGBO(242, 242, 242, 1),
+                                        color: Color.fromRGBO(217, 217, 217, 1),
                                       ),
                                     ),
                                   ),
@@ -517,17 +519,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
+                                            FittedBox(
+                                              child: Text(
+                                                '1.5km圏内',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(width: 10),
                                       Expanded(
                                         flex: 4,
                                         child: Column(
@@ -788,7 +792,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           // height: 50,
 
                                           color:
-                                              Color.fromRGBO(242, 242, 242, 1),
+                                              Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ),
                                       InkWell(
@@ -798,7 +802,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
@@ -807,6 +811,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 height: 30,
                                                 width: 30)),
                                       ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
                                       InkWell(
                                         onTap: () {
                                           NavigationRouter
@@ -814,7 +821,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/accept.svg',
@@ -978,15 +985,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text('1.5km圏内',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      153, 153, 153, 1),
-                                                )),
+                                            FittedBox(
+                                              child: Text('1.5km圏内',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        153, 153, 153, 1),
+                                                  )),
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(width: 10),
                                       Expanded(
                                         flex: 4,
                                         child: Column(
@@ -1256,7 +1265,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
@@ -1265,8 +1274,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 height: 25,
                                                 width: 25)),
                                       ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
                                       CircleAvatar(
-                                          maxRadius: 25,
+                                          maxRadius: 20,
                                           backgroundColor: Colors.white,
                                           child: SvgPicture.asset(
                                               'assets/images_gps/pay.svg',
@@ -1274,6 +1286,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   255, 193, 7, 1),
                                               height: 25,
                                               width: 25)),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
                                       InkWell(
                                         onTap: () {
                                           NavigationRouter
@@ -1281,7 +1296,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/cancel.svg',
@@ -1445,17 +1460,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
+                                            FittedBox(
+                                              child: Text(
+                                                '1.5km圏内',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(width: 10),
                                       Expanded(
                                         flex: 4,
                                         child: Column(
@@ -1726,7 +1743,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
@@ -1735,6 +1752,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 height: 25,
                                                 width: 25)),
                                       ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
                                       InkWell(
                                         onTap: () {
                                           NavigationRouter
@@ -1742,7 +1762,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   context);
                                         },
                                         child: CircleAvatar(
-                                            maxRadius: 25,
+                                            maxRadius: 20,
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/cancel.svg',
@@ -1906,17 +1926,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               radius: 30,
                                               backgroundColor: Colors.white,
                                             ),
-                                            Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
+                                            FittedBox(
+                                              child: Text(
+                                                '1.5km圏内',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(width: 10),
                                       Expanded(
                                         flex: 4,
                                         child: Column(

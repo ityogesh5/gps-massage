@@ -30,7 +30,9 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 4.0, bottom: 4.0),
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.transparent),
+        border: Border.all(
+          color: Color.fromRGBO(255, 255, 255, 1),
+        ),
         borderRadius: BorderRadius.all(
           Radius.circular(15.0),
         ),
@@ -38,7 +40,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
       child: Text(
         "$title",
         style: TextStyle(
-            color: Colors.black,
+            color: Color.fromRGBO(0, 0, 0, 1),
             fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
@@ -56,31 +58,34 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: PreferredSize(
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.11),
           child: Container(
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(
-                color: Colors.grey[200],
+                color: Color.fromRGBO(255, 255, 255, 1),
                 offset: Offset(0, 0.0),
                 blurRadius: 8.0,
               )
             ]),
             child: AppBar(
-              backgroundColor: Colors.grey[100],
+              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
               elevation: 0.0,
               automaticallyImplyLeading: false,
               title: Text(
                 'メッセージ',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color.fromRGBO(0, 0, 0, 1),
                     fontFamily: 'NotoSansJP',
                     fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
                 onPressed: () {
                   NavigationRouter.switchToServiceUserBottomBar(context);
                 },
@@ -145,7 +150,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                   height: MediaQuery.of(context).size.height * 0.07,
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[400],
+                      color: Color.fromRGBO(255, 255, 255, 1),
                       offset: Offset(2.0, 2.0),
                       blurRadius: 8.0,
                     )
@@ -157,12 +162,13 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                         filled: true,
                         fillColor: Colors.white,
                         hintText: 'キーワードで検索',
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.search_rounded,
-                              color: Colors.grey, size: 30),
-                          onPressed: () {},
+                        suffixIcon: Image.asset(
+                          "assets/images_gps/search.png",
+                          color: Color.fromRGBO(225, 225, 225, 1),
                         ),
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: TextStyle(
+                          color: Color.fromRGBO(225, 225, 225, 1),
+                        ),
                         border: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Colors.red, width: 2.0),
@@ -190,7 +196,7 @@ class _ChatHistoryScreenUserState extends State<ChatHistoryScreenUser>
                       splashColor: Colors.lime,
                       child: Card(
                         elevation: 0.0,
-                        color: Colors.grey[100],
+                        color: Color.fromRGBO(255, 255, 255, 1),
                         semanticContainer: true,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),

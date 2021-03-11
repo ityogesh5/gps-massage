@@ -516,7 +516,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                 child: CustomToggleButton(
                   elevation: 0,
                   height: 55.0,
-                  width: 170.0,
+                  width: 155.0,
                   autoWidth: false,
                   buttonColor: Color.fromRGBO(217, 217, 217, 1),
                   enableShape: true,

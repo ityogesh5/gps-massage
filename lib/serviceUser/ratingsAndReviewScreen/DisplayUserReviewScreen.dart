@@ -29,7 +29,10 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
           onPressed: () {
             NavigationRouter.switchToServiceUserBottomBar(context);
           },
@@ -40,7 +43,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
           style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color.fromRGBO(0, 0, 0, 1),
               fontFamily: 'NotoSansJP'),
         ),
         centerTitle: true,
@@ -67,7 +70,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                           style: TextStyle(
                               fontFamily: 'NotoSansJP',
                               fontSize: 14,
-                              color: Colors.black87,
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
@@ -75,7 +78,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                           style: TextStyle(
                               fontFamily: 'NotoSansJP',
                               fontSize: 12,
-                              color: Colors.grey[400],
+                              color: Color.fromRGBO(153, 153, 153, 1),
                               fontWeight: FontWeight.w300),
                         ),
                       ],
@@ -90,7 +93,10 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Colors.grey[400], Colors.grey[400]]),
+                            colors: [
+                              Color.fromRGBO(242, 242, 242, 1),
+                              Color.fromRGBO(242, 242, 242, 1),
+                            ]),
                         shape: BoxShape.rectangle,
                         border: Border.all(
                           color: Colors.grey[300],

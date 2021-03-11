@@ -7,6 +7,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/CalendarEventPopup.dart';
 import 'file:///D:/Gps/lib/serviceUser/homeScreen/calendar.dart';
+import 'file:///D:/Gps/lib/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 
 import 'initialScreens/splashScreen.dart';
 
@@ -36,6 +37,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen());
+        home: RatingsAndReviewUser());
   }
 }

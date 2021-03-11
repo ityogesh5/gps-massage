@@ -32,22 +32,25 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color.fromRGBO(0, 0, 0, 1),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         title: Text(
           '評価とレビュー',
           style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color.fromRGBO(0, 0, 0, 1),
               fontFamily: 'NotoSansJP'),
         ),
         centerTitle: true,
@@ -70,7 +73,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                       style: TextStyle(
                           fontFamily: 'NotoSansJP',
                           fontSize: 14,
-                          color: Colors.black87,
+                          color: Color.fromRGBO(0, 0, 0, 1),
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
@@ -78,7 +81,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                       style: TextStyle(
                           fontFamily: 'NotoSansJP',
                           fontSize: 12,
-                          color: Colors.grey[400],
+                          color: Color.fromRGBO(153, 153, 153, 1),
                           fontWeight: FontWeight.w300),
                     ),
                   ],
@@ -96,7 +99,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                       style: TextStyle(
                           fontFamily: 'NotoSansJP',
                           fontSize: 14,
-                          color: Colors.black87,
+                          color: Color.fromRGBO(51, 51, 51, 1),
                           fontWeight: FontWeight.normal),
                     ),
                   ],
@@ -146,7 +149,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Colors.lime,
+                                      color: Color.fromRGBO(200, 217, 33, 1),
                                     ),
                                     onRatingUpdate: (rating) {
                                       // print(rating);
@@ -164,7 +167,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     const EdgeInsets.only(left: 20, right: 20),
                                 child: Container(
                                     child: Divider(
-                                        color: Colors.grey[300], height: 1)),
+                                        color: Color.fromRGBO(217, 217, 217, 1),
+                                        height: 1)),
                               ),
                               SizedBox(height: 2),
                               Expanded(
@@ -184,7 +188,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                           ColorConstants.formFieldFillColor,
                                       hintText: '良かった点、気づいた点などをご記入ください',
                                       hintStyle: TextStyle(
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(217, 217, 217, 1),
                                       ),
                                       labelStyle: TextStyle(
                                           color: Colors.grey[400],
@@ -214,7 +218,10 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               child: CircleAvatar(
                                 radius: 25.0,
                                 child: IconButton(
-                                  icon: Icon(Icons.send, color: Colors.lime),
+                                  icon: Icon(
+                                    Icons.send,
+                                    color: Color.fromRGBO(200, 217, 33, 1),
+                                  ),
                                   iconSize: 25.0,
                                   onPressed: () {
                                     print('Review Posted!!');
@@ -223,7 +230,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                             context);
                                   },
                                 ),
-                                backgroundColor: Colors.grey[100],
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
                               ),
                             ),
                           ),
@@ -240,7 +248,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                   style: TextStyle(
                       fontFamily: 'NotoSansJP',
                       fontSize: 14,
-                      color: Colors.black,
+                      color: Color.fromRGBO(51, 51, 51, 1),
                       fontWeight: FontWeight.normal),
                 ),
               ),
@@ -264,7 +272,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 14,
-                                    color: Colors.black87,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
@@ -272,7 +280,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 12,
-                                    color: Colors.grey[400],
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.w300),
                               ),
                             ],
@@ -288,7 +296,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               glow: true,
                               glowColor: Colors.lime,
                               glowRadius: 2,
-                              initialRating: 0,
+                              initialRating: 3,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -299,7 +307,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
-                                color: Colors.black,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                               ),
                               onRatingUpdate: (rating) {
                                 // print(rating);
@@ -314,6 +322,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               ratingsValue.toString(),
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
+                                color: Color.fromRGBO(153, 153, 153, 1),
                               ),
                             ),
                           ],
@@ -330,7 +339,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                   style: TextStyle(
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(51, 51, 51, 1),
                                       fontWeight: FontWeight.w300),
                                 ),
                               ),
