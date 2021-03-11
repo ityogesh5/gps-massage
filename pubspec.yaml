@@ -90,6 +90,7 @@ dependencies:
   simple_tooltip: ^0.1.16 # Yogeshwar tooltip customize popup
   dotted_border: ^1.0.7 # Yogeshwar for Circle rounded border
   table_calendar: ^2.3.3 #Gowtham for calendar Build
+  flutter_svg_provider: ^0.1.8 # for providing SVG Images
 
 
 

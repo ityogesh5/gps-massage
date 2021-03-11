@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListsModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -23,25 +30,15 @@ List<String> _options = [
   'リラクゼーション'
 ];
 
+//base64 profile image
+String imgBase64TherapistImage;
+
+//Uint8List profile image;
+Uint8List therapistImageInBytes;
+String therapistImage = '';
+
 int _selectedIndex;
-
-/*class ServiceUserHomeScreen extends StatefulWidget {
-  @override
-  _ServiceUserHomeScreenScreenState createState() =>
-      _ServiceUserHomeScreenScreenState();
-}
-
-class _ServiceUserHomeScreenScreenState extends State<ServiceUserHomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ヒーリングマッチ',
-      debugShowCheckedModeBanner: false,
-      //home: HomeScreen(),
-      home: HomeScreen(),
-    );
-  }
-}*/
+List<TherapistDatum> therapistList = [];
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -52,6 +49,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    getTherapistList();
   }
 
   @override
@@ -59,6 +57,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
     return Scaffold(
       body: ListView(
         physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
         children: [
           Column(
             children: [
@@ -158,11 +157,60 @@ class _HomeScreenUserState extends State<HomeScreen> {
           ),
           RecommendLists(),
           SizedBox(
-            height: 75,
+            height: 10,
           ),
         ],
       ),
     );
+  }
+
+  getTherapistList() async {
+    print('Home Loop 1');
+    ListOfTherapistModel listOfTherapistModel = new ListOfTherapistModel();
+    final url = HealingMatchConstants.THERAPIST_LIST_URL;
+    final response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA5ODE2MjU2fQ.c_GO_Ji4UBebxPcT3uqNZ2ulvRgQYJU_5UWJn--qZlM"
+      },
+    );
+    print('Home Loop 2');
+    final getTherapists = json.decode(response.body);
+    print('Response body : ${response.body}');
+    listOfTherapistModel = ListOfTherapistModel.fromJson(getTherapists);
+    therapistList = listOfTherapistModel.therapistData;
+    for (int i = 0; i < therapistList.length; i++) {
+      print('Therapist data : ${listOfTherapistModel.therapistData.length}');
+      print(
+          'Therapist images : ${listOfTherapistModel.therapistData[i].uploadProfileImgUrl}');
+      therapistImage =
+          listOfTherapistModel.therapistData[i].uploadProfileImgUrl;
+      if (therapistImage != null) {
+        // Convert string url of image to base64 format
+        convertBase64ProfileImage(therapistImage);
+      } else {}
+    }
+  }
+
+  convertBase64ProfileImage(String therapistProfileImage) async {
+    imgBase64TherapistImage =
+        await networkImageToBase64RightFront(therapistProfileImage);
+    therapistImageInBytes = Base64Decoder().convert(imgBase64TherapistImage);
+    setState(() {
+      HealingMatchConstants.therapistProfileImageInBytes =
+          therapistImageInBytes;
+      print(
+          'Bytes images : ${HealingMatchConstants.therapistProfileImageInBytes}');
+    });
+  }
+
+//Profile Image
+  Future<String> networkImageToBase64RightFront(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    final bytes = response?.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
   }
 }
 
@@ -189,7 +237,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
-            itemCount: 10,
+            itemCount: therapistList.length,
             itemBuilder: (context, index) {
               return new Card(
                 color: Colors.grey[200],
@@ -207,15 +255,26 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                         Expanded(
                           child: Column(
                             children: [
-                              CircleAvatar(
-                                child: SvgPicture.asset(
-                                  'assets/images_gps/gpsLogo.svg',
-                                  height: 30,
-                                  color: Colors.lightBlueAccent,
-                                ),
-                                radius: 30,
-                                backgroundColor: Colors.white,
-                              ),
+                              new Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: therapistList[index]
+                                                .uploadProfileImgUrl !=
+                                            null
+                                        ? new DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: new NetworkImage(
+                                                therapistList[index]
+                                                    .uploadProfileImgUrl),
+                                          )
+                                        : new DecorationImage(
+                                            fit: BoxFit.none,
+                                            image: new AssetImage(
+                                                'assets/images_gps/user.png')),
+                                  )),
                               FittedBox(
                                 child: Text(
                                   '半径1.5km',
@@ -237,13 +296,21 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(width: 5),
-                                  Text(
-                                    'お名前',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  therapistList[index].userName != null
+                                      ? Text(
+                                          '${therapistList[index].userName}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : Text(
+                                          'お名前',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                   SizedBox(width: 4),
                                   InkWell(
                                     onTap: () {
@@ -528,15 +595,17 @@ class _ReservationListState extends State<ReservationList> {
                 children: [Text('今後の予約')],
               ),
               ListTile(
-                leading: CircleAvatar(
-                  child: SvgPicture.asset(
-                    'assets/images_gps/gpsLogo.svg',
-                    height: 30,
-                    color: Colors.lightBlueAccent,
-                  ),
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                ),
+                leading:  new Container(
+                    width: 70.0,
+                    height: 70.0,
+                    decoration: new BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image: new AssetImage(
+                              'assets/images_gps/logo.png')),
+                    )),
                 title: Row(
                   children: [
                     Text('お名前'),
@@ -623,6 +692,9 @@ class _ReservationListState extends State<ReservationList> {
                       children: [
                         SvgPicture.asset('assets/images_gps/cost.svg',
                             height: 20, width: 20),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           '¥4,500',
                           style: TextStyle(
@@ -714,15 +786,17 @@ class _RecommendListsState extends State<RecommendLists> {
                       Expanded(
                         child: Column(
                           children: [
-                            CircleAvatar(
-                              child: SvgPicture.asset(
-                                'assets/images_gps/gpsLogo.svg',
-                                height: 30,
-                                color: Colors.lightBlueAccent,
-                              ),
-                              radius: 30,
-                              backgroundColor: Colors.white,
-                            ),
+                            new Container(
+                                width: 70.0,
+                                height: 70.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: new AssetImage(
+                                          'assets/images_gps/logo.png')),
+                                )),
                             FittedBox(
                               child: Text(
                                 '半径1.5km',

@@ -61,6 +61,15 @@ class HealingMatchConstants {
   static const String LOGIN_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
 
+  // get Therapists list
+  static const String THERAPIST_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
+
+  // get Users list
+  static const String USER_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
+
+
   //Common string
   static String registerProgressText = '登録中...';
   static String locationProgressText = '現在地を取得中...';
@@ -317,6 +326,7 @@ class HealingMatchConstants {
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+  static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
   static String searchKeyword = 'キーワードできがす';
