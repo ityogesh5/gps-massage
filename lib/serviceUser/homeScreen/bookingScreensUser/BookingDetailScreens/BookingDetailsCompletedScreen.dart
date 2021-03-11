@@ -51,7 +51,7 @@ class _BookingDetailsCompletedScreenState
         children: [
           CarouselWithIndicatorDemo(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -64,7 +64,7 @@ class _BookingDetailsCompletedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeOne.svg',
                             height: 15,
@@ -83,7 +83,7 @@ class _BookingDetailsCompletedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeTwo.svg',
                             height: 15,
@@ -102,7 +102,7 @@ class _BookingDetailsCompletedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeThree.svg',
                             height: 15,
@@ -167,7 +167,8 @@ class _BookingDetailsCompletedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                                 Colors.grey[200]
                                               ]),
                                           shape: BoxShape.rectangle,
@@ -188,8 +189,10 @@ class _BookingDetailsCompletedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -209,8 +212,10 @@ class _BookingDetailsCompletedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -741,8 +746,8 @@ class _BookingDetailsCompletedScreenState
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                       colors: [
-                                        Colors.grey[200],
-                                        Colors.grey[200]
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                        Color.fromRGBO(255, 255, 255, 1),
                                       ]),
                                   shape: BoxShape.rectangle,
                                   border: Border.all(
@@ -855,205 +860,208 @@ class _BookingDetailsCompletedScreenState
             ),
           ),
           SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () => setState(() => _massageValue = 0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: _massageValue == 0
-                              ? Colors.grey[400]
-                              : Colors.transparent,
-                          border: Border.all(),
-                          boxShadow: [
-                            _massageValue == 0
-                                ? BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  )
-                                : BoxShadow(
-                                    color: Colors.white.withOpacity(0.5),
-                                    // changes position of shadow
-                                  )
-                          ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () => setState(() => _massageValue = 0),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 85,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _massageValue == 0
+                                ? Colors.grey[400]
+                                : Colors.transparent,
+                            border: Border.all(),
+                            boxShadow: [
+                              _massageValue == 0
+                                  ? BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    )
+                                  : BoxShadow(
+                                      color: Colors.white.withOpacity(0.5),
+                                      // changes position of shadow
+                                    )
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeOne.svg',
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/images_gps/serviceTypeOne.svg',
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.contain,
+                        Text(
+                          'エステ',
+                          style: TextStyle(
+                            color: _massageValue == 0
+                                ? Colors.black
+                                : Colors.grey[400],
+                          ),
                         ),
-                      ),
-                      Text(
-                        'エステ',
-                        style: TextStyle(
-                          color: _massageValue == 0
-                              ? Colors.black
-                              : Colors.grey[400],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => setState(() => _massageValue = 1),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: _massageValue == 1
-                              ? Colors.grey[400]
-                              : Colors.transparent,
-                          border: Border.all(),
-                          boxShadow: [
-                            _massageValue == 1
-                                ? BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  )
-                                : BoxShadow(
-                                    color: Colors.white.withOpacity(0.5),
-                                    // changes position of shadow
-                                  )
-                          ],
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/images_gps/serviceTypeTwo.svg',
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Text(
-                        '整骨・整体',
-                        style: TextStyle(
-                          color: _massageValue == 1
-                              ? Colors.black
-                              : Colors.grey[400],
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 10,
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => setState(() => _massageValue = 2),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: _massageValue == 2
-                              ? Colors.grey[400]
-                              : Colors.transparent,
-                          border: Border.all(),
-                          boxShadow: [
-                            _massageValue == 2
-                                ? BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  )
-                                : BoxShadow(
-                                    color: Colors.white.withOpacity(0.5),
-                                    // changes position of shadow
-                                  )
-                          ],
+                  GestureDetector(
+                    onTap: () => setState(() => _massageValue = 1),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 85,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _massageValue == 1
+                                ? Colors.grey[400]
+                                : Colors.transparent,
+                            border: Border.all(),
+                            boxShadow: [
+                              _massageValue == 1
+                                  ? BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    )
+                                  : BoxShadow(
+                                      color: Colors.white.withOpacity(0.5),
+                                      // changes position of shadow
+                                    )
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeTwo.svg',
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/images_gps/serviceTypeThree.svg',
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.contain,
+                        Text(
+                          '整骨・整体',
+                          style: TextStyle(
+                            color: _massageValue == 1
+                                ? Colors.black
+                                : Colors.grey[400],
+                          ),
                         ),
-                      ),
-                      Text(
-                        'リラクゼーション',
-                        style: TextStyle(
-                          color: _massageValue == 2
-                              ? Colors.black
-                              : Colors.grey[400],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () => setState(() => _massageValue = 3),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 85,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: _massageValue == 3
-                              ? Colors.grey[400]
-                              : Colors.transparent,
-                          border: Border.all(),
-                          boxShadow: [
-                            _massageValue == 3
-                                ? BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  )
-                                : BoxShadow(
-                                    color: Colors.white.withOpacity(0.5),
-                                    // changes position of shadow
-                                  )
-                          ],
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/images_gps/serviceTypeFour.svg',
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Text(
-                        'フィットネス',
-                        style: TextStyle(
-                          color: _massageValue == 3
-                              ? Colors.black
-                              : Colors.grey[400],
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 10,
                   ),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () => setState(() => _massageValue = 2),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 85,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _massageValue == 2
+                                ? Colors.grey[400]
+                                : Colors.transparent,
+                            border: Border.all(),
+                            boxShadow: [
+                              _massageValue == 2
+                                  ? BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    )
+                                  : BoxShadow(
+                                      color: Colors.white.withOpacity(0.5),
+                                      // changes position of shadow
+                                    )
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeThree.svg',
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Text(
+                          'リラクゼーション',
+                          style: TextStyle(
+                            color: _massageValue == 2
+                                ? Colors.black
+                                : Colors.grey[400],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => _massageValue = 3),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 85,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: _massageValue == 3
+                                ? Colors.grey[400]
+                                : Colors.transparent,
+                            border: Border.all(),
+                            boxShadow: [
+                              _massageValue == 3
+                                  ? BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    )
+                                  : BoxShadow(
+                                      color: Colors.white.withOpacity(0.5),
+                                      // changes position of shadow
+                                    )
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images_gps/serviceTypeFour.svg',
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        Text(
+                          'フィットネス',
+                          style: TextStyle(
+                            color: _massageValue == 3
+                                ? Colors.black
+                                : Colors.grey[400],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 15),
@@ -1417,7 +1425,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/serviceTypeOne.svg',
+                                'assets/images_gps/Massage.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -1800,7 +1808,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/serviceTypeFour.svg',
+                                'assets/images_gps/stretch.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -2183,7 +2191,7 @@ class _BookingDetailsCompletedScreenState
                                 ],
                               ),
                               child: SvgPicture.asset(
-                                'assets/images_gps/serviceTypeTwo.svg',
+                                'assets/images_gps/Cupping.svg',
                                 height: 40,
                                 width: 40,
                                 fit: BoxFit.contain,
@@ -2554,7 +2562,7 @@ class _BookingDetailsCompletedScreenState
                               ],
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeThree.svg',
+                              'assets/images_gps/Maternity.svg',
                               height: 40,
                               width: 40,
                               fit: BoxFit.contain,
@@ -2924,7 +2932,7 @@ class _BookingDetailsCompletedScreenState
                               ],
                             ),
                             child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeThree.svg',
+                              'assets/images_gps/Baby.svg',
                               height: 40,
                               width: 40,
                               fit: BoxFit.contain,
@@ -2985,19 +2993,18 @@ class _BookingDetailsCompletedScreenState
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.89,
               height: MediaQuery.of(context).size.height * 0.10,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: [
-                    new Text(
-                      '日時をカレンダーから選択してください。',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'NotoSansJP',
-                          color: Colors.grey[500]),
-                    ),
-                    Spacer(),
-                    CircleAvatar(
+              child: Row(
+                children: [
+                  new Text(
+                    '日時をカレンダーから選択してください。',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'NotoSansJP',
+                        color: Colors.grey[500]),
+                  ),
+                  Spacer(),
+                  FittedBox(
+                    child: CircleAvatar(
                       maxRadius: 40,
                       backgroundColor: Colors.grey[300],
                       child: CircleAvatar(
@@ -3008,9 +3015,9 @@ class _BookingDetailsCompletedScreenState
                               height: 25,
                               width: 25,
                               color: Colors.lime)),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
@@ -3142,16 +3149,18 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
-              return Container(
-                width: 45.0,
-                height: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+              return Expanded(
+                child: Container(
+                  width: 45.0,
+                  height: 4.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                  color: _current == index
-                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: _current == index
+                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 ),
               );
             }).toList(),

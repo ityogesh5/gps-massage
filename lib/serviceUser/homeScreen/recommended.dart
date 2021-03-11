@@ -81,7 +81,7 @@ class _RecommendState extends State<Recommend> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(width: 10),
                         Expanded(
                           flex: 4,
                           child: Column(
@@ -217,7 +217,7 @@ class _RecommendState extends State<Recommend> {
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemSize: 25,
+                                    itemSize: 22,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     itemBuilder: (context, _) => Icon(
@@ -234,7 +234,7 @@ class _RecommendState extends State<Recommend> {
                                     },
                                   ),
                                   Text(
-                                    '(1518,)',
+                                    '(1518)',
                                     style: TextStyle(
                                       color: Color.fromRGBO(153, 153, 153, 1),
                                     ),

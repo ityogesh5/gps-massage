@@ -1104,9 +1104,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       Spacer(),
                       InkWell(
                         onTap: () {
-                          NavigationRouter
+                          /*  NavigationRouter
                               .switchToServiceUserBookingConfirmationScreen(
-                                  context);
+                                  context);*/
                         },
                         child: CircleAvatar(
                           maxRadius: 38,
@@ -1242,13 +1242,9 @@ class _CauroselWithIndicatorSearchPageState
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: SvgPicture.asset(
+                    'assets/images_gps/share.svg',
+                    height: 20,
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),

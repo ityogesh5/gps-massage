@@ -117,7 +117,7 @@ class _SearchResultState extends State<SearchResult> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    SizedBox(width: 10),
                                     Expanded(
                                       flex: 4,
                                       child: Column(

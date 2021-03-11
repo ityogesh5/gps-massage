@@ -392,14 +392,21 @@ class _PastReservationsState extends State<PastReservations> {
                                       color: Color.fromRGBO(217, 217, 217, 1),
                                     ),
                                   ),
-                                  CircleAvatar(
-                                      maxRadius: 25,
-                                      backgroundColor:
-                                          Color.fromRGBO(253, 253, 253, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/give_rating.svg',
-                                          height: 30,
-                                          width: 30)),
+                                  InkWell(
+                                    onTap: () {
+                                      NavigationRouter
+                                          .switchToServiceUserRatingsAndReviewScreen(
+                                              context);
+                                    },
+                                    child: CircleAvatar(
+                                        maxRadius: 25,
+                                        backgroundColor:
+                                            Color.fromRGBO(253, 253, 253, 1),
+                                        child: SvgPicture.asset(
+                                            'assets/images_gps/give_rating.svg',
+                                            height: 30,
+                                            width: 30)),
+                                  ),
                                 ]),
                                 Row(
                                   children: [

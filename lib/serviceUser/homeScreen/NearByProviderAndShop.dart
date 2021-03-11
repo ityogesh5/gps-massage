@@ -90,7 +90,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 5),
+                                SizedBox(width: 10),
                                 Expanded(
                                   flex: 4,
                                   child: Column(
@@ -260,7 +260,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
                                             },
                                           ),
                                           Text(
-                                            '(1518,)',
+                                            '(1518)',
                                             style: TextStyle(
                                               color: Color.fromRGBO(
                                                   153, 153, 153, 1),

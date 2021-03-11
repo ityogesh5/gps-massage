@@ -40,14 +40,14 @@ class _BookingDetailsConfirmedScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: ListView(
         padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
         children: [
           CarouselWithIndicatorDemo(),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -60,7 +60,7 @@ class _BookingDetailsConfirmedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeOne.svg',
                             height: 15,
@@ -79,7 +79,7 @@ class _BookingDetailsConfirmedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeTwo.svg',
                             height: 15,
@@ -98,7 +98,7 @@ class _BookingDetailsConfirmedScreenState
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeThree.svg',
                             height: 15,
@@ -163,8 +163,10 @@ class _BookingDetailsConfirmedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -184,8 +186,10 @@ class _BookingDetailsConfirmedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -205,8 +209,10 @@ class _BookingDetailsConfirmedScreenState
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -294,7 +300,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -313,7 +322,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -330,7 +342,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -352,7 +367,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -369,7 +387,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -386,7 +407,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -403,7 +427,10 @@ class _BookingDetailsConfirmedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -424,7 +451,10 @@ class _BookingDetailsConfirmedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -597,7 +627,10 @@ class _BookingDetailsConfirmedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
+                      colors: [
+                        Color.fromRGBO(242, 242, 242, 1),
+                        Color.fromRGBO(242, 242, 242, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[100],
@@ -745,8 +778,8 @@ class _BookingDetailsConfirmedScreenState
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
                                         colors: [
-                                          Colors.grey[200],
-                                          Colors.grey[200]
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
                                         ]),
                                     shape: BoxShape.rectangle,
                                     border: Border.all(
@@ -853,13 +886,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: SvgPicture.asset(
+                    'assets/images_gps/share.svg',
+                    height: 20,
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),
@@ -886,16 +915,18 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
               int index = imgList.indexOf(url);
-              return Container(
-                width: 45.0,
-                height: 4.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+              return Expanded(
+                child: Container(
+                  width: 45.0,
+                  height: 4.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                  color: _current == index
-                      ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: _current == index
+                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
                 ),
               );
             }).toList(),

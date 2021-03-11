@@ -40,7 +40,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: ListView(
         padding: MediaQuery.of(context).padding * 0.84,
         physics: BouncingScrollPhysics(),
@@ -60,7 +60,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeOne.svg',
                             height: 15,
@@ -79,7 +79,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeTwo.svg',
                             height: 15,
@@ -98,7 +98,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                       backgroundColor: Colors.black45,
                       child: CircleAvatar(
                         maxRadius: 10,
-                        backgroundColor: Colors.grey[200],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: SvgPicture.asset(
                             'assets/images_gps/serviceTypeThree.svg',
                             height: 15,
@@ -163,8 +163,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -184,8 +186,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -205,8 +209,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                               colors: [
-                                                Colors.grey[200],
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -301,7 +307,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -320,7 +329,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -337,7 +349,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -359,7 +374,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -376,7 +394,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -393,7 +414,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -410,7 +434,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -431,7 +458,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -604,7 +634,10 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
+                      colors: [
+                        Color.fromRGBO(242, 242, 242, 1),
+                        Color.fromRGBO(242, 242, 242, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[100],
@@ -698,7 +731,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                             width: MediaQuery.of(context).size.width * 0.02),
                         Chip(
                           label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         ),
                         Text(
                           "\t\t¥4,500",
@@ -760,8 +793,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                           colors: [
-                                            Colors.grey[200],
-                                            Colors.grey[200]
+                                            Color.fromRGBO(255, 255, 255, 1),
+                                            Color.fromRGBO(255, 255, 255, 1),
                                           ]),
                                       shape: BoxShape.rectangle,
                                       border: Border.all(
@@ -899,13 +932,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {},
+                  child: SvgPicture.asset(
+                    'assets/images_gps/share.svg',
+                    height: 20,
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.03),

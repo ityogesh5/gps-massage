@@ -99,7 +99,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                             ]),
                         shape: BoxShape.rectangle,
                         border: Border.all(
-                          color: Colors.grey[300],
+                          color: Color.fromRGBO(242, 242, 242, 1),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(16.0),
@@ -119,7 +119,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     glow: true,
                                     glowColor: Colors.lime,
                                     glowRadius: 2,
-                                    initialRating: 2,
+                                    initialRating: 3.5,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -130,7 +130,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Colors.black,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
                                     ),
                                     onRatingUpdate: (rating) {
                                       // print(rating);
@@ -145,6 +145,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     ratingsValue.toString(),
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
+                                      color: Color.fromRGBO(153, 153, 153, 1),
                                     ),
                                   ),
                                 ],
@@ -161,7 +162,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     style: TextStyle(
                                         fontFamily: 'NotoSansJP',
                                         fontSize: 14,
-                                        color: Colors.black,
+                                        color: Color.fromRGBO(51, 51, 51, 1),
                                         fontWeight: FontWeight.w300),
                                   ),
                                 ),
@@ -192,7 +193,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     style: TextStyle(
                                         fontFamily: 'NotoSansJP',
                                         fontSize: 14,
-                                        color: Colors.black87,
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -200,7 +201,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     style: TextStyle(
                                         fontFamily: 'NotoSansJP',
                                         fontSize: 12,
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(0, 0, 0, 1),
                                         fontWeight: FontWeight.w300),
                                   ),
                                 ],
@@ -227,7 +228,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Colors.black,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -242,6 +243,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                   ratingsValue.toString(),
                                   style: TextStyle(
                                     decoration: TextDecoration.underline,
+                                    color: Color.fromRGBO(153, 153, 153, 1),
                                   ),
                                 ),
                               ],
@@ -258,7 +260,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                       style: TextStyle(
                                           fontFamily: 'NotoSansJP',
                                           fontSize: 14,
-                                          color: Colors.black,
+                                          color: Color.fromRGBO(51, 51, 51, 1),
                                           fontWeight: FontWeight.w300),
                                     ),
                                   ),

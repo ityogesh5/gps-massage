@@ -37,6 +37,6 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: RatingsAndReviewUser());
+        home: SplashScreen());
   }
 }
