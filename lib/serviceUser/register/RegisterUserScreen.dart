@@ -51,7 +51,7 @@ class _RegisterUserState extends State<RegisterUser> {
   Position _currentPosition;
   String _currentAddress = '';
   String japaneseGender = '';
-  double age = 0.0;
+  int age = 0;
   var selectedYear;
   final ageController = TextEditingController();
   var _ageOfUser = '';
@@ -116,11 +116,12 @@ class _RegisterUserState extends State<RegisterUser> {
         context: context,
         //locale : const Locale("ja","JP"),
         initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
+        initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime.now());
     if (picked != null) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         _userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
@@ -133,10 +134,23 @@ class _RegisterUserState extends State<RegisterUser> {
 
   void calculateAge() {
     setState(() {
-      age = (DateTime.now().year - selectedYear).toDouble();
+      DateTime currentDate = DateTime.now();
+      age = currentDate.year - selectedDate.year;
+      int month1 = currentDate.month;
+      int month2 = selectedDate.month;
+      if (month2 > month1) {
+        age--;
+      } else if (month1 == month2) {
+        int day1 = currentDate.day;
+        int day2 = selectedDate.day;
+        if (day2 > day1) {
+          age--;
+        }
+      }
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
-      ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
+      ageController.value = TextEditingValue(text: _ageOfUser);
+      FocusScope.of(context).requestFocus(new FocusNode());
     });
   }
 
@@ -1151,7 +1165,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1200,7 +1215,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1266,7 +1282,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1316,7 +1333,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],

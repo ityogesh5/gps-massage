@@ -6,8 +6,10 @@ class ColorConstants {
   static final formFieldBorderColor = Colors.transparent;
   static final formTextColor = Colors.black;
   static final formHintTextColor = Color.fromRGBO(197, 197, 197, 1);
+  static final formLabelTextColor = Color.fromRGBO(0, 0, 0, 1);
   static final multiTextHintTextColor = Color.fromRGBO(217, 217, 217, 1);
-  static final fontFamily = 'Oxygen';
+  static final buttonColor = Color.fromRGBO(200, 217, 33, 1);
+  static final fontFamily = 'NotoSansJP';
 
   static final statusBarColor = Colors.grey[200];
 }

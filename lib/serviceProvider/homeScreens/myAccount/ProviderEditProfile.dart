@@ -279,7 +279,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
         elevation: 0.0,
         leading: IconButton(
           padding:
@@ -293,6 +294,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         title: Text(
           'マイアカウント',
           style: TextStyle(
+              fontSize: 18.0,
               fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
@@ -380,12 +382,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         HealingMatchConstants.registrationFacePhtoText,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+                            fontSize: 11,
+                            color: ColorConstants.formHintTextColor,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(height: sizedBoxFormHeight),
+                    SizedBox(height: sizedBoxFormHeight - 10.0),
                     Container(
                       height: containerHeight,
                       width: containerWidth,
@@ -552,9 +554,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         children: [
                                           Text(
                                             "$e",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12.0),
+                                            style: TextStyle(fontSize: 12.0),
                                           ),
                                         ],
                                       ),
@@ -614,6 +614,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 textField: 'display',
                                 valueField: 'value',
                               ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      width: containerWidth,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("*", style: TextStyle(color: Colors.red)),
+                          Text(
+                            HealingMatchConstants
+                                .registrationJapanAssociationTxt,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: ColorConstants.formHintTextColor,
                             ),
                           ),
                         ],
@@ -766,9 +787,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                           Center(
                                             child: Text(
                                               "$e",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12.0),
+                                              style: TextStyle(fontSize: 12.0),
                                             ),
                                           ),
                                         ],
@@ -804,27 +823,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         isList: true,
                         textField: 'display',
                         valueField: 'value',
-                      ),
-                    ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      width: containerWidth,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("*", style: TextStyle(color: Colors.red)),
-                          Text(
-                            HealingMatchConstants
-                                .registrationJapanAssociationTxt,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
                       ),
                     ),
                     SizedBox(
@@ -1106,6 +1104,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
+                              enabled: false,
                               controller: mailAddressController,
                               style: HealingMatchConstants.formTextStyle,
                               keyboardType: TextInputType.emailAddress,
@@ -1177,9 +1176,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               HealingMatchConstants.registrationIndividualText,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
+                                   fontSize: 11,
+                              color: ColorConstants.formHintTextColor,),
                             ),
                           ),
                           SizedBox(
@@ -2126,7 +2124,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
   }
 
-    validateFields() async {
+  validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var email = mailAddressController.text.toString();
     var userName = providerNameController.text.toString();

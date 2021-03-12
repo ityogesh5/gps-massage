@@ -77,12 +77,13 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          backgroundColor: Colors.transparent, brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          brightness: Brightness.light,
           elevation: 0.0,
           title: Text(
             HealingMatchConstants.registrationChooseServiceNavBtn,
             style: TextStyle(
-                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16),
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
@@ -108,9 +109,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 Text(
                   HealingMatchConstants.chooseServiceFirstText,
                   style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13.5),
+                      color: Color.fromRGBO(102, 102, 102, 1), fontSize: 12),
                 ),
                 SizedBox(
                   height: 20,
@@ -291,7 +290,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                 ),
 
                 //Treatment DropDown
-                HealingMatchConstants.serviceProviderStoreType.contains('整体')
+                HealingMatchConstants.serviceProviderStoreType.contains('接骨・整体')
                     ? InkWell(
                         onTap: () {
                           if (treatmentDropDownValues.length == 0) {
@@ -354,7 +353,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     : Container(),
                 SizedBox(
                   height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('整体')
+                          .contains('接骨・整体')
                       ? 15
                       : 0,
                 ),
@@ -373,7 +372,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
 
                 SizedBox(
                   height: HealingMatchConstants.serviceProviderStoreType
-                          .contains('整体')
+                          .contains('接骨・整体')
                       ? 20.0
                       : 0,
                 ),
@@ -476,7 +475,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
-                          color: Colors.lime,
+                          color: ColorConstants.buttonColor,
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(10.0),
@@ -795,7 +794,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
-                              color: Colors.lime,
+                              color: ColorConstants.buttonColor,
                             ),
                           ),
                           filled: true,
@@ -1305,7 +1304,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      color: Colors.lime,
+                                      color: ColorConstants.buttonColor,
                                       textColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -1630,7 +1629,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content:
-          Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+          Text('追加する値を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1645,7 +1644,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   void showDuplicateErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content: Text('値はすでに存在します', style: TextStyle(fontFamily: 'Open Sans')),
+      content: Text('このサービスはもう追加されてあります。',
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();

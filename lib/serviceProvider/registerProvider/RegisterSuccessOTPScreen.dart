@@ -38,7 +38,8 @@ class _RegistrationSuccessOtpScreenState
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -46,7 +47,8 @@ class _RegistrationSuccessOtpScreenState
             color: Colors.black,
           ),
           onPressed: () {
-            NavigationRouter.switchToServiceProviderSecondScreen(context);
+            Navigator.pop(context);
+            // NavigationRouter.switchToServiceProviderSecondScreen(context);
           },
         ),
       ),

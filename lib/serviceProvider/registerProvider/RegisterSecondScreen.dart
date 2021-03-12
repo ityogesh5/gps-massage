@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -25,6 +26,7 @@ import 'ChooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
 List<File> files = List<File>();
+
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();
@@ -91,9 +93,9 @@ class _RegistrationSecondPageState
                       Text(
                         HealingMatchConstants.registrationFirstText,
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
                       ),
                     ],
                   ),
@@ -107,9 +109,9 @@ class _RegistrationSecondPageState
                       Text(
                         HealingMatchConstants.registrationScndText,
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 14,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
                       ),
                     ],
                   ),
@@ -288,7 +290,7 @@ class _RegistrationSecondPageState
                         children: [
                           Text(
                             HealingMatchConstants.registrationAdd,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 14.0),
                           ),
                           Text("\n*", style: TextStyle(color: Colors.red)),
                         ],
@@ -678,6 +680,9 @@ class _RegistrationSecondPageState
                                             controller:
                                                 bankOtherFieldController,
                                             decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.fromLTRB(
+                                                        5, 5, 5, 0),
                                                 hintText: "銀行名",
                                                 hintStyle: HealingMatchConstants
                                                     .formHintTextStyle,
@@ -853,8 +858,9 @@ class _RegistrationSecondPageState
                         HealingMatchConstants.registrationCompleteBtn,
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      color: Colors.lime,
+                      color: ColorConstants.buttonColor,
                       onPressed: () {
+                        /* DialogHelper.showProviderRegisterSuccessDialog(context); */
                         _providerRegistrationDetails();
                         //  registerProvider();
                       },
@@ -904,7 +910,7 @@ class _RegistrationSecondPageState
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('本人確認証を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('本人確認証を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -918,8 +924,8 @@ class _RegistrationSecondPageState
     if (_idProfileImage == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('本人確認をアップロードしてください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('本人確認証をアップロードしてください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -935,7 +941,7 @@ class _RegistrationSecondPageState
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('保有資格を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('保有資格を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -952,7 +958,7 @@ class _RegistrationSecondPageState
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -971,7 +977,7 @@ class _RegistrationSecondPageState
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('提供するサービスと価格を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -987,7 +993,7 @@ class _RegistrationSecondPageState
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           content: Text('支店番号は5文字以内で入力してください。',
-              style: TextStyle(fontFamily: 'Open Sans')),
+              style: TextStyle(fontFamily: 'NotoSansJP')),
           action: SnackBarAction(
               onPressed: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1004,7 +1010,7 @@ class _RegistrationSecondPageState
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           content: Text('アカウント番号は10文字以内で入力してください。',
-              style: TextStyle(fontFamily: 'Open Sans')),
+              style: TextStyle(fontFamily: 'NotoSansJP')),
           action: SnackBarAction(
               onPressed: () {
                 _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1308,7 +1314,7 @@ class _RegistrationSecondPageState
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる本人確認は1つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1323,7 +1329,7 @@ class _RegistrationSecondPageState
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる品質証明書は5つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1406,7 +1412,7 @@ class _RegistrationSecondPageState
           SizedBox(
             height: 10,
           ),
-          Text("$key"),
+          Text("$key", style: TextStyle(fontSize: 12.0)),
         ],
       ),
     );
@@ -1465,7 +1471,7 @@ class _RegistrationSecondPageState
           SizedBox(
             height: 10,
           ),
-          Text("民間資格"),
+          Text("民間資格", style: TextStyle(fontSize: 12.0)),
         ],
       ),
     );
@@ -1478,13 +1484,17 @@ class _RegistrationSecondPageState
         Icon(
           Icons.circle,
           size: 15.0,
-          color: Colors.lime,
+          color: ColorConstants.buttonColor,
         ),
-        SizedBox(width: 100.0, child: Divider(color: Colors.lime)),
+        SizedBox(
+            width: 100.0,
+            child: Divider(
+              color: ColorConstants.buttonColor,
+            )),
         Icon(
           Icons.circle,
           size: 15.0,
-          color: Colors.lime,
+          color: ColorConstants.buttonColor,
         ),
       ],
     );
@@ -1520,8 +1530,9 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          statusBarColor: "#C8C8C8",
-          actionBarColor: "#adc47f",
+          selectionLimitReachedText: "バーナーイメージは5個以上選択できません。選択を解除してやり直すことができます。",
+          statusBarColor: "#F6F6F6",
+          actionBarColor: "#C8D921",
           actionBarTitle: "Healing Match App",
           allViewTitle: "All Photos",
           useDetailsView: false,
@@ -1579,7 +1590,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                     "キャンセル",
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.grey[400],
+                  color: Color.fromRGBO(217, 217, 217, 1),
                 ),
                 FlatButton(
                   onPressed: () {
@@ -1594,7 +1605,7 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
                     "アップロードする",
                     style: TextStyle(color: Colors.white),
                   ),
-                  color: Colors.lime,
+                  color: ColorConstants.buttonColor,
                 ),
               ],
             ),
@@ -1632,12 +1643,15 @@ class _BannerImageUploadState extends State<BannerImageUpload> {
             return Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,
+                  color: Color.fromRGBO(225, 225, 225, 1),
                 ),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: IconButton(
-                icon: Icon(Icons.add),
+                icon: Icon(
+                  Icons.add,
+                  size: 25.0,
+                ),
                 onPressed: loadAssets,
               ),
             );

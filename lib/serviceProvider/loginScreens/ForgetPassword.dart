@@ -32,7 +32,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -61,11 +62,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FittedBox(
-                      child: Text(
-                        HealingMatchConstants.forgetPasswordTxt,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                      ),
+                      child: Text(HealingMatchConstants.forgetPasswordTxt,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(102, 102, 102, 1))),
                     ),
                     SizedBox(
                       height: 18,
@@ -104,7 +105,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           '送信',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        color: Colors.lime,
+                        color: ColorConstants.buttonColor,
                         onPressed: () {
                           _providerForgetPasswordDetails();
                         },
@@ -131,7 +132,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -150,7 +151,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();

@@ -673,9 +673,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.2,
+                                        width:80.0,
+                                            /* MediaQuery.of(context).size.width *
+                                                0.2, */
                                         color: Colors.transparent,
                                         child: DropDownFormField(
                                           fillColor: Colors.white,
@@ -733,8 +733,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 ),
                                 SizedBox(width: 20),
                                 Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
+                                    width:80.0,
+                                      /*   MediaQuery.of(context).size.width * 0.2, */
                                     child: Form(
                                       key: monthKey,
                                       child: Column(

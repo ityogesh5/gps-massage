@@ -179,10 +179,10 @@ class _UserLoginState extends State<UserLogin> {
                       },
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
-                        style:
-                            TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
+                        style: TextStyle(
+                            color: Colors.grey, fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
-                                ),
+                            ),
                       ),
                     ),
                   ],
@@ -328,7 +328,8 @@ class _UserLoginState extends State<UserLogin> {
       height: MediaQuery.of(context).size.height * 0.06,
       child: InkWell(
         onTap: () {
-          NavigationRouter.switchToProviderLogin(context);
+          NavigationRouter.switchToProviderInitialTutorialScreen(context);
+          /*    NavigationRouter.switchToProviderLogin(context); */
         },
         child: Center(
           child: Text(
