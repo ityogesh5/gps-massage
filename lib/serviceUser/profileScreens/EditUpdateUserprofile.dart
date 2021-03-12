@@ -212,9 +212,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
@@ -635,6 +636,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFormField(
                         //enableInteractiveSelection: false,
+                        enabled: false,
                         autofocus: false,
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -1002,7 +1004,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1048,7 +1051,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1107,7 +1111,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1148,7 +1153,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     labelText: '部屋番号',
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1270,7 +1276,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                   style: TextStyle(
-                                                      fontFamily: 'NotoSansJP')),
+                                                      fontFamily:
+                                                          'NotoSansJP')),
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -2756,7 +2763,8 @@ class _AddAddressState extends State<AddAddress> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],

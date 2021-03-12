@@ -12,8 +12,7 @@ class History extends StatefulWidget {
   _HistoryState createState() => _HistoryState();
 }
 
-class _HistoryState extends State<History>
-    with SingleTickerProviderStateMixin {
+class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -42,7 +41,7 @@ class _HistoryState extends State<History>
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.0,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -78,7 +77,7 @@ class _HistoryState extends State<History>
           '運営管理',
           style: TextStyle(
               color: Colors.black,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(
@@ -114,7 +113,7 @@ class _HistoryState extends State<History>
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.0,
-                            fontFamily: 'Oxygen',
+                            fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -128,7 +127,7 @@ class _HistoryState extends State<History>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("承認済"),
@@ -141,7 +140,7 @@ class _HistoryState extends State<History>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("確定予約"),
@@ -154,7 +153,7 @@ class _HistoryState extends State<History>
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
-                              fontFamily: 'Oxygen',
+                              fontFamily: 'NotoSansJP',
                               fontWeight: FontWeight.bold)),
                     )
                   : buildUnSelectedTabBar("キャンセル"),

@@ -190,9 +190,10 @@ class _RegisterUserState extends State<RegisterUser> {
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 15, right: 20),
@@ -1151,7 +1152,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1200,7 +1202,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1266,7 +1269,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1316,7 +1320,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],

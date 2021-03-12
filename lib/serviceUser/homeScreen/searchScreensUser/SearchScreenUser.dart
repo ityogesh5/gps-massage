@@ -1,11 +1,21 @@
+import 'dart:convert';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/models/customModels/searchAddAddress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreenUser extends StatefulWidget {
   @override
@@ -149,7 +159,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                 icon: new Icon(Icons.add),
                                 highlightColor: Color.fromRGBO(0, 0, 0, 1),
                                 iconSize: 35,
-                                onPressed: () {},
+                                onPressed: () {
+                                  /*NavigationRouter.switchToUserAddAddressScreen(context);*/
+                                },
                               ),
                             ),
                           ),
@@ -511,166 +523,171 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Visibility(
-                              visible: _isVisible,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                child: DropDownFormField(
-                                  titleText: null,
-                                  hintText: readonly
-                                      ? yearString
-                                      : HealingMatchConstants
-                                          .registrationBankAccountType,
-                                  onSaved: (value) {
-                                    setState(() {
-                                      yearString = value;
-                                      _cyear = int.parse(value);
-                                      _currentDay = 1;
-                                      displayDay = DateTime(
-                                          _cyear, _cmonth, _currentDay);
-                                      /*    daysToDisplay =
-                                            totalDays(_cmonth, _cyear); */
-                                    });
-                                  },
-                                  value: yearString,
-                                  onChanged: (value) {
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              child: DropDownFormField(
+                                enabled: _isVisible,
+                                fillColor: values == 'T'
+                                    ? Color.fromRGBO(242, 242, 242, 1)
+                                    : Color.fromRGBO(255, 255, 255, 1),
+                                borderColor: Color.fromRGBO(228, 228, 228, 1),
+                                titleText: null,
+                                hintText: readonly
+                                    ? yearString
+                                    : HealingMatchConstants
+                                        .registrationBankAccountType,
+                                onSaved: (value) {
+                                  setState(() {
                                     yearString = value;
                                     _cyear = int.parse(value);
                                     _currentDay = 1;
-                                    setState(() {
-                                      displayDay = DateTime(
-                                          _cyear, _cmonth, _currentDay);
+                                    displayDay =
+                                        DateTime(_cyear, _cmonth, _currentDay);
+                                    /*    daysToDisplay =
+                                          totalDays(_cmonth, _cyear); */
+                                  });
+                                },
+                                value: yearString,
+                                onChanged: (value) {
+                                  yearString = value;
+                                  _cyear = int.parse(value);
+                                  _currentDay = 1;
+                                  setState(() {
+                                    displayDay =
+                                        DateTime(_cyear, _cmonth, _currentDay);
 
-                                      /*    daysToDisplay =
-                                            totalDays(_cmonth, _cyear); */
-                                    });
+                                    /*    daysToDisplay =
+                                          totalDays(_cmonth, _cyear); */
+                                  });
+                                },
+                                dataSource: [
+                                  {
+                                    "display": "2020",
+                                    "value": "2020",
                                   },
-                                  dataSource: [
-                                    {
-                                      "display": "2020",
-                                      "value": "2020",
-                                    },
-                                    {
-                                      "display": "2021",
-                                      "value": "2021",
-                                    },
-                                    {
-                                      "display": "2022",
-                                      "value": "2022",
-                                    },
-                                  ],
-                                  textField: 'display',
-                                  valueField: 'value',
-                                ),
+                                  {
+                                    "display": "2021",
+                                    "value": "2021",
+                                  },
+                                  {
+                                    "display": "2022",
+                                    "value": "2022",
+                                  },
+                                ],
+                                textField: 'display',
+                                valueField: 'value',
                               ),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(width: 10),
-                      Visibility(
-                        visible: _isVisible,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Form(
-                              key: monthKey,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.38,
-                                    color: Colors.transparent,
-                                    child: DropDownFormField(
-                                      titleText: null,
-                                      hintText: readonly
-                                          ? monthString
-                                          : HealingMatchConstants
-                                              .registrationBankAccountType,
-                                      onSaved: (value) {
-                                        setState(() {
-                                          monthString = value;
-                                          _cmonth = int.parse(value);
-                                          displayDay = DateTime(
-                                              _cyear, _cmonth, _currentDay);
-                                          /*    daysToDisplay =
-                                            totalDays(_cmonth, _cyear); */
-                                          _currentDay = 1;
-                                          _incrementCounter();
-                                        });
-                                      },
-                                      value: monthString,
-                                      onChanged: (value) {
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: Form(
+                            key: monthKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.38,
+                                  color: Colors.transparent,
+                                  child: DropDownFormField(
+                                    enabled: _isVisible,
+                                    fillColor: values == 'T'
+                                        ? Color.fromRGBO(242, 242, 242, 1)
+                                        : Color.fromRGBO(255, 255, 255, 1),
+                                    borderColor:
+                                        Color.fromRGBO(228, 228, 228, 1),
+                                    titleText: null,
+                                    hintText: readonly
+                                        ? monthString
+                                        : HealingMatchConstants
+                                            .registrationBankAccountType,
+                                    onSaved: (value) {
+                                      setState(() {
                                         monthString = value;
                                         _cmonth = int.parse(value);
                                         displayDay = DateTime(
                                             _cyear, _cmonth, _currentDay);
-                                        setState(() {
-                                          /*    daysToDisplay =
-                                            totalDays(_cmonth, _cyear); */
-                                          _currentDay = 1;
-                                          _incrementCounter();
-                                        });
+                                        /*    daysToDisplay =
+                                          totalDays(_cmonth, _cyear); */
+                                        _currentDay = 1;
+                                        _incrementCounter();
+                                      });
+                                    },
+                                    value: monthString,
+                                    onChanged: (value) {
+                                      monthString = value;
+                                      _cmonth = int.parse(value);
+                                      displayDay = DateTime(
+                                          _cyear, _cmonth, _currentDay);
+                                      setState(() {
+                                        /*    daysToDisplay =
+                                          totalDays(_cmonth, _cyear); */
+                                        _currentDay = 1;
+                                        _incrementCounter();
+                                      });
+                                    },
+                                    dataSource: [
+                                      {
+                                        "display": "1月",
+                                        "value": "1",
                                       },
-                                      dataSource: [
-                                        {
-                                          "display": "1月",
-                                          "value": "1",
-                                        },
-                                        {
-                                          "display": "2月",
-                                          "value": "2",
-                                        },
-                                        {
-                                          "display": "3月",
-                                          "value": "3",
-                                        },
-                                        {
-                                          "display": "4月",
-                                          "value": "4",
-                                        },
-                                        {
-                                          "display": "5月",
-                                          "value": "5",
-                                        },
-                                        {
-                                          "display": "6月",
-                                          "value": "6",
-                                        },
-                                        {
-                                          "display": "7月",
-                                          "value": "7",
-                                        },
-                                        {
-                                          "display": "8月",
-                                          "value": "8",
-                                        },
-                                        {
-                                          "display": "9月",
-                                          "value": "9",
-                                        },
-                                        {
-                                          "display": "10月",
-                                          "value": "10",
-                                        },
-                                        {
-                                          "display": "11月",
-                                          "value": "11",
-                                        },
-                                        {
-                                          "display": "12月",
-                                          "value": "12",
-                                        },
-                                      ],
-                                      textField: 'display',
-                                      valueField: 'value',
-                                    ),
+                                      {
+                                        "display": "2月",
+                                        "value": "2",
+                                      },
+                                      {
+                                        "display": "3月",
+                                        "value": "3",
+                                      },
+                                      {
+                                        "display": "4月",
+                                        "value": "4",
+                                      },
+                                      {
+                                        "display": "5月",
+                                        "value": "5",
+                                      },
+                                      {
+                                        "display": "6月",
+                                        "value": "6",
+                                      },
+                                      {
+                                        "display": "7月",
+                                        "value": "7",
+                                      },
+                                      {
+                                        "display": "8月",
+                                        "value": "8",
+                                      },
+                                      {
+                                        "display": "9月",
+                                        "value": "9",
+                                      },
+                                      {
+                                        "display": "10月",
+                                        "value": "10",
+                                      },
+                                      {
+                                        "display": "11月",
+                                        "value": "11",
+                                      },
+                                      {
+                                        "display": "12月",
+                                        "value": "12",
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
                                   ),
-                                ],
-                              ),
-                            )),
-                      ),
+                                ),
+                              ],
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -730,20 +747,17 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         }
       }),
     );
-    return Visibility(
-      visible: _isVisible,
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: SizedBox(
-          height: 95.0,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                dayPicker,
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox(
+        height: 95.0,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              dayPicker,
+            ],
           ),
         ),
       ),

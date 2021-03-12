@@ -21,6 +21,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 'セラビストの承認待ちの予約',
@@ -257,7 +258,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    ratingsValue.toString(),
+                                                    '(${ratingsValue.toString()})',
                                                     style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
@@ -701,7 +702,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  ratingsValue.toString(),
+                                                  '(${ratingsValue.toString()})',
                                                   style: TextStyle(
                                                     color: Color.fromRGBO(
                                                         153, 153, 153, 1),
@@ -806,8 +807,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
-                                                color: Color.fromRGBO(
-                                                    255, 128, 0, 1),
+                                                // color: Color.fromRGBO(255, 128, 0, 1),
                                                 height: 30,
                                                 width: 30)),
                                       ),
@@ -1165,7 +1165,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  ratingsValue.toString(),
+                                                  '(${ratingsValue.toString()})',
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .underline,
@@ -1269,8 +1269,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
-                                                color: Color.fromRGBO(
-                                                    255, 128, 0, 1),
+                                                // color: Color.fromRGBO(255, 128, 0, 1),
                                                 height: 25,
                                                 width: 25)),
                                       ),
@@ -1642,7 +1641,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  ratingsValue.toString(),
+                                                  '(${ratingsValue.toString()})',
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .underline,
@@ -1747,8 +1746,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             backgroundColor: Colors.white,
                                             child: SvgPicture.asset(
                                                 'assets/images_gps/chat.svg',
-                                                color: Color.fromRGBO(
-                                                    255, 128, 0, 1),
+                                                // color: Color.fromRGBO(255, 128, 0, 1),
                                                 height: 25,
                                                 width: 25)),
                                       ),
@@ -2108,7 +2106,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  ratingsValue.toString(),
+                                                  '(${ratingsValue.toString()})',
                                                   style: TextStyle(
                                                     color: Color.fromRGBO(
                                                         153, 153, 153, 1),

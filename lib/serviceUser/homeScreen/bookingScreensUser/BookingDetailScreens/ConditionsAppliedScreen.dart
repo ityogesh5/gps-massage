@@ -282,13 +282,20 @@ class _ConditionsApplyBookingScreenState
                             ),
                             Spacer(),
                             Container(
-                              child: Text(
-                                'もっとみる',
-                                style: TextStyle(
-                                    fontFamily: 'NotoSansJP',
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 14),
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserDisplayReviewScreen(
+                                          context);
+                                },
+                                child: Text(
+                                  'もっとみる',
+                                  style: TextStyle(
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 14),
+                                ),
                               ),
                             )
                           ],

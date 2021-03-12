@@ -272,7 +272,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                               child: InkWell(
                                 onTap: () {
                                   NavigationRouter
-                                      .switchToServiceUserRatingsAndReviewScreen(
+                                      .switchToServiceUserDisplayReviewScreen(
                                           context);
                                 },
                                 child: Text(
