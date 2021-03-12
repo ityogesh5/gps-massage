@@ -169,7 +169,8 @@ class _BookingDetailsCompletedScreenState
                                               colors: [
                                                 Color.fromRGBO(
                                                     255, 255, 255, 1),
-                                                Colors.grey[200]
+                                                Color.fromRGBO(
+                                                    255, 255, 255, 1),
                                               ]),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
@@ -272,13 +273,20 @@ class _BookingDetailsCompletedScreenState
                             ),
                             Spacer(),
                             Container(
-                              child: Text(
-                                'もっとみる',
-                                style: TextStyle(
-                                    fontFamily: 'NotoSansJP',
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 14),
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserDisplayReviewScreen(
+                                          context);
+                                },
+                                child: Text(
+                                  'もっとみる',
+                                  style: TextStyle(
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 14),
+                                ),
                               ),
                             )
                           ],
@@ -303,7 +311,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -322,7 +333,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -339,7 +353,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -361,7 +378,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -378,7 +398,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -395,7 +418,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -412,7 +438,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -433,7 +462,10 @@ class _BookingDetailsCompletedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -607,7 +639,10 @@ class _BookingDetailsCompletedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[100],
@@ -691,7 +726,7 @@ class _BookingDetailsCompletedScreenState
                             width: MediaQuery.of(context).size.width * 0.02),
                         Chip(
                           label: Text('足つぼ'),
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Color.fromRGBO(242, 242, 242, 1),
                         ),
                         Text(
                           "\t\t¥4,500",
@@ -746,8 +781,8 @@ class _BookingDetailsCompletedScreenState
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                       colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
+                                        Color.fromRGBO(242, 242, 242, 1),
+                                        Color.fromRGBO(242, 242, 242, 1),
                                       ]),
                                   shape: BoxShape.rectangle,
                                   border: Border.all(
@@ -757,14 +792,14 @@ class _BookingDetailsCompletedScreenState
                                   color: Colors.grey[200]),
                               child: FittedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(4.0),
                                   child: Text(
                                     '店舗',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: 'Oxygen'),
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 ),
                               )),
@@ -775,7 +810,7 @@ class _BookingDetailsCompletedScreenState
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey[500],
-                                fontFamily: 'Oxygen'),
+                                fontFamily: 'NotoSansJP'),
                           ),
                         ],
                       ),
@@ -793,7 +828,10 @@ class _BookingDetailsCompletedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -814,7 +852,10 @@ class _BookingDetailsCompletedScreenState
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.grey[200], Colors.grey[200]]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.grey[300],
@@ -822,14 +863,16 @@ class _BookingDetailsCompletedScreenState
                             borderRadius: BorderRadius.circular(5.0),
                             color: Colors.grey[200]),
                         child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Text(
-                            '店舗',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'NotoSansJP'),
+                          padding: const EdgeInsets.all(4.0),
+                          child: FittedBox(
+                            child: Text(
+                              '店舗',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
                           ),
                         )),
                     SizedBox(width: 15),
@@ -2984,7 +3027,10 @@ class _BookingDetailsCompletedScreenState
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
+                      colors: [
+                        Color.fromRGBO(255, 255, 255, 1),
+                        Color.fromRGBO(255, 255, 255, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[300],
@@ -3005,17 +3051,13 @@ class _BookingDetailsCompletedScreenState
                   Spacer(),
                   FittedBox(
                     child: CircleAvatar(
-                      maxRadius: 40,
-                      backgroundColor: Colors.grey[300],
-                      child: CircleAvatar(
-                          maxRadius: 35,
-                          backgroundColor: Colors.grey[100],
-                          child: SvgPicture.asset(
-                              'assets/images_gps/calendar.svg',
-                              height: 25,
-                              width: 25,
-                              color: Colors.lime)),
-                    ),
+                        maxRadius: 30,
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                        child: SvgPicture.asset(
+                            'assets/images_gps/calendar.svg',
+                            height: 25,
+                            width: 25,
+                            color: Colors.lime)),
                   )
                 ],
               ),

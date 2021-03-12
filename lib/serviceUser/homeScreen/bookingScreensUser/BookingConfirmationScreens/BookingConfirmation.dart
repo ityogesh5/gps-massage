@@ -46,7 +46,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
@@ -87,7 +87,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                       colors: [Colors.grey[200], Colors.grey[200]]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
-                    color: Colors.grey[300],
+                    color: Color.fromRGBO(242, 242, 242, 1),
                   ),
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
@@ -129,7 +129,8 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 ),
                                 SizedBox(width: 5),
                                 CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
+                                  backgroundColor:
+                                      Color.fromRGBO(255, 255, 255, 1),
                                   radius: 14,
                                   child: IconButton(
                                     // remove default padding here
@@ -253,7 +254,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.w300,
+                                    fontWeight: FontWeight.bold,
                                     fontFamily: 'NotoSansJP'),
                               ),
                             ),
@@ -279,16 +280,20 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
             SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.grey[200], Colors.grey[200]]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Colors.grey[400],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(255, 255, 255, 1),
+                      Color.fromRGBO(255, 255, 255, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Colors.grey[400],
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(255, 255, 255, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.21,
               child: Padding(
@@ -382,7 +387,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.grey[300], Colors.grey[300]]),
+                      colors: [
+                        Color.fromRGBO(242, 242, 242, 1),
+                        Color.fromRGBO(242, 242, 242, 1),
+                      ]),
                   shape: BoxShape.rectangle,
                   border: Border.all(
                     color: Colors.grey[200],
@@ -402,7 +410,10 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [Colors.white30, Colors.white30]),
+                                colors: [
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                  Color.fromRGBO(255, 255, 255, 1),
+                                ]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
                               color: Colors.transparent,
@@ -674,7 +685,7 @@ class _BookingConfirmationState extends State<BookingConfirmationScreen> {
           selectedBuildingType.toString();
       print('Entering on else : ${HealingMatchConstants.selectedBookingPlace}');
     }
-    // NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(context);
+    NavigationRouter.switchToServiceUserReservationAndFavourite(context);
   }
 }
 

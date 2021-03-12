@@ -390,7 +390,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                               Row(
                                 children: [
                                   Text(
-                                    ratingsValue.toString(),
+                                    '(${ratingsValue.toString()})',
                                     style: TextStyle(
                                       fontFamily: ColorConstants.fontFamily,
                                       color: Color.fromRGBO(153, 153, 153, 1),
@@ -717,7 +717,7 @@ class _ReservationListState extends State<ReservationList> {
                       Row(
                         children: [
                           Text(
-                            '4.0',
+                            '(4.0)',
                             style: TextStyle(
                                 color: Color.fromRGBO(153, 153, 153, 1),
                                 decoration: TextDecoration.underline,
@@ -1052,7 +1052,7 @@ class _RecommendListsState extends State<RecommendLists> {
                             Row(
                               children: [
                                 Text(
-                                  ratingValue.toString(),
+                                  '(${ratingValue.toString()})',
                                   style: TextStyle(
                                       color: Color.fromRGBO(153, 153, 153, 1),
                                       decoration: TextDecoration.underline,

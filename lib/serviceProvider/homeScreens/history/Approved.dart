@@ -24,7 +24,7 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                 style: TextStyle(
                   color: Color.fromRGBO(102, 102, 102, 1),
                   fontSize: 12.0,
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                 ),
               ),
             ),
@@ -262,8 +262,8 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
               right: 10.0,
               child: InkWell(
                 onTap: () {
-                    NavigationRouter.switchToServiceProviderChatHistoryScreen(
-                          context);
+                  NavigationRouter.switchToServiceProviderChatHistoryScreen(
+                      context);
                 },
                 child: Container(
                   decoration: BoxDecoration(

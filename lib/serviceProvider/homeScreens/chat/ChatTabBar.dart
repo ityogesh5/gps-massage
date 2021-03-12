@@ -40,7 +40,7 @@ class _ChatTabBarState extends State<ChatTabBar>
         style: TextStyle(
             color: Colors.black,
             fontSize: 12.0,
-            fontFamily: 'Oxygen',
+            fontFamily: 'NotoSansJP',
             fontWeight: FontWeight.bold),
       ),
     );
@@ -77,7 +77,7 @@ class _ChatTabBarState extends State<ChatTabBar>
           style: TextStyle(
               color: Colors.black,
               fontSize: 18.0,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               fontWeight: FontWeight.bold),
         ),
         shape: RoundedRectangleBorder(

@@ -147,7 +147,7 @@ class _ChatState extends State<Chat> {
                                       fontSize: 12,
                                       color: Colors.grey[400],
                                       fontWeight: FontWeight.normal,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                                 Text('')
                               ],
@@ -167,7 +167,7 @@ class _ChatState extends State<Chat> {
                                       fontSize: 12,
                                       color: Colors.grey[400],
                                       fontWeight: FontWeight.normal,
-                                      fontFamily: 'Oxygen'),
+                                      fontFamily: 'NotoSansJP'),
                                 ),
                                 Text('')
                               ],

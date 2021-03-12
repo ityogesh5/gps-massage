@@ -24,7 +24,7 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                 style: TextStyle(
                   color: Color.fromRGBO(102, 102, 102, 1),
                   fontSize: 12.0,
-                  fontFamily: 'Oxygen',
+                  fontFamily: 'NotoSansJP',
                 ),
               ),
             ),

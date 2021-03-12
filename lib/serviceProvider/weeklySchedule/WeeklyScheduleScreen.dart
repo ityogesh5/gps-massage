@@ -31,7 +31,7 @@ class _WeeklyScheduleState extends State<WeeklySchedule> {
           '一週間のスケジュール',
           style: TextStyle(
               fontSize: 18.0,
-              fontFamily: 'Oxygen',
+              fontFamily: 'NotoSansJP',
               color: Colors.black,
               fontWeight: FontWeight.bold),
         ),
