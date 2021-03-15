@@ -73,9 +73,9 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
                               //Navigator.pop(context);
-                              _sharedPreferences.then((value){
-                                    value.setBool('isUserVerified', true);
-                                  });
+                              _sharedPreferences.then((value) {
+                                value.setBool('isUserVerified', true);
+                              });
                               NavigationRouter.switchToServiceUserBottomBar(
                                   context);
                             },
@@ -409,61 +409,76 @@ class DialogHelper {
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: CustomPaint(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                          )),
-                    ),
-                    foregroundPainter: HeaderCurvedContainer(),
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Center(child: Text('登録が完了しました。')),
-                        SizedBox(height: 15),
-                        ButtonTheme(
-                          minWidth: MediaQuery.of(context).size.width * 0.85,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          child: new RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0),
-                              //side: BorderSide(color: Colors.black),
-                            ),
-                            color: Colors.lime,
-                            onPressed: () {
-                              //Navigator.pop(context);
-                              _sharedPreferences.then((value){
-                                value.setBool('isProviderVerified', true);
-                              });
-                              NavigationRouter.switchToServiceProviderBottomBar(
-                                  context);
-                            },
-                            child: new Text(
-                              'OK',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                            ),
-                          ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: CustomPaint(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                              )),
                         ),
-                        SizedBox(height: 10),
-                      ],
+                        foregroundPainter: HeaderCurvedContainer(),
+                      ),
                     ),
-                  ),
+                    Container(
+                      //  height: MediaQuery.of(context).size.height * 0.38,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: FittedBox(
+                                child: Text(
+                                  '登録が完了しました。\n 現在管理者による登録内容の確認をしております。\n 確認がとれ次第アプリの使用が可能になります。',
+                                  style: TextStyle(fontSize: 14.0),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 14),
+                            ButtonTheme(
+                              minWidth:
+                                  MediaQuery.of(context).size.width * 0.85,
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              child: new RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                  //side: BorderSide(color: Colors.black),
+                                ),
+                                color: Colors.lime,
+                                onPressed: () {
+                                  //Navigator.pop(context);
+                                  _sharedPreferences.then((value) {
+                                    value.setBool('isProviderVerified', true);
+                                  });
+                                  NavigationRouter
+                                      .switchToServiceProviderBottomBar(
+                                          context);
+                                },
+                                child: new Text(
+                                  'OK',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Positioned(
                   top: 50,

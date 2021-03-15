@@ -73,7 +73,7 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                 child: Row(
                   children: [
                     Text(
-                       "※",
+                      "※",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,

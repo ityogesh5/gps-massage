@@ -84,7 +84,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                   children: [
                     Text(HealingMatchConstants.loginText,
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                   ],
                 ),
                 SizedBox(
@@ -103,9 +103,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     disabledBorder: HealingMatchConstants.textFormInputBorder,
                     enabledBorder: HealingMatchConstants.textFormInputBorder,
                     filled: true,
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
                     labelText: HealingMatchConstants.loginUserPhoneNumber,
                     labelStyle: HealingMatchConstants.formLabelTextStyle,
                     fillColor: ColorConstants.formFieldFillColor,
@@ -156,9 +153,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       child: Text(
                         HealingMatchConstants.loginForgetPassword,
                         style: TextStyle(
-                          color: Colors.grey,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                            fontSize: 12.0
 //                    decoration: TextDecoration.underline,
-                        ),
+                            ),
                       ),
                     ),
                   ],
@@ -174,7 +172,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                       HealingMatchConstants.loginButton,
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    color: Colors.lime,
+                    color: ColorConstants.buttonColor,
                     onPressed: () {
                       //  NavigationRouter.switchToServiceProviderBottomBar(context);
 
@@ -193,23 +191,19 @@ class _ProviderLoginState extends State<ProviderLogin> {
                     child: new Container(
                         margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                         child: Divider(
-                          // height: 50,
-                          color: Colors.grey,
-                        )),
+                            // height: 50,
+                            color: Color.fromRGBO(225, 225, 225, 1))),
                   ),
                   Text(
                     "または",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(color: Color.fromRGBO(225, 225, 225, 1)),
                   ),
                   Expanded(
                     child: new Container(
                         margin: const EdgeInsets.only(left: 15.0, right: 10.0),
-                        child: Divider(
-                          color: Colors.grey,
-                          // height: 50,
-                        )),
+                        child: Divider(color: Color.fromRGBO(225, 225, 225, 1)
+                            // height: 50,
+                            )),
                   ),
                 ]),
                 SizedBox(
@@ -328,8 +322,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
                   child: Text(
                     HealingMatchConstants.loginNewRegistrationText,
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.w100),
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                      fontSize: 12.0,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -348,13 +344,14 @@ class _ProviderLoginState extends State<ProviderLogin> {
       height: MediaQuery.of(context).size.height * 0.06,
       child: InkWell(
         onTap: () {
-          NavigationRouter.switchToUserLogin(context);
+          NavigationRouter.switchToUserInitialTutorialScreen(context);
+          /*      NavigationRouter.switchToUserLogin(context); */
         },
         child: Center(
           child: Text(
             HealingMatchConstants.loginServiceUser,
             style: TextStyle(
-              color: Colors.grey,
+              color: Color.fromRGBO(102, 102, 102, 1),
 //                            decoration: TextDecoration.underline,
             ),
           ),
@@ -374,7 +371,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('電話番号とパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -393,7 +390,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -407,8 +404,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
     if (password == null || password.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('パスワードを入力してください。 ', style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('パスワードを入力してください。 ',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -423,7 +420,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しい電話番号とパスワードを入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -452,13 +449,12 @@ class _ProviderLoginState extends State<ProviderLogin> {
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         Data userData = loginResponseModel.data;
         instances.setString("userData", json.encode(userData));
+        instances.setBool('isProviderLoggedIn', true);
+        instances.setBool('isUserLoggedIn', false);
+        instances.setString("accessToken", loginResponseModel.accessToken);
         print('Login response : ${loginResponseModel.toJson()}');
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
-        _sharedPreferences.then((value) {
-          value.setBool('isProviderLoggedIn', true);
-          value.setBool('isUserLoggedIn', false);
-        });
         if (loginResponseModel.data.isVerified) {
           ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
           NavigationRouter.switchToServiceProviderBottomBar(context);

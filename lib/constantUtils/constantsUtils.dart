@@ -192,14 +192,14 @@ class HealingMatchConstants {
   static const String registrationSecondText = 'は必須項目です';
   static const String registrationScndText = 'は必須項目です';
   static const String registrationFacePhtoText =
-      '利用者に安心していただく為にもなるべく顔の映った写真を使用しましょう';
+      '利用者に安心していただく為にもなるべく顔の\n 映った写真を使用しましょう。';
   static const String registrationBuisnessForm = '事業形態';
   static const String registrationBuisnessTrip = '出張でのサービス対応可否';
   static const String registrationStoretype = '提供サービスのジャンル*';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =
-      'マスクの着用、アルコール消毒の徹底、体温管理等日本\nリラクゼーション協会の定める項目を遵守している\n場合のみチェックください';
+      'マスクの着用、アルコール消毒の徹底、体温管理等日本\n リラクゼーション協会の定める項目を遵守している\n 場合のみチェックください';
   static const String registrationName = 'お名前*';
   static const String registrationStoreTxt = '店舗として登録の場合は代表者の氏名を入力してください';
   static const String registrationStoreName = '店舗名*';
@@ -214,16 +214,16 @@ class HealingMatchConstants {
   static const String registrationConfirmPassword = 'パスワード(確認用)*';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
-      '個人で登録の方は、住所の詳細情報が利用者に開示されることはありません。';
+      '個人で登録の方は、住所の詳細情報が利用者に\n 開示されることはありません';
   static const String registrationBuildingName = '建物名*';
   static const String registrationRoomNo = '部屋番号*';
-  static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に検索されるようになります。';
+  static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
   static const String registrationIdentityVerification = '本人確認証を選択してください*';
-  static const String registrationIdentityUpload = '本人確認書のアップロード*';
+  static const String registrationIdentityUpload = '本人確認証のアップロード*';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
-  static const String registrationQualificationDropdown = '保有資格を選択してください。*';
+  static const String registrationQualificationDropdown = '保有資格の種類を選択してください。*';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
@@ -251,13 +251,13 @@ class HealingMatchConstants {
   static const String forgetPasswordPhn = "電話番号 ";
   static var userPhoneNumber = '';
   static const String forgetPasswordTxt =
-      "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
+      "パスワードを再設定するための認証コードを送信します。\n ご登録の電話番号を入力の上「送信」ボタンを\n クリックしてください。";
 
   //Change Password
   static const String changePasswordNewpass = "新しいパスワード *";
   static const String changePasswordTxt =
       "に届いた「認証コード」と\n 新しいパスワードを入力し、「パスワードを\n 再設定する」ボタンをクリックしてください。";
-  static const String changePasswordConfirmpass = "パスワード(確認用) *";
+  static const String changePasswordConfirmpass = "パスワード（確認用）*";
   static const String changePasswordBtn = 'パスワードを再設定する';
   static const String changeResendOtp = '認証コードを再送する';
   static var ProviderPhnNum = '';

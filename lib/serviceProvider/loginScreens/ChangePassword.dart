@@ -55,7 +55,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -89,7 +90,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         "+81 ${HealingMatchConstants.ProviderPhnNum} " +
                             HealingMatchConstants.changePasswordTxt,
                         style: TextStyle(
-                          color: Colors.grey,
+                          fontSize: 12.0,
+                          color: Color.fromRGBO(102, 102, 102, 1),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -144,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             pinCodeText.text = pin;
                           },
                           textStyle: TextStyle(
-                            fontSize: 20,
+                            fontSize: 21,
                             color: Colors.black,
                             fontFamily: 'NotoSansJP',
                           ),
@@ -247,7 +249,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           HealingMatchConstants.changePasswordBtn,
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        color: Colors.lime,
+                        color: ColorConstants.buttonColor,
                         onPressed: () {
                           //!Changed for Dev Purpose
                           _providerChangePasswordDetails();
@@ -263,6 +265,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: Text(
                         HealingMatchConstants.changeResendOtp,
                         style: TextStyle(
+                            fontSize: 12.0,
                             decoration: TextDecoration.underline,
                             color: Colors.black),
                       ),

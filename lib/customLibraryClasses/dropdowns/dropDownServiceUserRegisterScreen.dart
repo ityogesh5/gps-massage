@@ -83,8 +83,7 @@ class DropDownFormField extends FormField<dynamic> {
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
                                     size: 30.0,
-                                    color: Colors
-                                        .black, //Color.fromRGBO(200, 200, 200, 1),
+                                    color: Colors.black,
                                   ),
                                   isExpanded: true,
                                   hint: Text(
@@ -123,15 +122,23 @@ class DropDownFormField extends FormField<dynamic> {
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
                                     size: 30.0,
-                                    color: Colors
-                                        .black, // Color.fromRGBO(200, 200, 200, 1),
+                                    color: Color.fromRGBO(217, 217, 217, 1),
                                   ),
                                   hint: Text(
                                     value,
-                                    style: HealingMatchConstants.formTextStyle,
+                                    style: enabled
+                                        ? HealingMatchConstants.formTextStyle
+                                        : TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14,
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1)),
                                   ),
                                   value: value == '' ? null : value,
-                                  style: HealingMatchConstants.formTextStyle,
+                                  style: enabled
+                                      ? HealingMatchConstants.formTextStyle
+                                      : TextStyle(
+                                          color: Color.fromRGBO(0, 0, 0, 1)),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
                                     onChanged(newValue);

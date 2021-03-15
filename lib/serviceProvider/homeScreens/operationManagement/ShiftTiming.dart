@@ -84,7 +84,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
             Text(
               "営業日時を自由に組むことができます。",
               style: TextStyle(
-                  fontSize: 12.0, color: Color.fromRGBO(102, 102, 102, 1), fontFamily: 'NotoSansJP'),
+                  fontSize: 12.0,
+                  color: Color.fromRGBO(102, 102, 102, 1),
+                  fontFamily: 'NotoSansJP'),
             ),
             SizedBox(
               height: 10.0,
@@ -97,7 +99,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        width: 80.0, //MediaQuery.of(context).size.width * 0.2,
                         color: Colors.transparent,
                         child: DropDownFormField(
                           fillColor: Colors.white,
@@ -152,7 +154,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         width: 15.0,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
+                        width: 80.0,//MediaQuery.of(context).size.width * 0.2,
                         child: DropDownFormField(
                           fillColor: Colors.white,
                           borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -324,7 +326,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     child: Text(
                                   "X",
                                   style: TextStyle(
-                                    fontSize: 20.0, fontFamily: 'NotoSansJP',
+                                    fontSize: 20.0,
+                                    fontFamily: 'NotoSansJP',
                                     color: Color.fromRGBO(193, 193, 193, 1),
                                   ),
                                 )));
@@ -836,7 +839,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               child: Text(
                                 '保存',
                                 style: TextStyle(
-                                    fontSize: 14,  fontFamily: 'NotoSansJP',
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP',
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),

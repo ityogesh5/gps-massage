@@ -62,7 +62,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   List<String> storeTypeDropDownValues = [
     "エステ",
-    "整体",
+    "接骨・整体",
     "リラクゼーション",
     "フィットネス",
   ];
@@ -130,7 +130,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   Position _currentPosition;
   String _currentAddress;
-  double age = 0.0;
+  int age = 0;
   var _ageOfUser;
   var selectedYear;
 
@@ -168,14 +168,17 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         context: context,
         //locale : const Locale("ja","JP"),
         initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
+        initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime.now());
+
     if (picked != null) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
+
         //print(_selectedDOBDate);
         selectedYear = picked.year;
         calculateAge();
@@ -185,10 +188,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
 
   void calculateAge() {
     setState(() {
-      age = (DateTime.now().year - selectedYear).toDouble();
+      DateTime currentDate = DateTime.now();
+      age = currentDate.year - selectedDate.year;
+      int month1 = currentDate.month;
+      int month2 = selectedDate.month;
+      if (month2 > month1) {
+        age--;
+      } else if (month1 == month2) {
+        int day1 = currentDate.day;
+        int day2 = selectedDate.day;
+        if (day2 > day1) {
+          age--;
+        }
+      }
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
-      ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
+      ageController.value = TextEditingValue(text: _ageOfUser);
       FocusScope.of(context).requestFocus(new FocusNode());
     });
   }
@@ -238,9 +253,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   Text(
                     HealingMatchConstants.registrationFirstText,
                     style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 14,
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                    ),
                   ),
                 ],
               ),
@@ -260,9 +275,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   Text(
                     HealingMatchConstants.registrationSecondText,
                     style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 14,
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                    ),
                   ),
                 ],
               ),
@@ -369,9 +384,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   HealingMatchConstants.registrationFacePhtoText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 11,
+                    color: ColorConstants.formHintTextColor,
+                  ),
                 ),
               ),
               SizedBox(
@@ -541,9 +556,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                   children: [
                                     Text(
                                       "$e",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0),
+                                      style: TextStyle(fontSize: 12.0),
                                     ),
                                   ],
                                 ),
@@ -568,9 +581,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         child: Text(
                           HealingMatchConstants.registrationBuisnessTrip,
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -623,9 +636,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         child: Text(
                           HealingMatchConstants.registrationCoronaTxt,
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -671,9 +684,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       HealingMatchConstants.registrationJapanAssociationTxt,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 11,
+                        color: ColorConstants.formHintTextColor,
+                      ),
                     ),
                   ],
                 ),
@@ -769,9 +782,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                     Center(
                                       child: Text(
                                         "$e",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12.0),
+                                        style: TextStyle(fontSize: 12.0),
                                       ),
                                     ),
                                   ],
@@ -789,7 +800,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 height: containerHeight,
                 width: containerWidth,
                 child: DropDownFormField(
-                  hintText: '施術を提供できる利用者の性別',
+                  hintText: '予約可能な利用者の性別',
                   value: genderTreatment,
                   onSaved: (value) {
                     setState(() {
@@ -843,9 +854,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           HealingMatchConstants.registrationStoreTxt,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 11,
+                            color: ColorConstants.formHintTextColor,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -1035,9 +1046,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   HealingMatchConstants.registrationStorePhnText,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold),
+                    fontSize: 11,
+                    color: ColorConstants.formHintTextColor,
+                  ),
                 ),
               ),
               SizedBox(
@@ -1131,7 +1142,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         )),
                   )),
               SizedBox(
-                height: sizedBoxFormHeight,
+                height: sizedBoxFormHeight - 10.0,
               ),
               Container(
                 height: containerHeight,
@@ -1142,9 +1153,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     Text(
                       HealingMatchConstants.registrationPasswordInstructionText,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 11,
+                        color: ColorConstants.formHintTextColor,
+                      ),
                     ),
                   ],
                 ),
@@ -1236,9 +1247,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         HealingMatchConstants.registrationIndividualText,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 11,
+                          color: ColorConstants.formHintTextColor,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -1479,9 +1490,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         HealingMatchConstants.registrationPointTxt,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 11,
+                          color: ColorConstants.formHintTextColor,
+                        ),
                       ),
                     ),
                   ],
@@ -1495,7 +1506,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                 width: containerWidth,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.lime,
+                  color: ColorConstants.buttonColor,
                 ),
                 child: RaisedButton(
                   //padding: EdgeInsets.all(15.0),
@@ -1503,13 +1514,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     HealingMatchConstants.registrationNextBtn,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
-                  color: Colors.lime,
+                  color: ColorConstants.buttonColor,
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
                     validateFields();
-                    /*     NavigationRouter.switchToServiceProviderSecondScreen(
+                    /*   NavigationRouter.switchToServiceProviderSecondScreen(
                                       context); */
                   },
                 ),
@@ -1527,9 +1538,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                     HealingMatchConstants.registrationAlreadyActTxt,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
                         decorationThickness: 2,
@@ -1620,7 +1630,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1636,7 +1646,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('事業形態は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1651,8 +1661,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (selectedStoreTypeDisplayValues.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('お店の種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+        content: Text('提供サービスのジャンルは必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1668,7 +1678,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1683,7 +1693,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お名前は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1701,7 +1711,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1718,7 +1728,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('店舗名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1734,7 +1744,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1750,7 +1760,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('性別フィールドを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1766,7 +1776,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1784,7 +1794,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1802,7 +1812,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1822,7 +1832,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1838,7 +1848,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1853,7 +1863,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しいメールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1867,7 +1877,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスは50文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1881,7 +1891,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("有効なメールアドレスを入力してください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1897,7 +1907,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは必須項目なので入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1911,7 +1921,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは8文字以上で入力してください。  ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1926,7 +1936,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードは16文字以内で入力してください。 ',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1956,7 +1966,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な文字でパスワードを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1972,7 +1982,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("パスワード再確認は必須項目なので入力してください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1987,7 +1997,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("パスワードが一致がしませんのでもう一度お試しください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2003,7 +2013,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な登録する地点のカテゴリーを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2020,7 +2030,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2037,7 +2047,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2054,7 +2064,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2071,7 +2081,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2087,7 +2097,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2103,7 +2113,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2119,7 +2129,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('4文字の部屋番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2429,7 +2439,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         Icon(
           Icons.circle,
           size: 15.0,
-          color: Colors.lime,
+          color: ColorConstants.buttonColor,
         ),
         SizedBox(width: 100.0, child: Divider(color: Colors.grey[300])),
         Icon(

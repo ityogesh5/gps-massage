@@ -31,6 +31,7 @@ class NumberPicker extends StatelessWidget {
     this.selectedYear,
     this.selectedMonth,
     this.eventDates,
+    this.enabled = false,
     this.itemExtent = kDefaultItemExtent,
     this.listViewHeight = kDefaultListViewCrossAxisSize,
     this.numberToDisplay = 3,
@@ -72,6 +73,7 @@ class NumberPicker extends StatelessWidget {
     this.selectedYear,
     this.selectedMonth,
     this.eventDates,
+    this.enabled = false,
     this.itemExtent = kDefaultItemExtent,
     this.listViewWidth = kDefaultListViewCrossAxisSize,
     this.numberToDisplay = 3,
@@ -118,6 +120,7 @@ class NumberPicker extends StatelessWidget {
     this.selectedYear,
     this.selectedMonth,
     this.eventDates,
+    this.enabled = false,
     this.decimalPlaces = 1,
     this.itemExtent = kDefaultItemExtent,
     this.listViewWidth = kDefaultListViewCrossAxisSize,
@@ -154,6 +157,9 @@ class NumberPicker extends StatelessWidget {
 
   ///called when selected value changes
   final ValueChanged<num> onChanged;
+
+  //enabled
+  final bool enabled;
 
   ///min value user can pick
   final int minValue;
@@ -305,7 +311,9 @@ class NumberPicker extends StatelessWidget {
     TextStyle defaultStyle =
         TextStyle(color: Colors.black); //themeData.textTheme.bodyText2;
     TextStyle selectedStyle = TextStyle(
-        color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold);
+        color: enabled ? Colors.black : Color.fromRGBO(217, 217, 217, 1),
+        fontSize: 18.0,
+        fontWeight: FontWeight.bold);
     //themeData.textTheme.headline5.copyWith(color: themeData.accentColor);
 
     var listItemCount =
@@ -325,6 +333,9 @@ class NumberPicker extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               new ListView.builder(
+                physics: enabled
+                    ? const AlwaysScrollableScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
                 scrollDirection: scrollDirection,
                 controller: intScrollController,
                 itemExtent: itemExtent,
@@ -367,6 +378,10 @@ class NumberPicker extends StatelessWidget {
                                       child: Center(
                                         child: Text("月",
                                             style: TextStyle(
+                                                color: enabled
+                                                    ? Colors.black
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold)),
                                       ),
@@ -399,8 +414,11 @@ class NumberPicker extends StatelessWidget {
                                       new Text(
                                         getDisplayedValue(value),
                                         style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.black,
+                                            fontSize: 14.0,
+                                            color: enabled
+                                                ? Colors.black
+                                                : Color.fromRGBO(
+                                                    217, 217, 217, 1),
                                             fontWeight: FontWeight.bold),
                                       ),
                                       dotBuilder(eventCount),
@@ -417,8 +435,11 @@ class NumberPicker extends StatelessWidget {
                                           Text(
                                             getDisplayedValue(value),
                                             style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Colors.black,
+                                                fontSize: 14.0,
+                                                color: enabled
+                                                    ? Colors.black
+                                                    : Color.fromRGBO(
+                                                        217, 217, 217, 1),
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           dotBuilder(eventCount),
@@ -435,8 +456,11 @@ class NumberPicker extends StatelessWidget {
                                               new Text(
                                                 getDisplayedValue(value),
                                                 style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.black,
+                                                    fontSize: 14.0,
+                                                    color: enabled
+                                                        ? Colors.black
+                                                        : Color.fromRGBO(
+                                                            217, 217, 217, 1),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
@@ -452,8 +476,11 @@ class NumberPicker extends StatelessWidget {
                                               new Text(
                                                 getDisplayedValue(value),
                                                 style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    color: Colors.black,
+                                                    fontSize: 14.0,
+                                                    color: enabled
+                                                        ? Colors.black
+                                                        : Color.fromRGBO(
+                                                            217, 217, 217, 1),
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
@@ -489,16 +516,16 @@ class NumberPicker extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   dotIconBuilder(
-                    Colors.black,
+                    enabled ? Colors.black : Color.fromRGBO(217, 217, 217, 1),
                   ),
                   dotIconBuilder(
-                    Colors.black,
+                    enabled ? Colors.black : Color.fromRGBO(217, 217, 217, 1),
                   ),
                   dotIconBuilder(
-                    Colors.black,
+                    enabled ? Colors.black : Color.fromRGBO(217, 217, 217, 1),
                   ),
                   dotIconBuilder(
-                    Colors.black,
+                    enabled ? Colors.black : Color.fromRGBO(217, 217, 217, 1),
                   ),
                 ],
               )
@@ -507,13 +534,19 @@ class NumberPicker extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       dotIconBuilder(
-                        Colors.black,
+                        enabled
+                            ? Colors.black
+                            : Color.fromRGBO(217, 217, 217, 1),
                       ),
                       dotIconBuilder(
-                        Colors.black,
+                        enabled
+                            ? Colors.black
+                            : Color.fromRGBO(217, 217, 217, 1),
                       ),
                       dotIconBuilder(
-                        Colors.black,
+                        enabled
+                            ? Colors.black
+                            : Color.fromRGBO(217, 217, 217, 1),
                       ),
                     ],
                   )
@@ -522,15 +555,23 @@ class NumberPicker extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           dotIconBuilder(
-                            Colors.black,
+                            enabled
+                                ? Colors.black
+                                : Color.fromRGBO(217, 217, 217, 1),
                           ),
                           dotIconBuilder(
-                            Colors.black,
+                            enabled
+                                ? Colors.black
+                                : Color.fromRGBO(217, 217, 217, 1),
                           ),
                         ],
                       )
                     : eventCount == 1
-                        ? dotIconBuilder(Colors.black)
+                        ? dotIconBuilder(
+                            enabled
+                                ? Colors.black
+                                : Color.fromRGBO(217, 217, 217, 1),
+                          )
                         : Container();
   }
 
