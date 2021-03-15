@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/constantUtils/SharedPreferencesHelper/PreferenceHelper.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -478,8 +479,8 @@ class _UserLoginState extends State<UserLogin> {
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
         // print('Login response : ${loginResponseModel.toJson()}');
-        // print('Login token : ${loginResponseModel.accessToken}');
-        print('Login token : ${loginResponseModel.toJson()}');
+        print('Login token : ${loginResponseModel.accessToken}');
+        print('Login Response : ${loginResponseModel.toJson()}');
         print('response:${response.body}');
         _sharedPreferences.then((value) {
           value.clear();

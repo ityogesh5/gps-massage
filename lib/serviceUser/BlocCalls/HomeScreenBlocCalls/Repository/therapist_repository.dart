@@ -17,10 +17,13 @@ class GetTherapistRepositoryImpl implements GetTherapistRepository {
   @override
   Future<List<TherapistDatum>> getTherapistProfiles(String accessToken) async {
     try {
-      var response = await http.post(
-          '${HealingMatchConstants.THERAPIST_LIST_URL}',
-          headers: {'Authorization': 'Bearer $accessToken'});
-      print('Therapist repo token : accessToken $accessToken');
+      final url = HealingMatchConstants.THERAPIST_LIST_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '$accessToken'
+      };
+      final response = await http.post(url, headers: headers);
+      print('Therapist repo token : $accessToken');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         List<TherapistDatum> therapistUsers =

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DialogHelper {
@@ -73,9 +74,9 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
                               //Navigator.pop(context);
-                              _sharedPreferences.then((value){
-                                    value.setBool('isUserVerified', true);
-                                  });
+                              _sharedPreferences.then((value) {
+                                value.setBool('isUserVerified', true);
+                              });
                               NavigationRouter.switchToServiceUserBottomBar(
                                   context);
                             },
@@ -445,7 +446,7 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
                               //Navigator.pop(context);
-                              _sharedPreferences.then((value){
+                              _sharedPreferences.then((value) {
                                 value.setBool('isProviderVerified', true);
                               });
                               NavigationRouter.switchToServiceProviderBottomBar(
@@ -998,6 +999,24 @@ class DialogHelper {
                         child: Icon(Icons.clear, size: 12, color: Colors.black),
                       ),
                     ))
+              ],
+            ),
+          );
+        });
+  }
+
+  // Logout service user
+  static void showLogOutUserDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                LogOutServiceUser(),
               ],
             ),
           );

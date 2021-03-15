@@ -68,7 +68,6 @@ dependencies:
   carousel_slider: ^2.3.1 # Yogeshwar Images corousel for sliding various images
   bubble_tab_indicator: ^0.1.4 #Aswin Terms and Conditions Bubble Tab Bar View
   chips_choice: ^2.0.1 # Yogeshwar make chips dynamically from list
-  shimmer: ^1.1.2 # Yogeshwar shimmer loading effect for loading API response and parsing data
   favorite_button: ^0.0.3 # Yogeshwar Favorite button for making Therapist
   path_provider: any
   infinite_listview: ^1.0.0
@@ -79,7 +78,7 @@ dependencies:
   url_launcher: ^5.7.10 #Aswin for Mail app launch
   #flutter_statusbarcolor: ^0.2.3 #Aswin StatusBar Color
   #flutter_week_view: ^1.0.0+2
-
+  shimmer_animation: any #Yogeshwar - Shows loading Shimmer effect while parsing API data..
 
 
   syncfusion_flutter_calendar: ^18.4.35

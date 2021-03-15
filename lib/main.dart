@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'initialScreens/splashScreen.dart';
+import 'utils/SampleShimmerLoader.dart';
 
 void main() {
   runApp(HealingMatchApp());

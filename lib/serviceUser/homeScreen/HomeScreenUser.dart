@@ -4,12 +4,18 @@ import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListsModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_repository.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_bloc.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -38,6 +44,26 @@ String therapistImage = '';
 
 int _selectedIndex;
 List<TherapistDatum> therapistList = [];
+var accessToken;
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+
+void main() {
+  runApp(UserHomeScreen());
+}
+
+class UserHomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider(
+        create: (context) =>
+            TherapistBloc(getTherapistRepository: GetTherapistRepositoryImpl()),
+        child: HomeScreen(),
+      ),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,151 +71,81 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenUserState extends State<HomeScreen> {
+  // ignore: close_sinks
+  TherapistBloc therapistBloc;
+
   @override
   void initState() {
     super.initState();
-    getTherapistList();
+    therapistBloc = BlocProvider.of<TherapistBloc>(context);
+    getTherapistUsers();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: TextFormField(
-                      readOnly: true,
-                      autofocus: false,
-                      textInputAction: TextInputAction.search,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'キーワードでさがす',
-                          suffixIcon: InkWell(
-                            child: Image.asset("assets/images_gps/search.png"),
-                            onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
-                            },
-                          ),
-                          hintStyle: TextStyle(
-                              color: Colors.grey[300],
-                              fontSize: 14,
-                              fontFamily: 'NotoSansJP'),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 2.0),
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          CarouselWithIndicatorDemo(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '近くのセラピスト＆お店',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
-                    },
-                    child: Text(
-                      'もっと見る',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          BuildMassageTypeChips(),
-          BuildProviderLists(),
-          ReservationList(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'おすすめ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'もっとみる',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                )
-              ],
-            ),
-          ),
-          RecommendLists(),
-          SizedBox(
-            height: 10,
-          ),
-        ],
+      body: BlocListener<TherapistBloc, TherapistState>(
+        listener: (context, state) {
+          if (state is GetTherapistErrorState) {
+            return HomePageError();
+          }
+        },
+        child: BlocBuilder<TherapistBloc, TherapistState>(
+          // ignore: missing_return
+          builder: (context, state) {
+            if (state is GetTherapistInitialState) {
+              print('Initial state');
+              return LoadInitialHomePage();
+            } else if (state is GetTherapistLoadingState) {
+              print('Loading state');
+              return LoadInitialHomePage();
+            } else if (state is GetTherapistLoadedState) {
+              print('Loaded state');
+              return LoadHomePage(getProviderUsers: state.getTherapistsUsers);
+            }
+          },
+        ),
       ),
     );
   }
 
-  getTherapistList() async {
-    print('Home Loop 1');
+  // get Access Token and API Call validation
+  getTherapistUsers() async {
+    _sharedPreferences.then((value) {
+      accessToken = value.getString('accessToken');
+      if (accessToken != null) {
+        print('Access token value : $accessToken');
+        getTherapists();
+      } else {
+        print('No prefs value found !!');
+      }
+    });
+  }
+
+  // get therapist api
+  getTherapists() async {
     ListOfTherapistModel listOfTherapistModel = new ListOfTherapistModel();
-    final url = HealingMatchConstants.THERAPIST_LIST_URL;
-    final response = await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA5ODE2MjU2fQ.c_GO_Ji4UBebxPcT3uqNZ2ulvRgQYJU_5UWJn--qZlM"
-      },
-    );
-    print('Home Loop 2');
-    final getTherapists = json.decode(response.body);
-    print('Response body : ${response.body}');
-    listOfTherapistModel = ListOfTherapistModel.fromJson(getTherapists);
-    therapistList = listOfTherapistModel.therapistData;
-    for (int i = 0; i < therapistList.length; i++) {
-      print('Therapist data : ${listOfTherapistModel.therapistData.length}');
-      print(
-          'Therapist images : ${listOfTherapistModel.therapistData[i].uploadProfileImgUrl}');
-      therapistImage =
-          listOfTherapistModel.therapistData[i].uploadProfileImgUrl;
-      if (therapistImage != null) {
-        // Convert string url of image to base64 format
-        convertBase64ProfileImage(therapistImage);
-      } else {}
+    try {
+      final url = HealingMatchConstants.THERAPIST_LIST_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '$accessToken'
+      };
+
+      final response = await http.post(url, headers: headers);
+      final getTherapists = json.decode(response.body);
+      print('Response body : ${response.body}');
+      listOfTherapistModel = ListOfTherapistModel.fromJson(getTherapists);
+      setState(() {
+        therapistList = listOfTherapistModel.therapistData;
+        for (int i = 0; i < therapistList.length; i++) {
+          print(
+              'Therapist data : ${listOfTherapistModel.therapistData.length}');
+        }
+      });
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
     }
   }
 
@@ -213,9 +169,460 @@ class _HomeScreenUserState extends State<HomeScreen> {
   }
 }
 
+class HomePageError extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _HomePageErrorState();
+  }
+}
+
+class _HomePageErrorState extends State<HomePageError> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Text('Error Occured !!'),
+      ),
+    );
+  }
+}
+
+// Homepage Service User
+class LoadHomePage extends StatefulWidget {
+  List<TherapistDatum> getProviderUsers;
+
+  LoadHomePage({Key key, @required this.getProviderUsers}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _LoadHomePageState();
+  }
+}
+
+class _LoadHomePageState extends State<LoadHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  NavigationRouter.switchToServiceUserSearchScreen(context);
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: TextFormField(
+                    readOnly: true,
+                    autofocus: false,
+                    textInputAction: TextInputAction.search,
+                    decoration: new InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'キーワードでさがす',
+                        suffixIcon: InkWell(
+                          child: Image.asset("assets/images_gps/search.png"),
+                          onTap: () {
+                            NavigationRouter.switchToServiceUserSearchScreen(
+                                context);
+                          },
+                        ),
+                        hintStyle: TextStyle(
+                            color: Colors.grey[300],
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        CarouselWithIndicatorDemo(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '近くのセラピスト＆お店',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    NavigationRouter.switchToNearByProviderAndShop(context);
+                  },
+                  child: Text(
+                    'もっと見る',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        BuildMassageTypeChips(),
+        BuildProviderLists(providerList: widget.getProviderUsers),
+        ReservationList(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'おすすめ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'もっとみる',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+              )
+            ],
+          ),
+        ),
+        RecommendLists(),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+}
+
+// Loader HomePage
+class LoadInitialHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoadInitialHomePageState();
+  }
+}
+
+class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          SizedBox(height: 20),
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  Shimmer(
+                    duration: Duration(seconds: 1),
+                    //Default value
+                    interval: Duration(seconds: 2),
+                    //Default value: Duration(seconds: 0)
+                    color: Colors.grey[300],
+                    //Default value
+                    enabled: true,
+                    //Default value
+                    direction: ShimmerDirection.fromLeftToRight(),
+                    child: CarouselSlider(
+                      items: [],
+                      options: CarouselOptions(
+                          autoPlay: true,
+                          autoPlayCurve: Curves.easeInOutCubic,
+                          enlargeCenterPage: false,
+                          viewportFraction: 0.9,
+                          aspectRatio: 2.0),
+                    ),
+                  ),
+                ]),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Shimmer(
+              duration: Duration(seconds: 1),
+              //Default value
+              interval: Duration(seconds: 2),
+              //Default value: Duration(seconds: 0)
+              color: Colors.grey[400],
+              //Default value
+              enabled: true,
+              //Default value
+              direction: ShimmerDirection.fromLTRB(),
+              child: Container(
+                color: Colors.grey[200],
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    Text(
+                      '',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Shimmer(
+              duration: Duration(seconds: 1),
+              //Default value
+              interval: Duration(seconds: 2),
+              //Default value: Duration(seconds: 0)
+              color: Colors.grey[400],
+              //Default value
+              enabled: true,
+              //Default value
+              direction: ShimmerDirection.fromLTRB(),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.22,
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return new Card(
+                        color: Colors.grey[200],
+                        semanticContainer: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.70,
+                            width: MediaQuery.of(context).size.width * 0.78,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                new Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.none,
+                                          image: new AssetImage(
+                                              'assets/images_gps/logo.png')),
+                                    )),
+                                FittedBox(
+                                  child: Text(
+                                    'Healing Match',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[400],
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          Shimmer(
+            duration: Duration(seconds: 1),
+            //Default value
+            interval: Duration(seconds: 1),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[300],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              padding: EdgeInsets.all(5.0),
+              child: Card(elevation: 5),
+            ),
+          ),
+          Shimmer(
+            duration: Duration(seconds: 1),
+            //Default value
+            interval: Duration(seconds: 2),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: Shimmer(
+                duration: Duration(seconds: 1),
+                //Default value
+                interval: Duration(seconds: 2),
+                //Default value: Duration(seconds: 0)
+                color: Colors.grey[300],
+                //Default value
+                enabled: true,
+                //Default value
+                direction: ShimmerDirection.fromLTRB(),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return new Card(
+                        color: Colors.grey[200],
+                        semanticContainer: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.70,
+                            width: MediaQuery.of(context).size.width * 0.78,
+                            child: Shimmer(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  new Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: new BoxDecoration(
+                                        color: Colors.grey[200],
+                                        border:
+                                            Border.all(color: Colors.grey[200]),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.none,
+                                            image: new AssetImage(
+                                                'assets/images_gps/logo.png')),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Shimmer(
+            duration: Duration(seconds: 1),
+            //Default value
+            interval: Duration(seconds: 2),
+            //Default value: Duration(seconds: 0)
+            color: Colors.grey[400],
+            //Default value
+            enabled: true,
+            //Default value
+            direction: ShimmerDirection.fromLTRB(),
+            child: Container(
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 //Build therapists list view
 
 class BuildProviderLists extends StatefulWidget {
+  List<TherapistDatum> getProviders;
+
+  BuildProviderLists({List<TherapistDatum> providerList});
+
   @override
   State<StatefulWidget> createState() {
     return _BuildProviderListsState();
@@ -223,6 +630,11 @@ class BuildProviderLists extends StatefulWidget {
 }
 
 class _BuildProviderListsState extends State<BuildProviderLists> {
+  @override
+  void initState() {
+    super.initState();
+    print('List length bloc : ${widget.getProviders.length}');
+  }
   double ratingsValue = 3.0;
 
   @override
@@ -236,7 +648,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
-            itemCount: therapistList.length,
+            itemCount: widget.getProviders.length,
             itemBuilder: (context, index) {
               return new Card(
                 color: Colors.grey[200],
@@ -260,7 +672,7 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.black12),
                                     shape: BoxShape.circle,
-                                    image: therapistList[index]
+                                    image: widget.getProviders[index]
                                                 .uploadProfileImgUrl !=
                                             null
                                         ? new DecorationImage(
@@ -295,9 +707,9 @@ class _BuildProviderListsState extends State<BuildProviderLists> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(width: 5),
-                                  therapistList[index].userName != null
+                                  widget.getProviders[index].userName != null
                                       ? Text(
-                                          '${therapistList[index].userName}',
+                                          '${widget.getProviders[index].userName}',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.black,
@@ -594,7 +1006,7 @@ class _ReservationListState extends State<ReservationList> {
                 children: [Text('今後の予約')],
               ),
               ListTile(
-                leading:  new Container(
+                leading: new Container(
                     width: 70.0,
                     height: 70.0,
                     decoration: new BoxDecoration(
@@ -602,8 +1014,7 @@ class _ReservationListState extends State<ReservationList> {
                       shape: BoxShape.circle,
                       image: new DecorationImage(
                           fit: BoxFit.cover,
-                          image: new AssetImage(
-                              'assets/images_gps/logo.png')),
+                          image: new AssetImage('assets/images_gps/logo.png')),
                     )),
                 title: Row(
                   children: [

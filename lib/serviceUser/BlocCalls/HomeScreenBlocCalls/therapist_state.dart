@@ -4,10 +4,6 @@ import 'package:meta/meta.dart';
 
 abstract class TherapistState extends Equatable {}
 
-class IfNotSearched extends TherapistState {
-  @override
-  List<Object> get props => null;
-}
 
 class GetTherapistInitialState extends TherapistState {
   @override
@@ -26,7 +22,7 @@ class GetTherapistLoadedState extends TherapistState {
   GetTherapistLoadedState({@required this.getTherapistsUsers});
 
   @override
-  List<Object> get props => [ListOfTherapistModel];
+  List<Object> get props => [getTherapistsUsers];
 }
 
 // ignore: must_be_immutable

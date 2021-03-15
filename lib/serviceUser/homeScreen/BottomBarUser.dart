@@ -3,11 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 
 import 'HomeScreenUser.dart';
 
@@ -26,7 +27,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
   int selectedpage; //
 
   final _pageOptions = [
-    HomeScreen(),
+    UserHomeScreen(),
     SearchScreenUser(),
     ReservationAndFavourite(),
     ViewUserProfile(),

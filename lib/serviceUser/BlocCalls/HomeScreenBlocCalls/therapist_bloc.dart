@@ -7,13 +7,13 @@ import 'package:meta/meta.dart';
 import 'Repository/therapist_repository.dart';
 
 
-class GetTherapistBloc extends Bloc<TherapistEvent, TherapistState> {
+class TherapistBloc extends Bloc<TherapistEvent, TherapistState> {
   GetTherapistRepository getTherapistRepository;
 
-  GetTherapistBloc({@required this.getTherapistRepository}) : super(null);
+  TherapistBloc({@required this.getTherapistRepository}) : super(null);
 
   @override
-  TherapistState get initialState => IfNotSearched();
+  TherapistState get initialState => GetTherapistInitialState();
 
   @override
   Stream<TherapistState> mapEventToState(TherapistEvent event) async* {
