@@ -27,6 +27,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   String val = "S";
   String values = "D";
   bool _isVisible = true;
+  bool _addAddressVisible = true;
 
   NumberPicker dayPicker;
   int _cyear;
@@ -65,434 +66,632 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-      appBar: AppBar(
+      /*   appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Color.fromRGBO(0, 0, 0, 1),
-          ),
-          onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
-          },
-          color: Colors.black,
-        ),
-        title: Container(
-          height: MediaQuery.of(context).size.height * 0.06,
-          child: TextFormField(
-            autofocus: false,
-            textInputAction: TextInputAction.search,
-            decoration: new InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: HealingMatchConstants.searchKeyword,
-                suffixIcon: Image.asset("assets/images_gps/search.png",
-                    color: Color.fromRGBO(225, 225, 225, 1)),
-                hintStyle: TextStyle(
-                  color: Color.fromRGBO(225, 225, 225, 1),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.red, width: 2.0),
-                  borderRadius: BorderRadius.circular(7),
-                )),
-          ),
-        ),
+        leading:
+        centerTitle: false,
       ),
+     */
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  HealingMatchConstants.searchAreaTxt,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1),
-                  ),
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 32,
-                            backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                            child: SvgPicture.asset(
-                                'assets/images_gps/current_location.svg',
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                height: 30,
-                                width: 30),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            HealingMatchConstants.searchGpsIconTxt,
-                            style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 8),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 32,
-                            backgroundColor: Color.fromRGBO(0, 0, 0, 1),
-                            child: CircleAvatar(
-                              maxRadius: 30,
-                              backgroundColor: Colors.white,
-                              child: IconButton(
-                                icon: new Icon(Icons.add),
-                                highlightColor: Color.fromRGBO(0, 0, 0, 1),
-                                iconSize: 35,
-                                onPressed: () {
-                                  /*NavigationRouter.switchToUserAddAddressScreen(context);*/
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '地点を追加',
-                            style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                            ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Colors.grey[200],
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/house.svg',
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  height: 30,
-                                  width: 30),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            HealingMatchConstants.searchHomeIconTxt,
-                            style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 15),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Colors.grey[200],
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/office.svg',
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  height: 30,
-                                  width: 30),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            HealingMatchConstants.searchOfficeIconTxt,
-                            style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 15),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Colors.grey[200],
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/parents_house.svg',
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  height: 30,
-                                  width: 30),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            HealingMatchConstants.searchPHomeIconTxt,
-                            style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(HealingMatchConstants.searchServiceSelTxt,
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 7,
-                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: _value == 0
-                                  ? Color.fromRGBO(242, 242, 242, 1)
-                                  : Color.fromRGBO(255, 255, 255, 1),
-                              border: Border.all(
-                                color: _value == 0
-                                    ? Color.fromRGBO(102, 102, 102, 1)
-                                    : Color.fromRGBO(228, 228, 228, 1),
-                              ),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeOne.svg',
-                              color: _value == 0
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                              height: 25,
-                              width: 25,
-                            ),
-                          ),
-                          Text(
-                            HealingMatchConstants.searchEsteticTxt,
-                            style: TextStyle(
-                              color: _value == 0
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                            ),
-                          ),
-                        ],
+                    IconButton(
+                      padding: EdgeInsets.all(0.0),
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Color.fromRGBO(0, 0, 0, 1),
                       ),
+                      onPressed: () {
+                        NavigationRouter.switchToServiceUserBottomBar(context);
+                      },
+                      color: Colors.black,
                     ),
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 1),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: _value == 1
-                                  ? Color.fromRGBO(242, 242, 242, 1)
-                                  : Color.fromRGBO(255, 255, 255, 1),
-                              border: Border.all(
-                                color: _value == 1
-                                    ? Color.fromRGBO(102, 102, 102, 1)
-                                    : Color.fromRGBO(228, 228, 228, 1),
-                              ),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeTwo.svg',
-                              color: _value == 1
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                              height: 25,
-                              width: 25,
-                            ),
+                    Expanded(
+                      child: Card(
+                        elevation: 4.0,
+                        margin: EdgeInsets.all(0.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(0.0),
+                          padding: EdgeInsets.all(0.0),
+                          height:
+                              48.0, //MediaQuery.of(context).size.height * 0.06,
+                          child: TextFormField(
+                            autofocus: false,
+                            textInputAction: TextInputAction.search,
+                            decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.all(4.0),
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: HealingMatchConstants.searchKeyword,
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Image.asset(
+                                    "assets/images_gps/search.png",
+                                    height: 22,
+                                    width: 22,
+                                    color: Color.fromRGBO(225, 225, 225, 1),
+                                  ),
+                                ),
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(225, 225, 225, 1),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 2.0),
+                                  borderRadius: BorderRadius.circular(7),
+                                )),
                           ),
-                          Text(
-                            HealingMatchConstants.searchOsthepaticTxt,
-                            style: TextStyle(
-                              color: _value == 1
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 2),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: _value == 2
-                                  ? Color.fromRGBO(242, 242, 242, 1)
-                                  : Color.fromRGBO(255, 255, 255, 1),
-                              border: Border.all(
-                                color: _value == 2
-                                    ? Color.fromRGBO(102, 102, 102, 1)
-                                    : Color.fromRGBO(228, 228, 228, 1),
-                              ),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeThree.svg',
-                              color: _value == 2
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                              height: 25,
-                              width: 25,
-                            ),
-                          ),
-                          Text(
-                            HealingMatchConstants.searchRelaxationTxt,
-                            style: TextStyle(
-                              color: _value == 2
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => _value = 3),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: _value == 3
-                                  ? Color.fromRGBO(242, 242, 242, 1)
-                                  : Color.fromRGBO(255, 255, 255, 1),
-                              border: Border.all(
-                                color: _value == 3
-                                    ? Color.fromRGBO(102, 102, 102, 1)
-                                    : Color.fromRGBO(228, 228, 228, 1),
-                              ),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/images_gps/serviceTypeFour.svg',
-                              color: _value == 3
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          Text(
-                            HealingMatchConstants.searchFitnessTxt,
-                            style: TextStyle(
-                              color: _value == 3
-                                  ? Color.fromRGBO(0, 0, 0, 1)
-                                  : Color.fromRGBO(217, 217, 217, 1),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10.0,
                 ),
-                Divider(
-                  // height: 50,
-                  color: Color.fromRGBO(236, 236, 236, 1),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        HealingMatchConstants.searchAreaTxt,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  HealingMatchConstants.searchTravelTxt,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
+                SizedBox(
+                  height: 10.0,
                 ),
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.40,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  child: CustomRadioButton(
-                    padding: 5.0,
-                    elevation: 0,
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.40,
-                    buttonColor: Theme.of(context).canvasColor,
-                    enableShape: true,
-                    customShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.black38)),
-                    buttonLables: ["店舗に行く", "来てもらう"],
-                    fontSize: 13.0,
-                    buttonValues: [
-                      "S",
-                      "R",
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  alignment: Alignment.topLeft,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 32,
+                              backgroundColor: Color.fromRGBO(200, 217, 33, 1),
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/current_location.svg',
+                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  height: 30,
+                                  width: 30),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              HealingMatchConstants.searchGpsIconTxt,
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 4.0),
+                          child: Container(
+                              height: 60,
+                              child: VerticalDivider(
+                                  color: Color.fromRGBO(236, 236, 236, 1))),
+                        ),
+                        _addAddressVisible
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 32,
+                                    backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+                                    child: CircleAvatar(
+                                      maxRadius: 30,
+                                      backgroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: new Icon(
+                                          Icons.add,
+                                          color: Colors.black,
+                                        ),
+                                        highlightColor:
+                                            Color.fromRGBO(0, 0, 0, 1),
+                                        iconSize: 35,
+                                        onPressed: () {
+                                          /*NavigationRouter.switchToUserAddAddressScreen(context);*/
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    '地点を追加',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                        SizedBox(width: _addAddressVisible ? 15 : 0.0),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor: Colors.grey[200],
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/house.svg',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              HealingMatchConstants.searchHomeIconTxt,
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(width: 15),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor: Colors.grey[200],
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/office.svg',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              HealingMatchConstants.searchOfficeIconTxt,
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(width: 15),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor: Colors.grey[200],
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/parents_house.svg',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              HealingMatchConstants.searchPHomeIconTxt,
+                              style: TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(HealingMatchConstants.searchServiceSelTxt,
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () => setState(() => _value = 0),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _value == 0 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _value == 0
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _value == 0
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeOne.svg',
+                                        color: _value == 0
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 29.81,
+                                        width: 27.61,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /*    Text(
+                                  HealingMatchConstants.searchEsteticTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 0
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ),
+                              */
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => setState(() => _value = 1),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _value == 1 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _value == 1
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _value == 1
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeTwo.svg',
+                                        color: _value == 1
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 33,
+                                        width: 34,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /*  Text(
+                                  HealingMatchConstants.searchOsthepaticTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 1
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ), */
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => setState(() => _value = 2),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _value == 2 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _value == 2
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _value == 2
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeThree.svg',
+                                        color: _value == 2
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 25,
+                                        width: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+/*                                 Text(
+                                  HealingMatchConstants.searchRelaxationTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 2
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ), */
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => setState(() => _value = 3),
+                            child: Column(
+                              children: [
+                                Card(
+                                  elevation: _value == 3 ? 4.0 : 0.0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: _value == 3
+                                          ? Color.fromRGBO(242, 242, 242, 1)
+                                          : Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: _value == 3
+                                            ? Color.fromRGBO(102, 102, 102, 1)
+                                            : Color.fromRGBO(228, 228, 228, 1),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/images_gps/serviceTypeFour.svg',
+                                        color: _value == 3
+                                            ? Color.fromRGBO(0, 0, 0, 1)
+                                            : Color.fromRGBO(217, 217, 217, 1),
+                                        height: 35,
+                                        width: 27,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /*   Text(
+                                  HealingMatchConstants.searchFitnessTxt,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: _value == 3
+                                        ? Color.fromRGBO(0, 0, 0, 1)
+                                        : Color.fromRGBO(217, 217, 217, 1),
+                                  ),
+                                ), */
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              HealingMatchConstants.searchEsteticTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: _value == 0
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              HealingMatchConstants.searchOsthepaticTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: _value == 1
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              HealingMatchConstants.searchRelaxationTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: _value == 2
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              HealingMatchConstants.searchFitnessTxt,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: _value == 3
+                                    ? Color.fromRGBO(0, 0, 0, 1)
+                                    : Color.fromRGBO(217, 217, 217, 1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                    radioButtonValue: (value) {
-                      print(value);
-                      setState(() {
-                        val = value;
-                      });
-                      print(val);
-                    },
-                    selectedColor: Colors.grey,
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  HealingMatchConstants.searchDateTxt,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(0, 0, 0, 1),
-                  ),
+                Divider(
+                  color: Color.fromRGBO(236, 236, 236, 1),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        HealingMatchConstants.searchTravelTxt,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(0, 0, 0, 1)),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * 0.40,
+                  minWidth: MediaQuery.of(context).size.width * 0.45,
                   height: MediaQuery.of(context).size.height * 0.07,
                   child: CustomRadioButton(
-                    padding: 5.0,
-                    elevation: 0,
+                    padding: 0.0,
+                    elevation: 4,
                     height: MediaQuery.of(context).size.height * 0.07,
                     width: MediaQuery.of(context).size.width * 0.40,
                     buttonColor: Theme.of(context).canvasColor,
                     enableShape: true,
-                    customShape: RoundedRectangleBorder(
+                    /*  customShape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: Colors.black38)),
+                    */
+                    buttonLables: ["店舗に行く", "来てもらう"],
+                    fontSize: 12.0,
+                    buttonValues: [
+                      "S",
+                      "R",
+                    ],
+                    radioButtonValue: (value) {
+                      val = value;
+                      print(value);
+                      setState(() {
+                        if (val != null && val.contains('S')) {
+                          _addAddressVisible = true;
+                        } else if (val != null && val.contains('R')) {
+                          _addAddressVisible = false;
+                        }
+                        print(_addAddressVisible);
+                      });
+                    },
+                    selectedColor: Color.fromRGBO(242, 242, 242, 1),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        HealingMatchConstants.searchDateTxt,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ButtonTheme(
+                  minWidth: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: CustomRadioButton(
+                    padding: 0.0,
+                    elevation: 4.0,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    buttonColor: Theme.of(context).canvasColor,
+                    enableShape: true,
+                    /*   customShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.black38)),
+                   */
                     buttonLables: ["受けたい日時でさがす", "セラピストをさがす"],
                     fontSize: 12.0,
                     buttonValues: [
@@ -511,8 +710,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         }
                       });
                     },
-                    selectedColor: Colors.grey,
+                    selectedColor: Color.fromRGBO(242, 242, 242, 1),
                   ),
+                ),
+                SizedBox(
+                  height: 15.0,
                 ),
                 Container(
                   child: Row(
@@ -528,9 +730,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               color: Color.fromRGBO(255, 255, 255, 1),
                               child: DropDownFormField(
                                 enabled: _isVisible,
-                                fillColor: values == 'T'
-                                    ? Color.fromRGBO(242, 242, 242, 1)
-                                    : Color.fromRGBO(255, 255, 255, 1),
+                                fillColor: Color.fromRGBO(255, 255, 255, 1),
                                 borderColor: Color.fromRGBO(228, 228, 228, 1),
                                 titleText: null,
                                 hintText: readonly
@@ -596,9 +796,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   color: Colors.transparent,
                                   child: DropDownFormField(
                                     enabled: _isVisible,
-                                    fillColor: values == 'T'
-                                        ? Color.fromRGBO(242, 242, 242, 1)
-                                        : Color.fromRGBO(255, 255, 255, 1),
+                                    fillColor: Color.fromRGBO(255, 255, 255, 1),
                                     borderColor:
                                         Color.fromRGBO(228, 228, 228, 1),
                                     titleText: null,
@@ -691,6 +889,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 15,
+                ),
                 buildDayPicker(),
                 SizedBox(
                   height: 20,
@@ -698,6 +899,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.065,
+                  margin: EdgeInsets.all(8.0),
                   child: RaisedButton(
                     child: Text(
                       'さがす',
@@ -726,6 +928,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   buildDayPicker() {
     dayPicker = NumberPicker.horizontal(
       currentDate: DateTime.now(),
+      enabled: _isVisible,
       selectedYear: _cyear,
       ismonth: true,
       numberToDisplay: 7,
@@ -754,9 +957,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              dayPicker,
+              Center(child: dayPicker),
             ],
           ),
         ),

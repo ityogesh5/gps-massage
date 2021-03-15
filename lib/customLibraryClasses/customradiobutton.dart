@@ -55,7 +55,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
   @override
   void initState() {
     super.initState();
-    currentSelectedLabel = widget.buttonLables[1];
+    currentSelectedLabel = widget.buttonLables[0];
   }
 
   List<Widget> buildButtonsColumn() {
@@ -66,24 +66,30 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
         child: Card(
           color: currentSelectedLabel == widget.buttonLables[index]
               ? widget.selectedColor
-              : widget.buttonColor,
-          elevation: widget.elevation,
+              : Colors.white, //widget.buttonColor,
+          elevation: currentSelectedLabel == widget.buttonLables[index]
+              ? widget.elevation
+              : 0.0,
           shape: widget.enableShape
               ? widget.customShape == null
                   ? RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     )
                   : widget.customShape
               : null,
           child: Container(
-            height: widget.height,
             child: MaterialButton(
+              elevation: 8.0,
               shape: widget.enableShape
                   ? widget.customShape == null
                       ? OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                              color: currentSelectedLabel ==
+                                      widget.buttonLables[index]
+                                  ? Color.fromRGBO(102, 102, 102, 1)
+                                  : Color.fromRGBO(228, 228, 228, 1),
+                              width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                         )
                       : widget.customShape
                   : OutlineInputBorder(
@@ -102,10 +108,11 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
                 widget.buttonLables[index],
                 style: TextStyle(
                     color: currentSelectedLabel == widget.buttonLables[index]
-                        ? Colors.white
-                        : Theme.of(context).textTheme.bodyText1.color,
+                        ? Colors.black
+                        : Color.fromRGBO(217, 217, 217,
+                            1), //Theme.of(context).textTheme.bodyText1.color,
                     fontSize: widget.fontSize,
-                    fontWeight: FontWeight.w800),
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
