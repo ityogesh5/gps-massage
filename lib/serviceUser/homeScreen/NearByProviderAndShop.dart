@@ -331,18 +331,18 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
             ],
           ),
           Positioned(
-            top: 0.0,
-            right: 20,
-            left: 20,
+            top: 10,
+            right: 50,
+            left: 50,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.082,
-              width: MediaQuery.of(context).size.width * 0.15,
+              height: MediaQuery.of(context).size.height * 0.074,
+              width: MediaQuery.of(context).size.width * 0.07,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
-                    color: Colors.transparent,
+                    color: Colors.black38,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
               child: Center(child: MassageTypeChips()),
             ),
           )

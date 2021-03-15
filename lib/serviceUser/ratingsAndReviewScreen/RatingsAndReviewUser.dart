@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
 class RatingsAndReviewUser extends StatefulWidget {
   @override
@@ -17,11 +23,13 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   FocusNode _focus = new FocusNode();
   final reviewController = new TextEditingController();
   double ratingsValue = 0.0;
+  String rUserID = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getId();
     _scroll = new ScrollController();
     _focus.addListener(() {
       _scroll.jumpTo(-1.0);
@@ -48,7 +56,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         title: Text(
           '評価とレビュー',
           style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(0, 0, 0, 1),
               fontFamily: 'NotoSansJP'),
@@ -98,7 +106,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                       'セラピストを5段階で評価してください',
                       style: TextStyle(
                           fontFamily: 'NotoSansJP',
-                          fontSize: 14,
+                          fontSize: 12,
                           color: Color.fromRGBO(51, 51, 51, 1),
                           fontWeight: FontWeight.normal),
                     ),
@@ -216,22 +224,25 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                             child: Align(
                               alignment: Alignment.topRight,
                               child: CircleAvatar(
-                                radius: 25.0,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.send,
-                                    color: Color.fromRGBO(200, 217, 33, 1),
-                                  ),
-                                  iconSize: 25.0,
-                                  onPressed: () {
-                                    print('Review Posted!!');
-                                    NavigationRouter
-                                        .switchToServiceUserDisplayReviewScreen(
-                                            context);
-                                  },
-                                ),
+                                radius: 30,
                                 backgroundColor:
-                                    Color.fromRGBO(255, 255, 255, 1),
+                                    Color.fromRGBO(216, 216, 216, 1),
+                                child: CircleAvatar(
+                                  radius: 25.0,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.send,
+                                      color: Color.fromRGBO(200, 217, 33, 1),
+                                    ),
+                                    iconSize: 25.0,
+                                    onPressed: () {
+                                      _ratingAndReview();
+                                      /* NavigationRouter.switchToServiceUserDisplayReviewScreen(context);*/
+                                    },
+                                  ),
+                                  backgroundColor:
+                                      Color.fromRGBO(255, 255, 255, 1),
+                                ),
                               ),
                             ),
                           ),
@@ -247,7 +258,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                   'レビューをした隙に名前、施術日時の詳細がセラビストに知られることはありません',
                   style: TextStyle(
                       fontFamily: 'NotoSansJP',
-                      fontSize: 14,
+                      fontSize: 12,
                       color: Color.fromRGBO(51, 51, 51, 1),
                       fontWeight: FontWeight.normal),
                 ),
@@ -279,7 +290,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 '10月７',
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
-                                    fontSize: 12,
+                                    fontSize: 10,
                                     color: Color.fromRGBO(0, 0, 0, 1),
                                     fontWeight: FontWeight.w300),
                               ),
@@ -338,7 +349,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                   "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                                   style: TextStyle(
                                       fontFamily: 'NotoSansJP',
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       color: Color.fromRGBO(51, 51, 51, 1),
                                       fontWeight: FontWeight.w300),
                                 ),
@@ -354,5 +365,47 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
         ],
       ),
     );
+  }
+
+  getId() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      _sharedPreferences.then((value) {
+        rUserID = value.getString('userID');
+        print(rUserID);
+      });
+    } catch (e) {}
+  }
+
+  _ratingAndReview() async {
+    var reviewComment = reviewController.text.toString();
+    print(HealingMatchConstants.userEditToken);
+    print(rUserID);
+    print(reviewComment);
+    print(ratingsValue);
+
+    try {
+      ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);
+      final url = HealingMatchConstants.RATING_USER_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjE1Nzk1NzU3LCJleHAiOjE2MTY0MDA1NTd9.B5hJd-GrTsLP6GSPafx6-WcR8tuxaBIoIGkLpOhvDRA"
+          },
+          body: json.encode({
+            "userId": rUserID,
+            "therapistId": "4",
+            "ratingsCount": ratingsValue,
+            "reviewComment": reviewComment,
+          }));
+      print(response.body);
+      print('Status code : ${response.statusCode}');
+      // NavigationRouter.switchToServiceUserBottomBar(context);
+    } catch (e) {
+      ProgressDialogBuilder.hideForgetRatingsAndReviewProgressDialog(context);
+      print('Response catch error : ${e.toString()}');
+      return;
+    }
   }
 }

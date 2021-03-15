@@ -1134,9 +1134,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
             child: FittedBox(
               child: Row(
                 children: [
-                  Icon(
-                    Icons.dangerous,
-                    color: Colors.red,
+                  SvgPicture.asset(
+                    'assets/images_gps/warning.svg',
                   ),
                   Text(
                     '選択した日時で既に予約が入っているので、日時を変更してください',

@@ -11,7 +11,7 @@ class SearchResult extends StatefulWidget {
 
 class _SearchResultState extends State<SearchResult> {
   double ratingsValue = 3.0;
-  List<String> _options = ['料金', '距離', '評価', '実績数'];
+  List<String> _options = ['料金', '距離', '評価', '施術回数'];
   int _selectedIndex;
 
   Widget _buildChips() {
@@ -553,7 +553,7 @@ class SearchResultChips extends StatefulWidget {
 }
 
 class _SearchResultChipsState extends State<SearchResultChips> {
-  List<String> _options = ['料金', '距離', '評価', '実績数'];
+  List<String> _options = ['料金', '距離', '評価', '施術回数'];
   int _selectedIndex;
 
   Widget _buildChips() {

@@ -61,6 +61,10 @@ class HealingMatchConstants {
   static const String LOGIN_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/signin';
 
+  //Ratings and Review
+  static const String RATING_USER_URL =
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/createUserReview';
+
   //Common string
   static String registerProgressText = '登録中...';
   static String locationProgressText = '現在地を取得中...';
@@ -361,7 +365,9 @@ class HealingMatchConstants {
   );
 
   static TextStyle formTextStyle = TextStyle(
-      color: ColorConstants.formTextColor, fontFamily: 'NotoSansJP', fontSize: 14);
+      color: ColorConstants.formTextColor,
+      fontFamily: 'NotoSansJP',
+      fontSize: 14);
 
   static TextStyle formLabelTextStyle = TextStyle(
     fontSize: 14.0,
