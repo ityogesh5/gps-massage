@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -17,6 +18,9 @@ class RatingsAndReviewUser extends StatefulWidget {
 }
 
 class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
+  List<UserList> ratingListValues = List();
+
+  UserReviewListById ratingListResponseModel;
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
   ScrollController _scroll;
@@ -30,6 +34,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
     // TODO: implement initState
     super.initState();
     getId();
+    _providerRatingList();
     _scroll = new ScrollController();
     _focus.addListener(() {
       _scroll.jumpTo(-1.0);
@@ -236,7 +241,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     ),
                                     iconSize: 25.0,
                                     onPressed: () {
-                                      // _ratingAndReview();
+                                      _ratingAndReview();
                                       /* NavigationRouter.switchToServiceUserDisplayReviewScreen(context);*/
                                     },
                                   ),
@@ -268,7 +273,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 10,
+                  itemCount: ratingListValues.length,
                   itemBuilder: (BuildContext context, int index) {
                     return new Column(
                       children: [
@@ -279,7 +284,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'お名前',
+                                'Name',
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 14,
@@ -307,7 +312,9 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               glow: true,
                               glowColor: Colors.lime,
                               glowRadius: 2,
-                              initialRating: 3,
+                              initialRating: ratingListValues[index]
+                                  .ratingsCount
+                                  .toDouble(),
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -323,14 +330,16 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                               onRatingUpdate: (rating) {
                                 // print(rating);
                                 setState(() {
-                                  ratingsValue = rating;
+                                  ratingsValue = ratingListValues[index]
+                                      .ratingsCount
+                                      .toDouble();
                                 });
                                 print(ratingsValue);
                               },
                             ),
                             SizedBox(width: 5),
                             Text(
-                              ratingsValue.toString(),
+                              "${ratingListValues[index].ratingsCount.toDouble()}",
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: Color.fromRGBO(153, 153, 153, 1),
@@ -344,9 +353,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                                  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
-                                  "when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                  "${ratingListValues[index].reviewComment}",
                                   style: TextStyle(
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 12,
@@ -406,6 +413,39 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       ProgressDialogBuilder.hideForgetRatingsAndReviewProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
+    }
+  }
+
+  _providerRatingList() async {
+    try {
+      // ProgressDialogBuilder.showCommonProgressDialog(context);
+      final url = HealingMatchConstants.RATING_PROVIDER_LIST_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjE1Nzk1NzU3LCJleHAiOjE2MTY0MDA1NTd9.B5hJd-GrTsLP6GSPafx6-WcR8tuxaBIoIGkLpOhvDRA"
+          },
+          body: json.encode({
+            "therapistId": "2",
+          }));
+      print(response.body);
+      if (response.statusCode == 200) {
+        ratingListResponseModel =
+            UserReviewListById.fromJson(json.decode(response.body));
+        setState(() {
+          ratingListValues = ratingListResponseModel.userData.userList;
+        });
+
+        /* for (var ratingList in ratingListResponseModel.userData.userList) {
+          ratingListValues.add(ratingList.ratingsCount);
+        }*/
+        // ProgressDialogBuilder.hideCommonProgressDialog(context);
+      }
+
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      // ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
   }
 }
