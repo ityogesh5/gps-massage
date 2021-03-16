@@ -1265,6 +1265,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     dayPicker = NumberPicker.horizontal(
       currentDate: DateTime.now(),
       selectedYear: _cyear,
+      enabled: true,
       ismonth: true,
       numberToDisplay: 7,
       selectedMonth: _cmonth,
