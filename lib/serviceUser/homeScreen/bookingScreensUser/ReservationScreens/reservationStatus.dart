@@ -2292,6 +2292,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                       }),
                 ),
               ),
+              SizedBox(height: 10),
+              Container(
+                height: 50,
+                width: 30,
+              )
             ],
           ),
         ),

@@ -128,7 +128,18 @@ class ProgressDialogBuilder {
         textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5));
   }
 
-   static void hideProviderShopDescription(BuildContext context) {
+  static void hideProviderShopDescription(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
+//  Ratings And Review Dialog
+  static void showRatingsAndReviewProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideForgetRatingsAndReviewProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
 }
