@@ -236,7 +236,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     ),
                                     iconSize: 25.0,
                                     onPressed: () {
-                                      _ratingAndReview();
+                                      // _ratingAndReview();
                                       /* NavigationRouter.switchToServiceUserDisplayReviewScreen(context);*/
                                     },
                                   ),
