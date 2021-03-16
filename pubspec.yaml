@@ -34,7 +34,7 @@ dependencies:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
   flutter_rating_bar: ^3.2.0+1
-  connectivity: # Yogeshwar for checking Internet connection
+  connectivity: ^0.4.9 # Yogeshwar for checking Internet connection
   shared_preferences: # Yogeshwar storing data locally throughout the app
   provider: any
   dio: any # Yogeshwar DIO Multipart API Call library / Netwrok call library for processing large data at a time
@@ -63,7 +63,7 @@ dependencies:
   io: ^0.3.4 # Yogeshwar File Input / Output addition
   multi_image_picker: any #Aswin To select the Multiple Images from gallery
   flutter_absolute_path: ^1.0.6 #Aswin To Get the path of the Assets
-  flutter_bloc: any # Yogeshwar BLOC Pattern for parsing API / Network calls
+  flutter_bloc: ^2.0.0 # Yogeshwar BLOC Pattern for parsing API / Network calls
   equatable: ^1.0.3
   carousel_slider: ^2.3.1 # Yogeshwar Images corousel for sliding various images
   bubble_tab_indicator: ^0.1.4 #Aswin Terms and Conditions Bubble Tab Bar View

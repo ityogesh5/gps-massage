@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListsModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -32,7 +32,7 @@ Uint8List therapistImageInBytes;
 String therapistImage = '';
 
 int _selectedIndex;
-List<TherapistDatum> therapistList = [];
+List<UserList> therapistList = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 

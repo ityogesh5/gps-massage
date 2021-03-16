@@ -1,35 +1,35 @@
 // To parse this JSON data, do
 //
-//     final listOfUserModel = listOfUserModelFromJson(jsonString);
+//     final therapistUsersModel = therapistUsersModelFromJson(jsonString);
 
 import 'dart:convert';
 
-ListOfUserModel listOfUserModelFromJson(String str) => ListOfUserModel.fromJson(json.decode(str));
+TherapistUsersModel therapistUsersModelFromJson(String str) => TherapistUsersModel.fromJson(json.decode(str));
 
-String listOfUserModelToJson(ListOfUserModel data) => json.encode(data.toJson());
+String therapistUsersModelToJson(TherapistUsersModel data) => json.encode(data.toJson());
 
-class ListOfUserModel {
-  ListOfUserModel({
+class TherapistUsersModel {
+  TherapistUsersModel({
     this.status,
-    this.userData,
+    this.therapistData,
   });
 
   String status;
-  List<UserDatum> userData;
+  List<TherapistDatum> therapistData;
 
-  factory ListOfUserModel.fromJson(Map<String, dynamic> json) => ListOfUserModel(
+  factory TherapistUsersModel.fromJson(Map<String, dynamic> json) => TherapistUsersModel(
     status: json["status"],
-    userData: List<UserDatum>.from(json["userData"].map((x) => UserDatum.fromJson(x))),
+    therapistData: List<TherapistDatum>.from(json["therapistData"].map((x) => TherapistDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "userData": List<dynamic>.from(userData.map((x) => x.toJson())),
+    "therapistData": List<dynamic>.from(therapistData.map((x) => x.toJson())),
   };
 }
 
-class UserDatum {
-  UserDatum({
+class TherapistDatum {
+  TherapistDatum({
     this.id,
     this.userId,
     this.email,
@@ -83,29 +83,29 @@ class UserDatum {
   bool isVerified;
   bool isActive;
   int isAccepted;
-  dynamic rejectReason;
-  dynamic updatedUser;
+  String rejectReason;
+  String updatedUser;
   String uploadProfileImgUrl;
-  dynamic proofOfIdentityType;
-  dynamic proofOfIdentityImgUrl;
-  dynamic qulaificationCertImgUrl;
-  dynamic businessForm;
-  dynamic numberOfEmp;
-  dynamic businessTrip;
+  String proofOfIdentityType;
+  String proofOfIdentityImgUrl;
+  String qulaificationCertImgUrl;
+  BusinessForm businessForm;
+  int numberOfEmp;
+  bool businessTrip;
   bool coronaMeasure;
-  dynamic storeName;
-  dynamic storeType;
+  String storeName;
+  String storeType;
   int storePhone;
-  dynamic storeDescription;
-  String userOccupation;
-  dynamic genderOfService;
-  dynamic childrenMeasure;
+  String storeDescription;
+  dynamic userOccupation;
+  GenderOfService genderOfService;
+  String childrenMeasure;
   dynamic customerId;
   DateTime createdAt;
   DateTime updatedAt;
   List<Address> addresses;
 
-  factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
+  factory TherapistDatum.fromJson(Map<String, dynamic> json) => TherapistDatum(
     id: json["id"],
     userId: json["userId"],
     email: json["email"],
@@ -121,23 +121,23 @@ class UserDatum {
     isVerified: json["isVerified"],
     isActive: json["isActive"] == null ? null : json["isActive"],
     isAccepted: json["isAccepted"] == null ? null : json["isAccepted"],
-    rejectReason: json["rejectReason"],
-    updatedUser: json["updatedUser"],
+    rejectReason: json["rejectReason"] == null ? null : json["rejectReason"],
+    updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
     uploadProfileImgUrl: json["uploadProfileImgUrl"] == null ? null : json["uploadProfileImgUrl"],
     proofOfIdentityType: json["proofOfIdentityType"],
-    proofOfIdentityImgUrl: json["proofOfIdentityImgUrl"],
-    qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
-    businessForm: json["businessForm"],
-    numberOfEmp: json["numberOfEmp"],
+    proofOfIdentityImgUrl: json["proofOfIdentityImgUrl"] == null ? null : json["proofOfIdentityImgUrl"],
+    qulaificationCertImgUrl: json["qulaificationCertImgUrl"] == null ? null : json["qulaificationCertImgUrl"],
+    businessForm: businessFormValues.map[json["businessForm"]],
+    numberOfEmp: json["numberOfEmp"] == null ? null : json["numberOfEmp"],
     businessTrip: json["businessTrip"],
     coronaMeasure: json["coronaMeasure"],
-    storeName: json["storeName"],
+    storeName: json["storeName"] == null ? null : json["storeName"],
     storeType: json["storeType"],
     storePhone: json["storePhone"] == null ? null : json["storePhone"],
-    storeDescription: json["storeDescription"],
+    storeDescription: json["storeDescription"] == null ? null : json["storeDescription"],
     userOccupation: json["userOccupation"],
-    genderOfService: json["genderOfService"],
-    childrenMeasure: json["childrenMeasure"],
+    genderOfService: json["genderOfService"] == null ? null : genderOfServiceValues.map[json["genderOfService"]],
+    childrenMeasure: json["childrenMeasure"] == null ? null : json["childrenMeasure"],
     customerId: json["customerId"],
     createdAt: DateTime.parse(json["createdAt"]),
     updatedAt: DateTime.parse(json["updatedAt"]),
@@ -160,23 +160,23 @@ class UserDatum {
     "isVerified": isVerified,
     "isActive": isActive == null ? null : isActive,
     "isAccepted": isAccepted == null ? null : isAccepted,
-    "rejectReason": rejectReason,
-    "updatedUser": updatedUser,
+    "rejectReason": rejectReason == null ? null : rejectReason,
+    "updatedUser": updatedUser == null ? null : updatedUser,
     "uploadProfileImgUrl": uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
     "proofOfIdentityType": proofOfIdentityType,
-    "proofOfIdentityImgUrl": proofOfIdentityImgUrl,
-    "qulaificationCertImgUrl": qulaificationCertImgUrl,
-    "businessForm": businessForm,
-    "numberOfEmp": numberOfEmp,
+    "proofOfIdentityImgUrl": proofOfIdentityImgUrl == null ? null : proofOfIdentityImgUrl,
+    "qulaificationCertImgUrl": qulaificationCertImgUrl == null ? null : qulaificationCertImgUrl,
+    "businessForm": businessFormValues.reverse[businessForm],
+    "numberOfEmp": numberOfEmp == null ? null : numberOfEmp,
     "businessTrip": businessTrip,
     "coronaMeasure": coronaMeasure,
-    "storeName": storeName,
+    "storeName": storeName == null ? null : storeName,
     "storeType": storeType,
     "storePhone": storePhone == null ? null : storePhone,
-    "storeDescription": storeDescription,
+    "storeDescription": storeDescription == null ? null : storeDescription,
     "userOccupation": userOccupation,
-    "genderOfService": genderOfService,
-    "childrenMeasure": childrenMeasure,
+    "genderOfService": genderOfService == null ? null : genderOfServiceValues.reverse[genderOfService],
+    "childrenMeasure": childrenMeasure == null ? null : childrenMeasure,
     "customerId": customerId,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
@@ -215,18 +215,18 @@ class Address {
   AddressTypeSelection addressTypeSelection;
   String address;
   String userRoomNumber;
-  UserPlaceForMassage userPlaceForMassage;
+  dynamic userPlaceForMassage;
   dynamic otherAddressType;
   String capitalAndPrefecture;
   int capitalAndPrefectureId;
   String cityName;
-  dynamic citiesId;
+  int citiesId;
   String area;
   String buildingName;
   int postalCode;
   double lat;
   double lon;
-  double userSearchRadiusDistance;
+  dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
   bool isDefault;
@@ -236,23 +236,23 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) => Address(
     id: json["id"],
     userId: json["userId"],
-    addressTypeSelection: addressTypeSelectionValues.map[json["addressTypeSelection"]],
+    addressTypeSelection: json["addressTypeSelection"] == null ? null : addressTypeSelectionValues.map[json["addressTypeSelection"]],
     address: json["address"],
-    userRoomNumber: json["userRoomNumber"] == null ? null : json["userRoomNumber"],
-    userPlaceForMassage: json["userPlaceForMassage"] == null ? null : userPlaceForMassageValues.map[json["userPlaceForMassage"]],
+    userRoomNumber: json["userRoomNumber"],
+    userPlaceForMassage: json["userPlaceForMassage"],
     otherAddressType: json["otherAddressType"],
     capitalAndPrefecture: json["capitalAndPrefecture"] == null ? null : json["capitalAndPrefecture"],
     capitalAndPrefectureId: json["capitalAndPrefectureId"] == null ? null : json["capitalAndPrefectureId"],
     cityName: json["cityName"] == null ? null : json["cityName"],
-    citiesId: json["citiesId"],
-    area: json["area"] == null ? null : json["area"],
-    buildingName: json["buildingName"] == null ? null : json["buildingName"],
+    citiesId: json["citiesId"] == null ? null : json["citiesId"],
+    area: json["area"],
+    buildingName: json["buildingName"],
     postalCode: json["postalCode"] == null ? null : json["postalCode"],
-    lat: json["lat"] == null ? null : json["lat"].toDouble(),
-    lon: json["lon"] == null ? null : json["lon"].toDouble(),
-    userSearchRadiusDistance: json["userSearchRadiusDistance"] == null ? null : json["userSearchRadiusDistance"].toDouble(),
-    createdUser: json["createdUser"] == null ? null : json["createdUser"],
-    updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
+    lat: json["lat"].toDouble(),
+    lon: json["lon"].toDouble(),
+    userSearchRadiusDistance: json["userSearchRadiusDistance"],
+    createdUser: json["createdUser"],
+    updatedUser: json["updatedUser"],
     isDefault: json["isDefault"],
     createdAt: DateTime.parse(json["createdAt"]),
     updatedAt: DateTime.parse(json["updatedAt"]),
@@ -261,57 +261,64 @@ class Address {
   Map<String, dynamic> toJson() => {
     "id": id,
     "userId": userId,
-    "addressTypeSelection": addressTypeSelectionValues.reverse[addressTypeSelection],
+    "addressTypeSelection": addressTypeSelection == null ? null : addressTypeSelectionValues.reverse[addressTypeSelection],
     "address": address,
-    "userRoomNumber": userRoomNumber == null ? null : userRoomNumber,
-    "userPlaceForMassage": userPlaceForMassage == null ? null : userPlaceForMassageValues.reverse[userPlaceForMassage],
+    "userRoomNumber": userRoomNumber,
+    "userPlaceForMassage": userPlaceForMassage,
     "otherAddressType": otherAddressType,
     "capitalAndPrefecture": capitalAndPrefecture == null ? null : capitalAndPrefecture,
     "capitalAndPrefectureId": capitalAndPrefectureId == null ? null : capitalAndPrefectureId,
     "cityName": cityName == null ? null : cityName,
-    "citiesId": citiesId,
-    "area": area == null ? null : area,
-    "buildingName": buildingName == null ? null : buildingName,
+    "citiesId": citiesId == null ? null : citiesId,
+    "area": area,
+    "buildingName": buildingName,
     "postalCode": postalCode == null ? null : postalCode,
-    "lat": lat == null ? null : lat,
-    "lon": lon == null ? null : lon,
-    "userSearchRadiusDistance": userSearchRadiusDistance == null ? null : userSearchRadiusDistance,
-    "createdUser": createdUser == null ? null : createdUser,
-    "updatedUser": updatedUser == null ? null : updatedUser,
+    "lat": lat,
+    "lon": lon,
+    "userSearchRadiusDistance": userSearchRadiusDistance,
+    "createdUser": createdUser,
+    "updatedUser": updatedUser,
     "isDefault": isDefault,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
   };
 }
 
-enum AddressTypeSelection { MANUAL, EMPTY, ADDRESS_TYPE_SELECTION, GPS }
+enum AddressTypeSelection { EMPTY, ADDRESS_TYPE_SELECTION, GPS }
 
 final addressTypeSelectionValues = EnumValues({
-  "直接入力する": AddressTypeSelection.ADDRESS_TYPE_SELECTION,
+  "直接入力": AddressTypeSelection.ADDRESS_TYPE_SELECTION,
   "現在地を取得する": AddressTypeSelection.EMPTY,
-  "GPS": AddressTypeSelection.GPS,
-  "manual": AddressTypeSelection.MANUAL
+  "GPS": AddressTypeSelection.GPS
 });
 
-enum UserPlaceForMassage { HOME, EMPTY, USER_PLACE_FOR_MASSAGE, PURPLE, FLUFFY, MODERAN_HOUSE, BIG_ROCK_HOUSE }
+enum BusinessForm { EMPTY, BUSINESS_FORM, PURPLE, ABCD_COMPANY, FLUFFY }
 
-final userPlaceForMassageValues = EnumValues({
-  "Big rock house": UserPlaceForMassage.BIG_ROCK_HOUSE,
-  "自宅": UserPlaceForMassage.EMPTY,
-  "実家": UserPlaceForMassage.FLUFFY,
-  "Home": UserPlaceForMassage.HOME,
-  "moderanHouse": UserPlaceForMassage.MODERAN_HOUSE,
-  "その他（直接入力）": UserPlaceForMassage.PURPLE,
-  "オフィス": UserPlaceForMassage.USER_PLACE_FOR_MASSAGE
+final businessFormValues = EnumValues({
+  "abcd company": BusinessForm.ABCD_COMPANY,
+  "施術店舗あり 施術従業員あり": BusinessForm.BUSINESS_FORM,
+  "施術店舗なし 施術従業員なし（個人)": BusinessForm.EMPTY,
+  "施術店舗なし 施術従業員あり（出張のみ)": BusinessForm.FLUFFY,
+  "施術店舗あり 施術従業員なし（個人経営）": BusinessForm.PURPLE
 });
 
-enum Gender { M, EMPTY, GENDER, PURPLE }
+enum Gender { EMPTY, GENDER, PURPLE, M }
 
 final genderValues = EnumValues({
-  "男性": Gender.EMPTY,
-  "女性": Gender.GENDER,
+  "女性": Gender.EMPTY,
+  "男性": Gender.GENDER,
   "M": Gender.M,
   "どちらでもない": Gender.PURPLE
+});
+
+enum GenderOfService { EMPTY, GENDER_OF_SERVICE, PURPLE, FLUFFY, M }
+
+final genderOfServiceValues = EnumValues({
+  "女性のみ": GenderOfService.EMPTY,
+  "男性女性両方": GenderOfService.FLUFFY,
+  "": GenderOfService.GENDER_OF_SERVICE,
+  "M": GenderOfService.M,
+  "男性のみ": GenderOfService.PURPLE
 });
 
 class EnumValues<T> {

@@ -65,6 +65,10 @@ class HealingMatchConstants {
   static const String THERAPIST_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
 
+  // get Therapists list by type of massage service
+  static const String THERAPIST_LIST_BY_TYPE =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistListByType';
+
   // get Users list
   static const String USER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
@@ -122,6 +126,7 @@ class HealingMatchConstants {
   static String serviceProviderOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
   static String serviceProviderOtpBtn = '確認';
   static String serviceProviderResendOtpTxt = '認証コードを再送する';
+
 
   //Register Service Provider Screen Constants
   static PickedFile profileImage;
@@ -322,7 +327,8 @@ class HealingMatchConstants {
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
   static List<Address> addressList = List<Address>();
-
+ // User Home screen
+  static int serviceTypeValue = 0;
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
