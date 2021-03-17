@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-abstract class TherapistEvent extends Equatable {}
+abstract class TherapistUsersEvent extends Equatable {}
 
-class FetchTherapistsEvent extends TherapistEvent {
+
+class InitialHomeEvent extends TherapistUsersEvent {
   final accessToken;
-  final massageTypeValue;
 
-  FetchTherapistsEvent(this.accessToken,this.massageTypeValue);
+  InitialHomeEvent(this.accessToken);
 
   @override
-  List<Object> get props => [accessToken,massageTypeValue];
+  // TODO: implement props
+  List<Object> get props => [accessToken];
 }

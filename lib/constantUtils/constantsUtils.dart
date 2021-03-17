@@ -73,8 +73,8 @@ class HealingMatchConstants {
   static const String USER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
 
-
   //Common string
+  static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
   static String locationProgressText = '現在地を取得中...';
   static String getCityProgressText = '府県の市のデータを取得中。。。';
@@ -126,7 +126,6 @@ class HealingMatchConstants {
   static String serviceProviderOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
   static String serviceProviderOtpBtn = '確認';
   static String serviceProviderResendOtpTxt = '認証コードを再送する';
-
 
   //Register Service Provider Screen Constants
   static PickedFile profileImage;
@@ -327,8 +326,10 @@ class HealingMatchConstants {
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
   static List<Address> addressList = List<Address>();
- // User Home screen
+
+  // User Home screen
   static int serviceTypeValue = 0;
+
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
@@ -377,7 +378,9 @@ class HealingMatchConstants {
   );
 
   static TextStyle formTextStyle = TextStyle(
-      color: ColorConstants.formTextColor, fontFamily: 'NotoSansJP', fontSize: 14);
+      color: ColorConstants.formTextColor,
+      fontFamily: 'NotoSansJP',
+      fontSize: 14);
 
   static TextStyle formLabelTextStyle = TextStyle(
     fontSize: 14.0,

@@ -1,30 +1,31 @@
 import 'package:bloc/bloc.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_state.dart';
 import 'package:meta/meta.dart';
 
+class TherapistUsersBloc
+    extends Bloc<TherapistUsersEvent, TherapistUsersState> {
+  GetTherapistUsersRepository getTherapistRepository;
 
-
-class TherapistBloc extends Bloc<TherapistEvent, TherapistState> {
-  GetTherapistRepository getTherapistRepository;
-
-  TherapistBloc({@required this.getTherapistRepository}) : super();
-
-  @override
-  TherapistState get initialState => GetTherapistInitialState();
+  TherapistUsersBloc({@required this.getTherapistRepository}) : super();
 
   @override
-  Stream<TherapistState> mapEventToState(TherapistEvent event) async* {
-    if (event is FetchTherapistsEvent) {
-      yield GetTherapistLoadingState();
+  TherapistUsersState get initialState => LoadingState();
+
+  @override
+  Stream<TherapistUsersState> mapEventToState(
+      TherapistUsersEvent event) async* {
+    if (event is InitialHomeEvent) {
+      print('Refresh home state');
+      yield LoadingState();
       try {
-        List<UserList> getTherapistsUsers =
-        await getTherapistRepository.getTherapistProfiles(event.accessToken,event.massageTypeValue);
-        yield GetTherapistLoadedState(getTherapistsUsers: getTherapistsUsers);
+        List<TherapistDatum> getTherapistsUsers = await getTherapistRepository
+            .getTherapistUsersProfiles(event.accessToken);
+        yield GetTherapistUsersState(getTherapistsUsers: getTherapistsUsers);
       } catch (e) {
-        yield GetTherapistErrorState(message: e.toString());
+        yield GetTherapistUsersErrorState(message: e.toString());
       }
     }
   }

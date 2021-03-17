@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
@@ -1021,6 +1022,24 @@ class DialogHelper {
             ),
           );
         });
+  }
+
+  // Awesome custom dialog viewer
+  static void showNoTherapistsDialog(BuildContext context) {
+    AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: 'セラピストは見つかりませんでした！',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+        })
+      ..show();
   }
 }
 

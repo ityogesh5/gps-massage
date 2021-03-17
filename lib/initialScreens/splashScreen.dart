@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 main() {
   runApp(SplashScreen());
@@ -39,7 +41,8 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    //DialogHelper.showLogOutUserDialog(context);
+    //DialogHelper.showNoTherapistsDialog(context);
+    checkStatus();
     _navigateUser();
   }
 
@@ -84,6 +87,33 @@ class _SplashScreenPageState extends State<SplashScreen>
         ),
       ),
     );
+  }
+
+  checkStatus() {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        ChangeValues("Internet available", Colors.green[900]);
+        print('Internet available');
+        HealingMatchConstants.isInternetAvailable = true;
+      } else {
+        ChangeValues("No Internet", Colors.red[900]);
+        print('No Internet');
+      }
+    });
+  }
+
+  ChangeValues(String resultValue, Color colorValue) {
+    setState(() {
+      result = resultValue;
+      colorsValue = colorValue;
+      //print('Internet result ==> $result');
+      if (result != null) {
+        print('Internet result ==> $result');
+      } else {
+        //print('Unknown Error..');
+      }
+    });
   }
 
   _navigateUser() async {
