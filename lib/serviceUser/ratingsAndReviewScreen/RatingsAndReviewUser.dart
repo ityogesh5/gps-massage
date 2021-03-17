@@ -5,7 +5,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratings.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
@@ -19,15 +22,16 @@ class RatingsAndReviewUser extends StatefulWidget {
 
 class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   List<UserList> ratingListValues = List();
-
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   UserReviewListById ratingListResponseModel;
+  RatingReviewModel ratingReviewModel;
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
   ScrollController _scroll;
   FocusNode _focus = new FocusNode();
   final reviewController = new TextEditingController();
-  double ratingsValue = 0.0;
-  String rUserID = '';
+  var ratingsValue = 0.0;
+  String rUserID, accessToken;
 
   @override
   void initState() {
@@ -44,6 +48,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
@@ -151,7 +156,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   RatingBar.builder(
-                                    initialRating: 4,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -284,7 +289,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'Name',
+                                "${ratingListValues[index].userName}",
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 14,
@@ -292,12 +297,12 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                '10月７',
+                                " ${DateFormat("MM月dd").format(ratingListValues[index].createdAt).toString()}",
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 10,
                                     color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontWeight: FontWeight.w300),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -379,6 +384,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
     try {
       _sharedPreferences.then((value) {
         rUserID = value.getString('userID');
+        accessToken = value.getString('accessToken');
         print(rUserID);
       });
     } catch (e) {}
@@ -386,19 +392,103 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
 
   _ratingAndReview() async {
     var reviewComment = reviewController.text.toString();
-    print(HealingMatchConstants.userEditToken);
+    print(accessToken);
     print(rUserID);
     print(reviewComment);
     print(ratingsValue);
-
+    if (ratingsValue == 0 || ratingsValue == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('評価を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (reviewComment.length == 0 ||
+        reviewComment.isEmpty ||
+        reviewComment == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('レビューを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+    if (reviewComment.length > 50) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('レビューは50文字以内で入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
     try {
       ProgressDialogBuilder.showRatingsAndReviewProgressDialog(context);
       final url = HealingMatchConstants.RATING_USER_URL;
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token":
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjE1Nzk1NzU3LCJleHAiOjE2MTY0MDA1NTd9.B5hJd-GrTsLP6GSPafx6-WcR8tuxaBIoIGkLpOhvDRA"
+            "x-access-token": accessToken
           },
           body: json.encode({
             "userId": rUserID,
@@ -408,9 +498,16 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           }));
       print(response.body);
       print('Status code : ${response.statusCode}');
-      // NavigationRouter.switchToServiceUserBottomBar(context);
+      if (StatusCodeHelper.isReviewRatingSuccess(
+          response.statusCode, context, response.body)) {
+        final Map ratingResponse = jsonDecode(response.body);
+        ratingReviewModel = RatingReviewModel.fromJson(ratingResponse);
+        ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
+        print('navigate');
+        NavigationRouter.switchToServiceUserDisplayReviewScreen(context);
+      } else {}
     } catch (e) {
-      ProgressDialogBuilder.hideForgetRatingsAndReviewProgressDialog(context);
+      ProgressDialogBuilder.hideRatingsAndReviewProgressDialog(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
@@ -423,11 +520,10 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token":
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjE1Nzk1NzU3LCJleHAiOjE2MTY0MDA1NTd9.B5hJd-GrTsLP6GSPafx6-WcR8tuxaBIoIGkLpOhvDRA"
+            "x-access-token": HealingMatchConstants.uAccessToken
           },
           body: json.encode({
-            "therapistId": "2",
+            "therapistId": "4",
           }));
       print(response.body);
       if (response.statusCode == 200) {

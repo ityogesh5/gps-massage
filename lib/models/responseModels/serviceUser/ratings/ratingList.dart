@@ -73,6 +73,7 @@ class UserList {
     this.updatedUser,
     this.createdAt,
     this.updatedAt,
+    this.userName,
   });
 
   int id;
@@ -86,6 +87,7 @@ class UserList {
   String updatedUser;
   DateTime createdAt;
   DateTime updatedAt;
+  String userName;
 
   factory UserList.fromJson(Map<String, dynamic> json) => UserList(
         id: json["id"],
@@ -99,6 +101,7 @@ class UserList {
         updatedUser: json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        userName: json["userName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,5 +116,6 @@ class UserList {
         "updatedUser": updatedUser,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "userName": userName,
       };
 }

@@ -1,7 +1,10 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PastReservations extends StatefulWidget {
   @override
@@ -10,6 +13,15 @@ class PastReservations extends StatefulWidget {
 
 class _PastReservationsState extends State<PastReservations> {
   double ratingsValue = 3.0;
+  String accessToken;
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getId();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -397,6 +409,7 @@ class _PastReservationsState extends State<PastReservations> {
                                       NavigationRouter
                                           .switchToServiceUserRatingsAndReviewScreen(
                                               context);
+                                      print(accessToken);
                                     },
                                     child: CircleAvatar(
                                         maxRadius: 25,
@@ -480,4 +493,19 @@ class _PastReservationsState extends State<PastReservations> {
       ),
     );
   }
+
+  /*getId() async {
+    // ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      ProgressDialogBuilder.showCommonProgressDialog(context);
+      _sharedPreferences.then((value) {
+        accessToken = value.getString('accessToken');
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+
+        setState(() {
+          HealingMatchConstants.uAccessToken = accessToken;
+        });
+      });
+    } catch (e) {}
+  }*/
 }

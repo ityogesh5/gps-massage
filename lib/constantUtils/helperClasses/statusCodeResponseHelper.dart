@@ -113,6 +113,37 @@ class StatusCodeHelper {
     return false;
   }
 
+  static bool isReviewRatingSuccess(
+      int statusCode, BuildContext context, String body) {
+    if (statusCode == 200) {
+      Toast.show("評価とレビューが正常にアップロードされました。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      //ユーザーが見つかりません。
+      Toast.show("もう一度やり直してください。", context,
+          duration: 4,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('User Not Found!!');
+      return false;
+    } else if (statusCode == 401) {
+      Toast.show("許可されていないユーザー。", context,
+          duration: 4,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      print('Unauthorized User!!');
+      return false;
+    }
+    return false;
+  }
+
   // 200 response banner image delet success
   static bool isBannerDeleteSuccess(
       int statusCode, BuildContext context, String body) {

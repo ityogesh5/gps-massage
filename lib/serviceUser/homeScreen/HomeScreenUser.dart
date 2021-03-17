@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -50,8 +53,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenUserState extends State<HomeScreen> {
+  String accessToken;
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
   @override
   void initState() {
+    getId();
     super.initState();
   }
 
@@ -193,6 +200,21 @@ class _HomeScreenUserState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  getId() async {
+    // ProgressDialogBuilder.showCommonProgressDialog(context);
+    try {
+      ProgressDialogBuilder.showCommonProgressDialog(context);
+      _sharedPreferences.then((value) {
+        accessToken = value.getString('accessToken');
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+
+        setState(() {
+          HealingMatchConstants.uAccessToken = accessToken;
+        });
+      });
+    } catch (e) {}
   }
 }
 

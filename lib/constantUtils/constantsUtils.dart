@@ -286,6 +286,9 @@ class HealingMatchConstants {
   static providerLogin.Data userData;
   static String accessToken = '';
 
+  //User Token
+  static String uAccessToken = '';
+
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
