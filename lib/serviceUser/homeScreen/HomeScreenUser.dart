@@ -3,22 +3,18 @@ import 'dart:typed_data';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_bloc.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_event.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_state.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
@@ -52,9 +48,6 @@ void main() {
   runApp(UserHomeScreen());
 }
 
-// ignore: close_sinks
-TherapistUsersBloc therapistBloc;
-TherapistTypeBloc _therapistTypeBloc;
 String result = '';
 var colorsValue = Colors.white;
 
@@ -63,23 +56,7 @@ class UserHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          // Initial HomeScreen bloc call
-          BlocProvider<TherapistUsersBloc>(
-            create: (context) => TherapistUsersBloc(
-                getTherapistRepository: GetTherapistUsersRepositoryImpl()),
-            child: HomeScreen(),
-          ),
-
-          // MassageType HomeScreen bloc call
-          BlocProvider<TherapistTypeBloc>(
-            create: (context) => TherapistTypeBloc(getTherapistTypeRepository:GetTherapistTypeRepositoryImpl()),
-            child: LoadHomePage(),
-          ),
-        ],
-        child: HomeScreen(),
-      ),
+      home: HomeScreen(),
     );
   }
 }
@@ -92,55 +69,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
-    checkStatus();
     super.initState();
-    therapistBloc = BlocProvider.of<TherapistUsersBloc>(context);
-    getAccessToken();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  getAccessToken() async {
-    _sharedPreferences.then((value) {
-      accessToken = value.getString('accessToken');
-      if (accessToken != null) {
-        print('Access token value : $accessToken');
-        HealingMatchConstants.accessToken = accessToken;
-      } else {
-        print('No prefs value found !!');
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: BlocListener<TherapistUsersBloc, TherapistUsersState>(
-          listener: (context, state) {
-            if (state is GetTherapistUsersErrorState) {
-              return HomePageError();
-            }
-          },
-          child: BlocBuilder<TherapistUsersBloc, TherapistUsersState>(
-            // ignore: missing_return
-            builder: (context, state) {
-              if (state is LoadingState) {
-                print('Loading state');
-                return LoadInitialHomePage();
-              } else if (state is GetTherapistUsersState) {
-                print('Users state');
-                return InitialUserHomeScreen(
-                    getTherapistUsers: state.getTherapistsUsers);
-              } else if (state is GetTherapistUsersErrorState) {
-                return HomePageError();
-              }
-            },
-
-          ),
+      body: BlocProvider(
+        create: (context) => TherapistTypeBloc(
+            getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
+        child: Container(
+          child: InitialUserHomeScreen(),
         ),
       ),
     );
@@ -163,33 +102,6 @@ class _HomeScreenUserState extends State<HomeScreen> {
     http.Response response = await http.get(imageUrl);
     final bytes = response?.bodyBytes;
     return (bytes != null ? base64Encode(bytes) : null);
-  }
-
-  checkStatus() {
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.mobile ||
-          result == ConnectivityResult.wifi) {
-        ChangeValues("Internet available", Colors.green[900]);
-        print('Internet available');
-      } else {
-        ChangeValues("No Internet", Colors.red[900]);
-        print('No Internet');
-      }
-    });
-  }
-
-  ChangeValues(String resultValue, Color colorValue) {
-    setState(() {
-      result = resultValue;
-      colorsValue = colorValue;
-      //print('Internet result ==> $result');
-      if (result != null) {
-        print('Internet result ==> $result');
-        therapistBloc.add(InitialHomeEvent(HealingMatchConstants.accessToken));
-      } else {
-        //print('Unknown Error..');
-      }
-    });
   }
 }
 
@@ -241,8 +153,9 @@ class _HomePageErrorState extends State<HomePageError> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              therapistBloc.add(InitialHomeEvent(
-                                  HealingMatchConstants.accessToken));
+                              BlocProvider.of<TherapistTypeBloc>(context).add(
+                                  RefreshEvent(
+                                      HealingMatchConstants.accessToken));
                             },
                           ),
                           Text(
@@ -266,11 +179,6 @@ class _HomePageErrorState extends State<HomePageError> {
 }
 
 class InitialUserHomeScreen extends StatefulWidget {
-  List<TherapistDatum> getTherapistUsers;
-
-  InitialUserHomeScreen({Key key, @required this.getTherapistUsers})
-      : super(key: key);
-
   @override
   State createState() {
     return _InitialUserHomeScreenState();
@@ -281,8 +189,54 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
+          builder: (context, state) {
+            if (state is GetTherapistTypeLoadingState) {
+              print('Loading state');
+              return LoadHomePage();
+            } else if (state is GetTherapistTypeLoaderState) {
+              print('Loader widget');
+              return LoadInitialHomePage();
+            } else if (state is GetTherapistTypeLoadedState) {
+              print('Loaded users state');
+              return HomeScreenByMassageType(
+                  getTherapistByType: state.getTherapistsUsers);
+            } else if (state is GetTherapistTypeErrorState) {
+              print('Error state : ${state.message}');
+              return HomePageError();
+            } else
+              return Text(
+                "エラーが発生しました！",
+                style: TextStyle(color: Colors.white),
+              );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class LoadHomePage extends StatefulWidget {
+  @override
+  State createState() {
+    return _LoadHomePageState();
+  }
+}
+
+class _LoadHomePageState extends State<LoadHomePage> {
+  TherapistTypeBloc _therapistTypeBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
-    print('Therapist bloc : ${_therapistTypeBloc.getTherapistTypeRepository.accessToken}');
   }
 
   @override
@@ -365,7 +319,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
             ),
           ),
           BuildMassageTypeChips(),
-          BuildProviderUsers(getTherapistUsers: widget.getTherapistUsers),
+          BuildProviderUsers(),
           ReservationList(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -391,52 +345,6 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
           RecommendLists(),
           Container(height: 65),
         ],
-      ),
-    );
-  }
-}
-
-// Homepage Service User
-class LoadHomePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _LoadHomePageState();
-  }
-}
-
-class _LoadHomePageState extends State<LoadHomePage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
-          listener: (context, state) {
-            if (state is GetTherapistUsersErrorState) {
-              return HomePageError();
-            }
-          },
-          child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
-            // ignore: missing_return
-            builder: (context, state) {
-              if (state is GetTherapistLoadingState) {
-                print('Loading state');
-                return LoadInitialHomePage();
-              } else if (state is GetTherapistLoadedState) {
-                print('Users state');
-                return HomeScreenByMassageType(
-                    getTherapistByType: state.getTherapistsUsers);
-              } else if (state is GetTherapistErrorState) {
-                return HomePageError();
-              }
-            },
-          ),
-        ),
       ),
     );
   }
@@ -455,115 +363,148 @@ class HomeScreenByMassageType extends StatefulWidget {
 }
 
 class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
+  TherapistTypeBloc _therapistTypeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: TextFormField(
-                      readOnly: true,
-                      autofocus: false,
-                      textInputAction: TextInputAction.search,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'キーワードでさがす',
-                          suffixIcon: InkWell(
-                            child: Image.asset("assets/images_gps/search.png"),
-                            onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
-                            },
-                          ),
-                          hintStyle: TextStyle(
-                              color: Colors.grey[300],
-                              fontSize: 14,
-                              fontFamily: 'NotoSansJP'),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 2.0),
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          CarouselWithIndicatorDemo(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '近くのセラピスト＆お店',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
-                    },
-                    child: Text(
-                      'もっと見る',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          BuildMassageTypeChips(),
-          BuildProviderListByType(
-              getTherapistByType: widget.getTherapistByType),
-          ReservationList(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return widget.getTherapistByType != null
+        ? Container(
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
               children: [
-                Text(
-                  'おすすめ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          child: TextFormField(
+                            readOnly: true,
+                            autofocus: false,
+                            textInputAction: TextInputAction.search,
+                            decoration: new InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'キーワードでさがす',
+                                suffixIcon: InkWell(
+                                  child: Image.asset(
+                                      "assets/images_gps/search.png"),
+                                  onTap: () {
+                                    NavigationRouter
+                                        .switchToServiceUserSearchScreen(
+                                            context);
+                                  },
+                                ),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                    fontFamily: 'NotoSansJP'),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 2.0),
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                CarouselWithIndicatorDemo(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '近くのセラピスト＆お店',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            NavigationRouter.switchToNearByProviderAndShop(
+                                context);
+                          },
+                          child: Text(
+                            'もっと見る',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Text(
-                  'もっとみる',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
+                BuildMassageTypeChips(),
+                BuildProviderListByType(
+                    getTherapistByType: widget.getTherapistByType),
+                ReservationList(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'おすすめ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'もっとみる',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      )
+                    ],
                   ),
-                )
+                ),
+                RecommendLists(),
+                Container(height: 65),
               ],
             ),
-          ),
-          RecommendLists(),
-          Container(height: 65),
-        ],
-      ),
-    );
+          )
+        : showNoTherapistsDialog(context);
+  }
+
+  // Awesome custom dialog viewer
+  showNoTherapistsDialog(BuildContext context) {
+    AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: 'セラピストは見つかりませんでした！',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          return InitialUserHomeScreen();
+        })
+      ..show();
   }
 }
 
@@ -904,236 +845,242 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.22,
+        height: MediaQuery.of(context).size.height * 0.24,
         width: MediaQuery.of(context).size.width * 0.95,
-        child: widget.getTherapistByType == null
-            ? showNoTherapistsDialog(context)
-            : ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: widget.getTherapistByType.length,
-                itemBuilder: (context, index) {
-                  return new Card(
-                    color: Colors.grey[200],
-                    semanticContainer: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.70,
-                        width: MediaQuery.of(context).size.width * 0.78,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            itemCount: widget.getTherapistByType.length,
+            itemBuilder: (context, index) {
+              return new Card(
+                color: Colors.grey[200],
+                semanticContainer: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.70,
+                    width: MediaQuery.of(context).size.width * 0.78,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              new Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: widget.getTherapistByType[index].user
+                                                .uploadProfileImgUrl !=
+                                            null
+                                        ? new DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: new NetworkImage(widget
+                                                .getTherapistByType[index]
+                                                .user
+                                                .uploadProfileImgUrl),
+                                          )
+                                        : new DecorationImage(
+                                            fit: BoxFit.none,
+                                            image: new AssetImage(
+                                                'assets/images_gps/user.png')),
+                                  )),
+                              FittedBox(
+                                child: Text(
+                                  '半径1.5km',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey[400]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  new Container(
-                                      width: 80.0,
-                                      height: 80.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: widget.getTherapistByType[index]
-                                                    .user.uploadProfileImgUrl !=
-                                                null
-                                            ? new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: new NetworkImage(widget
-                                                    .getTherapistByType[index]
-                                                    .user
-                                                    .uploadProfileImgUrl),
-                                              )
-                                            : new DecorationImage(
-                                                fit: BoxFit.none,
-                                                image: new AssetImage(
-                                                    'assets/images_gps/user.png')),
-                                      )),
-                                  FittedBox(
-                                    child: Text(
-                                      '半径1.5km',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[400]),
+                                  SizedBox(width: 5),
+                                  widget.getTherapistByType[index].user
+                                              .userName !=
+                                          null
+                                      ? Flexible(
+                                          child: Text(
+                                            '${widget.getTherapistByType[index].user.userName}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      : Text(
+                                          'お名前',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                  SizedBox(width: 4),
+                                  InkWell(
+                                    onTap: () {
+                                      NavigationRouter
+                                          .switchToServiceUserReservationAndFavourite(
+                                              context);
+                                    },
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor: Colors.black26,
+                                      child: CircleAvatar(
+                                        maxRadius: 8,
+                                        backgroundColor: Colors.white,
+                                        child: SvgPicture.asset(
+                                            'assets/images_gps/info.svg',
+                                            height: 15,
+                                            width: 15),
+                                      ),
                                     ),
                                   ),
+                                  Spacer(),
+                                  FavoriteButton(
+                                      iconSize: 40,
+                                      iconColor: Colors.red,
+                                      valueChanged: (_isFavorite) {
+                                        print('Is Favorite : $_isFavorite');
+                                      }),
                                 ],
                               ),
-                            ),
-                            SizedBox(height: 5),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(width: 5),
-                                      widget.getTherapistByType[index].user
-                                                  .userName !=
-                                              null
-                                          ? Text(
-                                              '${widget.getTherapistByType[index].user.userName}',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          : Text(
-                                              'お名前',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                      SizedBox(width: 4),
-                                      InkWell(
-                                        onTap: () {
-                                          NavigationRouter
-                                              .switchToServiceUserReservationAndFavourite(
-                                                  context);
-                                        },
-                                        child: CircleAvatar(
-                                          maxRadius: 10,
-                                          backgroundColor: Colors.black26,
-                                          child: CircleAvatar(
-                                            maxRadius: 8,
-                                            backgroundColor: Colors.white,
-                                            child: SvgPicture.asset(
-                                                'assets/images_gps/info.svg',
-                                                height: 15,
-                                                width: 15),
-                                          ),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      FavoriteButton(
-                                          iconSize: 40,
-                                          iconColor: Colors.red,
-                                          valueChanged: (_isFavorite) {
-                                            print('Is Favorite : $_isFavorite');
-                                          }),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  FittedBox(
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 5),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('オフィス')),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('出張')),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('コロナ対策実施有無')),
-                                      ],
+                              SizedBox(
+                                height: 5,
+                              ),
+                              FittedBox(
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 5),
+                                    widget.getTherapistByType[index].user
+                                                .businessForm
+                                                .contains('施術店舗あり 施術従業員あり') ||
+                                            widget.getTherapistByType[index]
+                                                .user.businessForm
+                                                .contains(
+                                                    '施術店舗あり 施術従業員なし（個人経営）') ||
+                                            widget.getTherapistByType[index]
+                                                .user.businessForm
+                                                .contains('施術店舗なし 施術従業員なし（個人)')
+                                        ? Visibility(
+                                            visible: true,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('店舗')),
+                                          )
+                                        : Container(),
+                                    SizedBox(
+                                      width: 5,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        ratingsValue.toString(),
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                      RatingBar.builder(
-                                        initialRating: 3,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 25,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          size: 5,
-                                          color: Colors.black,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          setState(() {
-                                            ratingsValue = rating;
-                                          });
-                                          print(ratingsValue);
-                                        },
-                                      ),
-                                      Text('(1518)'),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
+                                    Visibility(
+                                      visible: widget.getTherapistByType[index]
+                                          .user.businessTrip,
+                                      child: Container(
                                           padding: EdgeInsets.all(4),
                                           color: Colors.white,
-                                          child: Text('コロナ対策実施')),
-                                      Spacer(),
-                                      Text(
-                                        '¥4,500',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 19),
-                                      ),
-                                      Text('/60分')
-                                    ],
-                                  )
+                                          child: Text('出張')),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Visibility(
+                                      visible: widget.getTherapistByType[index]
+                                          .user.coronaMeasure,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          color: Colors.white,
+                                          child: Text('コロナ対策実施有無')),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    ratingsValue.toString(),
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  RatingBar.builder(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 25,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Colors.black,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        ratingsValue = rating;
+                                      });
+                                      print(ratingsValue);
+                                    },
+                                  ),
+                                  Text('(1518)'),
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施')),
+                                  Spacer(),
+                                  widget.getTherapistByType[index].sixtyMin == 0
+                                      ? Text(
+                                          '¥0',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19),
+                                        )
+                                      : Text(
+                                          '¥${widget.getTherapistByType[index].sixtyMin}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19),
+                                        ),
+                                  Text('/60分')
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                ),
+              );
+            }),
       ),
     );
-  }
-
-  // Awesome custom dialog viewer
-  showNoTherapistsDialog(BuildContext context) {
-    AwesomeDialog(
-        dismissOnTouchOutside: false,
-        context: context,
-        dialogType: DialogType.INFO,
-        headerAnimationLoop: false,
-        animType: AnimType.TOPSLIDE,
-        showCloseIcon: false,
-        closeIcon: Icon(Icons.close),
-        title: '情報',
-        desc: 'セラピストは見つかりませんでした！',
-        btnOkOnPress: () {
-          print('Ok pressed!!');
-          therapistBloc
-              .add(InitialHomeEvent(HealingMatchConstants.accessToken));
-        })
-      ..show();
   }
 }
 
@@ -1226,6 +1173,15 @@ class BuildMassageTypeChips extends StatefulWidget {
 
 class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
     with TickerProviderStateMixin {
+  TherapistTypeBloc therapistTypeBloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
   Widget _buildChips() {
     List<Widget> chips = new List();
 
@@ -1256,11 +1212,11 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
               }
             }
           });
-          print('Access token : ${HealingMatchConstants.accessToken}');
-          print('Type value : ${HealingMatchConstants.serviceTypeValue}');
-          _therapistTypeBloc.add(FetchTherapistsEvent(
+          therapistTypeBloc.add(FetchTherapistTypeEvent(
               HealingMatchConstants.accessToken,
               HealingMatchConstants.serviceTypeValue));
+          print('Access token : ${HealingMatchConstants.accessToken}');
+          print('Type value : ${HealingMatchConstants.serviceTypeValue}');
         },
       );
 
@@ -1650,11 +1606,6 @@ class _RecommendListsState extends State<RecommendLists> {
 }
 
 class BuildProviderUsers extends StatefulWidget {
-  List<TherapistDatum> getTherapistUsers;
-
-  BuildProviderUsers({Key key, @required this.getTherapistUsers})
-      : super(key: key);
-
   @override
   State<StatefulWidget> createState() {
     return _BuildProviderUsersState();
@@ -1665,6 +1616,54 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   @override
   void initState() {
     super.initState();
+    getAccessToken();
+  }
+
+  getAccessToken() async {
+    _sharedPreferences.then((value) {
+      accessToken = value.getString('accessToken');
+      if (accessToken != null) {
+        print('Access token value : $accessToken');
+        HealingMatchConstants.accessToken = accessToken;
+        getTherapists(accessToken);
+      } else {
+        print('No prefs value found !!');
+      }
+    });
+  }
+
+  // get therapist api
+  getTherapists(String accessToken) async {
+    Loader.show(context,
+        progressIndicator: LoadInitialHomePage(),
+        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
+    Future.delayed(Duration(seconds: 5), () {
+      Loader.hide();
+    });
+    TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
+    try {
+      final url = HealingMatchConstants.THERAPIST_LIST_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '$accessToken'
+      };
+
+      final response = await http.post(url, headers: headers);
+      final getTherapists = json.decode(response.body);
+      print('Response body : ${response.body}');
+      listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
+      if (this.mounted) {
+        setState(() {
+          therapistUsers = listOfTherapistModel.therapistData;
+          for (int i = 0; i < therapistUsers.length; i++) {}
+          print(
+              'Therapist data : ${listOfTherapistModel.therapistData.length}');
+        });
+      }
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
   }
 
   double ratingsValue = 3.0;
@@ -1674,213 +1673,209 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.22,
+        height: MediaQuery.of(context).size.height * 0.24,
         width: MediaQuery.of(context).size.width * 0.95,
-        child: widget.getTherapistUsers == null
-            ? HomePageError()
-            : ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: widget.getTherapistUsers.length,
-                itemBuilder: (context, index) {
-                  return new Card(
-                    color: Colors.grey[200],
-                    semanticContainer: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.70,
-                        width: MediaQuery.of(context).size.width * 0.78,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  new Container(
-                                      width: 80.0,
-                                      height: 80.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: widget.getTherapistUsers[index]
-                                                    .uploadProfileImgUrl !=
-                                                null
-                                            ? new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: new NetworkImage(widget
-                                                    .getTherapistUsers[index]
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            itemCount: therapistUsers.length,
+            itemBuilder: (context, index) {
+              return new Card(
+                color: Colors.grey[200],
+                semanticContainer: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.70,
+                    width: MediaQuery.of(context).size.width * 0.78,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              new Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    shape: BoxShape.circle,
+                                    image: therapistUsers[index]
+                                                .uploadProfileImgUrl !=
+                                            null
+                                        ? new DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: new NetworkImage(
+                                                therapistUsers[index]
                                                     .uploadProfileImgUrl),
-                                              )
-                                            : new DecorationImage(
-                                                fit: BoxFit.none,
-                                                image: new AssetImage(
-                                                    'assets/images_gps/user.png')),
-                                      )),
-                                  FittedBox(
-                                    child: Text(
-                                      '半径1.5km',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[400]),
-                                    ),
-                                  ),
-                                ],
+                                          )
+                                        : new DecorationImage(
+                                            fit: BoxFit.none,
+                                            image: new AssetImage(
+                                                'assets/images_gps/user.png')),
+                                  )),
+                              FittedBox(
+                                child: Text(
+                                  '半径1.5km',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey[400]),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 5),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(width: 5),
-                                      widget.getTherapistUsers[index]
-                                                  .userName !=
-                                              null
-                                          ? Text(
-                                              '${widget.getTherapistUsers[index].userName}',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          : Text(
-                                              'お名前',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                      SizedBox(width: 4),
-                                      InkWell(
-                                        onTap: () {
-                                          NavigationRouter
-                                              .switchToServiceUserReservationAndFavourite(
-                                                  context);
-                                        },
-                                        child: CircleAvatar(
-                                          maxRadius: 10,
-                                          backgroundColor: Colors.black26,
-                                          child: CircleAvatar(
-                                            maxRadius: 8,
-                                            backgroundColor: Colors.white,
-                                            child: SvgPicture.asset(
-                                                'assets/images_gps/info.svg',
-                                                height: 15,
-                                                width: 15),
-                                          ),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      FavoriteButton(
-                                          iconSize: 40,
-                                          iconColor: Colors.red,
-                                          valueChanged: (_isFavorite) {
-                                            print('Is Favorite : $_isFavorite');
-                                          }),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  FittedBox(
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 5),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('オフィス')),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('出張')),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            color: Colors.white,
-                                            child: Text('コロナ対策実施有無')),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        ratingsValue.toString(),
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                      RatingBar.builder(
-                                        initialRating: 3,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 25,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          size: 5,
-                                          color: Colors.black,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          setState(() {
-                                            ratingsValue = rating;
-                                          });
-                                          print(ratingsValue);
-                                        },
-                                      ),
-                                      Text('(1518)'),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          padding: EdgeInsets.all(4),
-                                          color: Colors.white,
-                                          child: Text('コロナ対策実施')),
-                                      Spacer(),
-                                      Text(
-                                        '¥4,500',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 19),
-                                      ),
-                                      Text('/60分')
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 5),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 5),
+                                  therapistUsers[index].userName != null
+                                      ? Flexible(
+                                          child: Text(
+                                            '${therapistUsers[index].userName}',
+                                            //overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      : Text(
+                                          'お名前',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                  SizedBox(width: 4),
+                                  InkWell(
+                                    onTap: () {
+                                      NavigationRouter
+                                          .switchToServiceUserReservationAndFavourite(
+                                              context);
+                                    },
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor: Colors.black26,
+                                      child: CircleAvatar(
+                                        maxRadius: 8,
+                                        backgroundColor: Colors.white,
+                                        child: SvgPicture.asset(
+                                            'assets/images_gps/info.svg',
+                                            height: 15,
+                                            width: 15),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  FavoriteButton(
+                                      iconSize: 40,
+                                      iconColor: Colors.red,
+                                      valueChanged: (_isFavorite) {
+                                        print('Is Favorite : $_isFavorite');
+                                      }),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              FittedBox(
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 5),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('オフィス')),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('出張')),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.all(4),
+                                        color: Colors.white,
+                                        child: Text('コロナ対策実施有無')),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    ratingsValue.toString(),
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  RatingBar.builder(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 25,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Colors.black,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        ratingsValue = rating;
+                                      });
+                                      print(ratingsValue);
+                                    },
+                                  ),
+                                  Text('(1518)'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施')),
+                                  Spacer(),
+                                  Text(
+                                    '¥4,500',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19),
+                                  ),
+                                  Text('/60分')
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }

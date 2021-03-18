@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 
 abstract class GetTherapistTypeRepository {
   String accessToken = HealingMatchConstants.accessToken;
-  String massageTypeValue = HealingMatchConstants.serviceTypeValue.toString();
+  int massageTypeValue = HealingMatchConstants.serviceTypeValue;
 
   Future<List<UserList>> getTherapistProfilesByType(
-      String accessToken, String massageTypeValue);
+      String accessToken, int massageTypeValue);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -19,7 +19,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
 
   @override
   Future<List<UserList>> getTherapistProfilesByType(
-      String accessToken, String massageTypeValue) async {
+      String accessToken, int massageTypeValue) async {
     try {
       final url = HealingMatchConstants.THERAPIST_LIST_BY_TYPE;
       Map<String, String> headers = {
@@ -50,5 +50,5 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   }
 
   @override
-  String massageTypeValue;
+  int massageTypeValue;
 }

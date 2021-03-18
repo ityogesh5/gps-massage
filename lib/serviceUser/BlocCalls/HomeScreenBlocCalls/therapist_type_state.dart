@@ -1,31 +1,35 @@
 import 'package:equatable/equatable.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+
 import 'package:meta/meta.dart';
 
 abstract class TherapistTypeState extends Equatable {}
 
+class GetTherapistTypeLoadingState extends TherapistTypeState {
+  @override
+  List<Object> get props => null;
+}
 
-class GetTherapistLoadingState extends TherapistTypeState {
+class GetTherapistTypeLoaderState extends TherapistTypeState {
   @override
   List<Object> get props => [];
 }
 
 // ignore: must_be_immutable
-class GetTherapistLoadedState extends TherapistTypeState {
+class GetTherapistTypeLoadedState extends TherapistTypeState {
   List<UserList> getTherapistsUsers;
 
-  GetTherapistLoadedState({@required this.getTherapistsUsers});
+  GetTherapistTypeLoadedState({@required this.getTherapistsUsers});
 
   @override
   List<Object> get props => [getTherapistsUsers];
 }
 
 // ignore: must_be_immutable
-class GetTherapistErrorState extends TherapistTypeState {
+class GetTherapistTypeErrorState extends TherapistTypeState {
   String message;
 
-  GetTherapistErrorState({@required this.message});
+  GetTherapistTypeErrorState({@required this.message});
 
   @override
   List<Object> get props => [message];

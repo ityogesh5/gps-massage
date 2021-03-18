@@ -8,23 +8,26 @@ import 'package:meta/meta.dart';
 class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
   GetTherapistTypeRepository getTherapistTypeRepository;
 
-  TherapistTypeBloc({@required this.getTherapistTypeRepository}) : super();
+  TherapistTypeBloc({@required this.getTherapistTypeRepository});
 
   @override
-  TherapistTypeState get initialState => GetTherapistLoadingState();
+  TherapistTypeState get initialState => GetTherapistTypeLoadingState();
 
   @override
   Stream<TherapistTypeState> mapEventToState(TherapistTypeEvent event) async* {
-    if (event is FetchTherapistsEvent) {
-      yield GetTherapistLoadingState();
+    if (event is FetchTherapistTypeEvent) {
+      yield GetTherapistTypeLoaderState();
       try {
         List<UserList> getTherapistsUsers =
             await getTherapistTypeRepository.getTherapistProfilesByType(
                 event.accessToken, event.massageTypeValue);
-        yield GetTherapistLoadedState(getTherapistsUsers: getTherapistsUsers);
+        yield GetTherapistTypeLoadedState(
+            getTherapistsUsers: getTherapistsUsers);
       } catch (e) {
-        yield GetTherapistErrorState(message: e.toString());
+        yield GetTherapistTypeErrorState(message: e.toString());
       }
+    } else if (event is RefreshEvent) {
+      yield GetTherapistTypeLoadingState();
     }
   }
 }

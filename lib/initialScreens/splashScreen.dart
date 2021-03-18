@@ -42,7 +42,6 @@ class _SplashScreenPageState extends State<SplashScreen>
 
   void navigationPage() {
     //DialogHelper.showNoTherapistsDialog(context);
-    checkStatus();
     _navigateUser();
   }
 
@@ -87,33 +86,6 @@ class _SplashScreenPageState extends State<SplashScreen>
         ),
       ),
     );
-  }
-
-  checkStatus() {
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.mobile ||
-          result == ConnectivityResult.wifi) {
-        ChangeValues("Internet available", Colors.green[900]);
-        print('Internet available');
-        HealingMatchConstants.isInternetAvailable = true;
-      } else {
-        ChangeValues("No Internet", Colors.red[900]);
-        print('No Internet');
-      }
-    });
-  }
-
-  ChangeValues(String resultValue, Color colorValue) {
-    setState(() {
-      result = resultValue;
-      colorsValue = colorValue;
-      //print('Internet result ==> $result');
-      if (result != null) {
-        print('Internet result ==> $result');
-      } else {
-        //print('Unknown Error..');
-      }
-    });
   }
 
   _navigateUser() async {

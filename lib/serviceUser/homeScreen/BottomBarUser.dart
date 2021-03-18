@@ -13,6 +13,7 @@ import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serv
 import 'HomeScreenUser.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+var accessToken;
 
 class BottomBarUser extends StatefulWidget {
   final int page;
@@ -41,6 +42,13 @@ class _BottomBarUserState extends State<BottomBarUser> {
     _sharedPreferences.then((value) {
       HealingMatchConstants.isUserRegistrationSkipped =
           value.getBool('userLoginSkipped');
+      accessToken = value.getString('accessToken');
+      if (accessToken != null) {
+        print('Access token value : $accessToken');
+        HealingMatchConstants.accessToken = accessToken;
+      } else {
+        print('No prefs value found !!');
+      }
     });
   }
 
@@ -107,8 +115,9 @@ class _BottomBarUserState extends State<BottomBarUser> {
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               }
             } else {
-              selectedpage =
-                  index; // changing selected page as per bar index selected by the user
+              selectedpage = index;
+
+              // changing selected page as per bar index selected by the user
             }
           });
         },
