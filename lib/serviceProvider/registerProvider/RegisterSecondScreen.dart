@@ -881,7 +881,7 @@ class _RegistrationSecondPageState
                         Text(
                           HealingMatchConstants.registrationAlreadyActTxt,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
                               decoration: TextDecoration.underline,
                               decorationColor: Colors.black,
                               decorationThickness: 2,
@@ -910,7 +910,7 @@ class _RegistrationSecondPageState
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('本人確認証を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+            Text('本人確認証を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -957,7 +957,7 @@ class _RegistrationSecondPageState
         privateQualification.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('証明書ファイルをアップロードしてください。',
+        content: Text('保有資格の種類を選択してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {

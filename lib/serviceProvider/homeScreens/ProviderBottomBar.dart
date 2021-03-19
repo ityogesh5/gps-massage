@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/ChatTabBar.dart';
@@ -35,6 +36,7 @@ class _BottomBarProviderPageState extends State<BottomBarProvider> {
 
   @override
   void initState() {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     selectedpage = widget.page; //initial Page
     super.initState();
   }

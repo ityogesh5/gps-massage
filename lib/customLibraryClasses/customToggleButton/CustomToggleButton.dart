@@ -55,7 +55,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
   @override
   void initState() {
     super.initState();
-    currentSelectedLabel = widget.buttonLables[0];
+    currentSelectedLabel = widget.buttonLables[1];
   }
 
   List<Widget> buildButtonsColumn() {

@@ -4,6 +4,7 @@ import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
@@ -52,6 +53,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     getProviderDetails();
     dateString = '';
     displayDay = today;
@@ -673,8 +675,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width:80.0,
-                                            /* MediaQuery.of(context).size.width *
+                                        width: 80.0,
+                                        /* MediaQuery.of(context).size.width *
                                                 0.2, */
                                         color: Colors.transparent,
                                         child: DropDownFormField(
@@ -733,8 +735,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 ),
                                 SizedBox(width: 20),
                                 Container(
-                                    width:80.0,
-                                      /*   MediaQuery.of(context).size.width * 0.2, */
+                                    width: 80.0,
+                                    /*   MediaQuery.of(context).size.width * 0.2, */
                                     child: Form(
                                       key: monthKey,
                                       child: Column(

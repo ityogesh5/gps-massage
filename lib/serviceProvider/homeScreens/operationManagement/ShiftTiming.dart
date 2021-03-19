@@ -31,6 +31,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
   int min;
   bool status = false;
   GlobalKey key = new GlobalKey();
+  OverlayEntry _overlayEntry;
+  Size buttonSize;
+  Offset buttonPosition;
 
   @override
   void initState() {
@@ -49,6 +52,12 @@ class _ShiftTimingState extends State<ShiftTiming> {
     daysToDisplay = totalDays(_cmonth, _cyear);
     time.add(startTime.toString() + ": " + "00");
     getTime();
+  }
+
+  findButton(GlobalKey key) {
+    RenderBox renderBox = key.currentContext.findRenderObject();
+    buttonSize = renderBox.size;
+    buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
 
   getTime() {
@@ -154,7 +163,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         width: 15.0,
                       ),
                       Container(
-                        width: 80.0,//MediaQuery.of(context).size.width * 0.2,
+                        width: 80.0, //MediaQuery.of(context).size.width * 0.2,
                         child: DropDownFormField(
                           fillColor: Colors.white,
                           borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -436,6 +445,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("月曜日"),
                             InkWell(
                               onTap: () {
+                                findButton(key);
                                 setState(() {
                                   timePicker = !timePicker;
                                 });
@@ -479,73 +489,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
                           ],
                         ),
                         timePicker
-                            ? Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(width: 50.0),
-                                            CustomPaint(
-                                              size: Size(15.0, 10.0),
-                                              painter: TrianglePainter(
-                                                  isDownArrow: false,
-                                                  color: Colors.grey[100]),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CustomPaint(
-                                              size: Size(15.0, 10.0),
-                                              painter: TrianglePainter(
-                                                  isDownArrow: false,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      height: 120.0,
-                                      padding: EdgeInsets.all(8.0),
-                                      // margin: EdgeInsets.all(8.0),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.transparent),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[100]),
-                                      child: TimePickerSpinner(
-                                        alignment: Alignment.topCenter,
-                                        is24HourMode: true,
-                                        normalTextStyle: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        highlightedTextStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            color: Colors.black),
-                                        spacing: 50,
-                                        itemHeight: 40,
-                                        isForce2Digits: true,
-                                        onTimeChange: (time) {
-                                          setState(() {
-                                            _dateTime = time;
-                                          });
-                                        },
-                                      )),
-                                ],
+                            ? Container(
+                                child: buildTimeController(_dateTime),
                               )
                             : Container(),
                         SizedBox(height: 15.0),
@@ -855,6 +800,97 @@ class _ShiftTimingState extends State<ShiftTiming> {
             );
           });
         });
+  }
+
+  Stack buildTimeController(DateTime _dateTime) {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            children: [
+              /*  Row(
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(width: 50.0),
+                                                  CustomPaint(
+                                                    size: Size(15.0, 10.0),
+                                                    painter: TrianglePainter(
+                                                        isDownArrow: false,
+                                                        color: Colors.grey[100]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CustomPaint(
+                                                    size: Size(15.0, 10.0),
+                                                    painter: TrianglePainter(
+                                                        isDownArrow: false,
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ), */
+              Container(
+                  height: 120.0,
+                  padding: EdgeInsets.all(8.0),
+                  // margin: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.grey[100]),
+                  child: TimePickerSpinner(
+                    alignment: Alignment.topCenter,
+                    is24HourMode: true,
+                    normalTextStyle: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    highlightedTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black),
+                    spacing: 50,
+                    itemHeight: 40,
+                    isForce2Digits: true,
+                    onTimeChange: (time) {
+                      setState(() {
+                        _dateTime = time;
+                      });
+                    },
+                  )),
+            ],
+          ),
+        ),
+        Positioned(
+          top: buttonPosition.dy + buttonSize.height,
+          left: buttonPosition.dx,
+          width: buttonSize.width,
+          child: Container(
+            color: Colors.red,
+            height: 150.0,
+            width: 100.0,
+            child: CustomPaint(
+              size: Size(15.0, 10.0),
+              painter: TrianglePainter(
+                  isDownArrow: false, color: Colors.red), //grey[100]),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   showConfirmDialog() {

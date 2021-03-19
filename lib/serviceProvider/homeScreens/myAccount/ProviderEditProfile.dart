@@ -75,7 +75,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
   List<String> storeTypeDropDownValues = [
     "エステ",
-    "整体",
+    "接骨・整体",
     "リラクゼーション",
     "フィットネス",
   ];
@@ -1176,8 +1176,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                               HealingMatchConstants.registrationIndividualText,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                   fontSize: 11,
-                              color: ColorConstants.formHintTextColor,),
+                                fontSize: 11,
+                                color: ColorConstants.formHintTextColor,
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -1882,6 +1883,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                   hintStyle:
                                                       HealingMatchConstants
                                                           .formHintTextStyle,
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          5, 5, 5, 0),
                                                   filled: true,
                                                   fillColor: Colors.white,
                                                   enabledBorder:

@@ -2012,7 +2012,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な登録する地点のカテゴリーを選択してください。',
+        content: Text('検索地点を入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {

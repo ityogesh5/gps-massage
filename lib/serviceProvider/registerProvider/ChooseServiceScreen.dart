@@ -1324,191 +1324,256 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                               oneFiftyController.text != "0" &&
                                               oneEightyMinuteController.text !=
                                                   "0") {
-                                            //if checkbox slected for the first time
-                                            if (!selected) {
-                                              //check if any values or entered or all empty
-                                              if (sixtyMinutesController
-                                                          .text !=
-                                                      "" ||
-                                                  nintyMinuteController
-                                                          .text !=
-                                                      "" ||
-                                                  oneTwentyMinuteController
-                                                          .text !=
-                                                      "" ||
-                                                  oneFiftyController.text !=
-                                                      "" ||
-                                                  oneEightyMinuteController
-                                                          .text !=
-                                                      "") {
-                                                //if entered then the empty values are treated as 0
+                                            //check any less or high value is entered
+                                            int sixtyMinCon =
+                                                sixtyMinutesController.text ==
+                                                        ""
+                                                    ? 0
+                                                    : int.parse(
+                                                        sixtyMinutesController
+                                                            .text);
+                                            int nintyMinCon =
+                                                nintyMinuteController.text == ""
+                                                    ? 0
+                                                    : int.parse(
+                                                        nintyMinuteController
+                                                            .text);
+                                            int oneTwentyMinCon =
+                                                oneTwentyMinuteController
+                                                            .text ==
+                                                        ""
+                                                    ? 0
+                                                    : int.parse(
+                                                        oneTwentyMinuteController
+                                                            .text);
+                                            int oneFiftyMinCon =
+                                                oneFiftyController.text == ""
+                                                    ? 0
+                                                    : int.parse(
+                                                        oneFiftyController
+                                                            .text);
+                                            int oneEightyMinCon =
+                                                oneEightyMinuteController
+                                                            .text ==
+                                                        ""
+                                                    ? 0
+                                                    : int.parse(
+                                                        oneEightyMinuteController
+                                                            .text);
 
-                                                servicePriceModel.add(
-                                                  ServicePriceModel(
-                                                      val,
-                                                      sixtyMinutesController
-                                                                  .text !=
-                                                              ""
-                                                          ? int.parse(
-                                                              sixtyMinutesController
-                                                                  .text)
-                                                          : 0,
-                                                      nintyMinuteController.text != ""
-                                                          ? int.parse(
-                                                              nintyMinuteController
-                                                                  .text)
-                                                          : 0,
-                                                      oneTwentyMinuteController
-                                                                  .text !=
-                                                              ""
-                                                          ? int.parse(
-                                                              oneTwentyMinuteController
-                                                                  .text)
-                                                          : 0,
-                                                      oneFiftyController.text != ""
-                                                          ? int.parse(
-                                                              oneFiftyController
-                                                                  .text)
-                                                          : 0,
-                                                      oneEightyMinuteController
-                                                                  .text !=
-                                                              ""
-                                                          ? int.parse(
-                                                              oneEightyMinuteController
-                                                                  .text)
-                                                          : 0,
-                                                      getID(index, mindex)),
-                                                );
+                                            if ((sixtyMinCon == 0
+                                                    ? true
+                                                    : sixtyMinCon >= 2500 &&
+                                                        sixtyMinCon <= 50000) &&
+                                                (nintyMinCon == 0
+                                                    ? true
+                                                    : nintyMinCon >= 2500 &&
+                                                        nintyMinCon <= 50000) &&
+                                                (oneTwentyMinCon == 0
+                                                    ? true
+                                                    : oneTwentyMinCon >= 2500 &&
+                                                        oneTwentyMinCon <=
+                                                            50000) &&
+                                                (oneFiftyMinCon == 0
+                                                    ? true
+                                                    : oneFiftyMinCon >= 2500 &&
+                                                        oneFiftyMinCon <=
+                                                            50000) &&
+                                                (oneEightyMinCon == 0
+                                                    ? true
+                                                    : oneEightyMinCon >= 2500 &&
+                                                        oneEightyMinCon <=
+                                                            50000)) {
+                                              //if checkbox slected for the first time
+                                              if (!selected) {
+                                                //check if any values or entered or all empty
+                                                if (sixtyMinutesController
+                                                            .text !=
+                                                        "" ||
+                                                    nintyMinuteController
+                                                            .text !=
+                                                        "" ||
+                                                    oneTwentyMinuteController
+                                                            .text !=
+                                                        "" ||
+                                                    oneFiftyController.text !=
+                                                        "" ||
+                                                    oneEightyMinuteController
+                                                            .text !=
+                                                        "") {
+                                                  //if entered then the empty values are treated as 0
 
-                                                selectedDropdownValues
-                                                    .add(val.toLowerCase());
+                                                  servicePriceModel.add(
+                                                    ServicePriceModel(
+                                                        val,
+                                                        sixtyMinutesController
+                                                                    .text !=
+                                                                ""
+                                                            ? int.parse(
+                                                                sixtyMinutesController
+                                                                    .text)
+                                                            : 0,
+                                                        nintyMinuteController.text != ""
+                                                            ? int.parse(
+                                                                nintyMinuteController
+                                                                    .text)
+                                                            : 0,
+                                                        oneTwentyMinuteController
+                                                                    .text !=
+                                                                ""
+                                                            ? int.parse(
+                                                                oneTwentyMinuteController
+                                                                    .text)
+                                                            : 0,
+                                                        oneFiftyController.text != ""
+                                                            ? int.parse(
+                                                                oneFiftyController
+                                                                    .text)
+                                                            : 0,
+                                                        oneEightyMinuteController
+                                                                    .text !=
+                                                                ""
+                                                            ? int.parse(
+                                                                oneEightyMinuteController.text)
+                                                            : 0,
+                                                        getID(index, mindex)),
+                                                  );
+
+                                                  selectedDropdownValues
+                                                      .add(val.toLowerCase());
+                                                  setState(() {
+                                                    //checking with the mindex the values are added to corresponding lists
+                                                    if (mindex == 0) {
+                                                      selectedEstheticDropdownValues
+                                                          .clear();
+                                                      estheticServicePriceModel
+                                                          .clear();
+                                                      selectedEstheticDropdownValues
+                                                          .addAll(
+                                                              selectedDropdownValues);
+                                                      estheticServicePriceModel
+                                                          .addAll(
+                                                              servicePriceModel);
+                                                    } else if (mindex == 1) {
+                                                      selectedRelaxationDropdownValues
+                                                          .clear();
+                                                      relaxationServicePriceModel
+                                                          .clear();
+                                                      selectedRelaxationDropdownValues
+                                                          .addAll(
+                                                              selectedDropdownValues);
+                                                      relaxationServicePriceModel
+                                                          .addAll(
+                                                              servicePriceModel);
+                                                    } else if (mindex == 2) {
+                                                      selectedTreatmentDropdownValues
+                                                          .clear();
+                                                      treatmentServicePriceModel
+                                                          .clear();
+                                                      selectedTreatmentDropdownValues
+                                                          .addAll(
+                                                              selectedDropdownValues);
+                                                      treatmentServicePriceModel
+                                                          .addAll(
+                                                              servicePriceModel);
+                                                    } else if (mindex == 3) {
+                                                      selectedFitnessDropdownValues
+                                                          .clear();
+                                                      fitnessServicePriceModel
+                                                          .clear();
+                                                      selectedFitnessDropdownValues
+                                                          .addAll(
+                                                              selectedDropdownValues);
+                                                      fitnessServicePriceModel
+                                                          .addAll(
+                                                              servicePriceModel);
+                                                    }
+                                                    Navigator.pop(context);
+                                                  });
+                                                } else {
+                                                  Navigator.pop(context);
+                                                }
+                                              }
+                                              //if checkbox already selected then update logic is used
+                                              else {
+                                                servicePriceModel[indexPos]
+                                                        .sixtyMin =
+                                                    sixtyMinutesController
+                                                                .text !=
+                                                            ""
+                                                        ? int.parse(
+                                                            sixtyMinutesController
+                                                                .text)
+                                                        : 0;
+                                                servicePriceModel[indexPos]
+                                                        .nintyMin =
+                                                    nintyMinuteController
+                                                                .text !=
+                                                            ""
+                                                        ? int.parse(
+                                                            nintyMinuteController
+                                                                .text)
+                                                        : 0;
+                                                servicePriceModel[indexPos]
+                                                        .oneTwentyMin =
+                                                    oneTwentyMinuteController
+                                                                .text !=
+                                                            ""
+                                                        ? int.parse(
+                                                            oneTwentyMinuteController
+                                                                .text)
+                                                        : 0;
+                                                servicePriceModel[indexPos]
+                                                        .oneFiftyMin =
+                                                    oneFiftyController.text !=
+                                                            ""
+                                                        ? int.parse(
+                                                            oneFiftyController
+                                                                .text)
+                                                        : 0;
+                                                servicePriceModel[indexPos]
+                                                        .oneEightyMin =
+                                                    oneEightyMinuteController
+                                                                .text !=
+                                                            ""
+                                                        ? int.parse(
+                                                            oneEightyMinuteController
+                                                                .text)
+                                                        : 0;
                                                 setState(() {
-                                                  //checking with the mindex the values are added to corresponding lists
                                                   if (mindex == 0) {
-                                                    selectedEstheticDropdownValues
-                                                        .clear();
                                                     estheticServicePriceModel
                                                         .clear();
-                                                    selectedEstheticDropdownValues
-                                                        .addAll(
-                                                            selectedDropdownValues);
                                                     estheticServicePriceModel
                                                         .addAll(
                                                             servicePriceModel);
                                                   } else if (mindex == 1) {
-                                                    selectedRelaxationDropdownValues
-                                                        .clear();
                                                     relaxationServicePriceModel
                                                         .clear();
-                                                    selectedRelaxationDropdownValues
-                                                        .addAll(
-                                                            selectedDropdownValues);
                                                     relaxationServicePriceModel
                                                         .addAll(
                                                             servicePriceModel);
                                                   } else if (mindex == 2) {
-                                                    selectedTreatmentDropdownValues
-                                                        .clear();
                                                     treatmentServicePriceModel
                                                         .clear();
-                                                    selectedTreatmentDropdownValues
-                                                        .addAll(
-                                                            selectedDropdownValues);
                                                     treatmentServicePriceModel
                                                         .addAll(
                                                             servicePriceModel);
                                                   } else if (mindex == 3) {
-                                                    selectedFitnessDropdownValues
-                                                        .clear();
                                                     fitnessServicePriceModel
                                                         .clear();
-                                                    selectedFitnessDropdownValues
-                                                        .addAll(
-                                                            selectedDropdownValues);
                                                     fitnessServicePriceModel
                                                         .addAll(
                                                             servicePriceModel);
                                                   }
-                                                  Navigator.pop(context);
                                                 });
-                                              } else {
                                                 Navigator.pop(context);
                                               }
-                                            }
-                                            //if checkbox already selected then update logic is used
-                                            else {
-                                              servicePriceModel[indexPos]
-                                                      .sixtyMin =
-                                                  sixtyMinutesController.text !=
-                                                          ""
-                                                      ? int.parse(
-                                                          sixtyMinutesController
-                                                              .text)
-                                                      : 0;
-                                              servicePriceModel[indexPos]
-                                                      .nintyMin =
-                                                  nintyMinuteController.text !=
-                                                          ""
-                                                      ? int.parse(
-                                                          nintyMinuteController
-                                                              .text)
-                                                      : 0;
-                                              servicePriceModel[indexPos]
-                                                      .oneTwentyMin =
-                                                  oneTwentyMinuteController
-                                                              .text !=
-                                                          ""
-                                                      ? int.parse(
-                                                          oneTwentyMinuteController
-                                                              .text)
-                                                      : 0;
-                                              servicePriceModel[indexPos]
-                                                      .oneFiftyMin =
-                                                  oneFiftyController.text != ""
-                                                      ? int.parse(
-                                                          oneFiftyController
-                                                              .text)
-                                                      : 0;
-                                              servicePriceModel[indexPos]
-                                                      .oneEightyMin =
-                                                  oneEightyMinuteController
-                                                              .text !=
-                                                          ""
-                                                      ? int.parse(
-                                                          oneEightyMinuteController
-                                                              .text)
-                                                      : 0;
-                                              setState(() {
-                                                if (mindex == 0) {
-                                                  estheticServicePriceModel
-                                                      .clear();
-                                                  estheticServicePriceModel
-                                                      .addAll(
-                                                          servicePriceModel);
-                                                } else if (mindex == 1) {
-                                                  relaxationServicePriceModel
-                                                      .clear();
-                                                  relaxationServicePriceModel
-                                                      .addAll(
-                                                          servicePriceModel);
-                                                } else if (mindex == 2) {
-                                                  treatmentServicePriceModel
-                                                      .clear();
-                                                  treatmentServicePriceModel
-                                                      .addAll(
-                                                          servicePriceModel);
-                                                } else if (mindex == 3) {
-                                                  fitnessServicePriceModel
-                                                      .clear();
-                                                  fitnessServicePriceModel
-                                                      .addAll(
-                                                          servicePriceModel);
-                                                }
-                                              });
-                                              Navigator.pop(context);
+                                            } else {
+                                              showLowPriceError();
                                             }
                                           } else {
-                                            showZeroError();
+                                            showLowPriceError();
                                           }
                                         } catch (e) {
                                           showDecimalError();
@@ -1538,7 +1603,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   int getIndex(String val, List<ServicePriceModel> servicePriceModel) {
     int indexPos;
     for (int i = 0; i < servicePriceModel.length; i++) {
-      if (servicePriceModel[i].name == val.toLowerCase()) {
+      if (servicePriceModel[i].name.toLowerCase() == val.toLowerCase()) {
         indexPos = i;
         break;
       }
@@ -1659,6 +1724,17 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //show price can't be zero
   void showZeroError() {
     Toast.show("価格値をゼロにすることはできません。", context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        textColor: Colors.white);
+
+    return;
+  }
+
+  //check prize range
+  void showLowPriceError() {
+    Toast.show("価格は￥2500円から￥50000円までに設定してください。", context,
         duration: Toast.LENGTH_LONG,
         gravity: Toast.BOTTOM,
         backgroundColor: Colors.redAccent,

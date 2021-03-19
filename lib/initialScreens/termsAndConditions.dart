@@ -212,30 +212,71 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
       // color: Color.fromRGBO(243, 249, 250, 1),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Container(
-                  child: Checkbox(
-                    activeColor: Colors.lime,
-                    checkColor: Colors.lime,
-                    value: _value,
-                    onChanged: (bool newValue) {
-                      setState(() {
-                        _value = newValue;
-                      });
-                    },
-                  ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: _value
+                      ? InkWell(
+                          onTap: () {
+                            setState(() {
+                              _value = false;
+                            });
+                          },
+                          child: Container(
+                            height: 20.0,
+                            width: 20.0,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: ColorConstants.buttonColor,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: ColorConstants.buttonColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                )),
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            setState(() {
+                              _value = true;
+                            });
+                          },
+                          child: Container(
+                            height: 20.0,
+                            width: 20.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey[400],
+                              ),
+                              // borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
+                        ),
                 ),
-              ),
-              Text(
-                '上記の利用規約に同意する',
-                style: TextStyle(fontSize: 14, fontFamily: 'NotoSansJP'),
-              )
-            ],
+                SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  '上記の利用規約に同意する',
+                  style: TextStyle(fontSize: 14, fontFamily: 'NotoSansJP'),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
           ),
           Container(
             height: 40,
@@ -246,7 +287,9 @@ class _IntroTermsAndPolicyState extends State<IntroTermsAndPolicy>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              color: _value ? Colors.lime : Colors.lime[200],
+              color: _value
+                  ? ColorConstants.buttonColor
+                  : Color.fromRGBO(217, 217, 217, 1),
               onPressed: () {
                 validateTermsAcceptStatus();
               },
