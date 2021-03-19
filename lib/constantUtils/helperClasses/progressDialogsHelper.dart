@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 
 import '../constantsUtils.dart';
@@ -120,5 +122,14 @@ class ProgressDialogBuilder {
 
   static void hideUserDetailsUpdateProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
+  }
+
+  static void showOverlayLoader(BuildContext context) {
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
+    Future.delayed(Duration(seconds: 5), () {
+      Loader.hide();
+    });
   }
 }

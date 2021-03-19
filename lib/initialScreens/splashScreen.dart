@@ -1,12 +1,15 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 main() {
   runApp(SplashScreen());
@@ -20,9 +23,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  var _visible = true;
   String result = '';
-  var colorsValue = Colors.white;
 
   AnimationController animationController;
   Animation<double> animation;
@@ -41,14 +42,19 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   void navigationPage() {
-    //DialogHelper.showNoTherapistsDialog(context);
-    _navigateUser();
+    if (HealingMatchConstants.isInternetAvailable) {
+      _navigateUser();
+    } else {
+      DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
+    }
+
+    //initConnectivity();
   }
 
   @override
   void initState() {
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
-
     animationController = new AnimationController(
         vsync: this, duration: new Duration(seconds: 7));
     animation = new CurvedAnimation(
@@ -62,8 +68,11 @@ class _SplashScreenPageState extends State<SplashScreen>
   @override
   void dispose() {
     animationController.dispose();
+    CheckInternetConnection.cancelSubscription();
     super.dispose();
   }
+
+
 
   @override
   Widget build(BuildContext context) {

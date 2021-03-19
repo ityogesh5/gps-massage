@@ -11,6 +11,7 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -40,7 +41,7 @@ String therapistImage = '';
 
 int _selectedIndex;
 List<UserList> therapistListByType = [];
-List<TherapistDatum> therapistUsers = [];
+List<TherapistUserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -186,36 +187,67 @@ class InitialUserHomeScreen extends StatefulWidget {
 }
 
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
+
   @override
   void initState() {
+    checkInternet();
     super.initState();
+    getAccessToken();
+  }
+
+  checkInternet() {
+    CheckInternetConnection.checkConnectivity(context);
+    if (HealingMatchConstants.isInternetAvailable) {
+      BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(HealingMatchConstants.accessToken));
+    } else {
+      //return HomePageError();
+    }
+  }
+
+  getAccessToken() async {
+    _sharedPreferences.then((value) {
+      accessToken = value.getString('accessToken');
+      if (accessToken != null) {
+        print('Access token value : $accessToken');
+        HealingMatchConstants.accessToken = accessToken;
+      } else {
+        print('No token value found !!');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
-          builder: (context, state) {
-            if (state is GetTherapistTypeLoadingState) {
-              print('Loading state');
-              return LoadHomePage();
-            } else if (state is GetTherapistTypeLoaderState) {
-              print('Loader widget');
-              return LoadInitialHomePage();
-            } else if (state is GetTherapistTypeLoadedState) {
-              print('Loaded users state');
-              return HomeScreenByMassageType(
-                  getTherapistByType: state.getTherapistsUsers);
-            } else if (state is GetTherapistTypeErrorState) {
-              print('Error state : ${state.message}');
+        child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
+          listener: (context, state) {
+            if (state is GetTherapistTypeErrorState) {
               return HomePageError();
-            } else
-              return Text(
-                "エラーが発生しました！",
-                style: TextStyle(color: Colors.white),
-              );
+            }
           },
+          child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
+            builder: (context, state) {
+              if (state is GetTherapistTypeLoadingState) {
+                print('Loading state');
+                return LoadHomePage();
+              } else if (state is GetTherapistTypeLoaderState) {
+                print('Loader widget');
+                return LoadInitialHomePage();
+              } else if (state is GetTherapistTypeLoadedState) {
+                print('Loaded users state');
+                return HomeScreenByMassageType(
+                    getTherapistByType: state.getTherapistsUsers);
+              } else if (state is GetTherapistTypeErrorState) {
+                print('Error state : ${state.message}');
+                return HomePageError();
+              } else
+                return Text(
+                  "エラーが発生しました！",
+                  style: TextStyle(color: Colors.white),
+                );
+            },
+          ),
         ),
       ),
     );
@@ -237,6 +269,21 @@ class _LoadHomePageState extends State<LoadHomePage> {
     // TODO: implement initState
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showOverlayLoader();
+  }
+
+  showOverlayLoader() {
+    Loader.show(context,
+        progressIndicator: LoadInitialHomePage(),
+        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
+    Future.delayed(Duration(seconds: 5), () {
+      Loader.hide();
+    });
   }
 
   @override
@@ -640,7 +687,8 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                                     width: 80.0,
                                     height: 80.0,
                                     decoration: new BoxDecoration(
-                                      border: Border.all(color: Colors.black12),
+                                      border:
+                                          Border.all(color: Colors.transparent),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                           fit: BoxFit.none,
@@ -653,7 +701,8 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey[400],
-                                        fontStyle: FontStyle.italic),
+                                        fontStyle: FontStyle.italic,
+                                        fontFamily: 'NotoSansJP'),
                                   ),
                                 ),
                               ],
@@ -914,14 +963,14 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   widget.getTherapistByType[index].user
                                               .userName !=
                                           null
-                                      ? Flexible(
-                                          child: Text(
-                                            '${widget.getTherapistByType[index].user.userName}',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                      ? Text(
+                                          '${widget.getTherapistByType[index].user.userName}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
                                         )
                                       : Text(
                                           'お名前',
@@ -1634,12 +1683,6 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // get therapist api
   getTherapists(String accessToken) async {
-    Loader.show(context,
-        progressIndicator: LoadInitialHomePage(),
-        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
-    Future.delayed(Duration(seconds: 5), () {
-      Loader.hide();
-    });
     TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
     try {
       final url = HealingMatchConstants.THERAPIST_LIST_URL;
@@ -1654,10 +1697,10 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
       if (this.mounted) {
         setState(() {
-          therapistUsers = listOfTherapistModel.therapistData;
+          therapistUsers = listOfTherapistModel.therapistData.therapistUserList;
           for (int i = 0; i < therapistUsers.length; i++) {}
           print(
-              'Therapist data : ${listOfTherapistModel.therapistData.length}');
+              'Therapist data : ${listOfTherapistModel.therapistData.therapistUserList.length}');
         });
       }
     } catch (e) {
@@ -1703,14 +1746,13 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.black12),
                                     shape: BoxShape.circle,
-                                    image: therapistUsers[index]
-                                                .uploadProfileImgUrl !=
+                                    image: therapistUsers[index].user.uploadProfileImgUrl !=
                                             null
                                         ? new DecorationImage(
                                             fit: BoxFit.cover,
                                             image: new NetworkImage(
-                                                therapistUsers[index]
-                                                    .uploadProfileImgUrl),
+                                                therapistUsers[index].user
+                                                .uploadProfileImgUrl),
                                           )
                                         : new DecorationImage(
                                             fit: BoxFit.none,
@@ -1738,21 +1780,24 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(width: 5),
-                                  therapistUsers[index].userName != null
-                                      ? Flexible(
-                                          child: Text(
-                                            '${therapistUsers[index].userName}',
-                                            //overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                  therapistUsers[index].user.userName != null
+                                      ? Row(
+                                          children: [
+                                            Text(
+                                              '${therapistUsers[index].user.userName}',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
                                         )
                                       : Text(
                                           'お名前',
                                           style: TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -1792,24 +1837,46 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 child: Row(
                                   children: [
                                     SizedBox(width: 5),
-                                    Container(
-                                        padding: EdgeInsets.all(4),
-                                        color: Colors.white,
-                                        child: Text('オフィス')),
+                                    therapistUsers[index].user
+                                        .businessForm
+                                        .contains('施術店舗あり 施術従業員あり') ||
+                                        therapistUsers[index]
+                                            .user.businessForm
+                                            .contains(
+                                            '施術店舗あり 施術従業員なし（個人経営）') ||
+                                        therapistUsers[index]
+                                            .user.businessForm
+                                            .contains('施術店舗なし 施術従業員なし（個人)')
+                                        ? Visibility(
+                                      visible: true,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          color: Colors.white,
+                                          child: Text('店舗')),
+                                    )
+                                        : Container(),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Container(
-                                        padding: EdgeInsets.all(4),
-                                        color: Colors.white,
-                                        child: Text('出張')),
+                                    Visibility(
+                                      visible: therapistUsers[index]
+                                          .user.businessTrip,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          color: Colors.white,
+                                          child: Text('出張')),
+                                    ),
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Container(
-                                        padding: EdgeInsets.all(4),
-                                        color: Colors.white,
-                                        child: Text('コロナ対策実施有無')),
+                                    Visibility(
+                                      visible: therapistUsers[index]
+                                          .user.coronaMeasure,
+                                      child: Container(
+                                          padding: EdgeInsets.all(4),
+                                          color: Colors.white,
+                                          child: Text('コロナ対策実施有無')),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1858,8 +1925,15 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                       color: Colors.white,
                                       child: Text('コロナ対策実施')),
                                   Spacer(),
-                                  Text(
-                                    '¥4,500',
+                                  therapistUsers[index].sixtyMin == 0
+                                      ? Text(
+                                    '¥0',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19),
+                                  )
+                                      : Text(
+                                    '¥${therapistUsers[index].sixtyMin}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 19),

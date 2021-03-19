@@ -635,8 +635,9 @@ class DialogHelper {
                             color: Colors.lime,
                             onPressed: () {
 //Navigator.pop(context);
-                              NavigationRouter.switchToServiceUserBottomBar(
-                                  context);
+                              NavigationRouter
+                                  .switchToServiceUserViewProfileScreen(
+                                      context);
                             },
                             child: new Text(
                               'OK',
@@ -1038,6 +1039,28 @@ class DialogHelper {
         desc: 'セラピストは見つかりませんでした！',
         btnOkOnPress: () {
           print('Ok pressed!!');
+        })
+      ..show();
+  }
+
+  // show no internet doalog
+  static void showNoInternetConnectionDialog(
+      BuildContext context, Widget classWidget) {
+    AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: 'インターネット接続が必要です！',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          return Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => classWidget),
+              (Route<dynamic> route) => false);
         })
       ..show();
   }

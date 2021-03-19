@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/utils/AwesomeDialogsSample.dart';
 
 import 'initialScreens/splashScreen.dart';
-import 'utils/SampleShimmerLoader.dart';
 
 void main() {
   runApp(HealingMatchApp());
