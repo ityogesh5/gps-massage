@@ -986,9 +986,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   SizedBox(width: 4),
                                   InkWell(
                                     onTap: () {
-                                      NavigationRouter
+                                      /* NavigationRouter
                                           .switchToServiceUserReservationAndFavourite(
-                                              context);
+                                              context);*/
                                     },
                                     child: CircleAvatar(
                                       maxRadius: 10,
@@ -1348,7 +1348,7 @@ class _ReservationListState extends State<ReservationList> {
       padding: EdgeInsets.all(5.0),
       child: GestureDetector(
         onTap: () {
-          NavigationRouter.switchToCalendarScreen(context);
+          // NavigationRouter.switchToCalendarScreen(context);
         },
         child: Card(
           elevation: 5,
@@ -2083,7 +2083,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemSize: 25,
+                                    itemSize: 22,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     itemBuilder: (context, _) => Icon(
