@@ -64,6 +64,9 @@ class HealingMatchConstants {
   //Ratings and Review
   static const String RATING_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/mobileReview/createUserReview';
+  // Provider rating List
+  static const String RATING_PROVIDER_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/userReviewListById';
 
   //Common string
   static String registerProgressText = '登録中...';
@@ -217,7 +220,8 @@ class HealingMatchConstants {
       '個人で登録の方は、住所の詳細情報が利用者に\n 開示されることはありません';
   static const String registrationBuildingName = '建物名*';
   static const String registrationRoomNo = '部屋番号*';
-  static const String registrationPointTxt = '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
+  static const String registrationPointTxt =
+      '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
   static const String registrationIdentityVerification = '本人確認証を選択してください*';
@@ -281,6 +285,9 @@ class HealingMatchConstants {
   //Provider Home
   static providerLogin.Data userData;
   static String accessToken = '';
+
+  //User Token
+  static String uAccessToken = '';
 
   // LINE Login Channel ID
   static const String clientLineChannelID = '1655556164';

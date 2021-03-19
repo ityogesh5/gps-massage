@@ -139,7 +139,7 @@ class ProgressDialogBuilder {
         dismissAfter: Duration(seconds: 5));
   }
 
-  static void hideForgetRatingsAndReviewProgressDialog(BuildContext context) {
+  static void hideRatingsAndReviewProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
 }
