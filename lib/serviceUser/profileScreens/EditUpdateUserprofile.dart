@@ -248,68 +248,70 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     Stack(
                       overflow: Overflow.visible,
                       children: [
-                        if (HealingMatchConstants.profileImageInBytes != null &&
-                            _profileImage == null)
-                          InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: Semantics(
-                              child: new Container(
-                                  width: 100.0,
-                                  height: 100.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: MemoryImage(HealingMatchConstants
-                                          .profileImageInBytes),
-                                    ),
-                                  )),
-                            ),
-                          )
-                        else if (HealingMatchConstants.profileImageInBytes !=
-                                null ||
-                            _profileImage != null)
-                          InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.none,
-                                    image: new FileImage(_profileImage),
-                                  ),
-                                )),
-                          )
-                        else
-                          InkWell(
-                            onTap: () {
-                              _showPicker(context);
-                            },
-                            child: new Container(
-                                width: 95.0,
-                                height: 95.0,
-                                decoration: new BoxDecoration(
-                                  border: Border.all(color: Colors.grey[200]),
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                    fit: BoxFit.none,
-                                    image: new AssetImage(
-                                        'assets/images_gps/user.png'),
-                                  ),
-                                )),
-                          ),
-                        _profileImage != null ||
-                                HealingMatchConstants.profileImageInBytes !=
-                                    null
+                        HealingMatchConstants.profileImageInBytes != null
+                            ? InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: Semantics(
+                                  child: new Container(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      decoration: new BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: MemoryImage(
+                                              HealingMatchConstants
+                                                  .profileImageInBytes),
+                                        ),
+                                      )),
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context);
+                                },
+                                child: new Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.none,
+                                        image: new AssetImage(
+                                            'assets/images_gps/user.png'),
+                                      ),
+                                    )),
+                              ),
+                        _profileImage != null
                             ? Visibility(
+                                visible: false,
+                                child: Positioned(
+                                  right: -70.0,
+                                  top: 65,
+                                  left: 10.0,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey[500],
+                                      radius: 13,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.grey[100],
+                                        radius: 12,
+                                        child: Icon(Icons.edit,
+                                            color: Colors.grey[400],
+                                            size: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Visibility(
                                 visible: true,
                                 child: Positioned(
                                   right: -70.0,
@@ -332,56 +334,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     ),
                                   ),
                                 ),
-                              )
-                            : _profileImage == null ||
-                                    HealingMatchConstants.profileImageInBytes ==
-                                        null
-                                ? Visibility(
-                                    visible: true,
-                                    child: Positioned(
-                                      right: -70.0,
-                                      top: 65,
-                                      left: 10.0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          _showPicker(context);
-                                        },
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.grey[500],
-                                          radius: 13,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[100],
-                                            radius: 12,
-                                            child: Icon(Icons.edit,
-                                                color: Colors.grey[400],
-                                                size: 20.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Visibility(
-                                    visible: false,
-                                    child: Positioned(
-                                      right: -70.0,
-                                      top: 65,
-                                      left: 10.0,
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: CircleAvatar(
-                                          backgroundColor: Colors.grey[500],
-                                          radius: 13,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.grey[100],
-                                            radius: 12,
-                                            child: Icon(Icons.edit,
-                                                color: Colors.grey[400],
-                                                size: 20.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                              ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -1049,8 +1002,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily:
-                                                              'NotoSansJP',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1096,8 +1048,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily:
-                                                            'NotoSansJP',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1156,8 +1107,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily:
-                                                              'NotoSansJP',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1198,8 +1148,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     labelText: '部屋番号',
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily:
-                                                            'NotoSansJP',
+                                                        fontFamily: 'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1321,8 +1270,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                   style: TextStyle(
-                                                      fontFamily:
-                                                          'NotoSansJP')),
+                                                      fontFamily: 'NotoSansJP')),
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -2807,8 +2755,7 @@ class _AddAddressState extends State<AddAddress> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily:
-                                                              'NotoSansJP',
+                                                          fontFamily: 'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
