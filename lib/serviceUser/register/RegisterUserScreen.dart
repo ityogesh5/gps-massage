@@ -972,10 +972,10 @@ class _RegisterUserState extends State<RegisterUser> {
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
                                       filled: true,
-                                      labelText: HealingMatchConstants
+                                      /* labelText: HealingMatchConstants
                                           .loginPhoneNumber,
                                       labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,
+                                          .formLabelTextStyle,*/
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
@@ -1626,7 +1626,22 @@ class _RegisterUserState extends State<RegisterUser> {
     int phoneNumber = int.tryParse(userPhoneNumber);
 
     var userGPSAddress = gpsAddressController.text.toString().trim();
-
+    //gps address Validation
+    if ((_myAddressInputType == "現在地を取得する") &&
+        (userGPSAddress == null || userGPSAddress.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
     if (userName.length > 20) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
