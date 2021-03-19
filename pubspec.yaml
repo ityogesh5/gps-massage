@@ -36,7 +36,7 @@ dependencies:
   flutter_markdown: ^0.5.1
   pin_code_fields: ^5.2.0
   flutter_rating_bar: ^3.2.0+1
-  connectivity: ^0.4.9 # Yogeshwar for checking Internet connection
+  connectivity: ^2.0.2 # Yogeshwar for checking Internet connection
   shared_preferences: # Yogeshwar storing data locally throughout the app
   provider: any
   dio: any # Yogeshwar DIO Multipart API Call library / Netwrok call library for processing large data at a time
@@ -93,6 +93,8 @@ dependencies:
   table_calendar: ^2.3.3 #Gowtham for calendar Build
   awesome_dialog: ^1.3.2
   flutter_overlay_loader: ^0.0.2
+
+
 
 
 

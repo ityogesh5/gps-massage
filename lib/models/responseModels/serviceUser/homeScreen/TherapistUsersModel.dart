@@ -1,73 +1,136 @@
-// To parse this JSON data, do
-//
-//     final therapistUsersModel = therapistUsersModelFromJson(jsonString);
-
-import 'dart:convert';
-
-TherapistUsersModel therapistUsersModelFromJson(String str) => TherapistUsersModel.fromJson(json.decode(str));
-
-String therapistUsersModelToJson(TherapistUsersModel data) => json.encode(data.toJson());
-
 class TherapistUsersModel {
-  TherapistUsersModel({
-    this.status,
-    this.therapistData,
-  });
-
   String status;
-  List<TherapistDatum> therapistData;
+  TherapistData therapistData;
 
-  factory TherapistUsersModel.fromJson(Map<String, dynamic> json) => TherapistUsersModel(
-    status: json["status"],
-    therapistData: List<TherapistDatum>.from(json["therapistData"].map((x) => TherapistDatum.fromJson(x))),
-  );
+  TherapistUsersModel({this.status, this.therapistData});
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "therapistData": List<dynamic>.from(therapistData.map((x) => x.toJson())),
-  };
+  TherapistUsersModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    therapistData = json['therapistData'] != null
+        ? new TherapistData.fromJson(json['therapistData'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    if (this.therapistData != null) {
+      data['therapistData'] = this.therapistData.toJson();
+    }
+    return data;
+  }
 }
 
-class TherapistDatum {
-  TherapistDatum({
-    this.id,
-    this.userId,
-    this.email,
-    this.phoneNumber,
-    this.fcmToken,
-    this.lineBotUserId,
-    this.appleUserId,
-    this.userName,
-    this.dob,
-    this.age,
-    this.gender,
-    this.isTherapist,
-    this.isVerified,
-    this.isActive,
-    this.isAccepted,
-    this.rejectReason,
-    this.updatedUser,
-    this.uploadProfileImgUrl,
-    this.proofOfIdentityType,
-    this.proofOfIdentityImgUrl,
-    this.qulaificationCertImgUrl,
-    this.businessForm,
-    this.numberOfEmp,
-    this.businessTrip,
-    this.coronaMeasure,
-    this.storeName,
-    this.storeType,
-    this.storePhone,
-    this.storeDescription,
-    this.userOccupation,
-    this.genderOfService,
-    this.childrenMeasure,
-    this.customerId,
-    this.createdAt,
-    this.updatedAt,
-    this.addresses,
-  });
+class TherapistData {
+  int count;
+  List<TherapistUserList> therapistUserList;
+  int totalPages;
+  int pageNumber;
 
+  TherapistData(
+      {this.count, this.therapistUserList, this.totalPages, this.pageNumber});
+
+  TherapistData.fromJson(Map<String, dynamic> json) {
+    count = json['count'];
+    if (json['therapistUserList'] != null) {
+      therapistUserList = new List<TherapistUserList>();
+      json['therapistUserList'].forEach((v) {
+        therapistUserList.add(new TherapistUserList.fromJson(v));
+      });
+    }
+    totalPages = json['totalPages'];
+    pageNumber = json['pageNumber'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['count'] = this.count;
+    if (this.therapistUserList != null) {
+      data['therapistUserList'] =
+          this.therapistUserList.map((v) => v.toJson()).toList();
+    }
+    data['totalPages'] = this.totalPages;
+    data['pageNumber'] = this.pageNumber;
+    return data;
+  }
+}
+
+class TherapistUserList {
+  int id;
+  int userId;
+  int orteopathicId;
+  String name;
+  int sixtyMin;
+  int nintyMin;
+  int oneTwentyMin;
+  int oneFifityMin;
+  int oneEightyMin;
+  String createdAt;
+  String updatedAt;
+  User user;
+  int fitnessId;
+  int estheticId;
+  int relaxationId;
+
+  TherapistUserList(
+      {this.id,
+        this.userId,
+        this.orteopathicId,
+        this.name,
+        this.sixtyMin,
+        this.nintyMin,
+        this.oneTwentyMin,
+        this.oneFifityMin,
+        this.oneEightyMin,
+        this.createdAt,
+        this.updatedAt,
+        this.user,
+        this.fitnessId,
+        this.estheticId,
+        this.relaxationId});
+
+  TherapistUserList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    orteopathicId = json['orteopathicId'];
+    name = json['name'];
+    sixtyMin = json['sixtyMin'];
+    nintyMin = json['nintyMin'];
+    oneTwentyMin = json['oneTwentyMin'];
+    oneFifityMin = json['oneFifityMin'];
+    oneEightyMin = json['oneEightyMin'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    fitnessId = json['fitnessId'];
+    estheticId = json['estheticId'];
+    relaxationId = json['relaxationId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['orteopathicId'] = this.orteopathicId;
+    data['name'] = this.name;
+    data['sixtyMin'] = this.sixtyMin;
+    data['nintyMin'] = this.nintyMin;
+    data['oneTwentyMin'] = this.oneTwentyMin;
+    data['oneFifityMin'] = this.oneFifityMin;
+    data['oneEightyMin'] = this.oneEightyMin;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    data['fitnessId'] = this.fitnessId;
+    data['estheticId'] = this.estheticId;
+    data['relaxationId'] = this.relaxationId;
+    return data;
+  }
+}
+
+class User {
   int id;
   String userId;
   String email;
@@ -76,9 +139,9 @@ class TherapistDatum {
   dynamic lineBotUserId;
   dynamic appleUserId;
   String userName;
-  DateTime dob;
+  String dob;
   int age;
-  Gender gender;
+  String gender;
   bool isTherapist;
   bool isVerified;
   bool isActive;
@@ -89,248 +152,454 @@ class TherapistDatum {
   String proofOfIdentityType;
   String proofOfIdentityImgUrl;
   String qulaificationCertImgUrl;
-  BusinessForm businessForm;
+  String businessForm;
   int numberOfEmp;
   bool businessTrip;
   bool coronaMeasure;
   String storeName;
   String storeType;
   int storePhone;
-  String storeDescription;
+  dynamic storeDescription;
   dynamic userOccupation;
-  GenderOfService genderOfService;
+  String genderOfService;
   String childrenMeasure;
   dynamic customerId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  List<Address> addresses;
+  String createdAt;
+  String updatedAt;
+  List<Addresses> addresses;
+  List<CertificationUploads> certificationUploads;
+  List<BankDetails> bankDetails;
+  List<Banners> banners;
 
-  factory TherapistDatum.fromJson(Map<String, dynamic> json) => TherapistDatum(
-    id: json["id"],
-    userId: json["userId"],
-    email: json["email"],
-    phoneNumber: json["phoneNumber"],
-    fcmToken: json["fcmToken"],
-    lineBotUserId: json["lineBotUserId"],
-    appleUserId: json["appleUserId"],
-    userName: json["userName"],
-    dob: DateTime.parse(json["dob"]),
-    age: json["age"],
-    gender: genderValues.map[json["gender"]],
-    isTherapist: json["isTherapist"],
-    isVerified: json["isVerified"],
-    isActive: json["isActive"] == null ? null : json["isActive"],
-    isAccepted: json["isAccepted"] == null ? null : json["isAccepted"],
-    rejectReason: json["rejectReason"] == null ? null : json["rejectReason"],
-    updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
-    uploadProfileImgUrl: json["uploadProfileImgUrl"] == null ? null : json["uploadProfileImgUrl"],
-    proofOfIdentityType: json["proofOfIdentityType"],
-    proofOfIdentityImgUrl: json["proofOfIdentityImgUrl"] == null ? null : json["proofOfIdentityImgUrl"],
-    qulaificationCertImgUrl: json["qulaificationCertImgUrl"] == null ? null : json["qulaificationCertImgUrl"],
-    businessForm: businessFormValues.map[json["businessForm"]],
-    numberOfEmp: json["numberOfEmp"] == null ? null : json["numberOfEmp"],
-    businessTrip: json["businessTrip"],
-    coronaMeasure: json["coronaMeasure"],
-    storeName: json["storeName"] == null ? null : json["storeName"],
-    storeType: json["storeType"],
-    storePhone: json["storePhone"] == null ? null : json["storePhone"],
-    storeDescription: json["storeDescription"] == null ? null : json["storeDescription"],
-    userOccupation: json["userOccupation"],
-    genderOfService: json["genderOfService"] == null ? null : genderOfServiceValues.map[json["genderOfService"]],
-    childrenMeasure: json["childrenMeasure"] == null ? null : json["childrenMeasure"],
-    customerId: json["customerId"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
-  );
+  User(
+      {this.id,
+        this.userId,
+        this.email,
+        this.phoneNumber,
+        this.fcmToken,
+        this.lineBotUserId,
+        this.appleUserId,
+        this.userName,
+        this.dob,
+        this.age,
+        this.gender,
+        this.isTherapist,
+        this.isVerified,
+        this.isActive,
+        this.isAccepted,
+        this.rejectReason,
+        this.updatedUser,
+        this.uploadProfileImgUrl,
+        this.proofOfIdentityType,
+        this.proofOfIdentityImgUrl,
+        this.qulaificationCertImgUrl,
+        this.businessForm,
+        this.numberOfEmp,
+        this.businessTrip,
+        this.coronaMeasure,
+        this.storeName,
+        this.storeType,
+        this.storePhone,
+        this.storeDescription,
+        this.userOccupation,
+        this.genderOfService,
+        this.childrenMeasure,
+        this.customerId,
+        this.createdAt,
+        this.updatedAt,
+        this.addresses,
+        this.certificationUploads,
+        this.bankDetails,
+        this.banners});
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "email": email,
-    "phoneNumber": phoneNumber,
-    "fcmToken": fcmToken,
-    "lineBotUserId": lineBotUserId,
-    "appleUserId": appleUserId,
-    "userName": userName,
-    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
-    "age": age,
-    "gender": genderValues.reverse[gender],
-    "isTherapist": isTherapist,
-    "isVerified": isVerified,
-    "isActive": isActive == null ? null : isActive,
-    "isAccepted": isAccepted == null ? null : isAccepted,
-    "rejectReason": rejectReason == null ? null : rejectReason,
-    "updatedUser": updatedUser == null ? null : updatedUser,
-    "uploadProfileImgUrl": uploadProfileImgUrl == null ? null : uploadProfileImgUrl,
-    "proofOfIdentityType": proofOfIdentityType,
-    "proofOfIdentityImgUrl": proofOfIdentityImgUrl == null ? null : proofOfIdentityImgUrl,
-    "qulaificationCertImgUrl": qulaificationCertImgUrl == null ? null : qulaificationCertImgUrl,
-    "businessForm": businessFormValues.reverse[businessForm],
-    "numberOfEmp": numberOfEmp == null ? null : numberOfEmp,
-    "businessTrip": businessTrip,
-    "coronaMeasure": coronaMeasure,
-    "storeName": storeName == null ? null : storeName,
-    "storeType": storeType,
-    "storePhone": storePhone == null ? null : storePhone,
-    "storeDescription": storeDescription == null ? null : storeDescription,
-    "userOccupation": userOccupation,
-    "genderOfService": genderOfService == null ? null : genderOfServiceValues.reverse[genderOfService],
-    "childrenMeasure": childrenMeasure == null ? null : childrenMeasure,
-    "customerId": customerId,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
-  };
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    email = json['email'];
+    phoneNumber = json['phoneNumber'];
+    fcmToken = json['fcmToken'];
+    lineBotUserId = json['lineBotUserId'];
+    appleUserId = json['appleUserId'];
+    userName = json['userName'];
+    dob = json['dob'];
+    age = json['age'];
+    gender = json['gender'];
+    isTherapist = json['isTherapist'];
+    isVerified = json['isVerified'];
+    isActive = json['isActive'];
+    isAccepted = json['isAccepted'];
+    rejectReason = json['rejectReason'];
+    updatedUser = json['updatedUser'];
+    uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    proofOfIdentityType = json['proofOfIdentityType'];
+    proofOfIdentityImgUrl = json['proofOfIdentityImgUrl'];
+    qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
+    businessForm = json['businessForm'];
+    numberOfEmp = json['numberOfEmp'];
+    businessTrip = json['businessTrip'];
+    coronaMeasure = json['coronaMeasure'];
+    storeName = json['storeName'];
+    storeType = json['storeType'];
+    storePhone = json['storePhone'];
+    storeDescription = json['storeDescription'];
+    userOccupation = json['userOccupation'];
+    genderOfService = json['genderOfService'];
+    childrenMeasure = json['childrenMeasure'];
+    customerId = json['customerId'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    if (json['addresses'] != null) {
+      addresses = new List<Addresses>();
+      json['addresses'].forEach((v) {
+        addresses.add(new Addresses.fromJson(v));
+      });
+    }
+    if (json['certification_uploads'] != null) {
+      certificationUploads = new List<CertificationUploads>();
+      json['certification_uploads'].forEach((v) {
+        certificationUploads.add(new CertificationUploads.fromJson(v));
+      });
+    }
+    if (json['bankDetails'] != null) {
+      bankDetails = new List<BankDetails>();
+      json['bankDetails'].forEach((v) {
+        bankDetails.add(new BankDetails.fromJson(v));
+      });
+    }
+    if (json['banners'] != null) {
+      banners = new List<Banners>();
+      json['banners'].forEach((v) {
+        banners.add(new Banners.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['email'] = this.email;
+    data['phoneNumber'] = this.phoneNumber;
+    data['fcmToken'] = this.fcmToken;
+    data['lineBotUserId'] = this.lineBotUserId;
+    data['appleUserId'] = this.appleUserId;
+    data['userName'] = this.userName;
+    data['dob'] = this.dob;
+    data['age'] = this.age;
+    data['gender'] = this.gender;
+    data['isTherapist'] = this.isTherapist;
+    data['isVerified'] = this.isVerified;
+    data['isActive'] = this.isActive;
+    data['isAccepted'] = this.isAccepted;
+    data['rejectReason'] = this.rejectReason;
+    data['updatedUser'] = this.updatedUser;
+    data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['proofOfIdentityType'] = this.proofOfIdentityType;
+    data['proofOfIdentityImgUrl'] = this.proofOfIdentityImgUrl;
+    data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
+    data['businessForm'] = this.businessForm;
+    data['numberOfEmp'] = this.numberOfEmp;
+    data['businessTrip'] = this.businessTrip;
+    data['coronaMeasure'] = this.coronaMeasure;
+    data['storeName'] = this.storeName;
+    data['storeType'] = this.storeType;
+    data['storePhone'] = this.storePhone;
+    data['storeDescription'] = this.storeDescription;
+    data['userOccupation'] = this.userOccupation;
+    data['genderOfService'] = this.genderOfService;
+    data['childrenMeasure'] = this.childrenMeasure;
+    data['customerId'] = this.customerId;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
+    }
+    if (this.certificationUploads != null) {
+      data['certification_uploads'] =
+          this.certificationUploads.map((v) => v.toJson()).toList();
+    }
+    if (this.bankDetails != null) {
+      data['bankDetails'] = this.bankDetails.map((v) => v.toJson()).toList();
+    }
+    if (this.banners != null) {
+      data['banners'] = this.banners.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Address {
-  Address({
-    this.id,
-    this.userId,
-    this.addressTypeSelection,
-    this.address,
-    this.userRoomNumber,
-    this.userPlaceForMassage,
-    this.otherAddressType,
-    this.capitalAndPrefecture,
-    this.capitalAndPrefectureId,
-    this.cityName,
-    this.citiesId,
-    this.area,
-    this.buildingName,
-    this.postalCode,
-    this.lat,
-    this.lon,
-    this.userSearchRadiusDistance,
-    this.createdUser,
-    this.updatedUser,
-    this.isDefault,
-    this.createdAt,
-    this.updatedAt,
-  });
-
+class Addresses {
   int id;
   int userId;
-  AddressTypeSelection addressTypeSelection;
+  String addressTypeSelection;
   String address;
   String userRoomNumber;
   dynamic userPlaceForMassage;
   dynamic otherAddressType;
   String capitalAndPrefecture;
-  int capitalAndPrefectureId;
+  dynamic capitalAndPrefectureId;
   String cityName;
-  int citiesId;
+  dynamic citiesId;
   String area;
   String buildingName;
-  int postalCode;
+  dynamic postalCode;
   double lat;
   double lon;
   dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
   bool isDefault;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-    id: json["id"],
-    userId: json["userId"],
-    addressTypeSelection: json["addressTypeSelection"] == null ? null : addressTypeSelectionValues.map[json["addressTypeSelection"]],
-    address: json["address"],
-    userRoomNumber: json["userRoomNumber"],
-    userPlaceForMassage: json["userPlaceForMassage"],
-    otherAddressType: json["otherAddressType"],
-    capitalAndPrefecture: json["capitalAndPrefecture"] == null ? null : json["capitalAndPrefecture"],
-    capitalAndPrefectureId: json["capitalAndPrefectureId"] == null ? null : json["capitalAndPrefectureId"],
-    cityName: json["cityName"] == null ? null : json["cityName"],
-    citiesId: json["citiesId"] == null ? null : json["citiesId"],
-    area: json["area"],
-    buildingName: json["buildingName"],
-    postalCode: json["postalCode"] == null ? null : json["postalCode"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
-    userSearchRadiusDistance: json["userSearchRadiusDistance"],
-    createdUser: json["createdUser"],
-    updatedUser: json["updatedUser"],
-    isDefault: json["isDefault"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+  Addresses(
+      {this.id,
+        this.userId,
+        this.addressTypeSelection,
+        this.address,
+        this.userRoomNumber,
+        this.userPlaceForMassage,
+        this.otherAddressType,
+        this.capitalAndPrefecture,
+        this.capitalAndPrefectureId,
+        this.cityName,
+        this.citiesId,
+        this.area,
+        this.buildingName,
+        this.postalCode,
+        this.lat,
+        this.lon,
+        this.userSearchRadiusDistance,
+        this.createdUser,
+        this.updatedUser,
+        this.isDefault,
+        this.createdAt,
+        this.updatedAt});
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "addressTypeSelection": addressTypeSelection == null ? null : addressTypeSelectionValues.reverse[addressTypeSelection],
-    "address": address,
-    "userRoomNumber": userRoomNumber,
-    "userPlaceForMassage": userPlaceForMassage,
-    "otherAddressType": otherAddressType,
-    "capitalAndPrefecture": capitalAndPrefecture == null ? null : capitalAndPrefecture,
-    "capitalAndPrefectureId": capitalAndPrefectureId == null ? null : capitalAndPrefectureId,
-    "cityName": cityName == null ? null : cityName,
-    "citiesId": citiesId == null ? null : citiesId,
-    "area": area,
-    "buildingName": buildingName,
-    "postalCode": postalCode == null ? null : postalCode,
-    "lat": lat,
-    "lon": lon,
-    "userSearchRadiusDistance": userSearchRadiusDistance,
-    "createdUser": createdUser,
-    "updatedUser": updatedUser,
-    "isDefault": isDefault,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+  Addresses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    addressTypeSelection = json['addressTypeSelection'];
+    address = json['address'];
+    userRoomNumber = json['userRoomNumber'];
+    userPlaceForMassage = json['userPlaceForMassage'];
+    otherAddressType = json['otherAddressType'];
+    capitalAndPrefecture = json['capitalAndPrefecture'];
+    capitalAndPrefectureId = json['capitalAndPrefectureId'];
+    cityName = json['cityName'];
+    citiesId = json['citiesId'];
+    area = json['area'];
+    buildingName = json['buildingName'];
+    postalCode = json['postalCode'];
+    lat = json['lat'];
+    lon = json['lon'];
+    userSearchRadiusDistance = json['userSearchRadiusDistance'];
+    createdUser = json['createdUser'];
+    updatedUser = json['updatedUser'];
+    isDefault = json['isDefault'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['addressTypeSelection'] = this.addressTypeSelection;
+    data['address'] = this.address;
+    data['userRoomNumber'] = this.userRoomNumber;
+    data['userPlaceForMassage'] = this.userPlaceForMassage;
+    data['otherAddressType'] = this.otherAddressType;
+    data['capitalAndPrefecture'] = this.capitalAndPrefecture;
+    data['capitalAndPrefectureId'] = this.capitalAndPrefectureId;
+    data['cityName'] = this.cityName;
+    data['citiesId'] = this.citiesId;
+    data['area'] = this.area;
+    data['buildingName'] = this.buildingName;
+    data['postalCode'] = this.postalCode;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['userSearchRadiusDistance'] = this.userSearchRadiusDistance;
+    data['createdUser'] = this.createdUser;
+    data['updatedUser'] = this.updatedUser;
+    data['isDefault'] = this.isDefault;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
 }
 
-enum AddressTypeSelection { EMPTY, ADDRESS_TYPE_SELECTION, GPS }
+class CertificationUploads {
+  int id;
+  int userId;
+  String acupuncturist;
+  String moxibutionist;
+  String acupuncturistAndMoxibustion;
+  String anmaMassageShiatsushi;
+  String judoRehabilitationTeacher;
+  String physicalTherapist;
+  String acquireNationalQualifications;
+  String privateQualification1;
+  String privateQualification2;
+  String privateQualification3;
+  String privateQualification4;
+  String privateQualification5;
+  String createdAt;
+  String updatedAt;
 
-final addressTypeSelectionValues = EnumValues({
-  "直接入力": AddressTypeSelection.ADDRESS_TYPE_SELECTION,
-  "現在地を取得する": AddressTypeSelection.EMPTY,
-  "GPS": AddressTypeSelection.GPS
-});
+  CertificationUploads(
+      {this.id,
+        this.userId,
+        this.acupuncturist,
+        this.moxibutionist,
+        this.acupuncturistAndMoxibustion,
+        this.anmaMassageShiatsushi,
+        this.judoRehabilitationTeacher,
+        this.physicalTherapist,
+        this.acquireNationalQualifications,
+        this.privateQualification1,
+        this.privateQualification2,
+        this.privateQualification3,
+        this.privateQualification4,
+        this.privateQualification5,
+        this.createdAt,
+        this.updatedAt});
 
-enum BusinessForm { EMPTY, BUSINESS_FORM, PURPLE, ABCD_COMPANY, FLUFFY }
+  CertificationUploads.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    acupuncturist = json['acupuncturist'];
+    moxibutionist = json['moxibutionist'];
+    acupuncturistAndMoxibustion = json['acupuncturistAndMoxibustion'];
+    anmaMassageShiatsushi = json['anmaMassageShiatsushi'];
+    judoRehabilitationTeacher = json['judoRehabilitationTeacher'];
+    physicalTherapist = json['physicalTherapist'];
+    acquireNationalQualifications = json['acquireNationalQualifications'];
+    privateQualification1 = json['privateQualification1'];
+    privateQualification2 = json['privateQualification2'];
+    privateQualification3 = json['privateQualification3'];
+    privateQualification4 = json['privateQualification4'];
+    privateQualification5 = json['privateQualification5'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
 
-final businessFormValues = EnumValues({
-  "abcd company": BusinessForm.ABCD_COMPANY,
-  "施術店舗あり 施術従業員あり": BusinessForm.BUSINESS_FORM,
-  "施術店舗なし 施術従業員なし（個人)": BusinessForm.EMPTY,
-  "施術店舗なし 施術従業員あり（出張のみ)": BusinessForm.FLUFFY,
-  "施術店舗あり 施術従業員なし（個人経営）": BusinessForm.PURPLE
-});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['acupuncturist'] = this.acupuncturist;
+    data['moxibutionist'] = this.moxibutionist;
+    data['acupuncturistAndMoxibustion'] = this.acupuncturistAndMoxibustion;
+    data['anmaMassageShiatsushi'] = this.anmaMassageShiatsushi;
+    data['judoRehabilitationTeacher'] = this.judoRehabilitationTeacher;
+    data['physicalTherapist'] = this.physicalTherapist;
+    data['acquireNationalQualifications'] = this.acquireNationalQualifications;
+    data['privateQualification1'] = this.privateQualification1;
+    data['privateQualification2'] = this.privateQualification2;
+    data['privateQualification3'] = this.privateQualification3;
+    data['privateQualification4'] = this.privateQualification4;
+    data['privateQualification5'] = this.privateQualification5;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
 
-enum Gender { EMPTY, GENDER, PURPLE, M }
+class BankDetails {
+  int id;
+  int userId;
+  String bankName;
+  String branchCode;
+  String branchNumber;
+  String accountNumber;
+  String accountType;
+  String createdAt;
+  String updatedAt;
 
-final genderValues = EnumValues({
-  "女性": Gender.EMPTY,
-  "男性": Gender.GENDER,
-  "M": Gender.M,
-  "どちらでもない": Gender.PURPLE
-});
+  BankDetails(
+      {this.id,
+        this.userId,
+        this.bankName,
+        this.branchCode,
+        this.branchNumber,
+        this.accountNumber,
+        this.accountType,
+        this.createdAt,
+        this.updatedAt});
 
-enum GenderOfService { EMPTY, GENDER_OF_SERVICE, PURPLE, FLUFFY, M }
+  BankDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    bankName = json['bankName'];
+    branchCode = json['branchCode'];
+    branchNumber = json['branchNumber'];
+    accountNumber = json['accountNumber'];
+    accountType = json['accountType'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
 
-final genderOfServiceValues = EnumValues({
-  "女性のみ": GenderOfService.EMPTY,
-  "男性女性両方": GenderOfService.FLUFFY,
-  "": GenderOfService.GENDER_OF_SERVICE,
-  "M": GenderOfService.M,
-  "男性のみ": GenderOfService.PURPLE
-});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['bankName'] = this.bankName;
+    data['branchCode'] = this.branchCode;
+    data['branchNumber'] = this.branchNumber;
+    data['accountNumber'] = this.accountNumber;
+    data['accountType'] = this.accountType;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
 
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+class Banners {
+  int id;
+  int userId;
+  String bannerImageUrl1;
+  String bannerImageUrl2;
+  String bannerImageUrl3;
+  String bannerImageUrl4;
+  String bannerImageUrl5;
+  String createdAt;
+  String updatedAt;
 
-  EnumValues(this.map);
+  Banners(
+      {this.id,
+        this.userId,
+        this.bannerImageUrl1,
+        this.bannerImageUrl2,
+        this.bannerImageUrl3,
+        this.bannerImageUrl4,
+        this.bannerImageUrl5,
+        this.createdAt,
+        this.updatedAt});
 
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
+  Banners.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    bannerImageUrl1 = json['bannerImageUrl1'];
+    bannerImageUrl2 = json['bannerImageUrl2'];
+    bannerImageUrl3 = json['bannerImageUrl3'];
+    bannerImageUrl4 = json['bannerImageUrl4'];
+    bannerImageUrl5 = json['bannerImageUrl5'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['bannerImageUrl1'] = this.bannerImageUrl1;
+    data['bannerImageUrl2'] = this.bannerImageUrl2;
+    data['bannerImageUrl3'] = this.bannerImageUrl3;
+    data['bannerImageUrl4'] = this.bannerImageUrl4;
+    data['bannerImageUrl5'] = this.bannerImageUrl5;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
   }
 }

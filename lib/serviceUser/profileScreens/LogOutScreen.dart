@@ -83,7 +83,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                         value.setBool('isUserRegister', false);
                         bool loggedOut = value.getBool('isUserLoggedOut');
                         print('userLogout is false : $loggedOut');
-                        value.remove('accessToken');
+                        //value.remove('accessToken');
                         NavigationRouter.switchToUserLogin(context);
                       });
                     } else {
