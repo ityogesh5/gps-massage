@@ -252,7 +252,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         HealingMatchConstants.profileImageInBytes != null
                             ? InkWell(
                                 onTap: () {
-                                  _showPicker(context);
+                                  _showPicker(context, 0);
                                 },
                                 child: Semantics(
                                   child: new Container(
@@ -273,7 +273,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               )
                             : InkWell(
                                 onTap: () {
-                                  _showPicker(context);
+                                  _showPicker(context, 0);
                                 },
                                 child: new Container(
                                     width: 95.0,
@@ -320,7 +320,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   left: 10.0,
                                   child: InkWell(
                                     onTap: () {
-                                      _showPicker(context);
+                                      _showPicker(context, 0);
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: Colors.grey[500],
@@ -1582,7 +1582,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
-  void _showPicker(context) {
+  void _showPicker(context, int index) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -1594,14 +1594,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       leading: new Icon(Icons.photo_library),
                       title: new Text('プロフィール画像を選択してください。'),
                       onTap: () {
-                        _imgFromGallery();
+                        _imgFromGallery(index);
                         Navigator.of(context).pop();
                       }),
                   new ListTile(
                     leading: new Icon(Icons.photo_camera),
                     title: new Text('プロフィール写真を撮ってください。'),
                     onTap: () {
-                      _imgFromCamera();
+                      _imgFromCamera(index);
                       Navigator.of(context).pop();
                     },
                   ),
@@ -1612,7 +1612,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         });
   }
 
-  _imgFromCamera() async {
+  _imgFromCamera(int index) async {
     final pickedImage = await picker.getImage(
         source: ImageSource.camera,
         imageQuality: 50,
@@ -1628,7 +1628,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  _imgFromGallery() async {
+  _imgFromGallery(int index) async {
     final pickedImage =
         await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
