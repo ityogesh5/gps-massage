@@ -623,8 +623,8 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
             style: TextStyle(
                 color: Color.fromRGBO(0, 0, 0, 1),
                 fontFamily: ColorConstants.fontFamily)),
-        backgroundColor: Colors.white70,
-        selectedColor: Colors.grey[200],
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+        selectedColor: Color.fromRGBO(242, 242, 242, 1),
         onSelected: (bool selected) {
           setState(() {
             if (selected) {

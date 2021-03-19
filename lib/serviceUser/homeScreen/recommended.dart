@@ -44,7 +44,7 @@ class _RecommendState extends State<Recommend> {
             itemCount: 12,
             itemBuilder: (context, index) {
               return Container(
-                height: MediaQuery.of(context).size.height * 0.22,
+                height: 152,
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: new Card(
                   elevation: 0.0,

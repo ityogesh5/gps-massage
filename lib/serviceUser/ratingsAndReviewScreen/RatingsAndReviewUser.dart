@@ -493,7 +493,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           body: json.encode({
             "userId": rUserID,
             "therapistId": "4",
-            "ratingsCount": ratingsValue,
+            "ratingsCount": ratingsValue.toString(),
             "reviewComment": reviewComment,
           }));
       print(response.body);

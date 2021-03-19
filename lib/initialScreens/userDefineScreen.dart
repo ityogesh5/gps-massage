@@ -133,10 +133,10 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                       onTap: () {},
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
-                        style:
-                            TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
+                        style: TextStyle(
+                            color: Colors.grey, fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
-                                ),
+                            ),
                       ),
                     ),
                   ],
@@ -391,13 +391,16 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 15),
                         Container(
                           width: size.width * 0.9,
                           child: Text(
                             HealingMatchConstants.UserSelectLastTxt,
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14.0),
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
@@ -407,11 +410,11 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                 ),
                 Positioned(
                   bottom: 100,
-                  right: 35,
-                  left: 35,
+                  right: 40,
+                  left: 27,
                   child: Text(
                     'サービス利用者',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
                 Positioned(

@@ -94,7 +94,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Container(
+                  /*   Container(
                     padding: EdgeInsets.all(8.0),
                     width: MediaQuery.of(context).size.width * 0.95,
                     height: MediaQuery.of(context).size.height * 0.20,
@@ -181,7 +181,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                         )
                       ],
                     ),
-                  ),
+                  ),*/
                   ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,

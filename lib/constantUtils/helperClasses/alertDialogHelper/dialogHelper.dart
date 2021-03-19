@@ -60,7 +60,11 @@ class DialogHelper {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Center(child: Text('登録が完了しました。')),
+                        Center(
+                            child: Text(
+                          '登録が完了しました。',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
                         SizedBox(height: 15),
                         ButtonTheme(
                           minWidth: MediaQuery.of(context).size.width * 0.85,

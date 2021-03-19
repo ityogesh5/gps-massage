@@ -39,7 +39,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
         children: [
           FittedBox(
             child: Text(
-              'Healing Matchは通知を送信します。\nよろしいでしょうか？',
+              'Healing Matchは通知を送信します。\nよろしいですか？',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -56,6 +56,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
               '通知方法は、テキスト、サウンド、\nアイコンバッジがあります。',
               textAlign: TextAlign.center,
               style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
@@ -65,6 +66,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
             child: Text(
               '"設定"で指定できます。',
               style: TextStyle(
+                fontWeight: FontWeight.bold,
                 fontSize: 14,
                 fontFamily: 'Open Sans',
                 color: Color.fromRGBO(35, 24, 21, 1),
@@ -155,7 +157,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
                       borderRadius: BorderRadius.circular(10.0),
                       side: BorderSide(color: Colors.transparent)),
                   buttonLables: ["許可しない", "OK"],
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   buttonValues: [
                     "N",
                     "Y",
