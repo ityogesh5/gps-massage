@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
-class NotificationPopup extends StatefulWidget {
+class LogOutServiceUser extends StatefulWidget {
   @override
-  _NotificationPopupState createState() => _NotificationPopupState();
+  _LogOutServiceUserState createState() => _LogOutServiceUserState();
 }
 
-class _NotificationPopupState extends State<NotificationPopup> {
+class _LogOutServiceUserState extends State<LogOutServiceUser> {
   Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
+  SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class _NotificationPopupState extends State<NotificationPopup> {
       padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width * 0.98,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 1),
+        color: Colors.white,
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
@@ -39,36 +40,12 @@ class _NotificationPopupState extends State<NotificationPopup> {
         children: [
           FittedBox(
             child: Text(
-              'Healing Matchは通知を送信します。\nよろしいでしょうか？',
+              'ログアウトしてよろしいでしょうか？',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color: Color.fromRGBO(35, 24, 21, 1),
                   fontFamily: 'Open Sans'),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          FittedBox(
-            child: Text(
-              '通知方法は、テキスト、サウンド、\nアイコンバッジがあります。',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(35, 24, 21, 1),
-                  fontFamily: 'Open Sans'),
-            ),
-          ),
-          FittedBox(
-            child: Text(
-              '"設定"で指定できます。',
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'Open Sans',
-                color: Color.fromRGBO(35, 24, 21, 1),
-              ),
             ),
           ),
           SizedBox(
@@ -90,27 +67,31 @@ class _NotificationPopupState extends State<NotificationPopup> {
                   customShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       side: BorderSide(color: Colors.transparent)),
-                  buttonLables: ["許可しない", "OK"],
+                  buttonLables: ["はい", "いいえ"],
                   fontSize: 16.0,
                   buttonValues: [
-                    "N",
                     "Y",
+                    "N",
                   ],
                   radioButtonValue: (value) {
                     if (value == 'Y') {
-                      Navigator.pop(context);
-                      print('Notification permission accepted!!');
+                      print('User Logged out!!');
                       _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', true);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
+                        value.setBool('isUserLoggedOut', true);
+                        value.setBool('isUserLoggedIn', false);
+                        value.setBool('isProviderLoggedOut', false);
+                        value.setBool('isUserRegister', false);
+                        bool loggedOut = value.getBool('isUserLoggedOut');
+                        print('userLogout is false : $loggedOut');
+                        value.remove('accessToken');
+                        NavigationRouter.switchToUserLogin(context);
                       });
                     } else {
                       Navigator.pop(context);
                       _sharedPreferences.then((value) {
-                        value.setBool('fcmStatus', false);
-                        bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
+                        value.setBool('isUserLoggedOut', false);
+                        bool loggedOut = value.getBool('isUserLoggedOut');
+                        print('userLogout is false : $loggedOut');
                       });
                       print('Notification permission rejected!!');
                     }

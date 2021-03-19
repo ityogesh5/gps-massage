@@ -10,7 +10,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 class ViewUserProfile extends StatefulWidget {
   @override
   State createState() {
@@ -433,14 +433,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         } else if (retVal == "3") {
           emailLaunch();
         } else if (retVal == "4") {
-          _sharedPreferences.then((value) {
-            value.setString('accessToken', '');
-            value.setBool('isUserLoggedOut', true);
-            value.setBool('isUserLoggedIn', false);
-            value.setBool('isProviderLoggedOut', false);
-            value.setBool('isUserRegister', false);
-          });
-          NavigationRouter.switchToUserLogin(context);
+          DialogHelper.showLogOutUserDialog(context);
         }
       },
     );

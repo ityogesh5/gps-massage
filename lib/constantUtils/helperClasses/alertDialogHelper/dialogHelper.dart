@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DialogHelper {
@@ -1017,6 +1019,42 @@ class DialogHelper {
             ),
           );
         });
+  }
+
+  // Logout service user
+  static void showLogOutUserDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                LogOutServiceUser(),
+              ],
+            ),
+          );
+        });
+  }
+
+  // Awesome custom dialog viewer
+  static void showNoTherapistsDialog(BuildContext context) {
+    AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: 'セラピストは見つかりませんでした！',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+        })
+      ..show();
   }
 }
 

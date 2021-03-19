@@ -67,8 +67,20 @@ class HealingMatchConstants {
   // Provider rating List
   static const String RATING_PROVIDER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/mobileReview/userReviewListById';
+  // get Therapists list
+  static const String THERAPIST_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
+
+  // get Therapists list by type of massage service
+  static const String THERAPIST_LIST_BY_TYPE =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistListByType';
+
+  // get Users list
+  static const String USER_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
 
   //Common string
+  static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
   static String locationProgressText = '現在地を取得中...';
   static String getCityProgressText = '府県の市のデータを取得中。。。';
@@ -325,9 +337,13 @@ class HealingMatchConstants {
   static String manualUserAddress = '';
   static List<Address> addressList = List<Address>();
 
+  // User Home screen
+  static int serviceTypeValue = 0;
+
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
+  static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
   static String searchKeyword = 'キーワードできがす';

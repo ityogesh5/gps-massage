@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,6 +35,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   }
 
   void navigationPage() {
+    //DialogHelper.showNoTherapistsDialog(context);
     _navigateUser();
   }
 
@@ -87,28 +89,30 @@ class _SplashScreenPageState extends State<SplashScreen>
       providerLoggedIn = value.getBool('isProviderLoggedIn');
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
+      userLoggedOut = value.getBool('isUserLoggedOut');
       if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
         NavigationRouter.switchToServiceUserBottomBar(context);
+      } else if (providerLoggedIn != null && providerLoggedIn) {
+        print('Entering 2 loop !!');
+        NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
-        if (providerLoggedIn != null && providerLoggedIn) {
-          print('Entering 2 loop !!');
-          NavigationRouter.switchToServiceProviderBottomBar(context);
+        if (userLoggedOut != null && userLoggedOut) {
+          NavigationRouter.switchToUserLogin(context);
+        } else if (providerLoggedOut != null && providerLoggedOut) {
+          NavigationRouter.switchToProviderLogin(context);
         } else if (userRegistered != null && userRegistered) {
           print('Entering 3 loop !!');
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else if (providerRegistered != null && providerRegistered) {
           print('Entering 4 loop !!');
           NavigationRouter.switchToServiceProviderBottomBar(context);
-        } else if (userLoggedOut != null && userLoggedOut) {
-          NavigationRouter.switchToUserLogin(context);
-        } else if (providerLoggedOut != null && providerLoggedOut) {
-          NavigationRouter.switchToProviderLogin(context);
         } else if (userLoggedIn == null ||
             !userLoggedIn && providerLoggedIn == null ||
             !providerLoggedIn && userRegistered == null ||
             !userRegistered && providerRegistered == null ||
-            !providerRegistered) {
+            !providerRegistered && userLoggedOut != null ||
+            !userLoggedOut) {
           print('Entering last loop !!');
           NavigationRouter.switchToTermsAndConditions(context);
         }
