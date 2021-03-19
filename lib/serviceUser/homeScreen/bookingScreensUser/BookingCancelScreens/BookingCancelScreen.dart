@@ -138,7 +138,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                             child: CustomToggleButton(
                               elevation: 0,
                               height: 55.0,
-                              width: 140.0,
+                              width: 135.0,
                               autoWidth: false,
                               buttonColor: Colors.grey[300],
                               enableShape: true,

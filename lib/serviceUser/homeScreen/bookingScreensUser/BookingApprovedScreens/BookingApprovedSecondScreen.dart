@@ -508,7 +508,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
           ),
           SizedBox(height: 15),
           Padding(
-            padding: const EdgeInsets.only(right: 5, left: 15),
+            padding: const EdgeInsets.only(right: 5, left: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -518,7 +518,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   child: CustomToggleButton(
                     elevation: 0,
                     height: 55.0,
-                    width: 155.0,
+                    width: 150.0,
                     autoWidth: false,
                     buttonColor: Color.fromRGBO(217, 217, 217, 1),
                     enableShape: true,
