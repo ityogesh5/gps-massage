@@ -44,6 +44,7 @@ class _RegisterUserState extends State<RegisterUser> {
       SharedPreferences.getInstance();
   final formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
+  bool visible = false;
   TextEditingController _userDOBController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
@@ -88,6 +89,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final userAreaController = new TextEditingController();
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
+  final otherController = new TextEditingController();
 
   List<String> serviceUserDetails = [];
 
@@ -906,10 +908,19 @@ class _RegisterUserState extends State<RegisterUser> {
                                             });
                                           },
                                           onChanged: (value) {
-                                            setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
-                                            });
+                                            if (value == "その他（直接入力）") {
+                                              setState(() {
+                                                _myCategoryPlaceForMassage =
+                                                    value;
+                                                visible = true; // !visible;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                _myCategoryPlaceForMassage =
+                                                    value;
+                                                visible = false;
+                                              });
+                                            }
                                           },
                                           dataSource: [
                                             {
@@ -935,6 +946,40 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      labelText: HealingMatchConstants
+                                          .loginPhoneNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                               !_showCurrentLocationInput
@@ -1433,24 +1478,26 @@ class _RegisterUserState extends State<RegisterUser> {
                           )
                         : Container(),
 
-                    RichText(
-                      textAlign: TextAlign.start,
-                      text: new TextSpan(
-                        text: '* ',
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'NotoSansJP',
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold),
-                        children: <TextSpan>[
-                          new TextSpan(
-                              text: '登録した場所周辺のセラピストが表示されます',
-                              style: new TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[500],
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w300)),
-                        ],
+                    FittedBox(
+                      child: RichText(
+                        textAlign: TextAlign.start,
+                        text: new TextSpan(
+                          text: '* ',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'NotoSansJP',
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                            new TextSpan(
+                                text: '登録した場所周辺のセラピストが表示されます',
+                                style: new TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[500],
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w300)),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -1571,6 +1618,9 @@ class _RegisterUserState extends State<RegisterUser> {
     var buildingName = buildingNameController.text.toString();
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
+    var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
+        ? otherController.text
+        : _myCategoryPlaceForMassage;
     int userRoomNumber = int.tryParse(roomNumber);
     print('Room number : $userRoomNumber');
     int phoneNumber = int.tryParse(userPhoneNumber);
@@ -2027,7 +2077,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な登録する地点のカテゴリーを選択してください。',
+              child: Text('検索地点を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2262,7 +2312,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "password": password,
           "password_confirmation": confirmPassword,
           "isTherapist": "0",
-          "userPlaceForMassage": _myCategoryPlaceForMassage,
+          "userPlaceForMassage": categoryPlaceForMassage,
           "address": HealingMatchConstants.userAddress,
           "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
           "cityName": HealingMatchConstants.serviceUserCity,
@@ -2287,7 +2337,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "password": password,
           "password_confirmation": confirmPassword,
           "isTherapist": "0",
-          "userPlaceForMassage": _myCategoryPlaceForMassage,
+          "userPlaceForMassage": categoryPlaceForMassage,
           "address": HealingMatchConstants.userAddress,
           "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
           "cityName": HealingMatchConstants.serviceUserCity,

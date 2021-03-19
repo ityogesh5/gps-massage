@@ -88,7 +88,7 @@ class _UserLoginState extends State<UserLogin> {
                 HealingMatchConstants.loginUserSkipText,
                 style: TextStyle(
                     decoration: TextDecoration.underline,
-                    color: Colors.black,
+                    color: Color.fromRGBO(0, 0, 0, 1),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'NotoSansJP',
                     fontSize: 18.0),
@@ -112,6 +112,7 @@ class _UserLoginState extends State<UserLogin> {
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
                             fontSize: 20,
                             fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.bold))),
@@ -181,7 +182,8 @@ class _UserLoginState extends State<UserLogin> {
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
                         style: TextStyle(
-                            color: Colors.grey, fontFamily: 'NotoSansJP'
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                            fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
                             ),
                       ),
@@ -198,11 +200,11 @@ class _UserLoginState extends State<UserLogin> {
                     child: Text(
                       '${HealingMatchConstants.loginUserButton}',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromRGBO(255, 255, 255, 1),
                           fontFamily: 'NotoSansJP',
                           fontSize: 18),
                     ),
-                    color: Colors.lime,
+                    color: Color.fromRGBO(200, 217, 33, 1),
                     onPressed: () {
                       _loginServiceUser();
                     },
@@ -220,20 +222,20 @@ class _UserLoginState extends State<UserLogin> {
                         margin: const EdgeInsets.only(left: 10.0, right: 15.0),
                         child: Divider(
                           //  height: 50,
-                          color: Colors.grey,
+                          color: Color.fromRGBO(225, 225, 225, 1),
                         )),
                   ),
                   Text(
                     "または",
                     style: TextStyle(
-                      color: Colors.grey,
+                      color: Color.fromRGBO(225, 225, 225, 1),
                     ),
                   ),
                   Expanded(
                     child: new Container(
                         margin: const EdgeInsets.only(left: 15.0, right: 10.0),
                         child: Divider(
-                          color: Colors.grey,
+                          color: Color.fromRGBO(225, 225, 225, 1),
                           //height: 50,
                         )),
                   ),
@@ -311,9 +313,10 @@ class _UserLoginState extends State<UserLogin> {
                   child: Text(
                     HealingMatchConstants.loginUserNewRegistrationText,
                     style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
                         decoration: TextDecoration.underline,
                         fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w100),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -335,7 +338,9 @@ class _UserLoginState extends State<UserLogin> {
         child: Center(
           child: Text(
             HealingMatchConstants.loginServiceProvider,
-            style: TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
+            style: TextStyle(
+                color: Color.fromRGBO(102, 102, 102, 1),
+                fontFamily: 'NotoSansJP'
 //                            decoration: TextDecoration.underline,
                 ),
           ),
