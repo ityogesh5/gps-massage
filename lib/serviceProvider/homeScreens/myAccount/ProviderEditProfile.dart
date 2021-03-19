@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -2758,7 +2759,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       print("This is request : ${userDetailsRequest.request}");
       final response = await http.Response.fromStream(userDetailsRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
-      if (StatusCodeHelper.isRegisterSuccess(
+      if (StatusCodeHelper.isProfileUpdateSuccess(
           response.statusCode, context, response.body)) {
         profileUpdate.ProviderProfileUpdateResponseModel
             providerProfileUpdateResponseModel =
@@ -2771,8 +2772,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print(
             'Update response : ${providerProfileUpdateResponseModel.toJson()}');
-        Navigator.pop(context);
-        NavigationRouter.switchToServiceProviderMyAccount(context);
+        DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
+
       } else {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Response error occured!');

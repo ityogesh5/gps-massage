@@ -77,15 +77,20 @@ class DefaultBuilders {
               children: [
                 Text(
                   event.title,
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                 ),
                 event.description == '0'
                     ? Row(
                         children: [
-                          Icon(
+                          SvgPicture.asset(
+                            "assets/images_gps/processing.svg",
+                            height: 20.0,
+                            width: 20.0,
+                          ),
+                          /*  Icon(
                             Icons.hourglass_top_outlined,
                             color: Color.fromRGBO(255, 193, 7, 1),
-                          ),
+                          ), */
                           Text("承認待ち",
                               style: TextStyle(
                                 color: Color.fromRGBO(255, 193, 7, 1),

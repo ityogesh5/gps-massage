@@ -49,6 +49,50 @@ class StatusCodeHelper {
     return false;
   }
 
+  //Provider Profile Update Success
+  static bool isProfileUpdateSuccess(
+      int statusCode, BuildContext context, String body) {
+    final Map errorResponse = json.decode(body);
+    final errorDetails = RegisterErrorHandler.fromJson(errorResponse);
+    if (statusCode == 200) {
+    /*   Toast.show("ユーザーが正常に登録されました。", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white); */
+      print('Response Success!!');
+      return true;
+    } else if (statusCode == 400) {
+      if (errorDetails.status != null &&
+          errorDetails.status.contains('error')) {
+        Toast.show("この電話番号はすでに登録されています。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+      } else {
+        Toast.show("登録中にエラーが発生しました。再試行してください。", context,
+            duration: 4,
+            gravity: Toast.CENTER,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white);
+      }
+      print('Improper Image!!');
+      return false;
+    } else if (statusCode == 401) {
+      print('Unauthorized User!!');
+      return false;
+    } else if (statusCode == 412) {
+      Toast.show("すべての必須値を入力してください。", context,
+          duration: 4,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white);
+      return false;
+    }
+    return false;
+  }
+
   // 200 response login success
   static bool isLoginSuccess(
       int statusCode, BuildContext context, String body) {

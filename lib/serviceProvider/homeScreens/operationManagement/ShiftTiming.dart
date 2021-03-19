@@ -332,14 +332,19 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   });
                                 },
                                 child: Center(
-                                    child: Text(
+                                    child: SvgPicture.asset(
+                                  "assets/images_gps/X.svg",
+                                  height: 20.0,
+                                  width: 20.0,
+                                ) /* Text(
                                   "X",
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: 'NotoSansJP',
                                     color: Color.fromRGBO(193, 193, 193, 1),
                                   ),
-                                )));
+                                ) */
+                                    ));
                           } else {
                             return InkWell(
                               onTap: () {
@@ -349,12 +354,16 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                 });
                               },
                               child: Center(
-                                child: Text(
+                                  child: SvgPicture.asset(
+                                "assets/images_gps/O.svg",
+                                height: 20.0,
+                                width: 20.0,
+                              ) /* Text(
                                   "O",
                                   style: TextStyle(
                                       fontSize: 20.0, fontFamily: 'NotoSansJP'),
-                                ),
-                              ),
+                                ), */
+                                  ),
                             );
                           }
                         },
@@ -397,7 +406,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
   }
 
   setDayTiming() {
-    bool timePicker = false;
+    bool monTimePicker = false;
+    bool tueTimePicker = false;
+    bool wedTimePicker = false;
+    bool thuTimePicker = false;
+    bool friTimePicker = false;
+    bool satTimePicker = false;
+    bool sunTimePicker = false;
     DateTime _dateTime = DateTime.now();
     return showDialog(
         context: context,
@@ -447,7 +462,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               onTap: () {
                                 findButton(key);
                                 setState(() {
-                                  timePicker = !timePicker;
+                                  monTimePicker = !monTimePicker;
                                 });
                               },
                               child: Container(
@@ -466,14 +481,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  monTimePicker = !monTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -488,7 +511,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
-                        timePicker
+                        monTimePicker
                             ? Container(
                                 child: buildTimeController(_dateTime),
                               )
@@ -500,9 +523,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("火曜日"),
                             InkWell(
                               onTap: () {
-                                /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                findButton(key);
+                                setState(() {
+                                  tueTimePicker = !tueTimePicker;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -516,14 +540,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  tueTimePicker = !tueTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -538,6 +570,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        tueTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -549,6 +586,34 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   timePicker = true;
                                 }); */
                               },
+                              child: InkWell(
+                                onTap: () {
+                                  findButton(key);
+                                  setState(() {
+                                    wedTimePicker = !wedTimePicker;
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[400]),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Colors.white),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(child: Text("12:30")),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Text("~"),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  wedTimePicker = !wedTimePicker;
+                                });
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Colors.grey[400]),
@@ -558,17 +623,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text("12:30")),
                                 ),
-                              ),
-                            ),
-                            Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
                               ),
                             ),
                             CustomSwitch(
@@ -583,6 +637,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        wedTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -590,9 +649,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("木曜日"),
                             InkWell(
                               onTap: () {
-                                /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                findButton(key);
+                                setState(() {
+                                  thuTimePicker = !thuTimePicker;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -606,14 +666,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  thuTimePicker = !thuTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -628,6 +696,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        thuTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -635,9 +708,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("金曜日"),
                             InkWell(
                               onTap: () {
-                                /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                findButton(key);
+                                setState(() {
+                                  friTimePicker = !friTimePicker;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -651,14 +725,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  friTimePicker = !friTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -673,6 +755,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        friTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -680,9 +767,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("土曜日"),
                             InkWell(
                               onTap: () {
-                                /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                findButton(key);
+                                setState(() {
+                                  satTimePicker = !satTimePicker;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -696,14 +784,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  satTimePicker = !satTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -718,6 +814,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        satTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -725,9 +826,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("日曜 日"),
                             InkWell(
                               onTap: () {
-                                /* setState(() {
-                                  timePicker = true;
-                                }); */
+                                findButton(key);
+                                setState(() {
+                                  sunTimePicker = !sunTimePicker;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -741,14 +843,22 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                             Text("~"),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey[400]),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(child: Text("12:30")),
+                            InkWell(
+                              onTap: () {
+                                findButton(key);
+                                setState(() {
+                                  sunTimePicker = !sunTimePicker;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text("12:30")),
+                                ),
                               ),
                             ),
                             CustomSwitch(
@@ -763,6 +873,11 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             ),
                           ],
                         ),
+                        sunTimePicker
+                            ? Container(
+                                child: buildTimeController(_dateTime),
+                              )
+                            : Container(),
                         SizedBox(height: 15.0),
                         Container(
                           height: 45,
@@ -809,39 +924,35 @@ class _ShiftTimingState extends State<ShiftTiming> {
           padding: const EdgeInsets.all(18.0),
           child: Column(
             children: [
-              /*  Row(
-                                          children: [
-                                            Expanded(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(width: 50.0),
-                                                  CustomPaint(
-                                                    size: Size(15.0, 10.0),
-                                                    painter: TrianglePainter(
-                                                        isDownArrow: false,
-                                                        color: Colors.grey[100]),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  CustomPaint(
-                                                    size: Size(15.0, 10.0),
-                                                    painter: TrianglePainter(
-                                                        isDownArrow: false,
-                                                        color: Colors.white),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ), */
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 50.0),
+                        CustomPaint(
+                          size: Size(15.0, 10.0),
+                          painter: TrianglePainter(
+                              isDownArrow: false, color: Colors.grey[100]),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomPaint(
+                          size: Size(15.0, 10.0),
+                          painter: TrianglePainter(
+                              isDownArrow: false, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Container(
                   height: 120.0,
                   padding: EdgeInsets.all(8.0),
@@ -874,7 +985,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
             ],
           ),
         ),
-        Positioned(
+        /*     Positioned(
           top: buttonPosition.dy + buttonSize.height,
           left: buttonPosition.dx,
           width: buttonSize.width,
@@ -888,7 +999,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                   isDownArrow: false, color: Colors.red), //grey[100]),
             ),
           ),
-        ),
+        ), */
       ],
     );
   }

@@ -7,8 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
@@ -894,6 +896,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 ),
                 buildDayPicker(),
                 SizedBox(
+                  height: 10,
+                ),
+                _isVisible
+                    ? Container(
+                        child: buildTimeController(DateTime.now()),
+                      )
+                    : Container(),
+                SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -1005,5 +1015,75 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     } else if (month == 2) {
       return year % 4 == 0 ? 29 : 28;
     }
+  }
+
+  buildTimeController(DateTime _dateTime) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomPaint(
+                      size: Size(25.0, 15.0),
+                      painter: TrianglePainter(
+                          isDownArrow: false, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              /*     Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomPaint(
+                size: Size(15.0, 10.0),
+                painter: TrianglePainter(
+                    isDownArrow: false, color: Colors.white),
+              ),
+            ],
+          ),
+        ), */
+            ],
+          ),
+          Card(
+            elevation: 10.0,
+            child: Container(
+                height: 120.0,
+                padding: EdgeInsets.all(8.0),
+                // margin: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.white),
+                child: TimePickerSpinner(
+                  alignment: Alignment.topCenter,
+                  is24HourMode: true,
+                  normalTextStyle: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  highlightedTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black),
+                  spacing: 50,
+                  itemHeight: 40,
+                  isForce2Digits: true,
+                  onTimeChange: (time) {
+                    setState(() {
+                      _dateTime = time;
+                    });
+                  },
+                )),
+          ),
+        ],
+      ),
+    );
   }
 }

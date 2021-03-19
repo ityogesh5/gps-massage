@@ -237,8 +237,6 @@ class ShowToolTip {
   }
 }
 
-/// [TrianglePainter] is custom painter for drawing a triangle for popup
-/// to point specific widget
 class TrianglePainter extends CustomPainter {
   bool isDownArrow;
   Color color;
@@ -253,6 +251,7 @@ class TrianglePainter extends CustomPainter {
     paint.strokeWidth = 2.0;
     paint.color = color;
     paint.style = PaintingStyle.fill;
+    /*  paint.maskFilter = MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(3)); */
 
     if (isDownArrow) {
       path.moveTo(0.0, -1.0);
@@ -265,6 +264,10 @@ class TrianglePainter extends CustomPainter {
     }
 
     canvas.drawPath(path, paint);
+  }
+
+  static double convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
   }
 
   /// Specifies to redraw for [customPainter]

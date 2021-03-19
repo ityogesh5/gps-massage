@@ -746,8 +746,8 @@ class DialogHelper {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-//Navigator.pop(context);
-                              NavigationRouter.switchToServiceProviderBottomBar(
+                              Navigator.pop(context);
+                              NavigationRouter.switchToServiceProviderMyAccount(
                                   context);
                             },
                             child: new Text(

@@ -88,7 +88,7 @@ class _MyAccountState extends State<MyAccount> {
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 78.0, top: 58.0),
+                                    left: 138.0, top: 58.0),
                                 child: CircleAvatar(
                                   backgroundColor: Colors.grey[100],
                                   radius: 15,
@@ -447,7 +447,16 @@ class _MyAccountState extends State<MyAccount> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(userData.bankDetails[0].bankName,
+                                        Text(
+                                            userData.bankDetails[0].bankName
+                                                        .length >
+                                                    15
+                                                ? userData
+                                                        .bankDetails[0].bankName
+                                                        .substring(0, 15) +
+                                                    "..."
+                                                : userData
+                                                    .bankDetails[0].bankName,
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 fontFamily: 'NotoSansJP',
