@@ -542,9 +542,9 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                 color: Color.fromRGBO(217, 217, 217, 1),
               ),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.16,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(11.0),
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -636,11 +636,11 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 7),
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(11.0),
               child: Divider(
                 color: Color.fromRGBO(217, 217, 217, 1),
               ),
@@ -691,7 +691,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(11.0),
               child: Divider(),
             )),
           ]),
@@ -2643,7 +2643,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                 color: Color.fromRGBO(217, 217, 217, 1),
               ),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.16,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: Padding(
                 padding: const EdgeInsets.all(7.0),
                 child: Container(
@@ -2660,8 +2660,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 SvgPicture.asset(
                                     'assets/images_gps/calendar.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
-                                    height: 25,
-                                    width: 25),
+                                    height: 22,
+                                    width: 22),
                                 SizedBox(width: 5),
                                 new Text(
                                   '10月17',

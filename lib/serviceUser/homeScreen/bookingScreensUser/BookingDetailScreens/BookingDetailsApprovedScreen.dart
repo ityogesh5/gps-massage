@@ -307,9 +307,9 @@ class _BookingDetailsApprovedScreenState
               ),
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 11),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(11.0),
             child: Column(
               children: [
                 Row(
@@ -463,7 +463,7 @@ class _BookingDetailsApprovedScreenState
               ],
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
@@ -482,7 +482,7 @@ class _BookingDetailsApprovedScreenState
                   borderRadius: BorderRadius.circular(16.0),
                   color: Colors.grey[200]),
               width: MediaQuery.of(context).size.width * 0.90,
-              height: MediaQuery.of(context).size.height * 0.16,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Container(
@@ -623,7 +623,7 @@ class _BookingDetailsApprovedScreenState
           Row(children: <Widget>[
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(11.0),
               child: Divider(),
             )),
           ]),
@@ -660,7 +660,7 @@ class _BookingDetailsApprovedScreenState
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.40,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -706,7 +706,7 @@ class _BookingDetailsApprovedScreenState
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Row(
                       children: [
                         SvgPicture.asset('assets/images_gps/clock.svg',
@@ -732,7 +732,7 @@ class _BookingDetailsApprovedScreenState
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -766,7 +766,7 @@ class _BookingDetailsApprovedScreenState
                     Row(children: <Widget>[
                       Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Divider(),
                       )),
                     ]),

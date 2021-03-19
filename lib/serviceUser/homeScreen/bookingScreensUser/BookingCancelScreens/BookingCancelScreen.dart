@@ -63,7 +63,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                 blurRadius: 3.0,
                 offset: new Offset(1.0, 1.0))
           ],
-          color: Colors.grey[100],
+          color: Color.fromRGBO(255, 255, 255, 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(3.0),
@@ -80,7 +80,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                       backgroundColor: Colors.grey[200],
                       child: CircleAvatar(
                         maxRadius: 39,
-                        backgroundColor: Colors.grey[100],
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                         child: Image.asset('assets/images_gps/calendar.png'),
                       ),
                     ),
@@ -127,42 +127,45 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ButtonTheme(
-                          minWidth: MediaQuery.of(context).size.width * 0.35,
-                          child: CustomToggleButton(
-                            elevation: 0,
-                            height: 55.0,
-                            width: 140.0,
-                            autoWidth: false,
-                            buttonColor: Colors.grey[300],
-                            enableShape: true,
-                            customShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: Colors.transparent)),
-                            buttonLables: ["はい", "いいえ"],
-                            fontSize: 16.0,
-                            buttonValues: [
-                              "Y",
-                              "N",
-                            ],
-                            radioButtonValue: (value) {
-                              if (value == 'Y') {
-                                DialogHelper.showUserBookingCancelDialog(
-                                    context);
-                              } else if (value == 'N') {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop(context);
-                              }
-                            },
-                            selectedColor: Colors.lime,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5, left: 11),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width * 0.35,
+                            child: CustomToggleButton(
+                              elevation: 0,
+                              height: 55.0,
+                              width: 140.0,
+                              autoWidth: false,
+                              buttonColor: Colors.grey[300],
+                              enableShape: true,
+                              customShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(color: Colors.transparent)),
+                              buttonLables: ["はい", "いいえ"],
+                              fontSize: 16.0,
+                              buttonValues: [
+                                "Y",
+                                "N",
+                              ],
+                              radioButtonValue: (value) {
+                                if (value == 'Y') {
+                                  DialogHelper.showUserBookingCancelDialog(
+                                      context);
+                                } else if (value == 'N') {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(context);
+                                }
+                              },
+                              selectedColor: Colors.lime,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20)
-                      ],
+                          SizedBox(height: 20)
+                        ],
+                      ),
                     )
                   ],
                 ),
