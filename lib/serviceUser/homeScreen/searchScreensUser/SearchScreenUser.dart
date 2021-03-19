@@ -572,14 +572,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ),
                           ),
                           Expanded(
-                            child: Text(
-                              HealingMatchConstants.searchRelaxationTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: _value == 2
-                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                    : Color.fromRGBO(217, 217, 217, 1),
+                            child: FittedBox(
+                              child: Text(
+                                HealingMatchConstants.searchRelaxationTxt,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: _value == 2
+                                      ? Color.fromRGBO(0, 0, 0, 1)
+                                      : Color.fromRGBO(217, 217, 217, 1),
+                                ),
                               ),
                             ),
                           ),
