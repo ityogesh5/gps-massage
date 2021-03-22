@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';

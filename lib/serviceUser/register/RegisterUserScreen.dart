@@ -1149,7 +1149,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1196,7 +1197,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],
@@ -1260,7 +1262,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       labelStyle: TextStyle(
                                                           color:
                                                               Colors.grey[400],
-                                                          fontFamily: 'NotoSansJP',
+                                                          fontFamily:
+                                                              'NotoSansJP',
                                                           fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
@@ -1308,7 +1311,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
                                                         Colors.grey[100],

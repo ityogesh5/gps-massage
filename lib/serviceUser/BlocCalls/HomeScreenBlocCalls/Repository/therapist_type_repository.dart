@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GetTherapistTypeRepository {
@@ -31,7 +30,8 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
           body: json.encode({
             "type": massageTypeValue,
           }));
-      print('Therapist repo token : $accessToken : Massage type : $massageTypeValue');
+      print(
+          'Therapist repo token : $accessToken : Massage type : $massageTypeValue');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         List<UserList> therapistUsers =

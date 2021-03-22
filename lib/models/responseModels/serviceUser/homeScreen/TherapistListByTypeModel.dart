@@ -27,7 +27,8 @@ class TherapistTypeData {
   int totalPages;
   int pageNumber;
 
-  TherapistTypeData({this.count, this.userList, this.totalPages, this.pageNumber});
+  TherapistTypeData(
+      {this.count, this.userList, this.totalPages, this.pageNumber});
 
   TherapistTypeData.fromJson(Map<String, dynamic> json) {
     count = json['count'];
@@ -69,17 +70,17 @@ class UserList {
 
   UserList(
       {this.id,
-        this.userId,
-        this.orteopathicId,
-        this.name,
-        this.sixtyMin,
-        this.nintyMin,
-        this.oneTwentyMin,
-        this.oneFifityMin,
-        this.oneEightyMin,
-        this.createdAt,
-        this.updatedAt,
-        this.user});
+      this.userId,
+      this.orteopathicId,
+      this.name,
+      this.sixtyMin,
+      this.nintyMin,
+      this.oneTwentyMin,
+      this.oneFifityMin,
+      this.oneEightyMin,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
 
   UserList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -157,42 +158,42 @@ class User {
 
   User(
       {this.id,
-        this.userId,
-        this.email,
-        this.phoneNumber,
-        this.fcmToken,
-        this.lineBotUserId,
-        this.appleUserId,
-        this.userName,
-        this.dob,
-        this.age,
-        this.gender,
-        this.isTherapist,
-        this.isVerified,
-        this.isActive,
-        this.isAccepted,
-        this.rejectReason,
-        this.updatedUser,
-        this.uploadProfileImgUrl,
-        this.proofOfIdentityType,
-        this.proofOfIdentityImgUrl,
-        this.qulaificationCertImgUrl,
-        this.businessForm,
-        this.numberOfEmp,
-        this.businessTrip,
-        this.coronaMeasure,
-        this.storeName,
-        this.storeType,
-        this.storePhone,
-        this.storeDescription,
-        this.userOccupation,
-        this.genderOfService,
-        this.childrenMeasure,
-        this.customerId,
-        this.createdAt,
-        this.updatedAt,
-        this.certificationUploads,
-        this.banners});
+      this.userId,
+      this.email,
+      this.phoneNumber,
+      this.fcmToken,
+      this.lineBotUserId,
+      this.appleUserId,
+      this.userName,
+      this.dob,
+      this.age,
+      this.gender,
+      this.isTherapist,
+      this.isVerified,
+      this.isActive,
+      this.isAccepted,
+      this.rejectReason,
+      this.updatedUser,
+      this.uploadProfileImgUrl,
+      this.proofOfIdentityType,
+      this.proofOfIdentityImgUrl,
+      this.qulaificationCertImgUrl,
+      this.businessForm,
+      this.numberOfEmp,
+      this.businessTrip,
+      this.coronaMeasure,
+      this.storeName,
+      this.storeType,
+      this.storePhone,
+      this.storeDescription,
+      this.userOccupation,
+      this.genderOfService,
+      this.childrenMeasure,
+      this.customerId,
+      this.createdAt,
+      this.updatedAt,
+      this.certificationUploads,
+      this.banners});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -312,21 +313,21 @@ class CertificationUploads {
 
   CertificationUploads(
       {this.id,
-        this.userId,
-        this.acupuncturist,
-        this.moxibutionist,
-        this.acupuncturistAndMoxibustion,
-        this.anmaMassageShiatsushi,
-        this.judoRehabilitationTeacher,
-        this.physicalTherapist,
-        this.acquireNationalQualifications,
-        this.privateQualification1,
-        this.privateQualification2,
-        this.privateQualification3,
-        this.privateQualification4,
-        this.privateQualification5,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.acupuncturist,
+      this.moxibutionist,
+      this.acupuncturistAndMoxibustion,
+      this.anmaMassageShiatsushi,
+      this.judoRehabilitationTeacher,
+      this.physicalTherapist,
+      this.acquireNationalQualifications,
+      this.privateQualification1,
+      this.privateQualification2,
+      this.privateQualification3,
+      this.privateQualification4,
+      this.privateQualification5,
+      this.createdAt,
+      this.updatedAt});
 
   CertificationUploads.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -382,14 +383,14 @@ class Banners {
 
   Banners(
       {this.id,
-        this.userId,
-        this.bannerImageUrl1,
-        this.bannerImageUrl2,
-        this.bannerImageUrl3,
-        this.bannerImageUrl4,
-        this.bannerImageUrl5,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.bannerImageUrl1,
+      this.bannerImageUrl2,
+      this.bannerImageUrl3,
+      this.bannerImageUrl4,
+      this.bannerImageUrl5,
+      this.createdAt,
+      this.updatedAt});
 
   Banners.fromJson(Map<String, dynamic> json) {
     id = json['id'];

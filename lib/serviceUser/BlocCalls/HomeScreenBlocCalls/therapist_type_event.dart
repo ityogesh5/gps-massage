@@ -12,11 +12,12 @@ class FetchTherapistTypeEvent extends TherapistTypeEvent {
   List<Object> get props => [accessToken, massageTypeValue];
 }
 
-class RefreshEvent extends TherapistTypeEvent{
+class RefreshEvent extends TherapistTypeEvent {
   final accessToken;
+
   RefreshEvent(this.accessToken);
+
   @override
   // TODO: implement props
   List<Object> get props => [accessToken];
-
 }

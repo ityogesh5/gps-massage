@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
-import 'package:gps_massageapp/serviceUser/loginScreens/UserLoginScreen.dart';
 
 class UserDefineScreen extends StatefulWidget {
   @override
@@ -133,10 +131,10 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
                       onTap: () {},
                       child: Text(
                         '${HealingMatchConstants.loginUserForgetPassword}',
-                        style:
-                            TextStyle(color: Colors.grey, fontFamily: 'NotoSansJP'
+                        style: TextStyle(
+                            color: Colors.grey, fontFamily: 'NotoSansJP'
 //                    decoration: TextDecoration.underline,
-                                ),
+                            ),
                       ),
                     ),
                   ],

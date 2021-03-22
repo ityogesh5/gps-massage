@@ -156,33 +156,35 @@ class ShowToolTip {
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child:  storeType[index] == "エステ" ?
-                                    SvgPicture.asset(
-                                      "assets/images_gps/Esthetic.svg",
-                                      height: 15.0,
-                                      width: 15.0,
-                                      color: Colors.black,
-                                    ): storeType[index] == "整体" ?
-                                    SvgPicture.asset(
-                                      "assets/images_gps/Osteopathic.svg",
-                                      height: 15.0,
-                                      width: 15.0,
-                                      color: Colors.black,
-                                    ): storeType[index] == "リラクゼーション" ?
-                                    SvgPicture.asset(
-                                      "assets/images_gps/relaxation.svg",
-                                      height: 15.0,
-                                      width: 15.0,
-                                      color: Colors.black,
-                                    ):/*  storeType[index] == "フィットネス" ? */
-                                    SvgPicture.asset(
-                                      "assets/images_gps/Fitness.svg",
-                                      height: 15.0,
-                                      width: 15.0,
-                                      color: Colors.black,
-                                    )
-                                  ),
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: storeType[index] == "エステ"
+                                          ? SvgPicture.asset(
+                                              "assets/images_gps/Esthetic.svg",
+                                              height: 15.0,
+                                              width: 15.0,
+                                              color: Colors.black,
+                                            )
+                                          : storeType[index] == "整体"
+                                              ? SvgPicture.asset(
+                                                  "assets/images_gps/Osteopathic.svg",
+                                                  height: 15.0,
+                                                  width: 15.0,
+                                                  color: Colors.black,
+                                                )
+                                              : storeType[index] == "リラクゼーション"
+                                                  ? SvgPicture.asset(
+                                                      "assets/images_gps/relaxation.svg",
+                                                      height: 15.0,
+                                                      width: 15.0,
+                                                      color: Colors.black,
+                                                    )
+                                                  : /*  storeType[index] == "フィットネス" ? */
+                                                  SvgPicture.asset(
+                                                      "assets/images_gps/Fitness.svg",
+                                                      height: 15.0,
+                                                      width: 15.0,
+                                                      color: Colors.black,
+                                                    )),
                                 ),
                                 SizedBox(
                                   width: 5.0,

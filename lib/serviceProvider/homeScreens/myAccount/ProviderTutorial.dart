@@ -18,7 +18,7 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
         // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
-                  child: PageView(
+          child: PageView(
             onPageChanged: (page) {
               setState(() {
                 currentPage = page;
@@ -29,7 +29,8 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images_gps/provider_tutorial_1.png'),
+                    image:
+                        AssetImage('assets/images_gps/provider_tutorial_1.png'),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -62,7 +63,8 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images_gps/provider_tutorial_2.png'),
+                    image:
+                        AssetImage('assets/images_gps/provider_tutorial_2.png'),
                     fit: BoxFit.fill,
                   ),
                 ),

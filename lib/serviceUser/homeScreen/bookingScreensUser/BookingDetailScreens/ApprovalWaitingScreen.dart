@@ -5,7 +5,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 final List<String> imgList = [

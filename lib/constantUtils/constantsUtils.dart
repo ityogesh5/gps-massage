@@ -8,6 +8,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/loginRespon
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -73,6 +74,11 @@ class HealingMatchConstants {
   static const String USER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
 
+  // get Users banner images from Admin
+  static const String BANNER_IMAGES_URL = ON_PREMISE_USER_BASE_URL +
+      '/adminBanner' +
+      '/getAllAdminBannerListMobile';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -85,6 +91,12 @@ class HealingMatchConstants {
   static bool isUserLoggedIn = false;
   static bool isBottomBarVisible = true;
   static String userFcmToken = '';
+  static String currentDate;
+
+  static String currentDay;
+
+  static String currentMonth;
+
   static String sampleText =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
       'Sed eu consequat mauris, non rutrum felis. Nam facilisis felis vel sapien convallis volutpat. '
@@ -370,6 +382,7 @@ class HealingMatchConstants {
   static String therapistResponseText =
       '期限内にセラピストに、よる予約の承認がされなかった為、予約はキャンセルされました';
   static String cancelTimerText = '期限内に支払いが完了しなかった為、予約がキャンセルされました。';
+  static bool isBookingDone = false;
 
   //FontStyle
   static const headersText = TextStyle(
@@ -413,4 +426,16 @@ class HealingMatchConstants {
       color: ColorConstants.formFieldFillColor,
     ),
   );
+
+  static Future<void> getMoreData(int page, int size) async {
+    var loadDataURL =
+        '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$page&size=$size';
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'x-access-token': '${HealingMatchConstants.accessToken}'
+    };
+    var response = await http.post(loadDataURL, headers: headers);
+    print('response : ${response.body}');
+    return response;
+  }
 }

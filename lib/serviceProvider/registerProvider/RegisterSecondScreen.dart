@@ -25,6 +25,7 @@ import 'ChooseServiceScreen.dart';
 //import 'package:dio/dio.dart';
 
 List<File> files = List<File>();
+
 class RegistrationProviderSecondScreen extends StatefulWidget {
   @override
   _RegistrationSecondPageState createState() => _RegistrationSecondPageState();

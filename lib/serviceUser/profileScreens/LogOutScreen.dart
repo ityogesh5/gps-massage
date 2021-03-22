@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogOutServiceUser extends StatefulWidget {
   @override
@@ -10,7 +10,7 @@ class LogOutServiceUser extends StatefulWidget {
 
 class _LogOutServiceUserState extends State<LogOutServiceUser> {
   Future<SharedPreferences> _sharedPreferences =
-  SharedPreferences.getInstance();
+      SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {

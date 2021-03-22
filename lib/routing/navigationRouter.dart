@@ -5,9 +5,9 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ChangePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ForgetPassword.dart';
@@ -18,7 +18,6 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSecondSc
 import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSuccessOTPScreen.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/BottomBarUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/HomeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedFirstScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedSecondScreen.dart';
@@ -30,11 +29,11 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/BookingConfirmation.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserForgetPassword.dart';
@@ -48,7 +47,8 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndRevi
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
+
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 
 class NavigationRouter {
   // Network dis connect handler class

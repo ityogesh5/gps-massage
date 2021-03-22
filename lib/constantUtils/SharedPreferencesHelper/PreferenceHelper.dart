@@ -4,7 +4,7 @@ class PreferenceHelper {
   PreferenceHelper._privateConstructor();
 
   static final PreferenceHelper instance =
-  PreferenceHelper._privateConstructor();
+      PreferenceHelper._privateConstructor();
 
   setAccessToken(String key, String value) async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
@@ -27,9 +27,8 @@ class PreferenceHelper {
     return myPrefs.remove(key);
   }
 
-  removeAll() async{
+  removeAll() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     return myPrefs.clear();
   }
-
 }

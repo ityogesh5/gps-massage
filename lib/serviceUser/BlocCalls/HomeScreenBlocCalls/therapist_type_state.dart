@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
-
 import 'package:meta/meta.dart';
 
 abstract class TherapistTypeState extends Equatable {}

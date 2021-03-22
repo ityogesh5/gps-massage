@@ -1,9 +1,7 @@
 import 'dart:async';
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
@@ -71,8 +69,6 @@ class _SplashScreenPageState extends State<SplashScreen>
     CheckInternetConnection.cancelSubscription();
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
