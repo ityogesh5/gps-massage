@@ -1763,7 +1763,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な都、県選 を入力してください。',
+              child: Text('有効な丁目と番地を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2378,6 +2378,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           /*  value.setString(
               'subUserAddress', userAddressData.);*/
         }*/
+        print(profileUpdateResponseModel.address.address);
       });
       updateAddress.clear();
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
@@ -2539,10 +2540,12 @@ class _AddAddressState extends State<AddAddress> {
   String _myAddedAddressInputType = '';
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
+  String _myCategoryPlaceForMassage = '';
   Placemark userGPSAddressPlaceMark;
   Placemark userManualAddressPlaceMark;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
+  final _placeOfAddressKey = new GlobalKey<FormState>();
   final _addedCityKey = new GlobalKey<FormState>();
   final additionalAddressController = new TextEditingController();
   final addedBuildingNameController = new TextEditingController();
@@ -2558,7 +2561,8 @@ class _AddAddressState extends State<AddAddress> {
   var _addedAddressPrefId;
   bool _isAddedGPSLocation = false;
   bool _showRequiredFields = false;
-
+  bool visible = false;
+  final otherController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2666,6 +2670,109 @@ class _AddAddressState extends State<AddAddress> {
                                   ],
                                   textField: 'showDisplay',
                                   valueField: 'value',
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              _myAddedAddressInputType.isNotEmpty
+                                  ? Form(
+                                      key: _placeOfAddressKey,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              child: DropDownFormField(
+                                                hintText: '登録する地点のカテゴリー *',
+                                                value:
+                                                    _myCategoryPlaceForMassage,
+                                                onSaved: (value) {
+                                                  setState(() {
+                                                    _myCategoryPlaceForMassage =
+                                                        value;
+                                                  });
+                                                },
+                                                onChanged: (value) {
+                                                  if (value == "その他（直接入力）") {
+                                                    setState(() {
+                                                      _myCategoryPlaceForMassage =
+                                                          value;
+                                                      visible =
+                                                          true; // !visible;
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _myCategoryPlaceForMassage =
+                                                          value;
+                                                      visible = false;
+                                                    });
+                                                  }
+                                                },
+                                                dataSource: [
+                                                  {
+                                                    "display": "自宅",
+                                                    "value": "自宅",
+                                                  },
+                                                  {
+                                                    "display": "オフィス",
+                                                    "value": "オフィス",
+                                                  },
+                                                  {
+                                                    "display": "実家",
+                                                    "value": "実家",
+                                                  },
+                                                  {
+                                                    "display": "その他（直接入力）",
+                                                    "value": "その他（直接入力）",
+                                                  },
+                                                ],
+                                                textField: 'display',
+                                                valueField: 'value',
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      /* labelText: HealingMatchConstants
+                                          .loginPhoneNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,*/
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                               _myAddedAddressInputType.contains('現在地を取得する')
@@ -3022,7 +3129,7 @@ class _AddAddressState extends State<AddAddress> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: 15),
+                                            SizedBox(height: 10),
                                             Container(
                                               width: MediaQuery.of(context)
                                                       .size
@@ -3329,6 +3436,9 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
+    var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
+        ? otherController.text
+        : _myCategoryPlaceForMassage;
     if (_myAddedAddressInputType.isNotEmpty &&
         _myAddedAddressInputType.contains('現在地を取得する')) {
       if (addedRoomNumberController.text.isEmpty ||
@@ -3374,6 +3484,7 @@ class _AddAddressState extends State<AddAddress> {
               HealingMatchConstants.addedCurrentLatitude.toString(),
               HealingMatchConstants.addedCurrentLongitude.toString(),
               _myAddedAddressInputType,
+              _myCategoryPlaceForMassage,
               userGPSAddressPlaceMark.administrativeArea,
               userGPSAddressPlaceMark.subAdministrativeArea,
               addedRoomNumberController.text.toString(),
@@ -3499,6 +3610,7 @@ class _AddAddressState extends State<AddAddress> {
               HealingMatchConstants.manualAddressCurrentLatitude.toString(),
               HealingMatchConstants.manualAddressCurrentLongitude.toString(),
               _myAddedAddressInputType,
+              _myCategoryPlaceForMassage,
               _myAddedCity,
               _myAddedPrefecture,
               addedRoomNumberController.text.toString(),

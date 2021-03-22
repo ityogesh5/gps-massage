@@ -3,6 +3,7 @@ class AddUserSubAddress {
   String _lat;
   String _lng;
   String _addressType;
+  String _addressCategory;
   String _city;
   String _prefecture;
   String _roomNumber;
@@ -14,6 +15,7 @@ class AddUserSubAddress {
       this._lat,
       this._lng,
       this._addressType,
+      this._addressCategory,
       this._city,
       this._prefecture,
       this._roomNumber,
@@ -29,6 +31,7 @@ class AddUserSubAddress {
   String get lng => _lng;
 
   String get addressType => _addressType;
+  String get addressCategory => _addressCategory;
 
   String get city => _city;
 
@@ -54,6 +57,10 @@ class AddUserSubAddress {
 
   set addressType(String addressType) {
     this._addressType = addressType;
+  }
+
+  set addressCategory(String addressCategory) {
+    this._addressCategory = addressCategory;
   }
 
   set city(String city) {
@@ -82,6 +89,7 @@ class AddUserSubAddress {
     _lat = json['lat'];
     _lng = json['lng'];
     _addressType = json['addressTypeSelection'];
+    _addressCategory = json['userPlaceForMassage'];
     _city = json['cityName'];
     _prefecture = json['capitalAndPrefecture'];
     _roomNumber = json['roomNumber'];
@@ -96,6 +104,7 @@ class AddUserSubAddress {
     data['lat'] = this._lat;
     data['lng'] = this._lng;
     data['addressTypeSelection'] = this._addressType;
+    data['userPlaceForMassage'] = this._addressCategory;
     data['cityName'] = this._city;
     data['capitalAndPrefecture'] = this._prefecture;
     data['roomNumber'] = this._roomNumber;
