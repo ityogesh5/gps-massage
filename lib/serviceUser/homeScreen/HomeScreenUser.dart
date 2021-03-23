@@ -16,6 +16,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
@@ -1915,26 +1916,21 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // get therapist api
   getTherapists(String accessToken) async {
-    TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
     try {
-      final url = HealingMatchConstants.THERAPIST_LIST_URL;
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'x-access-token': '$accessToken'
-      };
-
-      final response = await http.post(url, headers: headers);
-      final getTherapists = json.decode(response.body);
-      print('Response body : ${response.body}');
-      listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
-      if (this.mounted) {
-        setState(() {
-          therapistUsers = listOfTherapistModel.therapistData.therapistUserList;
-          for (int i = 0; i < therapistUsers.length; i++) {}
-          print(
-              'Therapist data : ${listOfTherapistModel.therapistData.therapistUserList.length}');
-        });
-      }
+      var apiProvider = ServiceUserAPIProvider.getAllTherapistUsers();
+      // wait for 2 seconds to simulate loading of data
+      await Future.delayed(const Duration(seconds: 2));
+      apiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            therapistUsers = value.therapistData.therapistUserList;
+            for (int i = 0; i < therapistUsers.length; i++) {}
+            print('Provider data : ${value.therapistData.therapistUserList.length}');
+          });
+        }
+      }).catchError((onError) {
+        print('Catch Error Exception caught : ${onError.toString()}');
+      });
     } catch (e) {
       print('Exception caught : ${e.toString()}');
       throw Exception(e);
