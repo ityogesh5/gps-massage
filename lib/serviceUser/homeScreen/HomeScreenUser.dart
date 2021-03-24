@@ -21,6 +21,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Reposit
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:gps_massageapp/utils/PaginationSample.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -222,32 +223,24 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 
   getBannerImages() async {
     List<BannersList> bannerImages = [];
-    UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
     if (userBannerImages != null) {
       userBannerImages.clear();
       bannerImages.clear();
     }
 
     try {
-      final url = HealingMatchConstants.BANNER_IMAGES_URL;
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'x-access-token': '${HealingMatchConstants.accessToken}'
-      };
-
-      final response = await http.get(url, headers: headers);
-      final getBannerImages = json.decode(response.body);
-      print('Response body : ${response.body}');
-      _bannerModel = UserBannerImagesModel.fromJson(getBannerImages);
-      if (this.mounted) {
-        setState(() {
-          bannerImages = _bannerModel.data.bannersList;
-          for (var item in bannerImages) {
-            userBannerImages.add(item.bannerImageUrl);
-            print('Therapist banner images : ${item.bannerImageUrl}');
-          }
-        });
-      }
+      var bannerApiProvider = ServiceUserAPIProvider.getAllBannerImages();
+      bannerApiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            bannerImages = value.data.bannersList;
+            for (var item in bannerImages) {
+              userBannerImages.add(item.bannerImageUrl);
+              print('Therapist banner images : ${item.bannerImageUrl}');
+            }
+          });
+        }
+      });
     } catch (e) {
       print('Exception caught : ${e.toString()}');
       throw Exception(e);
@@ -389,6 +382,10 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   GestureDetector(
                     onTap: () {
                       NavigationRouter.switchToNearByProviderAndShop(context);
+                      /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => PaginationSample()));*/
                     },
                     child: Text(
                       'もっと見る',
@@ -1907,7 +1904,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;
-        getTherapists(accessToken);
+        getTherapists();
       } else {
         print('No prefs value found !!');
       }
@@ -1915,7 +1912,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   }
 
   // get therapist api
-  getTherapists(String accessToken) async {
+  getTherapists() async {
     try {
       var apiProvider = ServiceUserAPIProvider.getAllTherapistUsers();
       // wait for 2 seconds to simulate loading of data
@@ -1925,7 +1922,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
           setState(() {
             therapistUsers = value.therapistData.therapistUserList;
             for (int i = 0; i < therapistUsers.length; i++) {}
-            print('Provider data : ${value.therapistData.therapistUserList.length}');
+            print(
+                'Provider data : ${value.therapistData.therapistUserList.length}');
           });
         }
       }).catchError((onError) {

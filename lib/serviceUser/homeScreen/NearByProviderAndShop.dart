@@ -1,15 +1,160 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-class NearByProviderAndShop extends StatefulWidget {
+List<UserList> therapistListByType = [];
+
+class NearByProviderAndShop extends StatelessWidget {
   @override
-  _NearByProviderAndShopState createState() => _NearByProviderAndShopState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ProvidersScreen(),
+    );
+  }
 }
 
-class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
+class ProvidersScreen extends StatefulWidget {
+  @override
+  _ProvidersScreenState createState() => _ProvidersScreenState();
+}
+
+class _ProvidersScreenState extends State<ProvidersScreen> {
   double ratingsValue = 3.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => TherapistTypeBloc(
+            getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
+        child: Container(
+          child: InitialProvidersScreen(),
+        ),
+      ),
+    );
+  }
+}
+
+class InitialProvidersScreen extends StatefulWidget {
+  @override
+  State createState() {
+    return _InitialProvidersScreenState();
+  }
+}
+
+class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
+          listener: (context, state) {
+            if (state is GetTherapistTypeErrorState) {
+              return HomePageError();
+            }
+          },
+          child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
+            builder: (context, state) {
+              if (state is GetTherapistTypeLoadingState) {
+                print('Loading state');
+                return LoadProvidersPage();
+              } else if (state is GetTherapistTypeLoaderState) {
+                print('Loader widget');
+                return LoadInitialHomePage();
+              } else if (state is GetTherapistTypeLoadedState) {
+                print('Loaded users state');
+                return null;
+                /*return HomeScreenByMassageType(
+                    getTherapistByType: state.getTherapistsUsers);*/
+              } else if (state is GetTherapistTypeErrorState) {
+                print('Error state : ${state.message}');
+                return HomePageError();
+              } else
+                return Text(
+                  "エラーが発生しました！",
+                  style: TextStyle(color: Colors.white),
+                );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoadProvidersPage extends StatefulWidget {
+  @override
+  State createState() {
+    return _LoadProvidersPageState();
+  }
+}
+
+class _LoadProvidersPageState extends State<LoadProvidersPage> {
+  TherapistTypeBloc _therapistTypeBloc;
+  List<TherapistUserList> therapistUsers = [];
+  double ratingsValue = 3.0;
+  bool isLoading = false;
+  var _pageNumber = 2;
+  var _pageSize = 2;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+    getProvidersList();
+  }
+
+  getProvidersList() async {
+    therapistUsers.clear();
+    var providerListApiProvider =
+        ServiceUserAPIProvider.getAllTherapistsByLimit(_pageNumber, _pageSize);
+    providerListApiProvider.then((value) {
+      print(
+          'TherapistList data Size : ${value.therapistData.therapistUserList.length}');
+      if (this.mounted) {
+        setState(() {
+          therapistUsers = value.therapistData.therapistUserList;
+        });
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showOverlayLoader();
+  }
+
+  showOverlayLoader() {
+    Loader.show(context,
+        progressIndicator: LoadInitialHomePage(),
+        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
+    Future.delayed(Duration(seconds: 5), () {
+      Loader.hide();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +165,7 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
-            // NavigationRouter.switchToServiceUserBottomBar(context);
+            NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
@@ -34,250 +178,250 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
       ),
       body: Stack(
         children: [
-          ListView(
-            physics: BouncingScrollPhysics(),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
+          LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreData(),
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     physics: BouncingScrollPhysics(),
-                    itemCount: 12,
+                    itemCount: therapistUsers.length + 1,
                     itemBuilder: (context, index) {
-                      return Container(
-                        // height: MediaQuery.of(context).size.height * 0.22,
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        child: new Card(
-                          elevation: 0.0,
-                          color: Colors.grey[100],
-                          semanticContainer: true,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        child: SvgPicture.asset(
-                                          'assets/images_gps/gpsLogo.svg',
-                                          height: 35,
-                                          color: Colors.blue,
-                                        ),
-                                        radius: 30,
-                                        backgroundColor: Colors.white,
-                                      ),
-                                      FittedBox(
-                                        child: Text(
-                                          '1.5km園内',
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.grey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
+                      if (index == therapistUsers.length) {
+                        return _buildProgressIndicator();
+                      } else {
+                        return Container(
+                          // height: MediaQuery.of(context).size.height * 0.22,
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: new Card(
+                            elevation: 0.0,
+                            color: Colors.grey[100],
+                            semanticContainer: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
                                       children: [
-                                        Text(
-                                          '店舗名',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.45),
+                                        new Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: therapistUsers[index]
+                                                          .user
+                                                          .uploadProfileImgUrl !=
+                                                      null
+                                                  ? new DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: new NetworkImage(
+                                                          therapistUsers[index]
+                                                              .user
+                                                              .uploadProfileImgUrl),
+                                                    )
+                                                  : new DecorationImage(
+                                                      fit: BoxFit.none,
+                                                      image: new AssetImage(
+                                                          'assets/images_gps/user.png')),
+                                            )),
+                                        SizedBox(height: 5),
                                         FittedBox(
-                                          child: FavoriteButton(
-                                              iconSize: 40,
-                                              iconColor: Colors.red,
-                                              valueChanged: (_isFavorite) {
-                                                print(
-                                                    'Is Favorite : $_isFavorite');
-                                              }),
+                                          child: Text(
+                                            '1.5km園内',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    FittedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              padding: EdgeInsets.all(4),
-                                              child: Text('店舗')),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('出張')),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Colors.white,
-                                                        Colors.white,
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('コロナ対策実施')),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
+                                  ),
+                                  SizedBox(height: 5),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          ratingsValue.toString(),
-                                          style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
+                                        Row(
+                                          children: [
+                                            therapistUsers[index]
+                                                        .user
+                                                        .userName !=
+                                                    null
+                                                ? Text(
+                                                    '${therapistUsers[index].user.userName}',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                : Text(
+                                                    '店舗名',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                            Spacer(),
+                                            FavoriteButton(
+                                                iconSize: 40,
+                                                iconColor: Colors.red,
+                                                valueChanged: (_isFavorite) {
+                                                  print(
+                                                      'Is Favorite : $_isFavorite');
+                                                }),
+                                          ],
                                         ),
-                                        RatingBar.builder(
-                                          initialRating: 3,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 25,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color: Colors.black,
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            // print(rating);
-                                            setState(() {
-                                              ratingsValue = rating;
-                                            });
-                                            print(ratingsValue);
-                                          },
-                                        ),
-                                        Text('(1518)'),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      Colors.white,
-                                                      Colors.white,
-                                                    ]),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: Colors.grey[300],
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                                color: Colors.grey[200]),
-                                            child: Text('国家資格保有')),
                                         SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15),
-                                        Text(
-                                          '¥4,500',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 19),
+                                          height: 5,
                                         ),
-                                        Text(
-                                          '/60分',
-                                          style: TextStyle(color: Colors.grey),
+                                        FittedBox(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              therapistUsers[index]
+                                                          .user
+                                                          .businessForm
+                                                          .contains(
+                                                              '施術店舗あり 施術従業員あり') ||
+                                                      therapistUsers[index]
+                                                          .user
+                                                          .businessForm
+                                                          .contains(
+                                                              '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                      therapistUsers[index]
+                                                          .user
+                                                          .businessForm
+                                                          .contains(
+                                                              '施術店舗なし 施術従業員なし（個人)')
+                                                  ? Visibility(
+                                                      visible: true,
+                                                      child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(4),
+                                                          color: Colors.white,
+                                                          child: Text('店舗')),
+                                                    )
+                                                  : Container(),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Visibility(
+                                                visible: therapistUsers[index]
+                                                    .user
+                                                    .businessTrip,
+                                                child: Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    color: Colors.white,
+                                                    child: Text('出張')),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Visibility(
+                                                visible: therapistUsers[index]
+                                                    .user
+                                                    .coronaMeasure,
+                                                child: Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    color: Colors.white,
+                                                    child: Text('コロナ対策実施有無')),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              ratingsValue.toString(),
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                            RatingBar.builder(
+                                              initialRating: 3,
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemSize: 25,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                size: 5,
+                                                color: Colors.black,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                // print(rating);
+                                                setState(() {
+                                                  ratingsValue = rating;
+                                                });
+                                                print(ratingsValue);
+                                              },
+                                            ),
+                                            Text('(1518)'),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('コロナ対策実施')),
+                                            Spacer(),
+                                            therapistUsers[index].sixtyMin == 0
+                                                ? Text(
+                                                    '¥0',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
+                                                : Text(
+                                                    '¥${therapistUsers[index].sixtyMin}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  ),
+                                            Text('/60分')
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
-                                )
-                              ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     }),
-              ),
-            ],
+              ],
+            ),
           ),
           Positioned(
             top: 0.0,
@@ -299,6 +443,82 @@ class _NearByProviderAndShopState extends State<NearByProviderAndShop> {
       ),
     );
   }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new SpinKitChasingDots(color: Colors.lime),
+        ),
+      ),
+    );
+  }
+
+  _getMoreData() async {
+    try {
+      if (!isLoading) {
+        setState(() {
+          isLoading = true;
+          // call fetch more method here
+          _pageNumber++;
+          _pageSize++;
+          print('Page number : $_pageNumber Page Size : $_pageSize');
+          var providerListApiProvider =
+              ServiceUserAPIProvider.getMoreTherapistsByLimit(
+                  _pageNumber, _pageSize);
+          providerListApiProvider.then((value) {
+            if (value.therapistData.count == 0) {
+              setState(() {
+                isLoading = false;
+                print(
+                    'TherapistList data count is Zero : ${value.therapistData.therapistUserList.length}');
+              });
+            } else {
+              print(
+                  'TherapistList data Size : ${value.therapistData.therapistUserList.length}');
+              setState(() {
+                isLoading = false;
+                if (this.mounted) {
+                  therapistUsers.addAll(value.therapistData.therapistUserList);
+                }
+              });
+            }
+          });
+        });
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
+  }
+}
+
+// Loader HomePage
+class LoadInitialHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoadInitialHomePageState();
+  }
+}
+
+class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+        body: Container(
+          child: Center(
+            child: SpinKitRipple(color: Color.fromRGBO(200, 217, 33, 1)),
+          ),
+        ));
+  }
 }
 
 class MassageTypeChips extends StatefulWidget {
@@ -307,7 +527,7 @@ class MassageTypeChips extends StatefulWidget {
 }
 
 class _MassageTypeChipsState extends State<MassageTypeChips> {
-  List<String> _options = ['エステ', '整骨・整体）', 'リラクゼーション', 'フィットネス'];
+  List<String> _options = ['エステ', '整骨・整体', 'リラクゼーション', 'フィットネス'];
   int _selectedIndex;
 
   Widget _buildChips() {
@@ -357,5 +577,78 @@ class _MassageTypeChipsState extends State<MassageTypeChips> {
             ],
           )),
     );
+  }
+}
+
+class HomePageError extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _HomePageErrorState();
+  }
+}
+
+class _HomePageErrorState extends State<HomePageError> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Center(
+            child: InkWell(
+              splashColor: Colors.deepOrangeAccent,
+              highlightColor: Colors.limeAccent,
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      AntDesign.disconnect,
+                      color: Colors.deepOrangeAccent,
+                      size: 50,
+                    ),
+                    Text('インターネット接続を確認してください。',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Open Sans',
+                            color: Colors.black)),
+                    InkWell(
+                      splashColor: Colors.deepOrangeAccent,
+                      highlightColor: Colors.limeAccent,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(MaterialIcons.refresh),
+                            onPressed: () {
+                              BlocProvider.of<TherapistTypeBloc>(context).add(
+                                  RefreshEvent(
+                                      HealingMatchConstants.accessToken));
+                            },
+                          ),
+                          Text(
+                            'もう一度試してください。',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Open Sans',
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }

@@ -1,162 +1,204 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pagination_wrapper/flutter_pagination_wrapper.dart';
-import 'package:http/http.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
-const _endpointHost = '5f4487133fb92f0016753854.mockapi.io';
-const _endpointPaths = const ['api', 'v1', 'foods'];
+void main() => runApp(PaginationSample());
 
-void main() {
-  runApp(MyPaginationApp());
-}
-
-class MyPaginationApp extends StatelessWidget {
-  // This widget is the root of your application.
+class PaginationSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Pagination Wrapper',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(title: 'IncrementallyLoadingListView demo'),
     );
   }
 }
 
-/// The key used to access the [Paginator]'s state.
-final _key = GlobalKey<PaginatorState<FoodPage, String>>();
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key}) : super(key: key);
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Item> items;
+  bool _loadingMore;
+  bool _hasMoreItems;
+  int _maxItems = 30;
+  int _numItemsPage = 10;
+  Future _initialLoad;
+
+  Future _loadMoreItems() async {
+    final totalItems = items.length;
+    await Future.delayed(Duration(seconds: 3), () {
+      for (var i = 0; i < _numItemsPage; i++) {
+        items.add(Item('Item ${totalItems + i + 1}'));
+      }
+    });
+
+    _hasMoreItems = items.length < _maxItems;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initialLoad = Future.delayed(Duration(seconds: 3), () {
+      items = List<Item>();
+      for (var i = 0; i < _numItemsPage; i++) {
+        items.add(Item('Item ${i + 1}'));
+      }
+      _hasMoreItems = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
-        title: const Text('Shopping list'),
+        title: Text(widget.title),
       ),
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: Paginator<FoodPage, String>(
-          key: _key,
-          pageLoadFuture: _pageLoadFuture,
-          pageErrorChecker: _pageErrorChecker,
-          totalItemsGetter: _totalItemsGetter,
-          pageItemsGetter: _pageItemsGetter,
-          itemListTileBuilder: _itemListTileBuilder,
-          loadingListTileBuilder: _loadingListTileBuilder,
-          errorListTileBuilder: _errorListTileBuilder,
-          emptyListWidgetBuilder: _emptyListWidgetBuilder,
-          listBuilder: (context, itemBuilder, itemCount) {
-            return ListView.builder(
-              itemBuilder: itemBuilder,
-              itemCount: itemCount,
-            );
-          },
-        ),
+      body: FutureBuilder(
+        future: _initialLoad,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            case ConnectionState.done:
+              return null;
+            default:
+              return Text('Something went wrong');
+          }
+        },
       ),
     );
-  }
-
-  /// Gets page data.
-  /// Generated with https://www.mockaroo.com/
-  /// Served by https://mockapi.io
-  Future<FoodPage> _pageLoadFuture(int pageNumber) async {
-    const pageSize = '10'; // Use a page size of 10 for the request
-
-    try {
-      // Grab and decode the JSON from the API
-      final List<dynamic> apiResponse = jsonDecode(
-        (await get(
-          Uri(
-            scheme: 'https',
-            host: _endpointHost,
-            pathSegments: _endpointPaths,
-            queryParameters: {
-              'limit': pageSize,
-              'page': pageNumber.toString(),
-            },
-          ),
-        ))
-            .body,
-      );
-
-      // Create the FoodPage object
-      // Usually, this total count would be returned by the API.
-      // The mock API used in this example doesn't do that, so we hardcode 40.
-      return FoodPage(
-        40,
-        apiResponse.map<String>((e) => e['food']).toList(growable: false),
-      );
-    } on SocketException {
-      // If there's a network problem, make a new page with
-      // a null item array.
-      // This will be checked later.
-      return FoodPage(0, null);
-    }
-  }
-
-  // Checks for page errors
-  bool _pageErrorChecker(FoodPage page) => page.foods == null;
-
-  // Return the total count of items
-  int _totalItemsGetter(FoodPage page) => page.totalCount;
-
-  // Return the list of food items
-  List<String> _pageItemsGetter(FoodPage page) => page.foods;
-
-  // Build a list tile for an item
-  Widget _itemListTileBuilder(BuildContext context, String food, int index) {
-    return ListTile(
-      leading: Text(food),
-    );
-  }
-
-  // Build a loading tile
-  Widget _loadingListTileBuilder(BuildContext context) {
-    return const Align(
-      alignment: Alignment.center,
-      child: const Padding(
-        padding: const EdgeInsets.all(16),
-        child: const SizedBox(
-          width: 24,
-          height: 24,
-          child: const CircularProgressIndicator(
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Build an error tile, to be shown at the end of the list when there's a network error.
-  Widget _errorListTileBuilder(BuildContext context, FoodPage page, int index) {
-    return const Align(
-      alignment: Alignment.topCenter,
-      child: const Text('There was an error fetching the data.'),
-    );
-  }
-
-  // Build a widget to show when there are no items
-  Widget _emptyListWidgetBuilder(BuildContext context, FoodPage page) {
-    return const Center(
-      child: const Text('No items.'),
-    );
-  }
-
-  Future<void> _onRefresh() async {
-    // Call the [Paginator] state's refresh method
-    _key.currentState.refresh();
   }
 }
 
-class FoodPage {
-  final totalCount;
-  final List<String> foods;
+class ItemCard extends StatelessWidget {
+  const ItemCard({
+    Key key,
+    @required this.item,
+  }) : super(key: key);
 
-  FoodPage(this.totalCount, this.foods);
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image.network(item.avatarUrl),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                      child: Text(item.name),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+                child: Text(item.message),
+              )
+            ],
+          ),
+        ),
+      ),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => ItemDetailsPage(item)),
+      ),
+    );
+  }
+}
+
+class PlaceholderItemCard extends StatelessWidget {
+  const PlaceholderItemCard({Key key, @required this.item}) : super(key: key);
+
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Shimmer(
+          color: Colors.lime,
+          child: Column(
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 60.0,
+                    height: 60.0,
+                    color: Colors.white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+                    child: Container(
+                      color: Colors.white,
+                      child: Text(
+                        item.name,
+                        style: TextStyle(color: Colors.transparent),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+                child: Container(
+                  color: Colors.white,
+                  child: Text(
+                    item.message,
+                    style: TextStyle(color: Colors.transparent),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemDetailsPage extends StatelessWidget {
+  final Item item;
+  const ItemDetailsPage(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.yellow,
+        appBar: AppBar(
+          title: Text(item.name),
+        ),
+        body: Container(
+          child: Text(item.message),
+        ));
+  }
+}
+
+class Item {
+  final String name;
+  final String avatarUrl = 'http://via.placeholder.com/60x60';
+  final String message =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+  Item(this.name);
 }
