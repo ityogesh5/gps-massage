@@ -21,7 +21,6 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Reposit
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
-import 'package:gps_massageapp/utils/PaginationSample.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -452,7 +451,6 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
-
   @override
   Widget build(BuildContext context) {
     return widget.getTherapistByType != null
@@ -1324,10 +1322,11 @@ class BuildMassageTypeChips extends StatefulWidget {
 class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
     with TickerProviderStateMixin {
   TherapistTypeBloc therapistTypeBloc;
+  var _pageNumber = 1;
+  var _pageSize = 10;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -1364,7 +1363,7 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
           });
           therapistTypeBloc.add(FetchTherapistTypeEvent(
               HealingMatchConstants.accessToken,
-              HealingMatchConstants.serviceTypeValue));
+              HealingMatchConstants.serviceTypeValue,_pageNumber,_pageSize));
           print('Access token : ${HealingMatchConstants.accessToken}');
           print('Type value : ${HealingMatchConstants.serviceTypeValue}');
         },
@@ -1892,6 +1891,9 @@ class BuildProviderUsers extends StatefulWidget {
 }
 
 class _BuildProviderUsersState extends State<BuildProviderUsers> {
+  var _pageNumber = 1;
+  var _pageSize = 1;
+
   @override
   void initState() {
     super.initState();
@@ -1913,8 +1915,10 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // get therapist api
   getTherapists() async {
+    therapistUsers.clear();
     try {
-      var apiProvider = ServiceUserAPIProvider.getAllTherapistUsers();
+      var apiProvider = ServiceUserAPIProvider.getAllTherapistsByLimit(
+          _pageNumber, _pageSize);
       // wait for 2 seconds to simulate loading of data
       await Future.delayed(const Duration(seconds: 2));
       apiProvider.then((value) {

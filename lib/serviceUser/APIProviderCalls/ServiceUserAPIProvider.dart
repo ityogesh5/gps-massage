@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,8 @@ class ServiceUserAPIProvider {
   static Response response;
   static TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
+  static TherapistsByTypeModel _therapistsByTypeModel =
+      new TherapistsByTypeModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers() async {
@@ -35,10 +38,10 @@ class ServiceUserAPIProvider {
 
   // get limit of therapist users
   static Future<TherapistUsersModel> getAllTherapistsByLimit(
-      int pageNumber, int sizeLimit) async {
+      int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/user/therapistUserList?page=$pageNumber&size=$sizeLimit';
+          'http://106.51.49.160:9094/api/user/therapistUserList?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -58,27 +61,28 @@ class ServiceUserAPIProvider {
   }
 
   // get more of therapist users
-  static Future<TherapistUsersModel> getMoreTherapistsByLimit(
-      int pageNumber, int sizeLimit) async {
+  static Future<TherapistsByTypeModel> getTherapistsByTypeLimit(
+      int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/user/therapistUserList?page=$pageNumber&size=$sizeLimit';
+          'http://106.51.49.160:9094/api/user/therapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
       };
-      final response = await http.post(url, headers: headers);
-      final getTherapists = json.decode(response.body);
-      listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
-      print('More Response body : ${response.body}');
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "type": HealingMatchConstants.serviceTypeValue,
+          }));
+      final getTherapistByType = json.decode(response.body);
+      _therapistsByTypeModel =
+          TherapistsByTypeModel.fromJson(getTherapistByType);
+      print('Therapist Type Response body : ${response.body}');
     } catch (e) {
       print(e.toString());
     }
-    /*return (response.data).map((therapistUsers) {
-      print('Inserting >>> $therapistUsers');
-      //DBProvider.db.createTherapistUsers(therapistUsers);
-    }).toList();*/
-    return listOfTherapistModel;
+    return _therapistsByTypeModel;
   }
 
   // get home screen user banner images

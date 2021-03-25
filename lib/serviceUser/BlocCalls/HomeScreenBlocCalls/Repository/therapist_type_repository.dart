@@ -9,7 +9,7 @@ abstract class GetTherapistTypeRepository {
   int massageTypeValue = HealingMatchConstants.serviceTypeValue;
 
   Future<List<UserList>> getTherapistProfilesByType(
-      String accessToken, int massageTypeValue);
+      String accessToken, int massageTypeValue, int pageNumber,int pageSize);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -18,9 +18,9 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
 
   @override
   Future<List<UserList>> getTherapistProfilesByType(
-      String accessToken, int massageTypeValue) async {
+      String accessToken, int massageTypeValue,int pageNumber,int pageSize) async {
     try {
-      final url = HealingMatchConstants.THERAPIST_LIST_BY_TYPE;
+      final url = 'http://106.51.49.160:9094/api/user/therapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '$accessToken'

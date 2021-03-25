@@ -5,11 +5,13 @@ abstract class TherapistTypeEvent extends Equatable {}
 class FetchTherapistTypeEvent extends TherapistTypeEvent {
   final accessToken;
   final massageTypeValue;
+  final pageNumber;
+  final pageSize;
 
-  FetchTherapistTypeEvent(this.accessToken, this.massageTypeValue);
+  FetchTherapistTypeEvent(this.accessToken, this.massageTypeValue,this.pageNumber,this.pageSize);
 
   @override
-  List<Object> get props => [accessToken, massageTypeValue];
+  List<Object> get props => [accessToken, massageTypeValue,pageNumber,pageSize];
 }
 
 class RefreshEvent extends TherapistTypeEvent {

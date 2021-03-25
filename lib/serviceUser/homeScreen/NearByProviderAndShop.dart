@@ -15,6 +15,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<UserList> therapistListByType = [];
 
@@ -84,9 +85,8 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
                 return LoadInitialHomePage();
               } else if (state is GetTherapistTypeLoadedState) {
                 print('Loaded users state');
-                return null;
-                /*return HomeScreenByMassageType(
-                    getTherapistByType: state.getTherapistsUsers);*/
+                return LoadProvidersByType(
+                    getTherapistByType: state.getTherapistsUsers);
               } else if (state is GetTherapistTypeErrorState) {
                 print('Error state : ${state.message}');
                 return HomePageError();
@@ -100,6 +100,32 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
         ),
       ),
     );
+  }
+}
+
+// Loader HomePage
+class LoadInitialHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoadInitialHomePageState();
+  }
+}
+
+class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+        body: Container(
+          child: Center(
+            child: SpinKitRipple(color: Color.fromRGBO(200, 217, 33, 1)),
+          ),
+        ));
   }
 }
 
@@ -450,7 +476,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
       child: new Center(
         child: new Opacity(
           opacity: isLoading ? 1.0 : 00,
-          child: new SpinKitChasingDots(color: Colors.lime),
+          child: new SpinKitPulse(color: Colors.lime),
         ),
       ),
     );
@@ -466,7 +492,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
           _pageSize++;
           print('Page number : $_pageNumber Page Size : $_pageSize');
           var providerListApiProvider =
-              ServiceUserAPIProvider.getMoreTherapistsByLimit(
+              ServiceUserAPIProvider.getAllTherapistsByLimit(
                   _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
             if (value.therapistData.count == 0) {
@@ -495,29 +521,384 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   }
 }
 
-// Loader HomePage
-class LoadInitialHomePage extends StatefulWidget {
+// Load providers by Massage type
+class LoadProvidersByType extends StatefulWidget {
+  List<UserList> getTherapistByType;
+
+  LoadProvidersByType({Key key, @required this.getTherapistByType})
+      : super(key: key);
+
   @override
-  State<StatefulWidget> createState() {
-    return _LoadInitialHomePageState();
+  State createState() {
+    return _LoadProvidersByTypeState();
   }
 }
 
-class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
+class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
+  // ignore: close_sinks
+  TherapistTypeBloc therapistTypeBloc;
+  double ratingsValue = 3.0;
+  bool isLoading = false;
+  var _pageNumberType = 1;
+  var _pageSizeType = 10;
+
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: Container(
-          child: Center(
-            child: SpinKitRipple(color: Color.fromRGBO(200, 217, 33, 1)),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: IconButton(
+          onPressed: () {
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          },
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+        ),
+        centerTitle: true,
+        title: Text(
+          '近くのセラピスト＆お店',
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+      ),
+      body: Stack(
+        children: [
+          LazyLoadScrollView(
+            isLoading: isLoading,
+            onEndOfPage: () => _getMoreDataByType(),
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: widget.getTherapistByType.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == widget.getTherapistByType.length) {
+                        return _buildProgressIndicator();
+                      } else {
+                        return Container(
+                          // height: MediaQuery.of(context).size.height * 0.22,
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: new Card(
+                            elevation: 0.0,
+                            color: Colors.grey[100],
+                            semanticContainer: true,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        new Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .uploadProfileImgUrl !=
+                                                      null
+                                                  ? new DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: new NetworkImage(widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .uploadProfileImgUrl),
+                                                    )
+                                                  : new DecorationImage(
+                                                      fit: BoxFit.none,
+                                                      image: new AssetImage(
+                                                          'assets/images_gps/user.png')),
+                                            )),
+                                        SizedBox(height: 5),
+                                        FittedBox(
+                                          child: Text(
+                                            '1.5km園内',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            widget.getTherapistByType[index]
+                                                        .user.userName !=
+                                                    null
+                                                ? Text(
+                                                    '${widget.getTherapistByType[index].user.userName}',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                : Text(
+                                                    '店舗名',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                            Spacer(),
+                                            FavoriteButton(
+                                                iconSize: 40,
+                                                iconColor: Colors.red,
+                                                valueChanged: (_isFavorite) {
+                                                  print(
+                                                      'Is Favorite : $_isFavorite');
+                                                }),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        FittedBox(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              widget.getTherapistByType[index]
+                                                          .user.businessForm
+                                                          .contains(
+                                                              '施術店舗あり 施術従業員あり') ||
+                                                      widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .businessForm
+                                                          .contains(
+                                                              '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                      widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .businessForm
+                                                          .contains(
+                                                              '施術店舗なし 施術従業員なし（個人)')
+                                                  ? Visibility(
+                                                      visible: true,
+                                                      child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(4),
+                                                          color: Colors.white,
+                                                          child: Text('店舗')),
+                                                    )
+                                                  : Container(),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Visibility(
+                                                visible: widget
+                                                    .getTherapistByType[index]
+                                                    .user
+                                                    .businessTrip,
+                                                child: Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    color: Colors.white,
+                                                    child: Text('出張')),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Visibility(
+                                                visible: widget
+                                                    .getTherapistByType[index]
+                                                    .user
+                                                    .coronaMeasure,
+                                                child: Container(
+                                                    padding: EdgeInsets.all(4),
+                                                    color: Colors.white,
+                                                    child: Text('コロナ対策実施有無')),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              ratingsValue.toString(),
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                            RatingBar.builder(
+                                              initialRating: 3,
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemSize: 25,
+                                              itemPadding: EdgeInsets.symmetric(
+                                                  horizontal: 4.0),
+                                              itemBuilder: (context, _) => Icon(
+                                                Icons.star,
+                                                size: 5,
+                                                color: Colors.black,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                // print(rating);
+                                                setState(() {
+                                                  ratingsValue = rating;
+                                                });
+                                                print(ratingsValue);
+                                              },
+                                            ),
+                                            Text('(1518)'),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('コロナ対策実施')),
+                                            Spacer(),
+                                            widget.getTherapistByType[index]
+                                                        .sixtyMin ==
+                                                    0
+                                                ? Text(
+                                                    '¥0',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
+                                                : Text(
+                                                    '¥${widget.getTherapistByType[index].sixtyMin}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  ),
+                                            Text('/60分')
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    }),
+              ],
+            ),
           ),
-        ));
+          Positioned(
+            top: 0.0,
+            right: 20,
+            left: 20,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.082,
+              width: MediaQuery.of(context).size.width * 0.15,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+              child: Center(child: MassageTypeChips()),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new SpinKitPulse(color: Colors.lime),
+        ),
+      ),
+    );
+  }
+
+  _getMoreDataByType() async {
+    try {
+      if (!isLoading) {
+        setState(() {
+          isLoading = true;
+          // call fetch more method here
+          _pageNumberType++;
+          //_pageSizeType++;
+          print('Page number : $_pageNumberType Page Size : $_pageSizeType');
+          var providerListApiProvider =
+              ServiceUserAPIProvider.getTherapistsByTypeLimit(
+                  _pageNumberType, _pageSizeType);
+          providerListApiProvider.then((value) {
+            if (value.therapistData.count == 0) {
+              setState(() {
+                isLoading = false;
+                print(
+                    'TherapistList data count is Zero : ${value.therapistData.userList.length}');
+              });
+            } else {
+              print(
+                  'TherapistList data Size : ${value.therapistData.userList.length}');
+              setState(() {
+                isLoading = false;
+                if (this.mounted) {
+                  widget.getTherapistByType.addAll(value.therapistData.userList);
+                }
+              });
+            }
+          });
+        });
+      }
+      //print('Therapist users data Size : ${therapistUsers.length}');
+    } catch (e) {
+      print('Exception more data' + e.toString());
+    }
   }
 }
 
@@ -529,6 +910,15 @@ class MassageTypeChips extends StatefulWidget {
 class _MassageTypeChipsState extends State<MassageTypeChips> {
   List<String> _options = ['エステ', '整骨・整体', 'リラクゼーション', 'フィットネス'];
   int _selectedIndex;
+  TherapistTypeBloc therapistTypeBloc;
+  var _pageNumber = 1;
+  var _pageSize = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
 
   Widget _buildChips() {
     List<Widget> chips = new List();
@@ -544,8 +934,25 @@ class _MassageTypeChipsState extends State<MassageTypeChips> {
             if (selected) {
               _selectedIndex = i;
               print('Chip value : ${_options[_selectedIndex].toString()}');
+              if (selected && i == 0) {
+                HealingMatchConstants.serviceTypeValue = 1;
+              } else if (selected && i == 1) {
+                HealingMatchConstants.serviceTypeValue = 2;
+              } else if (selected && i == 2) {
+                HealingMatchConstants.serviceTypeValue = 3;
+              } else if (selected && i == 3) {
+                HealingMatchConstants.serviceTypeValue = 4;
+              } else {
+                print(
+                    'Chip value else loop : ${_options[_selectedIndex].toString()}');
+              }
             }
           });
+          therapistTypeBloc.add(FetchTherapistTypeEvent(
+              HealingMatchConstants.accessToken,
+              HealingMatchConstants.serviceTypeValue,_pageNumber,_pageSize));
+          print('Access token : ${HealingMatchConstants.accessToken}');
+          print('Type value : ${HealingMatchConstants.serviceTypeValue}');
         },
       );
 
