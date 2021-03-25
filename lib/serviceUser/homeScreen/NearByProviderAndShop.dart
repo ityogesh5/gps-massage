@@ -1042,7 +1042,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
       );
 
       chips.add(Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8), child: choiceChip));
+          padding: EdgeInsets.symmetric(horizontal: 2), child: choiceChip));
     }
 
     return ListView(
