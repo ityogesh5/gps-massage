@@ -16,8 +16,12 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityLi
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
+import 'package:gps_massageapp/models/customModels/userSearchAddAddress.dart';
 import 'package:gps_massageapp/models/customModels/searchAddAddress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+List<AddUserSearchAddress> otherUserAddress = new List<AddUserSearchAddress>();
 
 class SearchScreenUser extends StatefulWidget {
   @override
@@ -219,7 +223,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             Color.fromRGBO(0, 0, 0, 1),
                                         iconSize: 35,
                                         onPressed: () {
-                                          /*NavigationRouter.switchToUserAddAddressScreen(context);*/
+                                          NavigationRouter
+                                              .switchToUserAddAddressScreen(
+                                                  context);
                                         },
                                       ),
                                     ),
@@ -1087,5 +1093,1066 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ],
       ),
     );
+  }
+}
+
+class AddAddressScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new _AddAddressScreenState();
+}
+
+class _AddAddressScreenState extends State<AddAddressScreen> {
+  final Geolocator addAddressgeoLocator = Geolocator()
+    ..forceAndroidLocationManager;
+  Position _addAddressPosition;
+  String _addedAddress = '';
+  String _myAddedAddressInputType = '';
+  String _myAddedPrefecture = '';
+  String _myAddedCity = '';
+  Placemark userGPSAddressPlaceMark;
+  Placemark userManualAddressPlaceMark;
+  final _addedAddressTypeKey = new GlobalKey<FormState>();
+  final _addedPrefectureKey = new GlobalKey<FormState>();
+  final _addedCityKey = new GlobalKey<FormState>();
+  final additionalAddressController = new TextEditingController();
+  final addedBuildingNameController = new TextEditingController();
+  final addedUserAreaController = new TextEditingController();
+  final addedRoomNumberController = new TextEditingController();
+  List<dynamic> addedAddressStateDropDownValues = List();
+  List<dynamic> addedAddressCityDropDownValues = List();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  AddUserSearchAddress addUserAddress;
+
+  StatesListResponseModel states;
+  CitiesListResponseModel cities;
+  var _addedAddressPrefId;
+  bool _isAddedGPSLocation = false;
+  bool _showRequiredFields = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            )),
+      ),
+      backgroundColor: Colors.grey[200],
+      body: Center(
+        child: new AnimatedContainer(
+            // Define how long the animation should take.
+            duration: Duration(seconds: 3),
+            // Provide an optional curve to make the animation feel smoother.
+            curve: Curves.bounceIn,
+            width: MediaQuery.of(context).size.width * 0.90,
+            decoration: new BoxDecoration(
+              borderRadius: new BorderRadius.circular(16.0),
+              color: Colors.grey[300],
+              boxShadow: [
+                new BoxShadow(
+                    color: Colors.lime,
+                    blurRadius: 3.0,
+                    offset: new Offset(1.0, 1.0))
+              ],
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            '住所を追加する',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Form(
+                          key: _addedAddressTypeKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                child: DropDownFormField(
+                                  hintText: '検索地点の登録',
+                                  value: _myAddedAddressInputType,
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _myAddedAddressInputType = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _myAddedAddressInputType = value;
+                                      if (_myAddedAddressInputType != null &&
+                                          _myAddedAddressInputType
+                                              .contains('現在地を取得する')) {
+                                        additionalAddressController.clear();
+                                        addedBuildingNameController.clear();
+                                        addedRoomNumberController.clear();
+                                        _isAddedGPSLocation = true;
+                                        // _additionalAddressCurrentLocation();
+                                      } else if (_myAddedAddressInputType !=
+                                              null &&
+                                          _myAddedAddressInputType
+                                              .contains('直接入力する')) {
+                                        _isAddedGPSLocation = false;
+                                        addedAddressCityDropDownValues.clear();
+                                        addedAddressStateDropDownValues.clear();
+                                        addedBuildingNameController.clear();
+                                        addedRoomNumberController.clear();
+                                        _myAddedPrefecture = '';
+                                        _myAddedCity = '';
+                                        _getAddedAddressStates();
+                                      }
+                                      print(
+                                          'Added Address type : ${_myAddedAddressInputType.toString()}');
+                                    });
+                                  },
+                                  dataSource: [
+                                    {
+                                      "showDisplay": "現在地を取得する",
+                                      "value": "現在地を取得する",
+                                    },
+                                    {
+                                      "showDisplay": "直接入力する",
+                                      "value": "直接入力する",
+                                    },
+                                  ],
+                                  textField: 'showDisplay',
+                                  valueField: 'value',
+                                ),
+                              ),
+                              _myAddedAddressInputType.contains('現在地を取得する')
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Visibility(
+                                          visible: _isAddedGPSLocation,
+                                          child: Container(
+                                            // height: MediaQuery.of(context).size.height * 0.07,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.85,
+                                            child: TextFormField(
+                                              controller:
+                                                  additionalAddressController,
+                                              decoration: new InputDecoration(
+                                                filled: true,
+                                                fillColor: ColorConstants
+                                                    .formFieldFillColor,
+                                                hintText: '現在地を取得する',
+                                                /*hintText: '現在地を取得する *',
+                                        hintStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                        ),*/
+                                                suffixIcon: IconButton(
+                                                  icon: Icon(Icons.location_on,
+                                                      size: 28),
+                                                  onPressed: () {
+                                                    _additionalAddressCurrentLocation();
+                                                  },
+                                                ),
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey[400],
+                                                    fontSize: 14),
+                                                focusColor: Colors.grey[100],
+                                                border: HealingMatchConstants
+                                                    .textFormInputBorder,
+                                                focusedBorder:
+                                                    HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                disabledBorder:
+                                                    HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                enabledBorder:
+                                                    HealingMatchConstants
+                                                        .textFormInputBorder,
+                                              ),
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                              // validator: (value) => _validateEmail(value),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.85,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Expanded(
+                                                child: Container(
+                                                  // height: MediaQuery.of(context).size.height * 0.07,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.39,
+                                                  child: TextFormField(
+                                                    //enableInteractiveSelection: false,
+                                                    // keyboardType: TextInputType.number,
+                                                    autofocus: false,
+                                                    controller:
+                                                        addedBuildingNameController,
+                                                    decoration:
+                                                        new InputDecoration(
+                                                      filled: true,
+                                                      fillColor: ColorConstants
+                                                          .formFieldFillColor,
+                                                      labelText: '建物名',
+                                                      /*hintText: 'ビル名 *',
+                                                hintStyle: TextStyle(
+                                                  color: Colors.grey[400],
+                                                ),*/
+                                                      labelStyle: TextStyle(
+                                                          color:
+                                                              Colors.grey[400],
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontSize: 14),
+                                                      focusColor:
+                                                          Colors.grey[100],
+                                                      border: HealingMatchConstants
+                                                          .textFormInputBorder,
+                                                      focusedBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                      disabledBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                      enabledBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                    ),
+                                                    // validator: (value) => _validateEmail(value),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Center(
+                                                  child: Container(
+                                                    // height: MediaQuery.of(context).size.height * 0.07,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.39,
+                                                    child: TextFormField(
+                                                      //enableInteractiveSelection: false,
+                                                      autofocus: false,
+                                                      maxLength: 4,
+                                                      controller:
+                                                          addedRoomNumberController,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                        counterText: '',
+                                                        filled: true,
+                                                        fillColor: ColorConstants
+                                                            .formFieldFillColor,
+                                                        labelText: '部屋番号',
+                                                        /*hintText: '都、県選 *',
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey[400],
+                                                  ),*/
+                                                        labelStyle: TextStyle(
+                                                            color: Colors
+                                                                .grey[400],
+                                                            fontFamily:
+                                                                'NotoSansJP',
+                                                            fontSize: 14),
+                                                        focusColor:
+                                                            Colors.grey[100],
+                                                        border: HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                        focusedBorder:
+                                                            HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                        disabledBorder:
+                                                            HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                        enabledBorder:
+                                                            HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                      ),
+                                                      // validator: (value) => _validateEmail(value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : _myAddedAddressInputType.contains('直接入力する')
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(height: 10),
+                                            Visibility(
+                                              visible: _isAddedGPSLocation,
+                                              child: Container(
+                                                // height: MediaQuery.of(context).size.height * 0.07,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.85,
+                                                child: TextFormField(
+                                                  controller:
+                                                      additionalAddressController,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                    filled: true,
+                                                    fillColor: ColorConstants
+                                                        .formFieldFillColor,
+                                                    hintText: '現在地を取得する',
+                                                    /*hintText: '現在地を取得する *',
+                                        hintStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                        ),*/
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(
+                                                          Icons.location_on,
+                                                          size: 28),
+                                                      onPressed: () {
+                                                        _additionalAddressCurrentLocation();
+                                                      },
+                                                    ),
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey[400],
+                                                        fontSize: 14),
+                                                    focusColor:
+                                                        Colors.grey[100],
+                                                    border: HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                    focusedBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    disabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    enabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                  ),
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  // validator: (value) => _validateEmail(value),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              child: Form(
+                                                key: _addedPrefectureKey,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Center(
+                                                          child:
+                                                              addedAddressStateDropDownValues !=
+                                                                      null
+                                                                  ? Container(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.39,
+                                                                      child: DropDownFormField(
+                                                                          hintText: '府県',
+                                                                          value: _myAddedPrefecture,
+                                                                          onSaved: (value) {
+                                                                            setState(() {
+                                                                              _myAddedPrefecture = value;
+                                                                            });
+                                                                          },
+                                                                          onChanged: (value) {
+                                                                            setState(() {
+                                                                              _myAddedPrefecture = value;
+                                                                              print('Prefecture value : ${_myAddedPrefecture.toString()}');
+                                                                              _addedAddressPrefId = addedAddressStateDropDownValues.indexOf(value) + 1;
+                                                                              print('prefID : ${_addedAddressPrefId.toString()}');
+                                                                              addedAddressCityDropDownValues.clear();
+                                                                              _myAddedCity = '';
+                                                                              _getAddedAddressCities(_addedAddressPrefId);
+                                                                            });
+                                                                          },
+                                                                          dataSource: addedAddressStateDropDownValues,
+                                                                          isList: true,
+                                                                          textField: 'display',
+                                                                          valueField: 'value'),
+                                                                    )
+                                                                  : Container(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.39,
+                                                                      child: DropDownFormField(
+                                                                          hintText: '府県',
+                                                                          value: _myAddedPrefecture,
+                                                                          onSaved: (value) {
+                                                                            setState(() {
+                                                                              _myAddedPrefecture = value;
+                                                                            });
+                                                                          },
+                                                                          dataSource: [],
+                                                                          isList: true,
+                                                                          textField: 'display',
+                                                                          valueField: 'value'),
+                                                                    )),
+                                                    ),
+                                                    SizedBox(width: 3),
+                                                    Expanded(
+                                                      child: Form(
+                                                          key: _addedCityKey,
+                                                          child:
+                                                              addedAddressCityDropDownValues !=
+                                                                      null
+                                                                  ? Container(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.39,
+                                                                      child: DropDownFormField(
+                                                                          hintText: '市',
+                                                                          value: _myAddedCity,
+                                                                          onSaved: (value) {
+                                                                            setState(() {
+                                                                              _myAddedCity = value;
+                                                                            });
+                                                                          },
+                                                                          onChanged: (value) {
+                                                                            setState(() {
+                                                                              _myAddedCity = value;
+                                                                              //print(_myBldGrp.toString());
+                                                                            });
+                                                                          },
+                                                                          dataSource: addedAddressCityDropDownValues,
+                                                                          isList: true,
+                                                                          textField: 'display',
+                                                                          valueField: 'value'),
+                                                                    )
+                                                                  : Container(
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.39,
+                                                                      child: DropDownFormField(
+                                                                          hintText: '市',
+                                                                          value: _myAddedCity,
+                                                                          onSaved: (value) {
+                                                                            setState(() {
+                                                                              _myAddedCity = value;
+                                                                            });
+                                                                          },
+                                                                          dataSource: [],
+                                                                          isList: true,
+                                                                          textField: 'display',
+                                                                          valueField: 'value'),
+                                                                    )),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Center(
+                                                      child: Container(
+                                                        // height: MediaQuery.of(context).size.height * 0.07,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.39,
+                                                        child: TextFormField(
+                                                          //enableInteractiveSelection: false,
+                                                          autofocus: false,
+                                                          controller:
+                                                              addedUserAreaController,
+                                                          decoration:
+                                                              new InputDecoration(
+                                                            filled: true,
+                                                            fillColor:
+                                                                ColorConstants
+                                                                    .formFieldFillColor,
+                                                            labelText: '丁目, 番地',
+                                                            /*hintText: '都、県選 *',
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey[400],
+                                                  ),*/
+                                                            labelStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontSize: 14),
+                                                            focusColor: Colors
+                                                                .grey[100],
+                                                            border: HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                            focusedBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            disabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            enabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                          ),
+                                                          // validator: (value) => _validateEmail(value),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      // height: MediaQuery.of(context).size.height * 0.07,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.39,
+                                                      child: TextFormField(
+                                                        //enableInteractiveSelection: false,
+                                                        // keyboardType: TextInputType.number,
+                                                        autofocus: false,
+                                                        controller:
+                                                            addedBuildingNameController,
+                                                        decoration:
+                                                            new InputDecoration(
+                                                          filled: true,
+                                                          fillColor: ColorConstants
+                                                              .formFieldFillColor,
+                                                          labelText: '建物名',
+                                                          /*hintText: 'ビル名 *',
+                                                hintStyle: TextStyle(
+                                                  color: Colors.grey[400],
+                                                ),*/
+                                                          labelStyle: TextStyle(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontFamily:
+                                                                  'NotoSansJP',
+                                                              fontSize: 14),
+                                                          focusColor:
+                                                              Colors.grey[100],
+                                                          border: HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                          focusedBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          disabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          enabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                        ),
+                                                        // validator: (value) => _validateEmail(value),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 15),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Center(
+                                                      child: Container(
+                                                        // height: MediaQuery.of(context).size.height * 0.07,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.39,
+                                                        child: TextFormField(
+                                                          //enableInteractiveSelection: false,
+                                                          autofocus: false,
+                                                          maxLength: 4,
+                                                          controller:
+                                                              addedRoomNumberController,
+                                                          decoration:
+                                                              new InputDecoration(
+                                                            counterText: '',
+                                                            filled: true,
+                                                            fillColor:
+                                                                ColorConstants
+                                                                    .formFieldFillColor,
+                                                            labelText: '部屋番号',
+                                                            labelStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontFamily:
+                                                                    'NotoSansJP',
+                                                                fontSize: 14),
+                                                            focusColor: Colors
+                                                                .grey[100],
+                                                            border: HealingMatchConstants
+                                                                .textFormInputBorder,
+                                                            focusedBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            disabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                            enabledBorder:
+                                                                HealingMatchConstants
+                                                                    .textFormInputBorder,
+                                                          ),
+                                                          // validator: (value) => _validateEmail(value),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: new RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0),
+                              //side: BorderSide(color: Colors.black),
+                            ),
+                            color: Colors.lime,
+                            onPressed: () {
+                              _addUserAddress();
+                            },
+                            child: new Text(
+                              '追加',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              // child:
+            )),
+      ),
+    );
+  }
+
+  // Get current address from Latitude Longitude
+  _additionalAddressCurrentLocation() {
+    ProgressDialogBuilder.showLocationProgressDialog(context);
+    addAddressgeoLocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _addAddressPosition = position;
+      });
+      _getAdditionalAddressLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAdditionalAddressLatLng() async {
+    try {
+      List<Placemark> p = await addAddressgeoLocator.placemarkFromCoordinates(
+          _addAddressPosition.latitude, _addAddressPosition.longitude);
+
+      userGPSAddressPlaceMark = p[0];
+
+      HealingMatchConstants.addedCurrentLatitude = _addAddressPosition.latitude;
+      HealingMatchConstants.addedCurrentLongitude =
+          _addAddressPosition.longitude;
+
+      setState(() {
+        _addedAddress =
+            '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
+            '${userGPSAddressPlaceMark.administrativeArea},${userGPSAddressPlaceMark.postalCode}'
+            ',${userGPSAddressPlaceMark.country}';
+        if (_addedAddress != null && _addedAddress.isNotEmpty) {
+          print(
+              'Additional address GPS location : $_addedAddress : ${HealingMatchConstants.addedCurrentLatitude} && '
+              '${HealingMatchConstants.addedCurrentLongitude}');
+          additionalAddressController.value =
+              TextEditingValue(text: _addedAddress);
+          setState(() {
+            _isAddedGPSLocation = true;
+          });
+          HealingMatchConstants.addedServiceUserCity =
+              userGPSAddressPlaceMark.locality;
+          HealingMatchConstants.addedServiceUserPrefecture =
+              userGPSAddressPlaceMark.administrativeArea;
+        } else {
+          ProgressDialogBuilder.hideLocationProgressDialog(context);
+          return null;
+        }
+      });
+      ProgressDialogBuilder.hideLocationProgressDialog(context);
+    } catch (e) {
+      ProgressDialogBuilder.hideLocationProgressDialog(context);
+      print(e);
+    }
+  }
+
+  _getAddedAddressStates() async {
+    await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
+      states = StatesListResponseModel.fromJson(json.decode(response.body));
+      print(states.toJson());
+      for (var stateList in states.data) {
+        setState(() {
+          addedAddressStateDropDownValues.add(stateList.prefectureJa);
+        });
+      }
+    });
+  }
+
+  // CityList cityResponse;
+  _getAddedAddressCities(var prefId) async {
+    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
+    await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
+        body: {'prefecture_id': prefId.toString()}).then((response) {
+      cities = CitiesListResponseModel.fromJson(json.decode(response.body));
+      print(cities.toJson());
+      for (var cityList in cities.data) {
+        setState(() {
+          addedAddressCityDropDownValues
+              .add(cityList.cityJa + cityList.specialDistrictJa);
+        });
+      }
+      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
+      print('Response City list : ${response.body}');
+    });
+  }
+
+  _addUserAddress() async {
+    if (_myAddedAddressInputType.isNotEmpty &&
+        _myAddedAddressInputType.contains('現在地を取得する')) {
+      if (addedRoomNumberController.text.isEmpty ||
+          addedBuildingNameController.text.isEmpty) {
+        print('Room number empty');
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('必須値を入力してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _scaffoldKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      } else {
+        String gpsUserAddress =
+            '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
+        print('GPS FINAL ADDRESS : $gpsUserAddress');
+
+        if (otherUserAddress.length <= 2) {
+          setState(() {
+            print('Entering if...');
+            addUserAddress = AddUserSearchAddress(
+              gpsUserAddress,
+              HealingMatchConstants.addedCurrentLatitude.toString(),
+              HealingMatchConstants.addedCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              userGPSAddressPlaceMark.administrativeArea,
+              userGPSAddressPlaceMark.subAdministrativeArea,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              userGPSAddressPlaceMark.locality,
+            );
+
+            Navigator.pop(context);
+            /* Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        UpdateServiceUserDetails()));*/
+          });
+        } else {
+//メインの地点以外に3箇所まで地点登録ができます
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: ColorConstants.snackBarColor,
+            duration: Duration(seconds: 3),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text('メインの地点以外に3箇所まで地点登録ができます。',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
+                ),
+                InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                    /* Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                UpdateServiceUserDetails()));*/
+                    Navigator.pop(context);
+                  },
+                  child: Text('はい',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline)),
+                ),
+              ],
+            ),
+          ));
+          return;
+        }
+      }
+    } else if (_myAddedAddressInputType.isNotEmpty &&
+        _myAddedAddressInputType.contains('直接入力する')) {
+      if (addedRoomNumberController.text.isEmpty ||
+          addedBuildingNameController.text.isEmpty ||
+          addedUserAreaController.text.isEmpty ||
+          _myAddedCity.isEmpty ||
+          _myAddedPrefecture.isEmpty) {
+        print('Manual address empty fields');
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('必須値を入力してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _scaffoldKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      } else {
+        String manualAddedAddress = addedRoomNumberController.text.toString() +
+            ',' +
+            addedBuildingNameController.text.toString() +
+            ',' +
+            addedUserAreaController.text.toString() +
+            ',' +
+            _myAddedCity +
+            ',' +
+            _myAddedPrefecture;
+        print('USER MANUAL ADDRESS : $manualAddedAddress');
+        List<Placemark> userManualAddress =
+            await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
+        userManualAddressPlaceMark = userManualAddress[0];
+        Position addressPosition = userManualAddressPlaceMark.position;
+        HealingMatchConstants.manualAddressCurrentLatitude =
+            addressPosition.latitude;
+        HealingMatchConstants.manualAddressCurrentLongitude =
+            addressPosition.longitude;
+        HealingMatchConstants.serviceUserCity =
+            userManualAddressPlaceMark.locality;
+        HealingMatchConstants.serviceUserPrefecture =
+            userManualAddressPlaceMark.administrativeArea;
+        HealingMatchConstants.manualUserAddress = manualAddedAddress;
+
+        print(
+            'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
+            '${HealingMatchConstants.manualAddressCurrentLongitude}');
+        print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
+        print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
+
+        if (otherUserAddress.length <= 2) {
+          String city = _myAddedCity;
+          setState(() {
+            addUserAddress = AddUserSearchAddress(
+              manualAddedAddress,
+              HealingMatchConstants.manualAddressCurrentLatitude.toString(),
+              HealingMatchConstants.manualAddressCurrentLongitude.toString(),
+              _myAddedAddressInputType,
+              _myAddedCity,
+              _myAddedPrefecture,
+              addedRoomNumberController.text.toString(),
+              addedBuildingNameController.text.toString(),
+              addedUserAreaController.text.toString(),
+            );
+            print(_myAddedAddressInputType);
+            Navigator.pop(context);
+            /*   Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        UpdateServiceUserDetails()));*/
+          });
+        } else {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: ColorConstants.snackBarColor,
+            duration: Duration(seconds: 3),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text('メインの地点以外に3箇所まで地点登録ができます。',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
+                ),
+                InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                    Navigator.pop(context);
+                    /*  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                UpdateServiceUserDetails()));*/
+                  },
+                  child: Text('はい',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline)),
+                ),
+              ],
+            ),
+          ));
+          return;
+        }
+      }
+    } else {
+      print('Address Type is Empty....');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('検索地点の登録を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return;
+    }
+
+    otherUserAddress.add(addUserAddress);
+    _sharedPreferences.then((value) {
+      value.setBool('isUserVerified', false);
+    });
   }
 }

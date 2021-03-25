@@ -462,8 +462,8 @@ class NavigationRouter {
 
   // Service Provider Chat Screen
   static void switchToServiceProviderChatHistoryScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => Chat()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (BuildContext context) => Chat()));
   }
 
   // Service User Notifications Screen

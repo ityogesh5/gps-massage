@@ -130,123 +130,142 @@ class _BookingCancelResponseFromTherapistState
                     children: [
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.04),
-                      new Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          new Container(
-                              width: 35.0,
-                              height: 35.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.grey[300]),
-                                shape: BoxShape.circle,
-                                color: Colors.grey[300],
-                                image: new DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: new AssetImage(
-                                      'assets/images_gps/profile.png'),
-                                ),
-                              )),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            'お名前',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      Expanded(
+                        child: new Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            new Container(
+                                width: 25.0,
+                                height: 25.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.grey[300]),
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[300],
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: new AssetImage(
+                                        'assets/images_gps/profile.png'),
+                                  ),
+                                )),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              'お名前',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          Image.asset('assets/images_gps/calendar.png',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '10月17',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          Text(
-                            '月曜日出張',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[400],
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      SizedBox(height: 12),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            Image.asset('assets/images_gps/calendar.png',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '10月17',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            Text(
+                              '月曜日出張',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[400],
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/clock.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '09:  00～10:  00',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '60分',
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      SizedBox(height: 12),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/clock.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            new Text(
+                              '09:  00～10:  00',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            new Text(
+                              '60分',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/cost.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Chip(
-                            label: Text('足つぼ'),
-                            backgroundColor: Colors.grey[200],
-                          ),
-                          Text(
-                            "\t\t¥4,500",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text(
-                            '(交通費込み-1,000)',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[400],
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/cost.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Chip(
+                              label: Text('足つぼ'),
+                              backgroundColor: Colors.white,
+                            ),
+                            Text(
+                              "\t\t¥4,500",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text(
+                              '(交通費込み-1,000)',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[400],
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -257,23 +276,27 @@ class _BookingCancelResponseFromTherapistState
                               child: Divider(),
                             )),
                           ]),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '施術を受ける場所',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       Expanded(
@@ -299,14 +322,16 @@ class _BookingCancelResponseFromTherapistState
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Colors.grey[200]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '店舗',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'NotoSansJP'),
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: FittedBox(
+                                    child: Text(
+                                      '店舗',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'NotoSansJP'),
+                                    ),
                                   ),
                                 )),
                             SizedBox(
@@ -316,7 +341,7 @@ class _BookingCancelResponseFromTherapistState
                               child: Text(
                                 '埼玉県浦和区高砂4丁目4',
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.grey[500],
                                     fontFamily: 'NotoSansJP'),
                               ),
@@ -324,6 +349,7 @@ class _BookingCancelResponseFromTherapistState
                           ],
                         ),
                       ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
