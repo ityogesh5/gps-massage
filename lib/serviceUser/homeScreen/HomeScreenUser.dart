@@ -209,7 +209,6 @@ class InitialUserHomeScreen extends StatefulWidget {
 }
 
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
-
   @override
   void initState() {
     checkInternet();
@@ -220,7 +219,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   checkInternet() {
     CheckInternetConnection.checkConnectivity(context);
     if (HealingMatchConstants.isInternetAvailable) {
-      BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(HealingMatchConstants.accessToken));
+      BlocProvider.of<TherapistTypeBloc>(context)
+          .add(RefreshEvent(HealingMatchConstants.accessToken));
     } else {
       //return HomePageError();
     }
@@ -991,7 +991,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   )),
                               FittedBox(
                                 child: Text(
-                                  '半径1.5km',
+                                  '1.5km圏内',
                                   style: TextStyle(
                                     fontFamily: ColorConstants.fontFamily,
                                     fontSize: 12,
@@ -1677,7 +1677,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                 )),
                             FittedBox(
                               child: Text(
-                                '半径1.5km',
+                                '1.5km圏内',
                                 style: TextStyle(
                                   color: Color.fromRGBO(153, 153, 153, 1),
                                   fontFamily: ColorConstants.fontFamily,
@@ -1999,13 +1999,16 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.black12),
                                     shape: BoxShape.circle,
-                                    image: therapistUsers[index].user.uploadProfileImgUrl !=
+                                    image: therapistUsers[index]
+                                                .user
+                                                .uploadProfileImgUrl !=
                                             null
                                         ? new DecorationImage(
                                             fit: BoxFit.cover,
                                             image: new NetworkImage(
-                                                therapistUsers[index].user
-                                                .uploadProfileImgUrl),
+                                                therapistUsers[index]
+                                                    .user
+                                                    .uploadProfileImgUrl),
                                           )
                                         : new DecorationImage(
                                             fit: BoxFit.none,
@@ -2014,7 +2017,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                   )),
                               FittedBox(
                                 child: Text(
-                                  '半径1.5km',
+                                  '1.5km圏内',
                                   style: TextStyle(
                                       fontSize: 12, color: Colors.grey[400]),
                                 ),
@@ -2090,30 +2093,34 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                 child: Row(
                                   children: [
                                     SizedBox(width: 5),
-                                    therapistUsers[index].user
-                                        .businessForm
-                                        .contains('施術店舗あり 施術従業員あり') ||
-                                        therapistUsers[index]
-                                            .user.businessForm
-                                            .contains(
-                                            '施術店舗あり 施術従業員なし（個人経営）') ||
-                                        therapistUsers[index]
-                                            .user.businessForm
-                                            .contains('施術店舗なし 施術従業員なし（個人)')
+                                    therapistUsers[index]
+                                                .user
+                                                .businessForm
+                                                .contains('施術店舗あり 施術従業員あり') ||
+                                            therapistUsers[index]
+                                                .user
+                                                .businessForm
+                                                .contains(
+                                                    '施術店舗あり 施術従業員なし（個人経営）') ||
+                                            therapistUsers[index]
+                                                .user
+                                                .businessForm
+                                                .contains('施術店舗なし 施術従業員なし（個人)')
                                         ? Visibility(
-                                      visible: true,
-                                      child: Container(
-                                          padding: EdgeInsets.all(4),
-                                          color: Colors.white,
-                                          child: Text('店舗')),
-                                    )
+                                            visible: true,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('店舗')),
+                                          )
                                         : Container(),
                                     SizedBox(
                                       width: 5,
                                     ),
                                     Visibility(
                                       visible: therapistUsers[index]
-                                          .user.businessTrip,
+                                          .user
+                                          .businessTrip,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           color: Colors.white,
@@ -2124,7 +2131,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                     ),
                                     Visibility(
                                       visible: therapistUsers[index]
-                                          .user.coronaMeasure,
+                                          .user
+                                          .coronaMeasure,
                                       child: Container(
                                           padding: EdgeInsets.all(4),
                                           color: Colors.white,
@@ -2180,17 +2188,17 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                   Spacer(),
                                   therapistUsers[index].sixtyMin == 0
                                       ? Text(
-                                    '¥0',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19),
-                                  )
+                                          '¥0',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19),
+                                        )
                                       : Text(
-                                    '¥${therapistUsers[index].sixtyMin}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 19),
-                                  ),
+                                          '¥${therapistUsers[index].sixtyMin}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 19),
+                                        ),
                                   Text('/60分')
                                 ],
                               )

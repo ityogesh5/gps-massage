@@ -11,7 +11,7 @@ class StatusCodeHelper {
     final Map errorResponse = json.decode(body);
     final errorDetails = RegisterErrorHandler.fromJson(errorResponse);
     if (statusCode == 200) {
-      Toast.show("ユーザーが正常に登録されました。", context,
+      Toast.show("OTPがご登録の電話番号に正常に送信されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.lime,
@@ -55,7 +55,7 @@ class StatusCodeHelper {
     final Map errorResponse = json.decode(body);
     final errorDetails = RegisterErrorHandler.fromJson(errorResponse);
     if (statusCode == 200) {
-    /*   Toast.show("ユーザーが正常に登録されました。", context,
+      /*   Toast.show("ユーザーが正常に登録されました。", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.lime,

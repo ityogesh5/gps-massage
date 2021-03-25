@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
+import 'package:flutter_svg/svg.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -95,7 +96,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '（052レビュー）',
+                      "${ratingListResponseModel.userData.totalElements}",
                       style: TextStyle(
                           fontFamily: 'NotoSansJP',
                           fontSize: 12,
@@ -231,27 +232,25 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(top: 60),
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: CircleAvatar(
-                                radius: 30,
-                                backgroundColor:
-                                    Color.fromRGBO(216, 216, 216, 1),
+                            child: InkWell(
+                              onTap: () {
+                                _ratingAndReview();
+                              },
+                              child: Align(
+                                alignment: Alignment.topRight,
                                 child: CircleAvatar(
-                                  radius: 25.0,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.send,
+                                  radius: 35,
+                                  backgroundColor:
+                                      Color.fromRGBO(216, 216, 216, 1),
+                                  child: CircleAvatar(
+                                    radius: 30.0,
+                                    child: SvgPicture.asset(
+                                      'assets/images_gps/submit.svg',
                                       color: Color.fromRGBO(200, 217, 33, 1),
                                     ),
-                                    iconSize: 25.0,
-                                    onPressed: () {
-                                      _ratingAndReview();
-                                      /* NavigationRouter.switchToServiceUserDisplayReviewScreen(context);*/
-                                    },
+                                    backgroundColor:
+                                        Color.fromRGBO(255, 255, 255, 1),
                                   ),
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
                                 ),
                               ),
                             ),
@@ -391,7 +390,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   }
 
   _ratingAndReview() async {
-    var reviewComment = reviewController.text.toString();
+    var reviewComment = reviewController.text.toString().trim();
     print(accessToken);
     print(rUserID);
     print(reviewComment);

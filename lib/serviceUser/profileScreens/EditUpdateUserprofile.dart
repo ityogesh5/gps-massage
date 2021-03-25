@@ -1255,7 +1255,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 filled: true,
                                                 fillColor: ColorConstants
                                                     .formFieldFillColor,
-                                                labelText: '号室',
+                                                labelText: '部屋番号',
                                                 labelStyle: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontFamily: 'NotoSansJP',

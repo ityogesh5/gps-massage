@@ -10,7 +10,7 @@ class LogOutServiceUser extends StatefulWidget {
 
 class _LogOutServiceUserState extends State<LogOutServiceUser> {
   Future<SharedPreferences> _sharedPreferences =
-  SharedPreferences.getInstance();
+      SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
         children: [
           FittedBox(
             child: Text(
-              'ログアウトしてよろしいでしょうか？',
+              'ログアウトしてもよろしいでしょうか？',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
