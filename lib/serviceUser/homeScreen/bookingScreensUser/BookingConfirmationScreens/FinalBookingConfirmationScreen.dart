@@ -231,46 +231,46 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                         ),
                       ],
                     ),
-                    Row(children: <Widget>[
-                      Expanded(
-                          child: Divider(
-                        color: Color.fromRGBO(217, 217, 217, 1),
-                      )),
-                    ]),
-                    SizedBox(height: 10),
                     Expanded(
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset('assets/images_gps/gps.svg',
+                      child: Row(children: <Widget>[
+                        Expanded(
+                            child: Divider(
+                          color: Color.fromRGBO(217, 217, 217, 1),
+                        )),
+                      ]),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset('assets/images_gps/gps.svg',
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                              height: 25,
+                              width: 25),
+                          SizedBox(width: 5),
+                          Text(
+                            '埼玉県浦和区高砂4丁目4',
+                            style: TextStyle(
+                                fontSize: 16,
                                 color: Color.fromRGBO(0, 0, 0, 1),
-                                height: 25,
-                                width: 25),
-                            SizedBox(width: 5),
-                            Text(
-                              '埼玉県浦和区高砂4丁目4',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                  fontWeight: FontWeight.w300,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                Text(
-                                  '５Ｋｍ圏内',
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      fontFamily: 'NotoSansJP'),
-                                ),
-                              ],
-                            )
-                          ]),
-                    )
+                                fontWeight: FontWeight.w300,
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                          Spacer(),
+                          Row(
+                            children: [
+                              Text(
+                                '５Ｋｍ圏内',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromRGBO(153, 153, 153, 1),
+                                    fontFamily: 'NotoSansJP'),
+                              ),
+                            ],
+                          )
+                        ])
                   ],
                 ),
               ),
@@ -301,57 +301,54 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/calendar.svg',
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/calendar.svg',
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            height: 25,
+                            width: 25),
+                        Text(
+                          ' 10月17\t\t\t',
+                          style: TextStyle(
+                              fontSize: 14,
                               color: Color.fromRGBO(0, 0, 0, 1),
-                              height: 25,
-                              width: 25),
-                          Text(
-                            ' 10月17\t\t\t',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          Text(
-                            '月曜日出張',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(102, 102, 102, 1),
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
-                      ),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        Text(
+                          '月曜日出張',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 15),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/clock.svg',
+                    SizedBox(height: 7),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/clock.svg',
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            height: 25,
+                            width: 25),
+                        Text(
+                          '\t9：00～10: 00\t\t\t',
+                          style: TextStyle(
+                              fontSize: 14,
                               color: Color.fromRGBO(0, 0, 0, 1),
-                              height: 25,
-                              width: 25),
-                          Text(
-                            '\t9：00～10: 00\t\t\t',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          Text(
-                            '60分',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromRGBO(102, 102, 102, 1),
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
-                      ),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                        Text(
+                          '60分',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromRGBO(102, 102, 102, 1),
+                              fontFamily: 'NotoSansJP'),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 7),
                     Expanded(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
