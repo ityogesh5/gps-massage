@@ -2,29 +2,30 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<String> userBannerImages = [];
@@ -73,34 +74,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenUserState extends State<HomeScreen> {
-  String accessToken;
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
   @override
   void initState() {
-    getId();
     super.initState();
-  }
-
-  getId() async {
-    // ProgressDialogBuilder.showCommonProgressDialog(context);
-    try {
-      ProgressDialogBuilder.showCommonProgressDialog(context);
-      _sharedPreferences.then((value) {
-        accessToken = value.getString('accessToken');
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
-
-        setState(() {
-          HealingMatchConstants.uAccessToken = accessToken;
-        });
-      });
-    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: BlocProvider(
         create: (context) => TherapistTypeBloc(
             getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
@@ -214,19 +195,9 @@ class InitialUserHomeScreen extends StatefulWidget {
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   @override
   void initState() {
-    checkInternet();
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     getAccessToken();
-  }
-
-  checkInternet() {
-    CheckInternetConnection.checkConnectivity(context);
-    if (HealingMatchConstants.isInternetAvailable) {
-      BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));
-    } else {
-      //return HomePageError();
-    }
   }
 
   getAccessToken() async {
@@ -250,7 +221,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     }
 
     try {
-      var bannerApiProvider = ServiceUserAPIProvider.getAllBannerImages();
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
       bannerApiProvider.then((value) {
         if (this.mounted) {
           setState(() {
@@ -318,6 +290,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   @override
   void initState() {
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -348,56 +321,37 @@ class _LoadHomePageState extends State<LoadHomePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     NavigationRouter.switchToServiceUserSearchScreen(context);
                   },
-                  child: InkWell(
-                    onTap: () {
-                      NavigationRouter.switchToServiceUserSearchScreen(context);
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.height * 0.85,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromRGBO(255, 255, 255, 1),
-                                Color.fromRGBO(255, 255, 255, 1),
-                              ]),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: TextFormField(
+                      readOnly: true,
+                      autofocus: false,
+                      textInputAction: TextInputAction.search,
+                      decoration: new InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'キーワードでさがす',
+                          suffixIcon: InkWell(
+                            child: Image.asset("assets/images_gps/search.png"),
+                            onTap: () {
+                              NavigationRouter.switchToServiceUserSearchScreen(
+                                  context);
+                            },
                           ),
-                          borderRadius: BorderRadius.circular(7.0),
-                          color: Color.fromRGBO(228, 228, 228, 1),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'キーワードでさがす',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Image.asset(
-                                "assets/images_gps/search.png",
-                                color: Color.fromRGBO(225, 225, 225, 1),
-                              ),
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserSearchScreen(context);
-                              },
-                            ),
-                          ],
-                        )),
+                          hintStyle: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14,
+                              fontFamily: 'NotoSansJP'),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -414,8 +368,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   Text(
                     '近くのセラピスト＆お店',
                     style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: ColorConstants.fontFamily,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ),
@@ -428,12 +381,11 @@ class _LoadHomePageState extends State<LoadHomePage> {
                               builder: (BuildContext context) => PaginationSample()));*/
                     },
                     child: Text(
-                      'もっとみる',
+                      'もっと見る',
                       style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 1),
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          fontFamily: ColorConstants.fontFamily,
                           decoration: TextDecoration.underline),
                     ),
                   ),
@@ -453,20 +405,13 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   'おすすめ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontFamily: ColorConstants.fontFamily,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToRecommended(context);
-                  },
-                  child: Text(
-                    'もっとみる',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: ColorConstants.fontFamily,
-                      decoration: TextDecoration.underline,
-                    ),
+                Text(
+                  'もっとみる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
                   ),
                 )
               ],
@@ -998,7 +943,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             itemCount: widget.getTherapistByType.length,
             itemBuilder: (context, index) {
               return new Card(
-                color: Color.fromRGBO(242, 242, 242, 1),
+                color: Colors.grey[200],
                 semanticContainer: true,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -1036,12 +981,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   )),
                               FittedBox(
                                 child: Text(
-                                  '1.5km圏内',
+                                  '半径1.5km',
                                   style: TextStyle(
-                                    fontFamily: ColorConstants.fontFamily,
-                                    fontSize: 12,
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                  ),
+                                      fontSize: 12, color: Colors.grey[400]),
                                 ),
                               ),
                             ],
@@ -1080,9 +1022,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   SizedBox(width: 4),
                                   InkWell(
                                     onTap: () {
-                                      /* NavigationRouter
+                                      NavigationRouter
                                           .switchToServiceUserReservationAndFavourite(
-                                              context);*/
+                                              context);
                                     },
                                     child: CircleAvatar(
                                       maxRadius: 10,
@@ -1092,7 +1034,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                         backgroundColor: Colors.white,
                                         child: SvgPicture.asset(
                                             'assets/images_gps/info.svg',
-                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             height: 15,
                                             width: 15),
                                       ),
@@ -1112,8 +1053,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                               ),
                               FittedBox(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(width: 5),
                                     widget.getTherapistByType[index].user
@@ -1165,10 +1104,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                               Row(
                                 children: [
                                   Text(
-                                    '(${ratingsValue.toString()})',
+                                    ratingsValue.toString(),
                                     style: TextStyle(
-                                      fontFamily: ColorConstants.fontFamily,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -1178,13 +1115,13 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemSize: 22,
+                                    itemSize: 25,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      color: Colors.black,
                                     ),
                                     onRatingUpdate: (rating) {
                                       setState(() {
@@ -1193,12 +1130,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       print(ratingsValue);
                                     },
                                   ),
-                                  Text(
-                                    '(1518)',
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(153, 153, 153, 1),
-                                        fontFamily: ColorConstants.fontFamily),
-                                  ),
+                                  Text('(1518)'),
                                 ],
                               ),
                               SizedBox(
@@ -1208,28 +1140,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 children: [
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '国家資格保有',
-                                        style: TextStyle(
-                                          fontFamily: ColorConstants.fontFamily,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施')),
                                   Spacer(),
                                   widget.getTherapistByType[index].sixtyMin == 0
                                       ? Text(
@@ -1244,7 +1156,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19),
                                         ),
-                                  Text('/60分')
+                                  //Text('/60分')
                                 ],
                               )
                             ],
@@ -1272,6 +1184,33 @@ class CarouselWithIndicatorDemo extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   int _current = 0;
 
+  _getBannerImages() async {
+    List<BannersList> bannerImages = [];
+    if (userBannerImages != null) {
+      userBannerImages.clear();
+      bannerImages.clear();
+    }
+
+    try {
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
+      bannerApiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            bannerImages = value.data.bannersList;
+            for (var item in bannerImages) {
+              userBannerImages.add(item.bannerImageUrl);
+              print('Therapist banner images : ${item.bannerImageUrl}');
+            }
+          });
+        }
+      });
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return userBannerImages != null
@@ -1292,8 +1231,39 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                     BorderRadius.all(Radius.circular(10.0)),
                                 child: Stack(
                                   children: <Widget>[
-                                    Image.network(userBannerImages[i],
-                                        fit: BoxFit.cover, width: 2000.0),
+                                    /*Image.network(userBannerImages[i],
+                                        fit: BoxFit.cover, width: 2000.0),*/
+                                    CachedNetworkImage(
+                                        width: 2000.0,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userBannerImages[i],
+                                        placeholder: (context, url) =>
+                                            SpinKitWave(
+                                                color: Colors.blueAccent,
+                                                size: 50.0),
+                                        errorWidget: (context, url, error) =>
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to Download Banners...Try Again!!',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                ),
+                                                new IconButton(
+                                                  icon: Icon(
+                                                      Icons.refresh_sharp,
+                                                      size: 40),
+                                                  onPressed: () {
+                                                    _getBannerImages();
+                                                  },
+                                                ),
+                                              ],
+                                            )),
                                   ],
                                 )),
                           ),
@@ -1433,11 +1403,9 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
         label: Text(_options[i],
-            style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 1),
-                fontFamily: ColorConstants.fontFamily)),
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        selectedColor: Color.fromRGBO(242, 242, 242, 1),
+            style: TextStyle(color: Colors.black, fontFamily: 'NotoSansJP')),
+        backgroundColor: Colors.white70,
+        selectedColor: Colors.grey[200],
         onSelected: (bool selected) {
           setState(() {
             if (selected) {
@@ -1637,7 +1605,7 @@ class _ReservationListState extends State<ReservationList> {
                                 '09: 00 ~ 10: 00',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Text('(60分)')
+                              //Text('(60分)')
                             ],
                           ),
                           SizedBox(
@@ -1823,7 +1791,7 @@ class _RecommendListsState extends State<RecommendLists> {
           itemCount: 10,
           itemBuilder: (context, index) {
             return new Card(
-              color: Color.fromRGBO(242, 242, 242, 1),
+              color: Colors.grey[200],
               semanticContainer: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
@@ -1851,12 +1819,9 @@ class _RecommendListsState extends State<RecommendLists> {
                                 )),
                             FittedBox(
                               child: Text(
-                                '1.5km圏内',
+                                '半径1.5km',
                                 style: TextStyle(
-                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                  fontFamily: ColorConstants.fontFamily,
-                                  fontSize: 12,
-                                ),
+                                    fontSize: 12, color: Colors.grey[400]),
                               ),
                             ),
                           ],
@@ -1876,9 +1841,8 @@ class _RecommendListsState extends State<RecommendLists> {
                                 Text(
                                   'お店名',
                                   style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: ColorConstants.fontFamily,
                                       fontSize: 14,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Spacer(),
@@ -1895,87 +1859,25 @@ class _RecommendListsState extends State<RecommendLists> {
                             ),
                             FittedBox(
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
                                       padding: EdgeInsets.all(4),
-                                      child: Text(
-                                        '店舗',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('オフィス')),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '出張',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('出張')),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        'コロナ対策実施',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施有無')),
                                 ],
                               ),
                             ),
@@ -1985,11 +1887,10 @@ class _RecommendListsState extends State<RecommendLists> {
                             Row(
                               children: [
                                 Text(
-                                  '(${ratingValue.toString()})',
+                                  ratingValue.toString(),
                                   style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      decoration: TextDecoration.underline,
-                                      fontFamily: ColorConstants.fontFamily),
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                                 RatingBar.builder(
                                   initialRating: 3,
@@ -1997,13 +1898,13 @@ class _RecommendListsState extends State<RecommendLists> {
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemCount: 5,
-                                  itemSize: 22,
+                                  itemSize: 25,
                                   itemPadding:
                                       EdgeInsets.symmetric(horizontal: 4.0),
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -2014,12 +1915,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     print(ratingValue);
                                   },
                                 ),
-                                Text(
-                                  '(1518)',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      fontFamily: ColorConstants.fontFamily),
-                                ),
+                                Text('(1518)'),
                               ],
                             ),
                             SizedBox(
@@ -2029,43 +1925,16 @@ class _RecommendListsState extends State<RecommendLists> {
                               children: [
                                 Container(
                                     padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.white,
-                                              Colors.white,
-                                            ]),
-                                        shape: BoxShape.rectangle,
-                                        border: Border.all(
-                                          color: Colors.grey[300],
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: Colors.grey[200]),
-                                    child: Text(
-                                      '国家資格保有',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        fontFamily: ColorConstants.fontFamily,
-                                      ),
-                                    )),
+                                    color: Colors.white,
+                                    child: Text('コロナ対策実施')),
                                 Spacer(),
                                 Text(
                                   '¥4,500',
                                   style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: ColorConstants.fontFamily,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19),
                                 ),
-                                Text(
-                                  '/60分',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      fontFamily: ColorConstants.fontFamily),
-                                )
+                                //Text('/60分')
                               ],
                             ),
                           ],
@@ -2387,7 +2256,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 19),
                                               ),
-                                        Text('/60分')
+                                        //Text('/60分')
                                       ],
                                     )
                                   ],
