@@ -142,7 +142,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         body: Container(
           child: Center(
-            child: SpinKitRipple(color: Color.fromRGBO(200, 217, 33, 1)),
+            child: SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
           ),
         ));
   }
@@ -549,7 +549,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               ServiceUserAPIProvider.getAllTherapistsByLimit(
                   _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.therapistData.count == 0) {
+            if (value.therapistData.therapistUserList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
@@ -959,7 +959,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
               ServiceUserAPIProvider.getTherapistsByTypeLimit(
                   _pageNumberType, _pageSizeType);
           providerListApiProvider.then((value) {
-            if (value.therapistData.count == 0) {
+            if (value.therapistData.userList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
