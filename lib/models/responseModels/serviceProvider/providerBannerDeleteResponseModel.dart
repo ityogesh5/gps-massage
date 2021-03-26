@@ -1,57 +1,63 @@
 import 'dart:convert';
 
-ProviderBannerDeleteResponseModel providerBannerDeleteResponseModelFromJson(String str) => ProviderBannerDeleteResponseModel.fromJson(json.decode(str));
+ProviderBannerDeleteResponseModel providerBannerDeleteResponseModelFromJson(
+        String str) =>
+    ProviderBannerDeleteResponseModel.fromJson(json.decode(str));
 
-String providerBannerDeleteResponseModelToJson(ProviderBannerDeleteResponseModel data) => json.encode(data.toJson());
+String providerBannerDeleteResponseModelToJson(
+        ProviderBannerDeleteResponseModel data) =>
+    json.encode(data.toJson());
 
 class ProviderBannerDeleteResponseModel {
-    ProviderBannerDeleteResponseModel({
-        this.status,
-        this.message,
-        this.data,
-    });
+  ProviderBannerDeleteResponseModel({
+    this.status,
+    this.message,
+    this.data,
+  });
 
-    String status;
-    String message;
-    Data data;
+  String status;
+  String message;
+  Data data;
 
-    factory ProviderBannerDeleteResponseModel.fromJson(Map<String, dynamic> json) => ProviderBannerDeleteResponseModel(
+  factory ProviderBannerDeleteResponseModel.fromJson(
+          Map<String, dynamic> json) =>
+      ProviderBannerDeleteResponseModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
         "data": data.toJson(),
-    };
+      };
 }
 
 class Data {
-    Data({
-        this.id,
-        this.userId,
-        this.bannerImageUrl1,
-        this.bannerImageUrl2,
-        this.bannerImageUrl3,
-        this.bannerImageUrl4,
-        this.bannerImageUrl5,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Data({
+    this.id,
+    this.userId,
+    this.bannerImageUrl1,
+    this.bannerImageUrl2,
+    this.bannerImageUrl3,
+    this.bannerImageUrl4,
+    this.bannerImageUrl5,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    int id;
-    int userId;
-    dynamic bannerImageUrl1;
-    dynamic bannerImageUrl2;
-    dynamic bannerImageUrl3;
-    String bannerImageUrl4;
-    dynamic bannerImageUrl5;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  int userId;
+  dynamic bannerImageUrl1;
+  dynamic bannerImageUrl2;
+  dynamic bannerImageUrl3;
+  String bannerImageUrl4;
+  dynamic bannerImageUrl5;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         userId: json["userId"],
         bannerImageUrl1: json["bannerImageUrl1"],
@@ -61,9 +67,9 @@ class Data {
         bannerImageUrl5: json["bannerImageUrl5"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "bannerImageUrl1": bannerImageUrl1,
@@ -73,5 +79,5 @@ class Data {
         "bannerImageUrl5": bannerImageUrl5,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-    };
+      };
 }

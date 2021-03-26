@@ -10,6 +10,7 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   double ratingsValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

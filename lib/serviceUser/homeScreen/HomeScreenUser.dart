@@ -18,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
@@ -25,14 +27,15 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:http/http.dart' as http;
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-final List<String> imgList = [
+List<String> userBannerImages = [];
+List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
+final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
   'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
 ];
-List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
 
 //base64 profile image
 String imgBase64TherapistImage;
@@ -232,10 +235,37 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;
+        getBannerImages();
       } else {
         print('No token value found !!');
       }
     });
+  }
+
+  getBannerImages() async {
+    List<BannersList> bannerImages = [];
+    if (userBannerImages != null) {
+      userBannerImages.clear();
+      bannerImages.clear();
+    }
+
+    try {
+      var bannerApiProvider = ServiceUserAPIProvider.getAllBannerImages();
+      bannerApiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            bannerImages = value.data.bannersList;
+            for (var item in bannerImages) {
+              userBannerImages.add(item.bannerImageUrl);
+              print('Therapist banner images : ${item.bannerImageUrl}');
+            }
+          });
+        }
+      });
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
   }
 
   @override
@@ -288,7 +318,6 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -393,6 +422,10 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   GestureDetector(
                     onTap: () {
                       NavigationRouter.switchToNearByProviderAndShop(context);
+                      /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => PaginationSample()));*/
                     },
                     child: Text(
                       'もっとみる',
@@ -470,7 +503,8 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.getTherapistByType != null
+    return widget.getTherapistByType != null &&
+            widget.getTherapistByType.isNotEmpty
         ? Container(
             child: ListView(
               physics: BouncingScrollPhysics(),
@@ -582,7 +616,18 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
               ],
             ),
           )
-        : showNoTherapistsDialog(context);
+        : Container(
+            child: Center(
+              child: Text(
+                '近くにはセラピストもお店もありません。',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          );
   }
 
   // Awesome custom dialog viewer
@@ -596,7 +641,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
         showCloseIcon: false,
         closeIcon: Icon(Icons.close),
         title: '情報',
-        desc: 'セラピストは見つかりませんでした！',
+        desc: '近くにはセラピストもお店もありません。',
         btnOkOnPress: () {
           print('Ok pressed!!');
           return InitialUserHomeScreen();
@@ -1229,59 +1274,125 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Column(children: [
-            CarouselSlider(
-              items: imageSliders,
-              options: CarouselOptions(
-                  autoPlay: true,
-                  autoPlayCurve: Curves.easeInOutCubic,
-                  enlargeCenterPage: false,
-                  viewportFraction: 1.02,
-                  aspectRatio: 2.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }),
-            ),
-          ]),
-        ),
-        Positioned(
-          bottom: 5.0,
-          left: 50.0,
-          right: 50.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
-              return Expanded(
-                child: Container(
-                  width: 45.0,
-                  height: 4.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-// shape: BoxShape.circle,
-                    color: _current == index
-                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                        : Color.fromRGBO(0, 0, 0, 0.4),
+    return userBannerImages != null
+        ? Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  CarouselSlider(
+                    items: <Widget>[
+                      for (int i = 0; i < userBannerImages.length; i++)
+                        Container(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.network(userBannerImages[i],
+                                        fit: BoxFit.cover, width: 2000.0),
+                                  ],
+                                )),
+                          ),
+                        )
+                    ],
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
+                ]),
+              ),
+              Positioned(
+                  bottom: 5.0,
+                  left: 50.0,
+                  right: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: userBannerImages.map((url) {
+                      int index = userBannerImages.indexOf(url);
+                      return Expanded(
+                        child: Container(
+                          width: 45.0,
+                          height: 4.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                            color: _current == index
+                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+            ],
+          )
+        : Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  CarouselSlider(
+                    items: dummyImageSliders,
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                  ),
+                ]),
+              ),
+              Positioned(
+                  bottom: 5.0,
+                  left: 50.0,
+                  right: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: dummyBannerImages.map((url) {
+                      int index = dummyBannerImages.indexOf(url);
+                      return Expanded(
+                        child: Container(
+                          width: 45.0,
+                          height: 4.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                            color: _current == index
+                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+            ],
+          );
   }
 }
 
-final List<Widget> imageSliders = imgList
+final List<Widget> dummyImageSliders = dummyBannerImages
     .map((item) => Container(
           child: Container(
             margin: EdgeInsets.all(5.0),
@@ -1306,10 +1417,11 @@ class BuildMassageTypeChips extends StatefulWidget {
 class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
     with TickerProviderStateMixin {
   TherapistTypeBloc therapistTypeBloc;
+  var _pageNumber = 1;
+  var _pageSize = 10;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -1348,14 +1460,16 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
           });
           therapistTypeBloc.add(FetchTherapistTypeEvent(
               HealingMatchConstants.accessToken,
-              HealingMatchConstants.serviceTypeValue));
+              HealingMatchConstants.serviceTypeValue,
+              _pageNumber,
+              _pageSize));
           print('Access token : ${HealingMatchConstants.accessToken}');
           print('Type value : ${HealingMatchConstants.serviceTypeValue}');
         },
       );
 
       chips.add(Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8), child: choiceChip));
+          padding: EdgeInsets.symmetric(horizontal: 2), child: choiceChip));
     }
 
     return ListView(
@@ -1391,241 +1505,301 @@ class ReservationList extends StatefulWidget {
 }
 
 class _ReservationListState extends State<ReservationList> {
+  String finalDate = '';
+  String currentDay = '';
+  String currentMonth = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCurrentDate();
+  }
+
+  _getCurrentDate() {
+    var date = new DateTime.now().toString();
+
+    var dateParse = DateTime.parse(date);
+
+    var formattedDate = "${dateParse.year}/${dateParse.month}/${dateParse.day}";
+    setState(() {
+      finalDate = formattedDate.toString();
+      HealingMatchConstants.currentDay = dateParse.day.toString();
+      HealingMatchConstants.currentMonth = dateParse.month.toString();
+      HealingMatchConstants.currentDate = currentDay + currentMonth + '月';
+      print(
+          'Current date : ${HealingMatchConstants.currentDay + HealingMatchConstants.currentMonth + '月'}');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(5.0),
-      child: GestureDetector(
-        onTap: () {
-          // NavigationRouter.switchToCalendarScreen(context);
-        },
-        child: Card(
-          elevation: 5,
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Row(
+    return HealingMatchConstants.isBookingDone
+        ? Container(
+            padding: EdgeInsets.all(5.0),
+            child: Card(
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
                   children: [
-                    Text(
-                      '今後の予約',
-                      style: TextStyle(
-                          fontFamily: ColorConstants.fontFamily,
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                ListTile(
-                  leading: CircleAvatar(
-                    child: SvgPicture.asset(
-                      'assets/images_gps/gpsLogo.svg',
-                      height: 30,
-                      color: Colors.lightBlueAccent,
+                    Row(
+                      children: [Text('今後の予約')],
                     ),
-                    radius: 30,
-                    backgroundColor: Colors.white,
-                  ),
-                  title: Row(
-                    children: [
-                      Text(
-                        'お名前',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: ColorConstants.fontFamily,
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.black26,
-                        child: CircleAvatar(
-                          maxRadius: 8,
-                          backgroundColor: Colors.white,
-                          child: SvgPicture.asset('assets/images_gps/info.svg',
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                              height: 15,
-                              width: 15),
-                        ),
-                      ),
-                      Spacer(),
-                      SvgPicture.asset('assets/images_gps/processing.svg',
-                          color: Color.fromRGBO(255, 193, 7, 1),
-                          height: 17,
-                          width: 15),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '承認待ち',
-                        style: TextStyle(
-                            color: Color.fromRGBO(255, 193, 7, 1),
-                            fontFamily: ColorConstants.fontFamily),
-                      )
-                    ],
-                  ),
-
-                  // trailing: Text('承認待ち'),
-                  subtitle: Column(
-                    children: [
-                      Row(
+                    ListTile(
+                      leading: new Container(
+                          width: 70.0,
+                          height: 70.0,
+                          decoration: new BoxDecoration(
+                            border: Border.all(color: Colors.black12),
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                                fit: BoxFit.cover,
+                                image: new AssetImage(
+                                    'assets/images_gps/logo.png')),
+                          )),
+                      title: Row(
                         children: [
-                          Text(
-                            '(4.0)',
-                            style: TextStyle(
-                                color: Color.fromRGBO(153, 153, 153, 1),
-                                decoration: TextDecoration.underline,
-                                fontFamily: ColorConstants.fontFamily),
+                          Text('お名前'),
+                          SizedBox(
+                            width: 5,
                           ),
-                          RatingBar.builder(
-                            initialRating: 3,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 22,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              size: 5,
-                              color: Color.fromRGBO(0, 0, 0, 1),
+                          CircleAvatar(
+                            maxRadius: 10,
+                            backgroundColor: Colors.black26,
+                            child: CircleAvatar(
+                              maxRadius: 8,
+                              backgroundColor: Colors.white,
+                              child: SvgPicture.asset(
+                                  'assets/images_gps/info.svg',
+                                  height: 15,
+                                  width: 15),
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
                           ),
-                          Text(
-                            '(1518)',
-                            style: TextStyle(
-                                color: Color.fromRGBO(153, 153, 153, 1),
-                                fontFamily: ColorConstants.fontFamily),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/images_gps/clock.svg',
-                              color: Color.fromRGBO(26, 26, 26, 1),
-                              height: 15,
-                              width: 15),
+                          Spacer(),
+                          SvgPicture.asset('assets/images_gps/processing.svg',
+                              height: 17, width: 15),
                           SizedBox(
                             width: 5,
                           ),
                           Text(
-                            '09: 00 ~ 10: 00',
+                            '承認待ち',
                             style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: ColorConstants.fontFamily),
-                          ),
-                          Text(
-                            '(60分)',
-                            style: TextStyle(
-                                color: Color.fromRGBO(102, 102, 102, 1),
-                                fontFamily: ColorConstants.fontFamily),
+                              color: Colors.orange,
+                            ),
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
+
+                      // trailing: Text('承認待ち'),
+                      subtitle: Column(
                         children: [
-                          SvgPicture.asset('assets/images_gps/cost.svg',
-                              color: Color.fromRGBO(26, 26, 26, 1),
-                              height: 20,
-                              width: 20),
-                          Text(
-                            '¥4,500',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(0, 0, 0, 1),
-                                fontSize: 19,
-                                fontFamily: ColorConstants.fontFamily),
+                          Row(
+                            children: [
+                              Text(
+                                '4.0',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                              RatingBar.builder(
+                                initialRating: 3,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 25,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  size: 5,
+                                  color: Colors.black,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  print(rating);
+                                },
+                              ),
+                              Text('(1518)'),
+                            ],
                           ),
-                          Text(
-                            '(交通費込み - ¥1,000)',
-                            style: TextStyle(
-                                color: Color.fromRGBO(153, 153, 153, 1),
-                                fontFamily: ColorConstants.fontFamily),
+                          SizedBox(
+                            height: 5,
                           ),
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/images_gps/clock.svg',
+                                  height: 15, width: 15),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '09: 00 ~ 10: 00',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text('(60分)')
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/images_gps/cost.svg',
+                                  height: 20, width: 20),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '¥4,500',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 19),
+                              ),
+                              Text('(オフィス)'),
+                            ],
+                          )
                         ],
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      // height: 50,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset('assets/images_gps/location.svg',
+                            height: 20, width: 15),
+                        Text('オフィス'),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 40,
+                          child: RaisedButton(
+                            child: Text(
+                              'オフィス',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                            color: Colors.white,
+                            onPressed: () {},
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('オフィス')
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              height: MediaQuery.of(context).size.height * 0.22,
+              width: MediaQuery.of(context).size.width * 0.80,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '今後の予約',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP',
+                            fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
-                ),
-                Divider(
-                  color: Color.fromRGBO(153, 153, 153, 1),
-                  // height: 50,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset('assets/images_gps/location.svg',
-                        color: Color.fromRGBO(26, 26, 26, 1),
-                        height: 20,
-                        width: 15),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '施術を受ける場所',
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: ColorConstants.fontFamily,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 41,
+                        backgroundColor: Color.fromRGBO(225, 225, 225, 1),
+                        child: CircleAvatar(
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                          maxRadius: 40,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              HealingMatchConstants.currentDay != null
+                                  ? Text(
+                                      '${HealingMatchConstants.currentDay}',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color:
+                                              Color.fromRGBO(200, 217, 33, 1),
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : Text(
+                                      '31',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color:
+                                              Color.fromRGBO(200, 217, 33, 1),
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                              HealingMatchConstants.currentMonth != null
+                                  ? Text(
+                                      '${HealingMatchConstants.currentMonth}月',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        color: Color.fromRGBO(200, 217, 33, 1),
+                                      ),
+                                    )
+                                  : Text(
+                                      '3月',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP',
+                                        color: Color.fromRGBO(200, 217, 33, 1),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                ]),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.grey[300],
-                            ),
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.grey[200]),
-                        child: Text(
-                          'オフィス',
-                          style: TextStyle(
-                              color: Color.fromRGBO(0, 0, 0, 1),
-                              fontFamily: ColorConstants.fontFamily),
-                        )),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '埼玉県浦和区高砂4丁目4',
-                      style: TextStyle(
-                          color: Color.fromRGBO(102, 102, 102, 1),
-                          fontFamily: ColorConstants.fontFamily),
-                    )
-                  ],
-                ),
-              ],
+                      SizedBox(width: 10),
+                      Column(
+                        children: [
+                          Text(
+                            '頑張りすぎのあなた・・。\nそろそろリフレッシュしませんか？',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }
 
@@ -1915,6 +2089,9 @@ class BuildProviderUsers extends StatefulWidget {
 }
 
 class _BuildProviderUsersState extends State<BuildProviderUsers> {
+  var _pageNumber = 1;
+  var _pageSize = 1;
+
   @override
   void initState() {
     super.initState();
@@ -1927,7 +2104,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;
-        getTherapists(accessToken);
+        getTherapists();
       } else {
         print('No prefs value found !!');
       }
@@ -1935,27 +2112,25 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   }
 
   // get therapist api
-  getTherapists(String accessToken) async {
-    TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
+  getTherapists() async {
+    therapistUsers.clear();
     try {
-      final url = HealingMatchConstants.THERAPIST_LIST_URL;
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'x-access-token': '$accessToken'
-      };
-
-      final response = await http.post(url, headers: headers);
-      final getTherapists = json.decode(response.body);
-      print('Response body : ${response.body}');
-      listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
-      if (this.mounted) {
-        setState(() {
-          therapistUsers = listOfTherapistModel.therapistData.therapistUserList;
-          for (int i = 0; i < therapistUsers.length; i++) {}
-          print(
-              'Therapist data : ${listOfTherapistModel.therapistData.therapistUserList.length}');
-        });
-      }
+      var apiProvider = ServiceUserAPIProvider.getAllTherapistsByLimit(
+          _pageNumber, _pageSize);
+      // wait for 2 seconds to simulate loading of data
+      await Future.delayed(const Duration(seconds: 2));
+      apiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            therapistUsers = value.therapistData.therapistUserList;
+            for (int i = 0; i < therapistUsers.length; i++) {}
+            print(
+                'Provider data : ${value.therapistData.therapistUserList.length}');
+          });
+        }
+      }).catchError((onError) {
+        print('Catch Error Exception caught : ${onError.toString()}');
+      });
     } catch (e) {
       print('Exception caught : ${e.toString()}');
       throw Exception(e);
@@ -1966,252 +2141,277 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.24,
-        width: MediaQuery.of(context).size.width * 0.95,
-        child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            itemCount: therapistUsers.length,
-            itemBuilder: (context, index) {
-              return new Card(
-                color: Colors.grey[200],
-                semanticContainer: true,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.70,
-                    width: MediaQuery.of(context).size.width * 0.78,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
+    return therapistUsers != null && therapistUsers.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.24,
+              width: MediaQuery.of(context).size.width * 0.95,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: therapistUsers.length,
+                  itemBuilder: (context, index) {
+                    return new Card(
+                      color: Colors.grey[200],
+                      semanticContainer: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.70,
+                          width: MediaQuery.of(context).size.width * 0.78,
+                          child: Row(
                             children: [
-                              new Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    shape: BoxShape.circle,
-                                    image: therapistUsers[index]
-                                                .user
-                                                .uploadProfileImgUrl !=
-                                            null
-                                        ? new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: new NetworkImage(
-                                                therapistUsers[index]
-                                                    .user
-                                                    .uploadProfileImgUrl),
-                                          )
-                                        : new DecorationImage(
-                                            fit: BoxFit.none,
-                                            image: new AssetImage(
-                                                'assets/images_gps/user.png')),
-                                  )),
-                              FittedBox(
-                                child: Text(
-                                  '1.5km圏内',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey[400]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Expanded(
-                          flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(width: 5),
-                                  therapistUsers[index].user.userName != null
-                                      ? Row(
-                                          children: [
-                                            Text(
-                                              '${therapistUsers[index].user.userName}',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        )
-                                      : Text(
-                                          'お名前',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                  SizedBox(width: 4),
-                                  InkWell(
-                                    onTap: () {
-                                      NavigationRouter
-                                          .switchToServiceUserReservationAndFavourite(
-                                              context);
-                                    },
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor: Colors.black26,
-                                      child: CircleAvatar(
-                                        maxRadius: 8,
-                                        backgroundColor: Colors.white,
-                                        child: SvgPicture.asset(
-                                            'assets/images_gps/info.svg',
-                                            height: 15,
-                                            width: 15),
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  FavoriteButton(
-                                      iconSize: 40,
-                                      iconColor: Colors.red,
-                                      valueChanged: (_isFavorite) {
-                                        print('Is Favorite : $_isFavorite');
-                                      }),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              FittedBox(
-                                child: Row(
+                              Expanded(
+                                child: Column(
                                   children: [
-                                    SizedBox(width: 5),
-                                    therapistUsers[index]
-                                                .user
-                                                .businessForm
-                                                .contains('施術店舗あり 施術従業員あり') ||
-                                            therapistUsers[index]
-                                                .user
-                                                .businessForm
-                                                .contains(
-                                                    '施術店舗あり 施術従業員なし（個人経営）') ||
-                                            therapistUsers[index]
-                                                .user
-                                                .businessForm
-                                                .contains('施術店舗なし 施術従業員なし（個人)')
-                                        ? Visibility(
-                                            visible: true,
-                                            child: Container(
-                                                padding: EdgeInsets.all(4),
-                                                color: Colors.white,
-                                                child: Text('店舗')),
-                                          )
-                                        : Container(),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Visibility(
-                                      visible: therapistUsers[index]
-                                          .user
-                                          .businessTrip,
-                                      child: Container(
-                                          padding: EdgeInsets.all(4),
-                                          color: Colors.white,
-                                          child: Text('出張')),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Visibility(
-                                      visible: therapistUsers[index]
-                                          .user
-                                          .coronaMeasure,
-                                      child: Container(
-                                          padding: EdgeInsets.all(4),
-                                          color: Colors.white,
-                                          child: Text('コロナ対策実施有無')),
+                                    new Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: new BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.black12),
+                                          shape: BoxShape.circle,
+                                          image: therapistUsers[index]
+                                                      .user
+                                                      .uploadProfileImgUrl !=
+                                                  null
+                                              ? new DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: new NetworkImage(
+                                                      therapistUsers[index]
+                                                          .user
+                                                          .uploadProfileImgUrl),
+                                                )
+                                              : new DecorationImage(
+                                                  fit: BoxFit.none,
+                                                  image: new AssetImage(
+                                                      'assets/images_gps/user.png')),
+                                        )),
+                                    FittedBox(
+                                      child: Text(
+                                        '半径1.5km',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey[400]),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    ratingsValue.toString(),
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  RatingBar.builder(
-                                    initialRating: 3,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 22,
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 4.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      size: 5,
-                                      color: Colors.black,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      setState(() {
-                                        ratingsValue = rating;
-                                      });
-                                      print(ratingsValue);
-                                    },
-                                  ),
-                                  Text('(1518)'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.all(4),
-                                      color: Colors.white,
-                                      child: Text('コロナ対策実施')),
-                                  Spacer(),
-                                  therapistUsers[index].sixtyMin == 0
-                                      ? Text(
-                                          '¥0',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 19),
-                                        )
-                                      : Text(
-                                          '¥${therapistUsers[index].sixtyMin}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 19),
+                              SizedBox(height: 5),
+                              Expanded(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(width: 5),
+                                        therapistUsers[index].user.userName !=
+                                                null
+                                            ? Row(
+                                                children: [
+                                                  Text(
+                                                    '${therapistUsers[index].user.userName}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              )
+                                            : Text(
+                                                'お名前',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                        SizedBox(width: 4),
+                                        InkWell(
+                                          onTap: () {
+                                            NavigationRouter
+                                                .switchToServiceUserReservationAndFavourite(
+                                                    context);
+                                          },
+                                          child: CircleAvatar(
+                                            maxRadius: 10,
+                                            backgroundColor: Colors.black26,
+                                            child: CircleAvatar(
+                                              maxRadius: 8,
+                                              backgroundColor: Colors.white,
+                                              child: SvgPicture.asset(
+                                                  'assets/images_gps/info.svg',
+                                                  height: 15,
+                                                  width: 15),
+                                            ),
+                                          ),
                                         ),
-                                  Text('/60分')
-                                ],
+                                        Spacer(),
+                                        FavoriteButton(
+                                            iconSize: 40,
+                                            iconColor: Colors.red,
+                                            valueChanged: (_isFavorite) {
+                                              print(
+                                                  'Is Favorite : $_isFavorite');
+                                            }),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    FittedBox(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 5),
+                                          therapistUsers[index]
+                                                      .user
+                                                      .businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員あり') ||
+                                                  therapistUsers[index]
+                                                      .user
+                                                      .businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                  therapistUsers[index]
+                                                      .user
+                                                      .businessForm
+                                                      .contains(
+                                                          '施術店舗なし 施術従業員なし（個人)')
+                                              ? Visibility(
+                                                  visible: true,
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      color: Colors.white,
+                                                      child: Text('店舗')),
+                                                )
+                                              : Container(),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Visibility(
+                                            visible: therapistUsers[index]
+                                                .user
+                                                .businessTrip,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('出張')),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Visibility(
+                                            visible: therapistUsers[index]
+                                                .user
+                                                .coronaMeasure,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                color: Colors.white,
+                                                child: Text('コロナ対策実施有無')),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          ratingsValue.toString(),
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                        RatingBar.builder(
+                                          initialRating: 3,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemSize: 25,
+                                          itemPadding: EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          itemBuilder: (context, _) => Icon(
+                                            Icons.star,
+                                            size: 5,
+                                            color: Colors.black,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            setState(() {
+                                              ratingsValue = rating;
+                                            });
+                                            print(ratingsValue);
+                                          },
+                                        ),
+                                        Text('(1518)'),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                            padding: EdgeInsets.all(4),
+                                            color: Colors.white,
+                                            child: Text('コロナ対策実施')),
+                                        Spacer(),
+                                        therapistUsers[index].sixtyMin == 0
+                                            ? Text(
+                                                '¥0',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 19),
+                                              )
+                                            : Text(
+                                                '¥${therapistUsers[index].sixtyMin}',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 19),
+                                              ),
+                                        Text('/60分')
+                                      ],
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-      ),
-    );
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+          )
+        : Container(
+            child: Center(
+              child: Text(
+                '近くにはセラピストもお店もありません。',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'NotoSansJP',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          );
   }
 }

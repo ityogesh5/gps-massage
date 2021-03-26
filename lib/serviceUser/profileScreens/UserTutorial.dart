@@ -38,22 +38,22 @@ class _UserTutorialState extends State<UserTutorial> {
                 child: FutureBuilder(
                     future: rootBundle
                         .loadString("assets/user_tutorial/user_page_1.md"),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<String> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return Markdown(
                             data: snapshot.data,
-                            styleSheet: MarkdownStyleSheet.fromTheme(
-                                    Theme.of(context))
-                                .copyWith(
-                                    p: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontFamily: 'NotoSansJP')));
+                            styleSheet:
+                                MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                    .copyWith(
+                                        p: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),
@@ -70,22 +70,22 @@ class _UserTutorialState extends State<UserTutorial> {
                 child: FutureBuilder(
                     future: rootBundle
                         .loadString("assets/user_tutorial/user_page_2.md"),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<String> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return Markdown(
                             data: snapshot.data,
-                            styleSheet: MarkdownStyleSheet.fromTheme(
-                                    Theme.of(context))
-                                .copyWith(
-                                    p: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontFamily: 'NotoSansJP')));
+                            styleSheet:
+                                MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                    .copyWith(
+                                        p: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontFamily: 'NotoSansJP')));
                       }
                       return Center(
                         child: SpinKitDoubleBounce(color: Colors.limeAccent),

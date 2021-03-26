@@ -1,8 +1,5 @@
 library lazy_data_table;
 
-export 'src/lazy_data_table_dimensions.dart';
-export 'src/lazy_data_table_theme.dart';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -10,6 +7,9 @@ import 'package:flutter/scheduler.dart';
 
 import 'src/lazy_data_table_dimensions.dart';
 import 'src/lazy_data_table_theme.dart';
+
+export 'src/lazy_data_table_dimensions.dart';
+export 'src/lazy_data_table_theme.dart';
 
 /// Create a lazily loaded data table.
 ///

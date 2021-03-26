@@ -7,8 +7,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerStoreDescriptionUpdateResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShiftDescription extends StatefulWidget {
   @override
