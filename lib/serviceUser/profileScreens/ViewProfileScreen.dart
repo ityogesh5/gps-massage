@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+
 class ViewUserProfile extends StatefulWidget {
   @override
   State createState() {
@@ -259,18 +260,17 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 )),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
-                                HealingMatchConstants.serviceUserGender
-                                        .contains('男性')
-                                    ? SvgPicture.asset(
-                                        'assets/images_gps/male.svg',
-                                        // height: 35,
-                                        //  color: Colors.grey,
-                                      )
-                                    : SvgPicture.asset(
-                                        'assets/images_gps/female.svg',
-                                        // height: 35,
-                                        //  color: Colors.grey,
-                                      ),
+                                SvgPicture.asset(
+                                  HealingMatchConstants.serviceUserGender
+                                          .contains('男性')
+                                      ? 'assets/images_gps/male.svg'
+                                      : HealingMatchConstants.serviceUserGender
+                                              .contains('女性')
+                                          ? 'assets/images_gps/female.svg'
+                                          : "assets/images_gps/profile_pic_user.svg",
+                                  // height: 35,
+                                  //  color: Colors.grey,
+                                ),
                                 HealingMatchConstants
                                             .serviceUserGender.isEmpty ||
                                         userGender.isEmpty

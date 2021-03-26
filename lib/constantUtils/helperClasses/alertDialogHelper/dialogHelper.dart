@@ -688,7 +688,7 @@ class DialogHelper {
                         shape: BoxShape.circle,
                         color: Colors.white,
                         image: DecorationImage(
-                          image: AssetImage('assets/images_gps/tick.png'),
+                          image: AssetImage('assets/images_gps/correct.png'),
                           fit: BoxFit.none,
                         ),
                       ),

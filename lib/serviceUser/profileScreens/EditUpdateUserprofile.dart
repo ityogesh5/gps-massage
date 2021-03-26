@@ -96,6 +96,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   Placemark currentLocationPlaceMark;
   Placemark userAddedAddressPlaceMark;
 
+  bool visible = false;
   bool _showCurrentLocationInput = false;
   bool _isLoggedIn = false;
   bool _isGPSLocation = false;
@@ -118,6 +119,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final passwordController = new TextEditingController();
   final confirmPasswordController = TextEditingController();
   final buildingNameController = new TextEditingController();
+  final otherController = new TextEditingController();
   final userAreaController = new TextEditingController();
   final gpsAddressController = new TextEditingController();
   final roomNumberController = new TextEditingController();
@@ -750,8 +752,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                           },
                                           onChanged: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              if (value == "その他（直接入力）") {
+                                                setState(() {
+                                                  _myCategoryPlaceForMassage =
+                                                      value;
+                                                  visible = true; // !visible;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _myCategoryPlaceForMassage =
+                                                      value;
+                                                  visible = false;
+                                                });
+                                              }
                                             });
                                           },
                                           dataSource: [
@@ -778,6 +791,40 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       ),
                                     ),
                                   ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      /* labelText: HealingMatchConstants
+                                          .loginPhoneNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,*/
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                               !_showCurrentLocationInput
@@ -1208,7 +1255,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 filled: true,
                                                 fillColor: ColorConstants
                                                     .formFieldFillColor,
-                                                labelText: '号室',
+                                                labelText: '部屋番号',
                                                 labelStyle: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontFamily: 'NotoSansJP',
@@ -1367,72 +1414,122 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
                     otherUserAddress != null
                         ? Container(
-                            child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemCount: otherUserAddress.length,
-                                itemBuilder: (BuildContext ctxt, int index) {
-                                  return Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.85,
-                                        child: TextFormField(
-                                          //display the address
-                                          initialValue: otherUserAddress[index]
-                                              .subAddress,
-                                          decoration: new InputDecoration(
-                                              filled: true,
-                                              fillColor: ColorConstants
-                                                  .formFieldFillColor,
-                                              hintText:
-                                                  '${otherUserAddress[index]}',
-                                              hintStyle: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontSize: 14),
-                                              focusColor: Colors.grey[100],
-                                              border: HealingMatchConstants
-                                                  .textFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              suffixIcon: IconButton(
-                                                icon: Icon(Icons.delete),
-                                                onPressed: () {
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 25.0, right: 8.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: otherUserAddress.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    return Column(
+                                      /*  mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,*/
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.07,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.22,
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                          246, 246, 246, 1),
+                                                      Color.fromRGBO(
+                                                          246, 246, 246, 1),
+                                                    ]),
+                                                shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: Color.fromRGBO(
+                                                      102, 102, 102, 1),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(7.0),
+                                                color: Color.fromRGBO(
+                                                    228, 228, 228, 1),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                    "${otherUserAddress[index].addressCategory}"),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.60,
+                                              child: TextFormField(
+                                                //display the address
+                                                initialValue:
+                                                    otherUserAddress[index]
+                                                        .subAddress,
+                                                decoration: new InputDecoration(
+                                                    filled: true,
+                                                    fillColor: ColorConstants
+                                                        .formFieldFillColor,
+                                                    hintText:
+                                                        '${otherUserAddress[index]}',
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey[400],
+                                                        fontSize: 14),
+                                                    focusColor:
+                                                        Colors.grey[100],
+                                                    border: HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                    focusedBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    disabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    enabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    suffixIcon: IconButton(
+                                                      icon: Icon(Icons.delete),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          //Delete Value at index
+                                                          otherUserAddress
+                                                              .removeAt(index);
+                                                        });
+                                                      },
+                                                    )),
+                                                style: TextStyle(
+                                                    color: Colors.black54),
+                                                onChanged: (value) {
                                                   setState(() {
-                                                    //Delete Value at index
-                                                    otherUserAddress
-                                                        .removeAt(index);
+                                                    otherUserAddress[index]
+                                                        .subAddress = value;
                                                   });
                                                 },
-                                              )),
-                                          style:
-                                              TextStyle(color: Colors.black54),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              otherUserAddress[index]
-                                                  .subAddress = value;
-                                            });
-                                          },
-                                          // validator: (value) => _validateEmail(value),
+                                                // validator: (value) => _validateEmail(value),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(height: 15),
-                                    ],
-                                  );
-                                }),
+                                        SizedBox(height: 15),
+                                      ],
+                                    );
+                                  }),
+                            ),
                           )
                         : Container(),
                     SizedBox(height: 10),
@@ -1763,7 +1860,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な都、県選 を入力してください。',
+              child: Text('有効な丁目と番地を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2175,70 +2272,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (roomNumber != null || roomNumber.isNotEmpty) {
       print('numbers : $roomNumber');
     }
-    if (_myAddressInputType.isNotEmpty &&
-        _myAddressInputType.contains('現在地を取得する')) {
-      setState(() {
-        print('gowtham');
-        addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-
-          userId: rUserID,
-
-          addressTypeSelection: _myAddressInputType,
-          address: gpsAddressController.text.toString(),
-          userRoomNumber: roomNumberController.text.toString(),
-          userPlaceForMassage: _myCategoryPlaceForMassage,
-          cityName: HealingMatchConstants.userEditCity,
-          buildingName: buildingNameController.text.toString(),
-          // postalCode: '',
-          // lat: HealingMatchConstants.editCurrentLatitude,
-          // lon: HealingMatchConstants.editCurrentLongitude,
-        );
-        updateAddress.add(addUpdateAddress);
-      });
-    }
-    print('Id: ${HealingMatchConstants.userEditToken}');
-    print('Id: $rID');
-    print('Address ID : $_userAddressID');
-    print('UserId: $rUserID');
-    print('Name: $userName');
-    print('Dob: $userDOB');
-    print('Age: ${userAge}');
-    print('occupation: $_myOccupation');
-    print('phn: $userPhoneNumber');
-    print('email: $email');
-    if (_myAddressInputType.isNotEmpty &&
-        _myAddressInputType.contains('直接入力する')) {
-      setState(() {
-        addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-
-          userId: rUserID,
-
-          addressTypeSelection: _myAddressInputType,
-          address: gpsAddressController.text.toString(),
-          userRoomNumber: roomNumberController.text.toString(),
-          userPlaceForMassage: _myCategoryPlaceForMassage,
-          capitalAndPrefecture: _myPrefecture,
-          cityName: _myCity,
-          // citiesId: '',
-          area: userAreaController.text.toString(),
-          buildingName: buildingNameController.text.toString(),
-          // postalCode: '',
-          // lat: HealingMatchConstants.mEditCurrentLatitude,
-          // lon: HealingMatchConstants.mEditCurrentLongitude,
-        );
-        updateAddress.add(addUpdateAddress);
-      });
-    }
-
     // Getting user GPS Address value
     if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
       print('GPS Address : $userGPSAddress');
       String userCurrentLocation =
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
-    } else if (userGPSAddress.isEmpty || userGPSAddress == null) {
+    } else if (HealingMatchConstants.userEditAddress.isEmpty) {
       String manualUserAddress = roomNumber +
           ',' +
           buildingName +
@@ -2265,8 +2305,66 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
     }
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('現在地を取得する')) {
+      setState(() {
+        print('gowtham');
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+
+          userId: rUserID,
+
+          addressTypeSelection: _myAddressInputType,
+          address: gpsAddressController.text.toString(),
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          cityName: HealingMatchConstants.userEditCity,
+          buildingName: buildingNameController.text.toString(),
+          // postalCode: '',
+          // lat: HealingMatchConstants.editCurrentLatitude,
+          // lon: HealingMatchConstants.editCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
+    }
+
+    print('Id: ${HealingMatchConstants.userEditToken}');
+    print('Id: $rID');
+    print('Address ID : $_userAddressID');
+    print('UserId: $rUserID');
+    print('Name: $userName');
+    print('Dob: $userDOB');
+    print('Age: ${userAge}');
+    print('occupation: $_myOccupation');
+    print('phn: $userPhoneNumber');
+    print('email: $email');
+    if (_myAddressInputType.isNotEmpty &&
+        _myAddressInputType.contains('直接入力する')) {
+      setState(() {
+        addUpdateAddress = UpdateAddress(
+          id: _userAddressID,
+
+          userId: rUserID,
+
+          addressTypeSelection: _myAddressInputType,
+          address: HealingMatchConstants.userEditAddress,
+          userRoomNumber: roomNumberController.text.toString(),
+          userPlaceForMassage: _myCategoryPlaceForMassage,
+          capitalAndPrefecture: _myPrefecture,
+          cityName: _myCity,
+          // citiesId: '',
+          area: userAreaController.text.toString(),
+          buildingName: buildingNameController.text.toString(),
+          // postalCode: '',
+          // lat: HealingMatchConstants.mEditCurrentLatitude,
+          // lon: HealingMatchConstants.mEditCurrentLongitude,
+        );
+        updateAddress.add(addUpdateAddress);
+      });
+    }
 
     print('Id: $rID');
+    print('Id: ${HealingMatchConstants.userEditAddress}');
     print('Address ID : $_userAddressID');
 
     print('UserId: $rUserID');
@@ -2378,6 +2476,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           /*  value.setString(
               'subUserAddress', userAddressData.);*/
         }*/
+        print("address: ${profileUpdateResponseModel.address.address}");
       });
       updateAddress.clear();
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
@@ -2539,10 +2638,12 @@ class _AddAddressState extends State<AddAddress> {
   String _myAddedAddressInputType = '';
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
+  String _myCategoryPlaceForMassage = '';
   Placemark userGPSAddressPlaceMark;
   Placemark userManualAddressPlaceMark;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
+  final _placeOfAddressKey = new GlobalKey<FormState>();
   final _addedCityKey = new GlobalKey<FormState>();
   final additionalAddressController = new TextEditingController();
   final addedBuildingNameController = new TextEditingController();
@@ -2558,7 +2659,8 @@ class _AddAddressState extends State<AddAddress> {
   var _addedAddressPrefId;
   bool _isAddedGPSLocation = false;
   bool _showRequiredFields = false;
-
+  bool visible = false;
+  final otherController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2666,6 +2768,109 @@ class _AddAddressState extends State<AddAddress> {
                                   ],
                                   textField: 'showDisplay',
                                   valueField: 'value',
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              _myAddedAddressInputType.isNotEmpty
+                                  ? Form(
+                                      key: _placeOfAddressKey,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.85,
+                                              child: DropDownFormField(
+                                                hintText: '登録する地点のカテゴリー *',
+                                                value:
+                                                    _myCategoryPlaceForMassage,
+                                                onSaved: (value) {
+                                                  setState(() {
+                                                    _myCategoryPlaceForMassage =
+                                                        value;
+                                                  });
+                                                },
+                                                onChanged: (value) {
+                                                  if (value == "その他（直接入力）") {
+                                                    setState(() {
+                                                      _myCategoryPlaceForMassage =
+                                                          value;
+                                                      visible =
+                                                          true; // !visible;
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _myCategoryPlaceForMassage =
+                                                          value;
+                                                      visible = false;
+                                                    });
+                                                  }
+                                                },
+                                                dataSource: [
+                                                  {
+                                                    "display": "自宅",
+                                                    "value": "自宅",
+                                                  },
+                                                  {
+                                                    "display": "オフィス",
+                                                    "value": "オフィス",
+                                                  },
+                                                  {
+                                                    "display": "実家",
+                                                    "value": "実家",
+                                                  },
+                                                  {
+                                                    "display": "その他（直接入力）",
+                                                    "value": "その他（直接入力）",
+                                                  },
+                                                ],
+                                                textField: 'display',
+                                                valueField: 'value',
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Visibility(
+                                visible: visible,
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      /* labelText: HealingMatchConstants
+                                          .loginPhoneNumber,
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,*/
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                               _myAddedAddressInputType.contains('現在地を取得する')
@@ -3022,7 +3227,7 @@ class _AddAddressState extends State<AddAddress> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: 15),
+                                            SizedBox(height: 10),
                                             Container(
                                               width: MediaQuery.of(context)
                                                       .size
@@ -3329,6 +3534,9 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
+    var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
+        ? otherController.text
+        : _myCategoryPlaceForMassage;
     if (_myAddedAddressInputType.isNotEmpty &&
         _myAddedAddressInputType.contains('現在地を取得する')) {
       if (addedRoomNumberController.text.isEmpty ||
@@ -3374,6 +3582,7 @@ class _AddAddressState extends State<AddAddress> {
               HealingMatchConstants.addedCurrentLatitude.toString(),
               HealingMatchConstants.addedCurrentLongitude.toString(),
               _myAddedAddressInputType,
+              _myCategoryPlaceForMassage,
               userGPSAddressPlaceMark.administrativeArea,
               userGPSAddressPlaceMark.subAdministrativeArea,
               addedRoomNumberController.text.toString(),
@@ -3499,6 +3708,7 @@ class _AddAddressState extends State<AddAddress> {
               HealingMatchConstants.manualAddressCurrentLatitude.toString(),
               HealingMatchConstants.manualAddressCurrentLongitude.toString(),
               _myAddedAddressInputType,
+              _myCategoryPlaceForMassage,
               _myAddedCity,
               _myAddedPrefecture,
               addedRoomNumberController.text.toString(),

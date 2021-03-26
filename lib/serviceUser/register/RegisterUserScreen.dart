@@ -247,7 +247,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     Text('サービス利用者情報の入力',
                         style: new TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
+                            color: Color.fromRGBO(102, 102, 0, 1),
                             fontStyle: FontStyle.normal,
                             fontFamily: 'NotoSansJP',
                             fontWeight: FontWeight.w100)),
@@ -266,7 +266,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               text: 'は必須項目です',
                               style: new TextStyle(
                                   fontSize: 14,
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(102, 102, 0, 1),
                                   fontFamily: 'NotoSansJP',
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w100)),
@@ -498,7 +498,8 @@ class _RegisterUserState extends State<RegisterUser> {
                           Text(
                             '性別 *',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
+                                color: Color.fromRGBO(0, 0, 0, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.w300),
                           ),
@@ -972,10 +973,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
                                       filled: true,
-                                      /* labelText: HealingMatchConstants
-                                          .loginPhoneNumber,
+                                      labelText: '登録する地点のカテゴリー (直接入力)',
                                       labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,*/
+                                          .formLabelTextStyle,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
                                     ),
@@ -1618,8 +1618,9 @@ class _RegisterUserState extends State<RegisterUser> {
     var buildingName = buildingNameController.text.toString();
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
+    var otherCategory = otherController.text;
     var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
-        ? otherController.text
+        ? otherCategory
         : _myCategoryPlaceForMassage;
     int userRoomNumber = int.tryParse(roomNumber);
     print('Room number : $userRoomNumber');
@@ -2112,7 +2113,36 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-
+    //place for service (other option)
+    if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
+        (otherCategory == null || otherCategory.isEmpty)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('登録する地点のカテゴリーを入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
     // user perfecture validation
     if ((_myAddressInputTypeVal != "現在地を取得する") &&
         (_myAddressInputTypeVal.contains("直接入力する")) &&
