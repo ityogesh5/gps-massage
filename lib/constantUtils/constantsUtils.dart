@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -78,6 +79,15 @@ class HealingMatchConstants {
   // get Users list
   static const String USER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
+
+  //update Therapist Service Type
+  static const String THERAPIST_UPDATE_SERVICE_TYPE =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therpistUpdateServiceTypebyId';
+
+  //delet Therapist Service Type
+  static const String THERAPIST_DELETE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
+      '/user' +
+      '/therpistUpdateServiceTypeDeletebyId';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -178,6 +188,18 @@ class HealingMatchConstants {
   static List<String> otherRelaxationDropDownValues = List<String>();
   static List<String> otherFitnessDropDownValues = List<String>();
   static List<Asset> bannerImages = List<Asset>();
+  List<File> files = List<File>();
+  static int providerRegisterStatus ;
+  static String idVerify = '';
+  static String bankName = '';
+  static String branchNumber = '';
+  static String accountNumber = '';
+  static String accountType = '';
+  static String branchCode = '';
+  static String qualification = '';
+  static PickedFile idProfileImage;
+  static List<String> privateQualification = List<String>();
+  static Map<String, String> certificateImages = Map<String, String>();
 
   //userDefinedScreens
   static const String UserSelectFirtTxt = 'どちらで利用しますか？';
@@ -297,6 +319,7 @@ class HealingMatchConstants {
   //Provider Home
   static providerLogin.Data userData;
   static String accessToken = '';
+  static String userId;
 
   //User Token
   static String uAccessToken = '';

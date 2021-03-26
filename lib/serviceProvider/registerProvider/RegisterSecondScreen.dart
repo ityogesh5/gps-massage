@@ -66,6 +66,40 @@ class _RegistrationSecondPageState
     qualification = '';
     accountType = '';
     getBankName();
+    getsavedValues();
+  }
+
+  saveValues() {
+    HealingMatchConstants.providerRegisterStatus = 1;
+    HealingMatchConstants.idVerify = identificationverify.toString().trim();
+    HealingMatchConstants.bankName =
+        bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
+            ? bankOtherFieldController.text
+            : bankname;
+    HealingMatchConstants.branchNumber = branchNumberController.text;
+    HealingMatchConstants.accountNumber = accountnumberController.text;
+    HealingMatchConstants.accountType = accountType;
+    HealingMatchConstants.branchCode = branchCodeController.text;
+    HealingMatchConstants.qualification = qualification.toString().trim();
+    HealingMatchConstants.idProfileImage = _idProfileImage;
+    HealingMatchConstants.privateQualification.clear();
+    HealingMatchConstants.privateQualification.addAll(privateQualification);
+    HealingMatchConstants.certificateImages.clear();
+    HealingMatchConstants.certificateImages.addAll(certificateImages);
+  }
+
+  getsavedValues() {
+    if (HealingMatchConstants.providerRegisterStatus == 1) {
+      identificationverify = HealingMatchConstants.idVerify;
+      branchNumberController.text = HealingMatchConstants.branchNumber;
+      accountnumberController.text = HealingMatchConstants.accountNumber;
+      accountType = HealingMatchConstants.accountType;
+      branchCodeController.text = HealingMatchConstants.branchCode;
+      qualification = HealingMatchConstants.qualification;
+      _idProfileImage = HealingMatchConstants.idProfileImage;
+      privateQualification.addAll(HealingMatchConstants.privateQualification);
+      certificateImages.addAll(HealingMatchConstants.certificateImages);
+    }
   }
 
   @override
@@ -75,7 +109,26 @@ class _RegistrationSecondPageState
       appBar: AppBar(
         brightness: Brightness.light,
         elevation: 0.0,
-        toolbarHeight: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+            padding:
+                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              saveValues();
+              Navigator.pop(context);
+            }),
+        title: Text(
+          HealingMatchConstants.registrationFirstText,
+          style: TextStyle(
+            fontSize: 14,
+            color: Color.fromRGBO(102, 102, 102, 1),
+          ),
+        ),
+        centerTitle: true,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -83,11 +136,16 @@ class _RegistrationSecondPageState
           child: Form(
             key: formkey,
             child: Container(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.width / 19),
+              padding: EdgeInsets.only(
+                top: 4.0,
+                left: MediaQuery.of(context).size.width / 19,
+                right: MediaQuery.of(context).size.width / 19,
+                bottom: 8.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  /*   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -101,7 +159,7 @@ class _RegistrationSecondPageState
                   ),
                   SizedBox(
                     height: 5,
-                  ),
+                  ), */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

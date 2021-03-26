@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -12,6 +12,11 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationD
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 
 class ShiftService extends StatefulWidget {
   @override
@@ -56,6 +61,10 @@ class _ShiftServiceState extends State<ShiftService> {
   FitnessDropDownModel fitnessDropDownModel;
   ProgressDialog _progressDialog = ProgressDialog();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  List<EstheticListElement> deletedEstheticList;
+  List<EstheticListElement> deletedTreatmentList;
+  List<EstheticListElement> deletedRelaxationList;
+  List<EstheticListElement> deletedFitnessList;
 
   @override
   void initState() {
@@ -77,26 +86,6 @@ class _ShiftServiceState extends State<ShiftService> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      /* appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
-          elevation: 0.0,
-          title: Text(
-            HealingMatchConstants.registrationChooseServiceNavBtn,
-            style: TextStyle(
-                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          leading: IconButton(
-            padding:
-                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            onPressed: () => Navigator.pop(context),
-          )), */
       body: SafeArea(
         child: SingleChildScrollView(
           primary: true,
@@ -471,7 +460,8 @@ class _ShiftServiceState extends State<ShiftService> {
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           onPressed: () {
-                            saveSelectedValues();
+                            deleteUnSelectedValues();
+                            // saveSelectedValues();
                           },
                         ),
                       ),
@@ -551,6 +541,11 @@ class _ShiftServiceState extends State<ShiftService> {
                                         .remove(val.toLowerCase());
                                     servicePriceModel.removeAt(indexPos);
                                     if (mindex == 0) {
+                                      print("h"/* + HealingMatchConstants
+                                          .userData.estheticLists[indexPos] */);
+                                      deletedEstheticList.add(
+                                          HealingMatchConstants.userData
+                                              .estheticLists[indexPos]);
                                       selectedEstheticDropdownValues.clear();
                                       estheticServicePriceModel.clear();
                                       selectedEstheticDropdownValues
@@ -558,6 +553,9 @@ class _ShiftServiceState extends State<ShiftService> {
                                       estheticServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 1) {
+                                      deletedRelaxationList.add(
+                                          HealingMatchConstants.userData
+                                              .relaxationLists[indexPos]);
                                       selectedRelaxationDropdownValues.clear();
                                       relaxationServicePriceModel.clear();
                                       selectedRelaxationDropdownValues
@@ -565,6 +563,9 @@ class _ShiftServiceState extends State<ShiftService> {
                                       relaxationServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 2) {
+                                      deletedTreatmentList.add(
+                                          HealingMatchConstants.userData
+                                              .orteopathicLists[indexPos]);
                                       selectedTreatmentDropdownValues.clear();
                                       treatmentServicePriceModel.clear();
                                       selectedTreatmentDropdownValues
@@ -572,6 +573,9 @@ class _ShiftServiceState extends State<ShiftService> {
                                       treatmentServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 3) {
+                                      deletedFitnessList.add(
+                                          HealingMatchConstants
+                                              .userData.fitnessLists[indexPos]);
                                       selectedFitnessDropdownValues.clear();
                                       fitnessServicePriceModel.clear();
                                       selectedFitnessDropdownValues
@@ -1871,47 +1875,83 @@ class _ShiftServiceState extends State<ShiftService> {
         .addAll(HealingMatchConstants.otherFitnessDropDownValues);
   }
 
-  saveSelectedValues() {
-    /*   //Clear and Saving the Price Model
-    HealingMatchConstants.estheticServicePriceModel.clear();
-    HealingMatchConstants.relaxationServicePriceModel.clear();
-    HealingMatchConstants.treatmentServicePriceModel.clear();
-    HealingMatchConstants.fitnessServicePriceModel.clear();
-    HealingMatchConstants.estheticServicePriceModel
-        .addAll(estheticServicePriceModel);
-    HealingMatchConstants.relaxationServicePriceModel
-        .addAll(relaxationServicePriceModel);
-    HealingMatchConstants.treatmentServicePriceModel
-        .addAll(treatmentServicePriceModel);
-    HealingMatchConstants.fitnessServicePriceModel
-        .addAll(fitnessServicePriceModel);
-    //Clear and save the Selected CheckBox Values
-    HealingMatchConstants.selectedEstheticDropdownValues.clear();
-    HealingMatchConstants.selectedRelaxationDropdownValues.clear();
-    HealingMatchConstants.selectedTreatmentDropdownValues.clear();
-    HealingMatchConstants.selectedFitnessDropdownValues.clear();
-    HealingMatchConstants.selectedEstheticDropdownValues
-        .addAll(selectedEstheticDropdownValues);
-    HealingMatchConstants.selectedRelaxationDropdownValues
-        .addAll(selectedRelaxationDropdownValues);
-    HealingMatchConstants.selectedTreatmentDropdownValues
-        .addAll(selectedTreatmentDropdownValues);
-    HealingMatchConstants.selectedFitnessDropdownValues
-        .addAll(selectedFitnessDropdownValues);
-    //Clear and Select the other added CheckBox Values
-    HealingMatchConstants.otherEstheticDropDownValues.clear();
-    HealingMatchConstants.otherTreatmentDropDownValues.clear();
-    HealingMatchConstants.otherRelaxationDropDownValues.clear();
-    HealingMatchConstants.otherFitnessDropDownValues.clear();
-    HealingMatchConstants.otherEstheticDropDownValues
-        .addAll(otherEstheticDropDownValues);
-    HealingMatchConstants.otherTreatmentDropDownValues
-        .addAll(otherTreatmentDropDownValues);
-    HealingMatchConstants.otherRelaxationDropDownValues
-        .addAll(otherRelaxationDropDownValues);
-    HealingMatchConstants.otherFitnessDropDownValues
-        .addAll(otherFitnessDropDownValues);
+  saveSelectedValues() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var headers = {
+      'Content-Type': 'application/json',
+      'x-access-token': HealingMatchConstants.accessToken
+    };
+    try {
+      final response =
+          await http.post(HealingMatchConstants.THERAPIST_UPDATE_SERVICE_TYPE,
+              headers: headers,
+              body: json.encode({
+                'id': HealingMatchConstants.userId,
+                'estheticList': json.encode(estheticServicePriceModel),
+                'relaxationList': json.encode(relaxationServicePriceModel),
+                'orteopathicList': json.encode(
+                  treatmentServicePriceModel,
+                ),
+                'fitnessList': json.encode(
+                  fitnessServicePriceModel,
+                ),
+              }));
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
+          response.statusCode, context, response.body)) {
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
+      //handle socket Exception
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
+    } catch (_) {
+      //handle other error
+      print("Error");
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
+  }
 
-    Navigator.pop(context); */
+  deleteUnSelectedValues() async {
+    ProgressDialogBuilder.showCommonProgressDialog(context);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var headers = {
+      'Content-Type': 'application/json',
+      'x-access-token': HealingMatchConstants.accessToken
+    };
+    try {
+      final response =
+          await http.post(HealingMatchConstants.THERAPIST_DELETE_SERVICE_TYPE,
+              headers: headers,
+              body: json.encode({
+                'id': HealingMatchConstants.userId,
+                'estheticList': json.encode(deletedEstheticList),
+                'relaxationList': json.encode(deletedRelaxationList),
+                'orteopathicList': json.encode(deletedTreatmentList),
+                'fitnessList': json.encode(
+                  deletedFitnessList,
+                ),
+              }));
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
+          response.statusCode, context, response.body)) {
+      } else {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
+      //handle socket Exception
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      NavigationRouter.switchToNetworkHandler(context);
+      print('Network error !!');
+    } catch (_) {
+      //handle other error
+      print("Error");
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
   }
 }
