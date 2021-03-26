@@ -2194,7 +2194,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                         )),
                                     FittedBox(
                                       child: Text(
-                                        '半径1.5km',
+                                        '1.5km圏内',
                                         style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey[400]),

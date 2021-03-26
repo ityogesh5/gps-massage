@@ -47,9 +47,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
@@ -104,19 +104,23 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           )),
                       SizedBox(width: 10.0),
                       CircleAvatar(
+                        radius: 16,
                         backgroundColor: Colors.grey[100],
-                        radius: 15,
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.edit_rounded,
-                              size: 15,
-                              color: Colors.grey[400],
-                            ),
-                            onPressed: () {
-                              NavigationRouter
-                                  .switchToServiceUserEditProfileScreen(
-                                      context);
-                            }),
+                        child: CircleAvatar(
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                          radius: 15,
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.edit_rounded,
+                                size: 15,
+                                color: Colors.grey[400],
+                              ),
+                              onPressed: () {
+                                NavigationRouter
+                                    .switchToServiceUserEditProfileScreen(
+                                        context);
+                              }),
+                        ),
                       )
                     ],
                   ),
@@ -143,8 +147,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                         // height: 35,
                         //  color: Colors.grey,
                       ),
-                      backgroundColor: Colors.grey[100],
+                      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                       shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.grey[100]),
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10),
                               bottomRight: Radius.circular(10),
@@ -184,7 +189,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           borderRadius: BorderRadius.circular(16.0),
                           color: Colors.white),
                       width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.40,
+                      height: MediaQuery.of(context).size.height * 0.42,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -369,22 +374,21 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
 
   // ignore: non_constant_identifier_names
   Widget MyRow(Widget image, Widget text, Widget circleAvatar) {
-    return Expanded(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Center(child: image),
-          SizedBox(
-            width: 5,
-          ),
-          Flexible(child: text),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: circleAvatar),
-          )
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: image,
+        ),
+        Flexible(
+            child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
+        Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: circleAvatar,
+        )
+      ],
     );
   }
 

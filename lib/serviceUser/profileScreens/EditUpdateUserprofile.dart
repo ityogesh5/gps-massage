@@ -48,6 +48,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String rUserRoomNo = '';
   String rUserPlaceMassage = '';
   String rUserArea = '';
+  String rOtherOption = '';
 
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
@@ -796,37 +797,36 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               SizedBox(
                                 height: 15,
                               ),
-                              Visibility(
-                                visible: visible,
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  child: TextFormField(
-                                    controller: otherController,
-                                    style: HealingMatchConstants.formTextStyle,
-                                    decoration: InputDecoration(
-                                      counterText: '',
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      filled: true,
-                                      /* labelText: HealingMatchConstants
-                                          .loginPhoneNumber,
-                                      labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,*/
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              _myCategoryPlaceForMassage == "その他（直接入力）"
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.85,
+                                      child: TextFormField(
+                                        controller: otherController,
+                                        style:
+                                            HealingMatchConstants.formTextStyle,
+                                        decoration: InputDecoration(
+                                          counterText: '',
+                                          contentPadding:
+                                              EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                          border: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          focusedBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          filled: true,
+                                          labelText: '登録する地点のカテゴリー (直接入力)',
+                                          labelStyle: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
                               !_showCurrentLocationInput
                                   ? SizedBox(height: 5)
                                   : SizedBox(height: 15),
@@ -2505,8 +2505,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         rUserBuildName = value.getString('buildingName');
         rUserRoomNo = value.getString('roomNumber');
         _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
+        rOtherOption = value.getString('otherOption');
         _myCity = value.getString('cityName');
         _myPrefecture = value.getString('capitalAndPrefecture');
+
         rUserArea = value.getString('area');
         rUserID = value.getString('userID');
         rID = value.getString('did');
@@ -2536,6 +2538,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           buildingNameController.text = rUserBuildName;
           roomNumberController.text = rUserRoomNo;
           gpsAddressController.text = rUserAddress;
+          otherController.text = rOtherOption;
           userAreaController.text = rUserArea;
 
           /*userNameController.text = HealingMatchConstants.userEditUserName;
@@ -3790,7 +3793,9 @@ class _AddAddressState extends State<AddAddress> {
       return;
     }
 
-    otherUserAddress.add(addUserAddress);
+    setState(() {
+      otherUserAddress.add(addUserAddress);
+    });
     _sharedPreferences.then((value) {
       value.setBool('isUserVerified', false);
     });
