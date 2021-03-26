@@ -118,131 +118,150 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02),
-                      new Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          new Container(
-                              width: 35.0,
-                              height: 35.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.grey[300]),
-                                shape: BoxShape.circle,
-                                color: Colors.grey[300],
-                                image: new DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: new AssetImage(
-                                      'assets/images_gps/profile.png'),
-                                ),
-                              )),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            'お名前',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                          height: MediaQuery.of(context).size.height * 0.04),
+                      Expanded(
+                        child: new Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            new Container(
+                                width: 25.0,
+                                height: 25.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.grey[300]),
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[300],
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: new AssetImage(
+                                        'assets/images_gps/profile.png'),
+                                  ),
+                                )),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              'お名前',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            Image.asset('assets/images_gps/calendar.png',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '10月17',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            Text(
+                              '月曜日出張',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[400],
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/clock.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            new Text(
+                              '09:  00～10:  00',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            new Text(
+                              '60分',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 14,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          Image.asset('assets/images_gps/calendar.png',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '10月17',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          Text(
-                            '月曜日出張',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[400],
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/clock.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '09:  00～10:  00',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          new Text(
-                            '60分',
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/cost.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Chip(
-                            label: Text('足つぼ'),
-                            backgroundColor: Colors.grey[200],
-                          ),
-                          Text(
-                            "\t\t¥4,500",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.left,
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text(
-                            '(交通費込み-1,000)',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[400],
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/cost.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Chip(
+                              label: Text('足つぼ'),
+                              backgroundColor: Colors.white,
+                            ),
+                            Text(
+                              "\t\t¥4,500",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text(
+                              '(交通費込み-1,000)',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[400],
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Expanded(
                                 child: Padding(
-                              padding: const EdgeInsets.all(14.0),
+                              padding: const EdgeInsets.all(10.0),
                               child: Divider(),
                             )),
                             Padding(
@@ -257,25 +276,29 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                       width: 30)),
                             ),
                           ]),
-                      Row(
-                        children: [
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.03),
-                          SvgPicture.asset('assets/images_gps/gps.svg',
-                              height: 25, width: 25),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
-                          Text(
-                            '施術を受ける場所',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.03),
+                            SvgPicture.asset('assets/images_gps/gps.svg',
+                                height: 25, width: 25),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            Text(
+                              '施術を受ける場所',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 12),
                       Expanded(
                         child: Row(
                           children: [
@@ -299,11 +322,11 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Colors.grey[200]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
+                                  padding: const EdgeInsets.all(2),
                                   child: Text(
                                     '店舗',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 12,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: 'NotoSansJP'),
@@ -316,7 +339,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                               child: Text(
                                 '埼玉県浦和区高砂4丁目4',
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     color: Colors.grey[500],
                                     fontFamily: 'NotoSansJP'),
                               ),
@@ -324,6 +347,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 15),
                     ],
                   ),
                 ),
@@ -342,7 +366,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -359,110 +383,116 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                 borderRadius: BorderRadius.circular(16.0),
                 color: Colors.grey[100]),
             width: MediaQuery.of(context).size.width * 0.90,
-            height: MediaQuery.of(context).size.height * 0.27,
+            height: MediaQuery.of(context).size.height * 0.30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                new Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Text(
-                      '提案時間',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                    Spacer(),
-                    Text(
-                      '10:  00~11:  00',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 12,
-                          color: Colors.grey[400],
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(Icons.arrow_forward,
-                        color: Colors.grey[400], size: 20),
-                    Spacer(),
-                    Text(
-                      '10:  30~11:  30',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: new Row(
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Text(
+                        '提案時間',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.07),
+                      Spacer(),
+                      Text(
+                        '10:  00~11:  00',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Icon(Icons.arrow_forward,
+                          color: Colors.grey[400], size: 20),
+                      Spacer(),
+                      Text(
+                        '10:  30~11:  30',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 10),
-                Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    new Text(
-                      'サービス料金',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    Spacer(),
-                    //¥4,500
-                    new Text(
-                      '¥3,500',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      new Text(
+                        'サービス料金',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      Spacer(),
+                      //¥4,500
+                      new Text(
+                        '¥3,500',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 15),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    new Text(
-                      '交通費',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                    Spacer(),
-                    Text(
-                      '¥0',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 12,
-                          color: Colors.grey[400],
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(Icons.arrow_forward,
-                        color: Colors.grey[400], size: 20),
-                    Spacer(),
-                    new Text(
-                      '¥1,000',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      new Text(
+                        '交通費',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.07),
+                      Spacer(),
+                      Text(
+                        '¥0',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Icon(Icons.arrow_forward,
+                          color: Colors.grey[400], size: 20),
+                      Spacer(),
+                      new Text(
+                        '¥1,000',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
                 Expanded(
                   child: Row(children: <Widget>[
@@ -473,43 +503,46 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                     )),
                   ]),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    new Text(
-                      '合計',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                    Spacer(),
-                    Text(
-                      '¥3,500',
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 12,
-                          color: Colors.grey[400],
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(Icons.arrow_forward,
-                        color: Colors.grey[400], size: 20),
-                    Spacer(),
-                    new Text(
-                      '¥4,500',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          fontFamily: 'NotoSansJP'),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                  ],
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      new Text(
+                        '合計',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                      Spacer(),
+                      Text(
+                        '¥3,500',
+                        style: TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                      Icon(Icons.arrow_forward,
+                          color: Colors.grey[400], size: 20),
+                      Spacer(),
+                      new Text(
+                        '¥4,500',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14,
+                            fontFamily: 'NotoSansJP'),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                    ],
+                  ),
                 ),
+                SizedBox(height: 15),
               ],
             ),
           ),
@@ -525,7 +558,7 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                   child: CustomToggleButton(
                     elevation: 0,
                     height: 55.0,
-                    width: 170.0,
+                    width: MediaQuery.of(context).size.width * 0.40,
                     autoWidth: false,
                     buttonColor: Color.fromRGBO(217, 217, 217, 1),
                     enableShape: true,
