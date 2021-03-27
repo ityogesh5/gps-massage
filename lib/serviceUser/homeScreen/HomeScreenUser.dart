@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -214,19 +217,9 @@ class InitialUserHomeScreen extends StatefulWidget {
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   @override
   void initState() {
-    checkInternet();
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     getAccessToken();
-  }
-
-  checkInternet() {
-    CheckInternetConnection.checkConnectivity(context);
-    if (HealingMatchConstants.isInternetAvailable) {
-      BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));
-    } else {
-      //return HomePageError();
-    }
   }
 
   getAccessToken() async {
@@ -250,7 +243,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     }
 
     try {
-      var bannerApiProvider = ServiceUserAPIProvider.getAllBannerImages();
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
       bannerApiProvider.then((value) {
         if (this.mounted) {
           setState(() {
@@ -318,6 +312,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   @override
   void initState() {
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -1244,7 +1239,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19),
                                         ),
-                                  Text('/60分')
+                                  //Text('/60分')
                                 ],
                               )
                             ],
@@ -1272,6 +1267,33 @@ class CarouselWithIndicatorDemo extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   int _current = 0;
 
+  _getBannerImages() async {
+    List<BannersList> bannerImages = [];
+    if (userBannerImages != null) {
+      userBannerImages.clear();
+      bannerImages.clear();
+    }
+
+    try {
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
+      bannerApiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            bannerImages = value.data.bannersList;
+            for (var item in bannerImages) {
+              userBannerImages.add(item.bannerImageUrl);
+              print('Therapist banner images : ${item.bannerImageUrl}');
+            }
+          });
+        }
+      });
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return userBannerImages != null
@@ -1292,8 +1314,39 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                     BorderRadius.all(Radius.circular(10.0)),
                                 child: Stack(
                                   children: <Widget>[
-                                    Image.network(userBannerImages[i],
-                                        fit: BoxFit.cover, width: 2000.0),
+                                    /*Image.network(userBannerImages[i],
+                                        fit: BoxFit.cover, width: 2000.0),*/
+                                    CachedNetworkImage(
+                                        width: 2000.0,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userBannerImages[i],
+                                        placeholder: (context, url) =>
+                                            SpinKitWave(
+                                                color: Colors.blueAccent,
+                                                size: 50.0),
+                                        errorWidget: (context, url, error) =>
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to Download Banners...Try Again!!',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                ),
+                                                new IconButton(
+                                                  icon: Icon(
+                                                      Icons.refresh_sharp,
+                                                      size: 40),
+                                                  onPressed: () {
+                                                    _getBannerImages();
+                                                  },
+                                                ),
+                                              ],
+                                            )),
                                   ],
                                 )),
                           ),
@@ -1637,7 +1690,7 @@ class _ReservationListState extends State<ReservationList> {
                                 '09: 00 ~ 10: 00',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Text('(60分)')
+                              //Text('(60分)')
                             ],
                           ),
                           SizedBox(
@@ -2060,12 +2113,15 @@ class _RecommendListsState extends State<RecommendLists> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19),
                                 ),
+/*
                                 Text(
                                   '/60分',
                                   style: TextStyle(
                                       color: Color.fromRGBO(153, 153, 153, 1),
                                       fontFamily: ColorConstants.fontFamily),
-                                )
+                                )*/
+
+                                //Text('/60分')
                               ],
                             ),
                           ],
@@ -2387,7 +2443,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 19),
                                               ),
-                                        Text('/60分')
+                                        //Text('/60分')
                                       ],
                                     )
                                   ],
