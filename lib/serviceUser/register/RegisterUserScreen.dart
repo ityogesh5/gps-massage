@@ -1619,9 +1619,9 @@ class _RegisterUserState extends State<RegisterUser> {
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
     var otherCategory = otherController.text;
-    var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
-        ? otherCategory
-        : _myCategoryPlaceForMassage;
+    print('other cat : $otherCategory');
+    var categoryPlaceForMassage = _myCategoryPlaceForMassage;
+    print('catogaryMassage : $otherCategory');
     int userRoomNumber = int.tryParse(roomNumber);
     print('Room number : $userRoomNumber');
     int phoneNumber = int.tryParse(userPhoneNumber);
@@ -2358,6 +2358,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "password_confirmation": confirmPassword,
           "isTherapist": "0",
           "userPlaceForMassage": categoryPlaceForMassage,
+          "otherAddressType": otherCategory,
           "address": HealingMatchConstants.userAddress,
           "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
           "cityName": HealingMatchConstants.serviceUserCity,
@@ -2383,6 +2384,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "password_confirmation": confirmPassword,
           "isTherapist": "0",
           "userPlaceForMassage": categoryPlaceForMassage,
+          "otherAddressType": otherCategory,
           "address": HealingMatchConstants.userAddress,
           "capitalAndPrefecture": HealingMatchConstants.serviceUserPrefecture,
           "cityName": HealingMatchConstants.serviceUserCity,
@@ -2446,6 +2448,7 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setString('userID', userAddressData.userId.toString());
             value.setString(
                 'userPlaceForMassage', userAddressData.userPlaceForMassage);
+            value.setString('otherOption', userAddressData.otherAddressType);
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);

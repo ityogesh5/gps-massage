@@ -12,6 +12,7 @@ class _ChatUserListState extends State<ChatUserList> {
   TabController _tabController;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool userIsOnline = true;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,7 +74,7 @@ class _ChatUserListState extends State<ChatUserList> {
                     splashColor: Colors.lime,
                     child: Card(
                       elevation: 0.0,
-                    //  color: Colors.grey[100],
+                      //  color: Colors.grey[100],
                       semanticContainer: true,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),

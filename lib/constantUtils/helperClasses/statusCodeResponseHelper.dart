@@ -252,7 +252,7 @@ class StatusCodeHelper {
     return false;
   }
 
-  // 200 response Therapist Service type Update 
+  // 200 response Therapist Service type Update
   static bool isTherpaistServiceUpdateSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {
@@ -284,7 +284,7 @@ class StatusCodeHelper {
     return false;
   }
 
-  // 200 response Therapist Service type Delete 
+  // 200 response Therapist Service type Delete
   static bool isTherpaistServiceDeleteSuccess(
       int statusCode, BuildContext context, String body) {
     if (statusCode == 200) {

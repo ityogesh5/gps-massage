@@ -1,7 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -66,9 +66,11 @@ class HealingMatchConstants {
   //Ratings and Review
   static const String RATING_USER_URL =
       ON_PREMISE_USER_BASE_URL + '/mobileReview/createUserReview';
+
   // Provider rating List
   static const String RATING_PROVIDER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/mobileReview/userReviewListById';
+
   // get Therapists list
   static const String THERAPIST_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
@@ -89,6 +91,7 @@ class HealingMatchConstants {
   static const String THERAPIST_DELETE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
       '/user' +
       '/therpistUpdateServiceTypeDeletebyId';
+
   // get Users banner images from Admin
   static const String BANNER_IMAGES_URL = ON_PREMISE_USER_BASE_URL +
       '/adminBanner' +
@@ -200,7 +203,8 @@ class HealingMatchConstants {
   static List<String> otherFitnessDropDownValues = List<String>();
   static List<Asset> bannerImages = List<Asset>();
   List<File> files = List<File>();
-  static int providerRegisterStatus ;
+  static int providerRegisterStatus;
+
   static String idVerify = '';
   static String bankName = '';
   static String branchNumber = '';

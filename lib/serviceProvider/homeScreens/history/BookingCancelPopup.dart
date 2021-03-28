@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
 class CancelBooking extends StatefulWidget {
   @override
@@ -10,6 +10,7 @@ class CancelBooking extends StatefulWidget {
 
 class _CancelBookingState extends State<CancelBooking> {
   TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

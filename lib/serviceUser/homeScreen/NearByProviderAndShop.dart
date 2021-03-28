@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,7 +143,8 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
         backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         body: Container(
           child: Center(
-            child: SpinKitRipple(color: Color.fromRGBO(200, 217, 33, 1)),
+            child:
+                SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
           ),
         ));
   }
@@ -260,30 +262,59 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              new Container(
-                                                  width: 70.0,
-                                                  height: 70.0,
-                                                  decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black12),
-                                                    shape: BoxShape.circle,
-                                                    image: therapistUsers[index]
-                                                                .user
-                                                                .uploadProfileImgUrl !=
-                                                            null
-                                                        ? new DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: new NetworkImage(
-                                                                therapistUsers[
-                                                                        index]
-                                                                    .user
-                                                                    .uploadProfileImgUrl),
-                                                          )
-                                                        : new DecorationImage(
+                                              therapistUsers[index]
+                                                          .user
+                                                          .uploadProfileImgUrl !=
+                                                      null
+                                                  ? CachedNetworkImage(
+                                                      imageUrl: therapistUsers[
+                                                              index]
+                                                          .user
+                                                          .uploadProfileImgUrl,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                      fadeInCurve:
+                                                          Curves.easeInSine,
+                                                      imageBuilder: (context,
+                                                              imageProvider) =>
+                                                          Container(
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit:
+                                                                  BoxFit.cover),
+                                                        ),
+                                                      ),
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          SpinKitDoubleBounce(
+                                                              color: Colors
+                                                                  .lightGreenAccent),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              'assets/images_gps/user.png'),
+                                                    )
+                                                  : new Container(
+                                                      width: 80.0,
+                                                      height: 80.0,
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.black12),
+                                                        shape: BoxShape.circle,
+                                                        image: new DecorationImage(
                                                             fit: BoxFit.none,
                                                             image: new AssetImage(
                                                                 'assets/images_gps/user.png')),
-                                                  )),
+                                                      )),
                                               SizedBox(height: 5),
                                               FittedBox(
                                                 child: Text(
@@ -535,7 +566,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
       child: new Center(
         child: new Opacity(
           opacity: isLoading ? 1.0 : 00,
-          child: new SpinKitPulse(color: Colors.lime),
+          child: new SpinKitPulse(color: Colors.greenAccent),
         ),
       ),
     );
@@ -554,7 +585,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               ServiceUserAPIProvider.getAllTherapistsByLimit(
                   _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.therapistData.count == 0) {
+            if (value.therapistData.therapistUserList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
@@ -663,32 +694,62 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              new Container(
-                                                  width: 70.0,
-                                                  height: 70.0,
-                                                  decoration: new BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black12),
-                                                    shape: BoxShape.circle,
-                                                    image: widget
-                                                                .getTherapistByType[
-                                                                    index]
-                                                                .user
-                                                                .uploadProfileImgUrl !=
-                                                            null
-                                                        ? new DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: new NetworkImage(widget
-                                                                .getTherapistByType[
-                                                                    index]
-                                                                .user
-                                                                .uploadProfileImgUrl),
-                                                          )
-                                                        : new DecorationImage(
+                                              widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .uploadProfileImgUrl !=
+                                                      null
+                                                  ? CachedNetworkImage(
+                                                      imageUrl: widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .user
+                                                          .uploadProfileImgUrl,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                      fadeInCurve:
+                                                          Curves.easeInSine,
+                                                      imageBuilder: (context,
+                                                              imageProvider) =>
+                                                          Container(
+                                                        width: 80.0,
+                                                        height: 80.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit:
+                                                                  BoxFit.cover),
+                                                        ),
+                                                      ),
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          SpinKitDoubleBounce(
+                                                              color: Colors
+                                                                  .lightGreenAccent),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              'assets/images_gps/user.png'),
+                                                    )
+                                                  : new Container(
+                                                      width: 80.0,
+                                                      height: 80.0,
+                                                      decoration:
+                                                          new BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.black12),
+                                                        shape: BoxShape.circle,
+                                                        image: new DecorationImage(
                                                             fit: BoxFit.none,
                                                             image: new AssetImage(
                                                                 'assets/images_gps/user.png')),
-                                                  )),
+                                                      )),
                                               SizedBox(height: 5),
                                               FittedBox(
                                                 child: Text(
@@ -964,7 +1025,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
               ServiceUserAPIProvider.getTherapistsByTypeLimit(
                   _pageNumberType, _pageSizeType);
           providerListApiProvider.then((value) {
-            if (value.therapistData.count == 0) {
+            if (value.therapistData.userList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(

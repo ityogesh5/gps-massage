@@ -1,184 +1,161 @@
-import 'package:favorite_button/favorite_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
+import 'dart:async';
 
-class ShimmerExampleLoader extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+
+class CustomProgressIndicator extends StatefulWidget {
   @override
-  State createState() => _LoadingHomeScreenState();
+  _CustomProgressIndicatorState createState() =>
+      _CustomProgressIndicatorState();
 }
 
-class _LoadingHomeScreenState extends State<ShimmerExampleLoader> {
+class _CustomProgressIndicatorState extends State<CustomProgressIndicator> {
+  double _height;
+  double _width;
+
+  double percent = 0.0;
+
   @override
   void initState() {
+    Timer timer;
+    timer = Timer.periodic(Duration(milliseconds: 300), (_) {
+      print('Percent Update');
+      setState(() {
+        percent += 1;
+        if (percent >= 100) {
+          timer.cancel();
+          // percent=0;
+        }
+      });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: MediaQuery.of(context).size.height * 0.22,
-      width: MediaQuery.of(context).size.width * 0.85,
-      child: new Card(
-        elevation: 0.0,
-        color: Colors.grey[100],
-        semanticContainer: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Shimmer(
-                      duration: Duration(seconds: 1),
-                      //Default value
-                      interval: Duration(seconds: 2),
-                      //Default value: Duration(seconds: 0)
-                      color: Colors.grey[300],
-                      //Default value
-                      enabled: true,
-                      //Default value
-                      direction: ShimmerDirection.fromLeftToRight(),
-                      child: new Container(
-                          width: 70.0,
-                          height: 70.0,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            shape: BoxShape.circle,
-                          )),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5),
-              Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Shimmer(
-                      duration: Duration(seconds: 1),
-                      //Default value
-                      interval: Duration(seconds: 2),
-                      //Default value: Duration(seconds: 0)
-                      color: Colors.grey[300],
-                      //Default value
-                      enabled: true,
-                      //Default value
-                      direction: ShimmerDirection.fromLeftToRight(),
-                      child: Row(
-                        children: [
+    _height = MediaQuery.of(context).size.height;
+    _width = MediaQuery.of(context).size.width;
 
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Visibility(
-                            visible: true,
-                            child: Container(
-                                padding: EdgeInsets.all(4)),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Visibility(
-                            visible: true,
-                            child: Container(
-                                padding: EdgeInsets.all(4)),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Visibility(
-                            visible: true,
-                            child: Container(
-                                padding: EdgeInsets.all(4)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        Shimmer(
-                          duration: Duration(seconds: 1),
-                          //Default value
-                          interval: Duration(seconds: 2),
-                          //Default value: Duration(seconds: 0)
-                          color: Colors.grey[300],
-                          //Default value
-                          enabled: true,
-                          //Default value
-                          direction: ShimmerDirection.fromLeftToRight(),
-                          child: RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 25,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              size: 5,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Text(''),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Shimmer(
-                      duration: Duration(seconds: 1),
-                      //Default value
-                      interval: Duration(seconds: 2),
-                      //Default value: Duration(seconds: 0)
-                      color: Colors.grey[300],
-                      //Default value
-                      enabled: true,
-                      //Default value
-                      direction: ShimmerDirection.fromLeftToRight(),
-                      child: Row(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.all(4)),
-                        ],
-                      ),
-                    )
-                  ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Liquid Progress Bar",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+      ),
+      body: Container(
+        height: _height,
+        width: _width,
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                Text(
+                  'Liquid Circular Progress Indicator',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15),
                 ),
-              )
-            ],
-          ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  height: 130,
+                  width: 130,
+                  child: LiquidCircularProgressIndicator(
+                    value: percent / 100,
+                    // Defaults to 0.5.
+                    valueColor: AlwaysStoppedAnimation(Colors.pink),
+                    backgroundColor: Colors.white,
+                    borderColor: Colors.red,
+                    borderWidth: 4.0,
+                    direction: Axis.vertical,
+                    center: Text(
+                      percent.toString() + "%",
+                      style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  'Liquid linear progress indicator',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  height: 40,
+                  child: LiquidLinearProgressIndicator(
+                    value: percent / 100,
+                    valueColor: AlwaysStoppedAnimation(Colors.pink),
+                    backgroundColor: Colors.white,
+                    borderColor: Colors.red,
+                    borderWidth: 5.0,
+                    borderRadius: 12.0,
+                    direction: Axis.horizontal,
+                    center: Text(
+                      percent.toString() + "%",
+                      style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Text(
+                  'Liquid custom progress indicator.',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15),
+                ),
+                Container(
+                  child: LiquidCustomProgressIndicator(
+                    value: percent / 100,
+                    valueColor: AlwaysStoppedAnimation(Colors.limeAccent),
+                    backgroundColor: Colors.grey[100],
+                    direction: Axis.vertical,
+                    shapePath: _buildBoatPath(),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Path _buildBoatPath() {
+    return Path()
+      ..moveTo(15, 120)
+      ..lineTo(0, 85)
+      ..lineTo(50, 85)
+      ..lineTo(50, 0)
+      ..lineTo(105, 80)
+      ..lineTo(60, 80)
+      ..lineTo(60, 85)
+      ..lineTo(120, 85)
+      ..lineTo(105, 120)
+      ..close();
   }
 }

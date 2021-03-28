@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/Approved.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/Cancel.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/history/Request.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/history/ConfirmReservation.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/history/Request.dart';
 
 class History extends StatefulWidget {
   @override
@@ -60,7 +60,8 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white, brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
         elevation: 2.0,
         automaticallyImplyLeading: false,
         leading: IconButton(

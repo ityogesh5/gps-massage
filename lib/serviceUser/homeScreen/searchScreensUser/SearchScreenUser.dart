@@ -12,12 +12,11 @@ import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
+import 'package:gps_massageapp/models/customModels/userSearchAddAddress.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
-import 'package:gps_massageapp/models/customModels/userSearchAddAddress.dart';
-import 'package:gps_massageapp/models/customModels/searchAddAddress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ProviderRatingsAndReviewUser extends StatefulWidget {
   final int index;
+
   ProviderRatingsAndReviewUser(this.index);
+
   @override
   _ProviderRatingsAndReviewUserState createState() =>
       _ProviderRatingsAndReviewUserState();

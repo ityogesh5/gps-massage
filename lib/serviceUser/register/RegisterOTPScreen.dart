@@ -8,9 +8,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/sendVerifyResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/verifyOtp.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
-import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:http/http.dart' as http;
 import 'package:pin_code_fields/pin_code_fields.dart';
 //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();

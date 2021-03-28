@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="17.414" height="17.414" viewBox="0 0 17.414 17.414">
-  <g id="X" transform="translate(-81.793 -226.793)">
-    <line id="Line_457" data-name="Line 457" x1="16" y2="16" transform="translate(82.5 227.5)" fill="none" stroke="#c1c1c1" stroke-linecap="round" stroke-width="1"/>
-    <line id="Line_458" data-name="Line 458" x2="16" y2="16" transform="translate(82.5 227.5)" fill="none" stroke="#c1c1c1" stroke-linecap="round" stroke-width="1"/>
-  </g>
+<svg height="17.414" viewBox="0 0 17.414 17.414" width="17.414" xmlns="http://www.w3.org/2000/svg">
+    <g id="X" transform="translate(-81.793 -226.793)">
+        <line data-name="Line 457" fill="none" id="Line_457" stroke="#c1c1c1" stroke-linecap="round"
+            stroke-width="1" transform="translate(82.5 227.5)" x1="16" y2="16" />
+        <line data-name="Line 458" fill="none" id="Line_458" stroke="#c1c1c1" stroke-linecap="round"
+            stroke-width="1" transform="translate(82.5 227.5)" x2="16" y2="16" />
+    </g>
 </svg>

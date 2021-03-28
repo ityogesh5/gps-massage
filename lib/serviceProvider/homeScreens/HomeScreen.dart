@@ -13,8 +13,8 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   @override
@@ -154,7 +154,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     width: 15.0,
                                                     key: key,
                                                     color: Colors.black,
-                                                  ), /* Icon( 
+                                                  ), /* Icon(
                                                       Icons
                                                           .shopping_bag_rounded,
                                                       key: key,

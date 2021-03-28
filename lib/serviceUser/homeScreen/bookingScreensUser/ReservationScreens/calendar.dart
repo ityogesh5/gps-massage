@@ -56,7 +56,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
           'カレンダー',
           style: TextStyle(color: Colors.black),
         ),
-
       ),
       body: SingleChildScrollView(
         child: Column(

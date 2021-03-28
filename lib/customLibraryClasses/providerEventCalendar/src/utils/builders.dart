@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/styles/day_bar.dart';

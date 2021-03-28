@@ -10,6 +10,7 @@ class Recommend extends StatefulWidget {
 
 class _RecommendState extends State<Recommend> {
   double ratingsValue = 3.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

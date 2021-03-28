@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
@@ -9,22 +10,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<String> userBannerImages = [];
@@ -76,6 +78,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
   String accessToken;
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+
   @override
   void initState() {
     getId();
@@ -214,19 +217,9 @@ class InitialUserHomeScreen extends StatefulWidget {
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   @override
   void initState() {
-    checkInternet();
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     getAccessToken();
-  }
-
-  checkInternet() {
-    CheckInternetConnection.checkConnectivity(context);
-    if (HealingMatchConstants.isInternetAvailable) {
-      BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));
-    } else {
-      //return HomePageError();
-    }
   }
 
   getAccessToken() async {
@@ -250,7 +243,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     }
 
     try {
-      var bannerApiProvider = ServiceUserAPIProvider.getAllBannerImages();
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
       bannerApiProvider.then((value) {
         if (this.mounted) {
           setState(() {
@@ -318,6 +312,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   @override
   void initState() {
+    CheckInternetConnection.checkConnectivity(context);
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
   }
@@ -1013,27 +1008,44 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                         Expanded(
                           child: Column(
                             children: [
-                              new Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    shape: BoxShape.circle,
-                                    image: widget.getTherapistByType[index].user
-                                                .uploadProfileImgUrl !=
-                                            null
-                                        ? new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: new NetworkImage(widget
-                                                .getTherapistByType[index]
-                                                .user
-                                                .uploadProfileImgUrl),
-                                          )
-                                        : new DecorationImage(
+                              widget.getTherapistByType[index].user
+                                          .uploadProfileImgUrl !=
+                                      null
+                                  ? CachedNetworkImage(
+                                      imageUrl: widget.getTherapistByType[index]
+                                          .user.uploadProfileImgUrl,
+                                      filterQuality: FilterQuality.high,
+                                      fadeInCurve: Curves.easeInSine,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          SpinKitDoubleBounce(
+                                              color: Colors.lightGreenAccent),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                              'assets/images_gps/user.png'),
+                                    )
+                                  : new Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: new BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
                                             fit: BoxFit.none,
                                             image: new AssetImage(
                                                 'assets/images_gps/user.png')),
-                                  )),
+                                      )),
                               FittedBox(
                                 child: Text(
                                   '1.5km圏内',
@@ -1244,7 +1256,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19),
                                         ),
-                                  Text('/60分')
+                                  //Text('/60分')
                                 ],
                               )
                             ],
@@ -1272,6 +1284,33 @@ class CarouselWithIndicatorDemo extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   int _current = 0;
 
+  _getBannerImages() async {
+    List<BannersList> bannerImages = [];
+    if (userBannerImages != null) {
+      userBannerImages.clear();
+      bannerImages.clear();
+    }
+
+    try {
+      var bannerApiProvider =
+          ServiceUserAPIProvider.getAllBannerImages(context);
+      bannerApiProvider.then((value) {
+        if (this.mounted) {
+          setState(() {
+            bannerImages = value.data.bannersList;
+            for (var item in bannerImages) {
+              userBannerImages.add(item.bannerImageUrl);
+              print('Therapist banner images : ${item.bannerImageUrl}');
+            }
+          });
+        }
+      });
+    } catch (e) {
+      print('Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return userBannerImages != null
@@ -1292,8 +1331,38 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                     BorderRadius.all(Radius.circular(10.0)),
                                 child: Stack(
                                   children: <Widget>[
-                                    Image.network(userBannerImages[i],
-                                        fit: BoxFit.cover, width: 2000.0),
+                                    /*Image.network(userBannerImages[i],
+                                        fit: BoxFit.cover, width: 2000.0),*/
+                                    CachedNetworkImage(
+                                        width: 2000.0,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userBannerImages[i],
+                                        placeholder: (context, url) =>
+                                            SpinKitWave(
+                                                color: Colors.lightBlueAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to Download Banners...Try Again!!',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                ),
+                                                new IconButton(
+                                                  icon: Icon(
+                                                      Icons.refresh_sharp,
+                                                      size: 40),
+                                                  onPressed: () {
+                                                    _getBannerImages();
+                                                  },
+                                                ),
+                                              ],
+                                            )),
                                   ],
                                 )),
                           ),
@@ -1637,7 +1706,7 @@ class _ReservationListState extends State<ReservationList> {
                                 '09: 00 ~ 10: 00',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              Text('(60分)')
+                              //Text('(60分)')
                             ],
                           ),
                           SizedBox(
@@ -2060,12 +2129,15 @@ class _RecommendListsState extends State<RecommendLists> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19),
                                 ),
+/*
                                 Text(
                                   '/60分',
                                   style: TextStyle(
                                       color: Color.fromRGBO(153, 153, 153, 1),
                                       fontFamily: ColorConstants.fontFamily),
-                                )
+                                )*/
+
+                                //Text('/60分')
                               ],
                             ),
                           ],
@@ -2169,32 +2241,52 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                               Expanded(
                                 child: Column(
                                   children: [
-                                    new Container(
-                                        width: 80.0,
-                                        height: 80.0,
-                                        decoration: new BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.black12),
-                                          shape: BoxShape.circle,
-                                          image: therapistUsers[index]
-                                                      .user
-                                                      .uploadProfileImgUrl !=
-                                                  null
-                                              ? new DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: new NetworkImage(
-                                                      therapistUsers[index]
-                                                          .user
-                                                          .uploadProfileImgUrl),
-                                                )
-                                              : new DecorationImage(
+                                    therapistUsers[index]
+                                                .user
+                                                .uploadProfileImgUrl !=
+                                            null
+                                        ? CachedNetworkImage(
+                                            imageUrl: therapistUsers[index]
+                                                .user
+                                                .uploadProfileImgUrl,
+                                            filterQuality: FilterQuality.high,
+                                            fadeInCurve: Curves.easeInSine,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              width: 80.0,
+                                              height: 80.0,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                SpinKitDoubleBounce(
+                                                    color: Colors
+                                                        .lightGreenAccent),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    'assets/images_gps/user.png'),
+                                          )
+                                        : new Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
                                                   fit: BoxFit.none,
                                                   image: new AssetImage(
                                                       'assets/images_gps/user.png')),
-                                        )),
+                                            )),
                                     FittedBox(
                                       child: Text(
-                                        '半径1.5km',
+                                        '1.5km圏内',
                                         style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey[400]),
@@ -2387,7 +2479,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 19),
                                               ),
-                                        Text('/60分')
+                                        //Text('/60分')
                                       ],
                                     )
                                   ],

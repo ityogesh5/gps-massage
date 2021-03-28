@@ -500,8 +500,8 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            ButtonTheme(
+            // SizedBox(height: 20),
+            /* ButtonTheme(
               minWidth: MediaQuery.of(context).size.width * 0.82,
               height: MediaQuery.of(context).size.height * 0.06,
               child: new RaisedButton(
@@ -522,8 +522,36 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       fontSize: 16),
                 ),
               ),
-            ),
+            ),*/
           ],
+        ),
+      ),
+      bottomNavigationBar: proceedToPayment(),
+    );
+  }
+
+  Widget proceedToPayment() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.065,
+        child: RaisedButton(
+          child: Text(
+            '予約する',
+            style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontFamily: 'NotoSansJP',
+                fontSize: 18),
+          ),
+          color: Color.fromRGBO(255, 0, 0, 1),
+          onPressed: () {
+            NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
+                context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
         ),
       ),
     );

@@ -525,6 +525,7 @@ class _UserLoginState extends State<UserLogin> {
             value.setString('userID', userAddressData.userId.toString());
             value.setString(
                 'userPlaceForMassage', userAddressData.userPlaceForMassage);
+            value.setString('otherOption', userAddressData.otherAddressType);
             value.setString('cityName', userAddressData.cityName);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);

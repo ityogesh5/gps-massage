@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class NotificationScreen extends StatefulWidget {

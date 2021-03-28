@@ -179,6 +179,7 @@ class PlaceholderItemCard extends StatelessWidget {
 
 class ItemDetailsPage extends StatelessWidget {
   final Item item;
+
   const ItemDetailsPage(this.item);
 
   @override
