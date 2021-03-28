@@ -230,20 +230,20 @@ class _ProviderRatingsAndReviewUserState
                                     padding: const EdgeInsets.only(top: 60),
                                     child: Align(
                                       alignment: Alignment.topRight,
-                                      child: CircleAvatar(
-                                        radius: 25.0,
-                                        child: IconButton(
-                                          icon: Icon(Icons.send,
-                                              color: Colors.lime),
-                                          iconSize: 25.0,
-                                          onPressed: () {
-                                            print('Review Posted!!');
-                                            NavigationRouter
-                                                .switchToProviderReviewScreenSent(
-                                                    context);
-                                          },
-                                        ),
-                                        backgroundColor: Colors.grey[100],
+                                      child: InkWell(
+                                        onTap: () {
+                                          NavigationRouter
+                                              .switchToProviderReviewScreenSent(
+                                                  context);
+                                        },
+                                        child: CircleAvatar(
+                                            backgroundColor: Colors.grey[100],
+                                            radius: 25.0,
+                                            child: SvgPicture.asset(
+                                              "assets/images_gps/sending.svg",
+                                              height: 25.0,
+                                              width: 25.0,
+                                            )),
                                       ),
                                     ),
                                   ),

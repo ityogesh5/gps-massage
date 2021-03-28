@@ -7,7 +7,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDropDownModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
 import 'package:toast/toast.dart';
@@ -24,6 +23,7 @@ class ShiftService extends StatefulWidget {
 }
 
 class _ShiftServiceState extends State<ShiftService> {
+  var updateResponseModel = new LoginResponseModel();
   List<String> selectedEstheticDropdownValues = List<String>();
   List<String> selectedRelaxationDropdownValues = List<String>();
   List<String> selectedTreatmentDropdownValues = List<String>();
@@ -36,12 +36,14 @@ class _ShiftServiceState extends State<ShiftService> {
   List<String> otherTreatmentDropDownValues = List<String>();
   List<String> otherRelaxationDropDownValues = List<String>();
   List<String> otherFitnessDropDownValues = List<String>();
-  List<ServicePriceModel> estheticServicePriceModel = List<ServicePriceModel>();
-  List<ServicePriceModel> relaxationServicePriceModel =
-      List<ServicePriceModel>();
-  List<ServicePriceModel> treatmentServicePriceModel =
-      List<ServicePriceModel>();
-  List<ServicePriceModel> fitnessServicePriceModel = List<ServicePriceModel>();
+  List<EstheticListElement> estheticServicePriceModel =
+      List<EstheticListElement>();
+  List<EstheticListElement> relaxationServicePriceModel =
+      List<EstheticListElement>();
+  List<EstheticListElement> treatmentServicePriceModel =
+      List<EstheticListElement>();
+  List<EstheticListElement> fitnessServicePriceModel =
+      List<EstheticListElement>();
   List<String> selectedStoreTypeDisplayValues = List<String>();
   List<bool> otherSelected = List<bool>();
   bool estheticOtherSelected = false;
@@ -61,10 +63,10 @@ class _ShiftServiceState extends State<ShiftService> {
   FitnessDropDownModel fitnessDropDownModel;
   ProgressDialog _progressDialog = ProgressDialog();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List<EstheticListElement> deletedEstheticList;
-  List<EstheticListElement> deletedTreatmentList;
-  List<EstheticListElement> deletedRelaxationList;
-  List<EstheticListElement> deletedFitnessList;
+  List<EstheticListElement> deletedEstheticList = List<EstheticListElement>();
+  List<EstheticListElement> deletedTreatmentList = List<EstheticListElement>();
+  List<EstheticListElement> deletedRelaxationList = List<EstheticListElement>();
+  List<EstheticListElement> deletedFitnessList = List<EstheticListElement>();
 
   @override
   void initState() {
@@ -460,8 +462,8 @@ class _ShiftServiceState extends State<ShiftService> {
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           onPressed: () {
-                            deleteUnSelectedValues();
-                            // saveSelectedValues();
+                            /*  deleteUnSelectedValues(); */
+                            saveSelectedValues();
                           },
                         ),
                       ),
@@ -482,7 +484,7 @@ class _ShiftServiceState extends State<ShiftService> {
     bool checkValue = false;
     int indexPos = 0;
     List<String> selectedDropdownValues = List<String>();
-    List<ServicePriceModel> servicePriceModel = List<ServicePriceModel>();
+    List<EstheticListElement> servicePriceModel = List<EstheticListElement>();
     if (mindex == 0) {
       selectedDropdownValues.addAll(selectedEstheticDropdownValues);
       servicePriceModel.addAll(estheticServicePriceModel);
@@ -541,11 +543,12 @@ class _ShiftServiceState extends State<ShiftService> {
                                         .remove(val.toLowerCase());
                                     servicePriceModel.removeAt(indexPos);
                                     if (mindex == 0) {
-                                      print("h"/* + HealingMatchConstants
-                                          .userData.estheticLists[indexPos] */);
-                                      deletedEstheticList.add(
-                                          HealingMatchConstants.userData
-                                              .estheticLists[indexPos]);
+                                      try {
+                                        deletedEstheticList.add(
+                                            HealingMatchConstants.userData
+                                                .estheticLists[indexPos]);
+                                        deleteUnSelectedValues();
+                                      } catch (e) {}
                                       selectedEstheticDropdownValues.clear();
                                       estheticServicePriceModel.clear();
                                       selectedEstheticDropdownValues
@@ -553,9 +556,12 @@ class _ShiftServiceState extends State<ShiftService> {
                                       estheticServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 1) {
-                                      deletedRelaxationList.add(
-                                          HealingMatchConstants.userData
-                                              .relaxationLists[indexPos]);
+                                      try {
+                                        deletedRelaxationList.add(
+                                            HealingMatchConstants.userData
+                                                .relaxationLists[indexPos]);
+                                        deleteUnSelectedValues();
+                                      } catch (e) {}
                                       selectedRelaxationDropdownValues.clear();
                                       relaxationServicePriceModel.clear();
                                       selectedRelaxationDropdownValues
@@ -563,9 +569,12 @@ class _ShiftServiceState extends State<ShiftService> {
                                       relaxationServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 2) {
-                                      deletedTreatmentList.add(
-                                          HealingMatchConstants.userData
-                                              .orteopathicLists[indexPos]);
+                                      try {
+                                        deletedTreatmentList.add(
+                                            HealingMatchConstants.userData
+                                                .orteopathicLists[indexPos]);
+                                        deleteUnSelectedValues();
+                                      } catch (e) {}
                                       selectedTreatmentDropdownValues.clear();
                                       treatmentServicePriceModel.clear();
                                       selectedTreatmentDropdownValues
@@ -573,9 +582,12 @@ class _ShiftServiceState extends State<ShiftService> {
                                       treatmentServicePriceModel
                                           .addAll(servicePriceModel);
                                     } else if (mindex == 3) {
-                                      deletedFitnessList.add(
-                                          HealingMatchConstants
-                                              .userData.fitnessLists[indexPos]);
+                                      try {
+                                        deletedFitnessList.add(
+                                            HealingMatchConstants.userData
+                                                .fitnessLists[indexPos]);
+                                        deleteUnSelectedValues();
+                                      } catch (e) {}
                                       selectedFitnessDropdownValues.clear();
                                       fitnessServicePriceModel.clear();
                                       selectedFitnessDropdownValues
@@ -827,7 +839,7 @@ class _ShiftServiceState extends State<ShiftService> {
 
   //Build the chips for the price greater than 0
   //indexpos represents the postion of the List Item in the pricemodel
-  checkAddedPrice(int indexPos, List<ServicePriceModel> servicePriceModel) {
+  checkAddedPrice(int indexPos, List<EstheticListElement> servicePriceModel) {
     List<Widget> values = List<Widget>();
     if ((servicePriceModel[indexPos].sixtyMin) != 0) {
       values.add(buildCheckBoxChip(servicePriceModel[indexPos].sixtyMin, 60));
@@ -839,9 +851,9 @@ class _ShiftServiceState extends State<ShiftService> {
       values.add(
           buildCheckBoxChip(servicePriceModel[indexPos].oneTwentyMin, 120));
     }
-    if ((servicePriceModel[indexPos].oneFiftyMin) != 0) {
-      values
-          .add(buildCheckBoxChip(servicePriceModel[indexPos].oneFiftyMin, 150));
+    if ((servicePriceModel[indexPos].oneFifityMin) != 0) {
+      values.add(
+          buildCheckBoxChip(servicePriceModel[indexPos].oneFifityMin, 150));
     }
     if ((servicePriceModel[indexPos].oneEightyMin) != 0) {
       values.add(
@@ -889,7 +901,7 @@ class _ShiftServiceState extends State<ShiftService> {
     TextEditingController oneEightyMinuteController =
         new TextEditingController();
     List<String> selectedDropdownValues = List<String>();
-    List<ServicePriceModel> servicePriceModel = List<ServicePriceModel>();
+    List<EstheticListElement> servicePriceModel = List<EstheticListElement>();
     if (mindex == 0) {
       selectedDropdownValues.addAll(selectedEstheticDropdownValues);
       servicePriceModel.addAll(estheticServicePriceModel);
@@ -920,9 +932,9 @@ class _ShiftServiceState extends State<ShiftService> {
             (servicePriceModel[indexPos].oneTwentyMin).toString();
       }
 
-      if (servicePriceModel[indexPos].oneFiftyMin != 0) {
+      if (servicePriceModel[indexPos].oneFifityMin != 0) {
         oneFiftyController.text =
-            (servicePriceModel[indexPos].oneFiftyMin).toString();
+            (servicePriceModel[indexPos].oneFifityMin).toString();
       }
 
       if (servicePriceModel[indexPos].oneEightyMin != 0) {
@@ -1406,42 +1418,79 @@ class _ShiftServiceState extends State<ShiftService> {
                                                             .text !=
                                                         "") {
                                                   //if entered then the empty values are treated as 0
-
+                                                  int lengthModel =
+                                                      servicePriceModel.length;
                                                   servicePriceModel.add(
-                                                    ServicePriceModel(
-                                                        val,
-                                                        sixtyMinutesController
-                                                                    .text !=
-                                                                ""
-                                                            ? int.parse(
-                                                                sixtyMinutesController
-                                                                    .text)
-                                                            : 0,
-                                                        nintyMinuteController.text != ""
-                                                            ? int.parse(
-                                                                nintyMinuteController
-                                                                    .text)
-                                                            : 0,
-                                                        oneTwentyMinuteController
-                                                                    .text !=
-                                                                ""
-                                                            ? int.parse(
-                                                                oneTwentyMinuteController
-                                                                    .text)
-                                                            : 0,
-                                                        oneFiftyController.text != ""
-                                                            ? int.parse(
-                                                                oneFiftyController
-                                                                    .text)
-                                                            : 0,
-                                                        oneEightyMinuteController
-                                                                    .text !=
-                                                                ""
-                                                            ? int.parse(
-                                                                oneEightyMinuteController.text)
-                                                            : 0,
-                                                        getID(index, mindex)),
+                                                    EstheticListElement(
+                                                      userId:
+                                                          HealingMatchConstants
+                                                              .userId,
+                                                      name: val,
+                                                      sixtyMin:
+                                                          sixtyMinutesController
+                                                                      .text !=
+                                                                  ""
+                                                              ? int.parse(
+                                                                  sixtyMinutesController
+                                                                      .text)
+                                                              : 0,
+                                                      nintyMin:
+                                                          nintyMinuteController
+                                                                      .text !=
+                                                                  ""
+                                                              ? int.parse(
+                                                                  nintyMinuteController
+                                                                      .text)
+                                                              : 0,
+                                                      oneTwentyMin:
+                                                          oneTwentyMinuteController
+                                                                      .text !=
+                                                                  ""
+                                                              ? int.parse(
+                                                                  oneTwentyMinuteController
+                                                                      .text)
+                                                              : 0,
+                                                      oneFifityMin:
+                                                          oneFiftyController
+                                                                      .text !=
+                                                                  ""
+                                                              ? int.parse(
+                                                                  oneFiftyController
+                                                                      .text)
+                                                              : 0,
+                                                      oneEightyMin:
+                                                          oneEightyMinuteController
+                                                                      .text !=
+                                                                  ""
+                                                              ? int.parse(
+                                                                  oneEightyMinuteController
+                                                                      .text)
+                                                              : 0,
+                                                      createdAt: DateTime.now(),
+                                                      updatedAt: DateTime.now(),
+                                                    ),
                                                   );
+                                                  if (mindex == 0) {
+                                                    servicePriceModel[
+                                                                lengthModel]
+                                                            .estheticId =
+                                                        getID(index, mindex);
+                                                  } else if (mindex == 1) {
+                                                    servicePriceModel[
+                                                                lengthModel]
+                                                            .relaxationId =
+                                                        getID(index, mindex);
+                                                  } else if (mindex == 2) {
+                                                    servicePriceModel[
+                                                                lengthModel]
+                                                            .orteopathicId =
+                                                        getID(index, mindex);
+                                                  } else if (mindex == 3) {
+                                                    servicePriceModel[
+                                                                lengthModel]
+                                                            .fitnessId =
+                                                        getID(index, mindex);
+                                                  }
 
                                                   selectedDropdownValues
                                                       .add(val.toLowerCase());
@@ -1528,7 +1577,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                                                 .text)
                                                         : 0;
                                                 servicePriceModel[indexPos]
-                                                        .oneFiftyMin =
+                                                        .oneFifityMin =
                                                     oneFiftyController.text !=
                                                             ""
                                                         ? int.parse(
@@ -1604,7 +1653,7 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   //get the index of the String on the List
-  int getIndex(String val, List<ServicePriceModel> servicePriceModel) {
+  int getIndex(String val, List<EstheticListElement> servicePriceModel) {
     int indexPos;
     for (int i = 0; i < servicePriceModel.length; i++) {
       if (servicePriceModel[i].name.toLowerCase() == val.toLowerCase()) {
@@ -1809,52 +1858,29 @@ class _ShiftServiceState extends State<ShiftService> {
   getSavedValues() {
     selectedStoreTypeDisplayValues =
         HealingMatchConstants.userData.storeType.split(',');
+    estheticServicePriceModel
+        .addAll(HealingMatchConstants.userData.estheticLists);
+    relaxationServicePriceModel
+        .addAll(HealingMatchConstants.userData.relaxationLists);
+    fitnessServicePriceModel
+        .addAll(HealingMatchConstants.userData.fitnessLists);
+    treatmentServicePriceModel
+        .addAll(HealingMatchConstants.userData.orteopathicLists);
 
     //Get the Price Model
     for (var serviceItem in HealingMatchConstants.userData.estheticLists) {
-      estheticServicePriceModel.add(ServicePriceModel(
-          serviceItem.name,
-          serviceItem.sixtyMin,
-          serviceItem.nintyMin,
-          serviceItem.oneTwentyMin,
-          serviceItem.oneFifityMin,
-          serviceItem.oneEightyMin,
-          serviceItem.id));
       selectedEstheticDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.relaxationLists) {
-      relaxationServicePriceModel.add(ServicePriceModel(
-          serviceItem.name,
-          serviceItem.sixtyMin,
-          serviceItem.nintyMin,
-          serviceItem.oneTwentyMin,
-          serviceItem.oneFifityMin,
-          serviceItem.oneEightyMin,
-          serviceItem.id));
       selectedRelaxationDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.orteopathicLists) {
-      treatmentServicePriceModel.add(ServicePriceModel(
-          serviceItem.name,
-          serviceItem.sixtyMin,
-          serviceItem.nintyMin,
-          serviceItem.oneTwentyMin,
-          serviceItem.oneFifityMin,
-          serviceItem.oneEightyMin,
-          serviceItem.id));
       selectedTreatmentDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.fitnessLists) {
-      fitnessServicePriceModel.add(ServicePriceModel(
-          serviceItem.name,
-          serviceItem.sixtyMin,
-          serviceItem.nintyMin,
-          serviceItem.oneTwentyMin,
-          serviceItem.oneFifityMin,
-          serviceItem.oneEightyMin,
-          serviceItem.id));
       selectedFitnessDropdownValues.add(serviceItem.name);
     }
+
     //Get the Selected CheckBox Values
     /*  selectedEstheticDropdownValues
         .addAll(HealingMatchConstants.selectedEstheticDropdownValues);
@@ -1877,29 +1903,36 @@ class _ShiftServiceState extends State<ShiftService> {
 
   saveSelectedValues() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences instances = await SharedPreferences.getInstance();
     var headers = {
       'Content-Type': 'application/json',
       'x-access-token': HealingMatchConstants.accessToken
     };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(HealingMatchConstants.THERAPIST_UPDATE_SERVICE_TYPE));
+    request.fields.addAll({
+      'id': HealingMatchConstants.userId.toString(),
+      'estheticList': json.encode(estheticServicePriceModel),
+      'relaxationList': json.encode(relaxationServicePriceModel),
+      'orteopathicList': json.encode(
+        treatmentServicePriceModel,
+      ),
+      'fitnessList': json.encode(
+        fitnessServicePriceModel,
+      ),
+    });
+    request.headers.addAll(headers);
     try {
-      final response =
-          await http.post(HealingMatchConstants.THERAPIST_UPDATE_SERVICE_TYPE,
-              headers: headers,
-              body: json.encode({
-                'id': HealingMatchConstants.userId,
-                'estheticList': json.encode(estheticServicePriceModel),
-                'relaxationList': json.encode(relaxationServicePriceModel),
-                'orteopathicList': json.encode(
-                  treatmentServicePriceModel,
-                ),
-                'fitnessList': json.encode(
-                  fitnessServicePriceModel,
-                ),
-              }));
+      final serviceUpdateRequest = await request.send();
+      print("This is request : ${serviceUpdateRequest.request}");
+      final response = await http.Response.fromStream(serviceUpdateRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
           response.statusCode, context, response.body)) {
+        final Map updateResponse = json.decode(response.body);
+        updateResponseModel = LoginResponseModel.fromJson(updateResponse);
+        HealingMatchConstants.userData = updateResponseModel.data;
+        instances.setString("userData", json.encode(updateResponseModel.data));
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         print('Response error occured!');
@@ -1918,27 +1951,35 @@ class _ShiftServiceState extends State<ShiftService> {
 
   deleteUnSelectedValues() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences instances = await SharedPreferences.getInstance();
     var headers = {
       'Content-Type': 'application/json',
       'x-access-token': HealingMatchConstants.accessToken
     };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(HealingMatchConstants.THERAPIST_DELETE_SERVICE_TYPE));
+    request.fields.addAll({
+      'id': HealingMatchConstants.userId.toString(),
+      'estheticList': json.encode(deletedEstheticList),
+      'relaxationList': json.encode(deletedRelaxationList),
+      'orteopathicList': json.encode(deletedTreatmentList),
+      'fitnessList': json.encode(
+        deletedFitnessList,
+      ),
+    });
+    request.headers.addAll(headers);
     try {
-      final response =
-          await http.post(HealingMatchConstants.THERAPIST_DELETE_SERVICE_TYPE,
-              headers: headers,
-              body: json.encode({
-                'id': HealingMatchConstants.userId,
-                'estheticList': json.encode(deletedEstheticList),
-                'relaxationList': json.encode(deletedRelaxationList),
-                'orteopathicList': json.encode(deletedTreatmentList),
-                'fitnessList': json.encode(
-                  deletedFitnessList,
-                ),
-              }));
+      final serviceDeleteRequest = await request.send();
+      print("This is request : ${serviceDeleteRequest.request}");
+      final response = await http.Response.fromStream(serviceDeleteRequest);
       print("This is response: ${response.statusCode}\n${response.body}");
+
       if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
           response.statusCode, context, response.body)) {
+        final Map updateResponse = json.decode(response.body);
+        updateResponseModel = LoginResponseModel.fromJson(updateResponse);
+        HealingMatchConstants.userData = updateResponseModel.data;
+        instances.setString("userData", json.encode(updateResponseModel.data));
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);
         print('Response error occured!');

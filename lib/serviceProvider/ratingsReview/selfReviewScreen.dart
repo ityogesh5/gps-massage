@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override
-  _ProviderSelfReviewScreenState createState() => _ProviderSelfReviewScreenState();
+  _ProviderSelfReviewScreenState createState() =>
+      _ProviderSelfReviewScreenState();
 }
 
 class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
@@ -71,30 +72,7 @@ class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return new Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'お名前',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '10月７',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 2),
+                        SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +126,14 @@ class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
                                 decoration: TextDecoration.underline,
                               ),
                             ),
+                            Spacer(),
+                            Text(
+                              '10月７',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                              ),
+                            ),
                           ],
                         ),
                         Padding(
@@ -168,7 +154,7 @@ class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
                             ],
                           ),
                         ),
-                       /*  SizedBox(height: 10),
+                        /*  SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Container(

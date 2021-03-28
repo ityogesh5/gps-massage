@@ -74,7 +74,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
               NavigationRouter.switchToServiceProviderBottomBar(context),
         ),
         title: Text(
-          '運営管理',
+          '予約状況',
           style: TextStyle(
               color: Colors.black,
               fontFamily: 'NotoSansJP',

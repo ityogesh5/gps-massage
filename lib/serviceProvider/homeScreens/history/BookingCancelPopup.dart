@@ -76,12 +76,14 @@ class _CancelBookingState extends State<CancelBooking> {
               SizedBox(
                 height: 10.0,
               ),
-              Text(
-                "予約確定（支払い完了)した案件で、施術時間から\n 逆算して４８時間以内でのキャンセルはキャンセル料\nが 発生します。（詳細は利用規約をご参照ください。）",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
+              FittedBox(
+                child: Text(
+                  "予約確定（支払い完了)した案件で、施術時間から\n 逆算して４８時間以内でのキャンセルはキャンセル料\nが 発生します。（詳細は利用規約をご参照ください。）",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               SizedBox(

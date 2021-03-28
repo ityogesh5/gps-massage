@@ -382,6 +382,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                   allowHalfRating: true,
                                                   itemCount: 5,
                                                   itemSize: 24.0,
+                                                  ignoreGestures: true,
                                                   itemPadding:
                                                       new EdgeInsets.only(
                                                           bottom: 3.0),
@@ -1352,7 +1353,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     HealingMatchConstants.accessToken =
         sharedPreferences.getString("accessToken");
     HealingMatchConstants.userData = userData;
-    HealingMatchConstants.userId = userData.userId;
+    HealingMatchConstants.userId = userData.id;
     if (userData.childrenMeasure != null && userData.childrenMeasure != '') {
       var split = userData.childrenMeasure.split(',');
       childrenMeasure = {for (int i = 0; i < split.length; i++) i: split[i]};

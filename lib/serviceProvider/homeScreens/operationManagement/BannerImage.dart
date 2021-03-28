@@ -156,7 +156,8 @@ class _BannerImageState extends State<BannerImage> {
                       )
                     : Container(),
                 //      SizedBox(height: 0.5),
-                oldBannerImages.length != 0 || bannerImages.length != 0
+                /*  ( oldBannerImages.length != 0 || bannerImages.length != 0)  */
+                bannerImages.length != 0
                     ? Container(
                         height: containerHeight,
                         width: containerWidth,
