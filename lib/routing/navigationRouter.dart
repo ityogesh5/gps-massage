@@ -392,6 +392,14 @@ class NavigationRouter {
         MaterialPageRoute(builder: (BuildContext context) => AddAddress()));
   }
 
+  // User define screen
+  static void switchToUserSearchAddAddressScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => AddAddressScreen()));
+  }
+
   // Service User Edit Profile Screen
   static void switchToServiceUserEditProfileScreen(BuildContext context) {
     Navigator.push(context,

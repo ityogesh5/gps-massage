@@ -223,7 +223,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                         iconSize: 35,
                                         onPressed: () {
                                           NavigationRouter
-                                              .switchToUserAddAddressScreen(
+                                              .switchToUserSearchAddAddressScreen(
                                                   context);
                                         },
                                       ),

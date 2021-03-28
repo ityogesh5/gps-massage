@@ -12,7 +12,6 @@ import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
@@ -81,29 +80,12 @@ class _HomeScreenUserState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getId();
     super.initState();
-  }
-
-  getId() async {
-    // ProgressDialogBuilder.showCommonProgressDialog(context);
-    try {
-      ProgressDialogBuilder.showCommonProgressDialog(context);
-      _sharedPreferences.then((value) {
-        accessToken = value.getString('accessToken');
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
-
-        setState(() {
-          HealingMatchConstants.uAccessToken = accessToken;
-        });
-      });
-    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: BlocProvider(
         create: (context) => TherapistTypeBloc(
             getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
@@ -343,56 +325,37 @@ class _LoadHomePageState extends State<LoadHomePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     NavigationRouter.switchToServiceUserSearchScreen(context);
                   },
-                  child: InkWell(
-                    onTap: () {
-                      NavigationRouter.switchToServiceUserSearchScreen(context);
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.height * 0.85,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromRGBO(255, 255, 255, 1),
-                                Color.fromRGBO(255, 255, 255, 1),
-                              ]),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: TextFormField(
+                      readOnly: true,
+                      autofocus: false,
+                      textInputAction: TextInputAction.search,
+                      decoration: new InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'キーワードでさがす',
+                          suffixIcon: InkWell(
+                            child: Image.asset("assets/images_gps/search.png"),
+                            onTap: () {
+                              NavigationRouter.switchToServiceUserSearchScreen(
+                                  context);
+                            },
                           ),
-                          borderRadius: BorderRadius.circular(7.0),
-                          color: Color.fromRGBO(228, 228, 228, 1),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'キーワードでさがす',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Image.asset(
-                                "assets/images_gps/search.png",
-                                color: Color.fromRGBO(225, 225, 225, 1),
-                              ),
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserSearchScreen(context);
-                              },
-                            ),
-                          ],
-                        )),
+                          hintStyle: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14,
+                              fontFamily: 'NotoSansJP'),
+                          border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -409,8 +372,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   Text(
                     '近くのセラピスト＆お店',
                     style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: ColorConstants.fontFamily,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
                   ),
@@ -423,12 +385,11 @@ class _LoadHomePageState extends State<LoadHomePage> {
                               builder: (BuildContext context) => PaginationSample()));*/
                     },
                     child: Text(
-                      'もっとみる',
+                      'もっと見る',
                       style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 1),
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          fontFamily: ColorConstants.fontFamily,
                           decoration: TextDecoration.underline),
                     ),
                   ),
@@ -448,20 +409,13 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   'おすすめ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontFamily: ColorConstants.fontFamily,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToRecommended(context);
-                  },
-                  child: Text(
-                    'もっとみる',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: ColorConstants.fontFamily,
-                      decoration: TextDecoration.underline,
-                    ),
+                Text(
+                  'もっとみる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
                   ),
                 )
               ],
@@ -993,7 +947,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             itemCount: widget.getTherapistByType.length,
             itemBuilder: (context, index) {
               return new Card(
-                color: Color.fromRGBO(242, 242, 242, 1),
+                color: Colors.grey[200],
                 semanticContainer: true,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -1048,12 +1002,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       )),
                               FittedBox(
                                 child: Text(
-                                  '1.5km圏内',
+                                  '半径1.5km',
                                   style: TextStyle(
-                                    fontFamily: ColorConstants.fontFamily,
-                                    fontSize: 12,
-                                    color: Color.fromRGBO(153, 153, 153, 1),
-                                  ),
+                                      fontSize: 12, color: Colors.grey[400]),
                                 ),
                               ),
                             ],
@@ -1092,9 +1043,9 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   SizedBox(width: 4),
                                   InkWell(
                                     onTap: () {
-                                      /* NavigationRouter
+                                      NavigationRouter
                                           .switchToServiceUserReservationAndFavourite(
-                                              context);*/
+                                              context);
                                     },
                                     child: CircleAvatar(
                                       maxRadius: 10,
@@ -1104,7 +1055,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                         backgroundColor: Colors.white,
                                         child: SvgPicture.asset(
                                             'assets/images_gps/info.svg',
-                                            color: Color.fromRGBO(0, 0, 0, 1),
                                             height: 15,
                                             width: 15),
                                       ),
@@ -1124,8 +1074,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                               ),
                               FittedBox(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(width: 5),
                                     widget.getTherapistByType[index].user
@@ -1177,10 +1125,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                               Row(
                                 children: [
                                   Text(
-                                    '(${ratingsValue.toString()})',
+                                    ratingsValue.toString(),
                                     style: TextStyle(
-                                      fontFamily: ColorConstants.fontFamily,
-                                      color: Color.fromRGBO(153, 153, 153, 1),
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -1190,13 +1136,13 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
-                                    itemSize: 22,
+                                    itemSize: 25,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      color: Colors.black,
                                     ),
                                     onRatingUpdate: (rating) {
                                       setState(() {
@@ -1205,12 +1151,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                       print(ratingsValue);
                                     },
                                   ),
-                                  Text(
-                                    '(1518)',
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(153, 153, 153, 1),
-                                        fontFamily: ColorConstants.fontFamily),
-                                  ),
+                                  Text('(1518)'),
                                 ],
                               ),
                               SizedBox(
@@ -1220,28 +1161,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                 children: [
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '国家資格保有',
-                                        style: TextStyle(
-                                          fontFamily: ColorConstants.fontFamily,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施')),
                                   Spacer(),
                                   widget.getTherapistByType[index].sixtyMin == 0
                                       ? Text(
@@ -1502,11 +1423,9 @@ class _BuildMassageTypeChipsState extends State<BuildMassageTypeChips>
       ChoiceChip choiceChip = ChoiceChip(
         selected: _selectedIndex == i,
         label: Text(_options[i],
-            style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 1),
-                fontFamily: ColorConstants.fontFamily)),
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        selectedColor: Color.fromRGBO(242, 242, 242, 1),
+            style: TextStyle(color: Colors.black, fontFamily: 'NotoSansJP')),
+        backgroundColor: Colors.white70,
+        selectedColor: Colors.grey[200],
         onSelected: (bool selected) {
           setState(() {
             if (selected) {
@@ -1892,7 +1811,7 @@ class _RecommendListsState extends State<RecommendLists> {
           itemCount: 10,
           itemBuilder: (context, index) {
             return new Card(
-              color: Color.fromRGBO(242, 242, 242, 1),
+              color: Colors.grey[200],
               semanticContainer: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
@@ -1920,12 +1839,9 @@ class _RecommendListsState extends State<RecommendLists> {
                                 )),
                             FittedBox(
                               child: Text(
-                                '1.5km圏内',
+                                '半径1.5km',
                                 style: TextStyle(
-                                  color: Color.fromRGBO(153, 153, 153, 1),
-                                  fontFamily: ColorConstants.fontFamily,
-                                  fontSize: 12,
-                                ),
+                                    fontSize: 12, color: Colors.grey[400]),
                               ),
                             ),
                           ],
@@ -1945,9 +1861,8 @@ class _RecommendListsState extends State<RecommendLists> {
                                 Text(
                                   'お店名',
                                   style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: ColorConstants.fontFamily,
                                       fontSize: 14,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Spacer(),
@@ -1964,87 +1879,25 @@ class _RecommendListsState extends State<RecommendLists> {
                             ),
                             FittedBox(
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
                                       padding: EdgeInsets.all(4),
-                                      child: Text(
-                                        '店舗',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('オフィス')),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        '出張',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('出張')),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   Container(
                                       padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white,
-                                                Colors.white,
-                                              ]),
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                            color: Colors.grey[300],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          color: Colors.grey[200]),
-                                      child: Text(
-                                        'コロナ対策実施',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontFamily: ColorConstants.fontFamily,
-                                        ),
-                                      )),
+                                      color: Colors.white,
+                                      child: Text('コロナ対策実施有無')),
                                 ],
                               ),
                             ),
@@ -2054,11 +1907,10 @@ class _RecommendListsState extends State<RecommendLists> {
                             Row(
                               children: [
                                 Text(
-                                  '(${ratingValue.toString()})',
+                                  ratingValue.toString(),
                                   style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      decoration: TextDecoration.underline,
-                                      fontFamily: ColorConstants.fontFamily),
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                                 RatingBar.builder(
                                   initialRating: 3,
@@ -2066,13 +1918,13 @@ class _RecommendListsState extends State<RecommendLists> {
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
                                   itemCount: 5,
-                                  itemSize: 22,
+                                  itemSize: 25,
                                   itemPadding:
                                       EdgeInsets.symmetric(horizontal: 4.0),
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    color: Colors.black,
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -2083,12 +1935,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     print(ratingValue);
                                   },
                                 ),
-                                Text(
-                                  '(1518)',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                      fontFamily: ColorConstants.fontFamily),
-                                ),
+                                Text('(1518)'),
                               ],
                             ),
                             SizedBox(
@@ -2098,34 +1945,12 @@ class _RecommendListsState extends State<RecommendLists> {
                               children: [
                                 Container(
                                     padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.white,
-                                              Colors.white,
-                                            ]),
-                                        shape: BoxShape.rectangle,
-                                        border: Border.all(
-                                          color: Colors.grey[300],
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                        color: Colors.grey[200]),
-                                    child: Text(
-                                      '国家資格保有',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        fontFamily: ColorConstants.fontFamily,
-                                      ),
-                                    )),
+                                    color: Colors.white,
+                                    child: Text('コロナ対策実施')),
                                 Spacer(),
                                 Text(
                                   '¥4,500',
                                   style: TextStyle(
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                      fontFamily: ColorConstants.fontFamily,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 19),
                                 ),
