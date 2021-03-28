@@ -158,7 +158,7 @@ class _ProviderOfferCancelTimerProviderState
                     NavigationRouter.switchToProviderSideUserReviewScreen(
                         context);
                   },
-                                  child: Row(
+                  child: Row(
                     children: [
                       Text(
                         '(4.0)',

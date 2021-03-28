@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override
-  _ProviderSelfReviewScreenState createState() => _ProviderSelfReviewScreenState();
+  _ProviderSelfReviewScreenState createState() =>
+      _ProviderSelfReviewScreenState();
 }
 
 class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
@@ -168,7 +169,7 @@ class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
                             ],
                           ),
                         ),
-                       /*  SizedBox(height: 10),
+                        /*  SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: Container(

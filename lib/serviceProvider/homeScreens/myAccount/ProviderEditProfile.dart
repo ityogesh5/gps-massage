@@ -2772,7 +2772,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         print(
             'Update response : ${providerProfileUpdateResponseModel.toJson()}');
         DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
-
       } else {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Response error occured!');

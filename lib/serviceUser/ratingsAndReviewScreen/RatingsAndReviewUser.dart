@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratings.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:gps_massageapp/models/responseModels/serviceUser/ratings/ratingList.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -35,6 +35,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   final reviewController = new TextEditingController();
   var ratingsValue = 0.0;
   String rUserID, accessToken;
+
   // String noOfRating = ratingListResponseModel.userData.totalElements;
 
   @override

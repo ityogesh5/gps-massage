@@ -1,7 +1,7 @@
 import 'dart:io';
+
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:path/path.dart';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,17 +28,17 @@ class DBProvider {
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-          await db.execute('CREATE TABLE therapistUsers('
-              'id INTEGER,'
-              'eventId INTEGER,'
-              'menuName TEXT,'
-              'menuIcon TEXT,'
-              'deepLinkName TEXT,'
-              'displayStatus INTEGER,'
-              'orderId INTEGER,'
-              'DateTime TEXT'
-              ')');
-        });
+      await db.execute('CREATE TABLE therapistUsers('
+          'id INTEGER,'
+          'eventId INTEGER,'
+          'menuName TEXT,'
+          'menuIcon TEXT,'
+          'deepLinkName TEXT,'
+          'displayStatus INTEGER,'
+          'orderId INTEGER,'
+          'DateTime TEXT'
+          ')');
+    });
   }
 
   // Insert therapist users on database
@@ -62,8 +62,9 @@ class DBProvider {
     final db = await database;
     final res = await db.rawQuery("SELECT * FROM therapistUsers");
 
-    List<TherapistUsersModel> list =
-    res.isNotEmpty ? res.map((c) => TherapistUsersModel.fromJson(c)).toList() : [];
+    List<TherapistUsersModel> list = res.isNotEmpty
+        ? res.map((c) => TherapistUsersModel.fromJson(c)).toList()
+        : [];
 
     return list;
   }

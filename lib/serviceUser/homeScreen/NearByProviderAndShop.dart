@@ -271,8 +271,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               index]
                                                           .user
                                                           .uploadProfileImgUrl,
-                                                filterQuality: FilterQuality.high,
-                                                fadeInCurve: Curves.easeInSine,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                      fadeInCurve:
+                                                          Curves.easeInSine,
                                                       imageBuilder: (context,
                                                               imageProvider) =>
                                                           Container(
@@ -704,8 +706,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                               index]
                                                           .user
                                                           .uploadProfileImgUrl,
-                                                filterQuality: FilterQuality.high,
-                                                fadeInCurve: Curves.easeInSine,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                      fadeInCurve:
+                                                          Curves.easeInSine,
                                                       imageBuilder: (context,
                                                               imageProvider) =>
                                                           Container(

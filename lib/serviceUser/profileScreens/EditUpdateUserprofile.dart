@@ -2664,6 +2664,7 @@ class _AddAddressState extends State<AddAddress> {
   bool _showRequiredFields = false;
   bool visible = false;
   final otherController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

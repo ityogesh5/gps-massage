@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityH
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   // ignore: non_constant_identifier_names
   @override

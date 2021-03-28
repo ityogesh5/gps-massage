@@ -59,7 +59,8 @@ class _ChatTabBarState extends State<ChatTabBar>
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white, brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
         elevation: 2.0,
         automaticallyImplyLeading: false,
         leading: IconButton(

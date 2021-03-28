@@ -20,7 +20,10 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       try {
         List<UserList> getTherapistsUsers =
             await getTherapistTypeRepository.getTherapistProfilesByType(
-                event.accessToken, event.massageTypeValue,event.pageNumber,event.pageSize);
+                event.accessToken,
+                event.massageTypeValue,
+                event.pageNumber,
+                event.pageSize);
         yield GetTherapistTypeLoadedState(
             getTherapistsUsers: getTherapistsUsers);
       } catch (e) {

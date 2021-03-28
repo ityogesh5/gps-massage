@@ -2012,8 +2012,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('検索地点を入力してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
+        content:
+            Text('検索地点を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();

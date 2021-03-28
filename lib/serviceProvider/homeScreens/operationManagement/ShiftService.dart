@@ -1,22 +1,23 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDropDownModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/relaxationDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/treatmentDropDownModel.dart';
-import 'package:toast/toast.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
+import 'package:toast/toast.dart';
 
 class ShiftService extends StatefulWidget {
   @override
@@ -541,8 +542,10 @@ class _ShiftServiceState extends State<ShiftService> {
                                         .remove(val.toLowerCase());
                                     servicePriceModel.removeAt(indexPos);
                                     if (mindex == 0) {
-                                      print("h"/* + HealingMatchConstants
-                                          .userData.estheticLists[indexPos] */);
+                                      print(
+                                          "h" /* + HealingMatchConstants
+                                          .userData.estheticLists[indexPos] */
+                                          );
                                       deletedEstheticList.add(
                                           HealingMatchConstants.userData
                                               .estheticLists[indexPos]);

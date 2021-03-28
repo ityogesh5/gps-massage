@@ -31,6 +31,7 @@ class AddUserSubAddress {
   String get lng => _lng;
 
   String get addressType => _addressType;
+
   String get addressCategory => _addressCategory;
 
   String get city => _city;

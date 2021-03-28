@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ProviderOfferCancelTimerUser extends StatefulWidget {

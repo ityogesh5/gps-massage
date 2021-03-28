@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
-
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/history/BookingCancelPopup.dart';
 
 class WeeklySchedule extends StatefulWidget {
   @override

@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 
-import 'alertDialogHelper/dialogHelper.dart';
-
 class CheckInternetConnection {
   static String _connectionStatus = 'Unknown';
   static final Connectivity _connectivity = Connectivity();

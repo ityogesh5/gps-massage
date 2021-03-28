@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class ProviderReceiveBooking extends StatefulWidget {
   @override
@@ -17,6 +16,7 @@ class _ProviderReceiveBookingState extends State<ProviderReceiveBooking> {
   String price;
   bool proposeAdditionalCosts = false;
   bool suggestAnotherTime = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

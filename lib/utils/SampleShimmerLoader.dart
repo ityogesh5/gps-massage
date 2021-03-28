@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'dart:math' as math;
 
 class CustomProgressIndicator extends StatefulWidget {
   @override
