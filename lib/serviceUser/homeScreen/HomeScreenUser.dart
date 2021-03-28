@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -1008,27 +1007,44 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                         Expanded(
                           child: Column(
                             children: [
-                              new Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    shape: BoxShape.circle,
-                                    image: widget.getTherapistByType[index].user
-                                                .uploadProfileImgUrl !=
-                                            null
-                                        ? new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: new NetworkImage(widget
-                                                .getTherapistByType[index]
-                                                .user
-                                                .uploadProfileImgUrl),
-                                          )
-                                        : new DecorationImage(
+                              widget.getTherapistByType[index].user
+                                          .uploadProfileImgUrl !=
+                                      null
+                                  ? CachedNetworkImage(
+                                      imageUrl: widget.getTherapistByType[index]
+                                          .user.uploadProfileImgUrl,
+                                      filterQuality: FilterQuality.high,
+                                      fadeInCurve: Curves.easeInSine,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          SpinKitDoubleBounce(
+                                              color: Colors.lightGreenAccent),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                              'assets/images_gps/user.png'),
+                                    )
+                                  : new Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: new BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
                                             fit: BoxFit.none,
                                             image: new AssetImage(
                                                 'assets/images_gps/user.png')),
-                                  )),
+                                      )),
                               FittedBox(
                                 child: Text(
                                   '1.5km圏内',
@@ -1322,8 +1338,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                         imageUrl: userBannerImages[i],
                                         placeholder: (context, url) =>
                                             SpinKitWave(
-                                                color: Colors.blueAccent,
-                                                size: 50.0),
+                                                color: Colors.lightBlueAccent),
                                         errorWidget: (context, url, error) =>
                                             Column(
                                               children: [
@@ -2225,29 +2240,49 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                               Expanded(
                                 child: Column(
                                   children: [
-                                    new Container(
-                                        width: 80.0,
-                                        height: 80.0,
-                                        decoration: new BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.black12),
-                                          shape: BoxShape.circle,
-                                          image: therapistUsers[index]
-                                                      .user
-                                                      .uploadProfileImgUrl !=
-                                                  null
-                                              ? new DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: new NetworkImage(
-                                                      therapistUsers[index]
-                                                          .user
-                                                          .uploadProfileImgUrl),
-                                                )
-                                              : new DecorationImage(
+                                    therapistUsers[index]
+                                                .user
+                                                .uploadProfileImgUrl !=
+                                            null
+                                        ? CachedNetworkImage(
+                                            imageUrl: therapistUsers[index]
+                                                .user
+                                                .uploadProfileImgUrl,
+                                            filterQuality: FilterQuality.high,
+                                            fadeInCurve: Curves.easeInSine,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              width: 80.0,
+                                              height: 80.0,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                SpinKitDoubleBounce(
+                                                    color: Colors
+                                                        .lightGreenAccent),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    'assets/images_gps/user.png'),
+                                          )
+                                        : new Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: new BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black12),
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
                                                   fit: BoxFit.none,
                                                   image: new AssetImage(
                                                       'assets/images_gps/user.png')),
-                                        )),
+                                            )),
                                     FittedBox(
                                       child: Text(
                                         '1.5km圏内',
