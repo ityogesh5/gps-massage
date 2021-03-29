@@ -546,23 +546,21 @@ class _MyAccountState extends State<MyAccount> {
 
   // ignore: non_constant_identifier_names
   Widget MyRow(Widget image, Widget text, Widget circleAvatar) {
-    return Expanded(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: image,
-          ),
-          Flexible(
-              child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: circleAvatar,
-          )
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: image,
+        ),
+        Flexible(
+            child: Padding(padding: const EdgeInsets.all(10.0), child: text)),
+        Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: circleAvatar,
+        )
+      ],
     );
   }
 
@@ -623,14 +621,13 @@ class _MyAccountState extends State<MyAccount> {
         } else if (retVal == "3") {
           emailLaunch();
         } else if (retVal == "4") {
-          showConfirmationDialog(context);
+         showConfirmationDialog(context);
         }
       },
     );
   }
 
-  // Logout Confirmation Dialog
-  void showConfirmationDialog(
+   void showConfirmationDialog(
     BuildContext context,
   ) {
     showDialog(
