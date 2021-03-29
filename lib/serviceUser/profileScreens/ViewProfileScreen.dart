@@ -31,6 +31,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   String userGender = '';
   String userOccupation = '';
   String userAddress = '';
+  double iconHeight = 20.0;
+  double iconWidth = 20.0;
+  Color iconColor = Colors.black;
 
   //base64 profile image
   String imgBase64ProfileImage;
@@ -189,17 +192,18 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           borderRadius: BorderRadius.circular(16.0),
                           color: Colors.white),
                       width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.42,
+                      // height: MediaQuery.of(context).size.height * 0.42,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             MyRow(
                                 SvgPicture.asset(
                                   'assets/images_gps/mail.svg',
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 HealingMatchConstants
                                             .serviceUserEmailAddress.isEmpty ||
@@ -222,8 +226,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 SvgPicture.asset(
                                   'assets/images_gps/calendar.svg',
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 HealingMatchConstants.serviceUserDOB.isEmpty ||
                                         dob.isEmpty
@@ -273,8 +278,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                               .contains('女性')
                                           ? 'assets/images_gps/female.svg'
                                           : "assets/images_gps/profile_pic_user.svg",
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 HealingMatchConstants
                                             .serviceUserGender.isEmpty ||
@@ -297,8 +303,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 SvgPicture.asset(
                                   'assets/images_gps/work.svg',
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 HealingMatchConstants
                                             .serviceUserOccupation.isEmpty ||
@@ -321,8 +328,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 SvgPicture.asset(
                                   'assets/images_gps/address.svg',
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 HealingMatchConstants
                                             .serviceUserAddress.isEmpty ||
@@ -348,8 +356,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             MyRow(
                                 SvgPicture.asset(
                                   'assets/images_gps/range.svg',
-                                  // height: 35,
-                                  //  color: Colors.grey,
+                                  height: iconHeight,
+                                  width: iconWidth,
+                                  color: iconColor,
                                 ),
                                 Text('セラピスト検索範囲5.0Km距離。',
                                     style: TextStyle(

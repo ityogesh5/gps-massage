@@ -93,6 +93,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String _myAddedPrefecture = '';
   String _myAddedCity;
   File _profileImage;
+  bool readonly = false;
   final picker = ImagePicker();
   Placemark currentLocationPlaceMark;
   Placemark userAddedAddressPlaceMark;
@@ -141,6 +142,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   CitiesListResponseModel cities;
   var _prefId, _addedAddressPrefId;
   int _count = 0;
+  int id = 0;
 
   //CityListResponseModel city;
 
@@ -967,7 +969,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   .width *
                                                               0.39,
                                                       child: DropDownFormField(
-                                                          hintText: '市',
+                                                          hintText: _myCity,
                                                           value: _myCity,
                                                           onSaved: (value) {
                                                             setState(() {
@@ -2487,6 +2489,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
+  refreshPage() {
+    setState(() {});
+  }
+
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
@@ -3538,9 +3544,9 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
-    var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
+    /*var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
         ? otherController.text
-        : _myCategoryPlaceForMassage;
+        : _myCategoryPlaceForMassage;*/
     if (_myAddedAddressInputType.isNotEmpty &&
         _myAddedAddressInputType.contains('現在地を取得する')) {
       if (addedRoomNumberController.text.isEmpty ||

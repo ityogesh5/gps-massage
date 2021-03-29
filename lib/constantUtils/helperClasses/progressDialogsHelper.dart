@@ -145,6 +145,18 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
+  //AddAddress
+
+  static void showAddAddressUserProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
+        dismissAfter: Duration(seconds: 5));
+  }
+
+  static void hideAddAddressUserProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
   static void showOverlayLoader(BuildContext context) {
     Loader.show(context,
         progressIndicator: SpinKitThreeBounce(color: Colors.lime),
