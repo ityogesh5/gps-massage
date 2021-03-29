@@ -2490,10 +2490,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
-  refreshPage() {
-    setState(() {});
-  }
-
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
