@@ -2,29 +2,30 @@
 import 'package:flutter/material.dart';
 
 class CustomToggleButton extends StatefulWidget {
-  CustomToggleButton({
-    this.buttonLables,
-    this.buttonValues,
-    this.fontSize = 20,
-    this.autoWidth = true,
-    this.radioButtonValue,
-    this.buttonColor,
-    this.padding = 3,
-    this.selectedColor,
-    this.height = 0,
-    this.width = 0,
-    this.horizontal = false,
-    this.enableShape = false,
-    this.elevation = 0,
-    this.customShape,
-  })  : assert(buttonLables.length == buttonValues.length),
+  CustomToggleButton(
+      {this.buttonLables,
+      this.buttonValues,
+      this.fontSize = 20,
+      this.autoWidth = true,
+      this.radioButtonValue,
+      this.buttonColor,
+      this.padding = 3,
+      this.selectedColor,
+      this.height = 0,
+      this.width = 0,
+      this.horizontal = false,
+      this.enableShape = false,
+      this.elevation = 0,
+      this.customShape,
+      this.initialValue = 1})
+      : assert(buttonLables.length == buttonValues.length),
         assert(buttonColor != null),
         assert(selectedColor != null);
 
   final bool horizontal;
 
   final List buttonValues;
-
+  final int initialValue;
   final double height;
   final double width;
   final double padding;
@@ -49,13 +50,14 @@ class CustomToggleButton extends StatefulWidget {
 }
 
 class _CustomToggleButtonState extends State<CustomToggleButton> {
-  int currentSelected = 0;
+  int currentSelected;
   String currentSelectedLabel;
 
   @override
   void initState() {
     super.initState();
-    currentSelectedLabel = widget.buttonLables[1];
+    currentSelected = widget.initialValue;
+    currentSelectedLabel = widget.buttonLables[currentSelected];
   }
 
   List<Widget> buildButtonsColumn() {

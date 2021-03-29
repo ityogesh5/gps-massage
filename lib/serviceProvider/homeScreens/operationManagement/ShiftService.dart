@@ -17,6 +17,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 
 class ShiftService extends StatefulWidget {
   @override
@@ -540,62 +541,13 @@ class _ShiftServiceState extends State<ShiftService> {
                                       HealingMatchConstants
                                           .chooseServiceOtherDropdownFiled) {
                                     //for values other than the field "other"
-                                    selectedDropdownValues
-                                        .remove(val.toLowerCase());
-                                    servicePriceModel.removeAt(indexPos);
-                                    if (mindex == 0) {
-                                      try {
-                                        deletedEstheticList.add(
-                                            HealingMatchConstants.userData
-                                                .estheticLists[indexPos]);
-                                        deleteUnSelectedValues();
-                                      } catch (e) {}
-                                      selectedEstheticDropdownValues.clear();
-                                      estheticServicePriceModel.clear();
-                                      selectedEstheticDropdownValues
-                                          .addAll(selectedDropdownValues);
-                                      estheticServicePriceModel
-                                          .addAll(servicePriceModel);
-                                    } else if (mindex == 1) {
-                                      try {
-                                        deletedRelaxationList.add(
-                                            HealingMatchConstants.userData
-                                                .relaxationLists[indexPos]);
-                                        deleteUnSelectedValues();
-                                      } catch (e) {}
-                                      selectedRelaxationDropdownValues.clear();
-                                      relaxationServicePriceModel.clear();
-                                      selectedRelaxationDropdownValues
-                                          .addAll(selectedDropdownValues);
-                                      relaxationServicePriceModel
-                                          .addAll(servicePriceModel);
-                                    } else if (mindex == 2) {
-                                      try {
-                                        deletedTreatmentList.add(
-                                            HealingMatchConstants.userData
-                                                .orteopathicLists[indexPos]);
-                                        deleteUnSelectedValues();
-                                      } catch (e) {}
-                                      selectedTreatmentDropdownValues.clear();
-                                      treatmentServicePriceModel.clear();
-                                      selectedTreatmentDropdownValues
-                                          .addAll(selectedDropdownValues);
-                                      treatmentServicePriceModel
-                                          .addAll(servicePriceModel);
-                                    } else if (mindex == 3) {
-                                      try {
-                                        deletedFitnessList.add(
-                                            HealingMatchConstants.userData
-                                                .fitnessLists[indexPos]);
-                                        deleteUnSelectedValues();
-                                      } catch (e) {}
-                                      selectedFitnessDropdownValues.clear();
-                                      fitnessServicePriceModel.clear();
-                                      selectedFitnessDropdownValues
-                                          .addAll(selectedDropdownValues);
-                                      fitnessServicePriceModel
-                                          .addAll(servicePriceModel);
-                                    }
+                                    showConfirmationDialog(
+                                        context,
+                                        selectedDropdownValues,
+                                        servicePriceModel,
+                                        indexPos,
+                                        val,
+                                        mindex);
                                   } else {
                                     otherSelected[mindex] = false;
                                   }
@@ -1870,36 +1822,30 @@ class _ShiftServiceState extends State<ShiftService> {
 
     //Get the Price Model
     for (var serviceItem in HealingMatchConstants.userData.estheticLists) {
+      if (serviceItem.estheticId == 999) //for user added Service name
+      {
+        otherEstheticDropDownValues.add(serviceItem.name);
+      }
       selectedEstheticDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.relaxationLists) {
+      if (serviceItem.relaxationId == 999) {
+        otherRelaxationDropDownValues.add(serviceItem.name);
+      }
       selectedRelaxationDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.orteopathicLists) {
+      if (serviceItem.orteopathicId == 999) {
+        otherTreatmentDropDownValues.add(serviceItem.name);
+      }
       selectedTreatmentDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.fitnessLists) {
+      if (serviceItem.fitnessId == 999) {
+        otherFitnessDropDownValues.add(serviceItem.name);
+      }
       selectedFitnessDropdownValues.add(serviceItem.name);
     }
-
-    //Get the Selected CheckBox Values
-    /*  selectedEstheticDropdownValues
-        .addAll(HealingMatchConstants.selectedEstheticDropdownValues);
-    selectedRelaxationDropdownValues
-        .addAll(HealingMatchConstants.selectedRelaxationDropdownValues);
-    selectedTreatmentDropdownValues
-        .addAll(HealingMatchConstants.selectedTreatmentDropdownValues);
-    selectedFitnessDropdownValues
-        .addAll(HealingMatchConstants.selectedFitnessDropdownValues); */
-    //Get the other added CheckBox Values
-    otherEstheticDropDownValues
-        .addAll(HealingMatchConstants.otherEstheticDropDownValues);
-    otherTreatmentDropDownValues
-        .addAll(HealingMatchConstants.otherTreatmentDropDownValues);
-    otherRelaxationDropDownValues
-        .addAll(HealingMatchConstants.otherRelaxationDropDownValues);
-    otherFitnessDropDownValues
-        .addAll(HealingMatchConstants.otherFitnessDropDownValues);
   }
 
   saveSelectedValues() async {
@@ -1995,5 +1941,159 @@ class _ShiftServiceState extends State<ShiftService> {
       print("Error");
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
+  }
+
+  // Delete Confirmation Dialog
+  void showConfirmationDialog(
+      BuildContext context,
+      List<String> selectedDropdownValues,
+      List<EstheticListElement> servicePriceModel,
+      int indexPos,
+      String val,
+      int mindex) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  width: MediaQuery.of(context).size.width * 0.98,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(16.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        blurRadius: 15.0, // soften the shadow
+                        spreadRadius: 5, //extend the shadow
+                        offset: Offset(
+                          0.0, // Move to right 10  horizontally
+                          10.0, // Move to bottom 10 Vertically
+                        ),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          'サービスを削除してもよろしいですか？',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Open Sans'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width * 0.30,
+                            child: CustomToggleButton(
+                              initialValue: 0,
+                              elevation: 0,
+                              height: 50.0,
+                              width: MediaQuery.of(context).size.width * 0.30,
+                              autoWidth: false,
+                              buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                              enableShape: true,
+                              customShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: BorderSide(color: Colors.transparent)),
+                              buttonLables: ["はい", "いいえ"],
+                              fontSize: 16.0,
+                              buttonValues: [
+                                "Y",
+                                "N",
+                              ],
+                              radioButtonValue: (value) {
+                                if (value == 'Y') {
+                                  Navigator.pop(context);
+                                  removeSelectedServices(selectedDropdownValues,
+                                      servicePriceModel, indexPos, val, mindex);
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                                print('Radio value : $value');
+                              },
+                              selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  removeSelectedServices(
+      List<String> selectedDropdownValues,
+      List<EstheticListElement> servicePriceModel,
+      int indexPos,
+      String val,
+      int mindex) {
+    selectedDropdownValues.remove(val.toLowerCase());
+    servicePriceModel.removeAt(indexPos);
+    setState(() {
+      if (mindex == 0) {
+        try {
+          deletedEstheticList
+              .add(HealingMatchConstants.userData.estheticLists[indexPos]);
+          deleteUnSelectedValues();
+        } catch (e) {}
+        selectedEstheticDropdownValues.clear();
+        estheticServicePriceModel.clear();
+        selectedEstheticDropdownValues.addAll(selectedDropdownValues);
+        estheticServicePriceModel.addAll(servicePriceModel);
+      } else if (mindex == 1) {
+        try {
+          deletedRelaxationList
+              .add(HealingMatchConstants.userData.relaxationLists[indexPos]);
+          deleteUnSelectedValues();
+        } catch (e) {}
+        selectedRelaxationDropdownValues.clear();
+        relaxationServicePriceModel.clear();
+        selectedRelaxationDropdownValues.addAll(selectedDropdownValues);
+        relaxationServicePriceModel.addAll(servicePriceModel);
+      } else if (mindex == 2) {
+        try {
+          deletedTreatmentList
+              .add(HealingMatchConstants.userData.orteopathicLists[indexPos]);
+          deleteUnSelectedValues();
+        } catch (e) {}
+        selectedTreatmentDropdownValues.clear();
+        treatmentServicePriceModel.clear();
+        selectedTreatmentDropdownValues.addAll(selectedDropdownValues);
+        treatmentServicePriceModel.addAll(servicePriceModel);
+      } else if (mindex == 3) {
+        try {
+          deletedFitnessList
+              .add(HealingMatchConstants.userData.fitnessLists[indexPos]);
+          deleteUnSelectedValues();
+        } catch (e) {}
+        selectedFitnessDropdownValues.clear();
+        fitnessServicePriceModel.clear();
+        selectedFitnessDropdownValues.addAll(selectedDropdownValues);
+        fitnessServicePriceModel.addAll(servicePriceModel);
+      }
+    });
   }
 }
