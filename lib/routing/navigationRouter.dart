@@ -387,9 +387,9 @@ class NavigationRouter {
   }
 
   // User define screen
-  static void switchToUserAddAddressScreen(BuildContext context) {
+  static void switchToUserAddAddressScreen(BuildContext context, var arg) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => AddAddress()));
+        MaterialPageRoute(builder: (BuildContext context) => AddAddress(arg)));
   }
 
   // User define screen

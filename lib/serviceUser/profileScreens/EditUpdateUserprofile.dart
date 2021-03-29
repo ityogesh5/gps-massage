@@ -1347,7 +1347,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       _updateUserFormKey.currentState.save();
                                       NavigationRouter
                                           .switchToUserAddAddressScreen(
-                                              context);
+                                              context, refreshPage);
                                     }
                                   },
                                 ),
@@ -1383,7 +1383,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   onPressed: () {
                                     _updateUserFormKey.currentState.save();
                                     NavigationRouter
-                                        .switchToUserAddAddressScreen(context);
+                                        .switchToUserAddAddressScreen(
+                                            context, refreshPage);
                                   },
                                 ),
                                 hintStyle: TextStyle(
@@ -2527,7 +2528,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           HealingMatchConstants.userEditRoomNo = rUserRoomNo;
           HealingMatchConstants.userEditArea = rUserArea;
           HealingMatchConstants.userEditToken = raccessToken;
-<<<<<<< HEAD
           HealingMatchConstants.userEditId = rUserID;*/
           HealingMatchConstants.userEditToken = value.getString('accessToken');
           userNameController.text = rUserName;
@@ -2542,11 +2542,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           userAreaController.text = rUserArea;
 
           /*userNameController.text = HealingMatchConstants.userEditUserName;
-=======
-          HealingMatchConstants.userEditId = rUserID;
-
-          userNameController.text = HealingMatchConstants.userEditUserName;
->>>>>>> origin/origin/DEV/devYogesh
           phoneNumberController.text =
               HealingMatchConstants.userEditPhoneNumber;
           emailController.text = HealingMatchConstants.userEditEmailAddress;
@@ -2626,9 +2621,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
     // updateAddress.add(addUpdateAddress);
   }
+
+  refreshPage() {
+    setState(() {});
+  }
 }
 
 class AddAddress extends StatefulWidget {
+  final callBack;
+  AddAddress(this.callBack);
   @override
   State<StatefulWidget> createState() => new _AddAddressState();
 }
@@ -3593,7 +3594,7 @@ class _AddAddressState extends State<AddAddress> {
               addedBuildingNameController.text.toString(),
               userGPSAddressPlaceMark.locality,
             );
-
+            widget.callBack();
             Navigator.pop(context);
             /* Navigator.push(
                 context,
@@ -3720,6 +3721,7 @@ class _AddAddressState extends State<AddAddress> {
               addedUserAreaController.text.toString(),
             );
             print(_myAddedAddressInputType);
+            widget.callBack();
             Navigator.pop(context);
             /*   Navigator.push(
                 context,
