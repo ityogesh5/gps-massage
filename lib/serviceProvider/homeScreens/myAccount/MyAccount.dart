@@ -9,6 +9,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/loginRespon
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/Logout.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -620,17 +621,30 @@ class _MyAccountState extends State<MyAccount> {
         } else if (retVal == "3") {
           emailLaunch();
         } else if (retVal == "4") {
-          _sharedPreferences.then((value) {
-            value.setString('accessToken', '');
-            value.setBool('isProviderLoggedOut', true);
-            value.setBool('isProviderLoggedIn', false);
-            value.setBool('isUserLoggedOut', false);
-            value.setBool('isProviderRegister', false);
-          });
-          NavigationRouter.switchToProviderLogin(context);
+          showConfirmationDialog(context);
         }
       },
     );
+  }
+
+  // Logout Confirmation Dialog
+  void showConfirmationDialog(
+    BuildContext context,
+  ) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                ProviderLogout(),
+              ],
+            ),
+          );
+        });
   }
 
   emailLaunch() {
