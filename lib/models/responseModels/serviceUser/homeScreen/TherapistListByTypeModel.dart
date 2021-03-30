@@ -1,13 +1,13 @@
 class TherapistsByTypeModel {
   String status;
-  TherapistTypeData therapistData;
+  TherapistData therapistData;
 
   TherapistsByTypeModel({this.status, this.therapistData});
 
   TherapistsByTypeModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     therapistData = json['therapistData'] != null
-        ? new TherapistTypeData.fromJson(json['therapistData'])
+        ? new TherapistData.fromJson(json['therapistData'])
         : null;
   }
 
@@ -21,16 +21,15 @@ class TherapistsByTypeModel {
   }
 }
 
-class TherapistTypeData {
+class TherapistData {
   int count;
   List<UserList> userList;
   int totalPages;
   int pageNumber;
 
-  TherapistTypeData(
-      {this.count, this.userList, this.totalPages, this.pageNumber});
+  TherapistData({this.count, this.userList, this.totalPages, this.pageNumber});
 
-  TherapistTypeData.fromJson(Map<String, dynamic> json) {
+  TherapistData.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     if (json['userList'] != null) {
       userList = new List<UserList>();
@@ -70,17 +69,17 @@ class UserList {
 
   UserList(
       {this.id,
-      this.userId,
-      this.orteopathicId,
-      this.name,
-      this.sixtyMin,
-      this.nintyMin,
-      this.oneTwentyMin,
-      this.oneFifityMin,
-      this.oneEightyMin,
-      this.createdAt,
-      this.updatedAt,
-      this.user});
+        this.userId,
+        this.orteopathicId,
+        this.name,
+        this.sixtyMin,
+        this.nintyMin,
+        this.oneTwentyMin,
+        this.oneFifityMin,
+        this.oneEightyMin,
+        this.createdAt,
+        this.updatedAt,
+        this.user});
 
   UserList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -133,8 +132,8 @@ class User {
   bool isVerified;
   bool isActive;
   int isAccepted;
-  dynamic rejectReason;
-  dynamic updatedUser;
+  String rejectReason;
+  String updatedUser;
   String uploadProfileImgUrl;
   String proofOfIdentityType;
   String proofOfIdentityImgUrl;
@@ -155,45 +154,47 @@ class User {
   String updatedAt;
   List<CertificationUploads> certificationUploads;
   List<Banners> banners;
+  List<Reviews> reviews;
 
   User(
       {this.id,
-      this.userId,
-      this.email,
-      this.phoneNumber,
-      this.fcmToken,
-      this.lineBotUserId,
-      this.appleUserId,
-      this.userName,
-      this.dob,
-      this.age,
-      this.gender,
-      this.isTherapist,
-      this.isVerified,
-      this.isActive,
-      this.isAccepted,
-      this.rejectReason,
-      this.updatedUser,
-      this.uploadProfileImgUrl,
-      this.proofOfIdentityType,
-      this.proofOfIdentityImgUrl,
-      this.qulaificationCertImgUrl,
-      this.businessForm,
-      this.numberOfEmp,
-      this.businessTrip,
-      this.coronaMeasure,
-      this.storeName,
-      this.storeType,
-      this.storePhone,
-      this.storeDescription,
-      this.userOccupation,
-      this.genderOfService,
-      this.childrenMeasure,
-      this.customerId,
-      this.createdAt,
-      this.updatedAt,
-      this.certificationUploads,
-      this.banners});
+        this.userId,
+        this.email,
+        this.phoneNumber,
+        this.fcmToken,
+        this.lineBotUserId,
+        this.appleUserId,
+        this.userName,
+        this.dob,
+        this.age,
+        this.gender,
+        this.isTherapist,
+        this.isVerified,
+        this.isActive,
+        this.isAccepted,
+        this.rejectReason,
+        this.updatedUser,
+        this.uploadProfileImgUrl,
+        this.proofOfIdentityType,
+        this.proofOfIdentityImgUrl,
+        this.qulaificationCertImgUrl,
+        this.businessForm,
+        this.numberOfEmp,
+        this.businessTrip,
+        this.coronaMeasure,
+        this.storeName,
+        this.storeType,
+        this.storePhone,
+        this.storeDescription,
+        this.userOccupation,
+        this.genderOfService,
+        this.childrenMeasure,
+        this.customerId,
+        this.createdAt,
+        this.updatedAt,
+        this.certificationUploads,
+        this.banners,
+        this.reviews});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -243,6 +244,12 @@ class User {
         banners.add(new Banners.fromJson(v));
       });
     }
+    if (json['reviews'] != null) {
+      reviews = new List<Reviews>();
+      json['reviews'].forEach((v) {
+        reviews.add(new Reviews.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -289,6 +296,9 @@ class User {
     if (this.banners != null) {
       data['banners'] = this.banners.map((v) => v.toJson()).toList();
     }
+    if (this.reviews != null) {
+      data['reviews'] = this.reviews.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -296,15 +306,15 @@ class User {
 class CertificationUploads {
   int id;
   int userId;
-  dynamic acupuncturist;
+  String acupuncturist;
   dynamic moxibutionist;
-  dynamic acupuncturistAndMoxibustion;
-  dynamic anmaMassageShiatsushi;
+  String acupuncturistAndMoxibustion;
+  String anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
-  String physicalTherapist;
+  dynamic physicalTherapist;
   dynamic acquireNationalQualifications;
   String privateQualification1;
-  dynamic privateQualification2;
+  String privateQualification2;
   dynamic privateQualification3;
   dynamic privateQualification4;
   dynamic privateQualification5;
@@ -313,21 +323,21 @@ class CertificationUploads {
 
   CertificationUploads(
       {this.id,
-      this.userId,
-      this.acupuncturist,
-      this.moxibutionist,
-      this.acupuncturistAndMoxibustion,
-      this.anmaMassageShiatsushi,
-      this.judoRehabilitationTeacher,
-      this.physicalTherapist,
-      this.acquireNationalQualifications,
-      this.privateQualification1,
-      this.privateQualification2,
-      this.privateQualification3,
-      this.privateQualification4,
-      this.privateQualification5,
-      this.createdAt,
-      this.updatedAt});
+        this.userId,
+        this.acupuncturist,
+        this.moxibutionist,
+        this.acupuncturistAndMoxibustion,
+        this.anmaMassageShiatsushi,
+        this.judoRehabilitationTeacher,
+        this.physicalTherapist,
+        this.acquireNationalQualifications,
+        this.privateQualification1,
+        this.privateQualification2,
+        this.privateQualification3,
+        this.privateQualification4,
+        this.privateQualification5,
+        this.createdAt,
+        this.updatedAt});
 
   CertificationUploads.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -383,14 +393,14 @@ class Banners {
 
   Banners(
       {this.id,
-      this.userId,
-      this.bannerImageUrl1,
-      this.bannerImageUrl2,
-      this.bannerImageUrl3,
-      this.bannerImageUrl4,
-      this.bannerImageUrl5,
-      this.createdAt,
-      this.updatedAt});
+        this.userId,
+        this.bannerImageUrl1,
+        this.bannerImageUrl2,
+        this.bannerImageUrl3,
+        this.bannerImageUrl4,
+        this.bannerImageUrl5,
+        this.createdAt,
+        this.updatedAt});
 
   Banners.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -413,6 +423,63 @@ class Banners {
     data['bannerImageUrl3'] = this.bannerImageUrl3;
     data['bannerImageUrl4'] = this.bannerImageUrl4;
     data['bannerImageUrl5'] = this.bannerImageUrl5;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Reviews {
+  int id;
+  int userId;
+  int therapistId;
+  int ratingsId;
+  bool isReviewStatus;
+  int ratingsCount;
+  String reviewComment;
+  dynamic createdUser;
+  dynamic updatedUser;
+  String createdAt;
+  String updatedAt;
+
+  Reviews(
+      {this.id,
+        this.userId,
+        this.therapistId,
+        this.ratingsId,
+        this.isReviewStatus,
+        this.ratingsCount,
+        this.reviewComment,
+        this.createdUser,
+        this.updatedUser,
+        this.createdAt,
+        this.updatedAt});
+
+  Reviews.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    therapistId = json['therapistId'];
+    ratingsId = json['ratingsId'];
+    isReviewStatus = json['isReviewStatus'];
+    ratingsCount = json['ratingsCount'];
+    reviewComment = json['reviewComment'];
+    createdUser = json['createdUser'];
+    updatedUser = json['updatedUser'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['therapistId'] = this.therapistId;
+    data['ratingsId'] = this.ratingsId;
+    data['isReviewStatus'] = this.isReviewStatus;
+    data['ratingsCount'] = this.ratingsCount;
+    data['reviewComment'] = this.reviewComment;
+    data['createdUser'] = this.createdUser;
+    data['updatedUser'] = this.updatedUser;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;
