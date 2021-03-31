@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'dart:ui';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -98,7 +98,7 @@ class ShowToolTip {
     if (dy <= MediaQuery.of(context).padding.top + 10) {
       // not enough space above, show popup under the widget.
       dy = arrowHeight + _showRect.height + _showRect.top;
-      _isDownArrow = false;
+      _isDownArrow = true;
     } else {
       dy -= arrowHeight;
       _isDownArrow = true;
@@ -111,6 +111,10 @@ class ShowToolTip {
   LayoutBuilder buildPopupLayout(Offset offset) {
     var split = _text.split(',');
     var storeType = {for (int i = 0; i < split.length; i++) i: split[i]};
+    final jsonList = split.map((item) => jsonEncode(item)).toList();
+    final uniqueJsonList = jsonList.toSet().toList();
+    final result =
+    uniqueJsonList.map((item) => jsonDecode(item)).toList();
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -140,7 +144,7 @@ class ShowToolTip {
                           ),
                         ]),
                     child: ListView.builder(
-                        itemCount: storeType.length,
+                        itemCount: result.length,
                         padding: EdgeInsets.all(0.0),
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
@@ -157,21 +161,21 @@ class ShowToolTip {
                                   ),
                                   child: Padding(
                                       padding: const EdgeInsets.all(4.0),
-                                      child: storeType[index] == "エステ"
+                                      child: result[index].contains ("エステ")
                                           ? SvgPicture.asset(
                                               "assets/images_gps/serviceTypeOne.svg",
                                               height: 15.0,
                                               width: 15.0,
                                               color: Colors.black,
                                             )
-                                          : storeType[index] == "整体"
+                                          : result[index].contains("整体")
                                               ? SvgPicture.asset(
                                                   "assets/images_gps/serviceTypeTwo.svg",
                                                   height: 15.0,
                                                   width: 15.0,
                                                   color: Colors.black,
                                                 )
-                                              : storeType[index] == "リラクゼーション"
+                                              : result[index].contains ("リラクゼーション")
                                                   ? SvgPicture.asset(
                                                       "assets/images_gps/serviceTypeThree.svg",
                                                       height: 15.0,
@@ -190,7 +194,7 @@ class ShowToolTip {
                                   width: 5.0,
                                 ),
                                 Text(
-                                  storeType[index],
+                                  result[index],
                                   style: _textStyle,
                                 ),
                               ],
