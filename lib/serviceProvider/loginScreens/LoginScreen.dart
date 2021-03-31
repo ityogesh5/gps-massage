@@ -275,6 +275,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
                               child: Container(
                                   width: 20.0,
                                   height: 20,
+                                  margin: EdgeInsets.all(8.0),
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.white),
                                     shape: BoxShape.circle,

@@ -288,7 +288,7 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                               child: Container(
                                   width: 20.0,
-                                  height: 20,
+                                  height: 20,  margin: EdgeInsets.all(8.0),
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.white),
                                     shape: BoxShape.circle,
