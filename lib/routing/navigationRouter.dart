@@ -401,6 +401,12 @@ class NavigationRouter {
             builder: (BuildContext context) => AddAddressScreen()));
   }
 
+  // User calender screen
+  static void switchToUserCalendarScreenScreen(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => CalendarScreen()));
+  }
+
   // Service User Edit Profile Screen
   static void switchToServiceUserEditProfileScreen(BuildContext context) {
     Navigator.push(context,

@@ -49,7 +49,7 @@ class _ConditionsApplyBookingScreenState
         },
         child: CircleAvatar(
             maxRadius: 25,
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Colors.white,
             child: SvgPicture.asset('assets/images_gps/chat.svg',
                 height: 35, width: 35)),
       ),
@@ -689,13 +689,20 @@ class _ConditionsApplyBookingScreenState
                               fontFamily: 'NotoSansJP'),
                         ),
                         Spacer(),
-                        Text(
-                          'キャンセルする',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.red[200],
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'NotoSansJP'),
+                        InkWell(
+                          onTap: () {
+                            NavigationRouter
+                                .switchToServiceUserBookingCancelScreen(
+                                    context);
+                          },
+                          child: Text(
+                            'キャンセルする',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red[200],
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'NotoSansJP'),
+                          ),
                         ),
                       ],
                     ),
