@@ -1141,7 +1141,10 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                   Container(
                                       padding: EdgeInsets.all(4),
                                       color: Colors.white,
-                                      child: Text('コロナ対策実施')),
+                                      child: Text(
+                                        'コロナ対策実施',
+                                        style: TextStyle(fontSize: 12),
+                                      )),
                                   Spacer(),
                                   widget.getTherapistByType[index].sixtyMin == 0
                                       ? Text(
@@ -1700,53 +1703,61 @@ class _ReservationListState extends State<ReservationList> {
                   ),
                   Row(
                     children: [
-                      CircleAvatar(
-                        maxRadius: 41,
-                        backgroundColor: Color.fromRGBO(225, 225, 225, 1),
+                      InkWell(
+                        onTap: () {
+                          NavigationRouter.switchToUserCalendarScreenScreen(
+                              context);
+                        },
                         child: CircleAvatar(
-                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                          maxRadius: 40,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              HealingMatchConstants.currentDay != null
-                                  ? Text(
-                                      '${HealingMatchConstants.currentDay}',
-                                      style: TextStyle(
-                                          fontSize: 18,
+                          maxRadius: 41,
+                          backgroundColor: Color.fromRGBO(225, 225, 225, 1),
+                          child: CircleAvatar(
+                            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                            maxRadius: 40,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                HealingMatchConstants.currentDay != null
+                                    ? Text(
+                                        '${HealingMatchConstants.currentDay}',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color:
+                                                Color.fromRGBO(200, 217, 33, 1),
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : Text(
+                                        '31',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color:
+                                                Color.fromRGBO(200, 217, 33, 1),
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                HealingMatchConstants.currentMonth != null
+                                    ? Text(
+                                        '${HealingMatchConstants.currentMonth}月',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'NotoSansJP',
                                           color:
                                               Color.fromRGBO(200, 217, 33, 1),
+                                        ),
+                                      )
+                                    : Text(
+                                        '3月',
+                                        style: TextStyle(
+                                          fontSize: 14,
                                           fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : Text(
-                                      '31',
-                                      style: TextStyle(
-                                          fontSize: 18,
                                           color:
                                               Color.fromRGBO(200, 217, 33, 1),
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                              HealingMatchConstants.currentMonth != null
-                                  ? Text(
-                                      '${HealingMatchConstants.currentMonth}月',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Color.fromRGBO(200, 217, 33, 1),
+                                        ),
                                       ),
-                                    )
-                                  : Text(
-                                      '3月',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Color.fromRGBO(200, 217, 33, 1),
-                                      ),
-                                    ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1884,58 +1895,68 @@ class _RecommendListsState extends State<RecommendLists> {
                             SizedBox(
                               height: 5,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  ratingValue.toString(),
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    ratingValue.toString(),
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                                RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 25,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    size: 5,
-                                    color: Colors.black,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    // print(rating);
-                                    setState(() {
-                                      ratingValue = rating;
-                                    });
+                                  RatingBar.builder(
+                                    initialRating: 3,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 20,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color: Colors.black,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      // print(rating);
+                                      setState(() {
+                                        ratingValue = rating;
+                                      });
 
-                                    print(ratingValue);
-                                  },
-                                ),
-                                Text('(1518)'),
-                              ],
+                                      print(ratingValue);
+                                    },
+                                  ),
+                                  Text('(1518)'),
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(4),
-                                    color: Colors.white,
-                                    child: Text('コロナ対策実施')),
-                                Spacer(),
-                                Text(
-                                  '¥4,500',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 19),
-                                ),
-                                //Text('/60分')
-                              ],
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(4),
+                                      color: Colors.white,
+                                      child: Text(
+                                        'コロナ対策実施',
+                                        style: TextStyle(fontSize: 12),
+                                      )),
+                                  Spacer(),
+                                  Text(
+                                    '¥4,500',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 19),
+                                  ),
+                                  //Text('/60分'
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -2200,38 +2221,40 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          ratingsValue.toString(),
-                                          style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            ratingsValue.toString(),
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
                                           ),
-                                        ),
-                                        RatingBar.builder(
-                                          initialRating: 3,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 25,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            size: 5,
-                                            color: Colors.black,
+                                          RatingBar.builder(
+                                            initialRating: 3,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemSize: 20,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              size: 5,
+                                              color: Colors.black,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              setState(() {
+                                                ratingsValue = rating;
+                                              });
+                                              print(ratingsValue);
+                                            },
                                           ),
-                                          onRatingUpdate: (rating) {
-                                            setState(() {
-                                              ratingsValue = rating;
-                                            });
-                                            print(ratingsValue);
-                                          },
-                                        ),
-                                        Text('(1518)'),
-                                      ],
+                                          Text('(1518)'),
+                                        ],
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 5,

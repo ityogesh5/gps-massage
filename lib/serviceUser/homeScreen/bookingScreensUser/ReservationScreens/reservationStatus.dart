@@ -2120,7 +2120,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
                                                   itemCount: 5,
-                                                  itemSize: 25,
+                                                  itemSize: 20,
                                                   itemPadding:
                                                       EdgeInsets.symmetric(
                                                           horizontal: 4.0),

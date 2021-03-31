@@ -30,7 +30,7 @@ class _FavoriteState extends State<Favorite> {
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.28,
+                        height: MediaQuery.of(context).size.height * 0.30,
                         width: MediaQuery.of(context).size.width * 0.90,
                         child: new Card(
                           color: Color.fromRGBO(242, 242, 242, 1),
@@ -232,7 +232,7 @@ class _FavoriteState extends State<Favorite> {
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
                                                   itemCount: 5,
-                                                  itemSize: 25,
+                                                  itemSize: 20,
                                                   itemPadding:
                                                       EdgeInsets.symmetric(
                                                           horizontal: 4.0),
@@ -264,41 +264,36 @@ class _FavoriteState extends State<Favorite> {
                                           SizedBox(
                                             height: 5,
                                           ),
-                                          FittedBox(
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                    padding: EdgeInsets.all(4),
-                                                    decoration: BoxDecoration(
-                                                        gradient: LinearGradient(
-                                                            begin: Alignment
-                                                                .topCenter,
-                                                            end: Alignment
-                                                                .bottomCenter,
-                                                            colors: [
-                                                              Colors.white,
-                                                              Colors.white,
-                                                            ]),
-                                                        shape:
-                                                            BoxShape.rectangle,
-                                                        border: Border.all(
-                                                          color:
-                                                              Colors.grey[300],
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5.0),
-                                                        color:
-                                                            Colors.grey[200]),
-                                                    child: Text(
-                                                      '国家資格保有',
-                                                      style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            0, 0, 0, 1),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                  padding: EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white,
+                                                          ]),
+                                                      shape: BoxShape.rectangle,
+                                                      border: Border.all(
+                                                        color: Colors.grey[300],
                                                       ),
-                                                    )),
-                                              ],
-                                            ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                      color: Colors.grey[200]),
+                                                  child: Text(
+                                                    '国家資格保有',
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                    ),
+                                                  )),
+                                            ],
                                           )
                                         ],
                                       ),
@@ -310,37 +305,38 @@ class _FavoriteState extends State<Favorite> {
                                     color: Color.fromRGBO(217, 217, 217, 1),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images_gps/gps.svg',
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images_gps/gps.svg',
+                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          height: 20,
+                                          width: 20),
+                                      SizedBox(
+                                        width: 7,
+                                      ),
+                                      Text(
+                                        '埼玉県浦和区高砂4丁目4',
+                                        style: TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1),
-                                            height: 20,
-                                            width: 20),
-                                        SizedBox(
-                                          width: 7,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        '１.５ｋｍ圏内',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
                                         ),
-                                        Text(
-                                          '埼玉県浦和区高砂4丁目4',
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(0, 0, 0, 1),
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          '１.５ｋｍ圏内',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                153, 153, 153, 1),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
+                                ),
+                                SizedBox(
+                                  height: 4,
                                 ),
                               ],
                             ),
