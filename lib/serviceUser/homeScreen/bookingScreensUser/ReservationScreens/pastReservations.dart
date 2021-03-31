@@ -50,7 +50,8 @@ class _PastReservationsState extends State<PastReservations> {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 8, bottom: 3),
                             child: Column(
                               children: [
                                 Row(

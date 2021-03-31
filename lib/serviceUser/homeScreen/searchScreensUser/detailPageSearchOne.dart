@@ -802,6 +802,24 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
               ),
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '施術メニューを選んでください',
+              style: TextStyle(
+                  decoration: TextDecoration.none,
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'NotoSansJP',
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -1177,7 +1195,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     alignment: AlignmentDirectional.bottomCenter,
                     child: SimpleTooltip(
                       show: _value == 1 ? true : false,
-                      tooltipDirection: TooltipDirection.right,
+                      tooltipDirection: TooltipDirection.down,
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -1540,7 +1558,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     alignment: AlignmentDirectional.bottomCenter,
                     child: SimpleTooltip(
                       show: _value == 2 ? true : false,
-                      tooltipDirection: TooltipDirection.right,
+                      tooltipDirection: TooltipDirection.down,
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -1903,7 +1921,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     alignment: AlignmentDirectional.bottomCenter,
                     child: SimpleTooltip(
                       show: _value == 3 ? true : false,
-                      tooltipDirection: TooltipDirection.right,
+                      tooltipDirection: TooltipDirection.up,
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -2266,7 +2284,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     alignment: AlignmentDirectional.bottomCenter,
                     child: SimpleTooltip(
                       show: _value == 4 ? true : false,
-                      tooltipDirection: TooltipDirection.right,
+                      tooltipDirection: TooltipDirection.left,
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),

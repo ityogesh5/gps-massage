@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,14 @@ double ratingsValue = 4.0;
 int _massageValue = 0;
 int _value;
 
-class BookingDetailsCompletedScreen extends StatefulWidget {
+class BookingDetailsCompletedScreenOne extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _BookingDetailsCompletedScreenState();
-  }
+  _BookingDetailsCompletedScreenOneState createState() =>
+      _BookingDetailsCompletedScreenOneState();
 }
 
-class _BookingDetailsCompletedScreenState
-    extends State<BookingDetailsCompletedScreen> {
+class _BookingDetailsCompletedScreenOneState
+    extends State<BookingDetailsCompletedScreenOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -616,7 +616,7 @@ class _BookingDetailsCompletedScreenState
               child: Divider(),
             )),
           ]),
-          Padding(
+          /*  Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               child: Text(
@@ -816,7 +816,7 @@ class _BookingDetailsCompletedScreenState
                 ),
               ),
             ),
-          ),
+          ),*/
           SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -3119,7 +3119,7 @@ class _BookingDetailsCompletedScreenState
           borderRadius: new BorderRadius.circular(10.0),
           //side: BorderSide(color: Colors.black),
         ),
-        color: Colors.lime,
+        color: Colors.red,
         onPressed: () {
           NavigationRouter.switchToServiceUserBookingConfirmationScreen(
               context);

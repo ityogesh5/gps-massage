@@ -82,6 +82,34 @@ class _FavoriteState extends State<Favorite> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
+                                              SizedBox(width: 4),
+                                              InkWell(
+                                                onTap: () {},
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[400],
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: SvgPicture.asset(
+                                                      "assets/images_gps/info.svg",
+                                                      height: 15.0,
+                                                      width: 15.0,
+                                                      // key: key,
+                                                      color: Colors.black,
+                                                    ), /* Icon(
+                                                      Icons
+                                                          .shopping_bag_rounded,
+                                                      key: key,
+                                                      color: Colors.black ), */
+                                                  ),
+                                                ),
+                                              ),
                                               Spacer(),
                                               FittedBox(
                                                 child: FavoriteButton(
