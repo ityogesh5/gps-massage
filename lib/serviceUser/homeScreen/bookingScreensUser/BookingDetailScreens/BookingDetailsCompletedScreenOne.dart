@@ -3121,8 +3121,8 @@ class _BookingDetailsCompletedScreenOneState
         ),
         color: Colors.red,
         onPressed: () {
-          NavigationRouter.switchToServiceUserBookingConfirmationScreen(
-              context);
+          /*NavigationRouter.switchToServiceUserBookingConfirmationScreen(
+              context);*/
         },
         child: new Text(
           'もう一度予約する',

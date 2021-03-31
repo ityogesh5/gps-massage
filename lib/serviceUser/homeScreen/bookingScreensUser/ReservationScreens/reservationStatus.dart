@@ -817,7 +817,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                       InkWell(
                                         onTap: () {
                                           NavigationRouter
-                                              .switchToUserBookingApprovedSecondScreen(
+                                              .switchToUserBookingApprovedThirdScreen(
                                                   context);
                                         },
                                         child: CircleAvatar(

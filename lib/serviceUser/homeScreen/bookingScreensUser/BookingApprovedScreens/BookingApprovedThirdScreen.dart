@@ -266,14 +266,20 @@ class _ApprovalSecondScreenState extends State<ApprovalSecondScreen> {
                             )),
                             Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: CircleAvatar(
-                                  maxRadius: 20,
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
-                                  child: SvgPicture.asset(
-                                      'assets/images_gps/chat.svg',
-                                      height: 30,
-                                      width: 30)),
+                              child: InkWell(
+                                onTap: () {
+                                  NavigationRouter
+                                      .switchToServiceUserChatScreen(context);
+                                },
+                                child: CircleAvatar(
+                                    maxRadius: 20,
+                                    backgroundColor:
+                                        Color.fromRGBO(255, 255, 255, 1),
+                                    child: SvgPicture.asset(
+                                        'assets/images_gps/chat.svg',
+                                        height: 30,
+                                        width: 30)),
+                              ),
                             ),
                           ]),
                       Expanded(
