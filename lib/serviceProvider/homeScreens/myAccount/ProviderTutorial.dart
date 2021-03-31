@@ -22,32 +22,32 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
     return Scaffold(
         // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
-        body: PageView(
-          onPageChanged: (page) {
-            setState(() {
-              currentPage = page;
-            });
-          },
-          controller: pageController,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      AssetImage('assets/images_gps/provider_tutorial_1.png'),
-                  fit: BoxFit.fill,
+        body: SafeArea(
+          bottom: false,
+          child: PageView(
+            onPageChanged: (page) {
+              setState(() {
+                currentPage = page;
+              });
+            },
+            controller: pageController,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image:
+                        AssetImage('assets/images_gps/provider_tutorial_1.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              //color: Colors.deepPurple,
-              child: FutureBuilder(
-                  future: rootBundle.loadString(
-                      "assets/provider_tutorial/service_provider_page_1.md"),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top:52.0),
-                        child: Markdown(
+                //color: Colors.deepPurple,
+                child: FutureBuilder(
+                    future: rootBundle.loadString(
+                        "assets/provider_tutorial/service_provider_page_1.md"),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return Markdown(
                             data: snapshot.data,
                             styleSheet:
                                 MarkdownStyleSheet.fromTheme(Theme.of(context))
@@ -56,34 +56,31 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 18.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                                fontFamily: 'NotoSansJP'))),
+                                                fontFamily: 'NotoSansJP')));
+                      }
+                      return Center(
+                        child: SpinKitDoubleBounce(color: Colors.limeAccent),
                       );
-                    }
-                    return Center(
-                      child: SpinKitDoubleBounce(color: Colors.limeAccent),
-                    );
-                  }),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      AssetImage('assets/images_gps/provider_tutorial_2.png'),
-                  fit: BoxFit.fill,
-                ),
+                    }),
               ),
-              child: FutureBuilder(
-                  future: rootBundle.loadString(
-                      "assets/provider_tutorial/service_provider_page_2.md"),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                         padding: const EdgeInsets.only(top:52.0),
-                        child: Markdown(
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image:
+                        AssetImage('assets/images_gps/provider_tutorial_2.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: FutureBuilder(
+                    future: rootBundle.loadString(
+                        "assets/provider_tutorial/service_provider_page_2.md"),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return Markdown(
                             data: snapshot.data,
                             styleSheet:
                                 MarkdownStyleSheet.fromTheme(Theme.of(context))
@@ -92,18 +89,18 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 18.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                                fontFamily: 'NotoSansJP'))),
+                                                fontFamily: 'NotoSansJP')));
+                      }
+                      return Center(
+                        child: SpinKitDoubleBounce(color: Colors.limeAccent),
                       );
-                    }
-                    return Center(
-                      child: SpinKitDoubleBounce(color: Colors.limeAccent),
-                    );
-                  }),
-            ),
-          ],
+                    }),
+              ),
+            ],
+          ),
         ));
   }
 

@@ -19,6 +19,7 @@ class _UserTutorialState extends State<UserTutorial> {
         floatingActionButton: tutorialBottomNavigationBar(),
         // backgroundColor: Colors.red,
         body: SafeArea(
+          bottom: false,
           child: PageView(
             onPageChanged: (page) {
               setState(() {
@@ -50,7 +51,7 @@ class _UserTutorialState extends State<UserTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 14.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: 'NotoSansJP')));
@@ -82,7 +83,7 @@ class _UserTutorialState extends State<UserTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 14.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: 'NotoSansJP')));
