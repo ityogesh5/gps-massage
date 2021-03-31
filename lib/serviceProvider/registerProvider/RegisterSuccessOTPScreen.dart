@@ -11,6 +11,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/register/verify
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/otp_field.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/OTPScreen/style.dart';
 import 'package:http/http.dart' as http;
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class RegistrationSuccessOtpScreen extends StatefulWidget {
   @override
@@ -99,20 +100,44 @@ class _RegistrationSuccessOtpScreenState
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: OTPTextField(
-                        length: 4,
-                        keyboardType: TextInputType.number,
-                        width: MediaQuery.of(context).size.width,
-                        style: TextStyle(
-                            fontSize: 20,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.0),
+                        child: PinCodeTextField(
+                          backgroundColor: ColorConstants.formFieldFillColor,
+                          //controller: pin,
+                          textInputAction: TextInputAction.next,
+                          //focusNode: pinCodeFoucs,
+                          keyboardType: TextInputType.number,
+                          appContext: context,
+                          length: 4,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          onSubmitted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                          },
+                          onChanged: (val) {},
+                          onCompleted: (pin) {
+                            print("Completed: " + pin);
+                            userOTP = pin;
+                          },
+                          textStyle: TextStyle(
+                            fontSize: 21,
                             color: Colors.black,
-                            fontFamily: 'NotoSansJP'),
-                        textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                        fieldStyle: FieldStyle.underline,
-                        onCompleted: (pin) {
-                          print("Completed: " + pin);
-                          userOTP = pin;
-                        },
+                            fontFamily: 'NotoSansJP',
+                          ),
+                          enableActiveFill: true,
+                          pinTheme: PinTheme(
+                              fieldHeight: 40.0,
+                              borderRadius: BorderRadius.circular(10.0),
+                              selectedFillColor: Colors.transparent,
+                              selectedColor: Colors.black,
+                              inactiveFillColor: Colors.transparent,
+                              inactiveColor: Colors.black,
+                              activeColor: Colors.black,
+                              fieldWidth: 50.0,
+                              activeFillColor: Colors.transparent,
+                              shape: PinCodeFieldShape.underline),
+                        ),
                       ),
                     ),
                     SizedBox(

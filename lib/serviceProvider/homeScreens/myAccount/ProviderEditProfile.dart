@@ -159,7 +159,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   Position _currentPosition;
   String _currentAddress;
-  double age = 0.0;
+  int age = 0;
   var _ageOfUser;
   var selectedYear;
 
@@ -244,10 +244,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
 
   void calculateAge() {
     setState(() {
-      age = (DateTime.now().year - selectedYear).toDouble();
+      DateTime currentDate = DateTime.now();
+      age = currentDate.year - selectedDate.year;
+      int month1 = currentDate.month;
+      int month2 = selectedDate.month;
+      if (month2 > month1) {
+        age--;
+      } else if (month1 == month2) {
+        int day1 = currentDate.day;
+        int day2 = selectedDate.day;
+        if (day2 > day1) {
+          age--;
+        }
+      }
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
-      ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
+      ageController.value = TextEditingValue(text: _ageOfUser);
+      FocusScope.of(context).requestFocus(new FocusNode());
     });
   }
 

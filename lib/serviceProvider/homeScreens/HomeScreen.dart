@@ -152,13 +152,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     "assets/images_gps/info.svg",
                                                     height: 15.0,
                                                     width: 15.0,
-                                                    key: key,
+                                                    key:key,
                                                     color: Colors.black,
-                                                  ), /* Icon(
-                                                      Icons
-                                                          .shopping_bag_rounded,
-                                                      key: key,
-                                                      color: Colors.black ), */
+                                                  ), 
                                                 ),
                                               ),
                                             ),
