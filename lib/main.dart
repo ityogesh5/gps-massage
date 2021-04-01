@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
-
-import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
-import 'package:gps_massageapp/utils/FloatingClass.dart';
-
+import 'package:flutter/services.dart';
 import 'initialScreens/splashScreen.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 void main() {
   runApp(HealingMatchApp());
@@ -17,12 +13,14 @@ class HealingMatchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FlutterStatusbarcolor.setStatusBarColor(ColorConstants.statusBarColor);
-    /*  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: ColorConstants.statusBarColor,
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark)); */
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light));
+
     return MaterialApp(
         theme: ThemeData(
+          appBarTheme: AppBarTheme(brightness: Brightness.light),
           fontFamily: 'NotoSansJP',
         ),
         localizationsDelegates: [

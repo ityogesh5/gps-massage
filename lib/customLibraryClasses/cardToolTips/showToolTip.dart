@@ -168,7 +168,7 @@ class ShowToolTip {
                                               width: 15.0,
                                               color: Colors.black,
                                             )
-                                          : result[index].contains("整体")
+                                          : result[index].contains("接骨・整体")
                                               ? SvgPicture.asset(
                                                   "assets/images_gps/serviceTypeTwo.svg",
                                                   height: 15.0,

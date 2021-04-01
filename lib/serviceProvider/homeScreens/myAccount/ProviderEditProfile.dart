@@ -636,27 +636,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       height: sizedBoxFormHeight,
                     ),
                     Container(
-                      width: containerWidth,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("*", style: TextStyle(color: Colors.red)),
-                          Text(
-                            HealingMatchConstants
-                                .registrationJapanAssociationTxt,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: ColorConstants.formHintTextColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
                       height: containerHeight,
                       width: containerWidth,
                       child: Row(
@@ -698,6 +677,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 textField: 'display',
                                 valueField: 'value',
                               ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      width: containerWidth,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("*", style: TextStyle(color: Colors.red)),
+                          Text(
+                            HealingMatchConstants
+                                .registrationJapanAssociationTxt,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: ColorConstants.formHintTextColor,
                             ),
                           ),
                         ],
@@ -2281,6 +2281,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
             style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return null;
+    }
+
+    // age validation
+    if (int.parse(age) < 18) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な生年月日を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
