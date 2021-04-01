@@ -636,27 +636,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                       height: sizedBoxFormHeight,
                     ),
                     Container(
-                      width: containerWidth,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("*", style: TextStyle(color: Colors.red)),
-                          Text(
-                            HealingMatchConstants
-                                .registrationJapanAssociationTxt,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: ColorConstants.formHintTextColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
                       height: containerHeight,
                       width: containerWidth,
                       child: Row(
@@ -698,6 +677,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 textField: 'display',
                                 valueField: 'value',
                               ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: sizedBoxFormHeight,
+                    ),
+                    Container(
+                      width: containerWidth,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("*", style: TextStyle(color: Colors.red)),
+                          Text(
+                            HealingMatchConstants
+                                .registrationJapanAssociationTxt,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: ColorConstants.formHintTextColor,
                             ),
                           ),
                         ],
