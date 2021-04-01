@@ -2417,7 +2417,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // get therapist api
   getTherapists() async {
-    therapistUsers.clear();
+    //therapistUsers.clear();
     try {
       var apiProvider = ServiceUserAPIProvider.getAllTherapistsByLimit(
           _pageNumber, _pageSize);
@@ -2815,80 +2815,78 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                         ],
                                       ),
                                       certificateImages.length != 0
-                                          ? Expanded(
-                                              child: Container(
-                                                child: Row(
-                                                  children: [
-                                                    ListView.builder(
-                                                        shrinkWrap: true,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemCount:
-                                                            certificateImages
-                                                                .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          String key =
-                                                              certificateImages
-                                                                  .keys
-                                                                  .elementAt(
-                                                                      index);
-
-                                                          return Padding(
-                                                            padding: index == 0
-                                                                ? const EdgeInsets
-                                                                        .only(
-                                                                    left: 0.0,
-                                                                    top: 20.0,
-                                                                    right: 0.0,
-                                                                    bottom:
-                                                                        20.0)
-                                                                : const EdgeInsets
-                                                                    .all(4.0),
-                                                            child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(5.0),
-                                                              color:
-                                                                  Colors.white,
-                                                              child: Text(
-                                                                key, //Qualififcation
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontFamily:
-                                                                        'NotoSansJP'),
+                                          ? Container(
+                                              height: 38.0,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  130.0, //200.0,
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      certificateImages.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String key =
+                                                        certificateImages.keys
+                                                            .elementAt(index);
+                                                    return Wrap(
+                                                      children: [
+                                                        Padding(
+                                                          padding: index == 0
+                                                              ? const EdgeInsets
+                                                                      .only(
+                                                                  left: 0.0,
+                                                                  top: 4.0,
+                                                                  right: 4.0,
+                                                                  bottom: 4.0)
+                                                              : const EdgeInsets
+                                                                  .all(4.0),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5),
+                                                            decoration:
+                                                                boxDecoration,
+                                                            child: Text(
+                                                              key, //Qualififcation
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
                                                               ),
                                                             ),
-                                                          );
-                                                        }),
-                                                    Spacer(),
-                                                    therapistUsers[index]
-                                                                .sixtyMin ==
-                                                            0
-                                                        ? Text(
-                                                            '¥0/60分',
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 19),
-                                                          )
-                                                        : Text(
-                                                            '¥${therapistUsers[index].sixtyMin}/60分',
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 19),
-                                                          )
-                                                  ],
-                                                ),
-                                              ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }),
                                             )
-                                          : SizedBox(),
+                                          : Container(),
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Spacer(),
+                                            therapistUsers[index].sixtyMin == 0
+                                                ? Text(
+                                                    '¥0/60分',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
+                                                : Text(
+                                                    '¥${therapistUsers[index].sixtyMin}/60分',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 )

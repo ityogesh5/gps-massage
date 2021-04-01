@@ -180,7 +180,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   }
 
   getProvidersList() async {
-    therapistUsers.clear();
+    //therapistUsers.clear();
     var providerListApiProvider =
         ServiceUserAPIProvider.getAllTherapistsByLimit(_pageNumber, _pageSize);
     providerListApiProvider.then((value) {
