@@ -163,7 +163,7 @@ class User {
   String createdAt;
   String updatedAt;
   List<Addresses> addresses;
-  List<CertificationUploads> certificationUploads;
+  List<CertificationTherapistUsers> certificationUploads;
   List<BankDetails> bankDetails;
   List<Banners> banners;
   List<Reviews> reviews;
@@ -253,9 +253,9 @@ class User {
       });
     }
     if (json['certification_uploads'] != null) {
-      certificationUploads = new List<CertificationUploads>();
+      certificationUploads = new List<CertificationTherapistUsers>();
       json['certification_uploads'].forEach((v) {
-        certificationUploads.add(new CertificationUploads.fromJson(v));
+        certificationUploads.add(new CertificationTherapistUsers.fromJson(v));
       });
     }
     if (json['bankDetails'] != null) {
@@ -436,7 +436,7 @@ class Addresses {
   }
 }
 
-class CertificationUploads {
+class CertificationTherapistUsers {
   int id;
   int userId;
   String acupuncturist;
@@ -454,7 +454,7 @@ class CertificationUploads {
   String createdAt;
   String updatedAt;
 
-  CertificationUploads(
+  CertificationTherapistUsers(
       {this.id,
         this.userId,
         this.acupuncturist,
@@ -472,7 +472,7 @@ class CertificationUploads {
         this.createdAt,
         this.updatedAt});
 
-  CertificationUploads.fromJson(Map<String, dynamic> json) {
+  CertificationTherapistUsers.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     acupuncturist = json['acupuncturist'];

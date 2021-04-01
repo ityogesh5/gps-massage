@@ -21,7 +21,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 List<UserList> therapistListByType = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
 
-int _selectedIndex;
+int _selectedIndex = -1;
 
 class NearByProviderAndShop extends StatelessWidget {
   @override
@@ -162,8 +162,15 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   List<TherapistUserList> therapistUsers = [];
   double ratingsValue = 3.0;
   bool isLoading = false;
-  var _pageNumber = 2;
-  var _pageSize = 2;
+  var _pageNumber = 1;
+  var _pageSize = 1;
+  Map<String, String> certificateImages = Map<String, String>();
+  List<CertificationTherapistUsers> certificateUpload = [];
+  var certificateUploadKeys;
+  BoxDecoration boxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: Colors.white,
+  );
 
   @override
   void initState() {
@@ -177,14 +184,87 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
     var providerListApiProvider =
         ServiceUserAPIProvider.getAllTherapistsByLimit(_pageNumber, _pageSize);
     providerListApiProvider.then((value) {
-      print(
-          'TherapistList data Size : ${value.therapistData.therapistUserList.length}');
       if (this.mounted) {
         setState(() {
           therapistUsers = value.therapistData.therapistUserList;
+          for (int i = 0; i < therapistUsers.length; i++) {
+            certificateUpload = value
+                .therapistData.therapistUserList[i].user.certificationUploads;
+
+            for (int j = 0; j < certificateUpload.length; j++) {
+              print('Certificate upload : ${certificateUpload[j].toJson()}');
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate : $certificateUploadKeys');
+            }
+
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWords(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages');
+          }
         });
       }
     });
+  }
+
+  String getQualificationJPWords(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   @override
@@ -228,35 +308,37 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
         ),
       ),
       body: therapistUsers != null && therapistUsers.isNotEmpty
-          ? CustomScrollView(
-              slivers: <Widget>[
-                // Add the app bar to the CustomScrollView.
-                SliverAppBar(
-                  // Provide a standard title.
-                  elevation: 0.0,
-                  backgroundColor: Colors.white,
-                  // Allows the user to reveal the app bar if they begin scrolling
-                  // back up the list of items.
-                  floating: true,
-                  flexibleSpace: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    child: Center(child: MassageTypeChips()),
+          ? LazyLoadScrollView(
+              isLoading: isLoading,
+              onEndOfPage: () => _getMoreData(),
+              child: CustomScrollView(
+                shrinkWrap: true,
+                slivers: <Widget>[
+                  // Add the app bar to the CustomScrollView.
+                  SliverAppBar(
+                    // Provide a standard title.
+                    elevation: 0.0,
+                    backgroundColor: Colors.white,
+                    // Allows the user to reveal the app bar if they begin scrolling
+                    // back up the list of items.
+                    floating: true,
+                    flexibleSpace: Container(
+                      height: MediaQuery.of(context).size.height * 0.082,
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.grey[300],
+                          ),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30.0))),
+                      child: Center(child: MassageTypeChips()),
+                    ),
+                    // Display a placeholder widget to visualize the shrinking size.
+                    // Make the initial height of the SliverAppBar larger than normal.
                   ),
-                  // Display a placeholder widget to visualize the shrinking size.
-                  // Make the initial height of the SliverAppBar larger than normal.
-                ),
-                // Next, create a SliverList
-                LazyLoadScrollView(
-                  isLoading: isLoading,
-                  onEndOfPage: () => _getMoreData(),
-                  child: SliverList(
+                  // Next, create a SliverList
+                  SliverList(
                       delegate: SliverChildListDelegate([
                     GestureDetector(
                       onTap: () {
@@ -513,19 +595,85 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                               SizedBox(
                                                 height: 5,
                                               ),
+                                              certificateImages.length != 0
+                                                  ? Container(
+                                                      height: 38.0,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              130.0, //200.0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          NavigationRouter
+                                                              .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                                                  context);
+                                                        },
+                                                        child: ListView.builder(
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemCount:
+                                                                certificateImages
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              String key =
+                                                                  certificateImages
+                                                                      .keys
+                                                                      .elementAt(
+                                                                          index);
+                                                              return Wrap(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: index ==
+                                                                            0
+                                                                        ? const EdgeInsets.only(
+                                                                            left:
+                                                                                0.0,
+                                                                            top:
+                                                                                4.0,
+                                                                            right:
+                                                                                4.0,
+                                                                            bottom:
+                                                                                4.0)
+                                                                        : const EdgeInsets.all(
+                                                                            4.0),
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              5),
+                                                                      decoration:
+                                                                          boxDecoration,
+                                                                      child:
+                                                                          Text(
+                                                                        key, //Qualififcation
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }),
+                                                      ),
+                                                    )
+                                                  : Container(),
                                               Row(
                                                 children: [
-                                                  Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      color: Colors.white,
-                                                      child: Text('コロナ対策実施')),
                                                   Spacer(),
                                                   therapistUsers[index]
                                                               .sixtyMin ==
                                                           0
                                                       ? Text(
-                                                          '¥0',
+                                                          '¥0/60分',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -533,16 +681,15 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               fontSize: 19),
                                                         )
                                                       : Text(
-                                                          '¥${therapistUsers[index].sixtyMin}',
+                                                          '¥${therapistUsers[index].sixtyMin}/60分',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
                                                               fontSize: 19),
-                                                        ),
-                                                  Text('/60分')
+                                                        )
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
                                         )
@@ -554,21 +701,44 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                             }
                           }),
                     )
-                  ])),
+                  ]))
+                ],
+              ),
+            )
+          : Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Center(
+                      child: Text(
+                        '近くにはこのサービスができるセラピストもお店もありません。',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'NotoSansJP',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0.0,
+                  right: 20,
+                  left: 20,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.082,
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                    child: Center(child: MassageTypeChips()),
+                  ),
                 )
               ],
-            )
-          : Container(
-              child: Center(
-                child: Text(
-                  '近くにはセラピストもお店もありません。',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
             ),
     );
   }
@@ -601,12 +771,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
             if (value.therapistData.therapistUserList.isEmpty) {
               setState(() {
                 isLoading = false;
-                print(
-                    'TherapistList data count is Zero : ${value.therapistData.therapistUserList.length}');
               });
             } else {
-              print(
-                  'TherapistList data Size : ${value.therapistData.therapistUserList.length}');
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
@@ -644,11 +810,19 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
   bool isLoading = false;
   var _pageNumberType = 1;
   var _pageSizeType = 10;
+  Map<String, String> certificateImages = Map<String, String>();
+  List<CertificationUploads> certificateUpload = [];
+  var certificateUploadKeys;
+  BoxDecoration boxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: Colors.white,
+  );
 
   @override
   void initState() {
     super.initState();
     therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+    getProvidersCertifications(widget.getTherapistByType);
   }
 
   @override
@@ -678,35 +852,36 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
       ),
       body: widget.getTherapistByType != null &&
               widget.getTherapistByType.isNotEmpty
-          ? CustomScrollView(
-              slivers: <Widget>[
-                // Add the app bar to the CustomScrollView.
-                SliverAppBar(
-                  // Provide a standard title.
-                  elevation: 0.0,
-                  backgroundColor: Colors.white,
-                  // Allows the user to reveal the app bar if they begin scrolling
-                  // back up the list of items.
-                  floating: true,
-                  flexibleSpace: Container(
-                    height: MediaQuery.of(context).size.height * 0.082,
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    child: Center(child: MassageTypeChips()),
+          ? LazyLoadScrollView(
+              isLoading: isLoading,
+              onEndOfPage: () => _getMoreDataByType(),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  // Add the app bar to the CustomScrollView.
+                  SliverAppBar(
+                    // Provide a standard title.
+                    elevation: 0.0,
+                    backgroundColor: Colors.white,
+                    // Allows the user to reveal the app bar if they begin scrolling
+                    // back up the list of items.
+                    floating: true,
+                    flexibleSpace: Container(
+                      height: MediaQuery.of(context).size.height * 0.082,
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.grey[300],
+                          ),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30.0))),
+                      child: Center(child: MassageTypeChips()),
+                    ),
+                    // Display a placeholder widget to visualize the shrinking size.
+                    // Make the initial height of the SliverAppBar larger than normal.
                   ),
-                  // Display a placeholder widget to visualize the shrinking size.
-                  // Make the initial height of the SliverAppBar larger than normal.
-                ),
-                // Next, create a SliverList
-                LazyLoadScrollView(
-                  isLoading: isLoading,
-                  onEndOfPage: () => _getMoreDataByType(),
-                  child: SliverList(
+                  // Next, create a SliverList
+                  SliverList(
                       delegate: SliverChildListDelegate([
                     GestureDetector(
                       onTap: () {
@@ -971,19 +1146,85 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                               SizedBox(
                                                 height: 5,
                                               ),
+                                              certificateImages.length != 0
+                                                  ? Container(
+                                                      height: 38.0,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              130.0, //200.0,
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          NavigationRouter
+                                                              .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                                                  context);
+                                                        },
+                                                        child: ListView.builder(
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemCount:
+                                                                certificateImages
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              String key =
+                                                                  certificateImages
+                                                                      .keys
+                                                                      .elementAt(
+                                                                          index);
+                                                              return Wrap(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: index ==
+                                                                            0
+                                                                        ? const EdgeInsets.only(
+                                                                            left:
+                                                                                0.0,
+                                                                            top:
+                                                                                4.0,
+                                                                            right:
+                                                                                4.0,
+                                                                            bottom:
+                                                                                4.0)
+                                                                        : const EdgeInsets.all(
+                                                                            4.0),
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              5),
+                                                                      decoration:
+                                                                          boxDecoration,
+                                                                      child:
+                                                                          Text(
+                                                                        key, //Qualififcation
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            }),
+                                                      ),
+                                                    )
+                                                  : Container(),
                                               Row(
                                                 children: [
-                                                  Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      color: Colors.white,
-                                                      child: Text('コロナ対策実施')),
                                                   Spacer(),
                                                   widget.getTherapistByType[index]
                                                               .sixtyMin ==
                                                           0
                                                       ? Text(
-                                                          '¥0',
+                                                          '¥0/60分',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -991,16 +1232,15 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                               fontSize: 19),
                                                         )
                                                       : Text(
-                                                          '¥${widget.getTherapistByType[index].sixtyMin}',
+                                                          '¥${widget.getTherapistByType[index].sixtyMin}/60分',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
                                                               fontSize: 19),
-                                                        ),
-                                                  Text('/60分')
+                                                        )
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
                                         )
@@ -1012,16 +1252,16 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                             }
                           }),
                     )
-                  ])),
-                )
-              ],
+                  ]))
+                ],
+              ),
             )
           : Stack(
               children: [
                 Container(
                   child: Center(
                     child: Text(
-                      '近くにはセラピストもお店もありません。',
+                      '近くにはこのサービスができるセラピストもお店もありません。',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'NotoSansJP',
@@ -1049,6 +1289,86 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
               ],
             ),
     );
+  }
+
+  getProvidersCertifications(List<UserList> getTherapistByType) async {
+    if (this.mounted) {
+      setState(() {
+        for (int i = 0; i < getTherapistByType.length; i++) {
+          certificateUpload = getTherapistByType[i].user.certificationUploads;
+          for (int j = 0; j < certificateUpload.length; j++) {
+            print('Certificate upload : ${certificateUpload[j].toJson()}');
+            certificateUploadKeys = certificateUpload[j].toJson();
+            certificateUploadKeys.remove('id');
+            certificateUploadKeys.remove('userId');
+            certificateUploadKeys.remove('createdAt');
+            certificateUploadKeys.remove('updatedAt');
+            print('Keys certificate : $certificateUploadKeys');
+          }
+        }
+
+        certificateUploadKeys.forEach((key, value) async {
+          if (certificateUploadKeys[key] != null) {
+            String jKey = getQualificationJPWords(key);
+            if (jKey == "はり師" ||
+                jKey == "きゅう師" ||
+                jKey == "鍼灸師" ||
+                jKey == "あん摩マッサージ指圧師" ||
+                jKey == "柔道整復師" ||
+                jKey == "理学療法士") {
+              certificateImages["国家資格保有"] = "国家資格保有";
+            } else if (jKey == "国家資格取得予定（学生）") {
+              certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+            } else if (jKey == "民間資格") {
+              certificateImages["民間資格"] = "民間資格";
+            } else if (jKey == "無資格") {
+              certificateImages["無資格"] = "無資格";
+            }
+          }
+        });
+        if (certificateImages.length == 0) {
+          certificateImages["無資格"] = "無資格";
+        }
+        print('certificateImages data : $certificateImages');
+      });
+    }
+  }
+
+  String getQualificationJPWords(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   Widget _buildProgressIndicator() {
