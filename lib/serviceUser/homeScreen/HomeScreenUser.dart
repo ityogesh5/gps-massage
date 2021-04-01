@@ -2008,53 +2008,61 @@ class _ReservationListState extends State<ReservationList> {
                   ),
                   Row(
                     children: [
-                      CircleAvatar(
-                        maxRadius: 41,
-                        backgroundColor: Color.fromRGBO(225, 225, 225, 1),
+                      InkWell(
+                        onTap: () {
+                          NavigationRouter.switchToUserCalendarScreenScreen(
+                              context);
+                        },
                         child: CircleAvatar(
-                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                          maxRadius: 40,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              HealingMatchConstants.currentDay != null
-                                  ? Text(
-                                      '${HealingMatchConstants.currentDay}',
-                                      style: TextStyle(
-                                          fontSize: 18,
+                          maxRadius: 41,
+                          backgroundColor: Color.fromRGBO(225, 225, 225, 1),
+                          child: CircleAvatar(
+                            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                            maxRadius: 40,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                HealingMatchConstants.currentDay != null
+                                    ? Text(
+                                        '${HealingMatchConstants.currentDay}',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color:
+                                                Color.fromRGBO(200, 217, 33, 1),
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : Text(
+                                        '31',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color:
+                                                Color.fromRGBO(200, 217, 33, 1),
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                HealingMatchConstants.currentMonth != null
+                                    ? Text(
+                                        '${HealingMatchConstants.currentMonth}月',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'NotoSansJP',
                                           color:
                                               Color.fromRGBO(200, 217, 33, 1),
+                                        ),
+                                      )
+                                    : Text(
+                                        '3月',
+                                        style: TextStyle(
+                                          fontSize: 14,
                                           fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : Text(
-                                      '31',
-                                      style: TextStyle(
-                                          fontSize: 18,
                                           color:
                                               Color.fromRGBO(200, 217, 33, 1),
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                              HealingMatchConstants.currentMonth != null
-                                  ? Text(
-                                      '${HealingMatchConstants.currentMonth}月',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Color.fromRGBO(200, 217, 33, 1),
+                                        ),
                                       ),
-                                    )
-                                  : Text(
-                                      '3月',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Color.fromRGBO(200, 217, 33, 1),
-                                      ),
-                                    ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
