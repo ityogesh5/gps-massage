@@ -15,6 +15,9 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class BannerImage extends StatefulWidget {
   @override
@@ -257,16 +260,29 @@ class _BannerImageState extends State<BannerImage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Container(
-                  width: containerWidth,
-                  height: 200.0,
-                  decoration: new BoxDecoration(
-                    border: Border.all(color: Colors.black12),
-                    shape: BoxShape.rectangle,
-                    image: new DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(oldBannerImages[bannerImage]),
-                    ),
-                  )),
+                width: containerWidth,
+                height: 200.0,
+                decoration: new BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  shape: BoxShape.rectangle,
+                ),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: oldBannerImages[bannerImage],
+                  placeholder: (context, url) => SpinKitWave(
+                      size: 20.0, color: ColorConstants.buttonColor),
+                  errorWidget: (context, url, error) => Column(
+                    children: [
+                      new IconButton(
+                        icon: Icon(Icons.refresh_sharp, size: 40),
+                        onPressed: () {
+                          getProfileDetails();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Positioned(
                 right: 10,

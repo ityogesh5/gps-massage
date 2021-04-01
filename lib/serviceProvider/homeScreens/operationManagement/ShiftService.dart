@@ -1715,7 +1715,8 @@ class _ShiftServiceState extends State<ShiftService> {
   void showDuplicateErrorMessage() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
-      content: Text('値はすでに存在します', style: TextStyle(fontFamily: 'Open Sans')),
+      content: Text('このサービスはもう追加されてあります。',
+          style: TextStyle(fontFamily: 'Open Sans')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -1986,7 +1987,7 @@ class _ShiftServiceState extends State<ShiftService> {
                     children: [
                       FittedBox(
                         child: Text(
-                          'サービスを削除してもよろしいですか？',
+                          'サービスの価格情報を削除してもよろしいでしょうか？',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,

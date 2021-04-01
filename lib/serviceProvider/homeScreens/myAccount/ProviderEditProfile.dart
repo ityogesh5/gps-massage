@@ -1985,6 +1985,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       decoration: new InputDecoration(
                                         labelText: HealingMatchConstants
                                             .registrationBankBranchCode,
+                                        labelStyle: HealingMatchConstants
+                                            .formLabelTextStyle,
                                         contentPadding:
                                             EdgeInsets.fromLTRB(5, 5, 5, 0),
                                         border: HealingMatchConstants
@@ -2014,6 +2016,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       decoration: new InputDecoration(
                                         labelText: HealingMatchConstants
                                             .registrationBankBranchNumber,
+                                        labelStyle: HealingMatchConstants
+                                            .formLabelTextStyle,
                                         contentPadding:
                                             EdgeInsets.fromLTRB(5, 5, 5, 0),
                                         border: HealingMatchConstants
@@ -2036,6 +2040,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                       decoration: new InputDecoration(
                                         labelText: HealingMatchConstants
                                             .registrationBankAccountNumber,
+                                        labelStyle: HealingMatchConstants
+                                            .formLabelTextStyle,
                                         contentPadding:
                                             EdgeInsets.fromLTRB(5, 5, 5, 0),
                                         border: HealingMatchConstants
@@ -2538,6 +2544,145 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (bankname == null || bankname == '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('銀行名は必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (bankname == 'その他' &&
+        (bankOtherFieldController.text == '' ||
+            bankOtherFieldController.text == null)) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('銀行名は必須項目なので入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (accountType == null || accountType == '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('口座種類は必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (branchCodeController.text == null || branchCodeController.text == '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店名は必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (branchCodeController.text.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (branchNumberController.text == null ||
+        branchNumberController.text == '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店番号は必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (branchNumberController.text.length > 5) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('支店番号は5文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (accountnumberController.text == null ||
+        accountnumberController.text == '') {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('口座番号は必須項目なので選択してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (accountnumberController.text.length > 10) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('アカウント番号は10文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'Open Sans')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -3366,14 +3511,15 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     genderTreatment = userData.genderOfService;
     providerNameController.text = userData.userName;
-    storeNameController.text = userData.storeName;
+    storeNameController.text =
+        userData.storeName != null ? userData.storeName : '';
     userDOBController.text =
         DateFormat("yyyy-MM-dd").format(userData.dob).toString();
     ageController.text = userData.age.toString();
     gender = userData.gender;
     phoneNumberController.text = userData.phoneNumber.toString();
-    if (userData.storePhone.toString() != '' &&
-        userData.storePhone.toString() != null) {
+    if (/* userData.storePhone.toString() != '' && */
+        userData.storePhone != null) {
       storePhoneNumberController.text = userData.storePhone.toString();
     }
     mailAddressController.text = userData.email;

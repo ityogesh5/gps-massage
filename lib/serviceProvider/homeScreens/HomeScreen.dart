@@ -15,6 +15,9 @@ import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutte
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   @override
@@ -105,13 +108,40 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       child: CircleAvatar(
                                         radius: 32.0,
                                         backgroundColor: Colors.white,
-                                        child: Image.network(
+                                        child:
+                                            /*  Image.network(
                                           userData.uploadProfileImgUrl,
                                           //User Profile Pic
                                           fit: BoxFit.cover,
                                           width: 100.0,
                                           height: 100.0,
-                                        ),
+                                        ), */
+                                            CachedNetworkImage(
+                                                width: 100.0,
+                                                height: 100.0,
+                                                fit: BoxFit.cover,
+                                                imageUrl: userData
+                                                    .uploadProfileImgUrl,
+                                                placeholder: (context, url) =>
+                                                    SpinKitWave(
+                                                        size: 20.0,
+                                                        color: ColorConstants
+                                                            .buttonColor),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Column(
+                                                          children: [
+                                                            new IconButton(
+                                                              icon: Icon(
+                                                                  Icons
+                                                                      .refresh_sharp,
+                                                                  size: 40),
+                                                              onPressed: () {
+                                                                /* _getBannerImages(); */
+                                                              },
+                                                            ),
+                                                          ],
+                                                        )),
                                       ),
                                     ),
                                   ),
@@ -127,7 +157,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         Row(
                                           children: [
                                             Text(
-                                              userData.userName, //User Name
+                                              userData.storeName != null &&
+                                                      userData.storeName != ""
+                                                  ? userData.storeName
+                                                  : userData
+                                                      .userName, //User Name
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
@@ -152,9 +186,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                     "assets/images_gps/info.svg",
                                                     height: 15.0,
                                                     width: 15.0,
-                                                    key:key,
+                                                    key: key,
                                                     color: Colors.black,
-                                                  ), 
+                                                  ),
                                                 ),
                                               ),
                                             ),

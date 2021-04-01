@@ -10,6 +10,9 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/Logout.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class MyAccount extends StatefulWidget {
   @override
@@ -74,17 +77,35 @@ class _MyAccountState extends State<MyAccount> {
                           children: [
                             Center(
                               child: new Container(
-                                  width: 100.0,
-                                  height: 100.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: new NetworkImage(
-                                          userData.uploadProfileImgUrl),
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  child: CachedNetworkImage(
+                                    height: 140.0,
+                                    width: 140.0,
+                                    fit: BoxFit.cover,
+                                    imageUrl: userData.uploadProfileImgUrl,
+                                    placeholder: (context, url) => SpinKitWave(
+                                        size: 20.0,
+                                        color: ColorConstants.buttonColor),
+                                    errorWidget: (context, url, error) =>
+                                        Column(
+                                      children: [
+                                        new IconButton(
+                                          icon: Icon(Icons.refresh_sharp,
+                                              size: 40),
+                                          onPressed: () {},
+                                        ),
+                                      ],
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ),
                             Center(
                               child: Padding(
@@ -482,8 +503,15 @@ class _MyAccountState extends State<MyAccount> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              userData
-                                                  .bankDetails[0].branchNumber,
+                                              userData.bankDetails[0]
+                                                          .branchNumber.length >
+                                                      7
+                                                  ? userData.bankDetails[0]
+                                                          .branchNumber
+                                                          .substring(0, 7) +
+                                                      "..."
+                                                  : userData.bankDetails[0]
+                                                      .branchNumber,
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: 'NotoSansJP',
@@ -621,13 +649,13 @@ class _MyAccountState extends State<MyAccount> {
         } else if (retVal == "3") {
           emailLaunch();
         } else if (retVal == "4") {
-         showConfirmationDialog(context);
+          showConfirmationDialog(context);
         }
       },
     );
   }
 
-   void showConfirmationDialog(
+  void showConfirmationDialog(
     BuildContext context,
   ) {
     showDialog(
@@ -730,20 +758,37 @@ class _BuildCertificatesListsState extends State<BuildCertificatesLists> {
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: Container(
-                    padding: EdgeInsets.all(8),
-                    width: 140.0,
-                    height: 140.0,
-                    decoration: new BoxDecoration(
-                      image: new DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          certificateImages[key],
-                        ),
+              Container(
+                padding: EdgeInsets.all(8),
+                width: 140.0,
+                height: 140.0,
+                decoration: new BoxDecoration(
+                    /* image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        certificateImages[key],
                       ),
-                    )),
+                    ), */
+                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: CachedNetworkImage(
+                    height: 140.0,
+                    width: 140.0,
+                    fit: BoxFit.cover,
+                    imageUrl: certificateImages[key],
+                    placeholder: (context, url) => SpinKitWave(
+                        size: 20.0, color: ColorConstants.buttonColor),
+                    errorWidget: (context, url, error) => Column(
+                      children: [
+                        new IconButton(
+                          icon: Icon(Icons.refresh_sharp, size: 40),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
