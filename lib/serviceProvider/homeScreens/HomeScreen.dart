@@ -56,7 +56,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+  //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     getProviderDetails();
     dateString = '';
     displayDay = today;
@@ -406,7 +406,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 ),
                                                 SizedBox(width: 5.0),
                                                 RatingBar.builder(
-                                                  initialRating: 4,
+                                                  initialRating: 4.0,
                                                   minRating: 1,
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
@@ -890,7 +890,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        NavigationRouter.switchToProviderCalendarScreen(context);
+                                      },
                                       child: SvgPicture.asset(
                                         "assets/images_gps/calendar.svg",
                                         height: 25.0,

@@ -27,6 +27,7 @@ import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterFirstScr
 import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSecondScreen.dart';
 import 'package:gps_massageapp/serviceProvider/registerProvider/RegisterSuccessOTPScreen.dart';
 import 'package:gps_massageapp/serviceProvider/weeklySchedule/WeeklyScheduleScreen.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/providerCalendar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/BottomBarUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/NearByProviderAndShop.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingApprovedScreens/BookingApprovedFirstScreen.dart';
@@ -387,6 +388,16 @@ class NavigationRouter {
             builder: (BuildContext context) =>
                 ProviderRatingsAndReviewUser(1)));
   }
+
+  //Provider Calendar Screen
+  static void switchToProviderCalendarScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProviderCalendar()));
+  }
+
 
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context, var arg) {

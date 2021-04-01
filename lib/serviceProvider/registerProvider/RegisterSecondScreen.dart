@@ -1010,12 +1010,27 @@ class _RegistrationSecondPageState
       return;
     } */
 
+    if (_myqualification == "" || _myqualification == null) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('保有資格の種類を選択してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     if (certificateImages.isEmpty &&
         _myqualification != "無資格" &&
         privateQualification.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('保有資格の種類を選択してください。',
+        content: Text('保有資格の証明書をアップロードしてください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
