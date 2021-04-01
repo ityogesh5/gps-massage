@@ -13,11 +13,17 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
   int currentPage = 0;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         // bottomNavigationBar: tutorialBottomNavigationBar(),
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
+          bottom: false,
           child: PageView(
             onPageChanged: (page) {
               setState(() {
@@ -50,7 +56,7 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 14.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: 'NotoSansJP')));
@@ -83,7 +89,7 @@ class _ProviderTutorialState extends State<ProviderTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 14.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: 'NotoSansJP')));

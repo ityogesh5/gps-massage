@@ -238,14 +238,25 @@ class _ProviderRatingsAndReviewUserState
                                               .switchToProviderReviewScreenSent(
                                                   context);
                                         },
-                                        child: CircleAvatar(
-                                            backgroundColor: Colors.grey[100],
-                                            radius: 25.0,
-                                            child: SvgPicture.asset(
-                                              "assets/images_gps/sending.svg",
-                                              height: 25.0,
-                                              width: 25.0,
-                                            )),
+                                        child: Card(
+                                          shape: CircleBorder(
+                                              side: BorderSide(
+                                                  color: Color.fromRGBO(
+                                                      216, 216, 216, 1))),
+                                          elevation: 8.0,
+                                          margin: EdgeInsets.all(4.0),
+                                          child: Container(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 4.0),
+                                              child: SvgPicture.asset(
+                                                "assets/images_gps/sending.svg",
+                                                height: 25.0,
+                                                width: 25.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),

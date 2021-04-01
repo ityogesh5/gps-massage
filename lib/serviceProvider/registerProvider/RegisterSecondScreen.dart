@@ -1046,6 +1046,23 @@ class _RegistrationSecondPageState
       return;
     } */
 
+    if (branchCodeController.text != null || branchCodeController.text != '') {
+      if (branchCodeController.text.length > 20) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          content: Text('支店名は20文字以内で入力してください。',
+              style: TextStyle(fontFamily: 'NotoSansJP')),
+          action: SnackBarAction(
+              onPressed: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              label: 'はい',
+              textColor: Colors.white),
+        ));
+        return;
+      }
+    }
+
     if (branchNumber != null) {
       if (branchNumber.length > 5) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(

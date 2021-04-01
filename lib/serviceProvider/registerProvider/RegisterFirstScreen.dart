@@ -832,6 +832,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         controller: providerNameController,
                         style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
                           labelText: HealingMatchConstants.registrationName,
                           labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
@@ -872,6 +873,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 controller: storeNameController,
                                 style: HealingMatchConstants.formTextStyle,
                                 decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(4.0),
                                   labelText: HealingMatchConstants
                                       .registrationStoreName,
                                   labelStyle:
@@ -1027,6 +1029,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         keyboardType: TextInputType.phone,
                         style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
                           labelText: HealingMatchConstants.registrationPhnNum,
                           labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
@@ -1070,6 +1073,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             style: HealingMatchConstants.formTextStyle,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(4.0),
                               labelText:
                                   HealingMatchConstants.registrationStorePhnNum,
                               labelStyle:
@@ -1097,6 +1101,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         style: HealingMatchConstants.formTextStyle,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
                           labelText:
                               HealingMatchConstants.registrationMailAdress,
                           labelStyle: HealingMatchConstants.formLabelTextStyle,
@@ -1122,6 +1127,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         obscureText: passwordVisibility,
                         style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
                           labelText: HealingMatchConstants.registrationPassword,
                           labelStyle: HealingMatchConstants.formLabelTextStyle,
                           filled: true,
@@ -1171,6 +1177,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                         obscureText: passwordConfirmVisibility,
                         style: HealingMatchConstants.formTextStyle,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(4.0),
                           labelText:
                               HealingMatchConstants.registrationConfirmPassword,
                           labelStyle: HealingMatchConstants.formLabelTextStyle,

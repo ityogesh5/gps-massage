@@ -233,7 +233,7 @@ class StatusCodeHelper {
       return true;
     } else if (statusCode == 400) {
       //ユーザーが見つかりません。
-      Toast.show("もう一度やり直してください。", context,
+      Toast.show("コメントは2000文字以内にする必要がありますのでもう一度やり直してください", context,
           duration: 4,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,

@@ -18,6 +18,10 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
     return Scaffold(
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
+        /*   left: false,
+          top: false,
+          right: false, */
+          bottom: false,
           child: PageView(
             onPageChanged: (page) {
               setState(() {
@@ -49,7 +53,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                                             .textTheme
                                             .bodyText1
                                             .copyWith(
-                                                fontSize: 14.0,
+                                                fontSize: 17.0,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
                                                 fontFamily: 'NotoSansJP')));
@@ -98,19 +102,22 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
                           builder: (BuildContext context,
                               AsyncSnapshot<String> snapshot) {
                             if (snapshot.hasData) {
-                              return Markdown(
-                                  data: snapshot.data,
-                                  styleSheet: MarkdownStyleSheet.fromTheme(
-                                          Theme.of(context))
-                                      .copyWith(
-                                          p: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .copyWith(
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                  fontFamily: 'NotoSansJP')));
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Markdown(
+                                    data: snapshot.data,
+                                    styleSheet: MarkdownStyleSheet.fromTheme(
+                                            Theme.of(context))
+                                        .copyWith(
+                                            p: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                    fontSize: 17.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                    fontFamily: 'NotoSansJP'))),
+                              );
                             }
                             return Center(
                               child:

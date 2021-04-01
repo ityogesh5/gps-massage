@@ -78,7 +78,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   Position _addAddressPosition;
   String _currentAddress = '';
   String _addedAddress = '';
-  double age = 0.0;
+  int age = 0;
   var selectedYear;
   final ageController = TextEditingController();
   var _ageOfUser = '';
@@ -127,6 +127,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final roomNumberController = new TextEditingController();
 
   final additionalAddressController = new TextEditingController();
+  DateTime selectedDate = DateTime.now();
 
   //final gpsAddressController = new TextEditingController();
 
@@ -172,10 +173,23 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   void calculateAge() {
     setState(() {
-      age = (DateTime.now().year - selectedYear).toDouble();
+      DateTime currentDate = DateTime.now();
+      age = currentDate.year - selectedDate.year;
+      int month1 = currentDate.month;
+      int month2 = selectedDate.month;
+      if (month2 > month1) {
+        age--;
+      } else if (month1 == month2) {
+        int day1 = currentDate.day;
+        int day2 = selectedDate.day;
+        if (day2 > day1) {
+          age--;
+        }
+      }
       _ageOfUser = age.toString();
       //print('Age : $ageOfUser');
-      ageController.value = TextEditingValue(text: age.toStringAsFixed(0));
+      ageController.value = TextEditingValue(text: _ageOfUser);
+      FocusScope.of(context).requestFocus(new FocusNode());
     });
   }
 
