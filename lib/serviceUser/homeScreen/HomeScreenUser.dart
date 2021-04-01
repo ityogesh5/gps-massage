@@ -966,6 +966,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
+  List<dynamic> reviewCountValues = [];
+  List<dynamic> reviewDataValues = [];
 
   @override
   void initState() {
@@ -1226,8 +1228,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                           ),
                                           RatingBar.builder(
                                             ignoreGestures: true,
-                                            initialRating: 3,
-                                            minRating: 1,
+                                            initialRating: 3.75,
+                                            minRating: 0.75,
                                             direction: Axis.horizontal,
                                             allowHalfRating: true,
                                             itemCount: 5,
@@ -1362,8 +1364,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
-        height: MediaQuery.of(context).size.height/7,
-        width: MediaQuery.of(context).size.width/2,
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
@@ -1375,6 +1377,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   }
 
   getCertificateValues(List<UserList> getTherapistByType) async {
+
     if (this.mounted) {
       setState(() {
         for (int i = 0; i < getTherapistByType.length; i++) {
@@ -1400,6 +1403,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             certificateUploadKeys.remove('createdAt');
             certificateUploadKeys.remove('updatedAt');
             print('Keys certificate type : $certificateUploadKeys');
+
           }
         }
         certificateUploadKeys.forEach((key, value) async {
@@ -2795,76 +2799,74 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                       ),
                                       certificateImages.length != 0
                                           ? Container(
-                                        height: 38.0,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width -
-                                            130.0, //200.0,
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection:
-                                            Axis.horizontal,
-                                            itemCount:
-                                            certificateImages.length,
-                                            itemBuilder:
-                                                (context, index) {
-                                              String key =
-                                              certificateImages.keys
-                                                  .elementAt(index);
-                                              return Wrap(
-                                                children: [
-                                                  Padding(
-                                                    padding: index == 0
-                                                        ? const EdgeInsets
-                                                        .only(
-                                                        left: 0.0,
-                                                        top: 4.0,
-                                                        right: 4.0,
-                                                        bottom: 4.0)
-                                                        : const EdgeInsets
-                                                        .all(4.0),
-                                                    child: Container(
-                                                      padding:
-                                                      EdgeInsets.all(
-                                                          5),
-                                                      decoration:
-                                                      boxDecoration,
-                                                      child: Text(
-                                                        key, //Qualififcation
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors
-                                                              .black,
+                                              height: 38.0,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  130.0, //200.0,
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount:
+                                                      certificateImages.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String key =
+                                                        certificateImages.keys
+                                                            .elementAt(index);
+                                                    return Wrap(
+                                                      children: [
+                                                        Padding(
+                                                          padding: index == 0
+                                                              ? const EdgeInsets
+                                                                      .only(
+                                                                  left: 0.0,
+                                                                  top: 4.0,
+                                                                  right: 4.0,
+                                                                  bottom: 4.0)
+                                                              : const EdgeInsets
+                                                                  .all(4.0),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5),
+                                                            decoration:
+                                                                boxDecoration,
+                                                            child: Text(
+                                                              key, //Qualififcation
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            }),
-                                      )
+                                                      ],
+                                                    );
+                                                  }),
+                                            )
                                           : Container(),
                                       Expanded(
                                         child: Row(
                                           children: [
                                             Spacer(),
-                                            therapistUsers[index]
-                                                .sixtyMin ==
-                                                0
+                                            therapistUsers[index].sixtyMin == 0
                                                 ? Text(
-                                              '¥0/60分',
-                                              style: TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontSize: 19),
-                                            )
+                                                    '¥0/60分',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
                                                 : Text(
-                                              '¥${therapistUsers[index].sixtyMin}/60分',
-                                              style: TextStyle(
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontSize: 19),
-                                            )
+                                                    '¥${therapistUsers[index].sixtyMin}/60分',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 19),
+                                                  )
                                           ],
                                         ),
                                       ),
@@ -2898,8 +2900,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
     ShowToolTip popup = ShowToolTip(context,
         text: text,
         textStyle: TextStyle(color: Colors.black),
-        height: MediaQuery.of(context).size.height/7,
-        width: MediaQuery.of(context).size.width/2,
+        height: MediaQuery.of(context).size.height / 7,
+        width: MediaQuery.of(context).size.width / 2,
         backgroundColor: Colors.white,
         padding: EdgeInsets.all(8.0),
         borderRadius: BorderRadius.circular(10.0));
