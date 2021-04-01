@@ -130,7 +130,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           height: 8,
                         ),
                         Text(
-                          'Lorem ipsumidolor sit amet, consetetur sadi usang\nelit, sed dia nonumy eiod tempor irviduntul labore...',
+                          'Lorem ipsumidolor sit amet, consetetur ',
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Colors.black,
