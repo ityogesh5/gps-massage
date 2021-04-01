@@ -1317,14 +1317,14 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                       .sixtyMin ==
                                                   0
                                               ? Text(
-                                                  '¥0',
+                                                  '¥0/60分',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 19),
                                                 )
                                               : Text(
-                                                  '¥${widget.getTherapistByType[index].sixtyMin}',
+                                                  '¥${widget.getTherapistByType[index].sixtyMin}/60分',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -2853,7 +2853,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                                 .sixtyMin ==
                                                             0
                                                         ? Text(
-                                                            '¥0',
+                                                            '¥0/60分',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -2861,7 +2861,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                                 fontSize: 19),
                                                           )
                                                         : Text(
-                                                            '¥${therapistUsers[index].sixtyMin}',
+                                                            '¥${therapistUsers[index].sixtyMin}/60分',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight

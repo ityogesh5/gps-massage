@@ -164,6 +164,13 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   bool isLoading = false;
   var _pageNumber = 1;
   var _pageSize = 1;
+  Map<String, String> certificateImages = Map<String, String>();
+  List<CertificationTherapistUsers> certificateUpload = [];
+  var certificateUploadKeys;
+  BoxDecoration boxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: Colors.white,
+  );
 
   @override
   void initState() {
@@ -180,9 +187,84 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
       if (this.mounted) {
         setState(() {
           therapistUsers = value.therapistData.therapistUserList;
+          for (int i = 0; i < therapistUsers.length; i++) {
+            certificateUpload = value
+                .therapistData.therapistUserList[i].user.certificationUploads;
+
+            for (int j = 0; j < certificateUpload.length; j++) {
+              print('Certificate upload : ${certificateUpload[j].toJson()}');
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate : $certificateUploadKeys');
+            }
+
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWords(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages');
+          }
         });
       }
     });
+  }
+
+  String getQualificationJPWords(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   @override
@@ -500,33 +582,79 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                             SizedBox(
                                               height: 5,
                                             ),
+                                            certificateImages.length != 0
+                                                ? Container(
+                                              height: 38.0,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                                  130.0, //200.0,
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                  Axis.horizontal,
+                                                  itemCount:
+                                                  certificateImages.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String key =
+                                                    certificateImages.keys
+                                                        .elementAt(index);
+                                                    return Wrap(
+                                                      children: [
+                                                        Padding(
+                                                          padding: index == 0
+                                                              ? const EdgeInsets
+                                                              .only(
+                                                              left: 0.0,
+                                                              top: 4.0,
+                                                              right: 4.0,
+                                                              bottom: 4.0)
+                                                              : const EdgeInsets
+                                                              .all(4.0),
+                                                          child: Container(
+                                                            padding:
+                                                            EdgeInsets.all(
+                                                                5),
+                                                            decoration:
+                                                            boxDecoration,
+                                                            child: Text(
+                                                              key, //Qualififcation
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }),
+                                            )
+                                                : Container(),
                                             Row(
                                               children: [
-                                                Container(
-                                                    padding: EdgeInsets.all(4),
-                                                    color: Colors.white,
-                                                    child: Text('コロナ対策実施')),
                                                 Spacer(),
                                                 therapistUsers[index]
-                                                            .sixtyMin ==
-                                                        0
+                                                    .sixtyMin ==
+                                                    0
                                                     ? Text(
-                                                        '¥0',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 19),
-                                                      )
+                                                  '¥0/60分',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontSize: 19),
+                                                )
                                                     : Text(
-                                                        '¥${therapistUsers[index].sixtyMin}',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 19),
-                                                      ),
-                                                Text('/60分')
+                                                  '¥${therapistUsers[index].sixtyMin}/60分',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontSize: 19),
+                                                )
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
                                       )
@@ -646,11 +774,19 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
   bool isLoading = false;
   var _pageNumberType = 1;
   var _pageSizeType = 10;
+  Map<String, String> certificateImages = Map<String, String>();
+  List<CertificationUploads> certificateUpload = [];
+  var certificateUploadKeys;
+  BoxDecoration boxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: Colors.white,
+  );
 
   @override
   void initState() {
     super.initState();
     therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+    getProvidersCertifications(widget.getTherapistByType);
   }
 
   @override
@@ -963,33 +1099,79 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                             SizedBox(
                                               height: 5,
                                             ),
+                                            certificateImages.length != 0
+                                                ? Container(
+                                              height: 38.0,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                                  130.0, //200.0,
+                                              child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  scrollDirection:
+                                                  Axis.horizontal,
+                                                  itemCount:
+                                                  certificateImages.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    String key =
+                                                    certificateImages.keys
+                                                        .elementAt(index);
+                                                    return Wrap(
+                                                      children: [
+                                                        Padding(
+                                                          padding: index == 0
+                                                              ? const EdgeInsets
+                                                              .only(
+                                                              left: 0.0,
+                                                              top: 4.0,
+                                                              right: 4.0,
+                                                              bottom: 4.0)
+                                                              : const EdgeInsets
+                                                              .all(4.0),
+                                                          child: Container(
+                                                            padding:
+                                                            EdgeInsets.all(
+                                                                5),
+                                                            decoration:
+                                                            boxDecoration,
+                                                            child: Text(
+                                                              key, //Qualififcation
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }),
+                                            )
+                                                : Container(),
                                             Row(
                                               children: [
-                                                Container(
-                                                    padding: EdgeInsets.all(4),
-                                                    color: Colors.white,
-                                                    child: Text('コロナ対策実施')),
                                                 Spacer(),
                                                 widget.getTherapistByType[index]
-                                                            .sixtyMin ==
-                                                        0
+                                                    .sixtyMin ==
+                                                    0
                                                     ? Text(
-                                                        '¥0',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 19),
-                                                      )
+                                                  '¥0/60分',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontSize: 19),
+                                                )
                                                     : Text(
-                                                        '¥${widget.getTherapistByType[index].sixtyMin}',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 19),
-                                                      ),
-                                                Text('/60分')
+                                                  '¥${widget.getTherapistByType[index].sixtyMin}/60分',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontSize: 19),
+                                                )
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
                                       )
@@ -1037,6 +1219,86 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
               ],
             ),
     );
+  }
+
+  getProvidersCertifications(List<UserList> getTherapistByType) async {
+    if (this.mounted) {
+      setState(() {
+        for (int i = 0; i < getTherapistByType.length; i++) {
+          certificateUpload = getTherapistByType[i].user.certificationUploads;
+          for (int j = 0; j < certificateUpload.length; j++) {
+            print('Certificate upload : ${certificateUpload[j].toJson()}');
+            certificateUploadKeys = certificateUpload[j].toJson();
+            certificateUploadKeys.remove('id');
+            certificateUploadKeys.remove('userId');
+            certificateUploadKeys.remove('createdAt');
+            certificateUploadKeys.remove('updatedAt');
+            print('Keys certificate : $certificateUploadKeys');
+          }
+        }
+
+        certificateUploadKeys.forEach((key, value) async {
+          if (certificateUploadKeys[key] != null) {
+            String jKey = getQualificationJPWords(key);
+            if (jKey == "はり師" ||
+                jKey == "きゅう師" ||
+                jKey == "鍼灸師" ||
+                jKey == "あん摩マッサージ指圧師" ||
+                jKey == "柔道整復師" ||
+                jKey == "理学療法士") {
+              certificateImages["国家資格保有"] = "国家資格保有";
+            } else if (jKey == "国家資格取得予定（学生）") {
+              certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+            } else if (jKey == "民間資格") {
+              certificateImages["民間資格"] = "民間資格";
+            } else if (jKey == "無資格") {
+              certificateImages["無資格"] = "無資格";
+            }
+          }
+        });
+        if (certificateImages.length == 0) {
+          certificateImages["無資格"] = "無資格";
+        }
+        print('certificateImages data : $certificateImages');
+      });
+    }
+  }
+
+  String getQualificationJPWords(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   Widget _buildProgressIndicator() {
