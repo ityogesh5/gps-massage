@@ -144,6 +144,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   var _prefId, _addedAddressPrefId;
   int _count = 0;
   int id = 0;
+  bool img = false;
 
   //CityListResponseModel city;
 
@@ -2489,11 +2490,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             'cityName', profileUpdateResponseModel.address.cityName);
         value.setString('capitalAndPrefecture',
             profileUpdateResponseModel.address.capitalAndPrefecture);
+
         /*  for (var userAddressData in profileUpdateResponseModel.subAddress) {
           /*  value.setString(
               'subUserAddress', userAddressData.);*/
         }*/
         print("address: ${profileUpdateResponseModel.address.address}");
+        // print("searchRadius: ${profileUpdateResponseModel.address.address}");
       });
       updateAddress.clear();
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
