@@ -333,7 +333,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     initialRating: ratingListValues[index]
                                         .ratingsCount
                                         .toDouble(),
-                                    minRating: 1,
+                                    minRating: 0.5,
                                     direction: Axis.horizontal,
                                     ignoreGestures: true,
                                     allowHalfRating: true,
