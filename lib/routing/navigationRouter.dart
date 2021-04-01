@@ -41,6 +41,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/Booking
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ApprovalWaitingScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsApprovedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsCompletedScreenOne.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/BookingDetailsConfirmedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingDetailScreens/ConditionsAppliedScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
@@ -48,7 +49,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/calendar.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListScreen.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
-import 'package:gps_massageapp/serviceUser/homeScreen/recommended.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/Recommended.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
@@ -64,6 +65,7 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndRevi
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
 import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -400,6 +402,13 @@ class NavigationRouter {
             builder: (BuildContext context) => AddAddressScreen()));
   }
 
+  // User calender screen
+  static void switchToUserCalendarScreenScreen(BuildContext context) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => CalendarScreen()));
+  }
+
   // Service User Edit Profile Screen
   static void switchToServiceUserEditProfileScreen(BuildContext context) {
     Navigator.push(context,
@@ -422,6 +431,15 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (context) => BookingDetailsCompletedScreen()));
+  }
+
+  //User BookingDetailsCompletedScreen one
+  static void switchToServiceUserBookingDetailsCompletedScreenOne(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BookingDetailsCompletedScreenOne()));
   }
 
   // Service User View Profile Screen
@@ -530,6 +548,15 @@ class NavigationRouter {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => BookingCancelScreen()));
+  }
+
+  //CancelPopupScreen
+  static void switchToServiceUserBookingCancelScreenPopup(
+      BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => CancelDetailsScreen()));
   }
 
   //Waiting for approval

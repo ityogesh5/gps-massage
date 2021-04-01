@@ -1,13 +1,14 @@
-/* import 'package:adhara_socket_io/adhara_socket_io.dart';
-import 'package:gps_massageapp/models/customModels/User.dart';
-
+import 'dart:io';
 import 'ChatMessageModel.dart';
+import 'User.dart';
+import 'package:adhara_socket_io/adhara_socket_io.dart';
 
-class SocketUtils {
+class SocketUtils { //http://106.51.49.160:9084/
   //
-  static String _serverIP = 'http://106.51.49.160';
+  static String _serverIP =
+  Platform.isIOS ? 'http://106.51.49.160' : 'http://106.51.49.160';
   static const int SERVER_PORT = 9084;
-  static String _connectUrl = '$_serverIP:$SERVER_PORT/';
+  static String _connectUrl = '$_serverIP:$SERVER_PORT';
 
   // Events
   static const String ON_MESSAGE_RECEIVED = 'receive_message';
@@ -31,8 +32,8 @@ class SocketUtils {
   SocketIOManager _manager;
 
   initSocket(User fromUser) async {
-    //print('Connecting user: ${fromUser.name}');
-    //this._fromUser = fromUser;
+    print('Connecting user: ${fromUser.name}');
+    this._fromUser = fromUser;
     await _init();
   }
 
@@ -49,7 +50,7 @@ class SocketUtils {
       _connectUrl,
       enableLogging: true,
       transports: [Transports.WEB_SOCKET],
-      query: null,
+      query: userMap,
     );
   }
 
@@ -144,4 +145,3 @@ class SocketUtils {
     }
   }
 }
- */

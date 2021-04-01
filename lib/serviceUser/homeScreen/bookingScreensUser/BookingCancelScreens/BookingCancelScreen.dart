@@ -99,7 +99,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                         ))
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 7),
                 Text(
                   'キャシセルする語を記入ください',
                   style: TextStyle(
@@ -108,7 +108,7 @@ class _ConfirmCancelScreenState extends State<ConfirmCancelScreen> {
                       fontWeight: FontWeight.normal,
                       fontFamily: 'NotoSansJP'),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 7),
                 massageBuildTypeDisplayContent(),
                 SizedBox(height: 5),
                 Column(

@@ -180,7 +180,6 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                                 Color.fromRGBO(200, 217, 33, 1),
                                           ),
                                           onRatingUpdate: (rating) {
-                                            // print(rating);
                                             setState(() {
                                               ratingsValue = rating;
                                             });
@@ -336,6 +335,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                         .toDouble(),
                                     minRating: 1,
                                     direction: Axis.horizontal,
+                                    ignoreGestures: true,
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemSize: 20,
@@ -347,7 +347,6 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       color: Color.fromRGBO(0, 0, 0, 1),
                                     ),
                                     onRatingUpdate: (rating) {
-                                      // print(rating);
                                       setState(() {
                                         ratingsValue = ratingListValues[index]
                                             .ratingsCount
@@ -399,14 +398,14 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       _sharedPreferences.then((value) {
         rUserID = value.getString('userID');
         accessToken = value.getString('accessToken');
-        print(rUserID);
+        print('user id: ${rUserID}');
       });
     } catch (e) {}
   }
 
   _ratingAndReview() async {
     var reviewComment = reviewController.text.toString().trim();
-    print(accessToken);
+    print('token: $accessToken');
     print(rUserID);
     print(reviewComment);
     print(ratingsValue);
@@ -548,12 +547,13 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.uAccessToken
+            "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
             "therapistId": "4",
           }));
-      print(response.body);
+      // print(response.body);
+      print('Body : ${response.body}');
       if (response.statusCode == 200) {
         ratingListResponseModel =
             UserReviewListById.fromJson(json.decode(response.body));

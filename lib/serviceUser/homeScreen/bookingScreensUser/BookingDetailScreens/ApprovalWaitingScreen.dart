@@ -678,7 +678,7 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                         GestureDetector(
                           onTap: () {
                             NavigationRouter
-                                .switchToServiceUserBookingCancelScreen(
+                                .switchToServiceUserBookingCancelScreenPopup(
                                     context);
                           },
                           child: Text(

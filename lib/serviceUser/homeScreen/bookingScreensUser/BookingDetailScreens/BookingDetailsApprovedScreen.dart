@@ -49,7 +49,7 @@ class _BookingDetailsApprovedScreenState
         },
         child: CircleAvatar(
             maxRadius: 25,
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Colors.white,
             child: SvgPicture.asset('assets/images_gps/chat.svg',
                 height: 35, width: 35)),
       ),

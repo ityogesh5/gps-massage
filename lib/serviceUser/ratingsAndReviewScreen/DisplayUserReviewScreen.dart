@@ -231,6 +231,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                         unratedColor: Colors.grey[200],
                                         glow: true,
                                         glowColor: Colors.lime,
+                                        ignoreGestures: true,
                                         glowRadius: 2,
                                         initialRating: ratingListValues[index]
                                             .ratingsCount
@@ -328,7 +329,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
       final response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.uAccessToken
+            "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
             "therapistId": "4",
