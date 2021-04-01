@@ -404,7 +404,8 @@ class NavigationRouter {
 
   // User calender screen
   static void switchToUserCalendarScreenScreen(BuildContext context) {
-    Navigator.push(context,
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => CalendarScreen()));
   }
 
