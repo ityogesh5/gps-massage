@@ -3083,7 +3083,7 @@ class _BookingDetailsCompletedScreenOneState
               child: Row(
                 children: [
                   new Text(
-                    '日時をカレンダーから選択してください。',
+                    'サービスを受ける日時を\nカレンダーから選択してください',
                     style: TextStyle(
                         fontSize: 14,
                         fontFamily: 'NotoSansJP',
