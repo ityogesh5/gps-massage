@@ -326,7 +326,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               isLoading: isLoading,
               onEndOfPage: () => _getMoreData(),
               child: CustomScrollView(
-                shrinkWrap: true,
+                //shrinkWrap: true,
                 slivers: <Widget>[
                   // Add the app bar to the CustomScrollView.
                   SliverAppBar(
@@ -880,7 +880,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     // back up the list of items.
                     floating: true,
                     flexibleSpace: Container(
-                      height: MediaQuery.of(context).size.height * 0.082,
+                      height: MediaQuery.of(context).size.height * 0.08,
                       width: MediaQuery.of(context).size.width * 0.15,
                       decoration: BoxDecoration(
                           color: Colors.white,
@@ -1513,7 +1513,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               Container(
