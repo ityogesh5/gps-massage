@@ -2893,8 +2893,8 @@ class _CauroselWithIndicatorSearchPageState
           right: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
+            children: HealingMatchConstants.userBannerImages.map((url) {
+              int index = HealingMatchConstants.userBannerImages.indexOf(url);
               return Expanded(
                 child: Container(
                   width: 45.0,
@@ -2917,7 +2917,7 @@ class _CauroselWithIndicatorSearchPageState
   }
 }
 
-final List<Widget> imageSliders = imgList
+final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
     .map((item) => Container(
           child: Container(
             margin: EdgeInsets.all(5.0),

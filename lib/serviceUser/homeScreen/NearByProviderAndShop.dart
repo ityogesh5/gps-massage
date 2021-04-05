@@ -17,6 +17,8 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<UserList> therapistListByType = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
@@ -139,14 +141,26 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: Container(
-          child: Center(
-            child:
-                SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-          ),
-        ));
+    return Shimmer(
+      duration: Duration(seconds: 1),
+      //Default value
+      interval: Duration(seconds: 2),
+      //Default value: Duration(seconds: 0)
+      color: Colors.grey[300],
+      //Default value
+      enabled: true,
+      //Default value
+      direction: ShimmerDirection.fromLeftToRight(),
+      child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+          body: Container(
+            color: Colors.white,
+            child: Center( //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
+              child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                  width: 150, height: 150),
+            ),
+          )),
+    );
   }
 }
 
