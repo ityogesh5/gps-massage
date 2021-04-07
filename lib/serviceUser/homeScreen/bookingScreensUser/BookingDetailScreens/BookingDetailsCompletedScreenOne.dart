@@ -27,8 +27,6 @@ List<String> _options = [
   'リラクゼーション'
 ];
 double ratingsValue = 4.0;
-int _massageValue = 0;
-int _value;
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
   @override
@@ -38,6 +36,8 @@ class BookingDetailsCompletedScreenOne extends StatefulWidget {
 
 class _BookingDetailsCompletedScreenOneState
     extends State<BookingDetailsCompletedScreenOne> {
+  int _massageValue = 0;
+  int _value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
