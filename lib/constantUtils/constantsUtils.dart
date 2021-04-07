@@ -377,6 +377,7 @@ class HealingMatchConstants {
 
   // User Home screen
   static int serviceTypeValue = 0;
+  static List<String> userBannerImages = [];
 
   // User Profile screen
   //Uint8List profile image;

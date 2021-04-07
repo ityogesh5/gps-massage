@@ -254,6 +254,12 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
               userBannerImages.add(item.bannerImageUrl);
               print('Therapist banner images : ${item.bannerImageUrl}');
             }
+            HealingMatchConstants.userBannerImages.addAll(userBannerImages);
+            if (HealingMatchConstants.userBannerImages.isEmpty) {
+              HealingMatchConstants.userBannerImages.addAll(dummyBannerImages);
+            }
+            print(
+                'Therapist banner images : ${HealingMatchConstants.userBannerImages.length}');
           });
         }
       });
@@ -423,14 +429,17 @@ class _LoadHomePageState extends State<LoadHomePage> {
                           MaterialPageRoute(
                               builder: (BuildContext context) => PaginationSample()));*/
                     },
-                    child: Text(
-                      'もっとみる',
-                      style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          fontFamily: ColorConstants.fontFamily,
-                          decoration: TextDecoration.underline),
+                    child: Visibility(
+                      visible: therapistUsers != null,
+                      child: Text(
+                        'もっとみる',
+                        style: TextStyle(
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: ColorConstants.fontFamily,
+                            decoration: TextDecoration.underline),
+                      ),
                     ),
                   ),
                 ],
@@ -563,13 +572,17 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                     onTap: () {
                       NavigationRouter.switchToNearByProviderAndShop(context);
                     },
-                    child: Text(
-                      'もっと見る',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline),
+                    child: Visibility(
+                      visible: widget.getTherapistByType != null &&
+                          widget.getTherapistByType.isNotEmpty,
+                      child: Text(
+                        'もっと見る',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline),
+                      ),
                     ),
                   ),
                 ],
@@ -659,9 +672,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
                   Shimmer(
-                    duration: Duration(seconds: 1),
+                    duration: Duration(milliseconds: 100),
                     //Default value
-                    interval: Duration(seconds: 2),
+                    interval: Duration(milliseconds: 100),
                     //Default value: Duration(seconds: 0)
                     color: Colors.grey[300],
                     //Default value
@@ -985,7 +998,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
             child: Form(
               key: _formKeyUsersByType,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: 200.0,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -1008,7 +1021,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Container(
-                              height: MediaQuery.of(context).size.height * 0.72,
+                              height: 200.0,
                               width: MediaQuery.of(context).size.width * 0.78,
                               child: Row(
                                 children: [
@@ -1519,7 +1532,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return userBannerImages != null
+    return userBannerImages != null && userBannerImages.isNotEmpty
         ? Stack(
             children: [
               Container(
@@ -1537,8 +1550,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                     BorderRadius.all(Radius.circular(10.0)),
                                 child: Stack(
                                   children: <Widget>[
-                                    /*Image.network(userBannerImages[i],
-                                        fit: BoxFit.cover, width: 2000.0),*/
                                     CachedNetworkImage(
                                         width: 2000.0,
                                         fit: BoxFit.cover,
@@ -2098,7 +2109,7 @@ class _RecommendListsState extends State<RecommendLists> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.22,
+      height: 200.0,
       width: MediaQuery.of(context).size.width * 0.85,
       child: GestureDetector(
         onTap: () {
@@ -2120,7 +2131,7 @@ class _RecommendListsState extends State<RecommendLists> {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.70,
+                    height: 200.0,
                     width: MediaQuery.of(context).size.width * 0.79,
                     child: Row(
                       children: [
@@ -2171,12 +2182,10 @@ class _RecommendListsState extends State<RecommendLists> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Spacer(),
-                                  FavoriteButton(
-                                      iconSize: 40,
-                                      iconColor: Colors.red,
-                                      valueChanged: (_isFavorite) {
-                                        print('Is Favorite : $_isFavorite');
-                                      }),
+                                  SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
+                                      width: 25,
+                                      height: 25),
                                 ],
                               ),
                               SizedBox(
@@ -2542,7 +2551,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
             child: Form(
               key: _formKeyUsers,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.24,
+                height: 200.0,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                     shrinkWrap: true,
@@ -2559,7 +2568,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.70,
+                            height: 200.0,
                             width: MediaQuery.of(context).size.width * 0.78,
                             child: Row(
                               children: [
