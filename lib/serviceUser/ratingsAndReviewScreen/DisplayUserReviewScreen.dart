@@ -45,7 +45,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
             color: Color.fromRGBO(0, 0, 0, 1),
           ),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,

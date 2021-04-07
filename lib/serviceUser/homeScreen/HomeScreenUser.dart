@@ -52,6 +52,7 @@ List<UserList> therapistListByType = [];
 List<TherapistUserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+var favuourite;
 
 void main() {
   runApp(UserHomeScreen());
@@ -1158,8 +1159,16 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                 iconSize: 40,
                                                 iconColor: Colors.red,
                                                 valueChanged: (_isFavorite) {
-                                                  print(
-                                                      'Is Favorite : $_isFavorite');
+                                                  setState(() {
+                                                    if (_isFavorite) {
+                                                      favuourite =
+                                                          therapistUsers[index]
+                                                              .user
+                                                              .userName;
+                                                      // _isFavoriteApi(favuourite);
+                                                      print(favuourite);
+                                                    } else {}
+                                                  });
                                                 }),
                                           ],
                                         ),
@@ -1381,6 +1390,21 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
               ),
             ),
           );
+  }
+
+  var therapistId;
+  _isFavoriteApi(therapistId) async {
+    try {
+      final url = HealingMatchConstants.FAVORITE_API;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "therapistId": therapistId,
+          }));
+    } catch (e) {}
   }
 
   void showToolTipForType(String text) {

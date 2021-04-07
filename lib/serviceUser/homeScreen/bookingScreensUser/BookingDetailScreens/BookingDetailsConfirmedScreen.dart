@@ -47,7 +47,8 @@ class _BookingDetailsConfirmedScreenState
         children: [
           CarouselWithIndicatorDemo(),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding:
+                const EdgeInsets.only(right: 8, left: 10, top: 10, bottom: 10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -268,7 +269,8 @@ class _BookingDetailsConfirmedScreenState
                                   fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
-                            Container(
+                            Padding(
+                              padding: const EdgeInsets.only(right: 6),
                               child: InkWell(
                                 onTap: () {
                                   NavigationRouter
@@ -881,7 +883,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  Navigator.pop(context);
                 },
               ),
             ),

@@ -92,6 +92,9 @@ class HealingMatchConstants {
       '/user' +
       '/therpistUpdateServiceTypeDeletebyId';
 
+  static const String FAVORITE_API =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
   // get Users banner images from Admin
   static const String BANNER_IMAGES_URL = ON_PREMISE_USER_BASE_URL +
       '/adminBanner' +
@@ -125,7 +128,7 @@ class HealingMatchConstants {
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
   static const String userPasswordTxt =
-      "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
+      "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserName = '';

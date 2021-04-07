@@ -2456,7 +2456,7 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+
         NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);

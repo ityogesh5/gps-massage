@@ -1448,7 +1448,9 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
         selected: _selectedIndex == i,
         label: Text(_options[i],
             style: TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 1),
+              color: _selectedIndex == i
+                  ? Color.fromRGBO(251, 251, 251, 1)
+                  : Color.fromRGBO(0, 0, 0, 1),
             )),
         backgroundColor: Colors.white70,
         selectedColor: Colors.lime,

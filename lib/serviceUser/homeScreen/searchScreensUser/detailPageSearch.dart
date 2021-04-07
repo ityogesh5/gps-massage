@@ -2261,7 +2261,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                             ),
                           ),
                           Text(
-                            'マダニティ',
+                            'マタニティ',
                             style: TextStyle(
                               color: _value == 3
                                   ? Color.fromRGBO(0, 0, 0, 1)

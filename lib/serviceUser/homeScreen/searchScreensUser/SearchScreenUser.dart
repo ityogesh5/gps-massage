@@ -1070,6 +1070,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                 child: TimePickerSpinner(
                   alignment: Alignment.topCenter,
                   is24HourMode: true,
+                  minutesInterval: 15,
                   normalTextStyle: TextStyle(
                     fontSize: 18,
                     color: Colors.grey,
