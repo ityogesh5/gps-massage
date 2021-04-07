@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
@@ -17,6 +18,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<UserList> therapistListByType = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
@@ -139,14 +141,27 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: Container(
-          child: Center(
-            child:
-                SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-          ),
-        ));
+    return Shimmer(
+      duration: Duration(seconds: 1),
+      //Default value
+      interval: Duration(seconds: 2),
+      //Default value: Duration(seconds: 0)
+      color: Colors.grey[300],
+      //Default value
+      enabled: true,
+      //Default value
+      direction: ShimmerDirection.fromLeftToRight(),
+      child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+          body: Container(
+            color: Colors.white,
+            child: Center(
+              //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
+              child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                  width: 150, height: 150),
+            ),
+          )),
+    );
   }
 }
 
@@ -312,7 +327,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               isLoading: isLoading,
               onEndOfPage: () => _getMoreData(),
               child: CustomScrollView(
-                shrinkWrap: true,
+                //shrinkWrap: true,
                 slivers: <Widget>[
                   // Add the app bar to the CustomScrollView.
                   SliverAppBar(
@@ -322,17 +337,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     // Allows the user to reveal the app bar if they begin scrolling
                     // back up the list of items.
                     floating: true,
-                    flexibleSpace: Container(
-                      height: MediaQuery.of(context).size.height * 0.082,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(30.0))),
-                      child: Center(child: MassageTypeChips()),
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.082,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        child: Center(child: MassageTypeChips()),
+                      ),
                     ),
                     // Display a placeholder widget to visualize the shrinking size.
                     // Make the initial height of the SliverAppBar larger than normal.
@@ -452,15 +469,25 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               .user
                                                               .userName !=
                                                           null
-                                                      ? Text(
-                                                          '${therapistUsers[index].user.userName}',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                      ? Flexible(
+                                                          child: Text(
+                                                            '${therapistUsers[index].user.userName}',
+                                                            maxLines: therapistUsers[
+                                                                            index]
+                                                                        .user
+                                                                        .userName
+                                                                        .length >
+                                                                    15
+                                                                ? 2
+                                                                : 1,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                         )
                                                       : Text(
                                                           '店舗名',
@@ -649,7 +676,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                           boxDecoration,
                                                                       child:
                                                                           Text(
-                                                                        key, //Qualififcation
+                                                                        key,
+                                                                        //Qualififcation
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
@@ -865,17 +893,19 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     // Allows the user to reveal the app bar if they begin scrolling
                     // back up the list of items.
                     floating: true,
-                    flexibleSpace: Container(
-                      height: MediaQuery.of(context).size.height * 0.082,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(30.0))),
-                      child: Center(child: MassageTypeChips()),
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        child: Center(child: MassageTypeChips()),
+                      ),
                     ),
                     // Display a placeholder widget to visualize the shrinking size.
                     // Make the initial height of the SliverAppBar larger than normal.
@@ -997,15 +1027,26 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                   widget.getTherapistByType[index]
                                                               .user.userName !=
                                                           null
-                                                      ? Text(
-                                                          '${widget.getTherapistByType[index].user.userName}',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                      ? Flexible(
+                                                          child: Text(
+                                                            '${widget.getTherapistByType[index].user.userName}',
+                                                            maxLines: widget
+                                                                        .getTherapistByType[
+                                                                            index]
+                                                                        .user
+                                                                        .userName
+                                                                        .length >
+                                                                    15
+                                                                ? 2
+                                                                : 1,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                         )
                                                       : Text(
                                                           '店舗名',
@@ -1200,7 +1241,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                           boxDecoration,
                                                                       child:
                                                                           Text(
-                                                                        key, //Qualififcation
+                                                                        key,
+                                                                        //Qualififcation
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
@@ -1501,7 +1543,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               Container(

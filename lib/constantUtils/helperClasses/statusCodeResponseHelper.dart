@@ -39,7 +39,7 @@ class StatusCodeHelper {
       print('Unauthorized User!!');
       return false;
     } else if (statusCode == 412) {
-      Toast.show("すべての必須値を入力してください。", context,
+      Toast.show("全ての項目を入力してください。", context,
           duration: 4,
           gravity: Toast.CENTER,
           backgroundColor: Colors.redAccent,

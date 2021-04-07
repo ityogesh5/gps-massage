@@ -388,7 +388,7 @@ class HealingMatchConstants {
   static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
-  static String searchKeyword = 'キーワードできがす';
+  static String searchKeyword = 'キーワードでさがす';
   static String searchAreaTxt = 'さがすエリアを選んでください';
   static String searchGpsIconTxt = '現在地';
   static String searchHomeIconTxt = '自宅';

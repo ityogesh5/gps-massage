@@ -52,7 +52,6 @@ List<UserList> therapistListByType = [];
 List<TherapistUserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-var favuourite;
 
 void main() {
   runApp(UserHomeScreen());
@@ -239,9 +238,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 
   getBannerImages() async {
     List<BannersList> bannerImages = [];
-    if (userBannerImages != null) {
+    if (userBannerImages != null &&
+        HealingMatchConstants.userBannerImages != null) {
       userBannerImages.clear();
       bannerImages.clear();
+      HealingMatchConstants.userBannerImages.clear();
     }
 
     try {
@@ -251,14 +252,16 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         if (this.mounted) {
           setState(() {
             bannerImages = value.data.bannersList;
-            for (var item in bannerImages) {
-              userBannerImages.add(item.bannerImageUrl);
-              print('Therapist banner images : ${item.bannerImageUrl}');
-            }
-            HealingMatchConstants.userBannerImages.addAll(userBannerImages);
-            if (HealingMatchConstants.userBannerImages.isEmpty) {
+            if (bannerImages != null && bannerImages.isNotEmpty) {
+              for (var item in bannerImages) {
+                userBannerImages.add(item.bannerImageUrl);
+                print('Therapist banner images : ${item.bannerImageUrl}');
+              }
+              HealingMatchConstants.userBannerImages.addAll(userBannerImages);
+            } else {
               HealingMatchConstants.userBannerImages.addAll(dummyBannerImages);
             }
+
             print(
                 'Therapist banner images : ${HealingMatchConstants.userBannerImages.length}');
           });
@@ -523,7 +526,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                     NavigationRouter.switchToServiceUserSearchScreen(context);
                   },
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: 20,
                     child: TextFormField(
                       readOnly: true,
                       autofocus: false,
@@ -673,9 +676,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
                   Shimmer(
-                    duration: Duration(milliseconds: 100),
+                    duration: Duration(seconds: 1),
                     //Default value
-                    interval: Duration(milliseconds: 100),
+                    interval: Duration(seconds: 1),
                     //Default value: Duration(seconds: 0)
                     color: Colors.grey[300],
                     //Default value
@@ -1098,22 +1101,29 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Row(
-                                          mainAxisSize: MainAxisSize.min,
                                           children: [
                                             SizedBox(width: 5),
                                             widget.getTherapistByType[index]
                                                         .user.userName !=
                                                     null
-                                                ? Text(
-                                                    '${widget.getTherapistByType[index].user.userName}',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                ? Flexible(
+                                                    child: Text(
+                                                      '${widget.getTherapistByType[index].user.userName}',
+                                                      maxLines: widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .user
+                                                                  .userName
+                                                                  .length >
+                                                              10
+                                                          ? 2
+                                                          : 1,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   )
                                                 : Text(
                                                     'お名前',
@@ -1159,16 +1169,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                 iconSize: 40,
                                                 iconColor: Colors.red,
                                                 valueChanged: (_isFavorite) {
-                                                  setState(() {
-                                                    if (_isFavorite) {
-                                                      favuourite =
-                                                          therapistUsers[index]
-                                                              .user
-                                                              .userName;
-                                                      // _isFavoriteApi(favuourite);
-                                                      print(favuourite);
-                                                    } else {}
-                                                  });
+                                                  print(
+                                                      'Is Favorite : $_isFavorite');
                                                 }),
                                           ],
                                         ),
@@ -1390,21 +1392,6 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
               ),
             ),
           );
-  }
-
-  var therapistId;
-  _isFavoriteApi(therapistId) async {
-    try {
-      final url = HealingMatchConstants.FAVORITE_API;
-      final response = await http.post(url,
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
-          },
-          body: json.encode({
-            "therapistId": therapistId,
-          }));
-    } catch (e) {}
   }
 
   void showToolTipForType(String text) {
@@ -2663,27 +2650,29 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Row(
-                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           SizedBox(width: 5),
                                           therapistUsers[index].user.userName !=
                                                   null
-                                              ? Row(
-                                                  children: [
-                                                    Text(
-                                                      '${therapistUsers[index].user.userName}',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'NotoSansJP',
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
+                                              ? Flexible(
+                                                  child: Text(
+                                                    '${therapistUsers[index].user.userName}',
+                                                    maxLines:
+                                                        therapistUsers[index]
+                                                                    .user
+                                                                    .userName
+                                                                    .length >
+                                                                10
+                                                            ? 2
+                                                            : 1,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontSize: 14,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 )
                                               : Text(
                                                   'お名前',
@@ -2916,14 +2905,14 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 19),
+                                                        fontSize: 16),
                                                   )
                                                 : Text(
                                                     '¥${therapistUsers[index].sixtyMin}/60分',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 19),
+                                                        fontSize: 16),
                                                   )
                                           ],
                                         ),

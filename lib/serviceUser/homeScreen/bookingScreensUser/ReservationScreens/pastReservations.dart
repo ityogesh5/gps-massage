@@ -112,20 +112,40 @@ class _PastReservationsState extends State<PastReservations> {
                                                 SizedBox(
                                                   width: 5,
                                                 ),
-                                                CircleAvatar(
-                                                  maxRadius: 10,
-                                                  backgroundColor:
-                                                      Colors.black26,
-                                                  child: CircleAvatar(
-                                                    maxRadius: 8,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: SvgPicture.asset(
-                                                        'assets/images_gps/info.svg',
-                                                        color: Color.fromRGBO(
-                                                            0, 0, 0, 1),
-                                                        height: 15,
-                                                        width: 15),
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white
+                                                          ]),
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: Colors.grey[400],
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SvgPicture.asset(
+                                                        "assets/images_gps/info.svg",
+                                                        height: 15.0,
+                                                        width: 15.0,
+                                                        // key: key,
+                                                        color: Colors.black,
+                                                      ), /* Icon(
+                                                        Icons
+                                                            .shopping_bag_rounded,
+                                                        key: key,
+                                                        color: Colors.black ), */
+                                                    ),
                                                   ),
                                                 ),
                                                 Spacer(),

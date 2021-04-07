@@ -142,7 +142,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 colors: [Colors.white, Colors.white]),
                             shape: BoxShape.rectangle,
                             border: Border.all(
-                              color: Colors.grey[300],
+                              color: Color.fromRGBO(217, 217, 217, 1),
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(16.0),
@@ -166,7 +166,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       children: [
                                         RatingBar.builder(
                                           initialRating: 0,
-                                          minRating: 1,
+                                          minRating: 0.5,
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
@@ -250,19 +250,23 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                     },
                                     child: Align(
                                       alignment: Alignment.topRight,
-                                      child: CircleAvatar(
-                                        radius: 35,
-                                        backgroundColor:
-                                            Color.fromRGBO(216, 216, 216, 1),
-                                        child: CircleAvatar(
-                                          radius: 30.0,
-                                          child: SvgPicture.asset(
-                                            'assets/images_gps/submit.svg',
-                                            color:
-                                                Color.fromRGBO(200, 217, 33, 1),
+                                      child: Card(
+                                        shape: CircleBorder(
+                                            side: BorderSide(
+                                                color: Color.fromRGBO(
+                                                    216, 216, 216, 1))),
+                                        elevation: 8.0,
+                                        margin: EdgeInsets.all(4.0),
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 4.0),
+                                            child: SvgPicture.asset(
+                                              "assets/images_gps/sending.svg",
+                                              height: 25.0,
+                                              width: 25.0,
+                                            ),
                                           ),
-                                          backgroundColor:
-                                              Color.fromRGBO(255, 255, 255, 1),
                                         ),
                                       ),
                                     ),
@@ -275,116 +279,136 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Container(
-                      child: Text(
-                        'レビューをした隙に名前、施術日時の詳細がセラビストに知られることはありません',
-                        style: TextStyle(
-                            fontFamily: 'NotoSansJP',
-                            fontSize: 12,
-                            color: Color.fromRGBO(51, 51, 51, 1),
-                            fontWeight: FontWeight.normal),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6, left: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(
+                              'レビューをした隙に名前、施術日時の詳細がセラビストに\n知られることはありません',
+                              style: TextStyle(
+                                  fontFamily: 'NotoSansJP',
+                                  fontSize: 12,
+                                  color: Color.fromRGBO(51, 51, 51, 1),
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 10),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: ratingListValues.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return new Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "${ratingListValues[index].userName}",
-                                      style: TextStyle(
-                                          fontFamily: 'NotoSansJP',
-                                          fontSize: 14,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      " ${DateFormat("MM月dd").format(ratingListValues[index].createdAt).toString()}",
-                                      style: TextStyle(
-                                          fontFamily: 'NotoSansJP',
-                                          fontSize: 10,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RatingBar.builder(
-                                    unratedColor: Colors.grey[200],
-                                    glow: true,
-                                    glowColor: Colors.lime,
-                                    glowRadius: 2,
-                                    initialRating: ratingListValues[index]
-                                        .ratingsCount
-                                        .toDouble(),
-                                    minRating: 0.5,
-                                    direction: Axis.horizontal,
-                                    ignoreGestures: true,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 20,
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 1.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      size: 5,
-                                      color: Color.fromRGBO(0, 0, 0, 1),
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      setState(() {
-                                        ratingsValue = ratingListValues[index]
-                                            .ratingsCount
-                                            .toDouble();
-                                      });
-                                      print(ratingsValue);
-                                    },
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    "(${ratingListValues[index].ratingsCount.toDouble()})",
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(153, 153, 153, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        "${ratingListValues[index].reviewComment}",
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6, left: 6),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: ratingListValues.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return new Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "${ratingListValues[index].userName}",
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
-                                            fontSize: 12,
-                                            color:
-                                                Color.fromRGBO(51, 51, 51, 1),
-                                            fontWeight: FontWeight.w300),
+                                            fontSize: 14,
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        " ${DateFormat("MM月dd").format(ratingListValues[index].createdAt).toString()}",
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 10,
+                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RatingBar.builder(
+                                      unratedColor: Colors.grey[200],
+                                      glow: true,
+                                      glowColor: Colors.lime,
+                                      glowRadius: 2,
+                                      initialRating: ratingListValues[index]
+                                          .ratingsCount
+                                          .toDouble(),
+                                      minRating: 0.5,
+                                      direction: Axis.horizontal,
+                                      ignoreGestures: true,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 20,
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        size: 5,
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        setState(() {
+                                          ratingsValue = ratingListValues[index]
+                                              .ratingsCount
+                                              .toDouble();
+                                        });
+                                        print(ratingsValue);
+                                      },
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      "(${ratingListValues[index].ratingsCount.toDouble()})",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(153, 153, 153, 1),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          );
-                        }),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          "${ratingListValues[index].reviewComment}",
+                                          style: TextStyle(
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 12,
+                                              color:
+                                                  Color.fromRGBO(51, 51, 51, 1),
+                                              fontWeight: FontWeight.w300),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 7, right: 7),
+                                  child: Container(
+                                      child: Divider(
+                                          color: Colors.grey[300], height: 1)),
+                                ),
+                              ],
+                            );
+                          }),
+                    ),
                   ],
                 ),
               ],
@@ -447,7 +471,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('レビューを入力してください。',
+              child: Text('セラピストを5段階で評価してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -475,7 +499,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('レビューは50文字以内で入力してください。',
+              child: Text('店舗についての評価をご記入ください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
