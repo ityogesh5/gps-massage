@@ -238,9 +238,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 
   getBannerImages() async {
     List<BannersList> bannerImages = [];
-    if (userBannerImages != null) {
+    if (userBannerImages != null &&
+        HealingMatchConstants.userBannerImages != null) {
       userBannerImages.clear();
       bannerImages.clear();
+      HealingMatchConstants.userBannerImages.clear();
     }
 
     try {
@@ -250,14 +252,16 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         if (this.mounted) {
           setState(() {
             bannerImages = value.data.bannersList;
-            for (var item in bannerImages) {
-              userBannerImages.add(item.bannerImageUrl);
-              print('Therapist banner images : ${item.bannerImageUrl}');
-            }
-            HealingMatchConstants.userBannerImages.addAll(userBannerImages);
-            if (HealingMatchConstants.userBannerImages.isEmpty) {
+            if (bannerImages != null && bannerImages.isNotEmpty) {
+              for (var item in bannerImages) {
+                userBannerImages.add(item.bannerImageUrl);
+                print('Therapist banner images : ${item.bannerImageUrl}');
+              }
+              HealingMatchConstants.userBannerImages.addAll(userBannerImages);
+            } else {
               HealingMatchConstants.userBannerImages.addAll(dummyBannerImages);
             }
+
             print(
                 'Therapist banner images : ${HealingMatchConstants.userBannerImages.length}');
           });
@@ -672,9 +676,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
                   Shimmer(
-                    duration: Duration(milliseconds: 100),
+                    duration: Duration(seconds: 1),
                     //Default value
-                    interval: Duration(milliseconds: 100),
+                    interval: Duration(seconds: 1),
                     //Default value: Duration(seconds: 0)
                     color: Colors.grey[300],
                     //Default value
@@ -1097,22 +1101,29 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Row(
-                                          mainAxisSize: MainAxisSize.min,
                                           children: [
                                             SizedBox(width: 5),
                                             widget.getTherapistByType[index]
                                                         .user.userName !=
                                                     null
-                                                ? Text(
-                                                    '${widget.getTherapistByType[index].user.userName}',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                ? Flexible(
+                                                    child: Text(
+                                                      '${widget.getTherapistByType[index].user.userName}',
+                                                      maxLines: widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .user
+                                                                  .userName
+                                                                  .length >
+                                                              10
+                                                          ? 2
+                                                          : 1,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   )
                                                 : Text(
                                                     'お名前',
@@ -2182,8 +2193,10 @@ class _RecommendListsState extends State<RecommendLists> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Spacer(),
-                                  SvgPicture.asset('assets/images_gps/recommendedHeart.svg',
-                                      width: 25, height: 25),
+                                  SvgPicture.asset(
+                                      'assets/images_gps/recommendedHeart.svg',
+                                      width: 25,
+                                      height: 25),
                                 ],
                               ),
                               SizedBox(
@@ -2637,32 +2650,39 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Row(
-                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           SizedBox(width: 5),
-                                          therapistUsers[index].user.userName !=
+                                          therapistUsers[index]
+                                                      .user
+                                                      .userName !=
                                                   null
-                                              ? Row(
-                                                  children: [
-                                                    Text(
-                                                      '${therapistUsers[index].user.userName}',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'NotoSansJP',
-                                                          fontSize: 14,
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                )
+                                              ? Flexible(
+                                                child: Text(
+                                                  '${therapistUsers[index].user.userName}',
+                                                  maxLines: therapistUsers[
+                                                                  index]
+                                                              .user
+                                                              .userName
+                                                              .length >
+                                                          10
+                                                      ? 2
+                                                      : 1,
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'NotoSansJP',
+                                                      fontSize: 14,
+                                                      color: Colors
+                                                          .black,
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .bold),
+                                                ),
+                                              )
                                               : Text(
                                                   'お名前',
                                                   style: TextStyle(
-                                                      fontFamily: 'NotoSansJP',
+                                                      fontFamily:
+                                                          'NotoSansJP',
                                                       fontSize: 16,
                                                       color: Colors.black,
                                                       fontWeight:
@@ -2671,9 +2691,10 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                           SizedBox(width: 4),
                                           InkWell(
                                             onTap: () {
-                                              showToolTip(therapistUsers[index]
-                                                  .user
-                                                  .storeType);
+                                              showToolTip(
+                                                  therapistUsers[index]
+                                                      .user
+                                                      .storeType);
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -2890,14 +2911,14 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 19),
+                                                        fontSize: 16),
                                                   )
                                                 : Text(
                                                     '¥${therapistUsers[index].sixtyMin}/60分',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 19),
+                                                        fontSize: 16),
                                                   )
                                           ],
                                         ),

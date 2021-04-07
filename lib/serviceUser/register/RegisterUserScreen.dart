@@ -1729,6 +1729,37 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
 
+    // Age 18+ validation
+
+    if (ageOfUser != 0 && ageOfUser < 18) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('18歳未満のユーザーは登録できません！',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
     // user gender validation
     if (_myGender == null || _myGender.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -49,6 +49,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   bool readonly = false;
   var yearString, monthString, dateString;
+  final keywordController = new TextEditingController();
 
   void initState() {
     super.initState();
@@ -112,6 +113,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           height:
                               48.0, //MediaQuery.of(context).size.height * 0.06,
                           child: TextFormField(
+                            controller: keywordController,
                             autofocus: false,
                             textInputAction: TextInputAction.search,
                             decoration: new InputDecoration(
