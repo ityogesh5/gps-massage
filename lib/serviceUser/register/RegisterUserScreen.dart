@@ -310,9 +310,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                           Border.all(color: Colors.grey[200]),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
-                                        fit: BoxFit.none,
+                                        fit: BoxFit.cover,
                                         image: new AssetImage(
-                                            'assets/images_gps/user.png'),
+                                            'assets/images_gps/placeholder_image.png'),
                                       ),
                                     )),
                               ),
