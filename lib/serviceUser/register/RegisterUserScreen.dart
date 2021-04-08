@@ -651,7 +651,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFormField(
                         //enableInteractiveSelection: false,
                         autofocus: false,
-                        maxLength: 10,
+                        maxLength: 11,
                         controller: phoneNumberController,
                         keyboardType: TextInputType.phone,
                         decoration: new InputDecoration(
@@ -1604,9 +1604,10 @@ class _RegisterUserState extends State<RegisterUser> {
   Future<Map<String, dynamic>> _registerUserDetails() async {
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
-    var userPhoneNumber = phoneNumberController.text.toString();
-    HealingMatchConstants.serviceUserPhoneNumber =
-        phoneNumberController.text.toString();
+    var phnNum = phoneNumberController.text.toString();
+    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
+    print('phnNumber: ${userPhoneNumber}');
+    HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
     var confirmPassword = confirmPasswordController.text.toString().trim();
 

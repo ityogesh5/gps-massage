@@ -151,9 +151,7 @@ class NavigationRouter {
   //UserSearchScreen
   static void switchToServiceUserSearchScreen(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => SearchScreenUser()));
+        context, MaterialPageRoute(builder: (context) => SearchScreenUser()));
   }
 
   //User Search Result
@@ -394,10 +392,8 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProviderCalendar()));
+            builder: (BuildContext context) => ProviderCalendar()));
   }
-
 
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context, var arg) {

@@ -291,24 +291,45 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       )),
                                 ),
                               )
-                            : InkWell(
-                                onTap: () {
-                                  _showPicker(context, 0);
-                                },
-                                child: new Container(
-                                    width: 95.0,
-                                    height: 95.0,
-                                    decoration: new BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[200]),
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                        fit: BoxFit.none,
-                                        image: new AssetImage(
-                                            'assets/images_gps/user.png'),
-                                      ),
-                                    )),
-                              ),
+                            : _profileImage != null
+                                ? InkWell(
+                                    onTap: () {
+                                      _showPicker(context, 0);
+                                    },
+                                    child: Semantics(
+                                      child: new Container(
+                                          width: 100.0,
+                                          height: 100.0,
+                                          decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: FileImage(
+                                                  File(_profileImage.path)),
+                                            ),
+                                          )),
+                                    ),
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      _showPicker(context, 0);
+                                    },
+                                    child: new Container(
+                                        width: 95.0,
+                                        height: 95.0,
+                                        decoration: new BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey[200]),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                            fit: BoxFit.none,
+                                            image: new AssetImage(
+                                                'assets/images_gps/user.png'),
+                                          ),
+                                        )),
+                                  ),
                         _profileImage != null
                             ? Visibility(
                                 visible: false,

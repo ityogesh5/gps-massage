@@ -820,28 +820,32 @@ class DialogHelper {
                     foregroundPainter: HeaderCurvedContainer(),
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.32,
+                  height: MediaQuery.of(context).size.height * 0.33,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Center(
-                            child: InkWell(
-                          onTap: () {
-                            NavigationRouter.switchToServiceUserRegistration(
-                                context);
-                          },
-                          child: Text('登録する',
-                              style: new TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontFamily: 'NotoSansJP',
-                                  fontWeight: FontWeight.w100,
-                                  decoration: TextDecoration.underline)),
-                        )),
+                        FittedBox(
+                          child: InkWell(
+                            onTap: () {
+                              NavigationRouter.switchToServiceUserRegistration(
+                                  context);
+                            },
+                            child: Text('登録する',
+                                style: new TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontFamily: 'NotoSansJP',
+                                    fontWeight: FontWeight.w100,
+                                    decoration: TextDecoration.underline)),
+                          ),
+                        ),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -894,14 +898,58 @@ class DialogHelper {
                   ),
                 ),
                 Positioned(
-                  top: 50,
+                  right: 0.0,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigator.of(context).pop();
+                    },
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: CircleAvatar(
+                        radius: 14.0,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.close, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+
+                /* Positioned(
+                  top: -5,
+                  right: -5,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.white, Colors.white]),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.close,
+                          size: 20.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),*/
+                Positioned(
+                  top: 42,
                   right: 50,
                   left: 50,
                   child: CircleAvatar(
                     backgroundColor: Colors.white70,
                     maxRadius: MediaQuery.of(context).size.width * 0.11,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
+                      width: MediaQuery.of(context).size.width * 0.18,
                       height: MediaQuery.of(context).size.height * 0.15,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
