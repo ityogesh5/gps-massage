@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 class DialogHomePage extends StatefulWidget {
   const DialogHomePage({
@@ -153,17 +154,101 @@ class _HomePageState extends State<DialogHomePage> {
                   text: 'No Header Dialog',
                   color: Colors.cyan,
                   pressEvent: () {
-                    AwesomeDialog(
+                    AwesomeDialog dialog;
+                    dialog = AwesomeDialog(
+                      showCloseIcon: true,
                       context: context,
                       headerAnimationLoop: false,
                       dialogType: DialogType.NO_HEADER,
-                      title: 'No Header',
-                      desc:
-                          'Dialog description here..................................................',
+                      body:  Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black12),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: new AssetImage(
+                                          'assets/images_gps/appIcon.png')),
+                                )),
+                            Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    NavigationRouter.switchToServiceUserRegistration(
+                                        context);
+                                  },
+                                  child: Text('登録する',
+                                      style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontFamily: 'NotoSansJP',
+                                          fontWeight: FontWeight.w100,
+                                          decoration: TextDecoration.underline)),
+                                )),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: new Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 10.0, right: 15.0),
+                                      child: Divider(
+                                        //  height: 50,
+                                        color: Colors.grey,
+                                      )),
+                                ),
+                                Text(
+                                  "または",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: new Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 15.0, right: 10.0),
+                                      child: Divider(
+                                        color: Colors.grey,
+                                        //height: 50,
+                                      )),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            InkWell(
+                              onTap: () {
+                                NavigationRouter.switchToUserLogin(context);
+                              },
+                              child: Text('すでにアカウントをお持ちの方',
+                                  style: new TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontFamily: 'NotoSansJP',
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w100,
+                                      decoration: TextDecoration.underline)),
+                            ),
+                            SizedBox(height: 5),
+                          ],
+                        ),
+                      ),
                       btnOkOnPress: () {
                         debugPrint('OnClcik');
                       },
-                      btnOkIcon: Icons.check_circle,
+                      btnOk: AnimatedButton(
+                          text: 'OK',
+                          pressEvent: () {
+                            dialog.dissmiss();
+                          }),
                     )..show();
                   },
                 ),

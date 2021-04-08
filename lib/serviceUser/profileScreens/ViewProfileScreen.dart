@@ -101,9 +101,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         .profileImageInBytes),
                                   )
                                 : new DecorationImage(
-                                    fit: BoxFit.none,
+                                    fit: BoxFit.cover,
                                     image: new AssetImage(
-                                        'assets/images_gps/user.png')),
+                                        'assets/images_gps/placeholder_image.png')),
                           )),
                       SizedBox(width: 10.0),
                       CircleAvatar(

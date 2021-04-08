@@ -28,6 +28,125 @@ class DialogHelper {
         });
   }
 
+  // Login or Register user popup
+  static void showUserLoginOrRegisterDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      //showCloseIcon: true,
+      context: context,
+      headerAnimationLoop: false,
+      dialogType: DialogType.NO_HEADER,
+      body:  Container(
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: new BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black12),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new AssetImage(
+                              'assets/images_gps/appIcon.png')),
+                    )),
+                Center(
+                    child: InkWell(
+                      onTap: () {
+                        NavigationRouter.switchToServiceUserRegistration(
+                            context);
+                      },
+                      child: Text('登録する',
+                          style: new TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.w100,
+                              decoration: TextDecoration.underline)),
+                    )),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: new Container(
+                          margin: const EdgeInsets.only(
+                              left: 10.0, right: 15.0),
+                          child: Divider(
+                            //  height: 50,
+                            color: Colors.grey,
+                          )),
+                    ),
+                    Text(
+                      "または",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Expanded(
+                      child: new Container(
+                          margin: const EdgeInsets.only(
+                              left: 15.0, right: 10.0),
+                          child: Divider(
+                            color: Colors.grey,
+                            //height: 50,
+                          )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToUserLogin(context);
+                  },
+                  child: Text('すでにアカウントをお持ちの方',
+                      style: new TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w100,
+                          decoration: TextDecoration.underline)),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+            Positioned(
+              top: -40,
+              //right: 150,
+              left: 260,
+              child: CircleAvatar(
+                backgroundColor: Colors.white70,
+                maxRadius: MediaQuery.of(context).size.width * 0.11,
+                child: IconButton(icon: Icon(Icons.clear), onPressed: (){
+                  dialog.dissmiss();
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  print('Close');
+                })
+              ),
+            ),
+          ],
+        ),
+      ),
+      btnOkOnPress: () {
+        debugPrint('OnClcik');
+      },
+      btnOk: AnimatedButton(
+          text: 'OK',
+          pressEvent: () {
+            dialog.dissmiss();
+            NavigationRouter.switchToServiceUserBottomBar(context);
+          }),
+    )..show();
+  }
+
   // User Register Success popup
   static void showRegisterSuccessDialog(BuildContext context) {
     showDialog(
@@ -794,133 +913,6 @@ class DialogHelper {
         });
   }
 
-  // Login or Register user popup
-  static void showUserLoginOrRegisterDialog(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: CustomPaint(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                          )),
-                    ),
-                    foregroundPainter: HeaderCurvedContainer(),
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.32,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: InkWell(
-                          onTap: () {
-                            NavigationRouter.switchToServiceUserRegistration(
-                                context);
-                          },
-                          child: Text('登録する',
-                              style: new TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontFamily: 'NotoSansJP',
-                                  fontWeight: FontWeight.w100,
-                                  decoration: TextDecoration.underline)),
-                        )),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: new Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10.0, right: 15.0),
-                                  child: Divider(
-                                    //  height: 50,
-                                    color: Colors.grey,
-                                  )),
-                            ),
-                            Text(
-                              "または",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Expanded(
-                              child: new Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 15.0, right: 10.0),
-                                  child: Divider(
-                                    color: Colors.grey,
-                                    //height: 50,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            NavigationRouter.switchToUserLogin(context);
-                          },
-                          child: Text('すでにアカウントをお持ちの方',
-                              style: new TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontFamily: 'NotoSansJP',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w100,
-                                  decoration: TextDecoration.underline)),
-                        ),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 50,
-                  right: 50,
-                  left: 50,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white70,
-                    maxRadius: MediaQuery.of(context).size.width * 0.11,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300]),
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images_gps/logo.png'),
-                          fit: BoxFit.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
 
   // Cancel pop up dialog
   static void showUserBookingCancelDialog(BuildContext context) {
