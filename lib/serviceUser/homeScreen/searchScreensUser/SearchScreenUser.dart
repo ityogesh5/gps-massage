@@ -117,6 +117,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             autofocus: false,
                             textInputAction: TextInputAction.search,
                             decoration: new InputDecoration(
+                                hoverColor: Colors.grey,
                                 contentPadding: EdgeInsets.all(4.0),
                                 filled: true,
                                 fillColor: Colors.white,

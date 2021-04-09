@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'file:///D:/Gps/lib/utils/text_field_custom.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -368,23 +369,12 @@ class _RegisterUserState extends State<RegisterUser> {
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        //enableInteractiveSelection: false,
-                        //maxLength: 20,
-                        autofocus: false,
+                      child: TextFieldCustom(
                         controller: userNameController,
+                        autofocus: false,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'お名前 *',
-                          //hintText: 'お名前 *',
-                          /*hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -393,6 +383,23 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
+                        ),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: 'お名前',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                     ),

@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'file:///D:/Gps/lib/utils/redAsterisk.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -175,8 +176,12 @@ class _UserLoginState extends State<UserLogin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToUserForgetPasswordScreen(
-                            context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Astricks()));
+                        /* NavigationRouter.switchToUserForgetPasswordScreen(
+                            context);*/
                         // NavigationRouter.switchToNearByProviderAndShop(context);
                       },
                       child: Text(
