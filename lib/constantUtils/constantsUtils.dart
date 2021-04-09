@@ -334,6 +334,7 @@ class HealingMatchConstants {
   //Provider Home
   static providerLogin.Data userData;
   static String accessToken = '';
+  static int serviceUserId;
   static int userId;
 
   //User Token

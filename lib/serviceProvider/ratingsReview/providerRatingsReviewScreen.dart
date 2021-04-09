@@ -27,7 +27,6 @@ class _ProviderRatingsAndReviewUserState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scroll = new ScrollController();
     _focus.addListener(() {
@@ -462,13 +461,6 @@ class _ProviderRatingsAndReviewUserState
                               ],
                             ),
                           ),
-                          /*  SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Container(
-                                child:
-                                    Divider(color: Colors.grey[300], height: 1)),
-                          ), */
                         ],
                       );
                     })

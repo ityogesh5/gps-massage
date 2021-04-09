@@ -38,14 +38,14 @@ class _ShiftServiceState extends State<ShiftService> {
   List<String> otherTreatmentDropDownValues = List<String>();
   List<String> otherRelaxationDropDownValues = List<String>();
   List<String> otherFitnessDropDownValues = List<String>();
-  List<EstheticListElement> estheticServicePriceModel =
-      List<EstheticListElement>();
-  List<EstheticListElement> relaxationServicePriceModel =
-      List<EstheticListElement>();
-  List<EstheticListElement> treatmentServicePriceModel =
-      List<EstheticListElement>();
-  List<EstheticListElement> fitnessServicePriceModel =
-      List<EstheticListElement>();
+  List<TherapistSubCategory> estheticServicePriceModel =
+      List<TherapistSubCategory>();
+  List<TherapistSubCategory> relaxationServicePriceModel =
+      List<TherapistSubCategory>();
+  List<TherapistSubCategory> treatmentServicePriceModel =
+      List<TherapistSubCategory>();
+  List<TherapistSubCategory> fitnessServicePriceModel =
+      List<TherapistSubCategory>();
   List<String> selectedStoreTypeDisplayValues = List<String>();
   List<bool> otherSelected = List<bool>();
   bool estheticOtherSelected = false;
@@ -65,10 +65,12 @@ class _ShiftServiceState extends State<ShiftService> {
   FitnessDropDownModel fitnessDropDownModel;
   ProgressDialog _progressDialog = ProgressDialog();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List<EstheticListElement> deletedEstheticList = List<EstheticListElement>();
-  List<EstheticListElement> deletedTreatmentList = List<EstheticListElement>();
-  List<EstheticListElement> deletedRelaxationList = List<EstheticListElement>();
-  List<EstheticListElement> deletedFitnessList = List<EstheticListElement>();
+  List<TherapistSubCategory> deletedEstheticList = List<TherapistSubCategory>();
+  List<TherapistSubCategory> deletedTreatmentList =
+      List<TherapistSubCategory>();
+  List<TherapistSubCategory> deletedRelaxationList =
+      List<TherapistSubCategory>();
+  List<TherapistSubCategory> deletedFitnessList = List<TherapistSubCategory>();
 
   @override
   void initState() {
@@ -486,7 +488,7 @@ class _ShiftServiceState extends State<ShiftService> {
     bool checkValue = false;
     int indexPos = 0;
     List<String> selectedDropdownValues = List<String>();
-    List<EstheticListElement> servicePriceModel = List<EstheticListElement>();
+    List<TherapistSubCategory> servicePriceModel = List<TherapistSubCategory>();
     if (mindex == 0) {
       selectedDropdownValues.addAll(selectedEstheticDropdownValues);
       servicePriceModel.addAll(estheticServicePriceModel);
@@ -792,7 +794,7 @@ class _ShiftServiceState extends State<ShiftService> {
 
   //Build the chips for the price greater than 0
   //indexpos represents the postion of the List Item in the pricemodel
-  checkAddedPrice(int indexPos, List<EstheticListElement> servicePriceModel) {
+  checkAddedPrice(int indexPos, List<TherapistSubCategory> servicePriceModel) {
     List<Widget> values = List<Widget>();
     if ((servicePriceModel[indexPos].sixtyMin) != 0) {
       values.add(buildCheckBoxChip(servicePriceModel[indexPos].sixtyMin, 60));
@@ -854,7 +856,7 @@ class _ShiftServiceState extends State<ShiftService> {
     TextEditingController oneEightyMinuteController =
         new TextEditingController();
     List<String> selectedDropdownValues = List<String>();
-    List<EstheticListElement> servicePriceModel = List<EstheticListElement>();
+    List<TherapistSubCategory> servicePriceModel = List<TherapistSubCategory>();
     if (mindex == 0) {
       selectedDropdownValues.addAll(selectedEstheticDropdownValues);
       servicePriceModel.addAll(estheticServicePriceModel);
@@ -1374,7 +1376,7 @@ class _ShiftServiceState extends State<ShiftService> {
                                                   int lengthModel =
                                                       servicePriceModel.length;
                                                   servicePriceModel.add(
-                                                    EstheticListElement(
+                                                    TherapistSubCategory(
                                                       userId:
                                                           HealingMatchConstants
                                                               .userId,
@@ -1426,22 +1428,22 @@ class _ShiftServiceState extends State<ShiftService> {
                                                   if (mindex == 0) {
                                                     servicePriceModel[
                                                                 lengthModel]
-                                                            .estheticId =
+                                                            .subCategoryId =
                                                         getID(index, mindex);
                                                   } else if (mindex == 1) {
                                                     servicePriceModel[
                                                                 lengthModel]
-                                                            .relaxationId =
+                                                            .subCategoryId =
                                                         getID(index, mindex);
                                                   } else if (mindex == 2) {
                                                     servicePriceModel[
                                                                 lengthModel]
-                                                            .orteopathicId =
+                                                            .subCategoryId =
                                                         getID(index, mindex);
                                                   } else if (mindex == 3) {
                                                     servicePriceModel[
                                                                 lengthModel]
-                                                            .fitnessId =
+                                                            .subCategoryId =
                                                         getID(index, mindex);
                                                   }
 
@@ -1606,7 +1608,7 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   //get the index of the String on the List
-  int getIndex(String val, List<EstheticListElement> servicePriceModel) {
+  int getIndex(String val, List<TherapistSubCategory> servicePriceModel) {
     int indexPos;
     for (int i = 0; i < servicePriceModel.length; i++) {
       if (servicePriceModel[i].name.toLowerCase() == val.toLowerCase()) {
@@ -1812,21 +1814,44 @@ class _ShiftServiceState extends State<ShiftService> {
   getSavedValues() {
     selectedStoreTypeDisplayValues =
         HealingMatchConstants.userData.storeType.split(',');
-    estheticServicePriceModel
-        .addAll(HealingMatchConstants.userData.estheticLists);
-    relaxationServicePriceModel
-        .addAll(HealingMatchConstants.userData.relaxationLists);
-    fitnessServicePriceModel
-        .addAll(HealingMatchConstants.userData.fitnessLists);
-    treatmentServicePriceModel
-        .addAll(HealingMatchConstants.userData.orteopathicLists);
 
-    //Get the Price Model
+    for (TherapistSubCategory therapistSubCategory
+        in HealingMatchConstants.userData.therapistSubCategories) {
+      if (therapistSubCategory.categoryId == 1) {
+        estheticServicePriceModel.add(therapistSubCategory);
+        if (therapistSubCategory.subCategoryId == 999) {
+          otherEstheticDropDownValues.add(therapistSubCategory.name);
+        } else {
+          selectedEstheticDropdownValues.add(therapistSubCategory.name);
+        }
+      } else if (therapistSubCategory.categoryId == 2) {
+        if (therapistSubCategory.subCategoryId == 999) {
+          otherFitnessDropDownValues.add(therapistSubCategory.name);
+        } else {
+          selectedFitnessDropdownValues.add(therapistSubCategory.name);
+        }
+        fitnessServicePriceModel.add(therapistSubCategory);
+      } else if (therapistSubCategory.categoryId == 3) {
+        if (therapistSubCategory.subCategoryId == 999) {
+          otherTreatmentDropDownValues.add(therapistSubCategory.name);
+        } else {
+          selectedTreatmentDropdownValues.add(therapistSubCategory.name);
+        }
+        treatmentServicePriceModel.add(therapistSubCategory);
+      } else if (therapistSubCategory.categoryId == 4) {
+        if (therapistSubCategory.subCategoryId == 999) {
+          otherRelaxationDropDownValues.add(therapistSubCategory.name);
+        } else {
+          selectedRelaxationDropdownValues.add(therapistSubCategory.name);
+        }
+        relaxationServicePriceModel.add(therapistSubCategory);
+      }
+    }
+
+    /* //Get the Price Model
     for (var serviceItem in HealingMatchConstants.userData.estheticLists) {
       if (serviceItem.estheticId == 999) //for user added Service name
-      {
-        otherEstheticDropDownValues.add(serviceItem.name);
-      }
+      {}
       selectedEstheticDropdownValues.add(serviceItem.name);
     }
     for (var serviceItem in HealingMatchConstants.userData.relaxationLists) {
@@ -1846,7 +1871,7 @@ class _ShiftServiceState extends State<ShiftService> {
         otherFitnessDropDownValues.add(serviceItem.name);
       }
       selectedFitnessDropdownValues.add(serviceItem.name);
-    }
+    } */
   }
 
   saveSelectedValues() async {
@@ -1948,7 +1973,7 @@ class _ShiftServiceState extends State<ShiftService> {
   void showConfirmationDialog(
       BuildContext context,
       List<String> selectedDropdownValues,
-      List<EstheticListElement> servicePriceModel,
+      List<TherapistSubCategory> servicePriceModel,
       int indexPos,
       String val,
       int mindex) {
@@ -2047,11 +2072,11 @@ class _ShiftServiceState extends State<ShiftService> {
 
   removeSelectedServices(
       List<String> selectedDropdownValues,
-      List<EstheticListElement> servicePriceModel,
+      List<TherapistSubCategory> servicePriceModel,
       int indexPos,
       String val,
       int mindex) {
-    selectedDropdownValues.remove(val.toLowerCase());
+   /*  selectedDropdownValues.remove(val.toLowerCase());
     servicePriceModel.removeAt(indexPos);
     setState(() {
       if (mindex == 0) {
@@ -2095,6 +2120,6 @@ class _ShiftServiceState extends State<ShiftService> {
         selectedFitnessDropdownValues.addAll(selectedDropdownValues);
         fitnessServicePriceModel.addAll(servicePriceModel);
       }
-    });
+    }); */
   }
 }
