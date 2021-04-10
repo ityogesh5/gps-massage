@@ -128,6 +128,13 @@ class NavigationRouter {
         (Route<dynamic> route) => false);
   }
 
+  // User bottom bar homescreen
+  static void switchToServiceUserBottomBarFavourite(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(2)),
+        (Route<dynamic> route) => false);
+  }
+
   //User NearByProviderAndShop
   static void switchToNearByProviderAndShop(BuildContext context) {
     Navigator.push(
