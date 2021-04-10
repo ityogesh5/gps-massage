@@ -103,7 +103,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  var _prefId;
+  int _prefId;
 
   showHide() {
     setState(() {
@@ -1081,6 +1081,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                                               _myCity = '';
                                                               _getCities(
                                                                   _prefId);
+                                                              _sharedPreferences
+                                                                  .then(
+                                                                      (value) {
+                                                                value.setString(
+                                                                    'cityID',
+                                                                    _prefId.toString());
+
+                                                                print('Pref id : ${_prefId.toString()}');
+                                                              });
                                                             });
                                                           },
                                                           dataSource:
@@ -2586,6 +2595,7 @@ class _RegisterUserState extends State<RegisterUser> {
           cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
+
       ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });

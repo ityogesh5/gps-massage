@@ -23,7 +23,7 @@ class TherapistsByTypeModel {
 
 class TherapistData {
   int count;
-  List<UserList> userList;
+  List<UserTypeList> userList;
   int totalPages;
   int pageNumber;
 
@@ -32,9 +32,9 @@ class TherapistData {
   TherapistData.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     if (json['userList'] != null) {
-      userList = new List<UserList>();
+      userList = new List<UserTypeList>();
       json['userList'].forEach((v) {
-        userList.add(new UserList.fromJson(v));
+        userList.add(new UserTypeList.fromJson(v));
       });
     }
     totalPages = json['totalPages'];
@@ -53,7 +53,7 @@ class TherapistData {
   }
 }
 
-class UserList {
+class UserTypeList {
   int id;
   int userId;
   int orteopathicId;
@@ -67,7 +67,7 @@ class UserList {
   String updatedAt;
   User user;
 
-  UserList(
+  UserTypeList(
       {this.id,
         this.userId,
         this.orteopathicId,
@@ -81,7 +81,7 @@ class UserList {
         this.updatedAt,
         this.user});
 
-  UserList.fromJson(Map<String, dynamic> json) {
+  UserTypeList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     orteopathicId = json['orteopathicId'];
@@ -152,7 +152,7 @@ class User {
   dynamic customerId;
   String createdAt;
   String updatedAt;
-  List<CertificationUploads> certificationUploads;
+  List<CertificationTypeUpload> certificationUploads;
   List<Banners> banners;
   List<Reviews> reviews;
 
@@ -233,9 +233,9 @@ class User {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     if (json['certification_uploads'] != null) {
-      certificationUploads = new List<CertificationUploads>();
+      certificationUploads = new List<CertificationTypeUpload>();
       json['certification_uploads'].forEach((v) {
-        certificationUploads.add(new CertificationUploads.fromJson(v));
+        certificationUploads.add(new CertificationTypeUpload.fromJson(v));
       });
     }
     if (json['banners'] != null) {
@@ -303,7 +303,7 @@ class User {
   }
 }
 
-class CertificationUploads {
+class CertificationTypeUpload {
   int id;
   int userId;
   String acupuncturist;
@@ -321,7 +321,7 @@ class CertificationUploads {
   String createdAt;
   String updatedAt;
 
-  CertificationUploads(
+  CertificationTypeUpload(
       {this.id,
         this.userId,
         this.acupuncturist,
@@ -339,7 +339,7 @@ class CertificationUploads {
         this.createdAt,
         this.updatedAt});
 
-  CertificationUploads.fromJson(Map<String, dynamic> json) {
+  CertificationTypeUpload.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     acupuncturist = json['acupuncturist'];

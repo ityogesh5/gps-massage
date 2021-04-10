@@ -27,9 +27,9 @@ class DropDownFormField extends FormField<dynamic> {
       FormFieldValidator<dynamic> validator,
       bool autovalidate = false,
       this.titleText = 'Title',
-      this.hintText = 'Select one option',
+      this.hintText = '',
       this.required = false,
-      this.errorText = 'Please select one option',
+      this.errorText = '',
       this.value,
       this.items,
       this.dataSource,
@@ -138,6 +138,8 @@ class DropDownFormField extends FormField<dynamic> {
                                   style: enabled
                                       ? HealingMatchConstants.formTextStyle
                                       : TextStyle(
+                                      fontFamily: 'NotoSansJP',
+                                      fontSize: 14,
                                           color: Color.fromRGBO(0, 0, 0, 1)),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);
