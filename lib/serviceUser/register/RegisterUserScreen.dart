@@ -660,7 +660,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         autofocus: false,
                         maxLength: 11,
                         controller: phoneNumberController,
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.number,
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,

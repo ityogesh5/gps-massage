@@ -82,23 +82,7 @@ class _HomeScreenUserState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getId();
     super.initState();
-  }
-
-  getId() async {
-    // ProgressDialogBuilder.showCommonProgressDialog(context);
-    try {
-      ProgressDialogBuilder.showCommonProgressDialog(context);
-      _sharedPreferences.then((value) {
-        accessToken = value.getString('accessToken');
-        ProgressDialogBuilder.hideCommonProgressDialog(context);
-
-        setState(() {
-          HealingMatchConstants.uAccessToken = accessToken;
-        });
-      });
-    } catch (e) {}
   }
 
   @override
@@ -358,53 +342,48 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   onTap: () {
                     NavigationRouter.switchToServiceUserSearchScreen(context);
                   },
-                  child: InkWell(
-                    onTap: () {
-                      NavigationRouter.switchToServiceUserSearchScreen(context);
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        width: MediaQuery.of(context).size.height * 0.85,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color.fromRGBO(255, 255, 255, 1),
-                                Color.fromRGBO(255, 255, 255, 1),
-                              ]),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color.fromRGBO(102, 102, 102, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(7.0),
-                          color: Color.fromRGBO(228, 228, 228, 1),
+                  child: Container(
+                      padding: const EdgeInsets.all(6.0),
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.height * 0.85,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(255, 255, 255, 1),
+                              Color.fromRGBO(255, 255, 255, 1),
+                            ]),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: Color.fromRGBO(102, 102, 102, 1),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'キーワードでさがす',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Image.asset(
-                                "assets/images_gps/search.png",
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Color.fromRGBO(228, 228, 228, 1),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'キーワードでさがす',
+                            style: TextStyle(
                                 color: Color.fromRGBO(225, 225, 225, 1),
-                              ),
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserSearchScreen(context);
-                              },
+                                fontSize: 14,
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            child: Image.asset(
+                              "assets/images_gps/search.png",
+                              color: Color.fromRGBO(225, 225, 225, 1),
                             ),
-                          ],
-                        )),
-                  ),
+                            onTap: () {
+                              NavigationRouter.switchToServiceUserSearchScreen(
+                                  context);
+                            },
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ],
@@ -521,38 +500,67 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     NavigationRouter.switchToServiceUserSearchScreen(context);
                   },
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: TextFormField(
-                      readOnly: true,
-                      autofocus: false,
-                      textInputAction: TextInputAction.search,
-                      decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'キーワードでさがす',
-                          suffixIcon: InkWell(
-                            child: Image.asset("assets/images_gps/search.png"),
-                            onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
-                            },
-                          ),
-                          hintStyle: TextStyle(
-                              color: Colors.grey[300],
-                              fontSize: 14,
-                              fontFamily: 'NotoSansJP'),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 2.0),
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(6.0),
+                      height: 55,
+                      width: MediaQuery.of(context).size.height * 0.85,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          //background color of box
+                          BoxShadow(
+                            color: Colors.red,
+                            blurRadius: 25.0, // soften the shadow
+                            spreadRadius: 5.0, //extend the shadow
+                            offset: Offset(
+                              15.0, // Move to right 10  horizontally
+                              15.0, // Move to bottom 10 Vertically
+                            ),
+                          )
+                        ],
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(255, 255, 255, 1),
+                              Color.fromRGBO(255, 255, 255, 1),
+                            ]),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                        ),
+                        borderRadius: BorderRadius.circular(7.0),
+                        color: Color.fromRGBO(228, 228, 228, 1),
+                      ),
+                      child: Card(
+                        elevation: 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'キーワードでさがす',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(225, 225, 225, 1),
+                                  fontSize: 14,
+                                  fontFamily: 'NotoSansJP'),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              child: Image.asset(
+                                "assets/images_gps/search.png",
+                                color: Color.fromRGBO(225, 225, 225, 1),
+                              ),
+                              onTap: () {
+                                NavigationRouter
+                                    .switchToServiceUserSearchScreen(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      )),
                 ),
               ),
             ],
