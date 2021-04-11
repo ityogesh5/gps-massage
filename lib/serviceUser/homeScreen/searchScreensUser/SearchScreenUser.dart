@@ -253,7 +253,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {},
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor:
+                                    Color.fromRGBO(242, 242, 242, 1),
                                 child: SvgPicture.asset(
                                     'assets/images_gps/house.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -281,7 +282,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {},
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor:
+                                    Color.fromRGBO(242, 242, 242, 1),
                                 child: SvgPicture.asset(
                                     'assets/images_gps/office.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -309,7 +311,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {},
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor:
+                                    Color.fromRGBO(242, 242, 242, 1),
                                 child: SvgPicture.asset(
                                     'assets/images_gps/parents_house.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -662,7 +665,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         if (val != null && val.contains('S')) {
                           _addAddressVisible = true;
                         } else if (val != null && val.contains('R')) {
-                          _addAddressVisible = false;
+                          _addAddressVisible = true;
                         }
                         print(_addAddressVisible);
                       });

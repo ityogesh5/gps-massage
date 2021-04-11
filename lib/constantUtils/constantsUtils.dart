@@ -399,7 +399,7 @@ class HealingMatchConstants {
   static String searchOsthepaticTxt = '整骨・整体';
   static String searchRelaxationTxt = 'リラクゼーション';
   static String searchFitnessTxt = 'フィットネス';
-  static String searchTravelTxt = '施術のタイプを選んでください';
+  static String searchTravelTxt = '施術の場所を選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
 
   //Booking confirm screen

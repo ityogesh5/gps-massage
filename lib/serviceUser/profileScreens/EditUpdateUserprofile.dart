@@ -1470,7 +1470,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       children: [
                                         Row(
                                           children: [
-                                            Container(
+                                            /* Container(
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               height: MediaQuery.of(context)
@@ -1505,6 +1505,18 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 child: Text(
                                                     "${otherUserAddress[index].addressCategory}"),
                                               ),
+                                            ),*/
+                                            Chip(
+                                              padding: EdgeInsets.all(5),
+                                              labelPadding: EdgeInsets.zero,
+                                              label: Text(
+                                                  "${otherUserAddress[index].addressCategory}"),
+                                              labelStyle: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                  fontSize: 14),
+                                              backgroundColor: Color.fromRGBO(
+                                                  246, 246, 246, 1),
                                             ),
                                             SizedBox(
                                               width: 5,
