@@ -16,7 +16,7 @@ class TherapistReviewBloc extends Bloc<TherapistReviewEvent, TherapistReviewStat
   @override
   Stream<TherapistReviewState> mapEventToState(TherapistReviewEvent event) async* {
     if (event is FetchTherapistReviewEvent) {
-      yield GetTherapistReviewLoadingState();
+      yield GetTherapistReviewLoaderState();
       try {
         List<UserList> getTherapistsUsers =
             await getTherapistReviewRepository.getTherapistReviewById(

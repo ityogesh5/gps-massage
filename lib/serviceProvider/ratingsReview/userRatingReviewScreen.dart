@@ -13,6 +13,7 @@ import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReview
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
 
 class UserRatingReviewScreen extends StatefulWidget {
   @override
@@ -23,29 +24,34 @@ class _UserRatingReviewScreenState extends State<UserRatingReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
-          centerTitle: true,
-          elevation: 0.0,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-              padding:
-                  EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.black,
-              ),
-              onPressed: () => Navigator.pop(context)),
-          title: Text(
-            '評価とレビュー',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
+        centerTitle: true,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            padding:
+                EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0, right: 0.0),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context)),
+        title: Text(
+          '評価とレビュー',
+          style: TextStyle(
+              color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        body: InitialUserReviewScreen());
+      ),
+      body: BlocProvider(
+        create: (context) => UserReviewBloc(
+            getUserReviewRepository: GetUserReviewRepositoryImpl()),
+        child: Container(
+          child: InitialUserReviewScreen(),
+        ),
+      ),
+    );
   }
 }
 
@@ -86,7 +92,7 @@ class _InitialUserReviewScreenState extends State<InitialUserReviewScreen> {
             builder: (context, state) {
               if (state is GetUserReviewLoadingState) {
                 print('Loading state');
-                return LoadProviderReviewPage();
+                return LoadUserReviewPage();
               } else if (state is GetUserReviewErrorState) {
                 print('Loader widget');
                 return LoadInitialPage();
@@ -110,22 +116,24 @@ class _InitialUserReviewScreenState extends State<InitialUserReviewScreen> {
   }
 }
 
-class LoadProviderReviewPage extends StatefulWidget {
+class LoadUserReviewPage extends StatefulWidget {
   @override
-  _LoadProviderReviewPageState createState() => _LoadProviderReviewPageState();
+  _LoadUserReviewPageState createState() => _LoadUserReviewPageState();
 }
 
-class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
+class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
   UserReviewBloc userReviewBloc;
   List<UserList> userReviewList = [];
   bool isLoading = false;
   var _pageNumber = 1;
-  var _pageSize = 1;
+  var _pageSize = 10;
+  int _totalReviews = 0;
 
   @override
   void initState() {
     super.initState();
     userReviewBloc = BlocProvider.of<UserReviewBloc>(context);
+    getUserReviewList();
   }
 
   @override
@@ -140,6 +148,19 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
         themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
     Future.delayed(Duration(seconds: 5), () {
       Loader.hide();
+    });
+  }
+
+  getUserReviewList() {
+    var providerListApiProvider =
+        ServiceProviderApi.getUserReviewById(_pageNumber, _pageSize);
+    providerListApiProvider.then((value) {
+      if (this.mounted) {
+        setState(() {
+          userReviewList = value.userData.userList;
+          _totalReviews = value.userData.totalElements;
+        });
+      }
     });
   }
 
@@ -167,7 +188,7 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                '(152 レビュー)',
+                                '($_totalReviews レビュー)',
                                 style: TextStyle(
                                     color: Color.fromRGBO(153, 153, 153, 1),
                                     fontSize: 12.0,

@@ -27,13 +27,13 @@ class HealingMatchConstants {
   static const String CITY_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/cities' + '/getCitieByPrefectureId';
   static const String ESTHETIC_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/esthetic/getAllEsthetic';
+      ON_PREMISE_USER_BASE_URL + '/mstMassageSubCategory/getAllMstEsthetic';
   static const String RELAXATION_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/relaxation/getAllRelaxation';
+      ON_PREMISE_USER_BASE_URL + '/mstMassageSubCategory/getAllMstRelaxation';
   static const String TREATMENT_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/osteopathic/getAllOsteopathic';
+      ON_PREMISE_USER_BASE_URL + '/mstMassageSubCategory/getAllMstOrteopathic';
   static const String FITNESS_PROVIDER_URL =
-      ON_PREMISE_USER_BASE_URL + '/fitness/getAllFitness';
+      ON_PREMISE_USER_BASE_URL + '/mstMassageSubCategory/getAllMstFitness';
   static const String REGISTER_PROVIDER_BANNER_UPLOAD_URL =
       ON_PREMISE_USER_BASE_URL + '/user/bannerUpload';
   static const String REGISTER_PROVIDER_GET_BANK_LIST_URL =
@@ -85,7 +85,7 @@ class HealingMatchConstants {
 
   //update Therapist Service Type
   static const String THERAPIST_UPDATE_SERVICE_TYPE =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therpistUpdateServiceTypebyId';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therpistUpdateAndDeleteServiceTypebyId';
 
   //delet Therapist Service Type
   static const String THERAPIST_DELETE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +

@@ -13,6 +13,7 @@ import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndRevie
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override
@@ -44,7 +45,13 @@ class _ProviderSelfReviewScreenState extends State<ProviderSelfReviewScreen> {
               color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
       ),
-      body: InitialProviderReviewViewScreen(),
+      body: BlocProvider(
+        create: (context) => TherapistReviewBloc(
+            getTherapistReviewRepository: GetTherapistReviewRepositoryImpl()),
+        child: Container(
+          child: InitialProviderReviewViewScreen(),
+        ),
+      ),
     );
   }
 }
@@ -88,7 +95,7 @@ class _InitialProviderReviewViewScreenState
               if (state is GetTherapistReviewLoadingState) {
                 print('Loading state');
                 return LoadProviderReviewPage();
-              } else if (state is GetTherapistReviewErrorState) {
+              } else if (state is GetTherapistReviewLoaderState) {
                 print('Loader widget');
                 return LoadInitialPage();
               } else if (state is GetTherapistReviewLoadedState) {
@@ -121,12 +128,14 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
   List<UserList> therapistReviewList = [];
   bool isLoading = false;
   var _pageNumber = 1;
-  var _pageSize = 1;
+  var _pageSize = 10;
+  int _totalReviews = 0;
 
   @override
   void initState() {
     super.initState();
     therapistReviewBloc = BlocProvider.of<TherapistReviewBloc>(context);
+    getReviewList();
   }
 
   @override
@@ -141,6 +150,19 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
         themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
     Future.delayed(Duration(seconds: 5), () {
       Loader.hide();
+    });
+  }
+
+  getReviewList() {
+    var providerListApiProvider =
+        ServiceProviderApi.getTherapistReviewById(_pageNumber, _pageSize);
+    providerListApiProvider.then((value) {
+      if (this.mounted) {
+        setState(() {
+          therapistReviewList = value.userData.userList;
+          _totalReviews = value.userData.totalElements;
+        });
+      }
     });
   }
 
@@ -168,7 +190,7 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                '(152 レビュー)',
+                                '($_totalReviews レビュー)',
                                 style: TextStyle(
                                     color: Color.fromRGBO(153, 153, 153, 1),
                                     fontSize: 12.0,

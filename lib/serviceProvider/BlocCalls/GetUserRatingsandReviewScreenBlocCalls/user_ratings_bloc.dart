@@ -16,7 +16,7 @@ class UserReviewBloc extends Bloc<UserReviewEvent, UserReviewState> {
   @override
   Stream<UserReviewState> mapEventToState(UserReviewEvent event) async* {
     if (event is FetchUserReviewEvent) {
-      yield GetUserReviewLoadingState();
+      yield GetUserReviewLoaderState();
       try {
         List<UserList> getUsersRatings =
             await getUserReviewRepository.getUserReviewById(event.accessToken,

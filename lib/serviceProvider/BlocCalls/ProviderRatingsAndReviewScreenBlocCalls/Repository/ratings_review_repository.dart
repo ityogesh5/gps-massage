@@ -16,9 +16,13 @@ class GetTherapistReviewRepositoryImpl implements GetTherapistReviewRepository {
   String accessToken;
 
   @override
-  Future<List<UserList>> getTherapistReviewById(String accessToken,
-      int therapistId, int pageNumber, int pageSize) async {
+  int therapistId;
+
+  @override
+  Future<List<UserList>> getTherapistReviewById(
+      String accessToken, int therapistId, int pageNumber, int pageSize) async {
     try {
+      print("Api hit");
       final url =
           'http://106.51.49.160:9094/api/mobileReview/userReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
@@ -30,8 +34,7 @@ class GetTherapistReviewRepositoryImpl implements GetTherapistReviewRepository {
           body: json.encode({
             "therapistId": therapistId,
           }));
-      print(
-          'Therapist repo token : $accessToken : Tid  : $therapistId');
+      print('Therapist repo token : $accessToken : Tid  : $therapistId');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         List<UserList> therapistUsers =
@@ -48,7 +51,4 @@ class GetTherapistReviewRepositoryImpl implements GetTherapistReviewRepository {
       print('Exception : ${e.toString()}');
     }
   }
-
-  @override
-  int therapistId;
 }

@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-
+import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -298,6 +298,32 @@ class NumberPicker extends StatelessWidget {
     } */
   }
 
+  String getJaDayName(String day) {
+    switch (day) {
+      case 'Monday':
+        return '月';
+        break;
+      case 'Tuesday':
+        return '火';
+        break;
+      case 'Wednesday':
+        return '水';
+        break;
+      case 'Thursday':
+        return '木';
+        break;
+      case 'Friday':
+        return '金';
+        break;
+      case 'Saturday':
+        return '土';
+        break;
+      case 'Sunday':
+        return '日';
+        break;
+    }
+  }
+
   Widget _monthListView(ThemeData themeData) {
     var map = Map();
 
@@ -342,6 +368,9 @@ class NumberPicker extends StatelessWidget {
                 itemCount: listItemCount,
                 cacheExtent: _calculateCacheExtent(listItemCount),
                 itemBuilder: (BuildContext context, int index) {
+                  String dayName = DateFormat('EEEE').format(
+                      DateTime(selectedYear, selectedMonth, selectedIntValue));
+                  String jaName = getJaDayName(dayName);
                   final int value = _intValueFromIndex(index);
                   final DateTime dateval =
                       DateTime(selectedYear, selectedMonth, value);
@@ -376,7 +405,7 @@ class NumberPicker extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(bottom: 4.0),
                                       child: Center(
-                                        child: Text("月",
+                                        child: Text("$jaName",
                                             style: TextStyle(
                                                 color: enabled
                                                     ? Colors.black

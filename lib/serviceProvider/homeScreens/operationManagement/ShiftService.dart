@@ -1893,6 +1893,12 @@ class _ShiftServiceState extends State<ShiftService> {
       'fitnessList': json.encode(
         fitnessServicePriceModel,
       ),
+      'deleteEstheticList': json.encode(deletedEstheticList),
+      'deleteRelaxationList': json.encode(deletedRelaxationList),
+      'deleteOrteopathicList': json.encode(deletedTreatmentList),
+      'deleteFitnessList': json.encode(
+        deletedFitnessList,
+      ),
     });
     request.headers.addAll(headers);
     try {
@@ -2076,14 +2082,13 @@ class _ShiftServiceState extends State<ShiftService> {
       int indexPos,
       String val,
       int mindex) {
-   /*  selectedDropdownValues.remove(val.toLowerCase());
-    servicePriceModel.removeAt(indexPos);
+    selectedDropdownValues.remove(val.toLowerCase());
     setState(() {
       if (mindex == 0) {
         try {
-          deletedEstheticList
-              .add(HealingMatchConstants.userData.estheticLists[indexPos]);
-          deleteUnSelectedValues();
+          deletedEstheticList.add(servicePriceModel[indexPos]);
+          servicePriceModel.removeAt(indexPos);
+          //   deleteUnSelectedValues();
         } catch (e) {}
         selectedEstheticDropdownValues.clear();
         estheticServicePriceModel.clear();
@@ -2091,9 +2096,9 @@ class _ShiftServiceState extends State<ShiftService> {
         estheticServicePriceModel.addAll(servicePriceModel);
       } else if (mindex == 1) {
         try {
-          deletedRelaxationList
-              .add(HealingMatchConstants.userData.relaxationLists[indexPos]);
-          deleteUnSelectedValues();
+          deletedRelaxationList.add(servicePriceModel[indexPos]);
+          servicePriceModel.removeAt(indexPos);
+          //    deleteUnSelectedValues();
         } catch (e) {}
         selectedRelaxationDropdownValues.clear();
         relaxationServicePriceModel.clear();
@@ -2101,9 +2106,9 @@ class _ShiftServiceState extends State<ShiftService> {
         relaxationServicePriceModel.addAll(servicePriceModel);
       } else if (mindex == 2) {
         try {
-          deletedTreatmentList
-              .add(HealingMatchConstants.userData.orteopathicLists[indexPos]);
-          deleteUnSelectedValues();
+          deletedTreatmentList.add(servicePriceModel[indexPos]);
+          servicePriceModel.removeAt(indexPos);
+          //  deleteUnSelectedValues();
         } catch (e) {}
         selectedTreatmentDropdownValues.clear();
         treatmentServicePriceModel.clear();
@@ -2111,15 +2116,15 @@ class _ShiftServiceState extends State<ShiftService> {
         treatmentServicePriceModel.addAll(servicePriceModel);
       } else if (mindex == 3) {
         try {
-          deletedFitnessList
-              .add(HealingMatchConstants.userData.fitnessLists[indexPos]);
-          deleteUnSelectedValues();
+          deletedFitnessList.add(servicePriceModel[indexPos]);
+          servicePriceModel.removeAt(indexPos);
+          //  deleteUnSelectedValues();
         } catch (e) {}
         selectedFitnessDropdownValues.clear();
         fitnessServicePriceModel.clear();
         selectedFitnessDropdownValues.addAll(selectedDropdownValues);
         fitnessServicePriceModel.addAll(servicePriceModel);
       }
-    }); */
+    });
   }
 }
