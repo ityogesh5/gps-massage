@@ -27,8 +27,6 @@ List<String> _options = [
   'リラクゼーション'
 ];
 double ratingsValue = 4.0;
-int _massageValue = 0;
-int _value;
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
   @override
@@ -38,6 +36,8 @@ class BookingDetailsCompletedScreenOne extends StatefulWidget {
 
 class _BookingDetailsCompletedScreenOneState
     extends State<BookingDetailsCompletedScreenOne> {
+  int _massageValue = 0;
+  int _value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2647,7 +2647,7 @@ class _BookingDetailsCompletedScreenOneState
                               ),
                             ),
                             Text(
-                              'マダニティ',
+                              'マタニティ',
                               style: TextStyle(
                                 color: _value == 3
                                     ? Color.fromRGBO(0, 0, 0, 1)
@@ -3226,8 +3226,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           right: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
+            children: HealingMatchConstants.userBannerImages.map((url) {
+              int index = HealingMatchConstants.userBannerImages.indexOf(url);
               return Expanded(
                 child: Container(
                   width: 45.0,
@@ -3250,7 +3250,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   }
 }
 
-final List<Widget> imageSliders = imgList
+final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
     .map((item) => Container(
           child: Container(
             margin: EdgeInsets.all(5.0),

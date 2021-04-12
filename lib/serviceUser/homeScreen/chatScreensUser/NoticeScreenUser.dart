@@ -146,43 +146,6 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: [
-                /* Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[400],
-                          offset: Offset(2.0, 2.0),
-                          blurRadius: 8.0,
-                        )
-                      ]),
-                      child: TextFormField(
-                        autofocus: false,
-                        textInputAction: TextInputAction.search,
-                        decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            hintText: 'キーワードで検索',
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.search_rounded,
-                                  color: Colors.grey, size: 30),
-                              onPressed: () {},
-                            ),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.red, width: 2.0),
-                              borderRadius: BorderRadius.circular(10),
-                            )),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                  ],
-                ),*/
                 Container(
                   child: new ListView.builder(
                       shrinkWrap: true,
@@ -198,7 +161,7 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                           splashColor: Colors.lime,
                           child: Card(
                             elevation: 0.0,
-                            color: Color.fromRGBO(255, 255, 255, 1),
+                            color: Color.fromRGBO(251, 251, 251, 1),
                             semanticContainer: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -213,6 +176,9 @@ class _NoticeScreenUserState extends State<NoticeScreenUser>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      SizedBox(
+                                        width: 2,
+                                      ),
                                       new Container(
                                           width: 60.0,
                                           height: 60.0,

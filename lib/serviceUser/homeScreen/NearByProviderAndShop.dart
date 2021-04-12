@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
@@ -17,6 +18,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 List<UserList> therapistListByType = [];
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
@@ -139,14 +141,27 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        body: Container(
-          child: Center(
-            child:
-                SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
-          ),
-        ));
+    return Shimmer(
+      duration: Duration(seconds: 1),
+      //Default value
+      interval: Duration(seconds: 2),
+      //Default value: Duration(seconds: 0)
+      color: Colors.grey[300],
+      //Default value
+      enabled: true,
+      //Default value
+      direction: ShimmerDirection.fromLeftToRight(),
+      child: Scaffold(
+          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+          body: Container(
+            color: Colors.white,
+            child: Center(
+              //SpinKitSpinningCircle(color: Color.fromRGBO(200, 217, 33, 1)),
+              child: SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                  width: 150, height: 150),
+            ),
+          )),
+    );
   }
 }
 
@@ -312,7 +327,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               isLoading: isLoading,
               onEndOfPage: () => _getMoreData(),
               child: CustomScrollView(
-                shrinkWrap: true,
+                //shrinkWrap: true,
                 slivers: <Widget>[
                   // Add the app bar to the CustomScrollView.
                   SliverAppBar(
@@ -322,17 +337,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     // Allows the user to reveal the app bar if they begin scrolling
                     // back up the list of items.
                     floating: true,
-                    flexibleSpace: Container(
-                      height: MediaQuery.of(context).size.height * 0.082,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(30.0))),
-                      child: Center(child: MassageTypeChips()),
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.082,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        child: Center(child: MassageTypeChips()),
+                      ),
                     ),
                     // Display a placeholder widget to visualize the shrinking size.
                     // Make the initial height of the SliverAppBar larger than normal.
@@ -408,8 +425,18 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   .lightGreenAccent),
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Image.asset(
-                                                              'assets/images_gps/user.png'),
+                                                      new Container(
+                                                          width: 80.0,
+                                                          height: 80.0,
+                                                          decoration: new BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors.black12),
+                                                            shape: BoxShape.circle,
+                                                            image: new DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: new AssetImage(
+                                                                    'assets/images_gps/placeholder_image.png')),
+                                                          )),
                                                     )
                                                   : new Container(
                                                       width: 80.0,
@@ -421,9 +448,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                 Colors.black12),
                                                         shape: BoxShape.circle,
                                                         image: new DecorationImage(
-                                                            fit: BoxFit.none,
+                                                            fit: BoxFit.cover,
                                                             image: new AssetImage(
-                                                                'assets/images_gps/user.png')),
+                                                                'assets/images_gps/placeholder_image.png')),
                                                       )),
                                               SizedBox(height: 5),
                                               FittedBox(
@@ -452,16 +479,32 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               .user
                                                               .userName !=
                                                           null
-                                                      ? Text(
-                                                          '${therapistUsers[index].user.userName}',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
+                                                      ? Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            Flexible(
+                                                                child: Text(
+                                                                  '${therapistUsers[index].user.userName}',
+                                                                  maxLines: therapistUsers[
+                                                                                  index]
+                                                                              .user
+                                                                              .userName
+                                                                              .length >
+                                                                          15
+                                                                      ? 2
+                                                                      : 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      )
                                                       : Text(
                                                           '店舗名',
                                                           style: TextStyle(
@@ -649,7 +692,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                           boxDecoration,
                                                                       child:
                                                                           Text(
-                                                                        key, //Qualififcation
+                                                                        key,
+                                                                        //Qualififcation
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
@@ -707,20 +751,75 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
             )
           : Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Center(
-                      child: Text(
-                        '近くにはこのサービスができるセラピストもお店もありません。',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'NotoSansJP',
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        height: MediaQuery.of(context).size.height * 0.22,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                          border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '近くのセラピスト＆お店の情報',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+
+                                  },
+                                  child: new Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: new BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: new AssetImage(
+                                                'assets/images_gps/appIcon.png')),
+                                      )),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
                 Positioned(
                   top: 0.0,
@@ -865,17 +964,19 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     // Allows the user to reveal the app bar if they begin scrolling
                     // back up the list of items.
                     floating: true,
-                    flexibleSpace: Container(
-                      height: MediaQuery.of(context).size.height * 0.082,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.grey[300],
-                          ),
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(30.0))),
-                      child: Center(child: MassageTypeChips()),
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.grey[300],
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        child: Center(child: MassageTypeChips()),
+                      ),
                     ),
                     // Display a placeholder widget to visualize the shrinking size.
                     // Make the initial height of the SliverAppBar larger than normal.
@@ -954,8 +1055,18 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   .lightGreenAccent),
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                          Image.asset(
-                                                              'assets/images_gps/user.png'),
+                                                      new Container(
+                                                          width: 80.0,
+                                                          height: 80.0,
+                                                          decoration: new BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors.black12),
+                                                            shape: BoxShape.circle,
+                                                            image: new DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: new AssetImage(
+                                                                    'assets/images_gps/placeholder_image.png')),
+                                                          )),
                                                     )
                                                   : new Container(
                                                       width: 80.0,
@@ -967,9 +1078,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                 Colors.black12),
                                                         shape: BoxShape.circle,
                                                         image: new DecorationImage(
-                                                            fit: BoxFit.none,
+                                                            fit: BoxFit.cover,
                                                             image: new AssetImage(
-                                                                'assets/images_gps/user.png')),
+                                                                'assets/images_gps/placeholder_image.png')),
                                                       )),
                                               SizedBox(height: 5),
                                               FittedBox(
@@ -997,16 +1108,33 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                   widget.getTherapistByType[index]
                                                               .user.userName !=
                                                           null
-                                                      ? Text(
-                                                          '${widget.getTherapistByType[index].user.userName}',
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
+                                                      ? Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            Flexible(
+                                                                child: Text(
+                                                                  '${widget.getTherapistByType[index].user.userName}',
+                                                                  maxLines: widget
+                                                                              .getTherapistByType[
+                                                                                  index]
+                                                                              .user
+                                                                              .userName
+                                                                              .length >
+                                                                          15
+                                                                      ? 2
+                                                                      : 1,
+                                                                  style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      )
                                                       : Text(
                                                           '店舗名',
                                                           style: TextStyle(
@@ -1200,7 +1328,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                           boxDecoration,
                                                                       child:
                                                                           Text(
-                                                                        key, //Qualififcation
+                                                                        key,
+                                                                        //Qualififcation
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
@@ -1258,17 +1387,75 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
             )
           : Stack(
               children: [
-                Container(
-                  child: Center(
-                    child: Text(
-                      '近くにはこのサービスができるセラピストもお店もありません。',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'NotoSansJP',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        height: MediaQuery.of(context).size.height * 0.22,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                          border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '近くのセラピスト＆お店の情報',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'NotoSansJP',
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+
+                                  },
+                                  child: new Container(
+                                      width: 80.0,
+                                      height: 80.0,
+                                      decoration: new BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black12),
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: new AssetImage(
+                                                'assets/images_gps/appIcon.png')),
+                                      )),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'NotoSansJP',
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 Positioned(
                   top: 0.0,
@@ -1448,7 +1635,9 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
         selected: _selectedIndex == i,
         label: Text(_options[i],
             style: TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 1),
+              color: _selectedIndex == i
+                  ? Color.fromRGBO(251, 251, 251, 1)
+                  : Color.fromRGBO(0, 0, 0, 1),
             )),
         backgroundColor: Colors.white70,
         selectedColor: Colors.lime,
@@ -1499,7 +1688,7 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
               Container(

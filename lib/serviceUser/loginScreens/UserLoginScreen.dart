@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'file:///D:/Gps/lib/utils/redAsterisk.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -49,6 +50,7 @@ class _UserLoginState extends State<UserLogin> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
   List<Address> addressList = List<Address>();
+  var phnNum;
 
 //Regex validation for emojis in text
   RegExp regexEmojis = RegExp(
@@ -174,8 +176,12 @@ class _UserLoginState extends State<UserLogin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        NavigationRouter.switchToUserForgetPasswordScreen(
-                            context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Astricks()));
+                        /* NavigationRouter.switchToUserForgetPasswordScreen(
+                            context);*/
                         // NavigationRouter.switchToNearByProviderAndShop(context);
                       },
                       child: Text(
@@ -288,7 +294,8 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                               child: Container(
                                   width: 20.0,
-                                  height: 20,  margin: EdgeInsets.all(8.0),
+                                  height: 20,
+                                  margin: EdgeInsets.all(8.0),
                                   decoration: new BoxDecoration(
                                     border: Border.all(color: Colors.white),
                                     shape: BoxShape.circle,
@@ -350,6 +357,8 @@ class _UserLoginState extends State<UserLogin> {
 
   _loginServiceUser() async {
     var userPhoneNumber = phoneNumberController.text.toString();
+    // var editedPhone = userPhoneNumber.replaceFirst(RegExp(r'^0+'), "");
+    //print('phnNumber: ${editedPhone}');
     var password = passwordController.text.toString();
 
     // user phone number and password null check validation

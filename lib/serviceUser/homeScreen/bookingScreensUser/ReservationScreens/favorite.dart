@@ -95,6 +95,15 @@ class _FavoriteState extends State<Favorite> {
                                                   onTap: () {},
                                                   child: Container(
                                                     decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: [
+                                                            Colors.white,
+                                                            Colors.white
+                                                          ]),
                                                       shape: BoxShape.circle,
                                                       border: Border.all(
                                                         color: Colors.grey[400],
@@ -260,17 +269,18 @@ class _FavoriteState extends State<Favorite> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    ratingsValue.toString(),
+                                                    "  (${ratingsValue.toString()})",
                                                     style: TextStyle(
                                                       color: Color.fromRGBO(
                                                           153, 153, 153, 1),
-                                                      decoration: TextDecoration
-                                                          .underline,
+                                                      /* decoration: TextDecoration
+                                                          .underline,*/
                                                     ),
                                                   ),
                                                   RatingBar.builder(
                                                     initialRating: 3,
                                                     minRating: 1,
+                                                    ignoreGestures: true,
                                                     direction: Axis.horizontal,
                                                     allowHalfRating: true,
                                                     itemCount: 5,

@@ -31,7 +31,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerRegistered = false;
 
   startTime() async {
-    var _duration = new Duration(seconds: 7);
+    var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
 
@@ -50,7 +50,7 @@ class _SplashScreenPageState extends State<SplashScreen>
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
     animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 7));
+        vsync: this, duration: new Duration(seconds: 4));
     animation = new CurvedAnimation(
         parent: animationController, curve: Curves.easeInCirc);
 

@@ -47,7 +47,8 @@ class _BookingDetailsConfirmedScreenState
         children: [
           CarouselWithIndicatorDemo(),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding:
+                const EdgeInsets.only(right: 8, left: 10, top: 10, bottom: 10),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -268,7 +269,8 @@ class _BookingDetailsConfirmedScreenState
                                   fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
-                            Container(
+                            Padding(
+                              padding: const EdgeInsets.only(right: 6),
                               child: InkWell(
                                 onTap: () {
                                   NavigationRouter
@@ -881,7 +883,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -920,8 +922,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           right: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
+            children: HealingMatchConstants.userBannerImages.map((url) {
+              int index = HealingMatchConstants.userBannerImages.indexOf(url);
               return Expanded(
                 child: Container(
                   width: 45.0,
@@ -944,7 +946,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   }
 }
 
-final List<Widget> imageSliders = imgList
+final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
     .map((item) => Container(
           child: Container(
             margin: EdgeInsets.all(5.0),

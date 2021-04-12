@@ -92,6 +92,9 @@ class HealingMatchConstants {
       '/user' +
       '/therpistUpdateServiceTypeDeletebyId';
 
+  static const String FAVORITE_API =
+      ON_PREMISE_USER_BASE_URL + '/favourite/favouriteTherapistCreate';
+
   // get Users banner images from Admin
   static const String BANNER_IMAGES_URL = ON_PREMISE_USER_BASE_URL +
       '/adminBanner' +
@@ -125,7 +128,7 @@ class HealingMatchConstants {
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
   static const String userPasswordTxt =
-      "パスワードを再設定するための認証コードを\n送信しますので、ご登録の電話番号を入力の上\n「送信」ボタンをクリックしてください";
+      "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserName = '';
@@ -378,6 +381,7 @@ class HealingMatchConstants {
 
   // User Home screen
   static int serviceTypeValue = 0;
+  static List<String> userBannerImages = [];
 
   // User Profile screen
   //Uint8List profile image;
@@ -385,7 +389,7 @@ class HealingMatchConstants {
   static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
-  static String searchKeyword = 'キーワードできがす';
+  static String searchKeyword = 'キーワードでさがす';
   static String searchAreaTxt = 'さがすエリアを選んでください';
   static String searchGpsIconTxt = '現在地';
   static String searchHomeIconTxt = '自宅';
@@ -396,7 +400,7 @@ class HealingMatchConstants {
   static String searchOsthepaticTxt = '整骨・整体';
   static String searchRelaxationTxt = 'リラクゼーション';
   static String searchFitnessTxt = 'フィットネス';
-  static String searchTravelTxt = '施術のタイプを選んでください';
+  static String searchTravelTxt = '施術の場所を選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
 
   //Booking confirm screen

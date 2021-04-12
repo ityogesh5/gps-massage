@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'file:///D:/Gps/lib/utils/text_field_custom.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -310,9 +311,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                           Border.all(color: Colors.grey[200]),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
-                                        fit: BoxFit.none,
+                                        fit: BoxFit.cover,
                                         image: new AssetImage(
-                                            'assets/images_gps/user.png'),
+                                            'assets/images_gps/placeholder_image.png'),
                                       ),
                                     )),
                               ),
@@ -368,23 +369,12 @@ class _RegisterUserState extends State<RegisterUser> {
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        //enableInteractiveSelection: false,
-                        //maxLength: 20,
-                        autofocus: false,
+                      child: TextFieldCustom(
                         controller: userNameController,
+                        autofocus: false,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'お名前 *',
-                          //hintText: 'お名前 *',
-                          /*hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -393,6 +383,23 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
+                        ),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: 'お名前',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
@@ -495,14 +502,36 @@ class _RegisterUserState extends State<RegisterUser> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text(
+                          FittedBox(
+                            child: RichText(
+                              textAlign: TextAlign.start,
+                              text: new TextSpan(
+                                text: '性別 ',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: 'NotoSansJP',
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    fontWeight: FontWeight.w300),
+                                children: <TextSpan>[
+                                  new TextSpan(
+                                      text: '*',
+                                      style: new TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.red,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w300)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          /* Text(
                             '性別 *',
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Color.fromRGBO(0, 0, 0, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontWeight: FontWeight.w300),
-                          ),
+                          ),*/
                           Form(
                             key: _genderKey,
                             child: Center(
@@ -648,25 +677,15 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: containerHeight,
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        //enableInteractiveSelection: false,
-                        autofocus: false,
-                        maxLength: 10,
+                      child: TextFieldCustom(
                         controller: phoneNumberController,
-                        keyboardType: TextInputType.phone,
+                        maxLength: 11,
+                        autofocus: false,
+                        keyboardType: TextInputType.number,
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: '電話番号 *',
-                          /*hintText: '電話番号 *',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -675,8 +694,24 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
                         ),
-                        // validator: (value) => _validateEmail(value),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: '電話番号',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -684,19 +719,13 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: containerHeight,
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        //enableInteractiveSelection: false,
-                        autofocus: false,
+                      child: TextFieldCustom(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
+                        autofocus: false,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'メールアドレス*',
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -705,8 +734,24 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
                         ),
-                        // validator: (value) => _validateEmail(value),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: 'メールアドレス',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -714,30 +759,19 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: containerHeight,
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        //enableInteractiveSelection: false,
-                        autofocus: false,
-                        //maxLength: 16,
-                        obscureText: _secureText,
+                      child: TextFieldCustom(
                         controller: passwordController,
+                        obscureText: _secureText,
+                        autofocus: false,
                         decoration: new InputDecoration(
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'パスワード *',
-                          /*hintText: 'パスワード *',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
                                 ? Icons.visibility_off
                                 : Icons.visibility),
                           ),
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
+                          filled: true,
+                          fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
@@ -746,8 +780,24 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
                         ),
-                        // validator: (value) => _validateEmail(value),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: 'パスワード',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -755,20 +805,22 @@ class _RegisterUserState extends State<RegisterUser> {
                       height: containerHeight,
                       // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: TextFormField(
-                        // maxLength: 16,
-                        //enableInteractiveSelection: false,
-                        autofocus: false,
+                      child: TextFieldCustom(
                         controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
+                        autofocus: false,
                         decoration: new InputDecoration(
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
-                          labelText: 'パスワード (確認用) *',
-                          /*hintText: 'パスワード (確認用) *',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
+                          focusColor: Colors.grey[100],
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          // labelText: 'お名前',
                           suffixIcon: IconButton(
                               icon: passwordConfirmVisibility
                                   ? Icon(Icons.visibility_off)
@@ -779,20 +831,23 @@ class _RegisterUserState extends State<RegisterUser> {
                                       !passwordConfirmVisibility;
                                 });
                               }),
-                          labelStyle: TextStyle(
-                              color: Colors.grey[400],
-                              fontFamily: 'NotoSansJP',
-                              fontSize: 14),
-                          focusColor: Colors.grey[100],
-                          border: HealingMatchConstants.textFormInputBorder,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
                         ),
-                        // validator: (value) => _validateEmail(value),
+                        hintText: Text.rich(
+                          TextSpan(
+                            text: 'パスワード (確認用)',
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: '*',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 20),
+                              ),
+                            ],
+                            style: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
@@ -991,13 +1046,23 @@ class _RegisterUserState extends State<RegisterUser> {
                                   // height: MediaQuery.of(context).size.height * 0.07,
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
-                                  child: TextFormField(
+                                  child: TextFieldCustom(
                                     controller: gpsAddressController,
+                                    autofocus: false,
                                     decoration: new InputDecoration(
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
-                                      labelText: '現在地を取得する *',
+                                      focusColor: Colors.grey[100],
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      // labelText: 'お名前',
                                       suffixIcon: IconButton(
                                         icon: Icon(Icons.location_on, size: 28),
                                         onPressed: () {
@@ -1009,21 +1074,24 @@ class _RegisterUserState extends State<RegisterUser> {
                                           _getCurrentLocation();
                                         },
                                       ),
-                                      labelStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 12),
-                                      focusColor: Colors.grey[100],
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
                                     ),
-                                    style: TextStyle(color: Colors.black54),
-                                    // validator: (value) => _validateEmail(value),
+                                    hintText: Text.rich(
+                                      TextSpan(
+                                        text: '現在地を取得する',
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 20),
+                                          ),
+                                        ],
+                                        style: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 12),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1191,29 +1259,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                                           .size
                                                           .width *
                                                       0.39,
-                                                  child: TextFormField(
-                                                    //enableInteractiveSelection: false,
-                                                    autofocus: false,
+                                                  child: TextFieldCustom(
                                                     controller:
                                                         userAreaController,
+                                                    autofocus: false,
                                                     decoration:
                                                         new InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.all(4.0),
                                                       filled: true,
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
-                                                      labelText: '丁目, 番地 *',
-                                                      /*hintText: '都、県選 *',
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey[400],
-                                      ),*/
-                                                      labelStyle: TextStyle(
-                                                          color:
-                                                              Colors.grey[400],
-                                                          fontFamily:
-                                                              'NotoSansJP',
-                                                          fontSize: 14),
                                                       focusColor:
                                                           Colors.grey[100],
                                                       border: HealingMatchConstants
@@ -1227,8 +1281,28 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       enabledBorder:
                                                           HealingMatchConstants
                                                               .textFormInputBorder,
+                                                      // labelText: 'お名前',
                                                     ),
-                                                    // validator: (value) => _validateEmail(value),
+                                                    hintText: Text.rich(
+                                                      TextSpan(
+                                                        text: '丁目, 番地 ',
+                                                        children: <InlineSpan>[
+                                                          TextSpan(
+                                                            text: '*',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red,
+                                                                fontSize: 20),
+                                                          ),
+                                                        ],
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey[400],
+                                                            fontFamily:
+                                                                'NotoSansJP',
+                                                            fontSize: 14),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -1254,7 +1328,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '建物名 *',
+                                                    labelText: '建物名 ',
                                                     /*hintText: 'ビル名 *',
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
@@ -1320,7 +1394,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       filled: true,
                                                       fillColor: ColorConstants
                                                           .formFieldFillColor,
-                                                      labelText: '建物名 *',
+                                                      labelText: '建物名 ',
                                                       /*hintText: 'ビル名 *',
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
@@ -1372,7 +1446,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
-                                                    labelText: '部屋番号 *',
+                                                    labelText: '部屋番号 ',
                                                     /*hintText: '部屋番号 *',
                           hintStyle: TextStyle(
                             color: Colors.grey[400],
@@ -1439,7 +1513,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                 filled: true,
                                                 fillColor: ColorConstants
                                                     .formFieldFillColor,
-                                                labelText: '部屋番号 *',
+                                                labelText: '部屋番号 ',
                                                 /*hintText: '部屋番号 *',
                             hintStyle: TextStyle(
                               color: Colors.grey[400],
@@ -1604,9 +1678,10 @@ class _RegisterUserState extends State<RegisterUser> {
   Future<Map<String, dynamic>> _registerUserDetails() async {
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
-    var userPhoneNumber = phoneNumberController.text.toString();
-    HealingMatchConstants.serviceUserPhoneNumber =
-        phoneNumberController.text.toString();
+    var phnNum = phoneNumberController.text.toString();
+    var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
+    print('phnNumber: ${userPhoneNumber}');
+    HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
     var confirmPassword = confirmPasswordController.text.toString().trim();
 
@@ -1709,6 +1784,37 @@ class _RegisterUserState extends State<RegisterUser> {
           children: [
             Flexible(
               child: Text('有効な生年月日を選択してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
+
+    // Age 18+ validation
+
+    if (ageOfUser != 0 && ageOfUser < 18) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('18歳未満のユーザーは登録できません！',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2239,7 +2345,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     // user building name validation
-    if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
+    /*   if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
         buildingName.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2267,10 +2373,10 @@ class _RegisterUserState extends State<RegisterUser> {
         ),
       ));
       return null;
-    }
+    }*/
 
     // room number validation
-    if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
+    /* if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
         roomNumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -2298,7 +2404,7 @@ class _RegisterUserState extends State<RegisterUser> {
         ),
       ));
       return null;
-    }
+    }*/
 
     // Getting user GPS Address value
     if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
@@ -2456,7 +2562,7 @@ class _RegisterUserState extends State<RegisterUser> {
             value.setBool('isUserRegister', true);
           }
         });
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+
         NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);

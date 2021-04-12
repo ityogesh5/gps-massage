@@ -546,8 +546,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
           ),
           color: Color.fromRGBO(255, 0, 0, 1),
           onPressed: () {
-            NavigationRouter.switchToServiceUserFinalConfirmBookingScreen(
-                context);
+            NavigationRouter.switchToServiceUserBottomBarFavourite(context);
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

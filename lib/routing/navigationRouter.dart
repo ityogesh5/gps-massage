@@ -128,6 +128,13 @@ class NavigationRouter {
         (Route<dynamic> route) => false);
   }
 
+  // User bottom bar homescreen
+  static void switchToServiceUserBottomBarFavourite(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(2)),
+        (Route<dynamic> route) => false);
+  }
+
   //User NearByProviderAndShop
   static void switchToNearByProviderAndShop(BuildContext context) {
     Navigator.push(
@@ -151,9 +158,7 @@ class NavigationRouter {
   //UserSearchScreen
   static void switchToServiceUserSearchScreen(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => SearchScreenUser()));
+        context, MaterialPageRoute(builder: (context) => SearchScreenUser()));
   }
 
   //User Search Result
@@ -395,10 +400,8 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProviderCalendar()));
+            builder: (BuildContext context) => ProviderCalendar()));
   }
-
 
   // User define screen
   static void switchToUserAddAddressScreen(BuildContext context, var arg) {

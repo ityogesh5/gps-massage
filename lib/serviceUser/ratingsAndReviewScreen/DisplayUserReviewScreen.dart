@@ -45,7 +45,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
             color: Color.fromRGBO(0, 0, 0, 1),
           ),
           onPressed: () {
-            NavigationRouter.switchToServiceUserBottomBar(context);
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,
@@ -332,7 +332,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "4",
+            "therapistId": "8",
           }));
       print(response.body);
       if (response.statusCode == 200) {

@@ -46,7 +46,8 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
         children: [
           CarouselWithIndicatorDemo(),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding:
+                const EdgeInsets.only(right: 8, left: 15, top: 15, bottom: 15),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -267,20 +268,25 @@ class _ApprovalWaitingScreenState extends State<ApprovalWaitingScreen> {
                                   fontFamily: 'NotoSansJP'),
                             ),
                             Spacer(),
-                            Container(
-                              child: InkWell(
-                                onTap: () {
-                                  NavigationRouter
-                                      .switchToServiceUserDisplayReviewScreen(
-                                          context);
-                                },
-                                child: Text(
-                                  'もっとみる',
-                                  style: TextStyle(
-                                      fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 14),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 6,
+                              ),
+                              child: Container(
+                                child: InkWell(
+                                  onTap: () {
+                                    NavigationRouter
+                                        .switchToServiceUserDisplayReviewScreen(
+                                            context);
+                                  },
+                                  child: Text(
+                                    'もっとみる',
+                                    style: TextStyle(
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                        fontSize: 14),
+                                  ),
                                 ),
                               ),
                             )
@@ -919,7 +925,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -957,8 +963,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           right: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
+            children: HealingMatchConstants.userBannerImages.map((url) {
+              int index = HealingMatchConstants.userBannerImages.indexOf(url);
               return Expanded(
                 child: Container(
                   width: 42.0,
@@ -981,7 +987,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   }
 }
 
-final List<Widget> imageSliders = imgList
+final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
     .map((item) => Container(
           child: Container(
             margin: EdgeInsets.all(5.0),

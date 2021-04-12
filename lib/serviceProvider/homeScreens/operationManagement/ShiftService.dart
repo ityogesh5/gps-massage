@@ -1900,6 +1900,9 @@ class _ShiftServiceState extends State<ShiftService> {
         deletedFitnessList,
       ),
     });
+    print(json.encode(
+      fitnessServicePriceModel,
+    ));
     request.headers.addAll(headers);
     try {
       final serviceUpdateRequest = await request.send();
