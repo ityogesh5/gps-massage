@@ -368,8 +368,10 @@ class NumberPicker extends StatelessWidget {
                 itemCount: listItemCount,
                 cacheExtent: _calculateCacheExtent(listItemCount),
                 itemBuilder: (BuildContext context, int index) {
+                  //Get Current Selected Day
                   String dayName = DateFormat('EEEE').format(
                       DateTime(selectedYear, selectedMonth, selectedIntValue));
+                  //Get Japanese Day Name
                   String jaName = getJaDayName(dayName);
                   final int value = _intValueFromIndex(index);
                   final DateTime dateval =
