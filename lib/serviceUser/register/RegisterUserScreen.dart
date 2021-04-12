@@ -12,11 +12,11 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityLi
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/serviceUserRegisterResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///D:/Gps/lib/utils/text_field_custom.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
