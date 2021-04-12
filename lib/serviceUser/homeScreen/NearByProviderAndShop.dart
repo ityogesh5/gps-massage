@@ -174,13 +174,13 @@ class LoadProvidersPage extends StatefulWidget {
 
 class _LoadProvidersPageState extends State<LoadProvidersPage> {
   TherapistTypeBloc _therapistTypeBloc;
-  List<TherapistUserList> therapistUsers = [];
+  List<UserList> therapistUsers = [];
   double ratingsValue = 3.0;
   bool isLoading = false;
   var _pageNumber = 1;
   var _pageSize = 1;
   Map<String, String> certificateImages = Map<String, String>();
-  List<CertificationTherapistUsers> certificateUpload = [];
+  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -201,10 +201,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
     providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
-          therapistUsers = value.therapistData.therapistUserList;
+          therapistUsers = value.therapistData.userList;
           for (int i = 0; i < therapistUsers.length; i++) {
             certificateUpload = value
-                .therapistData.therapistUserList[i].user.certificationUploads;
+                .therapistData.userList[i].user.certificationUploads;
 
             for (int j = 0; j < certificateUpload.length; j++) {
               print('Certificate upload : ${certificateUpload[j].toJson()}');
@@ -867,7 +867,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               ServiceUserAPIProvider.getAllTherapistsByLimit(
                   _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.therapistData.therapistUserList.isEmpty) {
+            if (value.therapistData.userList.isEmpty) {
               setState(() {
                 isLoading = false;
               });
@@ -875,7 +875,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  therapistUsers.addAll(value.therapistData.therapistUserList);
+                  therapistUsers.addAll(value.therapistData.userList);
                 }
               });
             }
@@ -891,7 +891,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
 
 // Load providers by Massage type
 class LoadProvidersByType extends StatefulWidget {
-  List<UserList> getTherapistByType;
+  List<UserTypeList> getTherapistByType;
 
   LoadProvidersByType({Key key, @required this.getTherapistByType})
       : super(key: key);
@@ -910,7 +910,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
   var _pageNumberType = 1;
   var _pageSizeType = 10;
   Map<String, String> certificateImages = Map<String, String>();
-  List<CertificationUploads> certificateUpload = [];
+  List<CertificationTypeUpload> certificateUpload = [];
   var certificateUploadKeys;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -1478,7 +1478,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
     );
   }
 
-  getProvidersCertifications(List<UserList> getTherapistByType) async {
+  getProvidersCertifications(List<UserTypeList> getTherapistByType) async {
     if (this.mounted) {
       setState(() {
         for (int i = 0; i < getTherapistByType.length; i++) {

@@ -48,8 +48,8 @@ Uint8List therapistImageInBytes;
 String therapistImage = '';
 
 int _selectedIndex;
-List<UserList> therapistListByType = [];
-List<TherapistUserList> therapistUsers = [];
+List<UserTypeList> therapistListByType = [];
+List<UserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -406,11 +406,11 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
-                      /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => PaginationSample()));*/
+                      if (therapistUsers.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
                     },
                     child: Visibility(
                       visible: therapistUsers != null,
@@ -469,7 +469,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 }
 
 class HomeScreenByMassageType extends StatefulWidget {
-  List<UserList> getTherapistByType;
+  List<UserTypeList> getTherapistByType;
 
   HomeScreenByMassageType({Key key, @required this.getTherapistByType})
       : super(key: key);
@@ -582,11 +582,14 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
+                      if (widget.getTherapistByType.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
                     },
                     child: Visibility(
-                      visible: widget.getTherapistByType != null &&
-                          widget.getTherapistByType.isNotEmpty,
+                      visible: widget.getTherapistByType != null,
                       child: Text(
                         'もっと見る',
                         style: TextStyle(
@@ -968,7 +971,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 //Build therapists list view
 
 class BuildProviderListByType extends StatefulWidget {
-  List<UserList> getTherapistByType;
+  List<UserTypeList> getTherapistByType;
 
   // Create the key
 
@@ -985,7 +988,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   GlobalKey<FormState> _formKeyUsersByType;
   Map<int, String> storeTypeValues;
   Map<String, String> certificateImages = Map<String, String>();
-  List<CertificationUploads> certificateUpload = [];
+  List<CertificationTypeUpload> certificateUpload = [];
   var certificateUploadKeys;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -1492,7 +1495,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     );
   }
 
-  getCertificateValues(List<UserList> getTherapistByType) async {
+  getCertificateValues(List<UserTypeList> getTherapistByType) async {
     if (this.mounted) {
       setState(() {
         for (int i = 0; i < getTherapistByType.length; i++) {
@@ -2502,7 +2505,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // Create the key
   GlobalKey<FormState> _formKeyUsers;
-  List<CertificationTherapistUsers> certificateUpload = [];
+  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
 
   @override
@@ -2536,7 +2539,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       apiProvider.then((value) {
         if (this.mounted) {
           setState(() {
-            therapistUsers = value.therapistData.therapistUserList;
+            therapistUsers = value.therapistData.userList;
             for (int i = 0; i < therapistUsers.length; i++) {
               if (therapistUsers[i].user.storeType != null &&
                   therapistUsers[i].user.storeType != '') {
@@ -2551,8 +2554,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 };
                 print('Store type map values : $storeTypeValues');
               }
-              certificateUpload = value
-                  .therapistData.therapistUserList[i].user.certificationUploads;
+              certificateUpload =
+                  value.therapistData.userList[i].user.certificationUploads;
               for (int j = 0; j < certificateUpload.length; j++) {
                 print('Certificate upload : ${certificateUpload[j].toJson()}');
                 certificateUploadKeys = certificateUpload[j].toJson();

@@ -425,9 +425,9 @@ class NavigationRouter {
   }
 
   // Service User Edit Profile Screen
-  static void switchToServiceUserEditProfileScreen(BuildContext context) {
+  static void switchToServiceUserEditProfileScreen(BuildContext context, String userProfileImage) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UpdateServiceUserDetails()));
+        MaterialPageRoute(builder: (context) => UpdateServiceUserDetails(userProfileImage: userProfileImage)));
   }
 
   //User BookingDetailsConfirmedScreen

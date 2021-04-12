@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -25,6 +27,11 @@ List<AddUserSubAddress> otherUserAddress = new List<AddUserSubAddress>();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
+  String userProfileImage;
+
+  UpdateServiceUserDetails({Key key, @required this.userProfileImage})
+      : super(key: key);
+
   @override
   _UpdateServiceUserDetailsState createState() =>
       _UpdateServiceUserDetailsState();
@@ -269,114 +276,97 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     Stack(
                       overflow: Overflow.visible,
                       children: [
-                        HealingMatchConstants.profileImageInBytes != null
+                        _profileImage != null
                             ? InkWell(
                                 onTap: () {
                                   _showPicker(context, 0);
                                 },
-                                child: Semantics(
-                                  child: new Container(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
+                                child: Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: MemoryImage(
-                                              HealingMatchConstants
-                                                  .profileImageInBytes),
-                                        ),
-                                      )),
-                                ),
+                                          image: new FileImage(_profileImage)),
+                                    )),
                               )
-                            : _profileImage != null
-                                ? InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: Semantics(
-                                      child: new Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: widget.userProfileImage != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: widget.userProfileImage,
+                                        filterQuality: FilterQuality.high,
+                                        fadeInCurve: Curves.easeInSine,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            SpinKitDoubleBounce(
+                                                color: Colors.lightGreenAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                             border: Border.all(
                                                 color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: FileImage(
-                                                  File(_profileImage.path)),
-                                            ),
-                                          )),
-                                    ),
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: new Container(
+                                            image: DecorationImage(
+                                                image: new AssetImage(
+                                                    'assets/images_gps/placeholder_image.png'),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
                                         width: 95.0,
                                         height: 95.0,
                                         decoration: new BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.grey[200]),
+                                          border:
+                                              Border.all(color: Colors.black12),
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(
-                                            fit: BoxFit.none,
-                                            image: new AssetImage(
-                                                'assets/images_gps/user.png'),
-                                          ),
+                                              fit: BoxFit.cover,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/placeholder_image.png')),
                                         )),
-                                  ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -70.0,
-                                  top: 65,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -70.0,
-                                  top: 65,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
+                              ),
+                        Visibility(
+                          visible: true,
+                          child: Positioned(
+                            right: -70.0,
+                            top: 65,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context, 0);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.edit,
+                                      color: Colors.grey[400], size: 20.0),
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -740,7 +730,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       _myPrefecture = '';
                                       _myCity = '';
                                       _isGPSLocation = false;
-                                      _getStates();
+                                      // _getStates();
                                     }
                                     print(
                                         'Address type : ${_myAddressInputType.toString()}');
@@ -1005,7 +995,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   .width *
                                                               0.39,
                                                       child: DropDownFormField(
-                                                          hintText: _myCity,
+                                                          hintText: '市',
                                                           value: _myCity,
                                                           onSaved: (value) {
                                                             setState(() {
@@ -1031,7 +1021,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   .width *
                                                               0.39,
                                                       child: DropDownFormField(
-                                                          hintText: '市',
+                                                          hintText: '市 *',
                                                           value: _myCity,
                                                           onSaved: (value) {
                                                             setState(() {
@@ -2681,7 +2671,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
 class AddAddress extends StatefulWidget {
   final callBack;
+
   AddAddress(this.callBack);
+
   @override
   State<StatefulWidget> createState() => new _AddAddressState();
 }
