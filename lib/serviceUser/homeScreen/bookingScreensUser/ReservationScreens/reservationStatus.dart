@@ -34,7 +34,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.37,
+                // height: MediaQuery.of(context).size.height * 0.37,
+                height: 255,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -58,7 +59,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                             ),
                             child: Stack(
                               children: [
-                                Positioned(
+                                /* Positioned(
                                   top: 5,
                                   bottom: 70,
                                   child: Chip(
@@ -74,7 +75,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         fontSize: 14),
                                     backgroundColor: Colors.white,
                                   ),
-                                ),
+                                ),*/
                                 Padding(
                                   padding: const EdgeInsets.all(3.0),
                                   child: Column(
@@ -95,7 +96,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   backgroundColor: Colors.white,
                                                 ),
                                                 SizedBox(
-                                                  height: 30,
+                                                  height: 5,
                                                 ),
                                                 FittedBox(
                                                   child: Text(
@@ -565,7 +566,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.38,
+                // height: MediaQuery.of(context).size.height *
+                height: 274,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -590,7 +592,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                             ),
                             child: Stack(
                               children: [
-                                Positioned(
+                                /*  Positioned(
                                   top: 0,
                                   bottom: 70,
                                   child: Chip(
@@ -606,7 +608,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         fontSize: 14),
                                     backgroundColor: Colors.white,
                                   ),
-                                ),
+                                ),*/
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
@@ -627,7 +629,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   backgroundColor: Colors.white,
                                                 ),
                                                 SizedBox(
-                                                  height: 30,
+                                                  height: 5,
                                                 ),
                                                 FittedBox(
                                                   child: Text(
@@ -1111,7 +1113,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.39,
+                // height: MediaQuery.of(context).size.height * 0.39,
+                height: 274,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -1136,7 +1139,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                             ),
                             child: Stack(
                               children: [
-                                Positioned(
+                                /* Positioned(
                                   top: 0,
                                   bottom: 75,
                                   child: Chip(
@@ -1152,7 +1155,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         fontSize: 14),
                                     backgroundColor: Colors.white,
                                   ),
-                                ),
+                                ),*/
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
@@ -1173,7 +1176,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   backgroundColor: Colors.white,
                                                 ),
                                                 SizedBox(
-                                                  height: 30,
+                                                  height: 5,
                                                 ),
                                                 FittedBox(
                                                   child: Text('1.5km圏内',
@@ -1667,7 +1670,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.39,
+                // height: MediaQuery.of(context).size.height * 0.39,
+                height: 274,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {
@@ -2151,7 +2155,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                 height: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.35,
+                // height: MediaQuery.of(context).size.height * 0.35,
+                height: 255,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: GestureDetector(
                   onTap: () {

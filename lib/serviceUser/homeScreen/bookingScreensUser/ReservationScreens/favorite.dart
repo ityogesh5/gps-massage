@@ -37,7 +37,8 @@ class _FavoriteState extends State<Favorite> {
                       itemCount: 10,
                       itemBuilder: (context, index) {
                         return Container(
-                          height: MediaQuery.of(context).size.height * 0.30,
+                          // height: MediaQuery.of(context).size.height * 0.30,
+                          height: 190,
                           width: MediaQuery.of(context).size.width * 0.90,
                           child: new Card(
                             color: Color.fromRGBO(242, 242, 242, 1),
