@@ -2300,7 +2300,7 @@ class _BookingDetailsCompletedScreenOneState
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
                         show: _value == 3 ? true : false,
-                        tooltipDirection: TooltipDirection.up,
+                        tooltipDirection: TooltipDirection.down,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
                         borderColor: Color.fromRGBO(228, 228, 228, 1),

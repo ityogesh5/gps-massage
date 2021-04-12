@@ -344,7 +344,8 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   },
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      height: 55,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.height * 0.85,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -507,20 +508,9 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
                       height: 55,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.height * 0.85,
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          //background color of box
-                          BoxShadow(
-                            color: Colors.red,
-                            blurRadius: 25.0, // soften the shadow
-                            spreadRadius: 5.0, //extend the shadow
-                            offset: Offset(
-                              15.0, // Move to right 10  horizontally
-                              15.0, // Move to bottom 10 Vertically
-                            ),
-                          )
-                        ],
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -535,31 +525,28 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                         borderRadius: BorderRadius.circular(7.0),
                         color: Color.fromRGBO(228, 228, 228, 1),
                       ),
-                      child: Card(
-                        elevation: 2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'キーワードでさがす',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Image.asset(
-                                "assets/images_gps/search.png",
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'キーワードでさがす',
+                            style: TextStyle(
                                 color: Color.fromRGBO(225, 225, 225, 1),
-                              ),
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserSearchScreen(context);
-                              },
+                                fontSize: 14,
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            child: Image.asset(
+                              "assets/images_gps/search.png",
+                              color: Color.fromRGBO(225, 225, 225, 1),
                             ),
-                          ],
-                        ),
+                            onTap: () {
+                              NavigationRouter.switchToServiceUserSearchScreen(
+                                  context);
+                            },
+                          ),
+                        ],
                       )),
                 ),
               ),

@@ -128,6 +128,13 @@ class NavigationRouter {
         (Route<dynamic> route) => false);
   }
 
+  // User bottom bar Search
+  static void switchToServiceUserBottomBarSearch(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(1)),
+        (Route<dynamic> route) => false);
+  }
+
   // User bottom bar homescreen
   static void switchToServiceUserBottomBarFavourite(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
@@ -390,9 +397,9 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>UserRatingReviewScreen()
-               // ProviderRatingsAndReviewUser(1)
-                ));
+            builder: (BuildContext context) => UserRatingReviewScreen()
+            // ProviderRatingsAndReviewUser(1)
+            ));
   }
 
   //Provider Calendar Screen
@@ -425,9 +432,13 @@ class NavigationRouter {
   }
 
   // Service User Edit Profile Screen
-  static void switchToServiceUserEditProfileScreen(BuildContext context, String userProfileImage) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UpdateServiceUserDetails(userProfileImage: userProfileImage)));
+  static void switchToServiceUserEditProfileScreen(
+      BuildContext context, String userProfileImage) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                UpdateServiceUserDetails(userProfileImage: userProfileImage)));
   }
 
   //User BookingDetailsConfirmedScreen

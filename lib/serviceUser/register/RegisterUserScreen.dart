@@ -905,9 +905,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                             .contains('現在地を取得する')) {
                                       gpsAddressController.clear();
                                       _showCurrentLocationInput = true;
+                                      _getCurrentLocation();
                                     } else if (_myAddressInputType != null &&
                                         _myAddressInputType
                                             .contains('直接入力する')) {
+                                      gpsAddressController.clear();
                                       cityDropDownValues.clear();
                                       stateDropDownValues.clear();
                                       _myPrefecture = '';
@@ -1154,9 +1156,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                                                       (value) {
                                                                 value.setString(
                                                                     'cityID',
-                                                                    _prefId.toString());
+                                                                    _prefId
+                                                                        .toString());
 
-                                                                print('Pref id : ${_prefId.toString()}');
+                                                                print(
+                                                                    'Pref id : ${_prefId.toString()}');
                                                               });
                                                             });
                                                           },
