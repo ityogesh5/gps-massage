@@ -15,21 +15,25 @@ String providerProfileUpdateResponseModelToJson(
 class ProviderProfileUpdateResponseModel {
   ProviderProfileUpdateResponseModel({
     this.status,
+    this.accessToken,
     this.data,
   });
 
   String status;
+  String accessToken;
   Data data;
 
   factory ProviderProfileUpdateResponseModel.fromJson(
           Map<String, dynamic> json) =>
       ProviderProfileUpdateResponseModel(
         status: json["status"],
+        accessToken: json["accessToken"],
         data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
+        "accessToken": accessToken,
         "data": data.toJson(),
       };
 }
@@ -68,16 +72,14 @@ class Data {
     this.userOccupation,
     this.genderOfService,
     this.childrenMeasure,
+    this.customerId,
     this.createdAt,
     this.updatedAt,
     this.addresses,
     this.certificationUploads,
     this.bankDetails,
     this.banners,
-    this.estheticLists,
-    this.fitnessLists,
-    this.orteopathicLists,
-    this.relaxationLists,
+    this.therapistSubCategories,
   });
 
   int id;
@@ -93,8 +95,8 @@ class Data {
   String gender;
   bool isTherapist;
   bool isVerified;
-  dynamic isActive;
-  dynamic isAccepted;
+  bool isActive;
+  int isAccepted;
   dynamic rejectReason;
   dynamic updatedUser;
   dynamic uploadProfileImgUrl;
@@ -112,16 +114,14 @@ class Data {
   dynamic userOccupation;
   String genderOfService;
   String childrenMeasure;
+  dynamic customerId;
   DateTime createdAt;
   DateTime updatedAt;
   List<Address> addresses;
   List<CertificationUpload> certificationUploads;
   List<BankDetail> bankDetails;
   List<Banner> banners;
-  List<EstheticListElement> estheticLists;
-  List<EstheticListElement> fitnessLists;
-  List<EstheticListElement> orteopathicLists;
-  List<EstheticListElement> relaxationLists;
+  List<TherapistSubCategory> therapistSubCategories;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -156,6 +156,7 @@ class Data {
         userOccupation: json["userOccupation"],
         genderOfService: json["genderOfService"],
         childrenMeasure: json["childrenMeasure"],
+        customerId: json["customerId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         addresses: List<Address>.from(
@@ -167,15 +168,9 @@ class Data {
             json["bankDetails"].map((x) => BankDetail.fromJson(x))),
         banners:
             List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
-        estheticLists: List<EstheticListElement>.from(
-            json["estheticLists"].map((x) => EstheticListElement.fromJson(x))),
-        fitnessLists: List<EstheticListElement>.from(
-            json["fitnessLists"].map((x) => EstheticListElement.fromJson(x))),
-        orteopathicLists: List<EstheticListElement>.from(
-            json["orteopathicLists"]
-                .map((x) => EstheticListElement.fromJson(x))),
-        relaxationLists: List<EstheticListElement>.from(json["relaxationLists"]
-            .map((x) => EstheticListElement.fromJson(x))),
+        therapistSubCategories: List<TherapistSubCategory>.from(
+            json["therapistSubCategories"]
+                .map((x) => TherapistSubCategory.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -212,6 +207,7 @@ class Data {
         "userOccupation": userOccupation,
         "genderOfService": genderOfService,
         "childrenMeasure": childrenMeasure,
+        "customerId": customerId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
@@ -219,13 +215,8 @@ class Data {
             List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
         "bankDetails": List<dynamic>.from(bankDetails.map((x) => x.toJson())),
         "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-        "estheticLists":
-            List<dynamic>.from(estheticLists.map((x) => x.toJson())),
-        "fitnessLists": List<dynamic>.from(fitnessLists.map((x) => x.toJson())),
-        "orteopathicLists":
-            List<dynamic>.from(orteopathicLists.map((x) => x.toJson())),
-        "relaxationLists":
-            List<dynamic>.from(relaxationLists.map((x) => x.toJson())),
+        "therapistSubCategories":
+            List<dynamic>.from(therapistSubCategories.map((x) => x.toJson())),
       };
 }
 
@@ -262,13 +253,13 @@ class Address {
   String userRoomNumber;
   dynamic userPlaceForMassage;
   dynamic otherAddressType;
-  dynamic capitalAndPrefecture;
-  int capitalAndPrefectureId;
-  dynamic cityName;
+  String capitalAndPrefecture;
+  dynamic capitalAndPrefectureId;
+  String cityName;
   dynamic citiesId;
   String area;
   String buildingName;
-  int postalCode;
+  dynamic postalCode;
   double lat;
   double lon;
   dynamic userSearchRadiusDistance;
@@ -447,15 +438,15 @@ class CertificationUpload {
 
   int id;
   int userId;
-  String acupuncturist;
-  String moxibutionist;
+  dynamic acupuncturist;
+  dynamic moxibutionist;
   dynamic acupuncturistAndMoxibustion;
-  String anmaMassageShiatsushi;
+  dynamic anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
   dynamic physicalTherapist;
   dynamic acquireNationalQualifications;
-  String privateQualification1;
-  String privateQualification2;
+  dynamic privateQualification1;
+  dynamic privateQualification2;
   dynamic privateQualification3;
   dynamic privateQualification4;
   dynamic privateQualification5;
@@ -502,11 +493,12 @@ class CertificationUpload {
       };
 }
 
-class EstheticListElement {
-  EstheticListElement({
+class TherapistSubCategory {
+  TherapistSubCategory({
     this.id,
     this.userId,
-    this.estheticId,
+    this.categoryId,
+    this.subCategoryId,
     this.name,
     this.sixtyMin,
     this.nintyMin,
@@ -515,14 +507,12 @@ class EstheticListElement {
     this.oneEightyMin,
     this.createdAt,
     this.updatedAt,
-    this.fitnessId,
-    this.orteopathicId,
-    this.relaxationId,
   });
 
   int id;
   int userId;
-  int estheticId;
+  int categoryId;
+  int subCategoryId;
   String name;
   int sixtyMin;
   int nintyMin;
@@ -531,15 +521,13 @@ class EstheticListElement {
   int oneEightyMin;
   DateTime createdAt;
   DateTime updatedAt;
-  int fitnessId;
-  int orteopathicId;
-  int relaxationId;
 
-  factory EstheticListElement.fromJson(Map<String, dynamic> json) =>
-      EstheticListElement(
+  factory TherapistSubCategory.fromJson(Map<String, dynamic> json) =>
+      TherapistSubCategory(
         id: json["id"],
         userId: json["userId"],
-        estheticId: json["estheticId"] == null ? null : json["estheticId"],
+        categoryId: json["categoryId"],
+        subCategoryId: json["subCategoryId"],
         name: json["name"],
         sixtyMin: json["sixtyMin"],
         nintyMin: json["nintyMin"],
@@ -548,17 +536,13 @@ class EstheticListElement {
         oneEightyMin: json["oneEightyMin"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        fitnessId: json["fitnessId"] == null ? null : json["fitnessId"],
-        orteopathicId:
-            json["orteopathicId"] == null ? null : json["orteopathicId"],
-        relaxationId:
-            json["relaxationId"] == null ? null : json["relaxationId"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
-        "estheticId": estheticId == null ? null : estheticId,
+        "categoryId": categoryId,
+        "subCategoryId": subCategoryId,
         "name": name,
         "sixtyMin": sixtyMin,
         "nintyMin": nintyMin,
@@ -567,8 +551,5 @@ class EstheticListElement {
         "oneEightyMin": oneEightyMin,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "fitnessId": fitnessId == null ? null : fitnessId,
-        "orteopathicId": orteopathicId == null ? null : orteopathicId,
-        "relaxationId": relaxationId == null ? null : relaxationId,
       };
 }

@@ -387,11 +387,12 @@ class NavigationRouter {
 
   //Provider Provider Review Screen
   static void switchToProviderReviewScreenSent(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProviderRatingsAndReviewUser(1)));
+            builder: (BuildContext context) =>UserRatingReviewScreen()
+               // ProviderRatingsAndReviewUser(1)
+                ));
   }
 
   //Provider Calendar Screen

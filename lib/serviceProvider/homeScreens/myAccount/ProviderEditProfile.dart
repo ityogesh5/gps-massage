@@ -2927,7 +2927,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     request.headers.addAll(headers);
 
-    try {
+   /*  try { */
       final userDetailsRequest = await request.send();
       print("This is request : ${userDetailsRequest.request}");
       final response = await http.Response.fromStream(userDetailsRequest);
@@ -2950,16 +2950,16 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         print('Response error occured!');
       }
-    } on SocketException catch (_) {
+   /* }  on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
-    } catch (_) {
+    } catch (e) {
       //handle other error
-      print("Error");
+      print("Error $e");
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-    }
+    } */
   }
 
   void updateBankValues() {

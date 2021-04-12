@@ -320,7 +320,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                           );
-                        },
+                        },                      
                         dataCellBuilder: (i, j) {
                           if ((schedule.containsKey(time[i])) &&
                               schedule[time[i]] ==
