@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -76,6 +77,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
   TextEditingController _userDOBController = new TextEditingController();
+  TextEditingController _editAddressController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
@@ -1445,7 +1447,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ? Container(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 25.0, right: 8.0),
+                                  const EdgeInsets.only(left: 20.0, right: 12.0),
                               child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   scrollDirection: Axis.vertical,
@@ -1458,103 +1460,140 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,*/
                                       children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.07,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.22,
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      Color.fromRGBO(
-                                                          246, 246, 246, 1),
-                                                      Color.fromRGBO(
-                                                          246, 246, 246, 1),
-                                                    ]),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: Color.fromRGBO(
-                                                      102, 102, 102, 1),
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                color: Color.fromRGBO(
-                                                    228, 228, 228, 1),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                    "${otherUserAddress[index].addressCategory}"),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.60,
-                                              child: TextFormField(
-                                                //display the address
-                                                initialValue:
-                                                    otherUserAddress[index]
-                                                        .subAddress,
-                                                decoration: new InputDecoration(
-                                                    filled: true,
-                                                    fillColor: ColorConstants
-                                                        .formFieldFillColor,
-                                                    hintText:
-                                                        '${otherUserAddress[index]}',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey[400],
-                                                        fontSize: 14),
-                                                    focusColor:
-                                                        Colors.grey[100],
-                                                    border: HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    focusedBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    disabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    enabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    suffixIcon: IconButton(
-                                                      icon: Icon(Icons.delete),
-                                                      onPressed: () {
-                                                        setState(() {
+                                        FittedBox(
+                                          child: Row(
+                                            children: [
+                                              /*SizedBox(
+                                                width: 3,
+                                              ),*/
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.86,
+                                                child: TextFormField(
+                                                  //display the address
+                                                  readOnly: true,
+                                                  autofocus: false,
+                                                  initialValue:
+                                                      otherUserAddress[index]
+                                                          .subAddress,
+                                                  decoration: new InputDecoration(
+                                                      filled: true,
+                                                      fillColor: ColorConstants
+                                                          .formFieldFillColor,
+                                                      hintText:
+                                                          '${otherUserAddress[index]}',
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey[400],
+                                                          fontSize: 14),
+                                                      focusColor:
+                                                          Colors.grey[100],
+                                                      border: HealingMatchConstants
+                                                          .textFormInputBorder,
+                                                      focusedBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                      disabledBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                      enabledBorder:
+                                                          HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                      prefixIcon: Padding(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                8.0),
+                                                        child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              gradient: LinearGradient(
+                                                                  begin: Alignment
+                                                                      .topCenter,
+                                                                  end: Alignment
+                                                                      .bottomCenter,
+                                                                  colors: [
+                                                                    Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                    Color
+                                                                        .fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                  ]),
+                                                              shape: BoxShape
+                                                                  .rectangle,
+                                                              border: Border.all(
+                                                                color: Colors
+                                                                    .grey[100],
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          6.0),
+                                                              color:
+                                                                  Color.fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      1),
+                                                            ),
+                                                            child: Text(
+                                                              '${otherUserAddress[index].addressCategory}',
+                                                              style: TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(0,
+                                                                        0, 0, 1),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                      suffixIcon: IconButton(
+                                                        icon: Icon(
+                                                            Icons
+                                                                .keyboard_arrow_down_sharp,
+                                                            size: 30,
+                                                            color: Colors.black),
+                                                        onPressed: () {
                                                           //Delete Value at index
-                                                          otherUserAddress
-                                                              .removeAt(index);
-                                                        });
-                                                      },
-                                                    )),
-                                                style: TextStyle(
-                                                    color: Colors.black54),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    otherUserAddress[index]
-                                                        .subAddress = value;
-                                                  });
-                                                },
-                                                // validator: (value) => _validateEmail(value),
+                                                          /*otherUserAddress
+                                                                .removeAt(index);*/
+                                                          var position =
+                                                              otherUserAddress[
+                                                                  index];
+                                                          print(
+                                                              'Position of other address : $position');
+                                                          openAddressEditDialog(
+                                                              otherUserAddress[
+                                                                      index]
+                                                                  .subAddress,
+                                                              otherUserAddress
+                                                                  .indexOf(
+                                                                      position));
+                                                        },
+                                                      )),
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      otherUserAddress[index]
+                                                          .subAddress = value;
+                                                    });
+                                                  },
+                                                  // validator: (value) => _validateEmail(value),
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(height: 15),
+                                        SizedBox(height: 10),
                                       ],
                                     );
                                   }),
@@ -1611,6 +1650,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       "display": "２０Ｋｍ圏内",
                                       "value": "20.0",
                                     },
+                                    {
+                                      "display": "２５Ｋｍ圏内",
+                                      "value": "25.0",
+                                    },
                                   ],
                                   textField: 'display',
                                   valueField: 'value',
@@ -1653,6 +1696,75 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         ),
       ),
     );
+  }
+
+  // Edit address dialog
+  void openAddressEditDialog(String subAddress, var position) {
+    _editAddressController.text = subAddress;
+    bool isDelete = false;
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.INFO,
+      keyboardAware: true,
+      width: MediaQuery.of(context).size.width,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              '住所の編集',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Material(
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: TextFormField(
+                controller: _editAddressController,
+                //initialValue: subAddress,
+                autofocus: false,
+                minLines: 1,
+                decoration: InputDecoration(
+                  hintText: '新しい住所を入力してください。',
+                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _editAddressController.clear();
+                      isDelete = true;
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            AnimatedButton(
+                text: 'Ok',
+                pressEvent: () {
+                  if (_editAddressController.text != null &&
+                      _editAddressController.text.isNotEmpty &&
+                      isDelete == false) {
+                    otherUserAddress[position].subAddress =
+                        _editAddressController.text.toString();
+                    dialog.dissmiss();
+                    NavigationRouter.switchToServiceUserEditProfileScreen(
+                        context, widget.userProfileImage);
+                    //print('Edit address value : ${_editAddressController.text.toString()} && ${otherUserAddress[position].subAddress}');
+                  } else {
+                    dialog.dissmiss();
+                  }
+                })
+          ],
+        ),
+      ),
+    )..show();
   }
 
   // Get current address from Latitude Longitude

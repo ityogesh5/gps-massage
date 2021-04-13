@@ -36,6 +36,7 @@ class DetailPageSearchOne extends StatefulWidget {
 class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
   int _current = 0;
   int _value;
+  bool _hideToolTip = true;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +126,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               width: 15),
                         ),
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01),
                       Text(
                         'リラクゼーション',
                         style: TextStyle(
@@ -175,7 +177,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                             textAlign: TextAlign.left,
                           ),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02),
+                              width:
+                                  MediaQuery.of(context).size.width * 0.02),
                           Row(
                             children: [
                               Container(
@@ -275,7 +278,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 25,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                            itemPadding:
+                                EdgeInsets.symmetric(horizontal: 1.0),
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
                               size: 5,
@@ -832,7 +836,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     child: SimpleTooltip(
                       show: _value == 0 ? true : false,
                       tooltipDirection: TooltipDirection.right,
-                      hideOnTooltipTap: true,
+                      hideOnTooltipTap: _hideToolTip,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
                       borderRadius: 10.0,
@@ -864,7 +868,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -882,7 +887,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '60分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -923,7 +929,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -941,7 +948,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '90分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -982,7 +990,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1000,7 +1009,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '120分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1041,7 +1051,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1059,7 +1070,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '150分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1100,7 +1112,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1118,7 +1131,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '180分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1228,7 +1242,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1246,7 +1261,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '60分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1287,7 +1303,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1305,7 +1322,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '90分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1346,7 +1364,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1364,7 +1383,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '120分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1405,7 +1425,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1423,7 +1444,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '150分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1464,7 +1486,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1482,7 +1505,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '180分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1591,7 +1615,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1609,7 +1634,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '60分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1650,7 +1676,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1668,7 +1695,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '90分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1709,7 +1737,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1727,7 +1756,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '120分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1768,7 +1798,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1786,7 +1817,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '150分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1827,7 +1859,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1845,7 +1878,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '180分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -1954,7 +1988,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -1972,7 +2007,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '60分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2013,7 +2049,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2031,7 +2068,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '90分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2072,7 +2110,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2090,7 +2129,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '120分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2131,7 +2171,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2149,7 +2190,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '150分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2190,7 +2232,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2208,7 +2251,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '180分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2317,7 +2361,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2335,7 +2380,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '60分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2376,7 +2422,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2394,7 +2441,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '90分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2435,7 +2483,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2453,7 +2502,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '120分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2494,7 +2544,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2512,7 +2563,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '150分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
@@ -2553,7 +2605,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Container(
                                       child: Row(
@@ -2571,7 +2624,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                           new Text(
                                             '180分',
                                             style: TextStyle(
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                    TextDecoration.none,
                                                 color: Colors.black,
                                                 fontSize: 14,
                                                 fontFamily: 'NotoSansJP',
