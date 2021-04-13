@@ -203,8 +203,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
         setState(() {
           therapistUsers = value.therapistData.userList;
           for (int i = 0; i < therapistUsers.length; i++) {
-            certificateUpload = value
-                .therapistData.userList[i].user.certificationUploads;
+            certificateUpload =
+                value.therapistData.userList[i].user.certificationUploads;
 
             for (int j = 0; j < certificateUpload.length; j++) {
               print('Certificate upload : ${certificateUpload[j].toJson()}');
@@ -338,7 +338,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     // back up the list of items.
                     floating: true,
                     flexibleSpace: Padding(
-                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.082,
                         decoration: BoxDecoration(
@@ -425,18 +425,22 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   .lightGreenAccent),
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                      new Container(
-                                                          width: 80.0,
-                                                          height: 80.0,
-                                                          decoration: new BoxDecoration(
-                                                            border: Border.all(
-                                                                color: Colors.black12),
-                                                            shape: BoxShape.circle,
-                                                            image: new DecorationImage(
-                                                                fit: BoxFit.cover,
-                                                                image: new AssetImage(
-                                                                    'assets/images_gps/placeholder_image.png')),
-                                                          )),
+                                                          new Container(
+                                                              width: 80.0,
+                                                              height: 80.0,
+                                                              decoration:
+                                                                  new BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .black12),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                image: new DecorationImage(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    image: new AssetImage(
+                                                                        'assets/images_gps/placeholder_image.png')),
+                                                              )),
                                                     )
                                                   : new Container(
                                                       width: 80.0,
@@ -480,21 +484,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               .userName !=
                                                           null
                                                       ? Expanded(
-                                                        child: Row(
-                                                          children: [
-                                                            Flexible(
+                                                          child: Row(
+                                                            children: [
+                                                              Flexible(
                                                                 child: Text(
                                                                   '${therapistUsers[index].user.userName}',
-                                                                  maxLines: therapistUsers[
-                                                                                  index]
-                                                                              .user
-                                                                              .userName
-                                                                              .length >
-                                                                          15
-                                                                      ? 2
-                                                                      : 1,
+                                                                  maxLines:
+                                                                      therapistUsers[index].user.userName.length >
+                                                                              15
+                                                                          ? 2
+                                                                          : 1,
                                                                   style: TextStyle(
-                                                                      fontSize: 14,
+                                                                      fontSize:
+                                                                          14,
                                                                       color: Colors
                                                                           .black,
                                                                       fontWeight:
@@ -502,9 +504,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                               .bold),
                                                                 ),
                                                               ),
-                                                          ],
-                                                        ),
-                                                      )
+                                                            ],
+                                                          ),
+                                                        )
                                                       : Text(
                                                           '店舗名',
                                                           style: TextStyle(
@@ -622,7 +624,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         Icon(
                                                       Icons.star,
                                                       size: 5,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          255, 217, 0, 1),
                                                     ),
                                                     onRatingUpdate: (rating) {
                                                       // print(rating);
@@ -763,7 +766,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(255, 255, 255, 1),
                           borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                          border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                          border: Border.all(
+                              color: Color.fromRGBO(217, 217, 217, 1)),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -783,15 +787,13 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                             Row(
                               children: [
                                 InkWell(
-                                  onTap: () {
-
-                                  },
+                                  onTap: () {},
                                   child: new Container(
                                       width: 80.0,
                                       height: 80.0,
                                       decoration: new BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black12),
+                                        border:
+                                            Border.all(color: Colors.black12),
                                         shape: BoxShape.circle,
                                         image: new DecorationImage(
                                             fit: BoxFit.fill,
@@ -965,7 +967,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     // back up the list of items.
                     floating: true,
                     flexibleSpace: Padding(
-                      padding: const EdgeInsets.only(left: 25.0,right: 25.0),
+                      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.08,
                         decoration: BoxDecoration(
@@ -1055,18 +1057,22 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   .lightGreenAccent),
                                                       errorWidget: (context,
                                                               url, error) =>
-                                                      new Container(
-                                                          width: 80.0,
-                                                          height: 80.0,
-                                                          decoration: new BoxDecoration(
-                                                            border: Border.all(
-                                                                color: Colors.black12),
-                                                            shape: BoxShape.circle,
-                                                            image: new DecorationImage(
-                                                                fit: BoxFit.cover,
-                                                                image: new AssetImage(
-                                                                    'assets/images_gps/placeholder_image.png')),
-                                                          )),
+                                                          new Container(
+                                                              width: 80.0,
+                                                              height: 80.0,
+                                                              decoration:
+                                                                  new BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .black12),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                image: new DecorationImage(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    image: new AssetImage(
+                                                                        'assets/images_gps/placeholder_image.png')),
+                                                              )),
                                                     )
                                                   : new Container(
                                                       width: 80.0,
@@ -1109,14 +1115,13 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                               .user.userName !=
                                                           null
                                                       ? Expanded(
-                                                        child: Row(
-                                                          children: [
-                                                            Flexible(
+                                                          child: Row(
+                                                            children: [
+                                                              Flexible(
                                                                 child: Text(
                                                                   '${widget.getTherapistByType[index].user.userName}',
                                                                   maxLines: widget
-                                                                              .getTherapistByType[
-                                                                                  index]
+                                                                              .getTherapistByType[index]
                                                                               .user
                                                                               .userName
                                                                               .length >
@@ -1124,7 +1129,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                       ? 2
                                                                       : 1,
                                                                   style: TextStyle(
-                                                                      fontSize: 14,
+                                                                      fontSize:
+                                                                          14,
                                                                       color: Colors
                                                                           .black,
                                                                       fontWeight:
@@ -1132,9 +1138,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                               .bold),
                                                                 ),
                                                               ),
-                                                          ],
-                                                        ),
-                                                      )
+                                                            ],
+                                                          ),
+                                                        )
                                                       : Text(
                                                           '店舗名',
                                                           style: TextStyle(
@@ -1258,7 +1264,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                         Icon(
                                                       Icons.star,
                                                       size: 5,
-                                                      color: Colors.black,
+                                                      color: Color.fromRGBO(
+                                                          255, 217, 0, 1),
                                                     ),
                                                     onRatingUpdate: (rating) {
                                                       // print(rating);
@@ -1399,7 +1406,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(255, 255, 255, 1),
                           borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                          border: Border.all(color: Color.fromRGBO(217, 217, 217, 1)),
+                          border: Border.all(
+                              color: Color.fromRGBO(217, 217, 217, 1)),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1419,15 +1427,13 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                             Row(
                               children: [
                                 InkWell(
-                                  onTap: () {
-
-                                  },
+                                  onTap: () {},
                                   child: new Container(
                                       width: 80.0,
                                       height: 80.0,
                                       decoration: new BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.black12),
+                                        border:
+                                            Border.all(color: Colors.black12),
                                         shape: BoxShape.circle,
                                         image: new DecorationImage(
                                             fit: BoxFit.fill,

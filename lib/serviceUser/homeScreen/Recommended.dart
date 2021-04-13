@@ -22,7 +22,7 @@ class _RecommendState extends State<Recommend> {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            // NavigationRouter.switchToServiceUserBottomBar(context);
+            NavigationRouter.switchToServiceUserBottomBar(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -230,7 +230,7 @@ class _RecommendState extends State<Recommend> {
                                       itemBuilder: (context, _) => Icon(
                                         Icons.star,
                                         size: 5,
-                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        color: Color.fromRGBO(255, 217, 0, 1),
                                       ),
                                       onRatingUpdate: (rating) {
                                         // print(rating);

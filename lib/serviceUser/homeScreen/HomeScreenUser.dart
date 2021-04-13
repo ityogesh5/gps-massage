@@ -340,7 +340,15 @@ class _LoadHomePageState extends State<LoadHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
+                    setState(() {
+                      HealingMatchConstants.isUserRegistrationSkipped != null &&
+                              HealingMatchConstants.isUserRegistrationSkipped
+                          ? NavigationRouter
+                              .switchToServiceUserSearchScreenWithOutRegister(
+                                  context)
+                          : NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                    });
                   },
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
@@ -379,8 +387,19 @@ class _LoadHomePageState extends State<LoadHomePage> {
                               color: Color.fromRGBO(225, 225, 225, 1),
                             ),
                             onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
+                              setState(() {
+                                HealingMatchConstants
+                                                .isUserRegistrationSkipped !=
+                                            null &&
+                                        HealingMatchConstants
+                                            .isUserRegistrationSkipped
+                                    ? NavigationRouter
+                                        .switchToServiceUserSearchScreenWithOutRegister(
+                                            context)
+                                    : NavigationRouter
+                                        .switchToServiceUserSearchScreen(
+                                            context);
+                              });
                             },
                           ),
                         ],
@@ -503,7 +522,15 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
+                    setState(() {
+                      HealingMatchConstants.isUserRegistrationSkipped != null &&
+                              HealingMatchConstants.isUserRegistrationSkipped
+                          ? NavigationRouter
+                              .switchToServiceUserSearchScreenWithOutRegister(
+                                  context)
+                          : NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                    });
                   },
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
@@ -542,8 +569,19 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                               color: Color.fromRGBO(225, 225, 225, 1),
                             ),
                             onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
+                              setState(() {
+                                HealingMatchConstants
+                                                .isUserRegistrationSkipped !=
+                                            null &&
+                                        HealingMatchConstants
+                                            .isUserRegistrationSkipped
+                                    ? NavigationRouter
+                                        .switchToServiceUserSearchScreenWithOutRegister(
+                                            context)
+                                    : NavigationRouter
+                                        .switchToServiceUserSearchScreen(
+                                            context);
+                              });
                             },
                           ),
                         ],
@@ -1285,8 +1323,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                               itemBuilder: (context, _) => Icon(
                                                 Icons.star,
                                                 size: 5,
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: Color.fromRGBO(
+                                                    255, 217, 0, 1),
                                               ),
                                               onRatingUpdate: (rating) {
                                                 setState(() {
@@ -1984,7 +2022,7 @@ class _ReservationListState extends State<ReservationList> {
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   size: 5,
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(255, 217, 0, 1),
                                 ),
                                 onRatingUpdate: (rating) {
                                   print(rating);
@@ -2388,7 +2426,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      color: Color.fromRGBO(255, 217, 0, 1),
                                     ),
                                     onRatingUpdate: (rating) {
                                       // print(rating);
@@ -2931,7 +2969,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     Icon(
                                                   Icons.star,
                                                   size: 5,
-                                                  color: Colors.black,
+                                                  color: Color.fromRGBO(
+                                                      255, 217, 0, 1),
                                                 ),
                                                 onRatingUpdate: (rating) {
                                                   setState(() {

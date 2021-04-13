@@ -350,7 +350,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           Icons.star,
                                                           size: 5,
                                                           color: Color.fromRGBO(
-                                                              0, 0, 0, 1),
+                                                              255, 217, 0, 1),
                                                         ),
                                                         onRatingUpdate:
                                                             (rating) {
@@ -880,7 +880,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Icons.star,
                                                         size: 5,
                                                         color: Color.fromRGBO(
-                                                            0, 0, 0, 1),
+                                                            255, 217, 0, 1),
                                                       ),
                                                       onRatingUpdate: (rating) {
                                                         // print(rating);
@@ -1425,7 +1425,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Icons.star,
                                                         size: 5,
                                                         color: Color.fromRGBO(
-                                                            0, 0, 0, 1),
+                                                            255, 217, 0, 1),
                                                       ),
                                                       onRatingUpdate: (rating) {
                                                         // print(rating);
@@ -1937,7 +1937,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Icons.star,
                                                     size: 5,
                                                     color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
+                                                        255, 217, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);
@@ -2422,7 +2422,7 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Icons.star,
                                                     size: 5,
                                                     color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
+                                                        255, 217, 0, 1),
                                                   ),
                                                   onRatingUpdate: (rating) {
                                                     // print(rating);

@@ -8,6 +8,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScre
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'HomeScreenUser.dart';
 
@@ -105,7 +106,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
               if (index == 0) {
                 selectedpage = index;
               } else if (index == 1) {
-                selectedpage = index;
+                NavigationRouter.switchToServiceUserSearchScreenWithOutRegister(
+                    context);
               } else if (index == 2) {
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               } else if (index == 3) {
