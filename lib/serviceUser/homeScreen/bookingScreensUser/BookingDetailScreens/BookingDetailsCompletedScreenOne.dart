@@ -37,7 +37,7 @@ class BookingDetailsCompletedScreenOne extends StatefulWidget {
 class _BookingDetailsCompletedScreenOneState
     extends State<BookingDetailsCompletedScreenOne> {
   int _massageValue = 0;
-  int _value;
+  var _value = '';
   int massageTipColor;
   @override
   Widget build(BuildContext context) {
@@ -922,7 +922,7 @@ class _BookingDetailsCompletedScreenOneState
                     GestureDetector(
                       onTap: () => setState(() {
                         _massageValue = 0;
-                        _value.truncate();
+                        _massageValue != null ? _value = '' : _value;
                       }),
                       child: Column(
                         children: [
@@ -964,7 +964,7 @@ class _BookingDetailsCompletedScreenOneState
                     GestureDetector(
                       onTap: () => setState(() {
                         _massageValue = 1;
-                        _value.truncate();
+                        _massageValue != null ? _value = '' : _value;
                       }),
                       //onTap: () => setState(() => _massageValue = 1),
                       child: Column(
@@ -1016,7 +1016,7 @@ class _BookingDetailsCompletedScreenOneState
                     GestureDetector(
                       onTap: () => setState(() {
                         _massageValue = 2;
-                        _value.truncate();
+                        _massageValue != null ? _value = '' : _value;
                       }),
                       // onTap: () => setState(() => _massageValue = 2),
                       child: Column(
@@ -1068,7 +1068,7 @@ class _BookingDetailsCompletedScreenOneState
                     GestureDetector(
                       onTap: () => setState(() {
                         _massageValue = 3;
-                        _value.truncate();
+                        _massageValue != null ? _value = '' : _value;
                       }),
                       // onTap: () => setState(() => _massageValue = 3),
                       child: Column(
@@ -1184,11 +1184,11 @@ class _BookingDetailsCompletedScreenOneState
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: () => setState(() => _value = 0),
+                    onTap: () => setState(() => _value = '0'),
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
-                        show: _value == 0 ? true : false,
+                        show: _value == '0' ? true : false,
                         tooltipDirection: TooltipDirection.right,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
@@ -1589,11 +1589,11 @@ class _BookingDetailsCompletedScreenOneState
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: _value == 0
+                                color: _value == '0'
                                     ? Color.fromRGBO(242, 242, 242, 1)
                                     : Color.fromRGBO(255, 255, 255, 1),
                                 border: Border.all(
-                                  color: _value == 0
+                                  color: _value == '0'
                                       ? Color.fromRGBO(102, 102, 102, 1)
                                       : Color.fromRGBO(228, 228, 228, 1),
                                 ),
@@ -1602,7 +1602,7 @@ class _BookingDetailsCompletedScreenOneState
                                 padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images_gps/Massage.svg',
-                                  color: _value == 0
+                                  color: _value == '0'
                                       ? Color.fromRGBO(0, 0, 0, 1)
                                       : Color.fromRGBO(217, 217, 217, 1),
                                 ),
@@ -1611,7 +1611,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               'マッサージ',
                               style: TextStyle(
-                                color: _value == 0
+                                color: _value == '0'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -1619,7 +1619,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               '（全身）',
                               style: TextStyle(
-                                color: _value == 0
+                                color: _value == '0'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -1633,11 +1633,11 @@ class _BookingDetailsCompletedScreenOneState
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => setState(() => _value = 1),
+                    onTap: () => setState(() => _value = '1'),
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
-                        show: _value == 1 ? true : false,
+                        show: _value.contains('1') ? true : false,
                         tooltipDirection: TooltipDirection.down,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
@@ -1965,11 +1965,11 @@ class _BookingDetailsCompletedScreenOneState
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: _value == 1
+                                color: _value.contains('1')
                                     ? Color.fromRGBO(242, 242, 242, 1)
                                     : Color.fromRGBO(255, 255, 255, 1),
                                 border: Border.all(
-                                  color: _value == 1
+                                  color: _value.contains('1')
                                       ? Color.fromRGBO(102, 102, 102, 1)
                                       : Color.fromRGBO(228, 228, 228, 1),
                                 ),
@@ -1978,7 +1978,7 @@ class _BookingDetailsCompletedScreenOneState
                                   padding: const EdgeInsets.all(10.0),
                                   child: SvgPicture.asset(
                                     'assets/images_gps/stretch.svg',
-                                    color: _value == 1
+                                    color: _value.contains('1')
                                         ? Color.fromRGBO(0, 0, 0, 1)
                                         : Color.fromRGBO(217, 217, 217, 1),
                                   )),
@@ -1986,7 +1986,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               'ストレッチ',
                               style: TextStyle(
-                                color: _value == 1
+                                color: _value.contains('1')
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -1994,7 +1994,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               '（全身）',
                               style: TextStyle(
-                                color: _value == 1
+                                color: _value.contains('1')
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -2008,11 +2008,11 @@ class _BookingDetailsCompletedScreenOneState
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => setState(() => _value = 2),
+                    onTap: () => setState(() => _value = '2'),
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
-                        show: _value == 2 ? true : false,
+                        show: _value == '2' ? true : false,
                         tooltipDirection: TooltipDirection.down,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
@@ -2340,11 +2340,11 @@ class _BookingDetailsCompletedScreenOneState
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: _value == 2
+                                color: _value == '2'
                                     ? Color.fromRGBO(242, 242, 242, 1)
                                     : Color.fromRGBO(255, 255, 255, 1),
                                 border: Border.all(
-                                  color: _value == 2
+                                  color: _value == '2'
                                       ? Color.fromRGBO(102, 102, 102, 1)
                                       : Color.fromRGBO(228, 228, 228, 1),
                                 ),
@@ -2353,7 +2353,7 @@ class _BookingDetailsCompletedScreenOneState
                                 padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images_gps/Cupping.svg',
-                                  color: _value == 2
+                                  color: _value == '2'
                                       ? Color.fromRGBO(0, 0, 0, 1)
                                       : Color.fromRGBO(217, 217, 217, 1),
                                 ),
@@ -2362,7 +2362,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               'カッピング',
                               style: TextStyle(
-                                color: _value == 2
+                                color: _value == '2'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -2370,7 +2370,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               '（全身）',
                               style: TextStyle(
-                                color: _value == 2
+                                color: _value == '2'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -2384,11 +2384,11 @@ class _BookingDetailsCompletedScreenOneState
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => setState(() => _value = 3),
+                    onTap: () => setState(() => _value = '3'),
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
-                        show: _value == 3 ? true : false,
+                        show: _value == '3' ? true : false,
                         tooltipDirection: TooltipDirection.down,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
@@ -2716,11 +2716,11 @@ class _BookingDetailsCompletedScreenOneState
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: _value == 3
+                                color: _value == '3'
                                     ? Color.fromRGBO(242, 242, 242, 1)
                                     : Color.fromRGBO(255, 255, 255, 1),
                                 border: Border.all(
-                                  color: _value == 3
+                                  color: _value == '3'
                                       ? Color.fromRGBO(102, 102, 102, 1)
                                       : Color.fromRGBO(228, 228, 228, 1),
                                 ),
@@ -2729,7 +2729,7 @@ class _BookingDetailsCompletedScreenOneState
                                 padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images_gps/Maternity.svg',
-                                  color: _value == 3
+                                  color: _value == '3'
                                       ? Color.fromRGBO(0, 0, 0, 1)
                                       : Color.fromRGBO(217, 217, 217, 1),
                                 ),
@@ -2738,7 +2738,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               'マタニティ',
                               style: TextStyle(
-                                color: _value == 3
+                                color: _value == '3'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -2746,7 +2746,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               '',
                               style: TextStyle(
-                                color: _value == 3
+                                color: _value == '3'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -2760,11 +2760,11 @@ class _BookingDetailsCompletedScreenOneState
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => setState(() => _value = 4),
+                    onTap: () => setState(() => _value = '4'),
                     child: Align(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: SimpleTooltip(
-                        show: _value == 4 ? true : false,
+                        show: _value == '4' ? true : false,
                         tooltipDirection: TooltipDirection.left,
                         hideOnTooltipTap: true,
                         borderWidth: 0.1,
@@ -3092,11 +3092,11 @@ class _BookingDetailsCompletedScreenOneState
                               width: 65,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: _value == 4
+                                color: _value == '4'
                                     ? Color.fromRGBO(242, 242, 242, 1)
                                     : Color.fromRGBO(255, 255, 255, 1),
                                 border: Border.all(
-                                  color: _value == 4
+                                  color: _value == '4'
                                       ? Color.fromRGBO(102, 102, 102, 1)
                                       : Color.fromRGBO(228, 228, 228, 1),
                                 ),
@@ -3105,7 +3105,7 @@ class _BookingDetailsCompletedScreenOneState
                                   padding: const EdgeInsets.all(10.0),
                                   child: SvgPicture.asset(
                                     'assets/images_gps/Baby.svg',
-                                    color: _value == 4
+                                    color: _value == '4'
                                         ? Color.fromRGBO(0, 0, 0, 1)
                                         : Color.fromRGBO(217, 217, 217, 1),
                                   )),
@@ -3113,7 +3113,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               'ベビーマッサ',
                               style: TextStyle(
-                                color: _value == 4
+                                color: _value == '4'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
@@ -3121,7 +3121,7 @@ class _BookingDetailsCompletedScreenOneState
                             Text(
                               '',
                               style: TextStyle(
-                                color: _value == 4
+                                color: _value == '4'
                                     ? Color.fromRGBO(0, 0, 0, 1)
                                     : Color.fromRGBO(102, 102, 102, 1),
                               ),
