@@ -24,8 +24,9 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<AddUserSubAddress> otherUserAddress = new List<AddUserSubAddress>();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
+List<AddUserSubAddress> constantUserAddressValuesList =
+    new List<AddUserSubAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
   String userProfileImage;
@@ -40,6 +41,8 @@ class UpdateServiceUserDetails extends StatefulWidget {
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   UpdateAddress addUpdateAddress;
+
+  //var constantUserAddressValuesList = new List<AddUserSubAddress>();
 
   String rUserName = '';
   String rUserID = '';
@@ -1321,7 +1324,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
                         : SizedBox(),
-                    otherUserAddress != null
+                    constantUserAddressValuesList != null
                         ? Container(
                             // height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.85,
@@ -1336,7 +1339,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   icon: Icon(Icons.add,
                                       size: 28, color: Colors.black),
                                   onPressed: () {
-                                    if (otherUserAddress.length == 3) {
+                                    if (constantUserAddressValuesList.length ==
+                                        3) {
                                       _scaffoldKey.currentState
                                           .showSnackBar(SnackBar(
                                         backgroundColor:
@@ -1443,29 +1447,23 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     ),
                     SizedBox(height: 15),
 
-                    otherUserAddress != null
+                    constantUserAddressValuesList != null
                         ? Container(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, right: 12.0),
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
                               child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount: otherUserAddress.length,
+                                  itemCount:
+                                      constantUserAddressValuesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
                                     return Column(
-                                      /*  mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,*/
                                       children: [
                                         FittedBox(
                                           child: Row(
                                             children: [
-                                              /*SizedBox(
-                                                width: 3,
-                                              ),*/
                                               Container(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -1476,114 +1474,125 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                   readOnly: true,
                                                   autofocus: false,
                                                   initialValue:
-                                                      otherUserAddress[index]
+                                                      constantUserAddressValuesList[
+                                                              index]
                                                           .subAddress,
-                                                  decoration: new InputDecoration(
-                                                      filled: true,
-                                                      fillColor: ColorConstants
-                                                          .formFieldFillColor,
-                                                      hintText:
-                                                          '${otherUserAddress[index]}',
-                                                      hintStyle: TextStyle(
-                                                          color: Colors.grey[400],
-                                                          fontSize: 14),
-                                                      focusColor:
-                                                          Colors.grey[100],
-                                                      border: HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                      focusedBorder:
-                                                          HealingMatchConstants
+                                                  decoration:
+                                                      new InputDecoration(
+                                                          filled: true,
+                                                          fillColor: ColorConstants
+                                                              .formFieldFillColor,
+                                                          hintText:
+                                                              '${constantUserAddressValuesList[index]}',
+                                                          hintStyle: TextStyle(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontSize: 14),
+                                                          focusColor:
+                                                              Colors.grey[100],
+                                                          border: HealingMatchConstants
                                                               .textFormInputBorder,
-                                                      disabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      enabledBorder:
-                                                          HealingMatchConstants
-                                                              .textFormInputBorder,
-                                                      prefixIcon: Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
-                                                        child: Container(
+                                                          focusedBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          disabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          enabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          prefixIcon: Padding(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    8.0),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              gradient: LinearGradient(
-                                                                  begin: Alignment
-                                                                      .topCenter,
-                                                                  end: Alignment
-                                                                      .bottomCenter,
-                                                                  colors: [
-                                                                    Color
-                                                                        .fromRGBO(
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            8.0),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient: LinearGradient(
+                                                                      begin: Alignment
+                                                                          .topCenter,
+                                                                      end: Alignment
+                                                                          .bottomCenter,
+                                                                      colors: [
+                                                                        Color.fromRGBO(
                                                                             255,
                                                                             255,
                                                                             255,
                                                                             1),
-                                                                    Color
-                                                                        .fromRGBO(
+                                                                        Color.fromRGBO(
                                                                             255,
                                                                             255,
                                                                             255,
                                                                             1),
-                                                                  ]),
-                                                              shape: BoxShape
-                                                                  .rectangle,
-                                                              border: Border.all(
+                                                                      ]),
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        100],
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                ),
+                                                                child: Text(
+                                                                  '${constantUserAddressValuesList[index].addressCategory}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                          suffixIcon:
+                                                              IconButton(
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down_sharp,
+                                                                size: 30,
                                                                 color: Colors
-                                                                    .grey[100],
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          6.0),
-                                                              color:
-                                                                  Color.fromRGBO(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      1),
-                                                            ),
-                                                            child: Text(
-                                                              '${otherUserAddress[index].addressCategory}',
-                                                              style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
-                                                              ),
-                                                            )),
-                                                      ),
-                                                      suffixIcon: IconButton(
-                                                        icon: Icon(
-                                                            Icons
-                                                                .keyboard_arrow_down_sharp,
-                                                            size: 30,
-                                                            color: Colors.black),
-                                                        onPressed: () {
-                                                          //Delete Value at index
-                                                          /*otherUserAddress
+                                                                    .black),
+                                                            onPressed: () {
+                                                              //Delete Value at index
+                                                              /*constantUserAddressValuesList
                                                                 .removeAt(index);*/
-                                                          var position =
-                                                              otherUserAddress[
-                                                                  index];
-                                                          print(
-                                                              'Position of other address : $position');
-                                                          openAddressEditDialog(
-                                                              otherUserAddress[
-                                                                      index]
-                                                                  .subAddress,
-                                                              otherUserAddress
-                                                                  .indexOf(
-                                                                      position));
-                                                        },
-                                                      )),
+                                                              var position =
+                                                                  constantUserAddressValuesList[
+                                                                      index];
+                                                              print(
+                                                                  'Position of other address : $position');
+                                                              openAddressEditDialog(
+                                                                  constantUserAddressValuesList[
+                                                                          index]
+                                                                      .subAddress,
+                                                                  constantUserAddressValuesList
+                                                                      .indexOf(
+                                                                          position));
+                                                            },
+                                                          )),
                                                   style: TextStyle(
                                                       color: Colors.black54),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      otherUserAddress[index]
+                                                      constantUserAddressValuesList[
+                                                              index]
                                                           .subAddress = value;
                                                     });
                                                   },
@@ -1751,12 +1760,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                   if (_editAddressController.text != null &&
                       _editAddressController.text.isNotEmpty &&
                       isDelete == false) {
-                    otherUserAddress[position].subAddress =
+                    constantUserAddressValuesList[position].subAddress =
                         _editAddressController.text.toString();
                     dialog.dissmiss();
                     NavigationRouter.switchToServiceUserEditProfileScreen(
                         context, widget.userProfileImage);
-                    //print('Edit address value : ${_editAddressController.text.toString()} && ${otherUserAddress[position].subAddress}');
+                    //print('Edit address value : ${_editAddressController.text.toString()} && ${constantUserAddressValuesList[position].subAddress}');
                   } else {
                     dialog.dissmiss();
                   }
@@ -2510,7 +2519,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('UserId: $rUserID');
 
-    print("json Converted:" + json.encode(otherUserAddress));
+    print("json Converted:" + json.encode(constantUserAddressValuesList));
     print("json Converted Address:" + json.encode(updateAddress));
 
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
@@ -2540,7 +2549,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "isTherapist": "0",
         "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
-        "subAddress": json.encode(otherUserAddress)
+        "subAddress": json.encode(constantUserAddressValuesList)
       });
     } else {
       request.headers.addAll(headers);
@@ -2556,7 +2565,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "isTherapist": "0",
         "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
-        "subAddress": json.encode(otherUserAddress)
+        "subAddress": json.encode(constantUserAddressValuesList)
       });
     }
 
@@ -2660,17 +2669,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         // convertBase64ProfileImage(userProfileImage);
 
         setState(() {
-          /* HealingMatchConstants.userEditUserName = rUserName;
-          HealingMatchConstants.userEditPhoneNumber = rUserPhoneNumber;
-          HealingMatchConstants.userEditEmailAddress = rEmailAddress;
-          HealingMatchConstants.userEditDob = rDob;
-          HealingMatchConstants.userEditUserAge = rUserAge;
-          HealingMatchConstants.userEditUserAddress = rUserAddress;
-          HealingMatchConstants.userEditBuildName = rUserBuildName;
-          HealingMatchConstants.userEditRoomNo = rUserRoomNo;
-          HealingMatchConstants.userEditArea = rUserArea;
-          HealingMatchConstants.userEditToken = raccessToken;
-          HealingMatchConstants.userEditId = rUserID;*/
           HealingMatchConstants.userEditToken = value.getString('accessToken');
           userNameController.text = rUserName;
           phoneNumberController.text = rUserPhoneNumber;
@@ -2683,16 +2681,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           otherController.text = rOtherOption;
           userAreaController.text = rUserArea;
 
-          /*userNameController.text = HealingMatchConstants.userEditUserName;
-          phoneNumberController.text =
-              HealingMatchConstants.userEditPhoneNumber;
-          emailController.text = HealingMatchConstants.userEditEmailAddress;
-          ageController.text = HealingMatchConstants.userEditUserAge;
-          _userDOBController.text = HealingMatchConstants.userEditDob;
-          buildingNameController.text = HealingMatchConstants.userEditBuildName;
-          roomNumberController.text = HealingMatchConstants.userEditRoomNo;
-          gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
-          userAreaController.text = HealingMatchConstants.userEditArea;*/
+          var addressData = value.getString('addressData');
+          var addressValues = jsonDecode(addressData) as List;
+          constantUserAddressValuesList = addressValues
+              .map((address) => AddUserSubAddress.fromJson(address))
+              .toList();
+          print(
+              'Address List data : ${constantUserAddressValuesList.length} && ${constantUserAddressValuesList.toString()}');
         });
         print(_myCategoryPlaceForMassage);
         print('Prefectute: $_myPrefecture');
@@ -2710,12 +2705,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print(e.toString());
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
-  }
-
-  Future<String> networkImageToBase64RightFront(String imageUrl) async {
-    http.Response response = await http.get(imageUrl);
-    final bytes = response?.bodyBytes;
-    return (bytes != null ? base64Encode(bytes) : null);
   }
 
   getEditUserFields() async {
@@ -3683,14 +3672,13 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
-    /*var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
-        ? otherController.text
-        : _myCategoryPlaceForMassage;*/
+    ProgressDialogBuilder.showAddAddressProgressDialog(context);
     if (_myAddedAddressInputType.isNotEmpty &&
         _myAddedAddressInputType.contains('現在地を取得する')) {
       if (addedRoomNumberController.text.isEmpty ||
           addedBuildingNameController.text.isEmpty) {
         print('Room number empty');
+        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -3723,7 +3711,7 @@ class _AddAddressState extends State<AddAddress> {
             '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
         print('GPS FINAL ADDRESS : $gpsUserAddress');
 
-        if (otherUserAddress.length <= 2) {
+        if (constantUserAddressValuesList.length <= 2) {
           setState(() {
             print('Entering if...');
             addUserAddress = AddUserSubAddress(
@@ -3747,7 +3735,7 @@ class _AddAddressState extends State<AddAddress> {
                         UpdateServiceUserDetails()));*/
           });
         } else {
-//メインの地点以外に3箇所まで地点登録ができます
+          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: ColorConstants.snackBarColor,
             duration: Duration(seconds: 3),
@@ -3790,6 +3778,7 @@ class _AddAddressState extends State<AddAddress> {
           addedUserAreaController.text.isEmpty ||
           _myAddedCity.isEmpty ||
           _myAddedPrefecture.isEmpty) {
+        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
         print('Manual address empty fields');
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
@@ -3849,7 +3838,7 @@ class _AddAddressState extends State<AddAddress> {
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
 
-        if (otherUserAddress.length <= 2) {
+        if (constantUserAddressValuesList.length <= 2) {
           String city = _myAddedCity;
           setState(() {
             addUserAddress = AddUserSubAddress(
@@ -3874,6 +3863,7 @@ class _AddAddressState extends State<AddAddress> {
                         UpdateServiceUserDetails()));*/
           });
         } else {
+          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: ColorConstants.snackBarColor,
             duration: Duration(seconds: 3),
@@ -3910,6 +3900,7 @@ class _AddAddressState extends State<AddAddress> {
         }
       }
     } else {
+      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
       print('Address Type is Empty....');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3940,11 +3931,14 @@ class _AddAddressState extends State<AddAddress> {
       return;
     }
 
-    setState(() {
-      otherUserAddress.add(addUserAddress);
-    });
     _sharedPreferences.then((value) {
-      value.setBool('isUserVerified', false);
+      setState(() {
+        constantUserAddressValuesList.add(addUserAddress);
+        value.setBool('isUserVerified', false);
+        var addressData = json.encode(constantUserAddressValuesList);
+        value.setString('addressData', addressData);
+      });
     });
+    ProgressDialogBuilder.hideAddAddressProgressDialog(context);
   }
 }
