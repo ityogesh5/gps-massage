@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class AddUserSubAddress {
   String _address;
   String _lat;
@@ -113,4 +115,29 @@ class AddUserSubAddress {
     data['area'] = this._area;
     return data;
   }
+
+  static String encode(List<AddUserSubAddress> subAddress) => json.encode(
+    subAddress
+        .map<Map<String, dynamic>>((subAddress) => AddUserSubAddress.toMap(subAddress))
+        .toList(),
+  );
+
+  static List<AddUserSubAddress> decode(String subAddress) =>
+      (json.decode(subAddress) as List<dynamic>)
+          .map<AddUserSubAddress>((item) => AddUserSubAddress.fromJson(item))
+          .toList();
+
+  static toMap(AddUserSubAddress subAddress) => {
+    'subAddress': subAddress._address,
+    'lat': subAddress._lat,
+    'lng': subAddress._lng,
+    'addressTypeSelection': subAddress._addressType,
+    'userPlaceForMassage': subAddress._addressCategory,
+    'cityName': subAddress._city,
+    'capitalAndPrefecture': subAddress._prefecture,
+    'roomNumber': subAddress._roomNumber,
+    'buildingName': subAddress._buildingName,
+    'area': subAddress._area
+  };
 }
+

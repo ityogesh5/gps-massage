@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -3939,6 +3940,7 @@ class _AddAddressState extends State<AddAddress> {
         value.setString('addressData', addressData);
       });
     });
-    // ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+
+    ProgressDialogBuilder.hideAddAddressProgressDialog(context);
   }
 }
