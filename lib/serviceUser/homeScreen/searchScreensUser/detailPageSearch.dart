@@ -291,7 +291,7 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
-                                color: Color.fromRGBO(0, 0, 0, 1),
+                                color: Color.fromRGBO(255, 217, 0, 1),
                               ),
                               onRatingUpdate: (rating) {
                                 // print(rating);

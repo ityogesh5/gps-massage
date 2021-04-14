@@ -940,6 +940,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  width: 30,
+                )
               ],
             ),
           ),

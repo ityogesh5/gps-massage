@@ -263,7 +263,7 @@ class _BookingDetailsApprovedScreenState
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
-                                color: Colors.black,
+                                color: Color.fromRGBO(255, 217, 0, 1),
                               ),
                               onRatingUpdate: (rating) {
                                 // print(rating);

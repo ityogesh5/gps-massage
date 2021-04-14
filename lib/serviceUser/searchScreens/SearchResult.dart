@@ -395,17 +395,18 @@ class _SearchResultState extends State<SearchResult> {
                                           Row(
                                             children: [
                                               Text(
-                                                ratingsValue.toString(),
+                                                "  (${ratingsValue.toString()})",
                                                 style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
                                                   color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
+                                                      153, 153, 153, 1),
+                                                  /* decoration: TextDecoration
+                                                          .underline,*/
                                                 ),
                                               ),
                                               RatingBar.builder(
                                                 initialRating: 3,
                                                 minRating: 1,
+                                                ignoreGestures: true,
                                                 direction: Axis.horizontal,
                                                 allowHalfRating: true,
                                                 itemCount: 5,

@@ -1,14 +1,14 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,15 +22,23 @@ class ViewUserProfile extends StatefulWidget {
 class _ViewUserProfileState extends State<ViewUserProfile> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
-  String userProfileImage = '';
-  String userName = '';
-  String userPhoneNumber = '';
-  String emailAddress = '';
-  String dob = '';
-  String userAge = '';
-  String userGender = '';
-  String userOccupation = '';
-  String userAddress = '';
+  String userProfileImage;
+  String userName;
+
+  String userPhoneNumber;
+
+  String emailAddress;
+
+  String dob;
+
+  String userAge;
+
+  String userGender;
+
+  String userOccupation;
+
+  String userAddress;
+
   double iconHeight = 20.0;
   double iconWidth = 20.0;
   Color iconColor = Colors.black;
@@ -86,25 +94,48 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(width: 35.0),
-                      new Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            shape: BoxShape.circle,
-                            image: HealingMatchConstants.profileImageInBytes !=
-                                        null ||
-                                    profileImageInBytes != null
-                                ? new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new MemoryImage(HealingMatchConstants
-                                        .profileImageInBytes),
-                                  )
-                                : new DecorationImage(
+                      userProfileImage != null
+                          ? CachedNetworkImage(
+                              imageUrl: userProfileImage,
+                              filterQuality: FilterQuality.high,
+                              fadeInCurve: Curves.easeInSine,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                              placeholder: (context, url) =>
+                                  SpinKitDoubleBounce(
+                                      color: Colors.lightGreenAccent),
+                              errorWidget: (context, url, error) => Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.black12),
+                                  image: DecorationImage(
+                                      image: new AssetImage(
+                                          'assets/images_gps/placeholder_image.png'),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            )
+                          : new Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black12),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
                                     fit: BoxFit.cover,
                                     image: new AssetImage(
                                         'assets/images_gps/placeholder_image.png')),
-                          )),
+                              )),
                       SizedBox(width: 10.0),
                       CircleAvatar(
                         radius: 16,
@@ -121,15 +152,15 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               onPressed: () {
                                 NavigationRouter
                                     .switchToServiceUserEditProfileScreen(
-                                        context);
+                                        context,userProfileImage);
                               }),
                         ),
                       )
                     ],
                   ),
                   SizedBox(height: 20.0),
-                  HealingMatchConstants.serviceUserName.isEmpty ||
-                          userName.isEmpty
+                  HealingMatchConstants.serviceUserName == null ||
+                          HealingMatchConstants.serviceUserName.isEmpty
                       ? new Text(
                           'お名前',
                           style: TextStyle(
@@ -160,7 +191,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               bottomLeft: Radius.circular(10))),
                       label: HealingMatchConstants
                                   .serviceUserPhoneNumber.isEmpty ||
-                              userPhoneNumber.isEmpty
+                              HealingMatchConstants.serviceUserPhoneNumber ==
+                                  null
                           ? Text(
                               "電話番号",
                               style: TextStyle(
@@ -207,7 +239,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 ),
                                 HealingMatchConstants
                                             .serviceUserEmailAddress.isEmpty ||
-                                        emailAddress.isEmpty
+                                        HealingMatchConstants
+                                                .serviceUserEmailAddress ==
+                                            null
                                     ? Text('メールアドレス',
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
@@ -231,7 +265,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   color: iconColor,
                                 ),
                                 HealingMatchConstants.serviceUserDOB.isEmpty ||
-                                        dob.isEmpty
+                                        HealingMatchConstants.serviceUserDOB ==
+                                            null
                                     ? Text('生年月日',
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
@@ -250,7 +285,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   backgroundColor: Colors.grey[200],
                                   child: HealingMatchConstants
                                               .serviceUserAge.isEmpty ||
-                                          userAge.isEmpty
+                                          HealingMatchConstants
+                                                  .serviceUserAge ==
+                                              null
                                       ? Text(
                                           '0',
                                           style: TextStyle(
@@ -284,7 +321,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 ),
                                 HealingMatchConstants
                                             .serviceUserGender.isEmpty ||
-                                        userGender.isEmpty
+                                        HealingMatchConstants
+                                                .serviceUserGender ==
+                                            null
                                     ? Text('性別',
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
@@ -309,7 +348,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 ),
                                 HealingMatchConstants
                                             .serviceUserOccupation.isEmpty ||
-                                        userOccupation.isEmpty
+                                        HealingMatchConstants
+                                                .serviceUserOccupation ==
+                                            null
                                     ? Text('職業',
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
@@ -334,7 +375,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                 ),
                                 HealingMatchConstants
                                             .serviceUserAddress.isEmpty ||
-                                        userAddress.isEmpty
+                                        HealingMatchConstants
+                                                .serviceUserAddress ==
+                                            null
                                     ? Text(
                                         '436-C鉄道地区ウィンターペットアラコナム。',
                                         style: TextStyle(
@@ -465,23 +508,17 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
     try {
       _sharedPreferences.then((value) {
         print('Getting values...SPF');
-        userProfileImage = value.getString('profileImage');
-        userName = value.getString('userName');
-        userPhoneNumber = value.getString('userPhoneNumber');
-        emailAddress = value.getString('userEmailAddress');
-        dob = value.getString('userDOB');
-        userAge = value.getString('userAge');
-        userGender = value.getString('userGender');
-        userOccupation = value.getString('userOccupation');
-        userAddress = value.getString('userAddress');
-
-        print(userAddress);
-
-        if (userProfileImage != null) {
-          // Convert string url of image to base64 format
-          convertBase64ProfileImage(userProfileImage);
-        }
         setState(() {
+          userProfileImage = value.getString('profileImage');
+          userName = value.getString('userName');
+          userPhoneNumber = value.getString('userPhoneNumber');
+          emailAddress = value.getString('userEmailAddress');
+          dob = value.getString('userDOB');
+          userAge = value.getString('userAge');
+          userGender = value.getString('userGender');
+          userOccupation = value.getString('userOccupation');
+          userAddress = value.getString('userAddress');
+
           HealingMatchConstants.serviceUserName = userName;
           HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
           HealingMatchConstants.serviceUserEmailAddress = emailAddress;
@@ -491,27 +528,13 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           HealingMatchConstants.serviceUserOccupation = userOccupation;
           HealingMatchConstants.serviceUserAddress = userAddress;
         });
+
+        print(userAddress);
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
       print(e.toString());
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
-  }
-
-  convertBase64ProfileImage(String userProfileImage) async {
-    imgBase64ProfileImage =
-        await networkImageToBase64RightFront(userProfileImage);
-    profileImageInBytes = Base64Decoder().convert(imgBase64ProfileImage);
-    setState(() {
-      HealingMatchConstants.profileImageInBytes = profileImageInBytes;
-    });
-  }
-
-  //Profile Image
-  Future<String> networkImageToBase64RightFront(String imageUrl) async {
-    http.Response response = await http.get(imageUrl);
-    final bytes = response?.bodyBytes;
-    return (bytes != null ? base64Encode(bytes) : null);
   }
 }

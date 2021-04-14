@@ -57,19 +57,20 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             SizedBox(height: 15),
             Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromRGBO(242, 242, 242, 1),
-                        Color.fromRGBO(242, 242, 242, 1),
-                      ]),
-                  shape: BoxShape.rectangle,
-                  border: Border.all(
-                    color: Color.fromRGBO(242, 242, 242, 1),
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.grey[200]),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromRGBO(242, 242, 242, 1),
+                      Color.fromRGBO(242, 242, 242, 1),
+                    ]),
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  color: Color.fromRGBO(242, 242, 242, 1),
+                ),
+                borderRadius: BorderRadius.circular(16.0),
+                color: Color.fromRGBO(242, 242, 242, 1),
+              ),
               width: MediaQuery.of(context).size.width * 0.90,
               height: MediaQuery.of(context).size.height * 0.30,
               child: Padding(
@@ -107,18 +108,33 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 5),
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 14,
-                                  child: IconButton(
-                                    // remove default padding here
-                                    padding: EdgeInsets.zero,
-                                    icon: SvgPicture.asset(
-                                        'assets/images_gps/info.svg',
-                                        height: 20,
-                                        width: 20),
-                                    color: Colors.grey,
-                                    onPressed: () {},
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [Colors.white, Colors.white]),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.asset(
+                                        "assets/images_gps/info.svg",
+                                        height: 15.0,
+                                        width: 15.0,
+                                        // key: key,
+                                        color: Colors.black,
+                                      ), /* Icon(
+                                                            Icons
+                                                                .shopping_bag_rounded,
+                                                            key: key,
+                                                            color: Colors.black ), */
+                                    ),
                                   ),
                                 ),
                               ],
@@ -189,7 +205,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     size: 5,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    color: Color.fromRGBO(255, 217, 0, 1),
                                   ),
                                   onRatingUpdate: (rating) {
                                     // print(rating);
@@ -459,7 +475,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                     fillColor: Color.fromRGBO(255, 255, 255, 1),
                     hintText: '質問、要望などメッセージがあれば入力してください。',
                     hintStyle: TextStyle(
-                      color: Color.fromRGBO(217, 217, 217, 1),
+                      color: Color.fromRGBO(153, 153, 153, 1),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -493,7 +509,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                       text: '${HealingMatchConstants.additionalDistanceCost}',
                       style: new TextStyle(
                           fontSize: 16,
-                          color: Color.fromRGBO(217, 217, 217, 1),
+                          color: Color.fromRGBO(153, 153, 153, 1),
                           fontFamily: 'NotoSansJP',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.w100)),

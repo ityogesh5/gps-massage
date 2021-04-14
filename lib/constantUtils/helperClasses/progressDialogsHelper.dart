@@ -27,6 +27,17 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
+  // Adding address
+  static void showAddAddressProgressDialog(BuildContext context) {
+    progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所の追加中...',
+        dismissAfter: Duration(seconds: 3));
+  }
+
+  static void hideAddAddressProgressDialog(BuildContext context) {
+    progressDialog.dismissProgressDialog(context);
+  }
+
   // Getting location
   static void showLocationProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
@@ -142,18 +153,6 @@ class ProgressDialogBuilder {
   }
 
   static void hideRatingsAndReviewProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
-  }
-
-  //AddAddress
-
-  static void showAddAddressUserProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
-        //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
-        dismissAfter: Duration(seconds: 5));
-  }
-
-  static void hideAddAddressUserProgressDialog(BuildContext context) {
     progressDialog.dismissProgressDialog(context);
   }
 

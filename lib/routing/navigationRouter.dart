@@ -52,6 +52,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreen
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/Recommended.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenWithoutRegister.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
 import 'package:gps_massageapp/serviceUser/loginScreens/UserChangePassword.dart';
@@ -128,6 +129,13 @@ class NavigationRouter {
         (Route<dynamic> route) => false);
   }
 
+  // User bottom bar Search
+  static void switchToServiceUserBottomBarSearch(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(1)),
+        (Route<dynamic> route) => false);
+  }
+
   // User bottom bar homescreen
   static void switchToServiceUserBottomBarFavourite(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
@@ -159,6 +167,13 @@ class NavigationRouter {
   static void switchToServiceUserSearchScreen(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SearchScreenUser()));
+  }
+
+  //UserSearchScreen without Registration
+  static void switchToServiceUserSearchScreenWithOutRegister(
+      BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SearchWithoutRegister()));
   }
 
   //User Search Result
@@ -425,9 +440,13 @@ class NavigationRouter {
   }
 
   // Service User Edit Profile Screen
-  static void switchToServiceUserEditProfileScreen(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => UpdateServiceUserDetails()));
+  static void switchToServiceUserEditProfileScreen(
+      BuildContext context, String userProfileImage) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                UpdateServiceUserDetails(userProfileImage: userProfileImage)));
   }
 
   //User BookingDetailsConfirmedScreen

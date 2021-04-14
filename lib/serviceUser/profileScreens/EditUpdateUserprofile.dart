@@ -2,8 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -21,10 +25,16 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<AddUserSubAddress> otherUserAddress = new List<AddUserSubAddress>();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
+List<AddUserSubAddress> constantUserAddressValuesList =
+    new List<AddUserSubAddress>();
 
 class UpdateServiceUserDetails extends StatefulWidget {
+  String userProfileImage;
+
+  UpdateServiceUserDetails({Key key, @required this.userProfileImage})
+      : super(key: key);
+
   @override
   _UpdateServiceUserDetailsState createState() =>
       _UpdateServiceUserDetailsState();
@@ -32,6 +42,8 @@ class UpdateServiceUserDetails extends StatefulWidget {
 
 class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   UpdateAddress addUpdateAddress;
+
+  //var constantUserAddressValuesList = new List<AddUserSubAddress>();
 
   String rUserName = '';
   String rUserID = '';
@@ -69,6 +81,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final _searchRadiusKey = new GlobalKey<FormState>();
   String _mySearchRadiusDistance = '';
   TextEditingController _userDOBController = new TextEditingController();
+  TextEditingController _editAddressController = new TextEditingController();
 
   String _selectedDOBDate = 'Tap to select date';
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
@@ -269,114 +282,97 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     Stack(
                       overflow: Overflow.visible,
                       children: [
-                        HealingMatchConstants.profileImageInBytes != null
+                        _profileImage != null
                             ? InkWell(
                                 onTap: () {
                                   _showPicker(context, 0);
                                 },
-                                child: Semantics(
-                                  child: new Container(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
+                                child: Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
                                           fit: BoxFit.cover,
-                                          image: MemoryImage(
-                                              HealingMatchConstants
-                                                  .profileImageInBytes),
-                                        ),
-                                      )),
-                                ),
+                                          image: new FileImage(_profileImage)),
+                                    )),
                               )
-                            : _profileImage != null
-                                ? InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: Semantics(
-                                      child: new Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: widget.userProfileImage != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: widget.userProfileImage,
+                                        filterQuality: FilterQuality.high,
+                                        fadeInCurve: Curves.easeInSine,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            SpinKitDoubleBounce(
+                                                color: Colors.lightGreenAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                             border: Border.all(
                                                 color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: FileImage(
-                                                  File(_profileImage.path)),
-                                            ),
-                                          )),
-                                    ),
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: new Container(
+                                            image: DecorationImage(
+                                                image: new AssetImage(
+                                                    'assets/images_gps/placeholder_image.png'),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
                                         width: 95.0,
                                         height: 95.0,
                                         decoration: new BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.grey[200]),
+                                          border:
+                                              Border.all(color: Colors.black12),
                                           shape: BoxShape.circle,
                                           image: new DecorationImage(
-                                            fit: BoxFit.none,
-                                            image: new AssetImage(
-                                                'assets/images_gps/user.png'),
-                                          ),
+                                              fit: BoxFit.cover,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/placeholder_image.png')),
                                         )),
-                                  ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -70.0,
-                                  top: 65,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -70.0,
-                                  top: 65,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
+                              ),
+                        Visibility(
+                          visible: true,
+                          child: Positioned(
+                            right: -70.0,
+                            top: 65,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context, 0);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.edit,
+                                      color: Colors.grey[400], size: 20.0),
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -740,7 +736,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       _myPrefecture = '';
                                       _myCity = '';
                                       _isGPSLocation = false;
-                                      _getStates();
+                                      // _getStates();
                                     }
                                     print(
                                         'Address type : ${_myAddressInputType.toString()}');
@@ -1005,7 +1001,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   .width *
                                                               0.39,
                                                       child: DropDownFormField(
-                                                          hintText: _myCity,
+                                                          hintText: '市',
                                                           value: _myCity,
                                                           onSaved: (value) {
                                                             setState(() {
@@ -1031,7 +1027,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                   .width *
                                                               0.39,
                                                       child: DropDownFormField(
-                                                          hintText: '市',
+                                                          hintText: '市 *',
                                                           value: _myCity,
                                                           onSaved: (value) {
                                                             setState(() {
@@ -1329,7 +1325,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     _myAddressInputType.isNotEmpty
                         ? SizedBox(height: 15)
                         : SizedBox(),
-                    otherUserAddress != null
+                    constantUserAddressValuesList != null
                         ? Container(
                             // height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.85,
@@ -1344,7 +1340,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   icon: Icon(Icons.add,
                                       size: 28, color: Colors.black),
                                   onPressed: () {
-                                    if (otherUserAddress.length == 3) {
+                                    if (constantUserAddressValuesList.length ==
+                                        3) {
                                       _scaffoldKey.currentState
                                           .showSnackBar(SnackBar(
                                         backgroundColor:
@@ -1451,132 +1448,162 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     ),
                     SizedBox(height: 15),
 
-                    otherUserAddress != null
+                    constantUserAddressValuesList != null
                         ? Container(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 25.0, right: 8.0),
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
                               child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount: otherUserAddress.length,
+                                  itemCount:
+                                      constantUserAddressValuesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
                                     return Column(
-                                      /*  mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,*/
                                       children: [
-                                        Row(
-                                          children: [
-                                            /* Container(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.07,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.22,
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      Color.fromRGBO(
-                                                          246, 246, 246, 1),
-                                                      Color.fromRGBO(
-                                                          246, 246, 246, 1),
-                                                    ]),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: Color.fromRGBO(
-                                                      102, 102, 102, 1),
+                                        FittedBox(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.86,
+                                                child: TextFormField(
+                                                  //display the address
+                                                  readOnly: true,
+                                                  autofocus: false,
+                                                  initialValue:
+                                                      constantUserAddressValuesList[
+                                                              index]
+                                                          .subAddress,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                          filled: true,
+                                                          fillColor: ColorConstants
+                                                              .formFieldFillColor,
+                                                          hintText:
+                                                              '${constantUserAddressValuesList[index]}',
+                                                          hintStyle: TextStyle(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontSize: 14),
+                                                          focusColor:
+                                                              Colors.grey[100],
+                                                          border: HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                          focusedBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          disabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          enabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          prefixIcon: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            8.0),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient: LinearGradient(
+                                                                      begin: Alignment
+                                                                          .topCenter,
+                                                                      end: Alignment
+                                                                          .bottomCenter,
+                                                                      colors: [
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                      ]),
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        100],
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                ),
+                                                                child: Text(
+                                                                  '${constantUserAddressValuesList[index].addressCategory}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                          suffixIcon:
+                                                              IconButton(
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down_sharp,
+                                                                size: 30,
+                                                                color: Colors
+                                                                    .black),
+                                                            onPressed: () {
+                                                              //Delete Value at index
+                                                              /*constantUserAddressValuesList
+                                                                .removeAt(index);*/
+                                                              var position =
+                                                                  constantUserAddressValuesList[
+                                                                      index];
+                                                              print(
+                                                                  'Position of other address : $position');
+                                                              openAddressEditDialog(
+                                                                  constantUserAddressValuesList[
+                                                                          index]
+                                                                      .subAddress,
+                                                                  constantUserAddressValuesList
+                                                                      .indexOf(
+                                                                          position));
+                                                            },
+                                                          )),
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      constantUserAddressValuesList[
+                                                              index]
+                                                          .subAddress = value;
+                                                    });
+                                                  },
+                                                  // validator: (value) => _validateEmail(value),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(7.0),
-                                                color: Color.fromRGBO(
-                                                    228, 228, 228, 1),
                                               ),
-                                              child: Center(
-                                                child: Text(
-                                                    "${otherUserAddress[index].addressCategory}"),
-                                              ),
-                                            ),*/
-                                            Chip(
-                                              padding: EdgeInsets.all(5),
-                                              labelPadding: EdgeInsets.zero,
-                                              label: Text(
-                                                  "${otherUserAddress[index].addressCategory}"),
-                                              labelStyle: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      0, 0, 0, 1),
-                                                  fontSize: 14),
-                                              backgroundColor: Color.fromRGBO(
-                                                  246, 246, 246, 1),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.60,
-                                              child: TextFormField(
-                                                //display the address
-                                                initialValue:
-                                                    otherUserAddress[index]
-                                                        .subAddress,
-                                                decoration: new InputDecoration(
-                                                    filled: true,
-                                                    fillColor: ColorConstants
-                                                        .formFieldFillColor,
-                                                    hintText:
-                                                        '${otherUserAddress[index]}',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey[400],
-                                                        fontSize: 14),
-                                                    focusColor:
-                                                        Colors.grey[100],
-                                                    border: HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    focusedBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    disabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    enabledBorder:
-                                                        HealingMatchConstants
-                                                            .textFormInputBorder,
-                                                    suffixIcon: IconButton(
-                                                      icon: Icon(Icons.delete),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          //Delete Value at index
-                                                          otherUserAddress
-                                                              .removeAt(index);
-                                                        });
-                                                      },
-                                                    )),
-                                                style: TextStyle(
-                                                    color: Colors.black54),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    otherUserAddress[index]
-                                                        .subAddress = value;
-                                                  });
-                                                },
-                                                // validator: (value) => _validateEmail(value),
-                                              ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                        SizedBox(height: 15),
+                                        SizedBox(height: 10),
                                       ],
                                     );
                                   }),
@@ -1633,6 +1660,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       "display": "２０Ｋｍ圏内",
                                       "value": "20.0",
                                     },
+                                    {
+                                      "display": "２５Ｋｍ圏内",
+                                      "value": "25.0",
+                                    },
                                   ],
                                   textField: 'display',
                                   valueField: 'value',
@@ -1675,6 +1706,75 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         ),
       ),
     );
+  }
+
+  // Edit address dialog
+  void openAddressEditDialog(String subAddress, var position) {
+    _editAddressController.text = subAddress;
+    bool isDelete = false;
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.INFO,
+      keyboardAware: true,
+      width: MediaQuery.of(context).size.width,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Text(
+              '住所の編集',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Material(
+              elevation: 0,
+              color: Colors.blueGrey.withAlpha(40),
+              child: TextFormField(
+                controller: _editAddressController,
+                //initialValue: subAddress,
+                autofocus: false,
+                minLines: 1,
+                decoration: InputDecoration(
+                  hintText: '新しい住所を入力してください。',
+                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _editAddressController.clear();
+                      isDelete = true;
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            AnimatedButton(
+                text: 'Ok',
+                pressEvent: () {
+                  if (_editAddressController.text != null &&
+                      _editAddressController.text.isNotEmpty &&
+                      isDelete == false) {
+                    constantUserAddressValuesList[position].subAddress =
+                        _editAddressController.text.toString();
+                    dialog.dissmiss();
+                    NavigationRouter.switchToServiceUserEditProfileScreen(
+                        context, widget.userProfileImage);
+                    //print('Edit address value : ${_editAddressController.text.toString()} && ${constantUserAddressValuesList[position].subAddress}');
+                  } else {
+                    dialog.dissmiss();
+                  }
+                })
+          ],
+        ),
+      ),
+    )..show();
   }
 
   // Get current address from Latitude Longitude
@@ -2420,7 +2520,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('UserId: $rUserID');
 
-    print("json Converted:" + json.encode(otherUserAddress));
+    print("json Converted:" + json.encode(constantUserAddressValuesList));
     print("json Converted Address:" + json.encode(updateAddress));
 
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
@@ -2450,7 +2550,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "isTherapist": "0",
         "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
-        "subAddress": json.encode(otherUserAddress)
+        "subAddress": json.encode(constantUserAddressValuesList)
       });
     } else {
       request.headers.addAll(headers);
@@ -2466,7 +2566,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "isTherapist": "0",
         "userSearchRadiusDistance": _mySearchRadiusDistance,
         "address": json.encode(updateAddress),
-        "subAddress": json.encode(otherUserAddress)
+        "subAddress": json.encode(constantUserAddressValuesList)
       });
     }
 
@@ -2570,17 +2670,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         // convertBase64ProfileImage(userProfileImage);
 
         setState(() {
-          /* HealingMatchConstants.userEditUserName = rUserName;
-          HealingMatchConstants.userEditPhoneNumber = rUserPhoneNumber;
-          HealingMatchConstants.userEditEmailAddress = rEmailAddress;
-          HealingMatchConstants.userEditDob = rDob;
-          HealingMatchConstants.userEditUserAge = rUserAge;
-          HealingMatchConstants.userEditUserAddress = rUserAddress;
-          HealingMatchConstants.userEditBuildName = rUserBuildName;
-          HealingMatchConstants.userEditRoomNo = rUserRoomNo;
-          HealingMatchConstants.userEditArea = rUserArea;
-          HealingMatchConstants.userEditToken = raccessToken;
-          HealingMatchConstants.userEditId = rUserID;*/
           HealingMatchConstants.userEditToken = value.getString('accessToken');
           userNameController.text = rUserName;
           phoneNumberController.text = rUserPhoneNumber;
@@ -2593,16 +2682,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           otherController.text = rOtherOption;
           userAreaController.text = rUserArea;
 
-          /*userNameController.text = HealingMatchConstants.userEditUserName;
-          phoneNumberController.text =
-              HealingMatchConstants.userEditPhoneNumber;
-          emailController.text = HealingMatchConstants.userEditEmailAddress;
-          ageController.text = HealingMatchConstants.userEditUserAge;
-          _userDOBController.text = HealingMatchConstants.userEditDob;
-          buildingNameController.text = HealingMatchConstants.userEditBuildName;
-          roomNumberController.text = HealingMatchConstants.userEditRoomNo;
-          gpsAddressController.text = HealingMatchConstants.userEditUserAddress;
-          userAreaController.text = HealingMatchConstants.userEditArea;*/
+          var addressData = value.getString('addressData');
+          var addressValues = jsonDecode(addressData) as List;
+          constantUserAddressValuesList = addressValues
+              .map((address) => AddUserSubAddress.fromJson(address))
+              .toList();
+          print(
+              'Address List data : ${constantUserAddressValuesList.length} && ${constantUserAddressValuesList.toString()}');
         });
         print(_myCategoryPlaceForMassage);
         print('Prefectute: $_myPrefecture');
@@ -2620,12 +2706,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print(e.toString());
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     }
-  }
-
-  Future<String> networkImageToBase64RightFront(String imageUrl) async {
-    http.Response response = await http.get(imageUrl);
-    final bytes = response?.bodyBytes;
-    return (bytes != null ? base64Encode(bytes) : null);
   }
 
   getEditUserFields() async {
@@ -2681,7 +2761,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
 class AddAddress extends StatefulWidget {
   final callBack;
+
   AddAddress(this.callBack);
+
   @override
   State<StatefulWidget> createState() => new _AddAddressState();
 }
@@ -3591,14 +3673,13 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
-    /*var categoryPlaceForMassage = _myCategoryPlaceForMassage == "その他（直接入力)"
-        ? otherController.text
-        : _myCategoryPlaceForMassage;*/
+    ProgressDialogBuilder.showAddAddressProgressDialog(context);
     if (_myAddedAddressInputType.isNotEmpty &&
         _myAddedAddressInputType.contains('現在地を取得する')) {
       if (addedRoomNumberController.text.isEmpty ||
           addedBuildingNameController.text.isEmpty) {
         print('Room number empty');
+        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -3631,7 +3712,7 @@ class _AddAddressState extends State<AddAddress> {
             '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
         print('GPS FINAL ADDRESS : $gpsUserAddress');
 
-        if (otherUserAddress.length <= 2) {
+        if (constantUserAddressValuesList.length <= 2) {
           setState(() {
             print('Entering if...');
             addUserAddress = AddUserSubAddress(
@@ -3655,7 +3736,7 @@ class _AddAddressState extends State<AddAddress> {
                         UpdateServiceUserDetails()));*/
           });
         } else {
-//メインの地点以外に3箇所まで地点登録ができます
+          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: ColorConstants.snackBarColor,
             duration: Duration(seconds: 3),
@@ -3698,6 +3779,7 @@ class _AddAddressState extends State<AddAddress> {
           addedUserAreaController.text.isEmpty ||
           _myAddedCity.isEmpty ||
           _myAddedPrefecture.isEmpty) {
+        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
         print('Manual address empty fields');
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
@@ -3757,7 +3839,7 @@ class _AddAddressState extends State<AddAddress> {
         print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
         print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
 
-        if (otherUserAddress.length <= 2) {
+        if (constantUserAddressValuesList.length <= 2) {
           String city = _myAddedCity;
           setState(() {
             addUserAddress = AddUserSubAddress(
@@ -3782,6 +3864,7 @@ class _AddAddressState extends State<AddAddress> {
                         UpdateServiceUserDetails()));*/
           });
         } else {
+          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             backgroundColor: ColorConstants.snackBarColor,
             duration: Duration(seconds: 3),
@@ -3818,6 +3901,7 @@ class _AddAddressState extends State<AddAddress> {
         }
       }
     } else {
+      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
       print('Address Type is Empty....');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3848,11 +3932,15 @@ class _AddAddressState extends State<AddAddress> {
       return;
     }
 
-    setState(() {
-      otherUserAddress.add(addUserAddress);
-    });
     _sharedPreferences.then((value) {
-      value.setBool('isUserVerified', false);
+      setState(() {
+        constantUserAddressValuesList.add(addUserAddress);
+        value.setBool('isUserVerified', false);
+        var addressData = json.encode(constantUserAddressValuesList);
+        value.setString('addressData', addressData);
+      });
     });
+
+    ProgressDialogBuilder.hideAddAddressProgressDialog(context);
   }
 }

@@ -285,7 +285,7 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 size: 5,
-                                color: Color.fromRGBO(0, 0, 0, 1),
+                                color: Color.fromRGBO(255, 217, 0, 1),
                               ),
                               onRatingUpdate: (rating) {
                                 // print(rating);
@@ -842,6 +842,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                     child: SimpleTooltip(
                       show: _value == 1 ? true : false,
                       tooltipDirection: TooltipDirection.right,
+                      ballonPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 2),
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
@@ -849,22 +851,19 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                       minimumOutSidePadding: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircleAvatar(
-                              radius: 14.0,
-                              backgroundColor: Color.fromRGBO(242, 242, 242, 1),
-                              child: Icon(Icons.close, color: Colors.black),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircleAvatar(
+                            radius: 14.0,
+                            backgroundColor: Color.fromRGBO(242, 242, 242, 1),
+                            child: Icon(Icons.close, color: Colors.black),
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -1204,8 +1203,8 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [

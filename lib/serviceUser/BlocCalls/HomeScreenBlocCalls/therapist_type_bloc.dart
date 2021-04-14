@@ -18,7 +18,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
     if (event is FetchTherapistTypeEvent) {
       yield GetTherapistTypeLoaderState();
       try {
-        List<UserList> getTherapistsUsers =
+        List<UserTypeList> getTherapistsUsers =
             await getTherapistTypeRepository.getTherapistProfilesByType(
                 event.accessToken,
                 event.massageTypeValue,

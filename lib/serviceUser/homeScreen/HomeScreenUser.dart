@@ -48,8 +48,8 @@ Uint8List therapistImageInBytes;
 String therapistImage = '';
 
 int _selectedIndex;
-List<UserList> therapistListByType = [];
-List<TherapistUserList> therapistUsers = [];
+List<UserTypeList> therapistListByType = [];
+List<UserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -326,11 +326,20 @@ class _LoadHomePageState extends State<LoadHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
+                    setState(() {
+                      HealingMatchConstants.isUserRegistrationSkipped != null &&
+                              HealingMatchConstants.isUserRegistrationSkipped
+                          ? NavigationRouter
+                              .switchToServiceUserSearchScreenWithOutRegister(
+                                  context)
+                          : NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                    });
                   },
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
-                      height: MediaQuery.of(context).size.height * 0.07,
+                      height: 55,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.height * 0.85,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -364,8 +373,19 @@ class _LoadHomePageState extends State<LoadHomePage> {
                               color: Color.fromRGBO(225, 225, 225, 1),
                             ),
                             onTap: () {
-                              NavigationRouter.switchToServiceUserSearchScreen(
-                                  context);
+                              setState(() {
+                                HealingMatchConstants
+                                                .isUserRegistrationSkipped !=
+                                            null &&
+                                        HealingMatchConstants
+                                            .isUserRegistrationSkipped
+                                    ? NavigationRouter
+                                        .switchToServiceUserSearchScreenWithOutRegister(
+                                            context)
+                                    : NavigationRouter
+                                        .switchToServiceUserSearchScreen(
+                                            context);
+                              });
                             },
                           ),
                         ],
@@ -392,11 +412,11 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
-                      /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => PaginationSample()));*/
+                      if (therapistUsers.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
                     },
                     child: Visibility(
                       visible: therapistUsers != null,
@@ -455,7 +475,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 }
 
 class HomeScreenByMassageType extends StatefulWidget {
-  List<UserList> getTherapistByType;
+  List<UserTypeList> getTherapistByType;
 
   HomeScreenByMassageType({Key key, @required this.getTherapistByType})
       : super(key: key);
@@ -488,25 +508,22 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
-                    NavigationRouter.switchToServiceUserSearchScreen(context);
+                    setState(() {
+                      HealingMatchConstants.isUserRegistrationSkipped != null &&
+                              HealingMatchConstants.isUserRegistrationSkipped
+                          ? NavigationRouter
+                              .switchToServiceUserSearchScreenWithOutRegister(
+                                  context)
+                          : NavigationRouter.switchToServiceUserSearchScreen(
+                              context);
+                    });
                   },
                   child: Container(
                       padding: const EdgeInsets.all(6.0),
                       height: 55,
+                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.height * 0.85,
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          //background color of box
-                          BoxShadow(
-                            color: Colors.red,
-                            blurRadius: 25.0, // soften the shadow
-                            spreadRadius: 5.0, //extend the shadow
-                            offset: Offset(
-                              15.0, // Move to right 10  horizontally
-                              15.0, // Move to bottom 10 Vertically
-                            ),
-                          )
-                        ],
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -521,31 +538,39 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                         borderRadius: BorderRadius.circular(7.0),
                         color: Color.fromRGBO(228, 228, 228, 1),
                       ),
-                      child: Card(
-                        elevation: 2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'キーワードでさがす',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(225, 225, 225, 1),
-                                  fontSize: 14,
-                                  fontFamily: 'NotoSansJP'),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Image.asset(
-                                "assets/images_gps/search.png",
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'キーワードでさがす',
+                            style: TextStyle(
                                 color: Color.fromRGBO(225, 225, 225, 1),
-                              ),
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserSearchScreen(context);
-                              },
+                                fontSize: 14,
+                                fontFamily: 'NotoSansJP'),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            child: Image.asset(
+                              "assets/images_gps/search.png",
+                              color: Color.fromRGBO(225, 225, 225, 1),
                             ),
-                          ],
-                        ),
+                            onTap: () {
+                              setState(() {
+                                HealingMatchConstants
+                                                .isUserRegistrationSkipped !=
+                                            null &&
+                                        HealingMatchConstants
+                                            .isUserRegistrationSkipped
+                                    ? NavigationRouter
+                                        .switchToServiceUserSearchScreenWithOutRegister(
+                                            context)
+                                    : NavigationRouter
+                                        .switchToServiceUserSearchScreen(
+                                            context);
+                              });
+                            },
+                          ),
+                        ],
                       )),
                 ),
               ),
@@ -568,11 +593,14 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      NavigationRouter.switchToNearByProviderAndShop(context);
+                      if (widget.getTherapistByType.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
                     },
                     child: Visibility(
-                      visible: widget.getTherapistByType != null &&
-                          widget.getTherapistByType.isNotEmpty,
+                      visible: widget.getTherapistByType != null,
                       child: Text(
                         'もっと見る',
                         style: TextStyle(
@@ -954,7 +982,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 //Build therapists list view
 
 class BuildProviderListByType extends StatefulWidget {
-  List<UserList> getTherapistByType;
+  List<UserTypeList> getTherapistByType;
 
   // Create the key
 
@@ -971,7 +999,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   GlobalKey<FormState> _formKeyUsersByType;
   Map<int, String> storeTypeValues;
   Map<String, String> certificateImages = Map<String, String>();
-  List<CertificationUploads> certificateUpload = [];
+  List<CertificationTypeUpload> certificateUpload = [];
   var certificateUploadKeys;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -1281,8 +1309,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                               itemBuilder: (context, _) => Icon(
                                                 Icons.star,
                                                 size: 5,
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                                color: Color.fromRGBO(
+                                                    255, 217, 0, 1),
                                               ),
                                               onRatingUpdate: (rating) {
                                                 setState(() {
@@ -1478,7 +1506,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     );
   }
 
-  getCertificateValues(List<UserList> getTherapistByType) async {
+  getCertificateValues(List<UserTypeList> getTherapistByType) async {
     if (this.mounted) {
       setState(() {
         for (int i = 0; i < getTherapistByType.length; i++) {
@@ -1980,7 +2008,7 @@ class _ReservationListState extends State<ReservationList> {
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   size: 5,
-                                  color: Colors.black,
+                                  color: Color.fromRGBO(255, 217, 0, 1),
                                 ),
                                 onRatingUpdate: (rating) {
                                   print(rating);
@@ -2384,7 +2412,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      color: Color.fromRGBO(255, 217, 0, 1),
                                     ),
                                     onRatingUpdate: (rating) {
                                       // print(rating);
@@ -2488,7 +2516,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // Create the key
   GlobalKey<FormState> _formKeyUsers;
-  List<CertificationTherapistUsers> certificateUpload = [];
+  List<CertificationUpload> certificateUpload = [];
   var certificateUploadKeys;
 
   @override
@@ -2522,7 +2550,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       apiProvider.then((value) {
         if (this.mounted) {
           setState(() {
-            therapistUsers = value.therapistData.therapistUserList;
+            therapistUsers = value.therapistData.userList;
             for (int i = 0; i < therapistUsers.length; i++) {
               if (therapistUsers[i].user.storeType != null &&
                   therapistUsers[i].user.storeType != '') {
@@ -2537,8 +2565,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 };
                 print('Store type map values : $storeTypeValues');
               }
-              certificateUpload = value
-                  .therapistData.therapistUserList[i].user.certificationUploads;
+              certificateUpload =
+                  value.therapistData.userList[i].user.certificationUploads;
               for (int j = 0; j < certificateUpload.length; j++) {
                 print('Certificate upload : ${certificateUpload[j].toJson()}');
                 certificateUploadKeys = certificateUpload[j].toJson();
@@ -2927,7 +2955,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     Icon(
                                                   Icons.star,
                                                   size: 5,
-                                                  color: Colors.black,
+                                                  color: Color.fromRGBO(
+                                                      255, 217, 0, 1),
                                                 ),
                                                 onRatingUpdate: (rating) {
                                                   setState(() {
