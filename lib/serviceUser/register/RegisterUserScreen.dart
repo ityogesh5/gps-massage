@@ -383,9 +383,9 @@ class _RegisterUserState extends State<RegisterUser> {
                               HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
                               HealingMatchConstants.textFormInputBorder,
-                          // labelText: 'お名前',
+                   //       labelText: 'お名前*',
                         ),
-                        hintText: Text.rich(
+                        labelText: Text.rich(
                           TextSpan(
                             text: 'お名前',
                             children: <InlineSpan>[

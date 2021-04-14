@@ -16,6 +16,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:gps_massageapp/utils/text_field_custom.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
@@ -153,6 +154,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
   TextEditingController buildingNameController = new TextEditingController();
   TextEditingController roomNumberController = new TextEditingController();
   PickedFile _profileImage;
+  bool isName = false;
+  FocusNode _focus = new FocusNode();
 
   void initState() {
     super.initState();
@@ -160,7 +163,15 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     myCity = '';
     _prefid = '';
     buildNumberOfEmployess();
+    _focus.addListener(_onFocusChange);
     _getState();
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      isName = true;
+    });
+    debugPrint("Focus: " + _focus.hasFocus.toString());
   }
 
   Future<Null> _selectDate(BuildContext context) async {
@@ -400,7 +411,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                  // color: Colors.black12,
                                   border: Border.all(color: Colors.transparent)), */
                 child: DropDownFormField(
-                  hintText: '事業形態*',
+                  requiredField: true,
+                  hintText: '事業形態',
                   value: bussinessForm,
                   onSaved: (value) {
                     setState(() {
@@ -481,9 +493,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           : storeTypeDisplayStatus = 0;
                     });
                   },
-                  child: TextFormField(
+                  child: TextFieldCustom(
                     enabled: false,
-                    initialValue: HealingMatchConstants.registrationStoretype,
+                    hintText: Text.rich(
+                      TextSpan(
+                        text: HealingMatchConstants.registrationStoretype,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: '*',
+                            style: HealingMatchConstants.formHintTextStyleStar,
+                          ),
+                        ],
+                        style: HealingMatchConstants.formHintTextStyle,
+                      ),
+                    ),
+                    // initialValue: HealingMatchConstants.registrationStoretype,
                     style: HealingMatchConstants.formHintTextStyle,
                     decoration: new InputDecoration(
                       focusedBorder: HealingMatchConstants.textFormInputBorder,
@@ -828,20 +852,34 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: Theme(
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: providerNameController,
-                        style: HealingMatchConstants.formTextStyle,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
-                          labelText: HealingMatchConstants.registrationName,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        )),
+                    child: TextFieldCustom(
+                      controller: providerNameController,
+                      style: HealingMatchConstants.formTextStyle,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(16.0),
+                        /*  labelText: HealingMatchConstants.registrationName,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                      ),
+                      labelText: Text.rich(
+                        TextSpan(
+                          text: HealingMatchConstants.registrationName,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
+                            ),
+                          ],
+                          style: HealingMatchConstants.formLabelTextStyle,
+                        ),
+                      ),
+                    ),
                   )),
               bussinessForm == "施術店舗あり 施術従業員あり" ||
                       bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
@@ -869,22 +907,38 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
-                            child: TextFormField(
-                                controller: storeNameController,
-                                style: HealingMatchConstants.formTextStyle,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(4.0),
-                                  labelText: HealingMatchConstants
+                            child: TextFieldCustom(
+                              controller: storeNameController,
+                              style: HealingMatchConstants.formTextStyle,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                                /*  labelText: HealingMatchConstants
                                       .registrationStoreName,
                                   labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              labelText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants
+                                      .registrationStoreName,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
                                       HealingMatchConstants.formLabelTextStyle,
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                )),
+                                ),
+                              ),
+                            ),
                           )),
                     ])
                   : Container(),
@@ -907,26 +961,41 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                             onTap: () {
                               _selectDate(context);
                             },
-                            child: TextFormField(
-                                enabled: false,
-                                controller: userDOBController,
-                                style: HealingMatchConstants.formTextStyle,
-                                decoration: InputDecoration(
-                                  labelText:
+                            child: TextFieldCustom(
+                              enabled: false,
+                              controller: userDOBController,
+                              style: HealingMatchConstants.formTextStyle,
+                              decoration: InputDecoration(
+                                /*  labelText:
                                       HealingMatchConstants.registrationDob,
                                   labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                suffixIcon: Image.asset(
+                                    "assets/images_gps/calendar.png"),
+                              ),
+                              labelText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants.registrationDob,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
                                       HealingMatchConstants.formLabelTextStyle,
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  disabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  suffixIcon: Image.asset(
-                                      "assets/images_gps/calendar.png"),
-                                )),
+                                ),
+                              ),
+                            ),
                           ),
                         )),
                     SizedBox(
@@ -1024,21 +1093,35 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: Theme(
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: phoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        style: HealingMatchConstants.formTextStyle,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
-                          labelText: HealingMatchConstants.registrationPhnNum,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        )),
+                    child: TextFieldCustom(
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      style: HealingMatchConstants.formTextStyle,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(16.0),
+                        /*  labelText: HealingMatchConstants.registrationPhnNum,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                      ),
+                      labelText: Text.rich(
+                        TextSpan(
+                          text: HealingMatchConstants.registrationPhnNum,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
+                            ),
+                          ],
+                          style: HealingMatchConstants.formLabelTextStyle,
+                        ),
+                      ),
+                    ),
                   )),
               SizedBox(
                 height: sizedBoxFormHeight,
@@ -1068,23 +1151,38 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       child: Theme(
                         data: Theme.of(context)
                             .copyWith(splashColor: Colors.black12),
-                        child: TextFormField(
-                            controller: storePhoneNumberController,
-                            style: HealingMatchConstants.formTextStyle,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(4.0),
-                              labelText:
+                        child: TextFieldCustom(
+                          controller: storePhoneNumberController,
+                          style: HealingMatchConstants.formTextStyle,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(16.0),
+                            /*  labelText:
                                   HealingMatchConstants.registrationStorePhnNum,
                               labelStyle:
-                                  HealingMatchConstants.formLabelTextStyle,
-                              filled: true,
-                              fillColor: ColorConstants.formFieldFillColor,
-                              focusedBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                              enabledBorder:
-                                  HealingMatchConstants.textFormInputBorder,
-                            )),
+                                  HealingMatchConstants.formLabelTextStyle, */
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
+                          labelText: Text.rich(
+                            TextSpan(
+                              text:
+                                  HealingMatchConstants.registrationStorePhnNum,
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
+                                ),
+                              ],
+                              style: HealingMatchConstants.formLabelTextStyle,
+                            ),
+                          ),
+                        ),
                       ))
                   : Container(),
               SizedBox(
@@ -1096,22 +1194,36 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: Theme(
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: mailAddressController,
-                        style: HealingMatchConstants.formTextStyle,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
-                          labelText:
+                    child: TextFieldCustom(
+                      controller: mailAddressController,
+                      style: HealingMatchConstants.formTextStyle,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(16.0),
+                        /*  labelText:
                               HealingMatchConstants.registrationMailAdress,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                        )),
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                      ),
+                      labelText: Text.rich(
+                        TextSpan(
+                          text: HealingMatchConstants.registrationMailAdress,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
+                            ),
+                          ],
+                          style: HealingMatchConstants.formLabelTextStyle,
+                        ),
+                      ),
+                    ),
                   )),
               SizedBox(
                 height: sizedBoxFormHeight,
@@ -1122,30 +1234,44 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: Theme(
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: passwordController,
-                        obscureText: passwordVisibility,
-                        style: HealingMatchConstants.formTextStyle,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
-                          labelText: HealingMatchConstants.registrationPassword,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          suffixIcon: IconButton(
-                              icon: passwordVisibility
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  passwordVisibility = !passwordVisibility;
-                                });
-                              }),
-                        )),
+                    child: TextFieldCustom(
+                      controller: passwordController,
+                      obscureText: passwordVisibility,
+                      style: HealingMatchConstants.formTextStyle,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(16.0),
+                        /* labelText: HealingMatchConstants.registrationPassword,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            icon: passwordVisibility
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisibility = !passwordVisibility;
+                              });
+                            }),
+                      ),
+                      labelText: Text.rich(
+                        TextSpan(
+                          text: HealingMatchConstants.registrationPassword,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
+                            ),
+                          ],
+                          style: HealingMatchConstants.formLabelTextStyle,
+                        ),
+                      ),
+                    ),
                   )),
               SizedBox(
                 height: sizedBoxFormHeight - 10.0,
@@ -1172,32 +1298,47 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                   child: Theme(
                     data:
                         Theme.of(context).copyWith(splashColor: Colors.black12),
-                    child: TextFormField(
-                        controller: confirmPasswordController,
-                        obscureText: passwordConfirmVisibility,
-                        style: HealingMatchConstants.formTextStyle,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(4.0),
-                          labelText:
+                    child: TextFieldCustom(
+                      controller: confirmPasswordController,
+                      obscureText: passwordConfirmVisibility,
+                      style: HealingMatchConstants.formTextStyle,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(4.0),
+                        /* labelText:
                               HealingMatchConstants.registrationConfirmPassword,
-                          labelStyle: HealingMatchConstants.formLabelTextStyle,
-                          filled: true,
-                          fillColor: ColorConstants.formFieldFillColor,
-                          focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
-                          suffixIcon: IconButton(
-                              icon: passwordConfirmVisibility
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  passwordConfirmVisibility =
-                                      !passwordConfirmVisibility;
-                                });
-                              }),
-                        )),
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                        filled: true,
+                        fillColor: ColorConstants.formFieldFillColor,
+                        focusedBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        enabledBorder:
+                            HealingMatchConstants.textFormInputBorder,
+                        suffixIcon: IconButton(
+                            icon: passwordConfirmVisibility
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passwordConfirmVisibility =
+                                    !passwordConfirmVisibility;
+                              });
+                            }),
+                      ),
+                      labelText: Text.rich(
+                        TextSpan(
+                          text:
+                              HealingMatchConstants.registrationConfirmPassword,
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: '*',
+                              style:
+                                  HealingMatchConstants.formHintTextStyleStar,
+                            ),
+                          ],
+                          style: HealingMatchConstants.formLabelTextStyle,
+                        ),
+                      ),
+                    ),
                   )),
               SizedBox(
                 height: sizedBoxFormHeight,
@@ -1210,7 +1351,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                                                 color: Colors.black12,
                                                                 border: Border.all(color: Colors.black12)), */
                 child: DropDownFormField(
-                  hintText: '検索地点の登録*',
+                  requiredField: true,
+                  hintText: '検索地点の登録',
                   value: registrationAddressType,
                   onSaved: (value) {
                     setState(() {
@@ -1429,22 +1571,38 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
-                            child: TextFormField(
-                                controller: buildingNameController,
-                                style: HealingMatchConstants.formTextStyle,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(4.0),
-                                  labelText: HealingMatchConstants
+                            child: TextFieldCustom(
+                              controller: buildingNameController,
+                              style: HealingMatchConstants.formTextStyle,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
+                                /*  labelText: HealingMatchConstants
                                       .registrationBuildingName,
                                   labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                filled: true,
+                                fillColor: ColorConstants.formFieldFillColor,
+                                focusedBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                                enabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
+                              ),
+                              labelText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants
+                                      .registrationBuildingName,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
                                       HealingMatchConstants.formLabelTextStyle,
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                )),
+                                ),
+                              ),
+                            ),
                           )),
                           SizedBox(
                             width: 10.0,
@@ -1454,27 +1612,42 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 child: Theme(
                               data: Theme.of(context)
                                   .copyWith(splashColor: Colors.black12),
-                              child: TextFormField(
-                                  controller: roomNumberController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  keyboardType: TextInputType.text,
-                                  maxLengthEnforced: true,
-                                  maxLength: 4,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4.0),
-                                    counterText: "",
-                                    labelText: HealingMatchConstants
+                              child: TextFieldCustom(
+                                controller: roomNumberController,
+                                style: HealingMatchConstants.formTextStyle,
+                                keyboardType: TextInputType.text,
+                                maxLengthEnforced: true,
+                                maxLength: 4,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(16.0),
+                                  counterText: "",
+                                 /*  labelText:
+                                      HealingMatchConstants.registrationRoomNo,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                labelText: Text.rich(
+                                  TextSpan(
+                                    text: HealingMatchConstants
                                         .registrationRoomNo,
-                                    labelStyle: HealingMatchConstants
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: HealingMatchConstants
+                                            .formHintTextStyleStar,
+                                      ),
+                                    ],
+                                    style: HealingMatchConstants
                                         .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                  )),
+                                  ),
+                                ),
+                              ),
                             )),
                           ),
                         ],

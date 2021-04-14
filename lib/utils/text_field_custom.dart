@@ -251,6 +251,7 @@ class TextFieldCustom extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
     this.hintText,
+    this.labelText,
     this.textDirection,
     this.readOnly = false,
     ToolbarOptions toolbarOptions,
@@ -400,6 +401,8 @@ class TextFieldCustom extends StatefulWidget {
   final TextAlignVertical textAlignVertical;
 
   final Text hintText;
+
+  final Text labelText;
 
   /// {@macro flutter.widgets.editableText.textDirection}
   final TextDirection textDirection;
@@ -1074,12 +1077,13 @@ class _TextFieldState extends State<TextFieldCustom>
           return InputDecoratorCustom(
             decoration: _getEffectiveDecoration(),
             baseStyle: widget.style,
+            labelText: widget.labelText,
             textAlign: widget.textAlign,
             textAlignVertical: widget.textAlignVertical,
             hintText: widget.hintText,
             isHovering: _isHovering,
             isFocused: focusNode.hasFocus,
-            isEmpty: controller.value.text.isEmpty,
+            isEmpty: controller.value.text.isEmpty, 
             expands: widget.expands,
             child: child,
           );

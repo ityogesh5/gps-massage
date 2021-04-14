@@ -320,7 +320,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               ),
                             ),
                           );
-                        },                      
+                        },
                         dataCellBuilder: (i, j) {
                           if ((schedule.containsKey(time[i])) &&
                               schedule[time[i]] ==
@@ -964,16 +964,17 @@ class _ShiftTimingState extends State<ShiftTiming> {
                   child: TimePickerSpinner(
                     alignment: Alignment.topCenter,
                     is24HourMode: true,
+                    minutesInterval: 15,
                     normalTextStyle: TextStyle(
                       fontSize: 18,
-                      color: Colors.grey,
+                      color: Color.fromRGBO(217, 217, 217, 1), // Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
                     highlightedTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.black),
-                    spacing: 50,
+                    spacing: 30,
                     itemHeight: 40,
                     isForce2Digits: true,
                     onTimeChange: (time) {

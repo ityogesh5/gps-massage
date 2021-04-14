@@ -120,7 +120,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   TextStyle defaultHighlightTextStyle =
       new TextStyle(fontSize: 32, color: Colors.black);
   TextStyle defaultNormalTextStyle =
-      new TextStyle(fontSize: 32, color: Colors.black54);
+      new TextStyle(fontSize: 20, color: Color.fromRGBO(217, 217, 217, 1));
   double defaultItemHeight = 60;
   double defaultItemWidth = 45;
   double defaultSpacing = 20;
@@ -242,14 +242,14 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
           () => isHourScrolling = false,
         ),
       ),
-      /*   SizedBox(
+        SizedBox(
         width: _getItemWidth(),
         height: _getItemHeight() * 3,
         child: Center(
-          child: Text("   :", style: _getHighlightedTextStyle()),
+          child: Text(":", style: _getHighlightedTextStyle()),
         ),
-      ), */
-      spacer(),
+      ),
+     // spacer(),
       new SizedBox(
         width: _getItemWidth(),
         height: _getItemHeight() * 3,

@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final providerProfileUpdateResponseModel = providerProfileUpdateResponseModelFromJson(jsonString);
+//     final ProviderProfileUpdateResponseModel = ProviderProfileUpdateResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -99,9 +99,9 @@ class Data {
   int isAccepted;
   dynamic rejectReason;
   dynamic updatedUser;
-  dynamic uploadProfileImgUrl;
+  String uploadProfileImgUrl;
   String proofOfIdentityType;
-  dynamic proofOfIdentityImgUrl;
+  String proofOfIdentityImgUrl;
   String qulaificationCertImgUrl;
   String businessForm;
   int numberOfEmp;
@@ -383,11 +383,11 @@ class Banner {
 
   int id;
   int userId;
-  dynamic bannerImageUrl1;
-  dynamic bannerImageUrl2;
-  dynamic bannerImageUrl3;
-  dynamic bannerImageUrl4;
-  dynamic bannerImageUrl5;
+  String bannerImageUrl1;
+  String bannerImageUrl2;
+  String bannerImageUrl3;
+  String bannerImageUrl4;
+  String bannerImageUrl5;
   DateTime createdAt;
   DateTime updatedAt;
 

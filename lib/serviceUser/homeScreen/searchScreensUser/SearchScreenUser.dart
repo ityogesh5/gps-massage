@@ -1079,7 +1079,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   minutesInterval: 15,
                   normalTextStyle: TextStyle(
                     fontSize: 18,
-                    color: Colors.grey,
+                    color:  Color.fromRGBO(217, 217, 217, 1),//Colors.grey,
                     fontWeight: FontWeight.bold,
                   ),
                   highlightedTextStyle: TextStyle(

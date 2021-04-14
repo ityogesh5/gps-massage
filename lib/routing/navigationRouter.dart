@@ -390,9 +390,9 @@ class NavigationRouter {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) =>UserRatingReviewScreen()
-               // ProviderRatingsAndReviewUser(1)
-                ));
+            builder: (BuildContext context) => UserRatingReviewScreen()
+            // ProviderRatingsAndReviewUser(1)
+            ));
   }
 
   //Provider Calendar Screen

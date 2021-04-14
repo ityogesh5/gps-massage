@@ -53,22 +53,8 @@ List<TherapistUserList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
-void main() {
-  runApp(UserHomeScreen());
-}
-
 String result = '';
 var colorsValue = Colors.white;
-
-class UserHomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-    );
-  }
-}
 
 class HomeScreen extends StatefulWidget {
   @override

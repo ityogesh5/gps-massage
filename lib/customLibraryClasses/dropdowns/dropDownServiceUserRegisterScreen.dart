@@ -8,6 +8,7 @@ class DropDownFormField extends FormField<dynamic> {
   final String titleText;
   final String hintText;
   final bool required;
+  final bool requiredField;
   final String errorText;
   final dynamic value;
   final List dataSource;
@@ -29,6 +30,7 @@ class DropDownFormField extends FormField<dynamic> {
       this.titleText = 'Title',
       this.hintText = 'Select one option',
       this.required = false,
+      this.requiredField = false,
       this.errorText = 'Please select one option',
       this.value,
       this.items,
@@ -86,11 +88,26 @@ class DropDownFormField extends FormField<dynamic> {
                                     color: Colors.black,
                                   ),
                                   isExpanded: true,
-                                  hint: Text(
-                                    hintText,
-                                    style:
-                                        HealingMatchConstants.formHintTextStyle,
-                                  ),
+                                  hint: requiredField
+                                      ? Row(
+                                          children: [
+                                            Text(
+                                              hintText,
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyle,
+                                            ),
+                                            Text(
+                                              "*",
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            )
+                                          ],
+                                        )
+                                      : Text(
+                                          hintText,
+                                          style: HealingMatchConstants
+                                              .formHintTextStyle,
+                                        ),
                                   value: value == '' ? null : value,
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);

@@ -1702,6 +1702,7 @@ class InputDecoratorCustom extends StatefulWidget {
     this.textAlign,
     this.textAlignVertical,
     this.hintText,
+    this.labelText,
     this.isFocused = false,
     this.isHovering = false,
     this.expands = false,
@@ -1748,6 +1749,8 @@ class InputDecoratorCustom extends StatefulWidget {
   final TextAlignVertical textAlignVertical;
 
   final Text hintText;
+
+  final Text labelText;
 
   /// Whether the input field has focus.
   ///
@@ -2112,9 +2115,15 @@ class _InputDecoratorState extends State<InputDecoratorCustom>
     );
 
     final TextStyle inlineLabelStyle = inlineStyle.merge(decoration.labelStyle);
-    final Widget label = decoration.labelText == null
+    final Widget label = widget.labelText /* decoration.labelText */ == null
         ? null
-        : _Shaker(
+        : AnimatedOpacity(
+            opacity: 1.0,
+            duration: _kTransitionDuration,
+            curve: _kTransitionCurve,
+            child: widget.labelText,
+          );
+    /* _Shaker(
             animation: _shakingLabelController.view,
             child: AnimatedOpacity(
               duration: _kTransitionDuration,
@@ -2133,7 +2142,7 @@ class _InputDecoratorState extends State<InputDecoratorCustom>
                 ),
               ),
             ),
-          );
+          ); */
 
     final Widget prefix =
         decoration.prefix == null && decoration.prefixText == null

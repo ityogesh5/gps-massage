@@ -84,8 +84,9 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
 
   //update Therapist Service Type
-  static const String THERAPIST_UPDATE_SERVICE_TYPE =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therpistUpdateAndDeleteServiceTypebyId';
+  static const String THERAPIST_UPDATE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
+      '/user' +
+      '/therpistUpdateAndDeleteServiceTypebyId';
 
   //delet Therapist Service Type
   static const String THERAPIST_DELETE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
@@ -250,28 +251,28 @@ class HealingMatchConstants {
       '利用者に安心していただく為にもなるべく顔の\n 映った写真を使用しましょう。';
   static const String registrationBuisnessForm = '事業形態';
   static const String registrationBuisnessTrip = '出張でのサービス対応可否';
-  static const String registrationStoretype = '提供サービスのジャンル*';
+  static const String registrationStoretype = '提供サービスのジャンル';
   static const String registrationCoronaTxt = 'コロナ対策実施有無';
   static const String registrationChildrenTxt = '子供向け施策有無';
   static const String registrationJapanAssociationTxt =
       'マスクの着用、アルコール消毒の徹底、体温管理等日本\n リラクゼーション協会の定める項目を遵守している\n 場合のみチェックください';
-  static const String registrationName = 'お名前*';
+  static const String registrationName = 'お名前';
   static const String registrationStoreTxt = '店舗として登録の場合は代表者の氏名を入力してください';
-  static const String registrationStoreName = '店舗名*';
-  static const String registrationDob = '生年月日*';
+  static const String registrationStoreName = '店舗名';
+  static const String registrationDob = '生年月日';
   static const String registrationAge = '年齢';
   static const String registrationGender = '性別';
-  static const String registrationPhnNum = '電話番号*';
-  static const String registrationStorePhnNum = '店舗の電話番号*';
-  static const String registrationMailAdress = 'メールアドレス*';
-  static const String registrationPassword = 'パスワード*';
+  static const String registrationPhnNum = '電話番号';
+  static const String registrationStorePhnNum = '店舗の電話番号';
+  static const String registrationMailAdress = 'メールアドレス';
+  static const String registrationPassword = 'パスワード';
   static const String registrationPasswordInstructionText = "半角英数8~16文字以内";
-  static const String registrationConfirmPassword = 'パスワード(確認用)*';
+  static const String registrationConfirmPassword = 'パスワード(確認用)';
   static const String registrationStorePhnText = '店舗として登録の場合は代表者の携帯番号を入力してください';
   static const String registrationIndividualText =
       '個人で登録の方は、住所の詳細情報が利用者に\n 開示されることはありません';
-  static const String registrationBuildingName = '建物名*';
-  static const String registrationRoomNo = '部屋番号*';
+  static const String registrationBuildingName = '建物名';
+  static const String registrationRoomNo = '部屋番号';
   static const String registrationPointTxt =
       '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
   static const String registrationNextBtn = '次へ';
@@ -444,6 +445,11 @@ class HealingMatchConstants {
 
   static TextStyle formHintTextStyle = TextStyle(
       color: ColorConstants.formHintTextColor,
+      fontFamily: 'NotoSansJP',
+      fontSize: 14);
+
+  static TextStyle formHintTextStyleStar = TextStyle(
+      color: Colors.red,
       fontFamily: 'NotoSansJP',
       fontSize: 14);
 

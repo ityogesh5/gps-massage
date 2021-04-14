@@ -18,6 +18,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDro
 import 'package:gps_massageapp/models/responseModels/serviceProvider/cityList.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as loginResponse;
+
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerProfileUpdateResponseModel.dart'
     as profileUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
@@ -2753,7 +2754,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    // Getting user GPS Address value
+    /*  // Getting user GPS Address value
     if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する') {
       HealingMatchConstants.serviceProviderAddress = address;
       print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
@@ -2784,7 +2785,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = myCity;
-    }
+    } */
     updateProfile();
   }
 
@@ -2927,30 +2928,26 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     request.headers.addAll(headers);
 
-   /*  try { */
-      final userDetailsRequest = await request.send();
-      print("This is request : ${userDetailsRequest.request}");
-      final response = await http.Response.fromStream(userDetailsRequest);
-      print("This is response: ${response.statusCode}\n${response.body}");
-      if (StatusCodeHelper.isProfileUpdateSuccess(
-          response.statusCode, context, response.body)) {
-        profileUpdate.ProviderProfileUpdateResponseModel
-            providerProfileUpdateResponseModel =
-            profileUpdate.ProviderProfileUpdateResponseModel.fromJson(
-                json.decode(response.body));
-        profileUpdate.Data userData = providerProfileUpdateResponseModel.data;
-        sharedPreferences.setString("userData", json.encode(userData));
-        HealingMatchConstants.userData = loginResponse.Data.fromJson(
-            json.decode(sharedPreferences.getString("userData")));
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-        print(
-            'Update response : ${providerProfileUpdateResponseModel.toJson()}');
-        DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
-      } else {
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-        print('Response error occured!');
-      }
-   /* }  on SocketException catch (_) {
+    /*  try { */
+    final userDetailsRequest = await request.send();
+    print("This is request : ${userDetailsRequest.request}");
+    final response = await http.Response.fromStream(userDetailsRequest);
+    print("This is response: ${response.statusCode}\n${response.body}");
+    if (StatusCodeHelper.isProfileUpdateSuccess(
+        response.statusCode, context, response.body)) {
+      loginResponse.LoginResponseModel loginResponseModel =
+          loginResponse.LoginResponseModel.fromJson(json.decode(response.body));
+      sharedPreferences.setString(
+          "userData", json.encode(loginResponseModel.data));
+      HealingMatchConstants.userData = loginResponseModel.data;
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      print('Update response : ${loginResponseModel.toJson()}');
+      DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
+    } else {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      print('Response error occured!');
+    }
+    /* }  on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
