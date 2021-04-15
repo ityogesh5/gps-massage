@@ -2523,6 +2523,12 @@ class _AddAddressState extends State<AddAddress> {
   bool _showRequiredFields = false;
   bool visible = false;
   final otherController = new TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getAddedAddressStates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -2639,6 +2645,9 @@ class _AddAddressState extends State<AddAddress> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Center(
                                       child: Container(
                                         width:
@@ -3190,233 +3199,135 @@ class _AddAddressState extends State<AddAddress> {
 
   _addUserAddress() async {
     ProgressDialogBuilder.showAddAddressProgressDialog(context);
-    if (_myAddedAddressInputType.isNotEmpty &&
-        _myAddedAddressInputType.contains('現在地を取得する')) {
-      if (addedRoomNumberController.text.isEmpty ||
-          addedBuildingNameController.text.isEmpty) {
-        print('Room number empty');
-        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 3),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('必須値を入力してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _scaffoldKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-        return;
-      } else {
-        String gpsUserAddress =
-            '${addedRoomNumberController.text.toString()},${addedBuildingNameController.text.toString() + ',' + _addedAddress}';
-        print('GPS FINAL ADDRESS : $gpsUserAddress');
 
-        if (constantUserAddressValuesList.length <= 2) {
-          setState(() {
-            print('Entering if...');
-            addUserAddress = AddUserSubAddress(
-              gpsUserAddress,
-              HealingMatchConstants.addedCurrentLatitude.toString(),
-              HealingMatchConstants.addedCurrentLongitude.toString(),
-              _myAddedAddressInputType,
-              _myCategoryPlaceForMassage,
-              userGPSAddressPlaceMark.administrativeArea,
-              userGPSAddressPlaceMark.subAdministrativeArea,
-              addedRoomNumberController.text.toString(),
-              addedBuildingNameController.text.toString(),
-              userGPSAddressPlaceMark.locality,
-            );
-            widget.callBack();
-            Navigator.pop(context);
-            /* Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));*/
-          });
-        } else {
-          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-            backgroundColor: ColorConstants.snackBarColor,
-            duration: Duration(seconds: 3),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text('メインの地点以外に3箇所まで地点登録ができます。',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(fontFamily: 'NotoSansJP')),
-                ),
-                InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState.hideCurrentSnackBar();
-                    /* Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                UpdateServiceUserDetails()));*/
-                    Navigator.pop(context);
-                  },
-                  child: Text('はい',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'NotoSansJP',
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline)),
-                ),
-              ],
+    if (addedRoomNumberController.text.isEmpty ||
+        _myCategoryPlaceForMassage.isEmpty ||
+        addedBuildingNameController.text.isEmpty ||
+        addedUserAreaController.text.isEmpty ||
+        _myAddedCity.isEmpty ||
+        _myAddedPrefecture.isEmpty) {
+      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      print('Manual address empty fields');
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('全ての項目を入力してください。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
             ),
-          ));
-          return;
-        }
-      }
-    } else if (_myAddedAddressInputType.isNotEmpty &&
-        _myAddedAddressInputType.contains('直接入力する')) {
-      if (addedRoomNumberController.text.isEmpty ||
-          addedBuildingNameController.text.isEmpty ||
-          addedUserAreaController.text.isEmpty ||
-          _myAddedCity.isEmpty ||
-          _myAddedPrefecture.isEmpty) {
-        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
-        print('Manual address empty fields');
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 3),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('必須値を入力してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _scaffoldKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-        return;
-      } else {
-        String manualAddedAddress = addedRoomNumberController.text.toString() +
-            ',' +
-            addedBuildingNameController.text.toString() +
-            ',' +
-            addedUserAreaController.text.toString() +
-            ',' +
-            _myAddedCity +
-            ',' +
-            _myAddedPrefecture;
-        print('USER MANUAL ADDRESS : $manualAddedAddress');
-        List<Placemark> userManualAddress =
-            await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
-        userManualAddressPlaceMark = userManualAddress[0];
-        Position addressPosition = userManualAddressPlaceMark.position;
-        HealingMatchConstants.manualAddressCurrentLatitude =
-            addressPosition.latitude;
-        HealingMatchConstants.manualAddressCurrentLongitude =
-            addressPosition.longitude;
-        HealingMatchConstants.serviceUserCity =
-            userManualAddressPlaceMark.locality;
-        HealingMatchConstants.serviceUserPrefecture =
-            userManualAddressPlaceMark.administrativeArea;
-        HealingMatchConstants.manualUserAddress = manualAddedAddress;
-
-        print(
-            'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
-            '${HealingMatchConstants.manualAddressCurrentLongitude}');
-        print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
-        print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
-
-        if (constantUserAddressValuesList.length <= 2) {
-          String city = _myAddedCity;
-          setState(() {
-            addUserAddress = AddUserSubAddress(
-              manualAddedAddress,
-              HealingMatchConstants.manualAddressCurrentLatitude.toString(),
-              HealingMatchConstants.manualAddressCurrentLongitude.toString(),
-              _myAddedAddressInputType,
-              _myCategoryPlaceForMassage,
-              _myAddedCity,
-              _myAddedPrefecture,
-              addedRoomNumberController.text.toString(),
-              addedBuildingNameController.text.toString(),
-              addedUserAreaController.text.toString(),
-            );
-            print(_myAddedAddressInputType);
-            widget.callBack();
-            Navigator.pop(context);
-            /*   Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        UpdateServiceUserDetails()));*/
-          });
-        } else {
-          ProgressDialogBuilder.hideAddAddressProgressDialog(context);
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-            backgroundColor: ColorConstants.snackBarColor,
-            duration: Duration(seconds: 3),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text('メインの地点以外に3箇所まで地点登録ができます。',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(fontFamily: 'NotoSansJP')),
-                ),
-                InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState.hideCurrentSnackBar();
-                    Navigator.pop(context);
-                    /*  Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                UpdateServiceUserDetails()));*/
-                  },
-                  child: Text('はい',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'NotoSansJP',
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline)),
-                ),
-              ],
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
             ),
-          ));
-          return;
-        }
-      }
+          ],
+        ),
+      ));
+      return;
     } else {
+      String manualAddedAddress = addedRoomNumberController.text.toString() +
+          ',' +
+          addedBuildingNameController.text.toString() +
+          ',' +
+          addedUserAreaController.text.toString() +
+          ',' +
+          _myAddedCity +
+          ',' +
+          _myAddedPrefecture;
+      print('USER MANUAL ADDRESS : $manualAddedAddress');
+      List<Placemark> userManualAddress =
+          await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
+      userManualAddressPlaceMark = userManualAddress[0];
+      Position addressPosition = userManualAddressPlaceMark.position;
+      HealingMatchConstants.manualAddressCurrentLatitude =
+          addressPosition.latitude;
+      HealingMatchConstants.manualAddressCurrentLongitude =
+          addressPosition.longitude;
+      HealingMatchConstants.serviceUserCity =
+          userManualAddressPlaceMark.locality;
+      HealingMatchConstants.serviceUserPrefecture =
+          userManualAddressPlaceMark.administrativeArea;
+      HealingMatchConstants.manualUserAddress = manualAddedAddress;
+
+      print(
+          'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
+          '${HealingMatchConstants.manualAddressCurrentLongitude}');
+      print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
+      print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
+
+      if (constantUserAddressValuesList.length <= 2) {
+        String city = _myAddedCity;
+        setState(() {
+          addUserAddress = AddUserSubAddress(
+            manualAddedAddress,
+            HealingMatchConstants.manualAddressCurrentLatitude.toString(),
+            HealingMatchConstants.manualAddressCurrentLongitude.toString(),
+            _myAddedAddressInputType,
+            _myCategoryPlaceForMassage,
+            _myAddedCity,
+            _myAddedPrefecture,
+            addedRoomNumberController.text.toString(),
+            addedBuildingNameController.text.toString(),
+            addedUserAreaController.text.toString(),
+          );
+          print(_myAddedAddressInputType);
+          widget.callBack();
+          Navigator.pop(context);
+          /*   Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        UpdateServiceUserDetails()));*/
+        });
+      } else {
+        ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('メインの地点以外に3箇所まで地点登録ができます。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _scaffoldKey.currentState.hideCurrentSnackBar();
+                  Navigator.pop(context);
+                  /*  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                UpdateServiceUserDetails()));*/
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      }
+    }
+    /*else {
       ProgressDialogBuilder.hideAddAddressProgressDialog(context);
       print('Address Type is Empty....');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -3446,7 +3357,7 @@ class _AddAddressState extends State<AddAddress> {
         ),
       ));
       return;
-    }
+    }*/
 
     _sharedPreferences.then((value) {
       setState(() {

@@ -947,7 +947,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       )
                     : Container(),
                 SizedBox(
-                  height: 20,
+                  height: 12,
                 ),
                 Container(
                   width: double.infinity,
