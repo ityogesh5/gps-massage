@@ -29,6 +29,8 @@ class SearchScreenUser extends StatefulWidget {
 
 class _SearchScreenUserState extends State<SearchScreenUser> {
   int _value = 0;
+  int _addressType;
+
   String val = "S";
   String values = "D";
   bool _isVisible = true;
@@ -50,6 +52,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   bool readonly = false;
   var yearString, monthString, dateString;
   final keywordController = new TextEditingController();
+
+  String addressTypeValue, massageServiceTypeValue, keyWordSearchValue;
+  bool isTimeAvailable, isComingToShop;
+  int _serviceType;
 
   void initState() {
     super.initState();
@@ -89,23 +95,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               children: [
                 Row(
                   children: [
-                    IconButton(
-                      padding: EdgeInsets.all(0.0),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                      ),
-                      onPressed: () {
-                        NavigationRouter.switchToServiceUserBottomBar(context);
-                      },
-                      color: Colors.black,
-                    ),
                     Expanded(
                       child: Card(
                         elevation: 4.0,
                         margin: EdgeInsets.all(0.0),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
                         ),
                         child: Container(
                           margin: EdgeInsets.all(0.0),
@@ -125,8 +120,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Image.asset(
                                     "assets/images_gps/search.png",
-                                    height: 22,
-                                    width: 22,
+                                    height: 15,
+                                    width: 15,
                                     color: Color.fromRGBO(225, 225, 225, 1),
                                   ),
                                 ),
@@ -136,7 +131,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                 border: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: Colors.red, width: 2.0),
-                                  borderRadius: BorderRadius.circular(7),
+                                  borderRadius: BorderRadius.circular(6.0),
                                 )),
                           ),
                         ),
@@ -249,10 +244,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  _addressType = 0;
+                                });
+                              },
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor: _addressType == 0
+                                    ? Color.fromRGBO(200, 217, 33, 1)
+                                    : Colors.grey[100],
                                 child: SvgPicture.asset(
                                     'assets/images_gps/house.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -277,10 +278,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  _addressType = 1;
+                                });
+                              },
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor: _addressType == 1
+                                    ? Color.fromRGBO(200, 217, 33, 1)
+                                    : Colors.grey[100],
                                 child: SvgPicture.asset(
                                     'assets/images_gps/office.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -305,10 +312,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  _addressType = 2;
+                                });
+                              },
                               child: CircleAvatar(
                                 maxRadius: 32,
-                                backgroundColor: Colors.grey[200],
+                                backgroundColor: _addressType == 2
+                                    ? Color.fromRGBO(200, 217, 33, 1)
+                                    : Colors.grey[100],
                                 child: SvgPicture.asset(
                                     'assets/images_gps/parents_house.svg',
                                     color: Color.fromRGBO(0, 0, 0, 1),
@@ -356,7 +369,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () => setState(() => _value = 0),
+                            //  onTap: () => setState(() => _value = 0),
+                            onTap: () {
+                              setState(() {
+                                _value = 0;
+                                _serviceType = 1;
+                              });
+                            },
                             child: Column(
                               children: [
                                 Card(
@@ -405,7 +424,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => setState(() => _value = 1),
+                            //onTap: () => setState(() => _value = 1),
+                            onTap: () {
+                              setState(() {
+                                _value = 1;
+                                _serviceType = 2;
+                              });
+                            },
                             child: Column(
                               children: [
                                 Card(
@@ -453,7 +478,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => setState(() => _value = 2),
+                            //onTap: () => setState(() => _value = 2),
+                            onTap: () {
+                              setState(() {
+                                _value = 2;
+                                _serviceType = 3;
+                              });
+                            },
                             child: Column(
                               children: [
                                 Card(
@@ -501,7 +532,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => setState(() => _value = 3),
+                            //onTap: () => setState(() => _value = 3),
+                            onTap: () {
+                              setState(() {
+                                _value = 3;
+                                _serviceType = 4;
+                              });
+                            },
                             child: Column(
                               children: [
                                 Card(
@@ -699,10 +736,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     width: MediaQuery.of(context).size.width * 0.40,
                     buttonColor: Theme.of(context).canvasColor,
                     enableShape: true,
-                    /*   customShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.black38)),
-                   */
                     buttonLables: ["受けたい日時でさがす", "セラピストをさがす"],
                     fontSize: 12.0,
                     buttonValues: [
