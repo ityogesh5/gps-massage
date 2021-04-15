@@ -529,7 +529,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           },
           body: json.encode({
             "userId": rUserID,
-            "therapistId": "8",
+            "therapistId": "18",
             "ratingsCount": ratingsValue.toString(),
             "reviewComment": reviewComment,
           }));
@@ -574,7 +574,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "8",
+            "therapistId": "18",
           }));
       // print(response.body);
       print('Body : ${response.body}');

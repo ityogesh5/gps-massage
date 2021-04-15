@@ -138,6 +138,7 @@ class DialogHelper {
         debugPrint('OnClcik');
       },
       btnOk: AnimatedButton(
+          color: Color.fromRGBO(200, 217, 33, 1),
           text: 'OK',
           pressEvent: () {
             dialog.dissmiss();
