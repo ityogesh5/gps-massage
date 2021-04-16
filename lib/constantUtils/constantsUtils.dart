@@ -19,7 +19,8 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api";
+      "http://103.92.19.158:9094/api";
+  /*"http://106.51.49.160:9094/api";*/
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -65,11 +66,11 @@ class HealingMatchConstants {
 
   //Ratings and Review
   static const String RATING_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/mobileReview/createUserReview';
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/createTherapistReview';
 
   // Provider rating List
   static const String RATING_PROVIDER_LIST_URL =
-      ON_PREMISE_USER_BASE_URL + '/mobileReview/userReviewListById';
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/therapistReviewListById';
 
   // get Therapists list
   static const String THERAPIST_LIST_URL =
@@ -143,6 +144,7 @@ class HealingMatchConstants {
   static String serviceUserMassagePlace = '';
   static String serviceUserAddress = '';
   static String serviceUserPrefecture = '';
+  static String serviceUserPrefectureId = '';
   static String serviceUserCity = '';
   static String serviceUserBuildingName = '';
   static String serviceUserArea = '';
@@ -448,10 +450,8 @@ class HealingMatchConstants {
       fontFamily: 'NotoSansJP',
       fontSize: 14);
 
-  static TextStyle formHintTextStyleStar = TextStyle(
-      color: Colors.red,
-      fontFamily: 'NotoSansJP',
-      fontSize: 14);
+  static TextStyle formHintTextStyleStar =
+      TextStyle(color: Colors.red, fontFamily: 'NotoSansJP', fontSize: 14);
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),

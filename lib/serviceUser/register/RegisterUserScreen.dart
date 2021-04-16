@@ -104,7 +104,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  int _prefId;
+  var prefId;
 
   showHide() {
     setState(() {
@@ -1079,25 +1079,25 @@ class _RegisterUserState extends State<RegisterUser> {
                                                           _myPrefecture;
                                                       print(
                                                           'Prefecture value : ${_myPrefecture.toString()}');
-                                                      _prefId =
+                                                      prefId =
                                                           stateDropDownValues
                                                                   .indexOf(
                                                                       value) +
                                                               1;
                                                       print(
-                                                          'prefID : ${_prefId.toString()}');
+                                                          'prefID : ${prefId.toString()}');
                                                       cityDropDownValues
                                                           .clear();
                                                       _myCity = '';
-                                                      _getCities(_prefId);
+                                                      _getCities(prefId);
                                                       _sharedPreferences
                                                           .then((value) {
                                                         value.setString(
                                                             'cityID',
-                                                            _prefId.toString());
+                                                            prefId.toString());
 
                                                         print(
-                                                            'Pref id : ${_prefId.toString()}');
+                                                            'Pref id : ${prefId.toString()}');
                                                       });
                                                     });
                                                   },
@@ -1942,7 +1942,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('検索地点を入力してください。',
+              child: Text('登録する地点のカテゴリーを選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1972,7 +1972,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('登録する地点のカテゴリーを入力してください。',
+              child: Text('検索地点を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2061,7 +2061,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な都、県選 を入力してください。',
+              child: Text('丁目と番地を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2144,10 +2144,11 @@ class _RegisterUserState extends State<RegisterUser> {
     }*/
 
     // Getting user GPS Address value
-    if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
+    /*if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
       HealingMatchConstants.userAddress = userGPSAddress;
       print('GPS Address : ${HealingMatchConstants.userAddress}');
-    } else if (HealingMatchConstants.userAddress.isEmpty) {
+    } else*/
+    if (HealingMatchConstants.userAddress.isEmpty) {
       String address = roomNumber +
           ',' +
           buildingName +
@@ -2293,6 +2294,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 'userPlaceForMassage', userAddressData.userPlaceForMassage);
             value.setString('otherOption', userAddressData.otherAddressType);
             value.setString('cityName', userAddressData.cityName);
+            // value.setString('prefId', prefId.toString());
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
