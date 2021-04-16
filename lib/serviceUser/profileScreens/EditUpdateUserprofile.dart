@@ -2523,6 +2523,7 @@ class _AddAddressState extends State<AddAddress> {
   bool _showRequiredFields = false;
   bool visible = false;
   final otherController = new TextEditingController();
+  double containerHeight = 48.0;
   @override
   void initState() {
     // TODO: implement initState
@@ -2711,6 +2712,7 @@ class _AddAddressState extends State<AddAddress> {
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
+                                  height: containerHeight,
                                   child: TextFormField(
                                     controller: otherController,
                                     style: HealingMatchConstants.formTextStyle,
@@ -2933,6 +2935,7 @@ class _AddAddressState extends State<AddAddress> {
                                                       .size
                                                       .width *
                                                   0.39,
+                                              height: containerHeight,
                                               child: TextFormField(
                                                 //enableInteractiveSelection: false,
                                                 autofocus: false,
@@ -2976,6 +2979,7 @@ class _AddAddressState extends State<AddAddress> {
                                                     .size
                                                     .width *
                                                 0.39,
+                                            height: containerHeight,
                                             child: TextFormField(
                                               //enableInteractiveSelection: false,
                                               // keyboardType: TextInputType.number,
@@ -3033,6 +3037,7 @@ class _AddAddressState extends State<AddAddress> {
                                                       .size
                                                       .width *
                                                   0.39,
+                                              height: containerHeight,
                                               child: TextFormField(
                                                 //enableInteractiveSelection: false,
                                                 autofocus: false,
