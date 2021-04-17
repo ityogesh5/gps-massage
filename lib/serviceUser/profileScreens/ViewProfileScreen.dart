@@ -39,6 +39,10 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
 
   String userAddress;
 
+  var _myCity;
+  var _myCategoryPlaceForMassage;
+  var _myPrefecture;
+
   double iconHeight = 20.0;
   double iconWidth = 20.0;
   Color iconColor = Colors.black;
@@ -152,7 +156,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               onPressed: () {
                                 NavigationRouter
                                     .switchToServiceUserEditProfileScreen(
-                                        context,userProfileImage);
+                                        context, userProfileImage);
                               }),
                         ),
                       )
@@ -518,6 +522,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           userGender = value.getString('userGender');
           userOccupation = value.getString('userOccupation');
           userAddress = value.getString('userAddress');
+          _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
+          _myCity = value.getString('cityName');
+          _myPrefecture = value.getString('capitalAndPrefecture');
 
           HealingMatchConstants.serviceUserName = userName;
           HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
@@ -530,6 +537,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         });
 
         print(userAddress);
+        print('Prefectute: $_myPrefecture');
+        print('City: $_myCity');
+        print('myCategoryPlaceForMassage: $_myCategoryPlaceForMassage');
       });
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
