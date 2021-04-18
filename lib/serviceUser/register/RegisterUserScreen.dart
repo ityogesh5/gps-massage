@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -104,7 +105,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  int _prefId;
+  var _prefId;
 
   showHide() {
     setState(() {
@@ -318,55 +319,32 @@ class _RegisterUserState extends State<RegisterUser> {
                                       ),
                                     )),
                               ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.upload_outlined,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Image.asset(
-                                            "assets/images_gps/upload.png"),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
                       ],
                     ),
                     SizedBox(height: 10),
+                    Form(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: DropDownFormField(
+                              hintText: 'プロフィール画像アップロード',
+                              onSaved: (value) {
+                                setState(() {});
+                              },
+                              onChanged: (value) {},
+                              dataSource: [],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -379,11 +357,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                              HealingMatchConstants.textFormInputBorder,
+                          HealingMatchConstants.textFormInputBorder,
                           //       labelText: 'お名前*',
                         ),
                         labelText: Text.rich(
@@ -393,7 +371,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                TextStyle(color: Colors.red, fontSize: 20),
                               ),
                             ],
                             style: TextStyle(
@@ -439,6 +417,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                           .textFormInputBorder,
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          _selectDate(context);
+                                        },
+                                        icon: SvgPicture.asset(
+                                            'assets/images_gps/calendar.svg',
+                                            height: 30,
+                                            width: 30),
+                                      ),
                                       // labelText: 'お名前',
                                     ),
                                     labelText: Text.rich(
@@ -687,9 +674,25 @@ class _RegisterUserState extends State<RegisterUser> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: phoneNumberController,
-                        maxLength: 11,
+                        maxLength: 10,
                         autofocus: false,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
+                        onEditingComplete: () {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                          phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after edit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        onSubmitted: (userPhoneNumber) {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                          phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after submit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1670,7 +1673,6 @@ class _RegisterUserState extends State<RegisterUser> {
     // user phone number validation
     if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
-        userPhoneNumber.isEmpty ||
         userPhoneNumber.length < 10) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1942,7 +1944,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('検索地点を入力してください。',
+              child: Text('登録する地点のカテゴリーを選択してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1972,7 +1974,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('登録する地点のカテゴリーを入力してください。',
+              child: Text('検索地点を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2061,7 +2063,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('有効な都、県選 を入力してください。',
+              child: Text('丁目と番地を入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2081,73 +2083,7 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-    // user building name validation
-    /*   if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
-        buildingName.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('有効なビル名を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
-
-    // room number validation
-    /* if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
-        roomNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('有効な部屋番号を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
-
-    // Getting user GPS Address value
-    if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
-      HealingMatchConstants.userAddress = userGPSAddress;
-      print('GPS Address : ${HealingMatchConstants.userAddress}');
-    } else if (HealingMatchConstants.userAddress.isEmpty) {
+    if (HealingMatchConstants.userAddress.isEmpty) {
       String address = roomNumber +
           ',' +
           buildingName +
@@ -2293,6 +2229,7 @@ class _RegisterUserState extends State<RegisterUser> {
                 'userPlaceForMassage', userAddressData.userPlaceForMassage);
             value.setString('otherOption', userAddressData.otherAddressType);
             value.setString('cityName', userAddressData.cityName);
+            value.setString('prefId', _prefId);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 

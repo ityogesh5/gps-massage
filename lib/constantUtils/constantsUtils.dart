@@ -18,8 +18,8 @@ class HealingMatchConstants {
 // DOMAIN URL'S
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
-  static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api";
+  static const String ON_PREMISE_USER_BASE_URL ="http://103.92.19.158:9094/api";
+      //"http://106.51.49.160:9094/api";
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -100,6 +100,11 @@ class HealingMatchConstants {
   static const String BANNER_IMAGES_URL = ON_PREMISE_USER_BASE_URL +
       '/adminBanner' +
       '/getAllAdminBannerListMobile';
+
+  // get Users banner images from Admin
+  static const String GET_USER_DETAILS = ON_PREMISE_USER_BASE_URL +
+      '/user' +
+      '/userbyId';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -378,6 +383,7 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
+  static String searchUserAddress = '';
   static List<Address> addressList = List<Address>();
 
   // User Home screen
@@ -395,6 +401,7 @@ class HealingMatchConstants {
   static String searchGpsIconTxt = '現在地';
   static String searchHomeIconTxt = '自宅';
   static String searchOfficeIconTxt = 'オフィス';
+  static String searchOtherIconTxt = 'その他';
   static String searchPHomeIconTxt = '実家';
   static String searchServiceSelTxt = '受けたい施術を選んでください';
   static String searchEsteticTxt = 'エステ';

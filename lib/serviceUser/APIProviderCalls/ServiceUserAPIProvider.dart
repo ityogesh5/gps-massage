@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,8 @@ class ServiceUserAPIProvider {
   static TherapistsByTypeModel _therapistsByTypeModel =
       new TherapistsByTypeModel();
 
+  static GetUserDetailsByIdModel _getUserDetailsByIdModel =
+  new GetUserDetailsByIdModel();
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers() async {
     try {
@@ -46,7 +49,7 @@ class ServiceUserAPIProvider {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/user/therapistUserList?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -70,7 +73,7 @@ class ServiceUserAPIProvider {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/user/therapistListByType?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -113,5 +116,32 @@ class ServiceUserAPIProvider {
       throw Exception(e);
     }
     return _bannerModel;
+  }
+
+
+  // get home screen user banner images
+  static Future<GetUserDetailsByIdModel> getUserDetails(
+      BuildContext context,String userID) async {
+    try {
+      final url = HealingMatchConstants.GET_USER_DETAILS;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url, headers: headers,
+          body: json.encode({
+            "user_id": userID,
+          }));
+      final getUserDetails = json.decode(response.body);
+      print('User Details Response : ${response.body}');
+      _getUserDetailsByIdModel = GetUserDetailsByIdModel.fromJson(getUserDetails);
+    } on SocketException catch (_) {
+      //handle socket Exception
+      print('Socket Exception...Occurred');
+    } catch (e) {
+      print('User Details Exception caught : ${e.toString()}');
+      throw Exception(e);
+    }
+    return _getUserDetailsByIdModel;
   }
 }

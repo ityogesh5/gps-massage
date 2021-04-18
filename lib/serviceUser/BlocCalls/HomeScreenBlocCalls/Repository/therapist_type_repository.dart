@@ -21,7 +21,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       int massageTypeValue, int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/user/therapistListByType?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '$accessToken'

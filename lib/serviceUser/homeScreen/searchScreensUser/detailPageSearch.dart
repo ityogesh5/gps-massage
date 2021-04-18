@@ -2796,7 +2796,9 @@ class _SearchCauroselWithIndicatorState
                   size: 20,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
             Spacer(),

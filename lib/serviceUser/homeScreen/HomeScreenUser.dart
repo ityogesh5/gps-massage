@@ -49,7 +49,7 @@ String therapistImage = '';
 
 int _selectedIndex;
 List<UserTypeList> therapistListByType = [];
-List<UserList> therapistUsers = [];
+List<TherapistList> therapistUsers = [];
 var accessToken;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 
@@ -320,80 +320,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      HealingMatchConstants.isUserRegistrationSkipped != null &&
-                              HealingMatchConstants.isUserRegistrationSkipped
-                          ? NavigationRouter
-                              .switchToServiceUserSearchScreenWithOutRegister(
-                                  context)
-                          : NavigationRouter.switchToServiceUserSearchScreen(
-                              context);
-                    });
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.all(6.0),
-                      height: 55,
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.height * 0.85,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(255, 255, 255, 1),
-                              Color.fromRGBO(255, 255, 255, 1),
-                            ]),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color.fromRGBO(102, 102, 102, 1),
-                        ),
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Color.fromRGBO(228, 228, 228, 1),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'キーワードでさがす',
-                            style: TextStyle(
-                                color: Color.fromRGBO(225, 225, 225, 1),
-                                fontSize: 14,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          Spacer(),
-                          InkWell(
-                            child: Image.asset(
-                              "assets/images_gps/search.png",
-                              color: Color.fromRGBO(225, 225, 225, 1),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                HealingMatchConstants
-                                                .isUserRegistrationSkipped !=
-                                            null &&
-                                        HealingMatchConstants
-                                            .isUserRegistrationSkipped
-                                    ? NavigationRouter
-                                        .switchToServiceUserSearchScreenWithOutRegister(
-                                            context)
-                                    : NavigationRouter
-                                        .switchToServiceUserSearchScreen(
-                                            context);
-                              });
-                            },
-                          ),
-                        ],
-                      )),
-                ),
-              ),
-            ],
-          ),
+          SizedBox(height: 20),
           CarouselWithIndicatorDemo(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -1387,7 +1314,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                         Expanded(
                                           child: Row(
                                             children: [
-                                              Spacer(),
+                                              //Spacer(),
                                               widget.getTherapistByType[index]
                                                           .sixtyMin ==
                                                       0
@@ -1644,7 +1571,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
                 child: Column(children: [
                   CarouselSlider(
                     items: <Widget>[
@@ -1654,7 +1581,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                             margin: EdgeInsets.all(5.0),
                             child: ClipRRect(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
+                                    BorderRadius.all(Radius.circular(12.0)),
                                 child: Stack(
                                   children: <Widget>[
                                     CachedNetworkImage(
@@ -2550,7 +2477,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       apiProvider.then((value) {
         if (this.mounted) {
           setState(() {
-            therapistUsers = value.therapistData.userList;
+            therapistUsers = value.therapistData.therapistList;
             for (int i = 0; i < therapistUsers.length; i++) {
               if (therapistUsers[i].user.storeType != null &&
                   therapistUsers[i].user.storeType != '') {
@@ -2566,7 +2493,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 print('Store type map values : $storeTypeValues');
               }
               certificateUpload =
-                  value.therapistData.userList[i].user.certificationUploads;
+                  value.therapistData.therapistList[i].user.certificationUploads;
               for (int j = 0; j < certificateUpload.length; j++) {
                 print('Certificate upload : ${certificateUpload[j].toJson()}');
                 certificateUploadKeys = certificateUpload[j].toJson();
@@ -3029,7 +2956,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                           Expanded(
                                             child: Row(
                                               children: [
-                                                Spacer(),
+                                                //Spacer(),
                                                 therapistUsers[index]
                                                             .sixtyMin ==
                                                         0

@@ -424,13 +424,7 @@ class NavigationRouter {
         MaterialPageRoute(builder: (BuildContext context) => AddAddress(arg)));
   }
 
-  // User define screen
-  static void switchToUserSearchAddAddressScreen(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => AddAddressScreen()));
-  }
+
 
   // User calender screen
   static void switchToUserCalendarScreenScreen(BuildContext context) {
@@ -548,6 +542,7 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => DetailPageSearch()));
   }
+
 
   //User BookingDetailsApprovedScreen
   static void switchToServiceUserBookingDetailsApprovedScreen(
