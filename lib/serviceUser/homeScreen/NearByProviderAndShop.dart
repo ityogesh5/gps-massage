@@ -20,10 +20,10 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-List<UserList> therapistListByType = [];
+
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
 
-int _selectedIndex = -1;
+int _selectedIndex ;
 
 class NearByProviderAndShop extends StatelessWidget {
   @override
@@ -174,7 +174,7 @@ class LoadProvidersPage extends StatefulWidget {
 
 class _LoadProvidersPageState extends State<LoadProvidersPage> {
   TherapistTypeBloc _therapistTypeBloc;
-  List<UserList> therapistUsers = [];
+  List<TherapistList> therapistUsers = [];
   double ratingsValue = 3.0;
   bool isLoading = false;
   var _pageNumber = 1;
@@ -201,10 +201,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
     providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
-          therapistUsers = value.therapistData.userList;
+          therapistUsers = value.therapistData.therapistList;
           for (int i = 0; i < therapistUsers.length; i++) {
             certificateUpload =
-                value.therapistData.userList[i].user.certificationUploads;
+                value.therapistData.therapistList[i].user.certificationUploads;
 
             for (int j = 0; j < certificateUpload.length; j++) {
               print('Certificate upload : ${certificateUpload[j].toJson()}');
@@ -715,7 +715,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                   : Container(),
                                               Row(
                                                 children: [
-                                                  Spacer(),
+                                                  //Spacer(),
                                                   therapistUsers[index]
                                                               .sixtyMin ==
                                                           0
@@ -869,7 +869,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               ServiceUserAPIProvider.getAllTherapistsByLimit(
                   _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.therapistData.userList.isEmpty) {
+            if (value.therapistData.therapistList.isEmpty) {
               setState(() {
                 isLoading = false;
               });
@@ -877,7 +877,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  therapistUsers.addAll(value.therapistData.userList);
+                  therapistUsers.addAll(value.therapistData.therapistList);
                 }
               });
             }
@@ -1355,7 +1355,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                   : Container(),
                                               Row(
                                                 children: [
-                                                  Spacer(),
+                                                  //Spacer(),
                                                   widget.getTherapistByType[index]
                                                               .sixtyMin ==
                                                           0

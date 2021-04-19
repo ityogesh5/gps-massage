@@ -31,33 +31,33 @@ class TherapistUsersModel {
 class TherapistData {
   TherapistData({
     this.count,
-    this.userList,
+    this.therapistList,
     this.totalPages,
     this.pageNumber,
   });
 
   int count;
-  List<UserList> userList;
+  List<TherapistList> therapistList;
   int totalPages;
   int pageNumber;
 
   factory TherapistData.fromJson(Map<String, dynamic> json) => TherapistData(
     count: json["count"],
-    userList: List<UserList>.from(json["userList"].map((x) => UserList.fromJson(x))),
+    therapistList: List<TherapistList>.from(json["therapistList"].map((x) => TherapistList.fromJson(x))),
     totalPages: json["totalPages"],
     pageNumber: json["pageNumber"],
   );
 
   Map<String, dynamic> toJson() => {
     "count": count,
-    "userList": List<dynamic>.from(userList.map((x) => x.toJson())),
+    "therapistList": List<dynamic>.from(therapistList.map((x) => x.toJson())),
     "totalPages": totalPages,
     "pageNumber": pageNumber,
   };
 }
 
-class UserList {
-  UserList({
+class TherapistList {
+  TherapistList({
     this.id,
     this.userId,
     this.categoryId,
@@ -87,7 +87,7 @@ class UserList {
   DateTime updatedAt;
   User user;
 
-  factory UserList.fromJson(Map<String, dynamic> json) => UserList(
+  factory TherapistList.fromJson(Map<String, dynamic> json) => TherapistList(
     id: json["id"],
     userId: json["userId"],
     categoryId: json["categoryId"],
@@ -175,8 +175,8 @@ class User {
   String gender;
   bool isTherapist;
   bool isVerified;
-  dynamic isActive;
-  dynamic isAccepted;
+  bool isActive;
+  int isAccepted;
   dynamic rejectReason;
   dynamic updatedUser;
   dynamic uploadProfileImgUrl;
@@ -199,7 +199,7 @@ class User {
   DateTime updatedAt;
   List<CertificationUpload> certificationUploads;
   List<Banner> banners;
-  List<dynamic> reviews;
+  List<Review> reviews;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
@@ -239,7 +239,7 @@ class User {
     updatedAt: DateTime.parse(json["updatedAt"]),
     certificationUploads: List<CertificationUpload>.from(json["certification_uploads"].map((x) => CertificationUpload.fromJson(x))),
     banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
-    reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
+    reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -280,7 +280,7 @@ class User {
     "updatedAt": updatedAt.toIso8601String(),
     "certification_uploads": List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
     "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-    "reviews": List<dynamic>.from(reviews.map((x) => x)),
+    "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
   };
 }
 
@@ -403,6 +403,62 @@ class CertificationUpload {
     "privateQualification3": privateQualification3,
     "privateQualification4": privateQualification4,
     "privateQualification5": privateQualification5,
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+  };
+}
+
+class Review {
+  Review({
+    this.id,
+    this.userId,
+    this.therapistId,
+    this.ratingsId,
+    this.isReviewStatus,
+    this.ratingsCount,
+    this.reviewComment,
+    this.createdUser,
+    this.updatedUser,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int userId;
+  int therapistId;
+  dynamic ratingsId;
+  bool isReviewStatus;
+  int ratingsCount;
+  String reviewComment;
+  String createdUser;
+  String updatedUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Review.fromJson(Map<String, dynamic> json) => Review(
+    id: json["id"],
+    userId: json["userId"],
+    therapistId: json["therapistId"],
+    ratingsId: json["ratingsId"],
+    isReviewStatus: json["isReviewStatus"],
+    ratingsCount: json["ratingsCount"],
+    reviewComment: json["reviewComment"],
+    createdUser: json["createdUser"],
+    updatedUser: json["updatedUser"],
+    createdAt: DateTime.parse(json["createdAt"]),
+    updatedAt: DateTime.parse(json["updatedAt"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "userId": userId,
+    "therapistId": therapistId,
+    "ratingsId": ratingsId,
+    "isReviewStatus": isReviewStatus,
+    "ratingsCount": ratingsCount,
+    "reviewComment": reviewComment,
+    "createdUser": createdUser,
+    "updatedUser": updatedUser,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
   };

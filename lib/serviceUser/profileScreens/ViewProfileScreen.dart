@@ -542,7 +542,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         print('myCategoryPlaceForMassage: $_myCategoryPlaceForMassage');
         print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
       });
-      var userListApiProvider = ServiceUserAPIProvider.getUserDetails();
+      var userListApiProvider = ServiceUserAPIProvider.getUserDetailsById();
       userListApiProvider.then((value) {
         setState(() {
           // userProfileImage = value.data.uploadProfileImgUrl.toString();

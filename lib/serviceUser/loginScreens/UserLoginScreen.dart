@@ -537,6 +537,8 @@ class _UserLoginState extends State<UserLogin> {
             value.setBool('isUserLoggedIn', true);
             value.setBool('userLoginSkipped', false);
             value.setBool('isProviderLoggedIn', false);
+
+            print('Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
           }
 
           print('ID: ${loginResponseModel.data.id}');
