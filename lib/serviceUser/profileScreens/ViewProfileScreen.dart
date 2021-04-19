@@ -569,6 +569,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       print(
           'serviceUserEmailAddress: ${HealingMatchConstants.serviceUserEmailAddress}');
       print('serviceUserDOB: ${HealingMatchConstants.serviceUserDOB}');
+      print('serviceUserAge: ${HealingMatchConstants.serviceUserAge}');
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
       print(e.toString());
