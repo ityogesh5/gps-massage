@@ -23,6 +23,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/providerPro
     as profileUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -488,10 +489,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 : storeTypeDisplayStatus = 0;
                           });
                         },
-                        child: TextFormField(
+                        child: TextFieldCustom(
                           enabled: false,
-                          initialValue:
-                              HealingMatchConstants.registrationStoretype,
+                          hintText: Text.rich(
+                            TextSpan(
+                              text: HealingMatchConstants.registrationStoretype,
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
+                                ),
+                              ],
+                              style: HealingMatchConstants.formHintTextStyle,
+                            ),
+                          ),
+                          /*  initialValue:
+                              HealingMatchConstants.registrationStoretype, */
                           style: HealingMatchConstants.formHintTextStyle,
                           decoration: new InputDecoration(
                             focusedBorder:
@@ -848,22 +862,37 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         child: Theme(
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
-                          child: TextFormField(
-                              enabled: false,
-                              controller: providerNameController,
-                              style: HealingMatchConstants.formTextStyle,
-                              decoration: InputDecoration(
-                                labelText:
-                                    HealingMatchConstants.editProfileName,
-                                labelStyle:
-                                    HealingMatchConstants.formLabelTextStyle,
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                              )),
+                          child: TextFieldCustom(
+                            enabled: false,
+                            controller: providerNameController,
+                            style: HealingMatchConstants.formTextStyle,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(16.0),
+                              /*  labelText: HealingMatchConstants.registrationName,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
+                            labelText: Text.rich(
+                              TextSpan(
+                                text: HealingMatchConstants.registrationName,
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  ),
+                                ],
+                                style: HealingMatchConstants.formLabelTextStyle,
+                              ),
+                            ),
+                          ),
                         )),
                     bussinessForm == "施術店舗あり 施術従業員あり" ||
                             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
@@ -891,23 +920,39 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 child: Theme(
                                   data: Theme.of(context)
                                       .copyWith(splashColor: Colors.black12),
-                                  child: TextFormField(
-                                      controller: storeNameController,
-                                      style:
-                                          HealingMatchConstants.formTextStyle,
-                                      decoration: InputDecoration(
-                                        labelText: HealingMatchConstants
-                                            .editProfileStoreName,
-                                        labelStyle: HealingMatchConstants
+                                  child: TextFieldCustom(
+                                    controller: storeNameController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(16.0),
+                                      /*  labelText: HealingMatchConstants
+                                      .registrationStoreName,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationStoreName,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
                                             .formLabelTextStyle,
-                                        filled: true,
-                                        fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                        focusedBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        enabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 )),
                           ])
                         : Container(),
@@ -930,16 +975,31 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   onTap: () {
                                     //   _selectDate(context);
                                   },
-                                  child: TextFormField(
+                                  child: TextFieldCustom(
                                       enabled: false,
                                       controller: userDOBController,
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: HealingMatchConstants
+                                              .registrationDob,
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            ),
+                                          ],
+                                          style: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                        ),
+                                      ),
                                       style:
                                           HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
-                                          labelText: HealingMatchConstants
+                                          /*  labelText: HealingMatchConstants
                                               .editProfileDob,
                                           labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
+                                              .formLabelTextStyle, */
                                           filled: true,
                                           fillColor:
                                               ColorConstants.formFieldFillColor,
@@ -1013,6 +1073,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  Text(
+                                    '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  )
                                   // Text("*", style: TextStyle(color: Colors.red)),
                                 ],
                               ),
@@ -1069,6 +1134,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     HealingMatchConstants.formLabelTextStyle,
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
                                 focusedBorder:
                                     HealingMatchConstants.textFormInputBorder,
                                 enabledBorder:

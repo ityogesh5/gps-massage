@@ -8,7 +8,7 @@ abstract class GetUserReviewRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int userId = HealingMatchConstants.serviceUserId;
 
-  Future<List<UserList>> getUserReviewById(
+  Future<List<UserReviewList>> getUserReviewById(
       String accessToken, int userId, int pageNumber, int pageSize);
 }
 
@@ -17,7 +17,7 @@ class GetUserReviewRepositoryImpl implements GetUserReviewRepository {
   String accessToken;
 
   @override
-  Future<List<UserList>> getUserReviewById(String accessToken,
+  Future<List<UserReviewList>> getUserReviewById(String accessToken,
       int userId, int pageNumber, int pageSize) async {
     try {
       final url =
@@ -35,10 +35,10 @@ class GetUserReviewRepositoryImpl implements GetUserReviewRepository {
           'Therapist repo token : $accessToken : UserId  : $userId');
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
-        List<UserList> usersReview =
+        List<UserReviewList> usersReview =
             UserReviewandRatingsViewResponseModel.fromJson(userData)
                 .userData
-                .userList;
+                .userReviewList;
         print('Types list:  $userData');
         return usersReview;
       } else {

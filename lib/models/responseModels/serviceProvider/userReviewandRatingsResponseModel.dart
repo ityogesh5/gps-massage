@@ -31,33 +31,33 @@ class UserReviewandRatingsViewResponseModel {
 class UserData {
     UserData({
         this.totalElements,
-        this.userList,
+        this.userReviewList,
         this.totalPages,
         this.pageNumber,
     });
 
     int totalElements;
-    List<UserList> userList;
+    List<UserReviewList> userReviewList;
     int totalPages;
     int pageNumber;
 
     factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         totalElements: json["totalElements"],
-        userList: List<UserList>.from(json["userList"].map((x) => UserList.fromJson(x))),
+        userReviewList: List<UserReviewList>.from(json["userReviewList"].map((x) => UserReviewList.fromJson(x))),
         totalPages: json["totalPages"],
         pageNumber: json["pageNumber"],
     );
 
     Map<String, dynamic> toJson() => {
         "totalElements": totalElements,
-        "userList": List<dynamic>.from(userList.map((x) => x.toJson())),
+        "userReviewList": List<dynamic>.from(userReviewList.map((x) => x.toJson())),
         "totalPages": totalPages,
         "pageNumber": pageNumber,
     };
 }
 
-class UserList {
-    UserList({
+class UserReviewList {
+    UserReviewList({
         this.id,
         this.userId,
         this.therapistId,
@@ -79,13 +79,13 @@ class UserList {
     bool isReviewStatus;
     int ratingsCount;
     String reviewComment;
-    dynamic createdUser;
-    dynamic updatedUser;
+    String createdUser;
+    String updatedUser;
     DateTime createdAt;
     DateTime updatedAt;
     ReviewTherapistId reviewTherapistId;
 
-    factory UserList.fromJson(Map<String, dynamic> json) => UserList(
+    factory UserReviewList.fromJson(Map<String, dynamic> json) => UserReviewList(
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
@@ -93,8 +93,8 @@ class UserList {
         isReviewStatus: json["isReviewStatus"],
         ratingsCount: json["ratingsCount"],
         reviewComment: json["reviewComment"],
-        createdUser: json["createdUser"],
-        updatedUser: json["updatedUser"],
+        createdUser: json["createdUser"] == null ? null : json["createdUser"],
+        updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         reviewTherapistId: ReviewTherapistId.fromJson(json["reviewTherapistId"]),
@@ -108,8 +108,8 @@ class UserList {
         "isReviewStatus": isReviewStatus,
         "ratingsCount": ratingsCount,
         "reviewComment": reviewComment,
-        "createdUser": createdUser,
-        "updatedUser": updatedUser,
+        "createdUser": createdUser == null ? null : createdUser,
+        "updatedUser": updatedUser == null ? null : updatedUser,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "reviewTherapistId": reviewTherapistId.toJson(),
@@ -127,7 +127,7 @@ class ReviewTherapistId {
     int id;
     String userId;
     String userName;
-    dynamic uploadProfileImgUrl;
+    String uploadProfileImgUrl;
 
     factory ReviewTherapistId.fromJson(Map<String, dynamic> json) => ReviewTherapistId(
         id: json["id"],

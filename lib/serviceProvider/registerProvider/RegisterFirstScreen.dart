@@ -1303,7 +1303,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       obscureText: passwordConfirmVisibility,
                       style: HealingMatchConstants.formTextStyle,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.0),
+                        contentPadding: EdgeInsets.all(16.0),
                         /* labelText:
                               HealingMatchConstants.registrationConfirmPassword,
                           labelStyle: HealingMatchConstants.formLabelTextStyle, */

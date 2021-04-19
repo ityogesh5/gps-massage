@@ -19,7 +19,7 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api";
+      "http://103.92.19.158:9094/api";
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -277,10 +277,10 @@ class HealingMatchConstants {
       '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
-  static const String registrationIdentityVerification = '本人確認証を選択してください*';
-  static const String registrationIdentityUpload = '本人確認証のアップロード*';
+  static const String registrationIdentityVerification = '本人確認証を選択してください';
+  static const String registrationIdentityUpload = '本人確認証のアップロード';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
-  static const String registrationQualificationDropdown = '保有資格の種類を選択してください。*';
+  static const String registrationQualificationDropdown = '保有資格の種類を選択してください。';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';

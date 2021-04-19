@@ -18,7 +18,7 @@ class TherapistReviewBloc extends Bloc<TherapistReviewEvent, TherapistReviewStat
     if (event is FetchTherapistReviewEvent) {
       yield GetTherapistReviewLoaderState();
       try {
-        List<UserList> getTherapistsUsers =
+        List<TherapistReviewList> getTherapistsUsers =
             await getTherapistReviewRepository.getTherapistReviewById(
                 event.accessToken,
                 event.therapistId,

@@ -16,6 +16,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/bankNameDro
     as Bank;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/registerProviderResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
@@ -190,6 +191,7 @@ class _RegistrationSecondPageState
                           child: DropDownFormField(
                             autovalidate: false,
                             titleText: null,
+                            requiredField: true,
                             hintText: readonly
                                 ? identificationverify
                                 : HealingMatchConstants
@@ -272,7 +274,7 @@ class _RegistrationSecondPageState
                             onTap: () {
                               _showPicker(context, 0);
                             },
-                            child: TextFormField(
+                            child: TextFieldCustom(
                               enabled: false,
                               decoration: new InputDecoration(
                                 contentPadding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -282,10 +284,25 @@ class _RegistrationSecondPageState
                                     Image.asset("assets/images_gps/upload.png"),
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
-                                hintStyle:
+                                /*   hintStyle:
                                     HealingMatchConstants.formHintTextStyle,
                                 hintText: HealingMatchConstants
-                                    .registrationIdentityUpload,
+                                    .registrationIdentityUpload, */
+                              ),
+                              hintText: Text.rich(
+                                TextSpan(
+                                  text: HealingMatchConstants
+                                      .registrationIdentityUpload,
+                                  children: <InlineSpan>[
+                                    TextSpan(
+                                      text: '*',
+                                      style: HealingMatchConstants
+                                          .formHintTextStyleStar,
+                                    ),
+                                  ],
+                                  style:
+                                      HealingMatchConstants.formHintTextStyle,
+                                ),
                               ),
                             ),
                           )
@@ -393,6 +410,7 @@ class _RegistrationSecondPageState
                             margin: EdgeInsets.all(0.0),
                             child: DropDownFormField(
                               titleText: null,
+                              requiredField: true,
                               hintText: readonly
                                   ? qualification
                                   : HealingMatchConstants

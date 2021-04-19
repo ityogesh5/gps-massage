@@ -18,7 +18,7 @@ class UserReviewBloc extends Bloc<UserReviewEvent, UserReviewState> {
     if (event is FetchUserReviewEvent) {
       yield GetUserReviewLoaderState();
       try {
-        List<UserList> getUsersRatings =
+        List<UserReviewList> getUsersRatings =
             await getUserReviewRepository.getUserReviewById(event.accessToken,
                 event.userId, event.pageNumber, event.pageSize);
         yield GetUserReviewLoadedState(getUsersRatings: getUsersRatings);
