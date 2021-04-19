@@ -100,6 +100,7 @@ dependencies:
   flutter_socket_io: ^0.6.0
   web_socket_channel: any
   super_tooltip: any
+  time: any
 
 
 #  flutter_line_login: ^0.2.0

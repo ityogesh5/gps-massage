@@ -18,8 +18,9 @@ class HealingMatchConstants {
 // DOMAIN URL'S
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
-  static const String ON_PREMISE_USER_BASE_URL ="http://103.92.19.158:9094/api";
-      //"http://106.51.49.160:9094/api";
+  static const String ON_PREMISE_USER_BASE_URL =
+      "http://106.51.49.160:9094/api"; //"http://103.92.19.158:9094/api";
+
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -102,9 +103,8 @@ class HealingMatchConstants {
       '/getAllAdminBannerListMobile';
 
   // get Users banner images from Admin
-  static const String GET_USER_DETAILS = ON_PREMISE_USER_BASE_URL +
-      '/user' +
-      '/userbyId';
+  static const String GET_USER_DETAILS =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -383,8 +383,12 @@ class HealingMatchConstants {
   static String addedServiceUserPrefecture = '';
   static String addedServiceUserCity = '';
   static String manualUserAddress = '';
-  static String searchUserAddress = '';
+  static String searchUserAddress;
   static List<Address> addressList = List<Address>();
+  static bool isLocationCriteria = true;
+  static bool isTimeCriteria = true;
+  static int serviceType = 0;
+  static DateTime dateTime = DateTime.now();
 
   // User Home screen
   static int serviceTypeValue = 0;
@@ -455,10 +459,8 @@ class HealingMatchConstants {
       fontFamily: 'NotoSansJP',
       fontSize: 14);
 
-  static TextStyle formHintTextStyleStar = TextStyle(
-      color: Colors.red,
-      fontFamily: 'NotoSansJP',
-      fontSize: 14);
+  static TextStyle formHintTextStyleStar =
+      TextStyle(color: Colors.red, fontFamily: 'NotoSansJP', fontSize: 14);
 
   static var textFormInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),

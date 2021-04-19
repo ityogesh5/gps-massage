@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
@@ -17,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<AddUserSearchAddress> otherUserAddress = new List<AddUserSearchAddress>();
+int _addressType = 0;
 
 class SearchScreenUser extends StatefulWidget {
   @override
@@ -27,10 +29,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
-  int _addressType = 0;
 
-  bool _isLocationCriteria = false;
-  bool _isTimeCriteria = false;
   bool _isVisible = true;
   bool _addAddressVisible = false;
 
@@ -56,19 +55,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       keyWordSearchValue,
       userPlaceForMassage;
   String userID;
-  bool isTimeAvailable, isComingToShop;
-  int _serviceType = 0;
 
-  bool _showRequiredFields = false;
+  bool isAllAddressCategoryAvailable = false;
 
-  bool _isHome = false;
-  bool _isOffice = false;
-  bool _isParentsHouse = false;
-  bool _isOtherAddressType = false;
-
-  double searchAddressLatitude, searchAddressLongitude;
+  var searchAddressLatitude, searchAddressLongitude;
 
   List<Address> constantUserAddressValuesList = new List<Address>();
+  var constantUserAddressSize = new List();
+  GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
+  var differenceInTime;
 
   void initState() {
     super.initState();
@@ -91,6 +86,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _searchKey,
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       body: Stack(
         children: [
@@ -131,11 +127,59 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   hintText: HealingMatchConstants.searchKeyword,
                                   suffixIcon: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Image.asset(
-                                      "assets/images_gps/search.png",
-                                      height: 15,
-                                      width: 15,
-                                      color: Color.fromRGBO(225, 225, 225, 1),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        if (keywordController.text.isEmpty) {
+                                          _searchKey.currentState
+                                              .showSnackBar(SnackBar(
+                                            backgroundColor:
+                                                ColorConstants.snackBarColor,
+                                            duration: Duration(seconds: 3),
+                                            content: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                      '検索に有効なキーワードを入力してください。',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'NotoSansJP')),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            new FocusNode());
+                                                    _searchKey.currentState
+                                                        .hideCurrentSnackBar();
+                                                  },
+                                                  child: Text('はい',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline)),
+                                                ),
+                                              ],
+                                            ),
+                                          ));
+                                        }
+                                      },
+                                      icon: Image.asset(
+                                        "assets/images_gps/search.png",
+                                        height: 30,
+                                        width: 30,
+                                        color: Color.fromRGBO(225, 225, 225, 1),
+                                      ),
                                     ),
                                   ),
                                   hintStyle: TextStyle(
@@ -210,41 +254,44 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               child: VerticalDivider(
                                   color: Color.fromRGBO(236, 236, 236, 1))),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Color.fromRGBO(0, 0, 0, 1),
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.white,
-                                child: IconButton(
-                                  icon: new Icon(
-                                    Icons.add,
-                                    color: Colors.black,
+                        Visibility(
+                          visible: constantUserAddressSize.length < 4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+                                child: CircleAvatar(
+                                  maxRadius: 30,
+                                  backgroundColor: Colors.white,
+                                  child: IconButton(
+                                    icon: new Icon(
+                                      Icons.add,
+                                      color: Colors.black,
+                                    ),
+                                    highlightColor: Color.fromRGBO(0, 0, 0, 1),
+                                    iconSize: 35,
+                                    onPressed: () {
+                                      NavigationRouter
+                                          .switchToServiceUserViewProfileScreen(
+                                              context);
+                                    },
                                   ),
-                                  highlightColor: Color.fromRGBO(0, 0, 0, 1),
-                                  iconSize: 35,
-                                  onPressed: () {
-                                    NavigationRouter
-                                        .switchToServiceUserViewProfileScreen(
-                                            context);
-                                  },
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              '地点を追加',
-                              style: TextStyle(
-                                color: Color.fromRGBO(0, 0, 0, 1),
+                              SizedBox(
+                                height: 8,
                               ),
-                            )
-                          ],
+                              Text(
+                                '地点を追加',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         SizedBox(width: 15),
                         Expanded(
@@ -267,58 +314,73 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('自宅'),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressType = 1;
-                                                  HealingMatchConstants
-                                                          .searchUserAddress =
-                                                      constantUserAddressValuesList[
-                                                              index]
-                                                          .address;
-                                                });
-                                                print(
-                                                    'User address : ${HealingMatchConstants.searchUserAddress}');
-                                              },
-                                              child: CircleAvatar(
-                                                maxRadius: 32,
-                                                backgroundColor:
-                                                    _addressType == 1
-                                                        ? Color.fromRGBO(
-                                                            200, 217, 33, 1)
-                                                        : Colors.grey[100],
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/house.svg',
-                                                    placeholderBuilder:
-                                                        (context) {
-                                                  return SpinKitDoubleBounce(
-                                                      color: Colors
-                                                          .lightGreenAccent);
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              // BoxShape.circle or BoxShape.retangle
+                                              //color: const Color(0xFF66BB6A),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset.zero,
+                                                  color: _addressType == 1 &&
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
+                                                      ? Colors.grey[200]
+                                                      : Colors.white,
+                                                  blurRadius: 7.0,
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _addressType = 1;
+                                                    HealingMatchConstants
+                                                            .searchUserAddress =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .address;
+                                                  });
+                                                  print(
+                                                      'User address home : ${HealingMatchConstants.searchUserAddress}');
                                                 },
-                                                    color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
-                                                    height: 30,
-                                                    width: 30),
+                                                child: CircleAvatar(
+                                                  maxRadius: 32,
+                                                  backgroundColor:
+                                                      Colors.grey[100],
+                                                  child: SvgPicture.asset(
+                                                      'assets/images_gps/house.svg',
+                                                      placeholderBuilder:
+                                                          (context) {
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              HealingMatchConstants
-                                                  .searchHomeIconTxt,
-                                              style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              SizedBox(
+                                                height: 8,
                                               ),
-                                            )
-                                          ],
+                                              Text(
+                                                HealingMatchConstants
+                                                    .searchHomeIconTxt,
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 1),
@@ -327,58 +389,73 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('オフィス'),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressType = 2;
-                                                  HealingMatchConstants
-                                                          .searchUserAddress =
-                                                      constantUserAddressValuesList[
-                                                              index]
-                                                          .address;
-                                                });
-                                                print(
-                                                    'User address : ${HealingMatchConstants.searchUserAddress}');
-                                              },
-                                              child: CircleAvatar(
-                                                maxRadius: 32,
-                                                backgroundColor:
-                                                    _addressType == 2
-                                                        ? Color.fromRGBO(
-                                                            200, 217, 33, 1)
-                                                        : Colors.grey[100],
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/office.svg',
-                                                    placeholderBuilder:
-                                                        (context) {
-                                                  return SpinKitDoubleBounce(
-                                                      color: Colors
-                                                          .lightGreenAccent);
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              // BoxShape.circle or BoxShape.retangle
+                                              //color: const Color(0xFF66BB6A),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset.zero,
+                                                  color: _addressType == 2 &&
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
+                                                      ? Colors.grey[200]
+                                                      : Colors.white,
+                                                  blurRadius: 7.0,
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _addressType = 2;
+                                                    HealingMatchConstants
+                                                            .searchUserAddress =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .address;
+                                                  });
+                                                  print(
+                                                      'User address office : ${HealingMatchConstants.searchUserAddress}');
                                                 },
-                                                    color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
-                                                    height: 30,
-                                                    width: 30),
+                                                child: CircleAvatar(
+                                                  maxRadius: 32,
+                                                  backgroundColor:
+                                                      Colors.grey[100],
+                                                  child: SvgPicture.asset(
+                                                      'assets/images_gps/office.svg',
+                                                      placeholderBuilder:
+                                                          (context) {
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              HealingMatchConstants
-                                                  .searchOfficeIconTxt,
-                                              style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                            )
-                                          ],
+                                              Text(
+                                                HealingMatchConstants
+                                                    .searchOfficeIconTxt,
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 1),
@@ -387,58 +464,73 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('実家'),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressType = 3;
-                                                  HealingMatchConstants
-                                                          .searchUserAddress =
-                                                      constantUserAddressValuesList[
-                                                              index]
-                                                          .address;
-                                                });
-                                                print(
-                                                    'User address : ${HealingMatchConstants.searchUserAddress}');
-                                              },
-                                              child: CircleAvatar(
-                                                maxRadius: 32,
-                                                backgroundColor:
-                                                    _addressType == 3
-                                                        ? Color.fromRGBO(
-                                                            200, 217, 33, 1)
-                                                        : Colors.grey[100],
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/parents_house.svg',
-                                                    placeholderBuilder:
-                                                        (context) {
-                                                  return SpinKitDoubleBounce(
-                                                      color: Colors
-                                                          .lightGreenAccent);
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              // BoxShape.circle or BoxShape.retangle
+                                              //color: const Color(0xFF66BB6A),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset.zero,
+                                                  color: _addressType == 3 &&
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
+                                                      ? Colors.grey[200]
+                                                      : Colors.white,
+                                                  blurRadius: 7.0,
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _addressType = 3;
+                                                    HealingMatchConstants
+                                                            .searchUserAddress =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .address;
+                                                  });
+                                                  print(
+                                                      'User address parents house : ${HealingMatchConstants.searchUserAddress}');
                                                 },
-                                                    color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
-                                                    height: 30,
-                                                    width: 30),
+                                                child: CircleAvatar(
+                                                  maxRadius: 32,
+                                                  backgroundColor:
+                                                      Colors.grey[100],
+                                                  child: SvgPicture.asset(
+                                                      'assets/images_gps/parents_house.svg',
+                                                      placeholderBuilder:
+                                                          (context) {
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              HealingMatchConstants
-                                                  .searchPHomeIconTxt,
-                                              style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                HealingMatchConstants
+                                                    .searchPHomeIconTxt,
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 1),
@@ -447,58 +539,73 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('その他'),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressType = 4;
-                                                  HealingMatchConstants
-                                                          .searchUserAddress =
-                                                      constantUserAddressValuesList[
-                                                              index]
-                                                          .address;
-                                                });
-                                                print(
-                                                    'User address : ${HealingMatchConstants.searchUserAddress}');
-                                              },
-                                              child: CircleAvatar(
-                                                maxRadius: 32,
-                                                backgroundColor:
-                                                    _addressType == 4
-                                                        ? Color.fromRGBO(
-                                                            200, 217, 33, 1)
-                                                        : Colors.grey[100],
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/others.svg',
-                                                    placeholderBuilder:
-                                                        (context) {
-                                                  return SpinKitDoubleBounce(
-                                                      color: Colors
-                                                          .lightGreenAccent);
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              // BoxShape.circle or BoxShape.retangle
+                                              //color: const Color(0xFF66BB6A),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset.zero,
+                                                  color: _addressType == 4 &&
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
+                                                      ? Colors.grey[200]
+                                                      : Colors.white,
+                                                  blurRadius: 7.0,
+                                                ),
+                                              ]),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _addressType = 4;
+                                                    HealingMatchConstants
+                                                            .searchUserAddress =
+                                                        constantUserAddressValuesList[
+                                                                index]
+                                                            .address;
+                                                  });
+                                                  print(
+                                                      'User address other : ${HealingMatchConstants.searchUserAddress}');
                                                 },
-                                                    color: Color.fromRGBO(
-                                                        0, 0, 0, 1),
-                                                    height: 30,
-                                                    width: 30),
+                                                child: CircleAvatar(
+                                                  maxRadius: 32,
+                                                  backgroundColor:
+                                                      Colors.grey[100],
+                                                  child: SvgPicture.asset(
+                                                      'assets/images_gps/others.svg',
+                                                      placeholderBuilder:
+                                                          (context) {
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
+                                                      color: Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                      height: 30,
+                                                      width: 30),
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              HealingMatchConstants
-                                                  .searchOtherIconTxt,
-                                              style: TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1),
+                                              SizedBox(
+                                                height: 5,
                                               ),
-                                            )
-                                          ],
+                                              Text(
+                                                HealingMatchConstants
+                                                    .searchOtherIconTxt,
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -538,7 +645,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 1;
-                                  _serviceType = 1;
+                                  HealingMatchConstants.serviceType = 1;
                                 });
                               },
                               child: Column(
@@ -585,7 +692,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 2;
-                                  _serviceType = 2;
+                                  HealingMatchConstants.serviceType = 2;
                                 });
                               },
                               child: Column(
@@ -641,7 +748,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 3;
-                                  _serviceType = 3;
+                                  HealingMatchConstants.serviceType = 3;
                                 });
                               },
                               child: Column(
@@ -697,7 +804,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                               onTap: () {
                                 setState(() {
                                   _value = 4;
-                                  _serviceType = 4;
+                                  HealingMatchConstants.serviceType = 4;
                                 });
                               },
                               child: Column(
@@ -844,6 +951,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       width: MediaQuery.of(context).size.width * 0.40,
                       buttonColor: Theme.of(context).canvasColor,
                       enableShape: true,
+
                       /*  customShape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: BorderSide(color: Colors.black38)),
@@ -855,11 +963,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         false,
                       ],
                       radioButtonValue: (value) {
-                        _isLocationCriteria = value;
-                        print('Radio coming/not value : $_isLocationCriteria');
-                        setState(() {
-                          if (_isLocationCriteria) {}
-                        });
+                        HealingMatchConstants.isLocationCriteria = value;
+                        print(
+                            'Location coming/not value : ${HealingMatchConstants.isLocationCriteria}');
                       },
                       selectedColor: Color.fromRGBO(242, 242, 242, 1),
                     ),
@@ -901,11 +1007,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         false,
                       ],
                       radioButtonValue: (value) {
-                        // print(value);
                         setState(() {
-                          _isTimeCriteria = value;
-                          print(_isTimeCriteria);
-                          if (_isTimeCriteria) {
+                          HealingMatchConstants.isTimeCriteria = value;
+                          print(
+                              'Time there/not value : ${HealingMatchConstants.isLocationCriteria}');
+                          if (HealingMatchConstants.isTimeCriteria) {
                             _isVisible = true;
                           } else {
                             _isVisible = false;
@@ -946,8 +1052,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       _currentDay = 1;
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
-                                      /*    daysToDisplay =
-                                              totalDays(_cmonth, _cyear); */
+                                      daysToDisplay =
+                                          totalDays(_cmonth, _cyear);
                                     });
                                   },
                                   value: yearString,
@@ -959,8 +1065,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
 
-                                      /*    daysToDisplay =
-                                              totalDays(_cmonth, _cyear); */
+                                      daysToDisplay =
+                                          totalDays(_cmonth, _cyear);
                                     });
                                   },
                                   dataSource: [
@@ -1013,8 +1119,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           _cmonth = int.parse(value);
                                           displayDay = DateTime(
                                               _cyear, _cmonth, _currentDay);
-                                          /*    daysToDisplay =
-                                              totalDays(_cmonth, _cyear); */
+                                          daysToDisplay =
+                                              totalDays(_cmonth, _cyear);
                                           _currentDay = 1;
                                           _incrementCounter();
                                         });
@@ -1026,8 +1132,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                         displayDay = DateTime(
                                             _cyear, _cmonth, _currentDay);
                                         setState(() {
-                                          /*    daysToDisplay =
-                                              totalDays(_cmonth, _cyear); */
+                                          daysToDisplay =
+                                              totalDays(_cmonth, _cyear);
                                           _currentDay = 1;
                                           _incrementCounter();
                                         });
@@ -1101,14 +1207,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   ),
                   _isVisible
                       ? Container(
-                          child: buildTimeController(DateTime.now()),
+                          child: buildTimeController(
+                              HealingMatchConstants.dateTime),
                         )
                       : Container(),
                   SizedBox(
                     height: 20,
                   ),
                   Container(
-                    height: 10,
+                    height: 45,
                   )
                 ],
               ),
@@ -1129,7 +1236,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     backgroundColor: Color.fromRGBO(200, 217, 33, 1),
                     child: IconButton(
                       onPressed: () {
-                        NavigationRouter.switchToUserSearchResult(context);
+                        proceedToSearchResults();
                       },
                       icon: Image.asset(
                         "assets/images_gps/search.png",
@@ -1280,6 +1387,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   onTimeChange: (time) {
                     setState(() {
                       _dateTime = time;
+                      print('Selected Date and Time : $_dateTime');
+                      HealingMatchConstants.dateTime = _dateTime;
+                      timeDurationSinceDate(HealingMatchConstants.dateTime);
                     });
                   },
                 )),
@@ -1287,6 +1397,21 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ],
       ),
     );
+  }
+
+  timeDurationSinceDate(var dateString, {bool numericDates = true}) {
+    final date2 = DateTime.now();
+    differenceInTime = date2.difference(dateString);
+    print('Converted Date and Time  : ${differenceInTime.inMinutes}');
+    if (differenceInTime.inMinutes >= 1) {
+      print('PAST TIME');
+    }
+    if (differenceInTime.inMinutes.floor() < 1) {
+      print('FUTURE TIME');
+    }
+    if (differenceInTime.inMinutes.floor() == 30) {
+      print('30 MINUTES IN PRIOR');
+    }
   }
 
   getValidSearchFields() async {
@@ -1298,8 +1423,15 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         userDetails.then((value) {
           setState(() {
             constantUserAddressValuesList = value.data.addresses;
-            print(
-                'List length search : ${constantUserAddressValuesList.length}');
+            for (var category in constantUserAddressValuesList) {
+              print(
+                  'List length search : ${constantUserAddressValuesList.length}');
+
+              var categoryData = category.userPlaceForMassage;
+              constantUserAddressSize.add(categoryData);
+              print(
+                  'Size of list category : ${constantUserAddressSize.length}');
+            }
           });
         }).catchError((onError) {
           print('Catch error search : $onError');
@@ -1308,21 +1440,107 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
     }).catchError((onError) {
       print('S_Pref Exception : $onError');
     });
-    /*if (HealingMatchConstants.searchUserAddress != null) {
-      _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
-    }*/
   }
 
-  void _getLatLngFromAddress(String userAddress) async {
-    List<Placemark> address =
-        await geoLocator.placemarkFromAddress(userAddress);
-    userAddedAddressPlaceMark = address[0];
-    Position addressPosition = userAddedAddressPlaceMark.position;
+  _getLatLngFromAddress(String userAddress) async {
+    try {
+      List<Placemark> address =
+          await geoLocator.placemarkFromAddress(userAddress);
 
-    searchAddressLatitude = addressPosition.latitude;
-    searchAddressLongitude = addressPosition.longitude;
+      userAddedAddressPlaceMark = address[0];
+      Position addressPosition = userAddedAddressPlaceMark.position;
 
-    print(
-        'Address location points : $searchAddressLatitude && $searchAddressLongitude');
+      searchAddressLatitude = addressPosition.latitude;
+      searchAddressLongitude = addressPosition.longitude;
+
+      print(
+          'Address location points : $searchAddressLatitude && $searchAddressLongitude');
+      if (searchAddressLatitude != null && searchAddressLongitude != null) {
+        //NavigationRouter.switchToUserSearchResult(context);
+      } else {
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('検索に有効な住所タイプを選択してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      }
+    } catch (e) {
+      e.toString();
+    }
+  }
+
+  proceedToSearchResults() async {
+    try {
+      print('User address : ${HealingMatchConstants.searchUserAddress}');
+      if (HealingMatchConstants.searchUserAddress != null) {
+        _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
+      } else {
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 3),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('有効なさがすすエリアを選択してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+        return;
+      }
+      if (HealingMatchConstants.isTimeCriteria) {
+        if (HealingMatchConstants.dateTime != null) {
+          print(
+              'Date time in String : ${HealingMatchConstants.dateTime.toIso8601String()}');
+          // run search event bloc
+        } else {
+          print('Date time in String null');
+        }
+      } else {
+        print('Time : ${HealingMatchConstants.dateTime.toIso8601String()}');
+        print('Date time is false');
+      }
+
+      // Run search bloc call
+    } catch (e) {
+      print('Exception in search criteria : ${e.toString()}');
+    }
   }
 }
