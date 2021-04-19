@@ -129,7 +129,7 @@ class _FavoriteState extends State<Favorite> {
                                                   ),
                                                 ),
                                                 Spacer(),
-                                                FittedBox(
+                                                /* FittedBox(
                                                   child: FavoriteButton(
                                                       iconSize: 40,
                                                       iconColor: Colors.red,
@@ -138,7 +138,11 @@ class _FavoriteState extends State<Favorite> {
                                                         print(
                                                             'Is Favorite : $_isFavorite');
                                                       }),
-                                                ),
+                                                ),*/
+                                                SvgPicture.asset(
+                                                    'assets/images_gps/recommendedHeart.svg',
+                                                    width: 25,
+                                                    height: 25),
                                               ],
                                             ),
                                             SizedBox(

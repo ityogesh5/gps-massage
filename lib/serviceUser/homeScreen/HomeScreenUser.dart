@@ -196,6 +196,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   getAccessToken() async {
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
+      HealingMatchConstants.serviceUserById = value.getString('did');
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;

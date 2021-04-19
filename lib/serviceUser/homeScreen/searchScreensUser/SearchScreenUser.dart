@@ -789,8 +789,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     _currentDay = 1;
                                     displayDay =
                                         DateTime(_cyear, _cmonth, _currentDay);
-                                    /*    daysToDisplay =
-                                          totalDays(_cmonth, _cyear); */
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
                                   });
                                 },
                                 value: yearString,
@@ -802,8 +801,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     displayDay =
                                         DateTime(_cyear, _cmonth, _currentDay);
 
-                                    /*    daysToDisplay =
-                                          totalDays(_cmonth, _cyear); */
+                                    daysToDisplay = totalDays(_cmonth, _cyear);
                                   });
                                 },
                                 dataSource: [
@@ -855,8 +853,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                         _cmonth = int.parse(value);
                                         displayDay = DateTime(
                                             _cyear, _cmonth, _currentDay);
-                                        /*    daysToDisplay =
-                                          totalDays(_cmonth, _cyear); */
+                                        daysToDisplay =
+                                            totalDays(_cmonth, _cyear);
                                         _currentDay = 1;
                                         _incrementCounter();
                                       });
@@ -868,8 +866,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       displayDay = DateTime(
                                           _cyear, _cmonth, _currentDay);
                                       setState(() {
-                                        /*    daysToDisplay =
-                                          totalDays(_cmonth, _cyear); */
+                                        daysToDisplay =
+                                            totalDays(_cmonth, _cyear);
                                         _currentDay = 1;
                                         _incrementCounter();
                                       });

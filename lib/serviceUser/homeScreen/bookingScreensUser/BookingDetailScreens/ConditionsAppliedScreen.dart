@@ -1168,15 +1168,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,
-                  child: SvgPicture.asset(
-                    'assets/images_gps/share.svg',
-                    height: 20,
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                CircleAvatar(
-                  maxRadius: 18,
-                  backgroundColor: Colors.white,
                   child: CustomFavoriteButton(
                       iconSize: 40,
                       iconColor: Colors.red,

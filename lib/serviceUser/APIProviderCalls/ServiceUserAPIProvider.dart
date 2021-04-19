@@ -8,16 +8,21 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
+  Future<SharedPreferences> _sharedPreferences =
+      SharedPreferences.getInstance();
   static Response response;
   static TherapistUsersModel listOfTherapistModel = new TherapistUsersModel();
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
   static TherapistsByTypeModel _therapistsByTypeModel =
       new TherapistsByTypeModel();
+  static GetUserDetails userDetails = new GetUserDetails();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers() async {
@@ -113,5 +118,30 @@ class ServiceUserAPIProvider {
       throw Exception(e);
     }
     return _bannerModel;
+  }
+
+  static Future<GetUserDetails> getUserDetails() async {
+    try {
+      final url = HealingMatchConstants.USER_LIST_ID_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "user_id": HealingMatchConstants.serviceUserById,
+          }));
+      final getUser = json.decode(response.body);
+      userDetails = GetUserDetails.fromJson(getUser);
+      print('Response body : ${response.body}');
+    } catch (e) {
+      print(e.toString());
+    }
+    /*return (response.data).map((therapistUsers) {
+      print('Inserting >>> $therapistUsers');
+      //DBProvider.db.createTherapistUsers(therapistUsers);
+    }).toList();*/
+    return userDetails;
   }
 }

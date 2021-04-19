@@ -1352,7 +1352,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             new TextSpan(
                                 text: '登録した場所周辺のセラピストが表示されます',
                                 style: new TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 14,
                                     color: Colors.grey[500],
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300)),
@@ -1736,7 +1736,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('メールアドレスは100文字以内で入力してください。',
+              child: Text('メールアドレスは50文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

@@ -2338,6 +2338,31 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     }
   }
 
+  subAddressDeleteApi() async {
+    try {
+      // ProgressDialogBuilder.showCommonProgressDialog(context);
+      final url = HealingMatchConstants.DELETE_SUB_ADDRESS_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "AddressType": "",
+          }));
+      // print(response.body);
+      print('Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+
+      }
+
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      // ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
+  }
+
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
@@ -2379,14 +2404,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           otherController.text = rOtherOption;
           userAreaController.text = rUserArea;
 
-/*          var addressData = value.getString('addressData');
+          var addressData = value.getString('addressData');
           var addressValues = jsonDecode(addressData) as List;
           constantUserAddressValuesList = addressValues
               .map((address) => AddUserSubAddress.fromJson(address))
               .toList();
           print(
-              'Address List data : ${constantUserAddressValuesList.length} && ${constantUserAddressValuesList.toString()}');*/
-        });
+              'Address List data : ${constantUserAddressValuesList.length} && ${constantUserAddressValuesList.toString()}');});
 
         print(_myCategoryPlaceForMassage);
         print('Prefectute: $_myPrefecture');
