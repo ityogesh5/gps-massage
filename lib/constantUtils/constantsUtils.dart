@@ -150,8 +150,8 @@ class HealingMatchConstants {
   static String serviceUserDOB = '';
   static String serviceUserGender = '';
   static String serviceUserOccupation = '';
-  static String serviceUserAge = '';
-  static String serviceUserPhoneNumber = '';
+  static String serviceUserAge;
+  static String serviceUserPhoneNumber;
   static String serviceUserEmailAddress = '';
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
@@ -380,6 +380,7 @@ class HealingMatchConstants {
   static String userEditCity = '';
   static String userEditPrefecture = '';
   static String userEditPlaceForMassage = '';
+  static String userEditPlaceForMassageOther = '';
   static String userEditArea = '';
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
