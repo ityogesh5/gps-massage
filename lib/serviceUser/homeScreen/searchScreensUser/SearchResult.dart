@@ -67,9 +67,7 @@ class _SearchResultState extends State<SearchResult> {
               delegate: SliverChildListDelegate([
             GestureDetector(
               onTap: () {
-                NavigationRouter
-                    .switchToServiceUserBookingDetailsCompletedScreenOne(
-                        context);
+                NavigationRouter.switchToUserSearchDetailPageOne(context);
               },
               child: ListView.builder(
                   shrinkWrap: true,
@@ -101,11 +99,9 @@ class _SearchResultState extends State<SearchResult> {
                                         new Container(
                                             width: 80.0,
                                             height: 80.0,
-                                            decoration:
-                                            new BoxDecoration(
+                                            decoration: new BoxDecoration(
                                               border: Border.all(
-                                                  color:
-                                                  Colors.black12),
+                                                  color: Colors.black12),
                                               shape: BoxShape.circle,
                                               image: new DecorationImage(
                                                   fit: BoxFit.cover,
@@ -391,8 +387,7 @@ class _SearchResultState extends State<SearchResult> {
                                               itemBuilder: (context, _) => Icon(
                                                 Icons.star,
                                                 size: 5,
-                                                color:
-                                                Color.fromRGBO(
+                                                color: Color.fromRGBO(
                                                     255, 217, 0, 1),
                                               ),
                                               onRatingUpdate: (rating) {
@@ -591,4 +586,3 @@ class _SearchResultChipsState extends State<SearchResultChips> {
     );
   }
 }
-

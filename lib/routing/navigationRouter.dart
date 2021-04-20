@@ -462,11 +462,11 @@ class NavigationRouter {
 
   //User BookingDetailsCompletedScreen one
   static void switchToServiceUserBookingDetailsCompletedScreenOne(
-      BuildContext context) {
+      BuildContext context, var arg) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => BookingDetailsCompletedScreenOne()));
+            builder: (context) => BookingDetailsCompletedScreenOne(arg)));
   }
 
   // Service User View Profile Screen

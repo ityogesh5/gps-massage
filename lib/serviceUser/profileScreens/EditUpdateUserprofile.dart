@@ -75,6 +75,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     _getStates();
     setState(() {
       _myCity = HealingMatchConstants.userEditCity;
+      _sharedPreferences.then((value) {
+        rUserID = value.getString('userID');
+      });
       print('City: $_myCity');
     });
   }
@@ -2167,7 +2170,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: rUserID,
+          userId: HealingMatchConstants.serviceUserById,
           addressTypeSelection: _myAddressInputType,
           address: HealingMatchConstants.userEditAddress,
           userRoomNumber: roomNumberController.text.toString(),
@@ -2207,7 +2210,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       request.files.add(profileImage);
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": rID,
+        "id": HealingMatchConstants.serviceUserById,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2224,7 +2227,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     } else {
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": rID,
+        "id": HealingMatchConstants.serviceUserById,
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2252,55 +2255,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       final profileUpdateResponseModel =
           ProfileUpdateResponseModel.fromJson(userDetailsResponse);
       print(profileUpdateResponseModel.status);
-      _sharedPreferences.then((value) {
-        // value.clear();
-        // value.setString('accessToken', profileUpdateResponseModel.accessToken);
-        value.setString('did', profileUpdateResponseModel.data.id.toString());
-        value.setString('profileImage',
-            profileUpdateResponseModel.data.uploadProfileImgUrl);
-        value.setString('userName', profileUpdateResponseModel.data.userName);
-        value.setString('userPhoneNumber',
-            profileUpdateResponseModel.data.phoneNumber.toString());
-        value.setString(
-            'userEmailAddress', profileUpdateResponseModel.data.email);
-        value.setString(
-            'userDOB',
-            DateFormat("yyyy-MM-dd")
-                .format(profileUpdateResponseModel.data.dob)
-                .toString()
-                .toString());
-        value.setString(
-            'userAge', profileUpdateResponseModel.data.age.toString());
-        value.setString('userGender', profileUpdateResponseModel.data.gender);
-        value.setString(
-            'userOccupation', profileUpdateResponseModel.data.userOccupation);
-        value.setString(
-            'userAddress', profileUpdateResponseModel.address.address);
-        value.setString(
-            'buildingName', profileUpdateResponseModel.address.buildingName);
-        value.setString(
-            'roomNumber', profileUpdateResponseModel.address.userRoomNumber);
-        value.setString('area', profileUpdateResponseModel.address.area);
-        value.setString('addressType',
-            profileUpdateResponseModel.address.addressTypeSelection);
-        value.setString(
-            'addressID', profileUpdateResponseModel.address.id.toString());
-        value.setString(
-            'userID', profileUpdateResponseModel.address.userId.toString());
-        value.setString('userPlaceForMassage',
-            profileUpdateResponseModel.address.userPlaceForMassage);
-        value.setString(
-            'cityName', profileUpdateResponseModel.address.cityName);
-        value.setString('capitalAndPrefecture',
-            profileUpdateResponseModel.address.capitalAndPrefecture);
 
-        /*  for (var userAddressData in profileUpdateResponseModel.subAddress) {
-          /*  value.setString(
-              'subUserAddress', userAddressData.);*/
-        }*/
-        print("address: ${profileUpdateResponseModel.address.address}");
-        // print("searchRadius: ${profileUpdateResponseModel.address.address}");
-      });
       updateAddress.clear();
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       DialogHelper.showUserProfileUpdatedSuccessDialog(context);
@@ -2347,7 +2302,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myOccupation = HealingMatchConstants.userEditUserOccupation;
 
         _myCategoryPlaceForMassage =
-            HealingMatchConstants.userEditPlaceForMassageOther;
+            HealingMatchConstants.userEditPlaceForMassage;
         _myPrefecture = HealingMatchConstants.userEditPrefecture;
         rID = HealingMatchConstants.serviceUserById;
         userNameController.text = HealingMatchConstants.serviceUserName;
@@ -2363,6 +2318,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             HealingMatchConstants.userEditPlaceForMassageOther;
         userAreaController.text = HealingMatchConstants.userEditArea;
         _sharedPreferences.then((value) {
+          // rUserID = value.getString('userID');
           var addressData = value.getString('addressData');
           var addressValues = jsonDecode(addressData) as List;
           constantUserAddressValuesList = addressValues
@@ -2404,7 +2360,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         accessToken = value.getString('accessToken');
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
-        rUserID = value.getString('userID');
+
         print('User Address Type : $_myAddressInputType');
         print('User Address ID : $_userAddressID');
         /*     if (_myAddressInputType.contains('現在地を取得する')) {

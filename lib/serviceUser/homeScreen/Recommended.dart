@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
+var therapistId;
+
 class Recommend extends StatefulWidget {
   @override
   _RecommendState createState() => _RecommendState();
@@ -42,7 +44,8 @@ class _RecommendState extends State<Recommend> {
         child: GestureDetector(
           onTap: () {
             NavigationRouter
-                .switchToServiceUserBookingDetailsCompletedScreenOne(context);
+                .switchToServiceUserBookingDetailsCompletedScreenOne(
+                    context, therapistId);
           },
           child: ListView.builder(
               shrinkWrap: true,

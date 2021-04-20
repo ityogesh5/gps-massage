@@ -29,6 +29,8 @@ List<String> _options = [
 double ratingsValue = 4.0;
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
+  var therapistId;
+  BookingDetailsCompletedScreenOne(this.therapistId);
   @override
   _BookingDetailsCompletedScreenOneState createState() =>
       _BookingDetailsCompletedScreenOneState();
