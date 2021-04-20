@@ -30,7 +30,7 @@ class UpdateAddress {
   });
 
   String id;
-  String userId;
+  var userId;
   String addressTypeSelection;
   String address;
   String userRoomNumber;

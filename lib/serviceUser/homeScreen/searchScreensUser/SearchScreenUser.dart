@@ -310,7 +310,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Visibility(
-                                        visible:
+                                        visible: constantUserAddressValuesList[
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('自宅'),
@@ -385,7 +388,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       ),
                                       SizedBox(width: 1),
                                       Visibility(
-                                        visible:
+                                        visible: constantUserAddressValuesList[
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('オフィス'),
@@ -460,7 +466,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       ),
                                       SizedBox(width: 1),
                                       Visibility(
-                                        visible:
+                                        visible: constantUserAddressValuesList[
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('実家'),
@@ -535,7 +544,10 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       ),
                                       SizedBox(width: 1),
                                       Visibility(
-                                        visible:
+                                        visible: constantUserAddressValuesList[
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('その他'),
@@ -1430,7 +1442,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               var categoryData = category.userPlaceForMassage;
               constantUserAddressSize.add(categoryData);
               print(
-                  'Size of list category : ${constantUserAddressSize.length}');
+                  'Size of list category : ${constantUserAddressSize.length} && $categoryData');
             }
           });
         }).catchError((onError) {
