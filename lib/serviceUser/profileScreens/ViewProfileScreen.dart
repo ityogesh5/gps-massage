@@ -530,6 +530,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       userListApiProvider.then((value) {
         setState(() {
           userProfileImage = value.data.uploadProfileImgUrl;
+          HealingMatchConstants.userEditUserId = value.data.id;
           HealingMatchConstants.serviceUserName = value.data.userName;
           HealingMatchConstants.userEditUserOccupation =
               value.data.userOccupation;

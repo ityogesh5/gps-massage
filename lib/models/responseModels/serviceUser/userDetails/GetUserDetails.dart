@@ -224,8 +224,8 @@ class Address {
   String area;
   String buildingName;
   dynamic postalCode;
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
@@ -248,8 +248,8 @@ class Address {
     area: json["area"],
     buildingName: json["buildingName"],
     postalCode: json["postalCode"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
+    lat: json["lat"],
+    lon: json["lon"],
     userSearchRadiusDistance: json["userSearchRadiusDistance"],
     createdUser: json["createdUser"],
     updatedUser: json["updatedUser"],

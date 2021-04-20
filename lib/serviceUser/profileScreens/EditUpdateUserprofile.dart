@@ -71,8 +71,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     getEditUserFields();
     getUserProfileData();
-    // getUpdateAddress();
     _getStates();
+
     setState(() {
       _myCity = HealingMatchConstants.userEditCity;
       _sharedPreferences.then((value) {
@@ -1937,6 +1937,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       ));
     }
 
+    if (_myCategoryPlaceForMassage != null &&
+        _myCategoryPlaceForMassage.isNotEmpty) {
+      print('Category place : $_myCategoryPlaceForMassage');
+    }
+
     // user DOB validation
     if (userDOB != null || userDOB.isNotEmpty) {
       print('dob user : $userDOB');
@@ -2170,7 +2175,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       setState(() {
         addUpdateAddress = UpdateAddress(
           id: _userAddressID,
-          userId: HealingMatchConstants.serviceUserById,
+          userId: HealingMatchConstants.userEditUserId,
           addressTypeSelection: _myAddressInputType,
           address: HealingMatchConstants.userEditAddress,
           userRoomNumber: roomNumberController.text.toString(),
@@ -2210,7 +2215,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       request.files.add(profileImage);
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": HealingMatchConstants.serviceUserById,
+        "id": HealingMatchConstants.userEditUserId.toString(),
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2227,7 +2232,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     } else {
       request.headers.addAll(headers);
       request.fields.addAll({
-        "id": HealingMatchConstants.serviceUserById,
+        "id": HealingMatchConstants.userEditUserId.toString(),
         "userName": userName,
         "age": userAge,
         "userOccupation": _myOccupation,
@@ -2292,12 +2297,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       print('Getting values...EPF');
-      // userProfileImage = value.getString('profileImage');
-
-      // Convert string url of image to base64 format
-      // convertBase64ProfileImage(userProfileImage);
 
       setState(() {
+        _myCity = HealingMatchConstants.userEditCity;
+        print('City: $_myCity');
         _myGender = HealingMatchConstants.serviceUserGender;
         _myOccupation = HealingMatchConstants.userEditUserOccupation;
 
@@ -2317,16 +2320,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         otherController.text =
             HealingMatchConstants.userEditPlaceForMassageOther;
         userAreaController.text = HealingMatchConstants.userEditArea;
-        _sharedPreferences.then((value) {
-          // rUserID = value.getString('userID');
-          var addressData = value.getString('addressData');
-          var addressValues = jsonDecode(addressData) as List;
-          constantUserAddressValuesList = addressValues
-              .map((address) => AddUserSubAddress.fromJson(address))
-              .toList();
-          print('Address List data : ${constantUserAddressValuesList.length} &&'
-              ' ${constantUserAddressValuesList.toString()}');
-        });
       });
 
       print(_myCategoryPlaceForMassage);
@@ -2336,15 +2329,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Id: $rID');
       print('Address ID : $_userAddressID');
 
+      print('Address ID : $_userAddressID');
+
       print('UserId: $rUserID');
       print('UserBuildName: $rUserBuildName');
       print('UserRoomNo: $rUserRoomNo');
 
-      /*    if (_myCity == null) {
-        _prefId = stateDropDownValues.indexOf(_myPrefecture) + 1;
-        getCities(_prefId);
-        // _myCity = value.getString('cityName');
-      }*/
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
       print(e.toString());
@@ -2363,40 +2353,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
         print('User Address Type : $_myAddressInputType');
         print('User Address ID : $_userAddressID');
-        /*     if (_myAddressInputType.contains('現在地を取得する')) {
-          setState(() {
-            _showCurrentLocationInput = true;
-          });
-        } else if (_myAddressInputType.contains('直接入力する')) {
-          setState(() {
-            _showCurrentLocationInput = false;
-          });
-        } else {
-          return;
-        }*/
       } else {
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         print('User Address Type : $_myAddressInputType');
         print('User Address ID : $_userAddressID');
-        /*if (_myAddressInputType.contains('現在地を取得する')) {
-          setState(() {
-            _showCurrentLocationInput = true;
-          });
-        } else if (_myAddressInputType.contains('直接入力する')) {
-          setState(() {
-            _showCurrentLocationInput = false;
-          });
-        } else {
-          print('No addresstype mentioned');
-        }
-        print('Entering address fields....');
-*/
-        //! Need to add to otherAddressList Value Here from Login/Register
-
       }
     });
-    // updateAddress.add(addUpdateAddress);
   }
 
   Widget buildLoading() {
@@ -2459,6 +2422,7 @@ class _AddAddressState extends State<AddAddress> {
   bool visible = false;
   final otherController = new TextEditingController();
   double containerHeight = 48.0;
+
   @override
   void initState() {
     // TODO: implement initState

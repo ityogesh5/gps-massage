@@ -368,7 +368,7 @@ class HealingMatchConstants {
   // Profile Edit screen user
   static Uint8List userEditProfile;
   static String userEditToken = '';
-  static String userEditId = '';
+  static var userEditUserId ;
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';
