@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/getTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
@@ -21,6 +22,8 @@ class ServiceUserAPIProvider {
   static TherapistsByTypeModel _therapistsByTypeModel =
       new TherapistsByTypeModel();
   static GetUserDetails userDetails = new GetUserDetails();
+  static GetTherapistDetails therapistDetails = new GetTherapistDetails();
+
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
   // get all therapist users
@@ -170,5 +173,26 @@ print('Inserting >>> $therapistUsers');
 //DBProvider.db.createTherapistUsers(therapistUsers);
 }).toList();*/
     return userDetails;
+  }
+
+  static Future<GetTherapistDetails> getTherapistDetails() async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_USER_BY_ID_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapist_id": HealingMatchConstants.serviceUserById,
+          }));
+      final getUser = json.decode(response.body);
+      therapistDetails = GetTherapistDetails.fromJson(getUser);
+      print('Response body : ${response.body}');
+    } catch (e) {
+      print(e.toString());
+    }
+    return therapistDetails;
   }
 }
