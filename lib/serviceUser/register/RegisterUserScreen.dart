@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -104,7 +105,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  var prefId;
+  var _prefId;
 
   showHide() {
     setState(() {
@@ -309,6 +310,29 @@ class _RegisterUserState extends State<RegisterUser> {
                       ],
                     ),
                     SizedBox(height: 10),
+                    Form(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: DropDownFormField(
+                              hintText: 'プロフィール画像アップロード',
+                              onSaved: (value) {
+                                setState(() {});
+                              },
+                              onChanged: (value) {},
+                              dataSource: [],
+                              textField: 'display',
+                              valueField: 'value',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     Container(
                       height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -381,6 +405,15 @@ class _RegisterUserState extends State<RegisterUser> {
                                           .textFormInputBorder,
                                       enabledBorder: HealingMatchConstants
                                           .textFormInputBorder,
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          _selectDate(context);
+                                        },
+                                        icon: SvgPicture.asset(
+                                            'assets/images_gps/calendar.svg',
+                                            height: 30,
+                                            width: 30),
+                                      ),
                                       // labelText: 'お名前',
                                     ),
                                     labelText: Text.rich(
@@ -629,9 +662,9 @@ class _RegisterUserState extends State<RegisterUser> {
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: phoneNumberController,
-                        maxLength: 11,
+                        maxLength: 10,
                         autofocus: false,
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.numberWithOptions(signed: true),
                         onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
@@ -1037,16 +1070,25 @@ class _RegisterUserState extends State<RegisterUser> {
                                                           _myPrefecture;
                                                       print(
                                                           'Prefecture value : ${_myPrefecture.toString()}');
-                                                      prefId =
+                                                      _prefId =
                                                           stateDropDownValues
                                                                   .indexOf(
                                                                       value) +
                                                               1;
-
+                                                      print(
+                                                          'prefID : ${_prefId}');
                                                       cityDropDownValues
                                                           .clear();
                                                       _myCity = '';
-                                                      _getCities(prefId);
+                                                      _getCities(_prefId);
+                                                      _sharedPreferences
+                                                          .then((value) {
+                                                        value.setString(
+                                                            'cityID', _prefId);
+
+                                                        print(
+                                                            'Pref id : ${_prefId}');
+                                                      });
                                                     });
                                                   },
                                                   dataSource:
@@ -1300,7 +1342,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             new TextSpan(
                                 text: '登録した場所周辺のセラピストが表示されます',
                                 style: new TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: Colors.grey[500],
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300)),
@@ -1414,7 +1456,7 @@ class _RegisterUserState extends State<RegisterUser> {
     var email = emailController.text.toString();
     var phnNum = phoneNumberController.text.toString();
     var userPhoneNumber = phnNum.replaceFirst(RegExp(r'^0+'), "");
-    print('phnNumber: ${userPhoneNumber}');
+    print('phnNumber: $userPhoneNumber');
     HealingMatchConstants.serviceUserPhoneNumber = userPhoneNumber;
     var password = passwordController.text.toString().trim();
     var confirmPassword = confirmPasswordController.text.toString().trim();
@@ -1618,7 +1660,6 @@ class _RegisterUserState extends State<RegisterUser> {
     // user phone number validation
     if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
-        userPhoneNumber.isEmpty ||
         userPhoneNumber.length < 10) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -1684,7 +1725,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('メールアドレスは50文字以内で入力してください。',
+              child: Text('メールアドレスは100文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -2029,73 +2070,6 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-    // user building name validation
-    /*   if (_myAddressInputTypeVal.contains("現在地を取得する") && buildingName == null ||
-        buildingName.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('有効なビル名を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
-
-    // room number validation
-    /* if (_myAddressInputTypeVal.contains("現在地を取得する") && roomNumber == null ||
-        roomNumber.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('有効な部屋番号を入力してください。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
-
-    // Getting user GPS Address value
-    /*if (_myAddressInputType.contains('現在地を取得する') && _isGPSLocation) {
-      HealingMatchConstants.userAddress = userGPSAddress;
-      print('GPS Address : ${HealingMatchConstants.userAddress}');
-    } else*/
     if (HealingMatchConstants.userAddress.isEmpty) {
       String address = roomNumber +
           ',' +
@@ -2242,11 +2216,12 @@ class _RegisterUserState extends State<RegisterUser> {
                 'userPlaceForMassage', userAddressData.userPlaceForMassage);
             value.setString('otherOption', userAddressData.otherAddressType);
             value.setString('cityName', userAddressData.cityName);
-            // value.setString('prefId', prefId.toString());
+            //value.setString('prefId', _prefId);
             value.setString(
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            ProgressDialogBuilder.hideRegisterProgressDialog(context);
             NavigationRouter.switchToUserOtpScreen(context);
           }
         });
