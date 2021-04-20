@@ -421,7 +421,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
 
     // Combination password
 
-    if (!passwordRegex.hasMatch(password)) {
+    /*if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -446,7 +446,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
         ),
       ));
       return null;
-    }
+    }*/
 
     if (password.contains(regexEmojis)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(

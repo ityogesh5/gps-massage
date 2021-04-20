@@ -75,7 +75,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   var userAddressType = '';
   final _searchRadiusKey = new GlobalKey<FormState>();
-  String _mySearchRadiusDistance = '';
+  var _mySearchRadiusDistance;
+
   TextEditingController _userDOBController = new TextEditingController();
   TextEditingController _editAddressController = new TextEditingController();
 
@@ -652,18 +653,25 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               //enableInteractiveSelection: false,
                               enabled: false,
                               autofocus: false,
-                              //maxLength: 10,
+                              maxLength: 10,
                               controller: phoneNumberController,
                               keyboardType:
                                   TextInputType.numberWithOptions(signed: true),
+                              onEditingComplete: () {
+                                var phnNum =
+                                    phoneNumberController.text.toString();
+                                var userPhoneNumber =
+                                    phnNum.replaceFirst(RegExp(r'^0+'), "");
+                                print(
+                                    'Phone number after edit : $userPhoneNumber');
+                                phoneNumberController.text = userPhoneNumber;
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                              },
                               decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
                                 labelText: '電話番号',
-                                /*hintText: '電話番号 *',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
                                 labelStyle: TextStyle(
                                     color: Colors.grey[400],
                                     fontFamily: 'NotoSansJP',
@@ -681,7 +689,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               // validator: (value) => _validateEmail(value),
                             ),
                           ),
-                          SizedBox(height: 15),
                           Container(
                             // height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.85,
@@ -691,6 +698,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               autofocus: false,
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
+
                               decoration: new InputDecoration(
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
@@ -1411,29 +1419,33 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         onChanged: (value) {
                                           setState(() {
                                             _mySearchRadiusDistance = value;
-                                            //print(_myBldGrp.toString());
+                                            print(
+                                                'Search distance : ${_mySearchRadiusDistance.toString()}');
+                                            HealingMatchConstants
+                                                    .searchDistanceRadius =
+                                                _mySearchRadiusDistance;
                                           });
                                         },
                                         dataSource: [
                                           {
                                             "display": "５Ｋｍ圏内",
-                                            "value": "5.0",
+                                            "value": 5,
                                           },
                                           {
                                             "display": "１０Ｋｍ圏内",
-                                            "value": "10.0",
+                                            "value": 10,
                                           },
                                           {
                                             "display": "１５Ｋｍ圏内",
-                                            "value": "15.0",
+                                            "value": 15,
                                           },
                                           {
                                             "display": "２０Ｋｍ圏内",
-                                            "value": "20.0",
+                                            "value": 20,
                                           },
                                           {
                                             "display": "２５Ｋｍ圏内",
-                                            "value": "25.0",
+                                            "value": 25,
                                           },
                                         ],
                                         textField: 'display',
@@ -1700,6 +1712,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   }
 
   _updateUserDetails() async {
+    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var userPhoneNumber = phoneNumberController.text.toString();
@@ -1711,13 +1724,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     var userArea = userAreaController.text.toString();
     var roomNumber = roomNumberController.text.toString();
     int userRoomNumber = int.tryParse(roomNumber);
-    int phoneNumber = int.tryParse(userPhoneNumber);
+    var userPhNumber = userPhoneNumber.replaceFirst(RegExp(r'^0+'), "");
+    print('phnNumber: $userPhNumber');
 
     print('searchRadius: ${_mySearchRadiusDistance}');
     var userGPSAddress = gpsAddressController.text.toString().trim();
 
     // user perfecture validation
     if ((_myPrefecture == null || _myPrefecture.isEmpty)) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1748,6 +1763,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if ((_myCity == null || _myCity.isEmpty)) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1778,6 +1794,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if ((userArea == null || userArea.isEmpty)) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1808,6 +1825,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // room number validation
     if (roomNumber == null || roomNumber.isEmpty) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1838,6 +1856,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1868,6 +1887,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1900,32 +1920,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('_myAddressInputType : $_myAddressInputType');
     }
 
-    if (userName.isNotEmpty && userName.length > 20) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('ユーザー名は20文字以内で入力してください。',
-                  overflow: TextOverflow.clip,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      fontFamily: 'NotoSansJP',
-                      color: Colors.black,
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
+    if (userName != null || userName.isNotEmpty) {
+      print('Username : $userName');
     }
 
     // user DOB validation
@@ -1944,6 +1940,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (userPhoneNumber != null &&
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length < 10) {
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2186,7 +2183,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print("json Converted:" + json.encode(constantUserAddressValuesList));
     print("json Converted Address:" + json.encode(updateAddress));
 
-    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
     Uri updateProfile =
         Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
     var request = http.MultipartRequest('POST', updateProfile);
@@ -2211,7 +2207,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "gender": _myGender,
         "uploadProfileImgUrl": _profileImage.path,
         "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance,
+        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
         "address": json.encode(updateAddress),
         "subAddress": json.encode(constantUserAddressValuesList)
       });
@@ -2227,7 +2223,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         "email": email,
         "gender": _myGender,
         "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance,
+        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
         "address": json.encode(updateAddress),
         "subAddress": json.encode(constantUserAddressValuesList)
       });
@@ -2305,14 +2301,20 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         otherController.text =
             HealingMatchConstants.userEditPlaceForMassageOther;
         userAreaController.text = HealingMatchConstants.userEditArea;
+        _mySearchRadiusDistance = HealingMatchConstants.searchDistanceRadius;
         _sharedPreferences.then((value) {
           var addressData = value.getString('addressData');
-          var addressValues = jsonDecode(addressData) as List;
-          constantUserAddressValuesList = addressValues
-              .map((address) => AddUserSubAddress.fromJson(address))
-              .toList();
-          print('Address List data : ${constantUserAddressValuesList.length} &&'
-              ' ${constantUserAddressValuesList.toString()}');
+          if (addressData != null) {
+            var addressValues = jsonDecode(addressData) as List;
+            constantUserAddressValuesList = addressValues
+                .map((address) => AddUserSubAddress.fromJson(address))
+                .toList();
+            print(
+                'Address List data : ${constantUserAddressValuesList.length} &&'
+                ' ${constantUserAddressValuesList.toString()}');
+          } else {
+            print('Address data no values found !!');
+          }
         });
       });
 
@@ -2579,8 +2581,11 @@ class _AddAddressState extends State<AddAddress> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 10,
+                              Visibility(
+                                visible: visible,
+                                child: SizedBox(
+                                  height: 10,
+                                ),
                               ),
                               Column(
                                 mainAxisAlignment:
@@ -3046,8 +3051,6 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   _addUserAddress() async {
-    ProgressDialogBuilder.showAddAddressProgressDialog(context);
-
     print(
         'Categories : $_myCategoryPlaceForMassage && ${HealingMatchConstants.userEditPlaceForMassage} '
         '&& ${HealingMatchConstants.userEditPlaceForMassageOther}');
@@ -3088,8 +3091,16 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
+
+    if (_myCategoryPlaceForMassage == 'その他（直接入力）') {}
     if (_myCategoryPlaceForMassage ==
         HealingMatchConstants.userEditPlaceForMassage) {
+      print('Address cat same');
+      setState(() {
+        _myCategoryPlaceForMassage = '';
+        visible = false;
+      });
+
       ProgressDialogBuilder.hideAddAddressProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3121,6 +3132,11 @@ class _AddAddressState extends State<AddAddress> {
     }
     if (_myCategoryPlaceForMassage ==
         HealingMatchConstants.userEditPlaceForMassageOther) {
+      print('Other cat same');
+      setState(() {
+        _myCategoryPlaceForMassage = '';
+        visible = false;
+      });
       ProgressDialogBuilder.hideAddAddressProgressDialog(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3150,7 +3166,7 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-
+    ProgressDialogBuilder.showAddAddressProgressDialog(context);
     String manualAddedAddress = addedRoomNumberController.text.toString() +
         ',' +
         addedBuildingNameController.text.toString() +
@@ -3199,14 +3215,6 @@ class _AddAddressState extends State<AddAddress> {
         widget.callBack();
         Navigator.pop(context);
       });
-      _sharedPreferences.then((value) {
-        setState(() {
-          constantUserAddressValuesList.add(addUserAddress);
-          value.setBool('isUserVerified', false);
-          var addressData = json.encode(constantUserAddressValuesList);
-          value.setString('addressData', addressData);
-        });
-      });
       ProgressDialogBuilder.hideAddAddressProgressDialog(context);
     } else {
       ProgressDialogBuilder.hideAddAddressProgressDialog(context);
@@ -3244,5 +3252,13 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
+    _sharedPreferences.then((value) {
+      setState(() {
+        constantUserAddressValuesList.add(addUserAddress);
+        value.setBool('isUserVerified', false);
+        var addressData = json.encode(constantUserAddressValuesList);
+        value.setString('addressData', addressData);
+      });
+    });
   }
 }

@@ -424,12 +424,22 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                         width: iconWidth,
                                         color: iconColor,
                                       ),
-                                      Text('セラピスト検索範囲5.0Km距離。',
-                                          style: TextStyle(
-                                              fontFamily: 'NotoSansJP',
-                                              fontSize: 14.0,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500)),
+                                      HealingMatchConstants
+                                                  .searchDistanceRadius !=
+                                              null
+                                          ? Text(
+                                              '${HealingMatchConstants.searchDistanceRadius}',
+                                              style: TextStyle(
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 14.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500))
+                                          : Text('セラピスト検索範囲10.0Km距離。',
+                                              style: TextStyle(
+                                                  fontFamily: 'NotoSansJP',
+                                                  fontSize: 14.0,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500)),
                                       SizedBox(width: 0))
                                 ],
                               ),
@@ -544,7 +554,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           HealingMatchConstants.serviceUserOccupation =
               value.data.userOccupation;
           for (int i = 0; i < value.data.addresses.length; i++) {
-            // HealingMatchConstants.getUserAddress.add(value.data.addresses);
+            HealingMatchConstants.getUserAddress.addAll(value.data.addresses);
+
             HealingMatchConstants.userEditUserId =
                 value.data.addresses[0].userId;
             HealingMatchConstants.serviceUserAddress =
