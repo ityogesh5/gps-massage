@@ -66,7 +66,7 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserRev
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
-import 'package:gps_massageapp/serviceUser/searchScreens/SearchResult.dart';
+import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 
 class NavigationRouter {

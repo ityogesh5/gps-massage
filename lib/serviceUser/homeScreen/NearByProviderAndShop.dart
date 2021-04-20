@@ -833,7 +833,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: Colors.grey[200],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(30.0))),
                     child: Center(child: MassageTypeChips()),

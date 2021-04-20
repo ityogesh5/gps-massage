@@ -281,44 +281,32 @@ class _RegisterUserState extends State<RegisterUser> {
                       overflow: Overflow.visible,
                       children: [
                         _profileImage != null
-                            ? InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
-                                child: Semantics(
-                                  child: new Container(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: FileImage(
-                                              File(_profileImage.path)),
-                                        ),
-                                      )),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
+                            ? Semantics(
                                 child: new Container(
-                                    width: 95.0,
-                                    height: 95.0,
+                                    width: 100.0,
+                                    height: 100.0,
                                     decoration: new BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[200]),
+                                      border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: new AssetImage(
-                                            'assets/images_gps/placeholder_image.png'),
+                                        image:
+                                            FileImage(File(_profileImage.path)),
                                       ),
                                     )),
-                              ),
+                              )
+                            : new Container(
+                                width: 95.0,
+                                height: 95.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.grey[200]),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: new AssetImage(
+                                        'assets/images_gps/placeholder_image.png'),
+                                  ),
+                                )),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -357,11 +345,11 @@ class _RegisterUserState extends State<RegisterUser> {
                           focusColor: Colors.grey[100],
                           border: HealingMatchConstants.textFormInputBorder,
                           focusedBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           disabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           enabledBorder:
-                          HealingMatchConstants.textFormInputBorder,
+                              HealingMatchConstants.textFormInputBorder,
                           //       labelText: 'お名前*',
                         ),
                         labelText: Text.rich(
@@ -371,7 +359,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 20),
                               ),
                             ],
                             style: TextStyle(
@@ -680,7 +668,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
-                          phnNum.replaceFirst(RegExp(r'^0+'), "");
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after edit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -688,7 +676,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         onSubmitted: (userPhoneNumber) {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
-                          phnNum.replaceFirst(RegExp(r'^0+'), "");
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
                           print('Phone number after submit : $userPhoneNumber');
                           phoneNumberController.text = userPhoneNumber;
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -1088,7 +1076,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                                                       value) +
                                                               1;
                                                       print(
-                                                          'prefID : ${_prefId.toString()}');
+                                                          'prefID : ${_prefId}');
                                                       cityDropDownValues
                                                           .clear();
                                                       _myCity = '';
@@ -1096,11 +1084,10 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       _sharedPreferences
                                                           .then((value) {
                                                         value.setString(
-                                                            'cityID',
-                                                            _prefId.toString());
+                                                            'cityID', _prefId);
 
                                                         print(
-                                                            'Pref id : ${_prefId.toString()}');
+                                                            'Pref id : ${_prefId}');
                                                       });
                                                     });
                                                   },
@@ -2234,10 +2221,9 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            NavigationRouter.switchToUserOtpScreen(context);
           }
         });
-
-        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
