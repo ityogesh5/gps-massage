@@ -8,7 +8,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -158,6 +158,7 @@ class HealingMatchConstants {
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
   static String serviceUserAddress = '';
+  static List<Address> getUserAddress = new List();
   static String serviceUserPrefecture = '';
   static String serviceUserPrefectureId = '';
   static String serviceUserCity = '';
@@ -368,7 +369,8 @@ class HealingMatchConstants {
   // Profile Edit screen user
   static Uint8List userEditProfile;
   static String userEditToken = '';
-  static var userEditUserId ;
+  static var userEditUserId;
+
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';

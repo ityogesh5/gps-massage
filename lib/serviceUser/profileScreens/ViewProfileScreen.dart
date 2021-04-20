@@ -9,10 +9,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewUserProfile extends StatefulWidget {
   @override
@@ -530,7 +531,6 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       userListApiProvider.then((value) {
         setState(() {
           userProfileImage = value.data.uploadProfileImgUrl;
-          HealingMatchConstants.userEditUserId = value.data.id;
           HealingMatchConstants.serviceUserName = value.data.userName;
           HealingMatchConstants.userEditUserOccupation =
               value.data.userOccupation;
@@ -543,20 +543,25 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           HealingMatchConstants.serviceUserGender = value.data.gender;
           HealingMatchConstants.serviceUserOccupation =
               value.data.userOccupation;
-          for (var userAddressData in value.data.addresses) {
-            HealingMatchConstants.serviceUserAddress = userAddressData.address;
-            HealingMatchConstants.userEditCity = userAddressData.cityName;
+          for (int i = 0; i < value.data.addresses.length; i++) {
+            // HealingMatchConstants.getUserAddress.add(value.data.addresses);
+            HealingMatchConstants.userEditUserId =
+                value.data.addresses[0].userId;
+            HealingMatchConstants.serviceUserAddress =
+                value.data.addresses[0].address;
+            HealingMatchConstants.userEditCity =
+                value.data.addresses[0].cityName;
             HealingMatchConstants.userEditPrefecture =
-                userAddressData.capitalAndPrefecture;
+                value.data.addresses[0].capitalAndPrefecture;
             HealingMatchConstants.userEditPlaceForMassage =
-                userAddressData.userPlaceForMassage;
+                value.data.addresses[0].userPlaceForMassage;
             HealingMatchConstants.userEditPlaceForMassageOther =
-                userAddressData.otherAddressType;
-            HealingMatchConstants.userEditArea = userAddressData.area;
+                value.data.addresses[0].otherAddressType;
+            HealingMatchConstants.userEditArea = value.data.addresses[0].area;
             HealingMatchConstants.userEditBuildName =
-                userAddressData.buildingName;
+                value.data.addresses[0].buildingName;
             HealingMatchConstants.userEditRoomNo =
-                userAddressData.userRoomNumber;
+                value.data.addresses[0].userRoomNumber;
           }
           status = 1;
         });
