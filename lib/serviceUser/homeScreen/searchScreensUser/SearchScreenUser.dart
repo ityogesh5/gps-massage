@@ -1529,7 +1529,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         if (HealingMatchConstants.dateTime != null) {
           print(
               'Date time in String : ${HealingMatchConstants.dateTime.toIso8601String()}');
-          // run search event bloc
+          // run search event bloc & API Call
+          NavigationRouter.switchToUserSearchResult(context);
         } else {
           print('Date time in String null');
         }

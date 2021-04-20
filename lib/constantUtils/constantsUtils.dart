@@ -425,6 +425,7 @@ class HealingMatchConstants {
   static String searchFitnessTxt = 'フィットネス';
   static String searchTravelTxt = '施術の場所を選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
+  static int searchServiceType = 0;
 
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。

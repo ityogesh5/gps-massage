@@ -8,7 +8,7 @@ abstract class GetSearchResultsRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int massageTypeValue = HealingMatchConstants.serviceTypeValue;
 
-  Future<List<UserTypeList>> getTherapistProfilesByType(
+  Future<List<UserTypeList>> getSearchResultsByType(
       String accessToken, int massageTypeValue, int pageNumber, int pageSize);
 }
 
@@ -17,7 +17,7 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   String accessToken;
 
   @override
-  Future<List<UserTypeList>> getTherapistProfilesByType(String accessToken,
+  Future<List<UserTypeList>> getSearchResultsByType(String accessToken,
       int massageTypeValue, int pageNumber, int pageSize) async {
     try {
       final url =

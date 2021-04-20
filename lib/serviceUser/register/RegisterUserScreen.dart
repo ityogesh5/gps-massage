@@ -280,90 +280,32 @@ class _RegisterUserState extends State<RegisterUser> {
                       overflow: Overflow.visible,
                       children: [
                         _profileImage != null
-                            ? InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
-                                child: Semantics(
-                                  child: new Container(
-                                      width: 100.0,
-                                      height: 100.0,
-                                      decoration: new BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: FileImage(
-                                              File(_profileImage.path)),
-                                        ),
-                                      )),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: () {
-                                  _showPicker(context);
-                                },
+                            ? Semantics(
                                 child: new Container(
-                                    width: 95.0,
-                                    height: 95.0,
+                                    width: 100.0,
+                                    height: 100.0,
                                     decoration: new BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[200]),
+                                      border: Border.all(color: Colors.black12),
                                       shape: BoxShape.circle,
                                       image: new DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: new AssetImage(
-                                            'assets/images_gps/placeholder_image.png'),
+                                        image:
+                                            FileImage(File(_profileImage.path)),
                                       ),
                                     )),
-                              ),
-                        _profileImage != null
-                            ? Visibility(
-                                visible: false,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.upload_outlined,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               )
-                            : Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -60.0,
-                                  top: 60,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Image.asset(
-                                            "assets/images_gps/upload.png"),
-                                      ),
-                                    ),
+                            : new Container(
+                                width: 95.0,
+                                height: 95.0,
+                                decoration: new BoxDecoration(
+                                  border: Border.all(color: Colors.grey[200]),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: new AssetImage(
+                                        'assets/images_gps/placeholder_image.png'),
                                   ),
-                                ),
-                              ),
+                                )),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -689,7 +631,23 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: phoneNumberController,
                         maxLength: 11,
                         autofocus: false,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
+                        onEditingComplete: () {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after edit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        onSubmitted: (userPhoneNumber) {
+                          var phnNum = phoneNumberController.text.toString();
+                          var userPhoneNumber =
+                              phnNum.replaceFirst(RegExp(r'^0+'), "");
+                          print('Phone number after submit : $userPhoneNumber');
+                          phoneNumberController.text = userPhoneNumber;
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
                         decoration: new InputDecoration(
                           counterText: '',
                           filled: true,
@@ -1084,21 +1042,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                                                   .indexOf(
                                                                       value) +
                                                               1;
-                                                      print(
-                                                          'prefID : ${prefId.toString()}');
+
                                                       cityDropDownValues
                                                           .clear();
                                                       _myCity = '';
                                                       _getCities(prefId);
-                                                      _sharedPreferences
-                                                          .then((value) {
-                                                        value.setString(
-                                                            'cityID',
-                                                            prefId.toString());
-
-                                                        print(
-                                                            'Pref id : ${prefId.toString()}');
-                                                      });
                                                     });
                                                   },
                                                   dataSource:
@@ -2299,10 +2247,9 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
+            NavigationRouter.switchToUserOtpScreen(context);
           }
         });
-
-        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideRegisterProgressDialog(context);
         print('Response error occured!');
