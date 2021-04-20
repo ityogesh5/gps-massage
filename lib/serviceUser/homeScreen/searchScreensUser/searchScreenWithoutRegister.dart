@@ -81,17 +81,6 @@ class _SearchWithoutRegisterState extends State<SearchWithoutRegister> {
               children: [
                 Row(
                   children: [
-                    IconButton(
-                      padding: EdgeInsets.all(0.0),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                      ),
-                      onPressed: () {
-                        NavigationRouter.switchToServiceUserBottomBar(context);
-                      },
-                      color: Colors.black,
-                    ),
                     Expanded(
                       child: Card(
                         elevation: 4.0,

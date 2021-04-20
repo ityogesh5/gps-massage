@@ -35,8 +35,8 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      bottomNavigationBar: buildBottomBar(),
-      appBar: AppBar(
+      // bottomNavigationBar: buildBottomBar(),
+      /*appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         actions: [
@@ -58,8 +58,9 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
             ),
           )
         ],
-      ),
-      body: Center(
+      ),*/
+      body:
+          /* Center(
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(
@@ -69,8 +70,8 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
-                    height: 150, width: 140),*/
+                */ /*   SvgPicture.asset('assets/images_gps/normalLogo.svg',
+                    height: 150, width: 140),*/ /*
                 Center(
                     child: Text(HealingMatchConstants.loginUserText,
                         style: TextStyle(
@@ -268,6 +269,13 @@ class _UserDefineScreenState extends State<UserDefineScreen> {
               ],
             ),
           ),
+        ),
+      ),*/
+          Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: new AssetImage('assets/images_gps/user_define.png'),
+              fit: BoxFit.cover),
         ),
       ),
     );

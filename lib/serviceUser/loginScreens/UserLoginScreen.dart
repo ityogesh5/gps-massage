@@ -174,14 +174,10 @@ class _UserLoginState extends State<UserLogin> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Astricks()));
-                        /* NavigationRouter.switchToUserForgetPasswordScreen(
-                            context);*/
+                        NavigationRouter.switchToUserForgetPasswordScreen(
+                            context);
                         // NavigationRouter.switchToNearByProviderAndShop(context);
                       },
                       child: Text(

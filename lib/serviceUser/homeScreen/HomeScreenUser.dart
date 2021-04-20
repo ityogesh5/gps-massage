@@ -196,6 +196,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   getAccessToken() async {
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
+      HealingMatchConstants.serviceUserById = value.getString('did');
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;
@@ -429,80 +430,6 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      HealingMatchConstants.isUserRegistrationSkipped != null &&
-                              HealingMatchConstants.isUserRegistrationSkipped
-                          ? NavigationRouter
-                              .switchToServiceUserSearchScreenWithOutRegister(
-                                  context)
-                          : NavigationRouter.switchToServiceUserSearchScreen(
-                              context);
-                    });
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.all(6.0),
-                      height: 55,
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.height * 0.85,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color.fromRGBO(255, 255, 255, 1),
-                              Color.fromRGBO(255, 255, 255, 1),
-                            ]),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color.fromRGBO(102, 102, 102, 1),
-                        ),
-                        borderRadius: BorderRadius.circular(7.0),
-                        color: Color.fromRGBO(228, 228, 228, 1),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'キーワードでさがす',
-                            style: TextStyle(
-                                color: Color.fromRGBO(225, 225, 225, 1),
-                                fontSize: 14,
-                                fontFamily: 'NotoSansJP'),
-                          ),
-                          Spacer(),
-                          InkWell(
-                            child: Image.asset(
-                              "assets/images_gps/search.png",
-                              color: Color.fromRGBO(225, 225, 225, 1),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                HealingMatchConstants
-                                                .isUserRegistrationSkipped !=
-                                            null &&
-                                        HealingMatchConstants
-                                            .isUserRegistrationSkipped
-                                    ? NavigationRouter
-                                        .switchToServiceUserSearchScreenWithOutRegister(
-                                            context)
-                                    : NavigationRouter
-                                        .switchToServiceUserSearchScreen(
-                                            context);
-                              });
-                            },
-                          ),
-                        ],
-                      )),
-                ),
-              ),
-            ],
-          ),
           CarouselWithIndicatorDemo(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -2492,8 +2419,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 };
                 print('Store type map values : $storeTypeValues');
               }
-              certificateUpload =
-                  value.therapistData.therapistList[i].user.certificationUploads;
+              certificateUpload = value
+                  .therapistData.therapistList[i].user.certificationUploads;
               for (int j = 0; j < certificateUpload.length; j++) {
                 print('Certificate upload : ${certificateUpload[j].toJson()}');
                 certificateUploadKeys = certificateUpload[j].toJson();

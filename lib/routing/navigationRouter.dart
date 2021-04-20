@@ -52,6 +52,7 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreen
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/Recommended.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/searchScreenWithoutRegister.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
@@ -66,7 +67,7 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserRev
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
-import 'file:///C:/Users/user1/Documents/HealingMatch%20App/gps-massage/lib/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
+
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/bookingCancelScreens/CancelDetailsScreen.dart';
 
 class NavigationRouter {
@@ -424,8 +425,6 @@ class NavigationRouter {
         MaterialPageRoute(builder: (BuildContext context) => AddAddress(arg)));
   }
 
-
-
   // User calender screen
   static void switchToUserCalendarScreenScreen(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
@@ -542,7 +541,6 @@ class NavigationRouter {
         MaterialPageRoute(
             builder: (BuildContext context) => DetailPageSearch()));
   }
-
 
   //User BookingDetailsApprovedScreen
   static void switchToServiceUserBookingDetailsApprovedScreen(

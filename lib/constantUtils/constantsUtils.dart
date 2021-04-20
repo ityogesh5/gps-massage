@@ -19,7 +19,8 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      "http://106.51.49.160:9094/api"; //"http://103.92.19.158:9094/api";
+      /* "http://103.92.19.158:9094/api";*/
+      "http://106.51.49.160:9094/api";
 
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
@@ -47,6 +48,8 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
   static const String UPDATE_USER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
+  static const String DELETE_SUB_ADDRESS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
   static const String UPDATE_PROVIDER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/therapistUpdatebyId';
   static const String UPDATE_BANNER_IMAGE_URL =
@@ -66,16 +69,17 @@ class HealingMatchConstants {
 
   //Ratings and Review
   static const String RATING_USER_URL =
-      ON_PREMISE_USER_BASE_URL + '/mobileReview/createUserReview';
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/createTherapistReview';
 
   // Provider rating List
   static const String RATING_PROVIDER_LIST_URL =
-      ON_PREMISE_USER_BASE_URL + '/mobileReview/userReviewListById';
+      ON_PREMISE_USER_BASE_URL + '/mobileReview/therapistReviewListById';
 
   // get Therapists list
   static const String THERAPIST_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
 
+  // get user
   // get Therapists list by type of massage service
   static const String THERAPIST_LIST_BY_TYPE =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistListByType';
@@ -83,6 +87,10 @@ class HealingMatchConstants {
   // get Users list
   static const String USER_LIST_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userList';
+
+  // get Users list By ID
+  static const String USER_LIST_ID_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
   //update Therapist Service Type
   static const String THERAPIST_UPDATE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
@@ -137,17 +145,19 @@ class HealingMatchConstants {
       "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
 
   //Register Service User Screen Constants
+  static String serviceUserById = '';
   static String serviceUserName = '';
   static String serviceUserDOB = '';
   static String serviceUserGender = '';
   static String serviceUserOccupation = '';
-  static String serviceUserAge = '';
-  static String serviceUserPhoneNumber = '';
+  static String serviceUserAge;
+  static String serviceUserPhoneNumber;
   static String serviceUserEmailAddress = '';
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
   static String serviceUserAddress = '';
   static String serviceUserPrefecture = '';
+  static String serviceUserPrefectureId = '';
   static String serviceUserCity = '';
   static String serviceUserBuildingName = '';
   static String serviceUserArea = '';
@@ -370,6 +380,7 @@ class HealingMatchConstants {
   static String userEditCity = '';
   static String userEditPrefecture = '';
   static String userEditPlaceForMassage = '';
+  static String userEditPlaceForMassageOther = '';
   static String userEditArea = '';
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
