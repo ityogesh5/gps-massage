@@ -46,7 +46,7 @@ class Data {
   });
 
   int id;
-  String userId;
+  int userId;
   String therapistId;
   bool isReviewStatus;
   String ratingsCount;

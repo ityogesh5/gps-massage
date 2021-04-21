@@ -19,7 +19,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is FetchSearchResultsEvent) {
       yield SearchLoaderState();
       try {
-        List<UserTypeList> getTherapistsUsers =
+        List<TypeTherapistData> getTherapistsUsers =
             await getSearchResultsRepository.getSearchResultsByType(
                 event.accessToken,
                 event.massageTypeValue,

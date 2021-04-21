@@ -101,8 +101,10 @@ class ProgressDialog {
   Future<void> dismissProgressDialog(BuildContext context) async {
     _timer?.cancel();
     await lock.synchronized(() async {
-      if (isDismissed) {
+      if (isDismissed != null && isDismissed) {
         return;
+      } else {
+        print('Dialog dismissed : $isDismissed');
       }
       isDismissed = true;
       //Navigator.of(context).pop();
