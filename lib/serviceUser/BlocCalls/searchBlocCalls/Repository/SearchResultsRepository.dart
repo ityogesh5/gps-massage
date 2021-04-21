@@ -4,20 +4,20 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:http/http.dart' as http;
 
-abstract class GetTherapistTypeRepository {
+abstract class GetSearchResultsRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int massageTypeValue = HealingMatchConstants.serviceTypeValue;
 
-  Future<List<UserTypeList>> getTherapistProfilesByType(
+  Future<List<UserTypeList>> getSearchResultsByType(
       String accessToken, int massageTypeValue, int pageNumber, int pageSize);
 }
 
-class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
+class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   @override
   String accessToken;
 
   @override
-  Future<List<UserTypeList>> getTherapistProfilesByType(String accessToken,
+  Future<List<UserTypeList>> getSearchResultsByType(String accessToken,
       int massageTypeValue, int pageNumber, int pageSize) async {
     try {
       final url =

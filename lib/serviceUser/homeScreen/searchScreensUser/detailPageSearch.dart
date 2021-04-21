@@ -2796,7 +2796,9 @@ class _SearchCauroselWithIndicatorState
                   size: 20,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
             Spacer(),
@@ -2804,15 +2806,6 @@ class _SearchCauroselWithIndicatorState
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  maxRadius: 18,
-                  backgroundColor: Colors.white,
-                  child: SvgPicture.asset(
-                    'assets/images_gps/share.svg',
-                    height: 20,
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                 CircleAvatar(
                   maxRadius: 18,
                   backgroundColor: Colors.white,

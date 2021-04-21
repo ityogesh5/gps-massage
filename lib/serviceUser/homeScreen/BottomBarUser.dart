@@ -57,6 +57,7 @@ class _BottomBarUserState extends State<BottomBarUser> {
     return Scaffold(
       extendBody: true,
       body: _pageOptions[selectedpage],
+
       // initial value is 0 so HomePage will be shown
       bottomNavigationBar: CurvedNavigationBar(
         index: selectedpage,

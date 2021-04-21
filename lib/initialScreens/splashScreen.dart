@@ -38,6 +38,7 @@ class _SplashScreenPageState extends State<SplashScreen>
   void navigationPage() {
     if (HealingMatchConstants.isInternetAvailable) {
       _navigateUser();
+      //NavigationRouter.switchToServiceUserBottomBar(context);
     } else {
       DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
     }
@@ -97,6 +98,7 @@ class _SplashScreenPageState extends State<SplashScreen>
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
+      print('User Register : $userRegistered');
       if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
         NavigationRouter.switchToServiceUserBottomBar(context);
@@ -104,13 +106,13 @@ class _SplashScreenPageState extends State<SplashScreen>
         print('Entering 2 loop !!');
         NavigationRouter.switchToServiceProviderBottomBar(context);
       } else {
-        if (userLoggedOut != null && userLoggedOut) {
+        if (userRegistered != null && userRegistered) {
+          print('Entering 3 loop !!');
+          NavigationRouter.switchToServiceUserBottomBar(context);
+        } else if (userLoggedOut != null && userLoggedOut) {
           NavigationRouter.switchToUserLogin(context);
         } else if (providerLoggedOut != null && providerLoggedOut) {
           NavigationRouter.switchToProviderLogin(context);
-        } else if (userRegistered != null && userRegistered) {
-          print('Entering 3 loop !!');
-          NavigationRouter.switchToServiceUserBottomBar(context);
         } else if (providerRegistered != null && providerRegistered) {
           print('Entering 4 loop !!');
           NavigationRouter.switchToServiceProviderBottomBar(context);

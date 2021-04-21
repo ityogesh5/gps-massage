@@ -24,7 +24,7 @@ class RatingsAndReviewUser extends StatefulWidget {
 
 class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   int status = 0;
-  List<UserList> ratingListValues = List();
+  List<TherapistReviewList> ratingListValues = List();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   UserReviewListById ratingListResponseModel;
   RatingReviewModel ratingReviewModel;
@@ -102,7 +102,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "(${ratingListResponseModel.userData.totalElements})",
+                            "(${ratingListResponseModel.therapistsData.totalElements})",
                             style: TextStyle(
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 12,
@@ -317,7 +317,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "${ratingListValues[index].userName}",
+                                        "${ratingListValues[index].reviewUserId.userName}",
                                         style: TextStyle(
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 14,
@@ -529,7 +529,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
           },
           body: json.encode({
             "userId": rUserID,
-            "therapistId": "8",
+            "therapistId": "18",
             "ratingsCount": ratingsValue.toString(),
             "reviewComment": reviewComment,
           }));
@@ -574,15 +574,17 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "8",
+            "therapistId": "18",
           }));
       // print(response.body);
       print('Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
         ratingListResponseModel =
             UserReviewListById.fromJson(json.decode(response.body));
         setState(() {
-          ratingListValues = ratingListResponseModel.userData.userList;
+          ratingListValues =
+              ratingListResponseModel.therapistsData.therapistReviewList;
           status = 1;
         });
 

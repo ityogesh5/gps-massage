@@ -16,7 +16,7 @@ class DisplayUserReview extends StatefulWidget {
 }
 
 class _DisplayUserReviewState extends State<DisplayUserReview> {
-  List<UserList> ratingListValues = List();
+  List<TherapistReviewList> ratingListValues = List();
   UserReviewListById ratingListResponseModel;
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
@@ -87,7 +87,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "(${ratingListResponseModel.userData.totalElements})",
+                                "(${ratingListResponseModel.therapistsData.totalElements})",
                                 style: TextStyle(
                                     fontFamily: 'NotoSansJP',
                                     fontSize: 12,
@@ -203,7 +203,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "${ratingListValues[index].userName}",
+                                          "${ratingListValues[index].reviewUserId.userName}",
                                           style: TextStyle(
                                               fontFamily: 'NotoSansJP',
                                               fontSize: 14,
@@ -339,7 +339,8 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
         ratingListResponseModel =
             UserReviewListById.fromJson(json.decode(response.body));
         setState(() {
-          ratingListValues = ratingListResponseModel.userData.userList;
+          ratingListValues =
+              ratingListResponseModel.therapistsData.therapistReviewList;
           status = 1;
         });
 
