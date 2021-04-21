@@ -104,7 +104,7 @@ class Data {
   dynamic customerId;
   DateTime createdAt;
   DateTime updatedAt;
-  List<Address> addresses;
+  List<UserDetailsAddress> addresses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -142,8 +142,8 @@ class Data {
         customerId: json["customerId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        addresses: List<Address>.from(
-            json["addresses"].map((x) => Address.fromJson(x))),
+        addresses: List<UserDetailsAddress>.from(
+            json["addresses"].map((x) => UserDetailsAddress.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -187,8 +187,8 @@ class Data {
       };
 }
 
-class Address {
-  Address({
+class UserDetailsAddress {
+  UserDetailsAddress({
     this.id,
     this.userId,
     this.addressTypeSelection,
@@ -236,7 +236,7 @@ class Address {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
+  factory UserDetailsAddress.fromJson(Map<String, dynamic> json) => UserDetailsAddress(
         id: json["id"],
         userId: json["userId"],
         addressTypeSelection: json["addressTypeSelection"],

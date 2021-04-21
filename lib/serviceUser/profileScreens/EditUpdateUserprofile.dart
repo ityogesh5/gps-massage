@@ -68,9 +68,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getEditUserFields();
+    //getEditUserFields();
     getUserProfileData();
     _getStates();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   var userAddressType = '';
@@ -304,9 +309,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       onTap: () {
                                         _showPicker(context, 0);
                                       },
-                                      child: widget.userProfileImage != null
+                                      child: HealingMatchConstants
+                                                  .userProfileImage !=
+                                              null
                                           ? CachedNetworkImage(
-                                              imageUrl: widget.userProfileImage,
+                                              imageUrl: HealingMatchConstants
+                                                  .userProfileImage,
                                               filterQuality: FilterQuality.high,
                                               fadeInCurve: Curves.easeInSine,
                                               imageBuilder:
@@ -1530,6 +1538,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     onPressed: () {
                       _editAddressController.clear();
                       isDelete = true;
+
                     },
                   ),
                 ),
@@ -2155,23 +2164,25 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('phn: $userPhoneNumber');
     print('email: $email');
     if (HealingMatchConstants.userEditAddress.isNotEmpty) {
-      setState(() {
-        addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-          userId: HealingMatchConstants.userEditUserId,
-          addressTypeSelection: _myAddressInputType,
-          address: HealingMatchConstants.userEditAddress,
-          userRoomNumber: roomNumberController.text.toString(),
-          userPlaceForMassage: _myCategoryPlaceForMassage,
-          capitalAndPrefecture: _myPrefecture,
-          cityName: _myCity,
-          area: userAreaController.text.toString(),
-          buildingName: buildingNameController.text.toString(),
-          lat: HealingMatchConstants.mEditCurrentLatitude,
-          lon: HealingMatchConstants.mEditCurrentLongitude,
-        );
-        updateAddress.add(addUpdateAddress);
-      });
+      if (this.mounted) {
+        setState(() {
+          addUpdateAddress = UpdateAddress(
+            id: HealingMatchConstants.userAddressId,
+            userId: HealingMatchConstants.userEditUserId,
+            addressTypeSelection: _myAddressInputType,
+            address: HealingMatchConstants.userEditAddress,
+            userRoomNumber: roomNumberController.text.toString(),
+            userPlaceForMassage: _myCategoryPlaceForMassage,
+            capitalAndPrefecture: _myPrefecture,
+            cityName: _myCity,
+            area: userAreaController.text.toString(),
+            buildingName: buildingNameController.text.toString(),
+            lat: HealingMatchConstants.mEditCurrentLatitude,
+            lon: HealingMatchConstants.mEditCurrentLongitude,
+          );
+          updateAddress.add(addUpdateAddress);
+        });
+      }
     }
 
     print('Id: ${HealingMatchConstants.serviceUserById}');
@@ -2182,72 +2193,76 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print("json Converted:" + json.encode(constantUserAddressValuesList));
     print("json Converted Address:" + json.encode(updateAddress));
+    try {
+      Uri updateProfile =
+          Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
+      var request = http.MultipartRequest('POST', updateProfile);
+      Map<String, String> headers = {
+        "Content-Type": "multipart/form-data",
+        "x-access-token": HealingMatchConstants.accessToken
+      };
+      if (_profileImage != null) {
+        var profileImage = await http.MultipartFile.fromPath(
+            'uploadProfileImgUrl', _profileImage.path);
+        print('Image upload filename : $profileImage');
+        request.files.add(profileImage);
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "id": HealingMatchConstants.userAddressId,
+          "userName": userName,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "dob": userDOB,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "uploadProfileImgUrl": _profileImage.path,
+          "isTherapist": "0",
+          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "address": json.encode(updateAddress),
+          "subAddress": json.encode(constantUserAddressValuesList)
+        });
+      } else {
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "id": HealingMatchConstants.userAddressId,
+          "userName": userName,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "dob": userDOB,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "isTherapist": "0",
+          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "address": json.encode(updateAddress),
+          "subAddress": json.encode(constantUserAddressValuesList)
+        });
+      }
 
-    Uri updateProfile =
-        Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
-    var request = http.MultipartRequest('POST', updateProfile);
-    Map<String, String> headers = {
-      "Content-Type": "multipart/form-data",
-      "x-access-token": HealingMatchConstants.accessToken
-    };
-    if (_profileImage != null) {
-      var profileImage = await http.MultipartFile.fromPath(
-          'uploadProfileImgUrl', _profileImage.path);
-      print('Image upload filename : $profileImage');
-      request.files.add(profileImage);
-      request.headers.addAll(headers);
-      request.fields.addAll({
-        "id": HealingMatchConstants.userEditUserId.toString(),
-        "userName": userName,
-        "age": userAge,
-        "userOccupation": _myOccupation,
-        "dob": userDOB,
-        "phoneNumber": userPhoneNumber,
-        "email": email,
-        "gender": _myGender,
-        "uploadProfileImgUrl": _profileImage.path,
-        "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
-        "address": json.encode(updateAddress),
-        "subAddress": json.encode(constantUserAddressValuesList)
-      });
-    } else {
-      request.headers.addAll(headers);
-      request.fields.addAll({
-        "id": HealingMatchConstants.userEditUserId.toString(),
-        "userName": userName,
-        "age": userAge,
-        "userOccupation": _myOccupation,
-        "dob": userDOB,
-        "phoneNumber": userPhoneNumber,
-        "email": email,
-        "gender": _myGender,
-        "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
-        "address": json.encode(updateAddress),
-        "subAddress": json.encode(constantUserAddressValuesList)
-      });
-    }
+      final userDetailsRequest = await request.send();
+      final response = await http.Response.fromStream(userDetailsRequest);
 
-    final userDetailsRequest = await request.send();
-    final response = await http.Response.fromStream(userDetailsRequest);
+      // print('Success response code : ${response.statusCode}');
+      print('SuccessMessage : ${response.reasonPhrase}');
+      // print('Response : ${response.body}');
+      print("This is response: ${response.statusCode}\n${response.body}");
 
-    // print('Success response code : ${response.statusCode}');
-    print('SuccessMessage : ${response.reasonPhrase}');
-    // print('Response : ${response.body}');
-    print("This is response: ${response.statusCode}\n${response.body}");
-
-    if (response.statusCode == 200) {
-      final Map userDetailsResponse = json.decode(response.body);
-      final profileUpdateResponseModel =
-          ProfileUpdateResponseModel.fromJson(userDetailsResponse);
-      print(profileUpdateResponseModel.status);
-      updateAddress.clear();
+      if (response.statusCode == 200) {
+        final Map userDetailsResponse = json.decode(response.body);
+        final profileUpdateResponseModel =
+            ProfileUpdateResponseModel.fromJson(userDetailsResponse);
+        print(profileUpdateResponseModel.status);
+        updateAddress.clear();
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+      } else {
+        print('User Edit failed !!');
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      }
+    } catch (e) {
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      DialogHelper.showUserProfileUpdatedSuccessDialog(context);
-    } else {
-      print('User Edit failed !!');
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      print('Edit user Exception : ${e.toString()}');
     }
   }
 
@@ -2347,8 +2362,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         rUserID = value.getString('userID');
-        print('User Address Type : $_myAddressInputType');
-        print('User Address ID : $_userAddressID');
+        print('User Address Type Verified : $_myAddressInputType');
+        print('User Address ID Verified : $_userAddressID');
       } else {
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');

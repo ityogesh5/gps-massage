@@ -13,6 +13,7 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 
 class ViewUserProfile extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class ViewUserProfile extends StatefulWidget {
 class _ViewUserProfileState extends State<ViewUserProfile> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
-  String userProfileImage;
+  var userProfileImage;
   String userName;
 
   String userPhoneNumber;
@@ -57,8 +58,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
 
   @override
   void initState() {
-    getUserProfileData();
-    super.initState();
+   super.initState();
+   getUserProfileData();
   }
 
   @override
@@ -102,9 +103,9 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(width: 35.0),
-                            userProfileImage != null
+                            HealingMatchConstants.userProfileImage != null
                                 ? CachedNetworkImage(
-                                    imageUrl: userProfileImage,
+                                    imageUrl: HealingMatchConstants.userProfileImage,
                                     filterQuality: FilterQuality.high,
                                     fadeInCurve: Curves.easeInSine,
                                     imageBuilder: (context, imageProvider) =>
@@ -536,10 +537,11 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
-      var userListApiProvider = ServiceUserAPIProvider.getUserDetailsById();
+      var userListApiProvider = ServiceUserAPIProvider.getUserDetails(context,HealingMatchConstants.serviceUserUserID);
       userListApiProvider.then((value) {
+        print('userProfileImage: ${value.data.uploadProfileImgUrl}');
         setState(() {
-          userProfileImage = value.data.uploadProfileImgUrl;
+          HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
           HealingMatchConstants.serviceUserName = value.data.userName;
           HealingMatchConstants.userEditUserOccupation =
               value.data.userOccupation;
@@ -550,16 +552,14 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
               DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
           HealingMatchConstants.serviceUserAge = value.data.age.toString();
           HealingMatchConstants.serviceUserGender = value.data.gender;
-          HealingMatchConstants.serviceUserOccupation =
-              value.data.userOccupation;
+          HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
           for (int i = 0; i < value.data.addresses.length; i++) {
-            HealingMatchConstants.getUserAddress.addAll(value.data.addresses);
-            HealingMatchConstants.userEditUserId =
-                value.data.addresses[0].userId;
+            HealingMatchConstants.constantUserAddressValuesList =
+                value.data.addresses.cast<UserDetailsAddress>();
+            HealingMatchConstants.userEditUserId = value.data.addresses[0].userId;
             HealingMatchConstants.serviceUserAddress =
                 value.data.addresses[0].address;
-            HealingMatchConstants.userEditCity =
-                value.data.addresses[0].cityName;
+            HealingMatchConstants.userEditCity = value.data.addresses[0].cityName;
             HealingMatchConstants.userEditPrefecture =
                 value.data.addresses[0].capitalAndPrefecture;
             HealingMatchConstants.userEditPlaceForMassage =
@@ -576,7 +576,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         });
       });
       print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
-      print('userProfileImage: ${userProfileImage}');
+      print('userProfileImage: $userProfileImage');
       print('serviceUserName: ${HealingMatchConstants.serviceUserName}');
       print('userOccupation: ${HealingMatchConstants.userEditUserOccupation}');
       print(

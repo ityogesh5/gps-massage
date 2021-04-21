@@ -368,6 +368,7 @@ class HealingMatchConstants {
   static Uint8List userEditProfile;
   static String userEditToken = '';
   static var userEditUserId ;
+  static var userAddressId ;
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
   static String userEditEmailAddress = '';
@@ -400,8 +401,10 @@ class HealingMatchConstants {
   static bool isTimeCriteria = true;
   static int serviceType = 0;
   static DateTime dateTime = DateTime.now();
-  static List<Address> getUserAddress = new List();
+  static List<UserDetailsAddress> constantUserAddressValuesList = new List<UserDetailsAddress>();
   static var searchDistanceRadius;
+  static String userProfileImage ;
+  static var serviceUserUserID;
 
   // User Home screen
   static int serviceTypeValue = 0;

@@ -15,11 +15,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
@@ -27,6 +27,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -48,10 +49,13 @@ Uint8List therapistImageInBytes;
 String therapistImage = '';
 
 int _selectedIndex;
-List<UserTypeList> therapistListByType = [];
-List<TherapistList> therapistUsers = [];
+List<TypeTherapistData> therapistListByType = [];
+List<InitialTherapistData> therapistUsers = [];
 var accessToken;
+var userID;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
+List<UserDetailsAddress> constantUserAddressValuesList =
+    new List<UserDetailsAddress>();
 
 String result = '';
 var colorsValue = Colors.white;
@@ -69,6 +73,12 @@ class _HomeScreenUserState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    CheckInternetConnection.cancelSubscription();
+    super.dispose();
   }
 
   @override
@@ -196,15 +206,63 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   getAccessToken() async {
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
-      HealingMatchConstants.serviceUserById = value.getString('did');
+      HealingMatchConstants.userAddressId = value.getString('addressID');
+      HealingMatchConstants.serviceUserUserID = value.getString('userID');
       if (accessToken != null) {
         print('Access token value : $accessToken');
+        print('Address ID VALUE : ${HealingMatchConstants.userAddressId}');
         HealingMatchConstants.accessToken = accessToken;
         getBannerImages();
+        getUserDetails();
       } else {
         print('No token value found !!');
       }
     });
+  }
+
+  getUserDetails() async {
+    try {
+      var userDetails = ServiceUserAPIProvider.getUserDetails(
+          context, HealingMatchConstants.serviceUserUserID);
+      userDetails.then((value) {
+        HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
+        HealingMatchConstants.serviceUserName = value.data.userName;
+        HealingMatchConstants.userEditUserOccupation =
+            value.data.userOccupation;
+        HealingMatchConstants.serviceUserPhoneNumber =
+            value.data.phoneNumber.toString();
+        HealingMatchConstants.serviceUserEmailAddress = value.data.email;
+        HealingMatchConstants.serviceUserDOB =
+            DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
+        HealingMatchConstants.serviceUserAge = value.data.age.toString();
+        HealingMatchConstants.serviceUserGender = value.data.gender;
+        HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
+        for (int i = 0; i < value.data.addresses.length; i++) {
+          HealingMatchConstants.constantUserAddressValuesList =
+              value.data.addresses.cast<UserDetailsAddress>();
+          HealingMatchConstants.userEditUserId = value.data.addresses[0].userId;
+          HealingMatchConstants.serviceUserAddress =
+              value.data.addresses[0].address;
+          HealingMatchConstants.userEditCity = value.data.addresses[0].cityName;
+          HealingMatchConstants.userEditPrefecture =
+              value.data.addresses[0].capitalAndPrefecture;
+          HealingMatchConstants.userEditPlaceForMassage =
+              value.data.addresses[0].userPlaceForMassage;
+          HealingMatchConstants.userEditPlaceForMassageOther =
+              value.data.addresses[0].otherAddressType;
+          HealingMatchConstants.userEditArea = value.data.addresses[0].area;
+          HealingMatchConstants.userEditBuildName =
+              value.data.addresses[0].buildingName;
+          HealingMatchConstants.userEditRoomNo =
+              value.data.addresses[0].userRoomNumber;
+        }
+        print('User Profile image : ${HealingMatchConstants.userProfileImage}');
+      }).catchError((onError) {
+        print('Home error user details : $onError');
+      });
+    } catch (e) {
+      print('Home error user details : ${e.toString()}');
+    }
   }
 
   getBannerImages() async {
@@ -403,7 +461,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
 }
 
 class HomeScreenByMassageType extends StatefulWidget {
-  List<UserTypeList> getTherapistByType;
+  List<TypeTherapistData> getTherapistByType;
 
   HomeScreenByMassageType({Key key, @required this.getTherapistByType})
       : super(key: key);
@@ -836,7 +894,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 //Build therapists list view
 
 class BuildProviderListByType extends StatefulWidget {
-  List<UserTypeList> getTherapistByType;
+  List<TypeTherapistData> getTherapistByType;
 
   // Create the key
 
@@ -853,7 +911,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   GlobalKey<FormState> _formKeyUsersByType;
   Map<int, String> storeTypeValues;
   Map<String, String> certificateImages = Map<String, String>();
-  List<CertificationTypeUpload> certificateUpload = [];
+  List<CertificationUploadsByType> certificateUpload = [];
   var certificateUploadKeys;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -1139,40 +1197,78 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                         ),
                                         Row(
                                           children: [
-                                            Text(
-                                              '(${ratingsValue.toString()})',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    ColorConstants.fontFamily,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                            RatingBar.builder(
-                                              ignoreGestures: true,
-                                              initialRating: 3,
-                                              minRating: 1,
-                                              direction: Axis.horizontal,
-                                              allowHalfRating: true,
-                                              itemCount: 5,
-                                              itemSize: 22,
-                                              itemPadding: EdgeInsets.symmetric(
-                                                  horizontal: 4.0),
-                                              itemBuilder: (context, _) => Icon(
-                                                Icons.star,
-                                                size: 5,
-                                                color: Color.fromRGBO(
-                                                    255, 217, 0, 1),
-                                              ),
-                                              onRatingUpdate: (rating) {
-                                                setState(() {
-                                                  ratingsValue = rating;
-                                                });
-                                                print(ratingsValue);
-                                              },
-                                            ),
+                                            widget.getTherapistByType[index]
+                                                        .reviewAvgData !=
+                                                    null
+                                                ? Text(
+                                                    '(${widget.getTherapistByType[index].reviewAvgData.toString()})',
+                                                    style: TextStyle(
+                                                      fontFamily: ColorConstants
+                                                          .fontFamily,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    '(0.0)',
+                                                    style: TextStyle(
+                                                      fontFamily: ColorConstants
+                                                          .fontFamily,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                    ),
+                                                  ),
+                                            widget.getTherapistByType[index]
+                                                        .reviewAvgData !=
+                                                    null
+                                                ? RatingBar.builder(
+                                                    ignoreGestures: true,
+                                                    initialRating: double.parse(
+                                                        widget
+                                                            .getTherapistByType[
+                                                                index]
+                                                            .reviewAvgData),
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemSize: 22,
+                                                    itemPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 4.0),
+                                                    itemBuilder: (context, _) =>
+                                                        Icon(
+                                                      Icons.star,
+                                                      size: 5,
+                                                      color: Color.fromRGBO(
+                                                          255, 217, 0, 1),
+                                                    ),
+                                                    onRatingUpdate: (rating) {},
+                                                  )
+                                                : RatingBar.builder(
+                                                    ignoreGestures: true,
+                                                    initialRating: 0.0,
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    itemSize: 22,
+                                                    itemPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 4.0),
+                                                    itemBuilder: (context, _) =>
+                                                        Icon(
+                                                      Icons.star,
+                                                      size: 5,
+                                                      color: Color.fromRGBO(
+                                                          255, 217, 0, 1),
+                                                    ),
+                                                    onRatingUpdate: (rating) {},
+                                                  ),
                                             Text(
                                               '(1518)',
                                               style: TextStyle(
@@ -1243,7 +1339,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                             children: [
                                               //Spacer(),
                                               widget.getTherapistByType[index]
-                                                          .sixtyMin ==
+                                                          .nintyMin ==
                                                       0
                                                   ? Text(
                                                       '¥0/60分',
@@ -1253,7 +1349,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                           fontSize: 16),
                                                     )
                                                   : Text(
-                                                      '¥${widget.getTherapistByType[index].sixtyMin}/60分',
+                                                      '¥${widget.getTherapistByType[index].nintyMin}/${widget.getTherapistByType[index].priceForMinute}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -1360,7 +1456,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     );
   }
 
-  getCertificateValues(List<UserTypeList> getTherapistByType) async {
+  getCertificateValues(List<TypeTherapistData> getTherapistByType) async {
     if (this.mounted) {
       setState(() {
         for (int i = 0; i < getTherapistByType.length; i++) {
@@ -2370,7 +2466,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // Create the key
   GlobalKey<FormState> _formKeyUsers;
-  List<CertificationUpload> certificateUpload = [];
+  List<CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
 
   @override
@@ -2404,7 +2500,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       apiProvider.then((value) {
         if (this.mounted) {
           setState(() {
-            therapistUsers = value.therapistData.therapistList;
+            therapistUsers = value.homeTherapistData.therapistData;
             for (int i = 0; i < therapistUsers.length; i++) {
               if (therapistUsers[i].user.storeType != null &&
                   therapistUsers[i].user.storeType != '') {
@@ -2420,7 +2516,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 print('Store type map values : $storeTypeValues');
               }
               certificateUpload = value
-                  .therapistData.therapistList[i].user.certificationUploads;
+                  .homeTherapistData.therapistData[i].user.certificationUploads;
               for (int j = 0; j < certificateUpload.length; j++) {
                 print('Certificate upload : ${certificateUpload[j].toJson()}');
                 certificateUploadKeys = certificateUpload[j].toJson();
@@ -2761,64 +2857,80 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                ratingsValue.toString(),
-                                                style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                ),
-                                              ),
-                                              //therapistUsers[index].user.reviews != null
-                                              /*? RatingBar.builder(
-                                            ignoreGestures: true,
-                                        initialRating: therapistUsers[index].user
-                                            .reviews[index].ratingsCount.toDouble(),
-                                        minRating: 1.0,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 25,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        itemBuilder: (context, _) =>
-                                            Icon(
-                                              Icons.star,
-                                              size: 5,
-                                              color: Colors.black,
-                                            ),
-                                        onRatingUpdate: (rating) {
-                                          setState(() {
-                                            ratingsValue = rating;
-                                          });
-                                          print(ratingsValue);
-                                        },
-                                      )
-                                          : */
-                                              RatingBar.builder(
-                                                ignoreGestures: true,
-                                                initialRating: 3,
-                                                minRating: 3.0,
-                                                direction: Axis.horizontal,
-                                                allowHalfRating: true,
-                                                itemCount: 5,
-                                                itemSize: 25,
-                                                itemPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 4.0),
-                                                itemBuilder: (context, _) =>
-                                                    Icon(
-                                                  Icons.star,
-                                                  size: 5,
-                                                  color: Color.fromRGBO(
-                                                      255, 217, 0, 1),
-                                                ),
-                                                onRatingUpdate: (rating) {
-                                                  setState(() {
-                                                    ratingsValue = rating;
-                                                  });
-                                                  print(ratingsValue);
-                                                },
-                                              ),
+                                              therapistUsers[index]
+                                                          .reviewAvgData !=
+                                                      null
+                                                  ? Text(
+                                                      therapistUsers[index]
+                                                          .reviewAvgData,
+                                                      style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      '0.0',
+                                                      style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                      ),
+                                                    ),
+                                              therapistUsers[index]
+                                                          .reviewAvgData !=
+                                                      null
+                                                  ? RatingBar.builder(
+                                                      ignoreGestures: true,
+                                                      initialRating: double
+                                                          .parse(therapistUsers[
+                                                                  index]
+                                                              .reviewAvgData),
+                                                      minRating: 0.25,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      allowHalfRating: true,
+                                                      itemCount: 5,
+                                                      itemSize: 25,
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4.0),
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                        Icons.star,
+                                                        size: 5,
+                                                        color: Color.fromRGBO(
+                                                            255, 217, 0, 1),
+                                                      ),
+                                                      onRatingUpdate:
+                                                          (rating) {},
+                                                    )
+                                                  : RatingBar.builder(
+                                                      ignoreGestures: true,
+                                                      initialRating: 0.0,
+                                                      minRating: 3.0,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      allowHalfRating: true,
+                                                      itemCount: 5,
+                                                      itemSize: 25,
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4.0),
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
+                                                        Icons.star,
+                                                        size: 5,
+                                                        color: Color.fromRGBO(
+                                                            255, 217, 0, 1),
+                                                      ),
+                                                      onRatingUpdate: (rating) {
+                                                        setState(() {
+                                                          ratingsValue = rating;
+                                                        });
+                                                        print(ratingsValue);
+                                                      },
+                                                    ),
                                               Text('(1518)'),
                                             ],
                                           ),
@@ -2895,7 +3007,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                             fontSize: 16),
                                                       )
                                                     : Text(
-                                                        '¥${therapistUsers[index].sixtyMin}/60分',
+                                                        '¥${therapistUsers[index].sixtyMin}/${therapistUsers[index].priceForMinute}',
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,

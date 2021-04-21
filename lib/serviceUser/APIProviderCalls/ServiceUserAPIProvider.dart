@@ -50,12 +50,12 @@ class ServiceUserAPIProvider {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistList?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
       };
-      final response = await http.post(url, headers: headers);
+      final response = await http.get(url, headers: headers);
       final getTherapists = json.decode(response.body);
       listOfTherapistModel = TherapistUsersModel.fromJson(getTherapists);
       print('More Response body : ${response.body}');
@@ -74,7 +74,7 @@ class ServiceUserAPIProvider {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistListByType?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -145,30 +145,5 @@ class ServiceUserAPIProvider {
       throw Exception(e);
     }
     return _getUserDetailsByIdModel;
-  }
-
-  static Future<GetUserDetails> getUserDetailsById() async {
-    try {
-      final url = HealingMatchConstants.USER_LIST_ID_URL;
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'x-access-token': '${HealingMatchConstants.accessToken}'
-      };
-      final response = await http.post(url,
-          headers: headers,
-          body: json.encode({
-            "user_id": HealingMatchConstants.serviceUserById,
-          }));
-      final getUser = json.decode(response.body);
-      userDetails = GetUserDetails.fromJson(getUser);
-      print('Response body : ${response.body}');
-    } catch (e) {
-      print(e.toString());
-    }
-/*return (response.data).map((therapistUsers) {
-print('Inserting >>> $therapistUsers');
-//DBProvider.db.createTherapistUsers(therapistUsers);
-}).toList();*/
-    return userDetails;
   }
 }
