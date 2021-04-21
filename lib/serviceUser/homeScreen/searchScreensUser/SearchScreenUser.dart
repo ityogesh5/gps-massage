@@ -60,7 +60,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   var searchAddressLatitude, searchAddressLongitude;
 
-  List<Address> constantUserAddressValuesList = new List<Address>();
+  List<Addresses> constantUserAddressValuesList = new List<Addresses>();
   var constantUserAddressSize = new List();
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
@@ -1429,9 +1429,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   getValidSearchFields() async {
     _sharedPreferences.then((value) {
       if (value != null) {
-        userID = value.getString('userID');
         var userDetails =
-            ServiceUserAPIProvider.getUserDetails(context, userID);
+            ServiceUserAPIProvider.getUserDetails(context, HealingMatchConstants.serviceUserID);
         userDetails.then((value) {
           setState(() {
             constantUserAddressValuesList = value.data.addresses;

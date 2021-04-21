@@ -8,7 +8,7 @@ abstract class GetTherapistTypeRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int massageTypeValue = HealingMatchConstants.serviceTypeValue;
 
-  Future<List<UserTypeList>> getTherapistProfilesByType(
+  Future<List<TypeTherapistData>> getTherapistProfilesByType(
       String accessToken, int massageTypeValue, int pageNumber, int pageSize);
 }
 
@@ -17,11 +17,11 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   String accessToken;
 
   @override
-  Future<List<UserTypeList>> getTherapistProfilesByType(String accessToken,
+  Future<List<TypeTherapistData>> getTherapistProfilesByType(String accessToken,
       int massageTypeValue, int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistListByType?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistListByType?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '$accessToken'
@@ -35,10 +35,10 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
           'Therapist repo token : $accessToken : Massage type : $massageTypeValue');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
-        List<UserTypeList> therapistUsers =
+        List<TypeTherapistData> therapistUsers =
             TherapistsByTypeModel.fromJson(therapistData)
-                .therapistData
-                .userList;
+                .homeTherapistData
+                .typeTherapistData;
         print('Types list:  $therapistData');
         return therapistUsers;
       } else {

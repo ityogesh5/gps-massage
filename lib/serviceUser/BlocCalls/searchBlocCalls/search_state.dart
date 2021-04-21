@@ -16,7 +16,7 @@ class SearchLoaderState extends SearchState {
 
 // ignore: must_be_immutable
 class SearchLoadedState extends SearchState {
-  List<UserTypeList> getTherapistsUsers;
+  List<TypeTherapistData> getTherapistsUsers;
 
   SearchLoadedState({@required this.getTherapistsUsers});
 
