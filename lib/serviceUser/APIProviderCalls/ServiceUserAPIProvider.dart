@@ -25,6 +25,7 @@ class ServiceUserAPIProvider {
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
   static GetTherapistDetails therapistDetails = new GetTherapistDetails();
+
   // DeleteSubAddressModel
   static DeleteSubAddressModel _deleteSubAddressModel =
       new DeleteSubAddressModel();

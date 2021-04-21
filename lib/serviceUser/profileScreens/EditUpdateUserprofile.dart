@@ -18,6 +18,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profile
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,8 @@ Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
     new List<AddUserSubAddress>();
+
+var deletePosition;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   String userProfileImage;
@@ -124,6 +127,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addAddressKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
+  final _editPlaceOfAddressKey = new GlobalKey<FormState>();
   final _perfectureKey = new GlobalKey<FormState>();
   final _cityKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
@@ -1476,12 +1480,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               ),
                               color: Colors.lime,
                               onPressed: () {
-                                _updateUserDetails();
+                                print("json Converted sub address :" +
+                                    json.encode(constantUserAddressValuesList));
+                                print("json Converted Address:" +
+                                    json.encode(updateAddress));
+                                _updateUserDetails(context);
                                 print(
                                     'User id : ${HealingMatchConstants.serviceUserID}');
-                                /*setState(() {
-                                  constantUserAddressValuesList.clear();
-                                });*/
                               },
                               child: new Text(
                                 '更新',
@@ -1508,6 +1513,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     _editAddressController.text = subAddress;
     bool isDelete = false;
     AwesomeDialog dialog;
+    var addressType;
     dialog = AwesomeDialog(
       context: context,
       animType: AnimType.SCALE,
@@ -1518,13 +1524,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Text(
-              '住所の編集',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            SizedBox(
-              height: 10,
-            ),
             Material(
               elevation: 0,
               color: Colors.blueGrey.withAlpha(40),
@@ -1540,8 +1539,49 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                   suffixIcon: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      _editAddressController.clear();
+                      //_editAddressController.clear();
                       isDelete = true;
+                      if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('自宅')) {
+                        addressType = 1;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('オフィス')) {
+                        addressType = 2;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('実家')) {
+                        addressType = 3;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('その他（直接入力）')) {
+                        addressType = 4;
+                      }
+                      print('Address Type : $addressType');
+                      if (isDelete) {
+                        deletePosition = position;
+                        constantUserAddressValuesList.remove(
+                            constantUserAddressValuesList[position]
+                                .addressCategory);
+                        constantUserAddressValuesList.remove(
+                            constantUserAddressValuesList[position].subAddress);
+                        var deleteSubAddress =
+                            ServiceUserAPIProvider.deleteUserSubAddress(
+                                context, addressType);
+                        deleteSubAddress.then((value) {
+                          if (value != null && value.status == 'success') {
+                            print('Delete Success');
+
+                            dialog.dissmiss();
+                            NavigationRouter
+                                .switchToServiceUserEditProfileScreen(
+                                    context, widget.userProfileImage);
+                          }
+                        }).catchError((onError) {
+                          print('Delete error : $onError');
+                        });
+                      }
                     },
                   ),
                 ),
@@ -1727,7 +1767,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  _updateUserDetails() async {
+  _updateUserDetails(BuildContext context) async {
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
@@ -2198,9 +2238,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('UserId: $rUserID');
 
-    print("json Converted sub address :" +
-        json.encode(constantUserAddressValuesList));
-    print("json Converted Address:" + json.encode(updateAddress));
     try {
       Uri updateProfile =
           Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
@@ -2216,7 +2253,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         request.files.add(profileImage);
         request.headers.addAll(headers);
         request.fields.addAll({
-          "id": HealingMatchConstants.userAddressId,
+          "id": HealingMatchConstants.serviceUserID,
           "userName": userName,
           "age": userAge,
           "userOccupation": _myOccupation,
@@ -2233,7 +2270,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       } else {
         request.headers.addAll(headers);
         request.fields.addAll({
-          "id": HealingMatchConstants.userAddressId,
+          "id": HealingMatchConstants.serviceUserID,
           "userName": userName,
           "age": userAge,
           "userOccupation": _myOccupation,
@@ -2249,66 +2286,36 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       }
 
       final userDetailsRequest = await request.send();
-      final response = await http.Response.fromStream(userDetailsRequest);
-
-      // print('Success response code : ${response.statusCode}');
-      print('SuccessMessage : ${response.body}');
-      // print('Response : ${response.body}');
-      print("This is response: ${response.statusCode}\n${response.body}");
-
-      if (response.statusCode == 200) {
-        final Map userDetailsResponse = json.decode(response.body);
-        final profileUpdateResponseModel =
-            UserUpdateResponseModel.fromJson(userDetailsResponse);
-        print(profileUpdateResponseModel.status);
-        updateAddress.clear();
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-        DialogHelper.showUserProfileUpdatedSuccessDialog(context);
-      } else {
-        if (this.mounted) {
-          setState(() {
-            constantUserAddressValuesList.clear();
-          });
+      await http.Response.fromStream(userDetailsRequest).then((value) {
+        if (value != null && value.statusCode == 200) {
+          print('Response Success : ${value.body.toString()}');
+          final Map userDetailsResponse = json.decode(value.body);
+          final profileUpdateResponseModel =
+              UserUpdateResponseModel.fromJson(userDetailsResponse);
+          print(profileUpdateResponseModel.toJson());
+          updateAddress.clear();
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+        } else {
+          print('Response error : ${value.body.toString()}');
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          updateAddress.clear();
         }
-        print('User Edit failed !!');
+      }).catchError((onError) {
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      }
+        print('Catch error : ${onError.toString()}');
+      });
     } catch (e) {
-      if (this.mounted) {
-        setState(() {
-          constantUserAddressValuesList.clear();
-        });
-      }
-
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       print('Edit user Exception : ${e.toString()}');
     }
   }
 
-  subAddressDeleteApi() async {
-    try {
-      // ProgressDialogBuilder.showCommonProgressDialog(context);
-      final url = HealingMatchConstants.DELETE_SUB_ADDRESS_URL;
-      final response = await http.post(url,
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
-          },
-          body: json.encode({
-            "AddressType": "",
-          }));
-      // print(response.body);
-      print('Body : ${response.body}');
-      print('statusCode : ${response.statusCode}');
-      if (response.statusCode == 200) {}
-
-      print('Status code : ${response.statusCode}');
-    } catch (e) {
-      // ProgressDialogBuilder.hideCommonProgressDialog(context);
-    }
-  }
+  subAddressDeleteApi() async {}
 
   getUserProfileData() async {
+    List<AddUserSubAddress> deletedDataListSubAddress =
+        new List<AddUserSubAddress>();
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       print('Getting values...EPF');
@@ -2340,9 +2347,24 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           var addressData = value.getString('addressData');
           if (addressData != null) {
             var addressValues = jsonDecode(addressData) as List;
-            constantUserAddressValuesList = addressValues
-                .map((address) => AddUserSubAddress.fromJson(address))
-                .toList();
+            //constantUserAddressValuesList.clear();
+            if (deletePosition != null) {
+              print('Delete position not null :$deletePosition');
+              setState(() {
+                constantUserAddressValuesList = addressValues
+                    .map((address) => AddUserSubAddress.fromJson(address))
+                    .toList();
+                constantUserAddressValuesList.removeAt(deletePosition);
+              });
+            } else {
+              print('Delete position null');
+              setState(() {
+                constantUserAddressValuesList = addressValues
+                    .map((address) => AddUserSubAddress.fromJson(address))
+                    .toList();
+              });
+            }
+
             print(
                 'Address List data : ${constantUserAddressValuesList.length} &&'
                 ' ${constantUserAddressValuesList.toString()}');

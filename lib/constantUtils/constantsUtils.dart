@@ -51,8 +51,6 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/verifyOtp';
   static const String UPDATE_USER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/userupdatebyId';
-  static const String DELETE_SUB_ADDRESS_URL =
-      ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
   static const String UPDATE_PROVIDER_DETAILS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/therapistUpdatebyId';
   static const String UPDATE_BANNER_IMAGE_URL =
@@ -121,6 +119,10 @@ class HealingMatchConstants {
   static const String GET_USER_DETAILS =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
+  // delete user sub address
+  static const String DELETE_SUB_ADDRESS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -173,7 +175,6 @@ class HealingMatchConstants {
   static String userAddress = '';
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
-  static int therapistId = 0;
 
   // User Register otp
   static String serviceUserOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
@@ -419,6 +420,7 @@ class HealingMatchConstants {
   // User Home screen
   static int serviceTypeValue = 0;
   static List<String> userBannerImages = [];
+  static int therapistId = 0;
 
   // User Profile screen
   //Uint8List profile image;
