@@ -20,10 +20,9 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-
 List<String> _options = ['エステ', 'リラクゼーション', '整骨・整体', 'フィットネス'];
-
-int _selectedIndex ;
+var therapistId;
+int _selectedIndex;
 
 class NearByProviderAndShop extends StatelessWidget {
   @override
@@ -361,7 +360,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                       onTap: () {
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context);
+                                context, therapistId);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -653,7 +652,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         onTap: () {
                                                           NavigationRouter
                                                               .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                  context);
+                                                                  context,
+                                                                  therapistId);
                                                         },
                                                         child: ListView.builder(
                                                             shrinkWrap: true,
@@ -833,7 +833,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: Colors.transparent,
+                          color: Colors.grey[200],
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(30.0))),
                     child: Center(child: MassageTypeChips()),
@@ -990,7 +990,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                       onTap: () {
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context);
+                                context, therapistId);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -1293,7 +1293,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                         onTap: () {
                                                           NavigationRouter
                                                               .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                  context);
+                                                                  context,
+                                                                  therapistId);
                                                         },
                                                         child: ListView.builder(
                                                             shrinkWrap: true,

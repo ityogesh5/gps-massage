@@ -526,27 +526,13 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
-      _sharedPreferences.then((value) {
-        print('Getting values...SPF');
-        setState(() {
-          // userProfileImage = value.getString('profileImage');
-
-          _myCategoryPlaceForMassage = value.getString('userPlaceForMassage');
-          _myCity = value.getString('cityName');
-          _myPrefecture = value.getString('capitalAndPrefecture');
-        });
-
-        print(userAddress);
-        print('Prefectute: $_myPrefecture');
-        print('City: $_myCity');
-        print('myCategoryPlaceForMassage: $_myCategoryPlaceForMassage');
-        print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
-      });
       var userListApiProvider = ServiceUserAPIProvider.getUserDetailsById();
       userListApiProvider.then((value) {
         setState(() {
-          // userProfileImage = value.data.uploadProfileImgUrl.toString();
+          userProfileImage = value.data.uploadProfileImgUrl;
           HealingMatchConstants.serviceUserName = value.data.userName;
+          HealingMatchConstants.userEditUserOccupation =
+              value.data.userOccupation;
           HealingMatchConstants.serviceUserPhoneNumber =
               value.data.phoneNumber.toString();
           HealingMatchConstants.serviceUserEmailAddress = value.data.email;
@@ -558,18 +544,45 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
               value.data.userOccupation;
           for (var userAddressData in value.data.addresses) {
             HealingMatchConstants.serviceUserAddress = userAddressData.address;
+            HealingMatchConstants.userEditCity = userAddressData.cityName;
+            HealingMatchConstants.userEditPrefecture =
+                userAddressData.capitalAndPrefecture;
+            HealingMatchConstants.userEditPlaceForMassage =
+                userAddressData.userPlaceForMassage;
+            HealingMatchConstants.userEditPlaceForMassageOther =
+                userAddressData.otherAddressType;
+            HealingMatchConstants.userEditArea = userAddressData.area;
+            HealingMatchConstants.userEditBuildName =
+                userAddressData.buildingName;
+            HealingMatchConstants.userEditRoomNo =
+                userAddressData.userRoomNumber;
           }
           status = 1;
-          print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
         });
       });
+      print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
+      print('userProfileImage: ${userProfileImage}');
       print('serviceUserName: ${HealingMatchConstants.serviceUserName}');
+      print('userOccupation: ${HealingMatchConstants.userEditUserOccupation}');
       print(
           'serviceUserPhoneNumber: ${HealingMatchConstants.serviceUserPhoneNumber}');
       print(
           'serviceUserEmailAddress: ${HealingMatchConstants.serviceUserEmailAddress}');
       print('serviceUserDOB: ${HealingMatchConstants.serviceUserDOB}');
       print('serviceUserAge: ${HealingMatchConstants.serviceUserAge}');
+      print('serviceUserGender: ${HealingMatchConstants.serviceUserGender}');
+      print(
+          'serviceUserOccupation: ${HealingMatchConstants.serviceUserOccupation}');
+      print('userEditCity: ${HealingMatchConstants.userEditCity}');
+      print('userEditPrefecture: ${HealingMatchConstants.userEditPrefecture}');
+      print(
+          'userEditPlaceForMassage: ${HealingMatchConstants.userEditPlaceForMassage}');
+      print(
+          'userEditPlaceForMassageOther: ${HealingMatchConstants.userEditPlaceForMassageOther}');
+      print('userEditArea: ${HealingMatchConstants.userEditArea}');
+      print('userEditBuildName: ${HealingMatchConstants.userEditBuildName}');
+      print('userEditRoomNo: ${HealingMatchConstants.userEditRoomNo}');
+
       ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
       print(e.toString());

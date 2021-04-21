@@ -21,7 +21,9 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       /* "http://103.92.19.158:9094/api";*/
       "http://106.51.49.160:9094/api";
-
+// get therapist list By ID
+  static const String THERAPIST_USER_BY_ID_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -92,9 +94,9 @@ class HealingMatchConstants {
   static const String USER_LIST_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
-  // get Users list By ID
-  static const String THERAPIST_USER_BY_ID_URL =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
+  // // get Users list By ID
+  // static const String THERAPIST_USER_BY_ID_URL =
+  //     ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
 
   //update Therapist Service Type
   static const String THERAPIST_UPDATE_SERVICE_TYPE = ON_PREMISE_USER_BASE_URL +
@@ -154,8 +156,8 @@ class HealingMatchConstants {
   static String serviceUserDOB = '';
   static String serviceUserGender = '';
   static String serviceUserOccupation = '';
-  static String serviceUserAge = '';
-  static String serviceUserPhoneNumber = '';
+  static String serviceUserAge;
+  static String serviceUserPhoneNumber;
   static String serviceUserEmailAddress = '';
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
@@ -169,6 +171,7 @@ class HealingMatchConstants {
   static String userAddress = '';
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
+  static int therapistId = 0;
 
   // User Register otp
   static String serviceUserOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
@@ -384,6 +387,7 @@ class HealingMatchConstants {
   static String userEditCity = '';
   static String userEditPrefecture = '';
   static String userEditPlaceForMassage = '';
+  static String userEditPlaceForMassageOther = '';
   static String userEditArea = '';
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
@@ -428,6 +432,7 @@ class HealingMatchConstants {
   static String searchFitnessTxt = 'フィットネス';
   static String searchTravelTxt = '施術の場所を選んでください';
   static String searchDateTxt = 'さがす条件を選んでください';
+  static int searchServiceType = 0;
 
   //Booking confirm screen
   //出張での施術は距離、場所によって別途交通費等がかかる場合があります。

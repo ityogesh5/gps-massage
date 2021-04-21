@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 
 final List<String> imgList = [
@@ -29,6 +30,8 @@ List<String> _options = [
 double ratingsValue = 4.0;
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
+  var therapistId;
+  BookingDetailsCompletedScreenOne(this.therapistId);
   @override
   _BookingDetailsCompletedScreenOneState createState() =>
       _BookingDetailsCompletedScreenOneState();
@@ -43,6 +46,13 @@ class _BookingDetailsCompletedScreenOneState
   int cuppingTipColor;
   int maternityTipColor;
   int babyTipColor;
+
+  @override
+  void initState() {
+    getTherapistDetailData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -3464,6 +3474,15 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
         ),
       ],
     );
+  }
+}
+
+getTherapistDetailData() async {
+  try {
+    var userListApiProvider = ServiceUserAPIProvider.getTherapistDetails();
+    userListApiProvider.then((value) {});
+  } catch (e) {
+    print(e.toString());
   }
 }
 

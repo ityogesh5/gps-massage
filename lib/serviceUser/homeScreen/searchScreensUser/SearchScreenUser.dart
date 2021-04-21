@@ -1222,8 +1222,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             ),
           ),
           Positioned(
-            top: 600.0,
-            bottom: 0.0,
+            top: 500.0,
+            bottom: 100.0,
             right: 20.0,
             left: 0.0,
             child: Row(
@@ -1529,7 +1529,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         if (HealingMatchConstants.dateTime != null) {
           print(
               'Date time in String : ${HealingMatchConstants.dateTime.toIso8601String()}');
-          // run search event bloc
+          // run search event bloc & API Call
+          NavigationRouter.switchToUserSearchResult(context);
         } else {
           print('Date time in String null');
         }

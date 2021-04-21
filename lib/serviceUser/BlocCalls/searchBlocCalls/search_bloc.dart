@@ -20,7 +20,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield SearchLoaderState();
       try {
         List<UserTypeList> getTherapistsUsers =
-            await getSearchResultsRepository.getTherapistProfilesByType(
+            await getSearchResultsRepository.getSearchResultsByType(
                 event.accessToken,
                 event.massageTypeValue,
                 event.pageNumber,

@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
+var therapistId;
+
 class Favorite extends StatefulWidget {
   @override
   _FavoriteState createState() => _FavoriteState();
@@ -28,7 +30,7 @@ class _FavoriteState extends State<Favorite> {
                   onTap: () {
                     NavigationRouter
                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                            context);
+                            context, therapistId);
                   },
                   child: ListView.builder(
                       shrinkWrap: true,

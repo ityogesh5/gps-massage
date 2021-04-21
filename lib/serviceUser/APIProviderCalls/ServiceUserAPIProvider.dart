@@ -185,7 +185,7 @@ print('Inserting >>> $therapistUsers');
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "therapist_id": HealingMatchConstants.serviceUserById,
+            "therapist_id": HealingMatchConstants.therapistId,
           }));
       final getUser = json.decode(response.body);
       therapistDetails = GetTherapistDetails.fromJson(getUser);

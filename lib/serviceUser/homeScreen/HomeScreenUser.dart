@@ -56,6 +56,8 @@ Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 String result = '';
 var colorsValue = Colors.white;
 
+var therapistId;
+
 class HomeScreen extends StatefulWidget {
   @override
   State createState() => _HomeScreenUserState();
@@ -884,7 +886,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                   onTap: () {
                     NavigationRouter
                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                            context);
+                            context, therapistId);
                   },
                   child: ListView.builder(
                       shrinkWrap: true,
@@ -2075,7 +2077,7 @@ class _RecommendListsState extends State<RecommendLists> {
       child: GestureDetector(
         onTap: () {
           NavigationRouter.switchToServiceUserBookingDetailsCompletedScreenOne(
-              context);
+              context, therapistId);
         },
         child: ListView.builder(
             shrinkWrap: true,
@@ -2531,11 +2533,13 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                var therapistId = therapistUsers[index].userId;
+                                therapistId = therapistUsers[index].userId;
+                                print('therapistId: ${therapistId}');
+                                HealingMatchConstants.therapistId = therapistId;
                               });
                               NavigationRouter
                                   .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                      context);
+                                      context, therapistId);
                             },
                             child: Container(
                               height: 200.0,
