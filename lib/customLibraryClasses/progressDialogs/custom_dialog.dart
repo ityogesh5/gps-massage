@@ -15,14 +15,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:synchronized/synchronized.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
-    Key key,
+    Key navigatorKey,
     this.child,
     this.insetAnimationDuration = const Duration(milliseconds: 100),
     this.insetAnimationCurve = Curves.decelerate,
     this.shape,
-  }) : super(key: key);
+  }) : super(key: navigatorKey);
 
   /// The widget below this widget in the tree.
   ///
@@ -108,7 +109,7 @@ class ProgressDialog {
       }
       isDismissed = true;
       //Navigator.of(context).pop();
-      Navigator.of(context, rootNavigator: true).pop(true);
+      Navigator.of(context, rootNavigator: true).pop(isDismissed);
 
       //Navigator.of(context, nullOk: true).pop(true);
       //Navigator.of(context).pop();

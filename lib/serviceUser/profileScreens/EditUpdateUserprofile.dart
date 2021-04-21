@@ -18,6 +18,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profile
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,8 @@ Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
     new List<AddUserSubAddress>();
+
+var deletePosition;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   String userProfileImage;
@@ -68,9 +71,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getEditUserFields();
+    //getEditUserFields();
     getUserProfileData();
     _getStates();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   var userAddressType = '';
@@ -119,6 +127,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addAddressKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
+  final _editPlaceOfAddressKey = new GlobalKey<FormState>();
   final _perfectureKey = new GlobalKey<FormState>();
   final _cityKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
@@ -304,9 +313,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       onTap: () {
                                         _showPicker(context, 0);
                                       },
-                                      child: widget.userProfileImage != null
+                                      child: HealingMatchConstants
+                                                  .userProfileImage !=
+                                              null
                                           ? CachedNetworkImage(
-                                              imageUrl: widget.userProfileImage,
+                                              imageUrl: HealingMatchConstants
+                                                  .userProfileImage,
                                               filterQuality: FilterQuality.high,
                                               fadeInCurve: Curves.easeInSine,
                                               imageBuilder:
@@ -1468,8 +1480,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               ),
                               color: Colors.lime,
                               onPressed: () {
-                                _updateUserDetails();
-                                setState(() {});
+                                print("json Converted sub address :" +
+                                    json.encode(constantUserAddressValuesList));
+                                print("json Converted Address:" +
+                                    json.encode(updateAddress));
+                                _updateUserDetails(context);
+                                print(
+                                    'User id : ${HealingMatchConstants.serviceUserID}');
                               },
                               child: new Text(
                                 '更新',
@@ -1496,6 +1513,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     _editAddressController.text = subAddress;
     bool isDelete = false;
     AwesomeDialog dialog;
+    var addressType;
     dialog = AwesomeDialog(
       context: context,
       animType: AnimType.SCALE,
@@ -1506,13 +1524,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Text(
-              '住所の編集',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            SizedBox(
-              height: 10,
-            ),
             Material(
               elevation: 0,
               color: Colors.blueGrey.withAlpha(40),
@@ -1528,8 +1539,49 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                   suffixIcon: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      _editAddressController.clear();
+                      //_editAddressController.clear();
                       isDelete = true;
+                      if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('自宅')) {
+                        addressType = 1;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('オフィス')) {
+                        addressType = 2;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('実家')) {
+                        addressType = 3;
+                      } else if (constantUserAddressValuesList[position]
+                          .addressCategory
+                          .contains('その他（直接入力）')) {
+                        addressType = 4;
+                      }
+                      print('Address Type : $addressType');
+                      if (isDelete) {
+                        deletePosition = position;
+                        constantUserAddressValuesList.remove(
+                            constantUserAddressValuesList[position]
+                                .addressCategory);
+                        constantUserAddressValuesList.remove(
+                            constantUserAddressValuesList[position].subAddress);
+                        var deleteSubAddress =
+                            ServiceUserAPIProvider.deleteUserSubAddress(
+                                context, addressType);
+                        deleteSubAddress.then((value) {
+                          if (value != null && value.status == 'success') {
+                            print('Delete Success');
+
+                            dialog.dissmiss();
+                            NavigationRouter
+                                .switchToServiceUserEditProfileScreen(
+                                    context, widget.userProfileImage);
+                          }
+                        }).catchError((onError) {
+                          print('Delete error : $onError');
+                        });
+                      }
                     },
                   ),
                 ),
@@ -1678,15 +1730,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
       print(states.toJson());
       for (var stateList in states.data) {
+        if (this.mounted) {
+          setState(() {
+            stateDropDownValues.add(stateList.prefectureJa);
+            cityStatus = 1;
+          });
+        }
+      }
+      if (this.mounted) {
         setState(() {
-          stateDropDownValues.add(stateList.prefectureJa);
-          cityStatus = 1;
+          _prefId = stateDropDownValues.indexOf(_myPrefecture) + 1;
+          getCities(_prefId);
         });
       }
-      setState(() {
-        _prefId = stateDropDownValues.indexOf(_myPrefecture) + 1;
-        getCities(_prefId);
-      });
     });
   }
 
@@ -1711,7 +1767,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  _updateUserDetails() async {
+  _updateUserDetails(BuildContext context) async {
     ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
@@ -2155,23 +2211,25 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     print('phn: $userPhoneNumber');
     print('email: $email');
     if (HealingMatchConstants.userEditAddress.isNotEmpty) {
-      setState(() {
-        addUpdateAddress = UpdateAddress(
-          id: _userAddressID,
-          userId: HealingMatchConstants.userEditUserId,
-          addressTypeSelection: _myAddressInputType,
-          address: HealingMatchConstants.userEditAddress,
-          userRoomNumber: roomNumberController.text.toString(),
-          userPlaceForMassage: _myCategoryPlaceForMassage,
-          capitalAndPrefecture: _myPrefecture,
-          cityName: _myCity,
-          area: userAreaController.text.toString(),
-          buildingName: buildingNameController.text.toString(),
-          lat: HealingMatchConstants.mEditCurrentLatitude,
-          lon: HealingMatchConstants.mEditCurrentLongitude,
-        );
-        updateAddress.add(addUpdateAddress);
-      });
+      if (this.mounted) {
+        setState(() {
+          addUpdateAddress = UpdateAddress(
+            id: HealingMatchConstants.userAddressId,
+            userId: HealingMatchConstants.serviceUserID,
+            addressTypeSelection: _myAddressInputType,
+            address: HealingMatchConstants.userEditAddress,
+            userRoomNumber: roomNumberController.text.toString(),
+            userPlaceForMassage: _myCategoryPlaceForMassage,
+            capitalAndPrefecture: _myPrefecture,
+            cityName: _myCity,
+            area: userAreaController.text.toString(),
+            buildingName: buildingNameController.text.toString(),
+            lat: HealingMatchConstants.mEditCurrentLatitude,
+            lon: HealingMatchConstants.mEditCurrentLongitude,
+          );
+          updateAddress.add(addUpdateAddress);
+        });
+      }
     }
 
     print('Id: ${HealingMatchConstants.serviceUserById}');
@@ -2180,101 +2238,84 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('UserId: $rUserID');
 
-    print("json Converted:" + json.encode(constantUserAddressValuesList));
-    print("json Converted Address:" + json.encode(updateAddress));
-
-    Uri updateProfile =
-        Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
-    var request = http.MultipartRequest('POST', updateProfile);
-    Map<String, String> headers = {
-      "Content-Type": "multipart/form-data",
-      "x-access-token": HealingMatchConstants.accessToken
-    };
-    if (_profileImage != null) {
-      var profileImage = await http.MultipartFile.fromPath(
-          'uploadProfileImgUrl', _profileImage.path);
-      print('Image upload filename : $profileImage');
-      request.files.add(profileImage);
-      request.headers.addAll(headers);
-      request.fields.addAll({
-        "id": HealingMatchConstants.userEditUserId.toString(),
-        "userName": userName,
-        "age": userAge,
-        "userOccupation": _myOccupation,
-        "dob": userDOB,
-        "phoneNumber": userPhoneNumber,
-        "email": email,
-        "gender": _myGender,
-        "uploadProfileImgUrl": _profileImage.path,
-        "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
-        "address": json.encode(updateAddress),
-        "subAddress": json.encode(constantUserAddressValuesList)
-      });
-    } else {
-      request.headers.addAll(headers);
-      request.fields.addAll({
-        "id": HealingMatchConstants.userEditUserId.toString(),
-        "userName": userName,
-        "age": userAge,
-        "userOccupation": _myOccupation,
-        "dob": userDOB,
-        "phoneNumber": userPhoneNumber,
-        "email": email,
-        "gender": _myGender,
-        "isTherapist": "0",
-        "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
-        "address": json.encode(updateAddress),
-        "subAddress": json.encode(constantUserAddressValuesList)
-      });
-    }
-
-    final userDetailsRequest = await request.send();
-    final response = await http.Response.fromStream(userDetailsRequest);
-
-    // print('Success response code : ${response.statusCode}');
-    print('SuccessMessage : ${response.reasonPhrase}');
-    // print('Response : ${response.body}');
-    print("This is response: ${response.statusCode}\n${response.body}");
-
-    if (response.statusCode == 200) {
-      final Map userDetailsResponse = json.decode(response.body);
-      final profileUpdateResponseModel =
-          ProfileUpdateResponseModel.fromJson(userDetailsResponse);
-      print(profileUpdateResponseModel.status);
-      updateAddress.clear();
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      DialogHelper.showUserProfileUpdatedSuccessDialog(context);
-    } else {
-      print('User Edit failed !!');
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-    }
-  }
-
-  subAddressDeleteApi() async {
     try {
-      // ProgressDialogBuilder.showCommonProgressDialog(context);
-      final url = HealingMatchConstants.DELETE_SUB_ADDRESS_URL;
-      final response = await http.post(url,
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": HealingMatchConstants.accessToken
-          },
-          body: json.encode({
-            "AddressType": "",
-          }));
-      // print(response.body);
-      print('Body : ${response.body}');
-      print('statusCode : ${response.statusCode}');
-      if (response.statusCode == 200) {}
+      Uri updateProfile =
+          Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
+      var request = http.MultipartRequest('POST', updateProfile);
+      Map<String, String> headers = {
+        "Content-Type": "application/json",
+        "x-access-token": HealingMatchConstants.accessToken
+      };
+      if (_profileImage != null) {
+        var profileImage = await http.MultipartFile.fromPath(
+            'uploadProfileImgUrl', _profileImage.path);
+        print('Image upload filename : $profileImage');
+        request.files.add(profileImage);
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "id": HealingMatchConstants.serviceUserID,
+          "userName": userName,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "dob": userDOB,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "uploadProfileImgUrl": _profileImage.path,
+          "isTherapist": "0",
+          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "address": json.encode(updateAddress),
+          "subAddress": json.encode(constantUserAddressValuesList)
+        });
+      } else {
+        request.headers.addAll(headers);
+        request.fields.addAll({
+          "id": HealingMatchConstants.serviceUserID,
+          "userName": userName,
+          "age": userAge,
+          "userOccupation": _myOccupation,
+          "dob": userDOB,
+          "phoneNumber": userPhoneNumber,
+          "email": email,
+          "gender": _myGender,
+          "isTherapist": "0",
+          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "address": json.encode(updateAddress),
+          "subAddress": json.encode(constantUserAddressValuesList)
+        });
+      }
 
-      print('Status code : ${response.statusCode}');
+      final userDetailsRequest = await request.send();
+      await http.Response.fromStream(userDetailsRequest).then((value) {
+        if (value != null && value.statusCode == 200) {
+          print('Response Success : ${value.body.toString()}');
+          final Map userDetailsResponse = json.decode(value.body);
+          final profileUpdateResponseModel =
+              UserUpdateResponseModel.fromJson(userDetailsResponse);
+          print(profileUpdateResponseModel.toJson());
+          updateAddress.clear();
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+        } else {
+          print('Response error : ${value.body.toString()}');
+          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          updateAddress.clear();
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Catch error : ${onError.toString()}');
+      });
     } catch (e) {
-      // ProgressDialogBuilder.hideCommonProgressDialog(context);
+      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      print('Edit user Exception : ${e.toString()}');
     }
   }
+
+  subAddressDeleteApi() async {}
 
   getUserProfileData() async {
+    List<AddUserSubAddress> deletedDataListSubAddress =
+        new List<AddUserSubAddress>();
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
       print('Getting values...EPF');
@@ -2306,9 +2347,24 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           var addressData = value.getString('addressData');
           if (addressData != null) {
             var addressValues = jsonDecode(addressData) as List;
-            constantUserAddressValuesList = addressValues
-                .map((address) => AddUserSubAddress.fromJson(address))
-                .toList();
+            //constantUserAddressValuesList.clear();
+            if (deletePosition != null) {
+              print('Delete position not null :$deletePosition');
+              setState(() {
+                constantUserAddressValuesList = addressValues
+                    .map((address) => AddUserSubAddress.fromJson(address))
+                    .toList();
+                constantUserAddressValuesList.removeAt(deletePosition);
+              });
+            } else {
+              print('Delete position null');
+              setState(() {
+                constantUserAddressValuesList = addressValues
+                    .map((address) => AddUserSubAddress.fromJson(address))
+                    .toList();
+              });
+            }
+
             print(
                 'Address List data : ${constantUserAddressValuesList.length} &&'
                 ' ${constantUserAddressValuesList.toString()}');
@@ -2347,8 +2403,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
         rUserID = value.getString('userID');
-        print('User Address Type : $_myAddressInputType');
-        print('User Address ID : $_userAddressID');
+        print('User Address Type Verified : $_myAddressInputType');
+        print('User Address ID Verified : $_userAddressID');
       } else {
         _myAddressInputType = value.getString('addressType');
         _userAddressID = value.getString('addressID');
@@ -3200,6 +3256,7 @@ class _AddAddressState extends State<AddAddress> {
       String city = _myAddedCity;
       setState(() {
         addUserAddress = AddUserSubAddress(
+          HealingMatchConstants.serviceUserID,
           manualAddedAddress,
           HealingMatchConstants.manualAddressCurrentLatitude.toString(),
           HealingMatchConstants.manualAddressCurrentLongitude.toString(),

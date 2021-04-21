@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -1205,6 +1206,25 @@ class DialogHelper {
             child: Stack(
               children: [
                 LogOutServiceUser(),
+              ],
+            ),
+          );
+        });
+  }
+
+
+  // Delete sub address service user
+  static void showDeleteSubAddressDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Stack(
+              children: [
+                DeleteSubAddress(),
               ],
             ),
           );

@@ -246,7 +246,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
                                         itemBuilder: (context, _) => Icon(
                                           Icons.star,
                                           size: 5,
-                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                          color: Color.fromRGBO(255, 217, 0, 1),
                                         ),
                                         onRatingUpdate: (rating) {
                                           // print(rating);
@@ -332,7 +332,7 @@ class _DisplayUserReviewState extends State<DisplayUserReview> {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "therapistId": "8",
+            "therapistId": "18",
           }));
       print(response.body);
       if (response.statusCode == 200) {

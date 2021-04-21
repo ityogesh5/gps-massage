@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class AddUserSubAddress {
+  var _userId;
   String _address;
   String _lat;
   String _lng;
@@ -13,6 +14,7 @@ class AddUserSubAddress {
   String _area;
 
   AddUserSubAddress(
+      this._userId,
       this._address,
       this._lat,
       this._lng,
@@ -88,6 +90,7 @@ class AddUserSubAddress {
 
   AddUserSubAddress.fromJson(Map<String, dynamic> json) {
     //_addressKey = json['addressKey'];
+    _userId = json['userId'];
     _address = json['subAddress'];
     _lat = json['lat'];
     _lng = json['lng'];
@@ -102,7 +105,7 @@ class AddUserSubAddress {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    //data['addressKey'] = this._addressKey;
+    data['userId'] = this._userId;
     data['subAddress'] = this._address;
     data['lat'] = this._lat;
     data['lng'] = this._lng;
@@ -114,6 +117,12 @@ class AddUserSubAddress {
     data['buildingName'] = this._buildingName;
     data['area'] = this._area;
     return data;
+  }
+
+  get userId => _userId;
+
+  set userId(value) {
+    _userId = value;
   }
 
   static String encode(List<AddUserSubAddress> subAddress) => json.encode(
@@ -128,6 +137,7 @@ class AddUserSubAddress {
           .toList();
 
   static toMap(AddUserSubAddress subAddress) => {
+    'userId': subAddress._userId,
     'subAddress': subAddress._address,
     'lat': subAddress._lat,
     'lng': subAddress._lng,
@@ -139,5 +149,11 @@ class AddUserSubAddress {
     'buildingName': subAddress._buildingName,
     'area': subAddress._area
   };
+
+  String get address => _address;
+
+  set address(String value) {
+    _address = value;
+  }
 }
 
