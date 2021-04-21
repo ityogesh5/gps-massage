@@ -1340,246 +1340,218 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       ),
                     ),
                   )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                /*  decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                color: Colors.black12,
-                                                                border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  requiredField: true,
-                  hintText: '検索地点の登録',
-                  value: registrationAddressType,
-                  onSaved: (value) {
-                    setState(() {
-                      registrationAddressType = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    if (value == "現在地を取得する") {
-                      setState(() {
-                        gpsAddressController.clear();
-                        registrationAddressType = value;
-                        showAddressField = true;
-                        visible = true; // !visible;
-                        //_getCurrentLocation();
-                      });
-                    } else {
-                      setState(() {
-                        registrationAddressType = value;
-                        showAddressField = true;
-                        visible = false;
-                      });
-                    }
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  },
-                  dataSource: registrationAddressTypeDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              Visibility(
-                visible: showAddressField,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      width: containerWidth,
-                      child: Text(
-                        HealingMatchConstants.registrationIndividualText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: ColorConstants.formHintTextColor,
-                        ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                    width: containerWidth,
+                    child: Text(
+                      HealingMatchConstants.registrationIndividualText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: ColorConstants.formHintTextColor,
                       ),
                     ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                        height: 60.0, //containerHeight,
-                        width: size.width * 0.8,
-                        child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(splashColor: Colors.black12),
-                          child: visible
-                              ? TextFormField(
-                                  controller: gpsAddressController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  decoration: InputDecoration(
-                                    labelText: "現在地を取得する",
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    suffixIcon: IconButton(
-                                      icon: Icon(Icons.location_on, size: 28),
-                                      onPressed: () {
-                                        setState(() {
-                                          _changeProgressText = true;
-                                          print(
-                                              'location getting.... : $_changeProgressText');
-                                        });
-                                        _getCurrentLocation();
-                                      },
-                                    ),
-                                  ),
-                                )
-                              : TextFormField(
-                                  controller: manualAddressController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  decoration: InputDecoration(
-                                    labelText: "丁目, 番地",
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                  ),
+                  ),
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                      height: 60.0, //containerHeight,
+                      width: containerWidth,
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(splashColor: Colors.black12),
+                        child: TextFieldCustom(
+                          controller: manualAddressController,
+                          style: HealingMatchConstants.formTextStyle,
+                          decoration: InputDecoration(
+                           /*  labelText: "丁目, 番地",
+                            labelStyle:
+                                HealingMatchConstants.formLabelTextStyle, */
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
+                          labelText: Text.rich(
+                            TextSpan(
+                              text: "丁目, 番地",
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
                                 ),
-                        )),
-                    !visible
-                        ? Column(
+                              ],
+                              style: HealingMatchConstants.formLabelTextStyle,
+                            ),
+                          ),
+                        ),
+                      )),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: sizedBoxFormHeight,
+                      ),
+                      Container(
+                          width: containerWidth,
+                          child: Row(
                             children: [
-                              SizedBox(
-                                height: sizedBoxFormHeight,
-                              ),
-                              Container(
-                                  width: size.width * 0.8,
-                                  child: Row(
+                              Expanded(
+                                child: Form(
+                                  key: statekey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Form(
-                                          key: statekey,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(0.0),
-                                                //    width: MediaQuery.of(context).size.width * 0.33,
+                                      Container(
+                                        margin: EdgeInsets.all(0.0),
+                                        //    width: MediaQuery.of(context).size.width * 0.33,
 
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText: readonly
-                                                      ? myState
-                                                      : '都、県選択',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myState = value;
-                                                    });
-                                                  },
-                                                  value: myState,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myState = value;
+                                        child: DropDownFormField(
+                                          titleText: null,
+                                          hintText:
+                                              readonly ? myState : '都、県選択',
+                                          onSaved: (value) {
+                                            setState(() {
+                                              myState = value;
+                                            });
+                                          },
+                                          value: myState,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              myState = value;
 
-                                                      _prefid =
-                                                          stateDropDownValues
-                                                                  .indexOf(
-                                                                      value) +
-                                                              1;
-                                                      print(
-                                                          'prefID : ${_prefid.toString()}');
-                                                      cityDropDownValues
-                                                          .clear();
-                                                      myCity = '';
-                                                      _getCityDropDown(_prefid);
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      stateDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.all(0.0),
-                                          child: DropDownFormField(
-                                            titleText: null,
-                                            hintText: readonly ? myCity : '市',
-                                            onSaved: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                              });
-                                            },
-                                            value: myCity,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        new FocusNode());
-                                              });
-                                            },
-                                            dataSource: cityDropDownValues,
-                                            isList: true,
-                                            textField: 'display',
-                                            valueField: 'value',
-                                          ),
+                                              _prefid = stateDropDownValues
+                                                      .indexOf(value) +
+                                                  1;
+                                              print(
+                                                  'prefID : ${_prefid.toString()}');
+                                              cityDropDownValues.clear();
+                                              myCity = '';
+                                              _getCityDropDown(_prefid);
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                            });
+                                          },
+                                          dataSource: stateDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value',
                                         ),
                                       ),
                                     ],
-                                  )),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(0.0),
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    hintText: readonly ? myCity : '市',
+                                    onSaved: (value) {
+                                      setState(() {
+                                        myCity = value;
+                                      });
+                                    },
+                                    value: myCity,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        myCity = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: cityDropDownValues,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
+                              ),
                             ],
-                          )
-                        : Container(),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      height: containerHeight,
-                      width: size.width * 0.8,
-                      //margin: EdgeInsets.all(16.0),
-                      //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Row(
-                        children: [
-                          Expanded(
+                          )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    //margin: EdgeInsets.all(16.0),
+                    //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: TextFieldCustom(
+                            controller: buildingNameController,
+                            style: HealingMatchConstants.formTextStyle,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(16.0),
+                              /*  labelText: HealingMatchConstants
+                                    .registrationBuildingName,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
+                            labelText: Text.rich(
+                              TextSpan(
+                                text: HealingMatchConstants
+                                    .registrationBuildingName,
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  ),
+                                ],
+                                style: HealingMatchConstants.formLabelTextStyle,
+                              ),
+                            ),
+                          ),
+                        )),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Expanded(
+                          child: Container(
                               child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFieldCustom(
-                              controller: buildingNameController,
+                              controller: roomNumberController,
                               style: HealingMatchConstants.formTextStyle,
+                              keyboardType: TextInputType.text,
+                              maxLengthEnforced: true,
+                              maxLength: 4,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(16.0),
-                                /*  labelText: HealingMatchConstants
-                                      .registrationBuildingName,
-                                  labelStyle:
-                                      HealingMatchConstants.formLabelTextStyle, */
+                                counterText: "",
+                                /*  labelText:
+                                    HealingMatchConstants.registrationRoomNo,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
                                 focusedBorder:
@@ -1589,8 +1561,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                               labelText: Text.rich(
                                 TextSpan(
-                                  text: HealingMatchConstants
-                                      .registrationBuildingName,
+                                  text:
+                                      HealingMatchConstants.registrationRoomNo,
                                   children: <InlineSpan>[
                                     TextSpan(
                                       text: '*',
@@ -1604,57 +1576,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                             ),
                           )),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Theme(
-                              data: Theme.of(context)
-                                  .copyWith(splashColor: Colors.black12),
-                              child: TextFieldCustom(
-                                controller: roomNumberController,
-                                style: HealingMatchConstants.formTextStyle,
-                                keyboardType: TextInputType.text,
-                                maxLengthEnforced: true,
-                                maxLength: 4,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16.0),
-                                  counterText: "",
-                                 /*  labelText:
-                                      HealingMatchConstants.registrationRoomNo,
-                                  labelStyle:
-                                      HealingMatchConstants.formLabelTextStyle, */
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                ),
-                                labelText: Text.rich(
-                                  TextSpan(
-                                    text: HealingMatchConstants
-                                        .registrationRoomNo,
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                        text: '*',
-                                        style: HealingMatchConstants
-                                            .formHintTextStyleStar,
-                                      ),
-                                    ],
-                                    style: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                  ),
-                                ),
-                              ),
-                            )),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: sizedBoxFormHeight,

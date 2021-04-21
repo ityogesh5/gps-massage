@@ -1429,22 +1429,38 @@ class _ShiftServiceState extends State<ShiftService> {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 996);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 1;
                                                   } else if (mindex == 1) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 999);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 4;
                                                   } else if (mindex == 2) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 998);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 3;
                                                   } else if (mindex == 3) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 997);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 2;
                                                   }
 
                                                   selectedDropdownValues
@@ -1763,9 +1779,9 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   //get the id of the Message Value
-  int getID(int index, int mindex) {
+  int getID(int index, int mindex, int induvidualConstantID) {
     int id;
-    int constantID = 999;
+    int constantID = induvidualConstantID;
     if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
@@ -1819,31 +1835,30 @@ class _ShiftServiceState extends State<ShiftService> {
         in HealingMatchConstants.userData.therapistSubCategories) {
       if (therapistSubCategory.categoryId == 1) {
         estheticServicePriceModel.add(therapistSubCategory);
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 996) {
           otherEstheticDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedEstheticDropdownValues.add(therapistSubCategory.name);
         }
+        selectedEstheticDropdownValues.add(therapistSubCategory.name);
       } else if (therapistSubCategory.categoryId == 2) {
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 997) {
           otherFitnessDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedFitnessDropdownValues.add(therapistSubCategory.name);
         }
+        selectedFitnessDropdownValues.add(therapistSubCategory.name);
+
         fitnessServicePriceModel.add(therapistSubCategory);
       } else if (therapistSubCategory.categoryId == 3) {
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 998) {
           otherTreatmentDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedTreatmentDropdownValues.add(therapistSubCategory.name);
         }
+        selectedTreatmentDropdownValues.add(therapistSubCategory.name);
+
         treatmentServicePriceModel.add(therapistSubCategory);
       } else if (therapistSubCategory.categoryId == 4) {
         if (therapistSubCategory.subCategoryId == 999) {
           otherRelaxationDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedRelaxationDropdownValues.add(therapistSubCategory.name);
         }
+        selectedRelaxationDropdownValues.add(therapistSubCategory.name);
+
         relaxationServicePriceModel.add(therapistSubCategory);
       }
     }
