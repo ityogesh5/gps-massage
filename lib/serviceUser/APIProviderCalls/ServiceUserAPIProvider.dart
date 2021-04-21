@@ -8,7 +8,6 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
@@ -20,7 +19,7 @@ class ServiceUserAPIProvider {
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
   static TherapistsByTypeModel _therapistsByTypeModel =
       new TherapistsByTypeModel();
-  static GetUserDetails userDetails = new GetUserDetails();
+  static GetUserDetailsByIdModel userDetails = new GetUserDetailsByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
   // get all therapist users

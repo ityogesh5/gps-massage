@@ -19,7 +19,7 @@ import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dar
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
@@ -27,7 +27,6 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -54,8 +53,7 @@ List<InitialTherapistData> therapistUsers = [];
 var accessToken;
 var userID;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<UserDetailsAddress> constantUserAddressValuesList =
-    new List<UserDetailsAddress>();
+List<Addresses> constantUserAddressValuesList = new List<Addresses>();
 
 String result = '';
 var colorsValue = Colors.white;
@@ -207,10 +205,10 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
     _sharedPreferences.then((value) {
       accessToken = value.getString('accessToken');
       HealingMatchConstants.userAddressId = value.getString('addressID');
-      HealingMatchConstants.serviceUserUserID = value.getString('userID');
+      HealingMatchConstants.serviceUserID = value.getString('userID');
       if (accessToken != null) {
         print('Access token value : $accessToken');
-        print('Address ID VALUE : ${HealingMatchConstants.userAddressId}');
+        print('Address ID VALUE : ${HealingMatchConstants.userAddressId} && ${HealingMatchConstants.serviceUserID}');
         HealingMatchConstants.accessToken = accessToken;
         getBannerImages();
         getUserDetails();
@@ -223,7 +221,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   getUserDetails() async {
     try {
       var userDetails = ServiceUserAPIProvider.getUserDetails(
-          context, HealingMatchConstants.serviceUserUserID);
+          context, HealingMatchConstants.serviceUserID);
       userDetails.then((value) {
         HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
         HealingMatchConstants.serviceUserName = value.data.userName;
@@ -232,29 +230,35 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.serviceUserPhoneNumber =
             value.data.phoneNumber.toString();
         HealingMatchConstants.serviceUserEmailAddress = value.data.email;
-        HealingMatchConstants.serviceUserDOB =
-            DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
+        HealingMatchConstants.serviceUserDOB = value.data.dob;
+        //DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
         HealingMatchConstants.serviceUserAge = value.data.age.toString();
         HealingMatchConstants.serviceUserGender = value.data.gender;
         HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
         for (int i = 0; i < value.data.addresses.length; i++) {
-          HealingMatchConstants.constantUserAddressValuesList =
-              value.data.addresses.cast<UserDetailsAddress>();
-          HealingMatchConstants.userEditUserId = value.data.addresses[0].userId;
-          HealingMatchConstants.serviceUserAddress =
-              value.data.addresses[0].address;
-          HealingMatchConstants.userEditCity = value.data.addresses[0].cityName;
-          HealingMatchConstants.userEditPrefecture =
-              value.data.addresses[0].capitalAndPrefecture;
-          HealingMatchConstants.userEditPlaceForMassage =
-              value.data.addresses[0].userPlaceForMassage;
-          HealingMatchConstants.userEditPlaceForMassageOther =
-              value.data.addresses[0].otherAddressType;
-          HealingMatchConstants.userEditArea = value.data.addresses[0].area;
-          HealingMatchConstants.userEditBuildName =
-              value.data.addresses[0].buildingName;
-          HealingMatchConstants.userEditRoomNo =
-              value.data.addresses[0].userRoomNumber;
+          if (value.data.addresses[0].isDefault) {
+            HealingMatchConstants.constantUserAddressValuesList =
+                value.data.addresses.cast<Addresses>();
+            HealingMatchConstants.serviceUserID =
+                value.data.addresses[0].userId.toString();
+            HealingMatchConstants.serviceUserAddress =
+                value.data.addresses[0].address;
+            HealingMatchConstants.userEditCity =
+                value.data.addresses[0].cityName;
+            HealingMatchConstants.userEditPrefecture =
+                value.data.addresses[0].capitalAndPrefecture;
+            HealingMatchConstants.userEditPlaceForMassage =
+                value.data.addresses[0].userPlaceForMassage;
+            HealingMatchConstants.userEditPlaceForMassageOther =
+                value.data.addresses[0].otherAddressType;
+            HealingMatchConstants.userEditArea = value.data.addresses[i].area;
+            HealingMatchConstants.userEditBuildName =
+                value.data.addresses[0].buildingName;
+            HealingMatchConstants.userEditRoomNo =
+                value.data.addresses[0].userRoomNumber;
+          } else {
+            print('Is default false');
+          }
         }
         print('User Profile image : ${HealingMatchConstants.userProfileImage}');
       }).catchError((onError) {
@@ -1339,17 +1343,17 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                             children: [
                                               //Spacer(),
                                               widget.getTherapistByType[index]
-                                                          .nintyMin ==
-                                                      0
+                                                          .lowestPrice !=
+                                                      null
                                                   ? Text(
-                                                      '¥0/60分',
+                                                      '¥${widget.getTherapistByType[index].lowestPrice}/${widget.getTherapistByType[index].priceForMinute}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 16),
                                                     )
                                                   : Text(
-                                                      '¥${widget.getTherapistByType[index].nintyMin}/${widget.getTherapistByType[index].priceForMinute}',
+                                                      '¥0/0分',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -2997,17 +3001,17 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                               children: [
                                                 //Spacer(),
                                                 therapistUsers[index]
-                                                            .sixtyMin ==
-                                                        0
+                                                            .lowestPrice !=
+                                                        null
                                                     ? Text(
-                                                        '¥0/60分',
+                                                        '¥${therapistUsers[index].lowestPrice}/${therapistUsers[index].priceForMinute}',
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize: 16),
                                                       )
                                                     : Text(
-                                                        '¥${therapistUsers[index].sixtyMin}/${therapistUsers[index].priceForMinute}',
+                                                        '¥0/0分',
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,

@@ -1477,7 +1477,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               color: Colors.lime,
                               onPressed: () {
                                 _updateUserDetails();
-                                setState(() {});
+                                print(
+                                    'User id : ${HealingMatchConstants.serviceUserID}');
+                                /*setState(() {
+                                  constantUserAddressValuesList.clear();
+                                });*/
                               },
                               child: new Text(
                                 '更新',
@@ -1538,7 +1542,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     onPressed: () {
                       _editAddressController.clear();
                       isDelete = true;
-
                     },
                   ),
                 ),
@@ -1687,15 +1690,19 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
       print(states.toJson());
       for (var stateList in states.data) {
+        if (this.mounted) {
+          setState(() {
+            stateDropDownValues.add(stateList.prefectureJa);
+            cityStatus = 1;
+          });
+        }
+      }
+      if (this.mounted) {
         setState(() {
-          stateDropDownValues.add(stateList.prefectureJa);
-          cityStatus = 1;
+          _prefId = stateDropDownValues.indexOf(_myPrefecture) + 1;
+          getCities(_prefId);
         });
       }
-      setState(() {
-        _prefId = stateDropDownValues.indexOf(_myPrefecture) + 1;
-        getCities(_prefId);
-      });
     });
   }
 
@@ -2168,7 +2175,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         setState(() {
           addUpdateAddress = UpdateAddress(
             id: HealingMatchConstants.userAddressId,
-            userId: HealingMatchConstants.userEditUserId,
+            userId: HealingMatchConstants.serviceUserID,
             addressTypeSelection: _myAddressInputType,
             address: HealingMatchConstants.userEditAddress,
             userRoomNumber: roomNumberController.text.toString(),
@@ -2191,14 +2198,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     print('UserId: $rUserID');
 
-    print("json Converted:" + json.encode(constantUserAddressValuesList));
+    print("json Converted sub address :" +
+        json.encode(constantUserAddressValuesList));
     print("json Converted Address:" + json.encode(updateAddress));
     try {
       Uri updateProfile =
           Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
       var request = http.MultipartRequest('POST', updateProfile);
       Map<String, String> headers = {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         "x-access-token": HealingMatchConstants.accessToken
       };
       if (_profileImage != null) {
@@ -2244,23 +2252,34 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       final response = await http.Response.fromStream(userDetailsRequest);
 
       // print('Success response code : ${response.statusCode}');
-      print('SuccessMessage : ${response.reasonPhrase}');
+      print('SuccessMessage : ${response.body}');
       // print('Response : ${response.body}');
       print("This is response: ${response.statusCode}\n${response.body}");
 
       if (response.statusCode == 200) {
         final Map userDetailsResponse = json.decode(response.body);
         final profileUpdateResponseModel =
-            ProfileUpdateResponseModel.fromJson(userDetailsResponse);
+            UserUpdateResponseModel.fromJson(userDetailsResponse);
         print(profileUpdateResponseModel.status);
         updateAddress.clear();
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
         DialogHelper.showUserProfileUpdatedSuccessDialog(context);
       } else {
+        if (this.mounted) {
+          setState(() {
+            constantUserAddressValuesList.clear();
+          });
+        }
         print('User Edit failed !!');
         ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       }
     } catch (e) {
+      if (this.mounted) {
+        setState(() {
+          constantUserAddressValuesList.clear();
+        });
+      }
+
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       print('Edit user Exception : ${e.toString()}');
     }
@@ -3215,6 +3234,7 @@ class _AddAddressState extends State<AddAddress> {
       String city = _myAddedCity;
       setState(() {
         addUserAddress = AddUserSubAddress(
+          HealingMatchConstants.serviceUserID,
           manualAddedAddress,
           HealingMatchConstants.manualAddressCurrentLatitude.toString(),
           HealingMatchConstants.manualAddressCurrentLongitude.toString(),

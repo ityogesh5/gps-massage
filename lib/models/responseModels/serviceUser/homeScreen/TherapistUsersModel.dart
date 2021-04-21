@@ -56,9 +56,8 @@ class InitialTherapistData {
   int sixtyMin;
   User user;
   String reviewAvgData;
+  int lowestPrice;
   String priceForMinute;
-  int nintyMin;
-  int oneFifityMin;
 
   InitialTherapistData(
       {this.id,
@@ -69,9 +68,8 @@ class InitialTherapistData {
         this.sixtyMin,
         this.user,
         this.reviewAvgData,
-        this.priceForMinute,
-        this.nintyMin,
-        this.oneFifityMin});
+        this.lowestPrice,
+        this.priceForMinute});
 
   InitialTherapistData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,8 +81,7 @@ class InitialTherapistData {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     reviewAvgData = json['reviewAvgData'];
     priceForMinute = json['priceForMinute'];
-    nintyMin = json['nintyMin'];
-    oneFifityMin = json['oneFifityMin'];
+    lowestPrice = json['lowestPrice'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,8 +97,7 @@ class InitialTherapistData {
     }
     data['reviewAvgData'] = this.reviewAvgData;
     data['priceForMinute'] = this.priceForMinute;
-    data['nintyMin'] = this.nintyMin;
-    data['oneFifityMin'] = this.oneFifityMin;
+    data['lowestPrice'] = this.lowestPrice;
     return data;
   }
 }

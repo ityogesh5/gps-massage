@@ -8,7 +8,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -401,10 +401,10 @@ class HealingMatchConstants {
   static bool isTimeCriteria = true;
   static int serviceType = 0;
   static DateTime dateTime = DateTime.now();
-  static List<UserDetailsAddress> constantUserAddressValuesList = new List<UserDetailsAddress>();
+  static List<Addresses> constantUserAddressValuesList = new List<Addresses>();
   static var searchDistanceRadius;
   static String userProfileImage ;
-  static var serviceUserUserID;
+  static String serviceUserID;
 
   // User Home screen
   static int serviceTypeValue = 0;

@@ -11,10 +11,10 @@ import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUse
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/models/customModels/userSearchAddAddress.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<AddUserSearchAddress> otherUserAddress = new List<AddUserSearchAddress>();
@@ -60,7 +60,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   var searchAddressLatitude, searchAddressLongitude;
 
-  List<UserDetailsAddress> constantUserAddressValuesList = new List<UserDetailsAddress>();
+  List<Addresses> constantUserAddressValuesList = new List<Addresses>();
   var constantUserAddressSize = new List();
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
@@ -1429,12 +1429,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   getValidSearchFields() async {
     _sharedPreferences.then((value) {
       if (value != null) {
-        userID = value.getString('userID');
         var userDetails =
-            ServiceUserAPIProvider.getUserDetails(context, userID);
+            ServiceUserAPIProvider.getUserDetails(context, HealingMatchConstants.serviceUserID);
         userDetails.then((value) {
           setState(() {
-            constantUserAddressValuesList = value.data.addresses.cast<UserDetailsAddress>();
+            constantUserAddressValuesList = value.data.addresses;
             for (var category in constantUserAddressValuesList) {
               print(
                   'List length search : ${constantUserAddressValuesList.length}');

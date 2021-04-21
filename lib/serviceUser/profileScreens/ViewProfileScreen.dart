@@ -8,12 +8,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/profile/getUserDetails.dart';
 
 class ViewUserProfile extends StatefulWidget {
   @override
@@ -58,8 +57,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
 
   @override
   void initState() {
-   super.initState();
-   getUserProfileData();
+    super.initState();
+    getUserProfileData();
   }
 
   @override
@@ -105,7 +104,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                             SizedBox(width: 35.0),
                             HealingMatchConstants.userProfileImage != null
                                 ? CachedNetworkImage(
-                                    imageUrl: HealingMatchConstants.userProfileImage,
+                                    imageUrl:
+                                        HealingMatchConstants.userProfileImage,
                                     filterQuality: FilterQuality.high,
                                     fadeInCurve: Curves.easeInSine,
                                     imageBuilder: (context, imageProvider) =>
@@ -537,41 +537,52 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   getUserProfileData() async {
     ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
-      var userListApiProvider = ServiceUserAPIProvider.getUserDetails(context,HealingMatchConstants.serviceUserUserID);
+      var userListApiProvider = ServiceUserAPIProvider.getUserDetails(
+          context, HealingMatchConstants.serviceUserID);
       userListApiProvider.then((value) {
         print('userProfileImage: ${value.data.uploadProfileImgUrl}');
         setState(() {
-          HealingMatchConstants.userProfileImage = value.data.uploadProfileImgUrl;
+          HealingMatchConstants.userProfileImage =
+              value.data.uploadProfileImgUrl;
           HealingMatchConstants.serviceUserName = value.data.userName;
           HealingMatchConstants.userEditUserOccupation =
               value.data.userOccupation;
           HealingMatchConstants.serviceUserPhoneNumber =
               value.data.phoneNumber.toString();
           HealingMatchConstants.serviceUserEmailAddress = value.data.email;
-          HealingMatchConstants.serviceUserDOB =
-              DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
+          HealingMatchConstants.serviceUserDOB = value.data.dob;
+          //DateFormat("yyyy-MM-dd").format(value.data.dob).toString();
           HealingMatchConstants.serviceUserAge = value.data.age.toString();
           HealingMatchConstants.serviceUserGender = value.data.gender;
-          HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
+          HealingMatchConstants.serviceUserOccupation =
+              value.data.userOccupation;
           for (int i = 0; i < value.data.addresses.length; i++) {
-            HealingMatchConstants.constantUserAddressValuesList =
-                value.data.addresses.cast<UserDetailsAddress>();
-            HealingMatchConstants.userEditUserId = value.data.addresses[0].userId;
-            HealingMatchConstants.serviceUserAddress =
-                value.data.addresses[0].address;
-            HealingMatchConstants.userEditCity = value.data.addresses[0].cityName;
-            HealingMatchConstants.userEditPrefecture =
-                value.data.addresses[0].capitalAndPrefecture;
-            HealingMatchConstants.userEditPlaceForMassage =
-                value.data.addresses[0].userPlaceForMassage;
-            HealingMatchConstants.userEditPlaceForMassageOther =
-                value.data.addresses[0].otherAddressType;
-            HealingMatchConstants.userEditArea = value.data.addresses[0].area;
-            HealingMatchConstants.userEditBuildName =
-                value.data.addresses[0].buildingName;
-            HealingMatchConstants.userEditRoomNo =
-                value.data.addresses[0].userRoomNumber;
+            if (value.data.addresses[0].isDefault) {
+              HealingMatchConstants.constantUserAddressValuesList =
+                  value.data.addresses.cast<Addresses>();
+              HealingMatchConstants.serviceUserID =
+                  value.data.addresses[0].userId.toString();
+              HealingMatchConstants.serviceUserAddress =
+                  value.data.addresses[0].address;
+              HealingMatchConstants.userEditCity =
+                  value.data.addresses[0].cityName;
+              HealingMatchConstants.userEditPrefecture =
+                  value.data.addresses[0].capitalAndPrefecture;
+              HealingMatchConstants.userEditPlaceForMassage =
+                  value.data.addresses[0].userPlaceForMassage;
+              HealingMatchConstants.userEditPlaceForMassageOther =
+                  value.data.addresses[0].otherAddressType;
+              HealingMatchConstants.userEditArea = value.data.addresses[i].area;
+              HealingMatchConstants.userEditBuildName =
+                  value.data.addresses[0].buildingName;
+              HealingMatchConstants.userEditRoomNo =
+                  value.data.addresses[0].userRoomNumber;
+            } else {
+              print('Is default false');
+            }
           }
+          print(
+              'User Profile image : ${HealingMatchConstants.userProfileImage}');
           status = 1;
         });
       });
