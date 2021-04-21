@@ -664,7 +664,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: phoneNumberController,
                         maxLength: 10,
                         autofocus: false,
-                        keyboardType: TextInputType.numberWithOptions(signed: true),
+                        keyboardType:
+                            TextInputType.numberWithOptions(signed: true),
                         onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
@@ -1831,37 +1832,6 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-
-    // Combination password
-
-    /*  if (!passwordRegex.hasMatch(password)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        duration: Duration(seconds: 3),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontFamily: 'NotoSansJP')),
-            ),
-            InkWell(
-              onTap: () {
-                _scaffoldKey.currentState.hideCurrentSnackBar();
-              },
-              child: Text('はい',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'NotoSansJP',
-                      decoration: TextDecoration.underline)),
-            ),
-          ],
-        ),
-      ));
-      return null;
-    }*/
 
     if (password != confirmPassword) {
       //print("Entering password state");

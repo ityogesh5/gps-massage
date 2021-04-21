@@ -34,7 +34,8 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
   FocusNode _focus = new FocusNode();
   final reviewController = new TextEditingController();
   var ratingsValue = 0.0;
-  String rUserID, accessToken;
+  var rUserID;
+  String accessToken;
 
   // String noOfRating = ratingListResponseModel.userData.totalElements;
 
@@ -359,7 +360,7 @@ class _RatingsAndReviewUserState extends State<RatingsAndReviewUser> {
                                       itemBuilder: (context, _) => Icon(
                                         Icons.star,
                                         size: 5,
-                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        color: Color.fromRGBO(255, 217, 0, 1),
                                       ),
                                       onRatingUpdate: (rating) {
                                         setState(() {
