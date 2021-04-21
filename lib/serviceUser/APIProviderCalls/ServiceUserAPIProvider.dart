@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
@@ -22,6 +23,11 @@ class ServiceUserAPIProvider {
   static GetUserDetailsByIdModel userDetails = new GetUserDetailsByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
+
+  // DeleteSubAddressModel
+  static DeleteSubAddressModel _deleteSubAddressModel =
+      new DeleteSubAddressModel();
+
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers() async {
     try {
@@ -144,5 +150,33 @@ class ServiceUserAPIProvider {
       throw Exception(e);
     }
     return _getUserDetailsByIdModel;
+  }
+
+  // get home screen user banner images
+  static Future<DeleteSubAddressModel> deleteUserSubAddress(
+      BuildContext context, var addressType) async {
+    try {
+      final url = HealingMatchConstants.DELETE_SUB_ADDRESS_URL;
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "AddressType": addressType,
+          }));
+      print('Delete Sub Address Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getDeletedResponse = json.decode(response.body);
+        _deleteSubAddressModel =
+            DeleteSubAddressModel.fromJson(getDeletedResponse);
+      }
+
+      print('Status code : ${response.statusCode}');
+    } catch (e) {
+      print('Exception in delete !!');
+    }
+    return _deleteSubAddressModel;
   }
 }

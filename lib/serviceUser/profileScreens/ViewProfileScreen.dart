@@ -428,13 +428,13 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                                   .searchDistanceRadius !=
                                               null
                                           ? Text(
-                                              '${HealingMatchConstants.searchDistanceRadius}',
+                                              'セラピスト検索範囲${HealingMatchConstants.searchDistanceRadius}Km距離。',
                                               style: TextStyle(
                                                   fontFamily: 'NotoSansJP',
                                                   fontSize: 14.0,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w500))
-                                          : Text('セラピスト検索範囲10.0Km距離。',
+                                          : Text('セラピスト検索範囲10Km距離。',
                                               style: TextStyle(
                                                   fontFamily: 'NotoSansJP',
                                                   fontSize: 14.0,
