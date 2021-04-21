@@ -2819,7 +2819,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
     HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
     HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
     HealingMatchConstants.serviceProviderBuildingName = buildingname;
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
@@ -3053,8 +3052,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   void updateAddressValues() {
-    userData.addresses[0].addressTypeSelection =
-        HealingMatchConstants.serviceProviderAddressType;
+   
     userData.addresses[0].address =
         HealingMatchConstants.serviceProviderAddress;
     userData.addresses[0].area = HealingMatchConstants.serviceProviderArea;
@@ -3069,11 +3067,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         HealingMatchConstants.serviceProviderCurrentLatitude;
     userData.addresses[0].lon =
         HealingMatchConstants.serviceProviderCurrentLongitude;
-    if (HealingMatchConstants.serviceProviderAddressType == "直接入力") {
+    
       userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
       userData.addresses[0].capitalAndPrefectureId =
           stateDropDownValues.indexOf(myState) + 1;
-    }
+    
   }
 
   void _showPicker(context, int index) {

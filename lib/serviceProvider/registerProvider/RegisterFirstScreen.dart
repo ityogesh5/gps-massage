@@ -116,7 +116,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       coronaMeasures,
       genderTreatment,
       gender,
-      registrationAddressType,
       myCity,
       myState;
 
@@ -1369,7 +1368,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                           controller: manualAddressController,
                           style: HealingMatchConstants.formTextStyle,
                           decoration: InputDecoration(
-                           /*  labelText: "丁目, 番地",
+                            /*  labelText: "丁目, 番地",
                             labelStyle:
                                 HealingMatchConstants.formLabelTextStyle, */
                             filled: true,
@@ -1663,56 +1662,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      var latitude = _currentPosition.latitude;
-      var longitude = _currentPosition.longitude;
-      setState(() {
-        _currentAddress =
-            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
-        // print('Place Json : ${place.toJson()}');
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress : $latitude : $longitude');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceProviderCurrentLatitude = latitude;
-          HealingMatchConstants.serviceProviderCurrentLongitude = longitude;
-          HealingMatchConstants.serviceProviderCity = place.locality;
-          HealingMatchConstants.serviceProviderPrefecture =
-              place.administrativeArea;
-          HealingMatchConstants.serviceProviderArea = place.country;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
+ 
   validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
@@ -1722,11 +1672,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
-    var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
-    var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
     var genderSelecetedValue = gender;
     var businessFormVal = bussinessForm;
@@ -2130,42 +2078,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    //addressType validation
-    if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('検索地点を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return null;
-    }
-
-    //gps address Validation
-    if ((_myAddressInputType == "現在地を取得する") &&
-        (address == null || address.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
     //manual address Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (manualAddresss == null || manualAddresss.isEmpty)) {
+    if ((manualAddresss == null || manualAddresss.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2181,8 +2095,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //prefecture Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myState == null || myState.isEmpty)) {
+    if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2198,8 +2111,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //city validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myCity == null || myCity.isEmpty)) {
+    if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2272,7 +2184,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
     HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
     HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
     HealingMatchConstants.serviceProviderBuildingName = buildingname;
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
     HealingMatchConstants.serviceProviderPassword = passwordController.text;
@@ -2292,39 +2203,33 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    // Getting user GPS Address value
-    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する' &&
-        _isGPSLocation) {
-      HealingMatchConstants.serviceProviderAddress = address;
-      print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else //if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
-    {
-      String address = roomnumber +
-          ',' +
-          buildingname +
-          ',' +
-          manualAddresss +
-          ',' +
-          myCity +
-          ',' +
-          myState;
-      List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
-      var userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-      HealingMatchConstants.serviceProviderCurrentLatitude =
-          addressPosition.latitude;
-      HealingMatchConstants.serviceProviderCurrentLongitude =
-          addressPosition.longitude;
-      /* HealingMatchConstants.serviceProviderCity =
+
+    String address = roomnumber +
+        ',' +
+        buildingname +
+        ',' +
+        manualAddresss +
+        ',' +
+        myCity +
+        ',' +
+        myState;
+    List<Placemark> userAddress =
+        await geolocator.placemarkFromAddress(address);
+    var userAddedAddressPlaceMark = userAddress[0];
+    Position addressPosition = userAddedAddressPlaceMark.position;
+    HealingMatchConstants.serviceProviderCurrentLatitude =
+        addressPosition.latitude;
+    HealingMatchConstants.serviceProviderCurrentLongitude =
+        addressPosition.longitude;
+    /* HealingMatchConstants.serviceProviderCity =
           userAddedAddressPlaceMark.locality;
        HealingMatchConstants.serviceProviderPrefecture =
           userAddedAddressPlaceMark.administrativeArea;*/
-      HealingMatchConstants.serviceProviderAddress = address;
-      HealingMatchConstants.serviceProviderPrefecture = myState;
-      HealingMatchConstants.serviceProviderCity = myCity;
-      HealingMatchConstants.serviceProviderArea = myCity;
-    }
+    HealingMatchConstants.serviceProviderAddress = address;
+    HealingMatchConstants.serviceProviderPrefecture = myState;
+    HealingMatchConstants.serviceProviderCity = myCity;
+    HealingMatchConstants.serviceProviderArea = myCity;
+
     ProgressDialogBuilder.hideCommonProgressDialog(context);
     NavigationRouter.switchToServiceProviderSecondScreen(context);
   }

@@ -1757,13 +1757,12 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //get the id of the Message Value
   int getID(int index, int mindex) {
     int id;
-    int constantID = 999;
-    if (mindex == 0) {
+        if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
       //minus 2 for indexing and removing the others field out of equation
       {
-        id = constantID;
+        id = 996;
       } else {
         id = estheticDropDownModel.data.elementAt(index).id;
       }
@@ -1774,7 +1773,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               relaxationDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
-        id = constantID;
+        id = 999;
       } else {
         id = relaxationDropDownModel.data.elementAt(index).id;
       }
@@ -1785,7 +1784,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               treatmentDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
-        id = constantID;
+        id = 998;
       } else {
         id = treatmentDropDownModel.data.elementAt(index).id;
       }
@@ -1795,7 +1794,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
               fitnessDropDownModel.data.length -
                   2)) //minus 2 for indexing and removing the others field out of equation
       {
-        id = constantID;
+        id = 997;
       } else {
         id = fitnessDropDownModel.data.elementAt(index).id;
       }

@@ -1221,7 +1221,7 @@ class _RegistrationSecondPageState
           : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
-      'addressTypeSelection': HealingMatchConstants.serviceProviderAddressType,
+      'addressTypeSelection': "直接入力",
       'address': HealingMatchConstants.serviceProviderAddress,
       'capitalAndPrefecture': HealingMatchConstants.serviceProviderPrefecture,
       'cityName': HealingMatchConstants.serviceProviderCity,

@@ -190,7 +190,6 @@ class HealingMatchConstants {
   static String serviceProviderPhoneNumber = '';
   static String serviceProviderStorePhoneNumber = '';
   static String serviceProviderEmailAddress = '';
-  static String serviceProviderAddressType = '';
   static String serviceProviderPrefecture = '';
   static String serviceProviderCity = '';
   static String serviceProviderBuildingName = '';
