@@ -844,308 +844,401 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       borderRadius: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 80,
-                                width: 100,
+                      content: Stack(
+                        children: [
+                          Positioned(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '60分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '90分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '120分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '150分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '180分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromRGBO(217, 217, 217, 1),
-                                  border: Border.all(),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
+                                      blurRadius: 8.0, // soften the shadow
+                                      spreadRadius: 1, //extend the shadow
                                       offset: Offset(
-                                          0, 3), // changes position of shadow
+                                        0.0, // Move to right 10  horizontally
+                                        3.0, // Move to bottom 10 Vertically
+                                      ),
                                     )
                                   ],
+                                  shape: BoxShape.circle,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '60分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '90分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '120分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '150分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '180分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
@@ -1208,308 +1301,401 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       borderRadius: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 80,
-                                width: 100,
+                      content: Stack(
+                        children: [
+                          Positioned(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '60分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '90分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '120分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '150分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '180分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromRGBO(217, 217, 217, 1),
-                                  border: Border.all(),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
+                                      blurRadius: 8.0, // soften the shadow
+                                      spreadRadius: 1, //extend the shadow
                                       offset: Offset(
-                                          0, 3), // changes position of shadow
+                                        0.0, // Move to right 10  horizontally
+                                        3.0, // Move to bottom 10 Vertically
+                                      ),
                                     )
                                   ],
+                                  shape: BoxShape.circle,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '60分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '90分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '120分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '150分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '180分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
@@ -1571,308 +1757,401 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       borderRadius: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 80,
-                                width: 100,
+                      content: Stack(
+                        children: [
+                          Positioned(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '60分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '90分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '120分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '150分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '180分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromRGBO(217, 217, 217, 1),
-                                  border: Border.all(),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
+                                      blurRadius: 8.0, // soften the shadow
+                                      spreadRadius: 1, //extend the shadow
                                       offset: Offset(
-                                          0, 3), // changes position of shadow
+                                        0.0, // Move to right 10  horizontally
+                                        3.0, // Move to bottom 10 Vertically
+                                      ),
                                     )
                                   ],
+                                  shape: BoxShape.circle,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '60分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '90分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '120分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '150分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '180分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
@@ -1927,315 +2206,408 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                     alignment: AlignmentDirectional.bottomCenter,
                     child: SimpleTooltip(
                       show: _value == 3 ? true : false,
-                      tooltipDirection: TooltipDirection.up,
+                      tooltipDirection: TooltipDirection.down,
                       hideOnTooltipTap: true,
                       borderWidth: 0.1,
                       borderColor: Color.fromRGBO(228, 228, 228, 1),
                       borderRadius: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 80,
-                                width: 100,
+                      content: Stack(
+                        children: [
+                          Positioned(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '60分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '90分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '120分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '150分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '180分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromRGBO(217, 217, 217, 1),
-                                  border: Border.all(),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
+                                      blurRadius: 8.0, // soften the shadow
+                                      spreadRadius: 1, //extend the shadow
                                       offset: Offset(
-                                          0, 3), // changes position of shadow
+                                        0.0, // Move to right 10  horizontally
+                                        3.0, // Move to bottom 10 Vertically
+                                      ),
                                     )
                                   ],
+                                  shape: BoxShape.circle,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '60分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '90分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '120分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '150分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '180分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
@@ -2297,308 +2669,401 @@ class _DetailPageSearchState extends State<DetailPageSearch> {
                       borderRadius: 10.0,
                       minHeight: 50,
                       minWidth: 305,
-                      content: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 80,
-                                width: 100,
+                      content: Stack(
+                        children: [
+                          Positioned(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '60分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '90分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '120分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '150分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                      SizedBox(width: 10),
+                                      Container(
+                                          height: 80,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.grey[100],
+                                            border: Border.all(),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/images_gps/processing.svg',
+                                                        height: 25,
+                                                        width: 25,
+                                                        color: Colors.black),
+                                                    SizedBox(width: 5),
+                                                    new Text(
+                                                      '180分',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'NotoSansJP',
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              new Text(
+                                                '\t¥4,500',
+                                                style: TextStyle(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontFamily: 'NotoSansJP',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: -4,
+                            top: -4,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromRGBO(217, 217, 217, 1),
-                                  border: Border.all(),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
+                                      color: Color.fromRGBO(217, 217, 217, 1),
+                                      blurRadius: 8.0, // soften the shadow
+                                      spreadRadius: 1, //extend the shadow
                                       offset: Offset(
-                                          0, 3), // changes position of shadow
+                                        0.0, // Move to right 10  horizontally
+                                        3.0, // Move to bottom 10 Vertically
+                                      ),
                                     )
                                   ],
+                                  shape: BoxShape.circle,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '60分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 18,
+                                  ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '90分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '120分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '150分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                            SizedBox(width: 10),
-                            Container(
-                                height: 80,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[100],
-                                  border: Border.all(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              'assets/images_gps/processing.svg',
-                                              height: 25,
-                                              width: 25,
-                                              color: Colors.black),
-                                          SizedBox(width: 5),
-                                          new Text(
-                                            '180分',
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontFamily: 'NotoSansJP',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    new Text(
-                                      '\t¥4,500',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'NotoSansJP',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       child: Column(
                         children: [
