@@ -1958,9 +1958,9 @@ class _ReservationListState extends State<ReservationList> {
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
                                 itemCount: 5,
-                                itemSize: 25,
+                                itemSize: 22,
                                 itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                    EdgeInsets.symmetric(horizontal: 3.0),
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   size: 5,
@@ -2364,7 +2364,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                     itemCount: 5,
                                     itemSize: 22,
                                     itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                        EdgeInsets.symmetric(horizontal: 3.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
@@ -2940,11 +2940,11 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                             Axis.horizontal,
                                                         allowHalfRating: true,
                                                         itemCount: 5,
-                                                        itemSize: 25,
+                                                        itemSize: 22,
                                                         itemPadding: EdgeInsets
                                                             .symmetric(
                                                                 horizontal:
-                                                                    4.0),
+                                                                    3.0),
                                                         itemBuilder:
                                                             (context, _) =>
                                                                 Icon(

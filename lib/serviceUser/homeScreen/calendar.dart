@@ -346,9 +346,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 15.0, left: 5.0, right: 5.0, bottom: 15.0),
-                            child: InkWell(
-                              // onTap: () => NavigationRouter
-                              //     .switchToWeeklySchedule(context),
+                            child: GestureDetector(
+                              /* onTap: () =>
+                                  NavigationRouter.switchToUserEventPopup(context),*/
                               child: Container(
                                 height: 350.0,
                                 child: DayView(

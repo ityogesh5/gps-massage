@@ -274,9 +274,17 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     highlightColor: Color.fromRGBO(0, 0, 0, 1),
                                     iconSize: 35,
                                     onPressed: () {
-                                      NavigationRouter
-                                          .switchToServiceUserViewProfileScreen(
-                                              context);
+                                      if (HealingMatchConstants
+                                                  .isUserRegistrationSkipped !=
+                                              null &&
+                                          HealingMatchConstants
+                                              .isUserRegistrationSkipped) {
+                                        return;
+                                      } else {
+                                        NavigationRouter
+                                            .switchToServiceUserViewProfileScreen(
+                                                context);
+                                      }
                                     },
                                   ),
                                 ),
@@ -1429,8 +1437,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   getValidSearchFields() async {
     _sharedPreferences.then((value) {
       if (value != null) {
-        var userDetails =
-            ServiceUserAPIProvider.getUserDetails(context, HealingMatchConstants.serviceUserID);
+        var userDetails = ServiceUserAPIProvider.getUserDetails(
+            context, HealingMatchConstants.serviceUserID);
         userDetails.then((value) {
           setState(() {
             constantUserAddressValuesList = value.data.addresses;
