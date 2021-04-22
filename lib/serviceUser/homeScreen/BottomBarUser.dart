@@ -107,8 +107,9 @@ class _BottomBarUserState extends State<BottomBarUser> {
               if (index == 0) {
                 selectedpage = index;
               } else if (index == 1) {
-                NavigationRouter.switchToServiceUserSearchScreenWithOutRegister(
-                    context);
+                selectedpage = index;
+                /*   NavigationRouter.switchToServiceUserSearchScreenWithOutRegister(
+                    context);*/
               } else if (index == 2) {
                 DialogHelper.showUserLoginOrRegisterDialog(context);
               } else if (index == 3) {

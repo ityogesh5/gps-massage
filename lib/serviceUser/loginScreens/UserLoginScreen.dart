@@ -451,7 +451,7 @@ class _UserLoginState extends State<UserLogin> {
         content: Row(
           children: [
             Flexible(
-              child: Text('正しい電話番号とパスワードを入力してください。',
+              child: Text('正しいパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

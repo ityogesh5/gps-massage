@@ -1,5 +1,6 @@
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,7 +30,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
-
+  var _pageNumber = 1;
+  var _pageSize = 10;
   bool _isVisible = true;
   bool _addAddressVisible = false;
 
@@ -124,7 +126,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   contentPadding: EdgeInsets.all(4.0),
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: HealingMatchConstants.searchKeyword,
+                                  hintText:
+                                      HealingMatchConstants.searchKeywordHint,
                                   suffixIcon: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: IconButton(
@@ -172,6 +175,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ],
                                             ),
                                           ));
+                                        } else {
+                                          HealingMatchConstants
+                                                  .searchKeyWordValue =
+                                              keywordController.text;
+                                          _getKeywordResults();
                                         }
                                       },
                                       icon: Image.asset(
@@ -301,7 +309,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 15),
+                        SizedBox(width: 5),
                         Expanded(
                           flex: 4,
                           child: SizedBox(
@@ -1435,6 +1443,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getValidSearchFields() async {
+    showOverlayLoader();
     _sharedPreferences.then((value) {
       if (value != null) {
         var userDetails = ServiceUserAPIProvider.getUserDetails(
@@ -1450,13 +1459,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
               constantUserAddressSize.add(categoryData);
               print(
                   'Size of list category : ${constantUserAddressSize.length} && $categoryData');
+              hideLoader();
             }
           });
         }).catchError((onError) {
+          hideLoader();
           print('Catch error search : $onError');
         });
       }
     }).catchError((onError) {
+      hideLoader();
       print('S_Pref Exception : $onError');
     });
   }
@@ -1472,11 +1484,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       searchAddressLatitude = addressPosition.latitude;
       searchAddressLongitude = addressPosition.longitude;
 
+      HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
+      HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
+
       print(
           'Address location points : $searchAddressLatitude && $searchAddressLongitude');
-      if (searchAddressLatitude != null && searchAddressLongitude != null) {
-        //NavigationRouter.switchToUserSearchResult(context);
+      if (HealingMatchConstants.searchAddressLatitude != null &&
+          HealingMatchConstants.searchAddressLongitude != null) {
+        _getSearchResults();
       } else {
+        hideLoader();
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1484,7 +1501,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text('検索に有効な住所タイプを選択してください。',
+                child: Text('検索に有効な住所を選択してください。',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1512,10 +1529,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   proceedToSearchResults() async {
     try {
-      print('User address : ${HealingMatchConstants.searchUserAddress}');
+      showOverlayLoader();
+      print(
+          'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
         _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
       } else {
+        hideLoader();
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1544,23 +1564,116 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ));
         return;
       }
-      if (HealingMatchConstants.isTimeCriteria) {
-        if (HealingMatchConstants.dateTime != null) {
-          print(
-              'Date time in String : ${HealingMatchConstants.dateTime.toIso8601String()}');
-          // run search event bloc & API Call
-          NavigationRouter.switchToUserSearchResult(context);
-        } else {
-          print('Date time in String null');
-        }
-      } else {
-        print('Time : ${HealingMatchConstants.dateTime.toIso8601String()}');
-        print('Date time is false');
-      }
-
-      // Run search bloc call
     } catch (e) {
+      hideLoader();
       print('Exception in search criteria : ${e.toString()}');
     }
+  }
+
+  _getKeywordResults() {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
+      if (value != null &&
+          value.status != null &&
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
+        HealingMatchConstants.searchList = value.data.searchList;
+        print(
+            'Search List Length : ${HealingMatchConstants.searchList.length}');
+        NavigationRouter.switchToUserSearchResult(context);
+      } else {
+        hideLoader();
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 7),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+      }
+    }).catchError((onError) {
+      hideLoader();
+      print('Search catch error : ${onError.toString()}');
+    });
+  }
+
+  _getSearchResults() {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
+      if (value != null &&
+          value.status != null &&
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
+        HealingMatchConstants.searchList = value.data.searchList;
+        print(
+            'Search List Length : ${HealingMatchConstants.searchList.length}');
+        NavigationRouter.switchToUserSearchResult(context);
+      } else {
+        hideLoader();
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 7),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+      }
+    }).catchError((onError) {
+      hideLoader();
+      print('Search catch error : ${onError.toString()}');
+    });
+  }
+
+  showOverlayLoader() {
+    Loader.show(
+      context,
+      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+    );
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 }
