@@ -125,7 +125,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
   UserReviewBloc userReviewBloc;
   List<UserReviewList> userReviewList = [];
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   int _totalReviews = 0;
 
@@ -333,7 +333,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > userReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
@@ -423,7 +423,7 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
   UserReviewBloc userReviewBloc;
   List<UserReviewList> userReviewList = [];
   bool isLoading = false;
-  var _pageNumberType = 1;
+  var _pageNumberType = 0;
   var _pageSizeType = 10;
 
   @override
@@ -602,7 +602,7 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > userReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,

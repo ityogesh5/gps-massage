@@ -10,7 +10,7 @@ class ServiceProviderApi {
       getTherapistReviewById(int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://103.92.19.158:9094/api/mobileReview/therapistReviewListById'; //?page=$pageNumber&size=$pageSize';
+          'http://106.51.49.160:9094/api/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -40,8 +40,7 @@ class ServiceProviderApi {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://103.92.19.158:9094/api/mobileReview/userReviewListById';
-      // 'http://106.51.49.160:9094/api/review/userReviewMobileListbyId'; //?page=$pageNumber&size=$pageSize';
+          'http://106.51.49.160:9094/api/mobileReview/userReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -72,7 +71,7 @@ class ServiceProviderApi {
       double rating, String review) async {
     try {
       final url =
-          'http://103.92.19.158:9094/api/mobileReview/createUserReview'; /* 'http://106.51.49.160:9094/api/review/createUserReview'; */
+          'http://106.51.49.160:9094/api/mobileReview/createUserReview'; /* 'http://106.51.49.160:9094/api/review/createUserReview'; */
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'

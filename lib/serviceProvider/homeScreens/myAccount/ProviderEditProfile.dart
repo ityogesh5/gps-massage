@@ -143,7 +143,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       coronaMeasures,
       genderTreatment,
       gender,
-      registrationAddressType,
       myCity,
       myState;
 
@@ -221,7 +220,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     qualification = '';
     accountType = '';
     buildNumberOfEmployess();
-    registrationAddressType = "直接入力";
     //  getProfileDetails();
   }
 
@@ -907,9 +905,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 HealingMatchConstants.registrationStoreTxt,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 11,
+                                  color: ColorConstants.formHintTextColor,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -1186,11 +1184,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              enabled: false,
+                              enabled: true,
                               controller: mailAddressController,
                               style: HealingMatchConstants.formTextStyle,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
                                 labelText:
                                     HealingMatchConstants.editProfileMailAdress,
                                 labelStyle:
@@ -1922,8 +1921,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                       HealingMatchConstants
                                                           .formHintTextStyle, */
                                                   contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          5, 5, 5, 0),
+                                                      EdgeInsets.all(16.0),
+                                                  /*    EdgeInsets.fromLTRB(
+                                                          5, 5, 5, 0) ,*/
                                                   filled: true,
                                                   fillColor: Colors.white,
                                                   enabledBorder:
@@ -2179,56 +2179,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      var latitude = _currentPosition.latitude;
-      var longitude = _currentPosition.longitude;
-      setState(() {
-        _currentAddress =
-            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
-        // print('Place Json : ${place.toJson()}');
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress : $latitude : $longitude');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceProviderCurrentLatitude = latitude;
-          HealingMatchConstants.serviceProviderCurrentLongitude = longitude;
-          HealingMatchConstants.serviceProviderCity = place.locality;
-          HealingMatchConstants.serviceProviderPrefecture =
-              place.administrativeArea;
-          HealingMatchConstants.serviceProviderArea = place.country;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var email = mailAddressController.text.toString();
@@ -2236,11 +2186,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
-    var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
-    var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
     var genderSelecetedValue = gender;
 
@@ -2249,7 +2197,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2265,7 +2213,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2281,7 +2229,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2296,7 +2244,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お名前は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2311,7 +2259,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               _scaffoldKey.currentState.showSnackBar(SnackBar(
                 backgroundColor: ColorConstants.snackBarColor,
                 content:
-                    Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+                    Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
                 action: SnackBarAction(
                     onPressed: () {
                       _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2329,7 +2277,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2346,7 +2294,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('店舗名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2362,7 +2310,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2394,7 +2342,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('性別フィールドを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2410,7 +2358,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2428,7 +2376,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2446,7 +2394,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2466,7 +2414,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2482,7 +2430,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('あなたのメールアドレスを入力してください',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2497,7 +2445,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しいメールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2511,7 +2459,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスは50文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2525,40 +2473,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("有効なメールアドレスを入力してください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    //addressType validation
-    if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な登録する地点のカテゴリーを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return null;
-    }
-
-    //gps address Validation
-    if ((_myAddressInputType == "現在地を取得する") &&
-        (address == null || address.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2570,12 +2485,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //manual address Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (manualAddresss == null || manualAddresss.isEmpty)) {
+    if ((manualAddresss == null || manualAddresss.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2587,12 +2501,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //prefecture Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myState == null || myState.isEmpty)) {
+    if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2604,12 +2517,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //city validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myCity == null || myCity.isEmpty)) {
+    if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2625,7 +2537,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    //building Validation
+    if (buildingname.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('建物名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2641,7 +2569,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2656,7 +2584,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('銀行名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2673,7 +2601,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('銀行名は必須項目なので入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な銀行名を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2688,7 +2631,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('口座種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2703,7 +2646,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2718,7 +2661,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2734,7 +2677,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2749,7 +2692,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店番号は5文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2765,7 +2708,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('口座番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2780,7 +2723,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('アカウント番号は10文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2798,7 +2741,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2834,38 +2777,32 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    /*  // Getting user GPS Address value
-    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する') {
-      HealingMatchConstants.serviceProviderAddress = address;
-      print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else {
-      String address = roomnumber +
-          ',' +
-          buildingname +
-          ',' +
-          manualAddresss +
-          ',' +
-          myCity +
-          ',' +
-          myState;
+    String address = roomnumber +
+        ',' +
+        buildingname +
+        ',' +
+        manualAddresss +
+        ',' +
+        myCity +
+        ',' +
+        myState;
 
-      List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
-      var userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-      HealingMatchConstants.serviceProviderCurrentLatitude =
-          addressPosition.latitude;
-      HealingMatchConstants.serviceProviderCurrentLongitude =
-          addressPosition.longitude;
-      HealingMatchConstants.serviceProviderCity =
-          userAddedAddressPlaceMark.locality;
-      HealingMatchConstants.serviceProviderPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;
-      HealingMatchConstants.serviceProviderAddress = address;
-      HealingMatchConstants.serviceProviderPrefecture = myState;
-      HealingMatchConstants.serviceProviderCity = myCity;
-      HealingMatchConstants.serviceProviderArea = myCity;
-    } */
+    List<Placemark> userAddress =
+        await geolocator.placemarkFromAddress(address);
+    var userAddedAddressPlaceMark = userAddress[0];
+    Position addressPosition = userAddedAddressPlaceMark.position;
+    HealingMatchConstants.serviceProviderCurrentLatitude =
+        addressPosition.latitude;
+    HealingMatchConstants.serviceProviderCurrentLongitude =
+        addressPosition.longitude;
+    HealingMatchConstants.serviceProviderCity =
+        userAddedAddressPlaceMark.locality;
+    HealingMatchConstants.serviceProviderPrefecture =
+        userAddedAddressPlaceMark.administrativeArea;
+    HealingMatchConstants.serviceProviderAddress = address;
+    HealingMatchConstants.serviceProviderPrefecture = myState;
+    HealingMatchConstants.serviceProviderCity = myCity;
+    HealingMatchConstants.serviceProviderArea = manualAddresss;
     updateProfile();
   }
 
@@ -2943,7 +2880,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'id': userData.id.toString(),
       'isTherapist': '1',
       'email': HealingMatchConstants.serviceProviderEmailAddress,
-      'storeName': HealingMatchConstants.serviceProviderStoreName,
+      'storeName': bussinessForm == "施術店舗あり 施術従業員あり" ||
+              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+          ? HealingMatchConstants.serviceProviderStoreName
+          : '',
+      'storePhone': bussinessForm == "施術店舗あり 施術従業員あり" ||
+              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+          ? HealingMatchConstants.serviceProviderStorePhoneNumber
+          : '0',
       'genderOfService':
           HealingMatchConstants.serviceProviderGenderService != null
               ? HealingMatchConstants.serviceProviderGenderService
@@ -2963,15 +2907,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'childrenMeasure': childrenMeasure,
       'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
       'bankDetails': json.encode(userData.bankDetails),
-      'address': json.encode(userData.addresses),
+      'addressTypeSelection': "直接入力",
+      'address': json.encode(userData.addresses), //address update in json
     });
-    if (storePhoneNumberController.text != '' &&
+    /* if (storePhoneNumberController.text != '' &&
         storePhoneNumberController.text != null) {
       request.fields.addAll({
-        'storePhone':
-            '9842765543' //HealingMatchConstants.serviceProviderStorePhoneNumber
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
       });
-    }
+    } else {
+      request.fields.addAll({'storePhone': ''});
+    } */
     if (userData.qulaificationCertImgUrl != null &&
         userData.qulaificationCertImgUrl != '') {
       if (qualification != '') {
@@ -3008,26 +2954,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     request.headers.addAll(headers);
 
-    /*  try { */
-    final userDetailsRequest = await request.send();
-    print("This is request : ${userDetailsRequest.request}");
-    final response = await http.Response.fromStream(userDetailsRequest);
-    print("This is response: ${response.statusCode}\n${response.body}");
-    if (StatusCodeHelper.isProfileUpdateSuccess(
-        response.statusCode, context, response.body)) {
-      loginResponse.LoginResponseModel loginResponseModel =
-          loginResponse.LoginResponseModel.fromJson(json.decode(response.body));
-      sharedPreferences.setString(
-          "userData", json.encode(loginResponseModel.data));
-      HealingMatchConstants.userData = loginResponseModel.data;
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      print('Update response : ${loginResponseModel.toJson()}');
-      DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
-    } else {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      print('Response error occured!');
-    }
-    /* }  on SocketException catch (_) {
+    try {
+      final userDetailsRequest = await request.send();
+      print("This is request : ${userDetailsRequest.request}");
+      final response = await http.Response.fromStream(userDetailsRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isProfileUpdateSuccess(
+          response.statusCode, context, response.body)) {
+        loginResponse.LoginResponseModel loginResponseModel =
+            loginResponse.LoginResponseModel.fromJson(
+                json.decode(response.body));
+        sharedPreferences.setString(
+            "userData", json.encode(loginResponseModel.data));
+        HealingMatchConstants.userData = loginResponseModel.data;
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Update response : ${loginResponseModel.toJson()}');
+        DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
@@ -3036,10 +2983,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       //handle other error
       print("Error $e");
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-    } */
+    }
   }
 
   void updateBankValues() {
+    userData.bankDetails[0].userId = userData.id;
     userData.bankDetails[0].bankName =
         bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
             ? bankOtherFieldController.text
@@ -3052,7 +3000,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   void updateAddressValues() {
-   
     userData.addresses[0].address =
         HealingMatchConstants.serviceProviderAddress;
     userData.addresses[0].area = HealingMatchConstants.serviceProviderArea;
@@ -3067,11 +3014,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         HealingMatchConstants.serviceProviderCurrentLatitude;
     userData.addresses[0].lon =
         HealingMatchConstants.serviceProviderCurrentLongitude;
-    
-      userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
-      userData.addresses[0].capitalAndPrefectureId =
-          stateDropDownValues.indexOf(myState) + 1;
-    
+
+    userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
+    userData.addresses[0].capitalAndPrefectureId =
+        stateDropDownValues.indexOf(myState) + 1;
   }
 
   void _showPicker(context, int index) {
@@ -3162,9 +3108,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
         setState(() {
-          if (registrationAddressType != '現在地を取得する') {
-            myCity = userData.addresses[0].cityName;
-          }
+          myCity = userData.addresses[0].cityName;
         });
       }
     });
@@ -3396,7 +3340,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる本人確認は1つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -3411,7 +3355,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる品質証明書は5つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -3536,11 +3480,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       String privateQualificationImage, int index) {
     return Container(
       padding: EdgeInsets.only(
-          left: index == 0 &&
+          left:
+              16.0 /*  index == 0 &&
                   (oldCertificateImages.length == 0 &&
                       certificateImages.length == 0)
-              ? 0.0
-              : 16.0),
+              ? 16.0
+              : 0.0 */
+          ),
       child: Column(
         children: [
           Stack(
@@ -3611,17 +3557,21 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     gender = userData.gender;
     phoneNumberController.text = userData.phoneNumber.toString();
     if (/* userData.storePhone.toString() != '' && */
-        userData.storePhone != null) {
+        userData.storePhone != null && userData.storePhone != 0) {
       storePhoneNumberController.text = userData.storePhone.toString();
     }
     mailAddressController.text = userData.email;
-    manualAddressController.text = userData.addresses[0].address;
+    manualAddressController.text = userData.addresses[0].area;
     //   myCity = userData.addresses[0].cityName;
     myState = userData.addresses[0].capitalAndPrefecture;
     _prefid = stateDropDownValues.indexOf(myState) + 1;
     _getCityDropDown(_prefid);
 
     identificationverify = userData.proofOfIdentityType;
+    if (userData.qulaificationCertImgUrl == "無資格") {
+      visible = true;
+      qualification = userData.qulaificationCertImgUrl;
+    }
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
     if (userData.bankDetails[0].bankName != '') {

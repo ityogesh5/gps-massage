@@ -44,7 +44,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  fontFamily: 'Open Sans'),
+                  fontFamily: 'NotoSansJP'),
             ),
           ),
           SizedBox(

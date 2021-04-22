@@ -267,7 +267,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                           EdgeInsets.all(8),
                                                       decoration: boxDecoration,
                                                       child: Text(
-                                                        'コロ才対策実施', //Corona Measure
+                                                        'コロナ対策実施', //Corona Measure
                                                         style: TextStyle(
                                                           fontSize: 9,
                                                           color: Colors.black,

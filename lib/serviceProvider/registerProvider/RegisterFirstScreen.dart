@@ -2141,6 +2141,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
+    //building Length Validation
+    if (buildingname.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('建物名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     //roomno Validation
     if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -2227,7 +2243,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderAddress = address;
     HealingMatchConstants.serviceProviderPrefecture = myState;
     HealingMatchConstants.serviceProviderCity = myCity;
-    HealingMatchConstants.serviceProviderArea = myCity;
+    HealingMatchConstants.serviceProviderArea = manualAddresss;
+    HealingMatchConstants.serviceProviderCityID =
+        cityDropDownValues.indexOf(myCity) + 1;
+    HealingMatchConstants.serviceProviderPrefectureID =
+        stateDropDownValues.indexOf(myState) + 1;
 
     ProgressDialogBuilder.hideCommonProgressDialog(context);
     NavigationRouter.switchToServiceProviderSecondScreen(context);

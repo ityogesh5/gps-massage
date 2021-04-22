@@ -127,7 +127,7 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
   TherapistReviewBloc therapistReviewBloc;
   List<TherapistReviewList> therapistReviewList = [];
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   int _totalReviews = 0;
 
@@ -275,7 +275,8 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  therapistReviewList.addAll(value.therapistsData.therapistReviewList);
+                  therapistReviewList
+                      .addAll(value.therapistsData.therapistReviewList);
                 }
               });
             }
@@ -311,12 +312,12 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > therapistReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                           // color: Colors.black,
                           )
                         : SvgPicture.asset(
                             "assets/images_gps/star_1.svg",
@@ -410,7 +411,7 @@ class _LoadProviderReviewRatingsByIdState
   TherapistReviewBloc therapistReviewBloc;
   List<TherapistReviewList> therapistReviewList = [];
   bool isLoading = false;
-  var _pageNumberType = 1;
+  var _pageNumberType = 0;
   var _pageSizeType = 10;
 
   @override
@@ -531,7 +532,8 @@ class _LoadProviderReviewRatingsByIdState
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  widget.therapistReviewList.addAll(value.therapistsData.therapistReviewList);
+                  widget.therapistReviewList
+                      .addAll(value.therapistsData.therapistReviewList);
                 }
               });
             }
@@ -567,7 +569,7 @@ class _LoadProviderReviewRatingsByIdState
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > therapistReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,

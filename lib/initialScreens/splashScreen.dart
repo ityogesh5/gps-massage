@@ -98,6 +98,7 @@ class _SplashScreenPageState extends State<SplashScreen>
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
+      providerLoggedOut =  value.getBool('isProviderLoggedOut');
       print('User Register : $userRegistered');
       if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');
