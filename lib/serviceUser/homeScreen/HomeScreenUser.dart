@@ -2733,31 +2733,27 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                             .user
                                                             .userName !=
                                                         null
-                                                    ? Expanded(
-                                                        child: Row(
-                                                          children: [
-                                                            Flexible(
-                                                              child: Text(
-                                                                '${therapistUsers[index].user.userName}',
-                                                                maxLines: therapistUsers[index]
-                                                                            .user
-                                                                            .userName
-                                                                            .length >
-                                                                        10
-                                                                    ? 2
-                                                                    : 1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                            '${therapistUsers[index].user.userName}',
+                                                            maxLines: therapistUsers[
+                                                                            index]
+                                                                        .user
+                                                                        .userName
+                                                                        .length >
+                                                                    10
+                                                                ? 2
+                                                                : 1,
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
                                                       )
                                                     : Text(
                                                         'お名前',

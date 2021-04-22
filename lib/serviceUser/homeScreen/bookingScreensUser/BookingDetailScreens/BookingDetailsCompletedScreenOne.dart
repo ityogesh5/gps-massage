@@ -3914,14 +3914,19 @@ class _BookingDetailsCompletedScreenOneState
                   ),
                   Spacer(),
                   FittedBox(
-                    child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                        child: SvgPicture.asset(
-                            'assets/images_gps/calendar.svg',
-                            height: 25,
-                            width: 25,
-                            color: Colors.lime)),
+                    child: GestureDetector(
+                      onTap: () {
+                        NavigationRouter.switchToChooseDate(context);
+                      },
+                      child: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+                          child: SvgPicture.asset(
+                              'assets/images_gps/calendar.svg',
+                              height: 25,
+                              width: 25,
+                              color: Colors.lime)),
+                    ),
                   )
                 ],
               ),
