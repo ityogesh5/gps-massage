@@ -1697,7 +1697,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   // CityList cityResponse;
   getCities(var prefId) async {
-    showOverlayLoader();
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
