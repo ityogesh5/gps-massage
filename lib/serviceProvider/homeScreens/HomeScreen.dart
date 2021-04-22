@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1377,8 +1378,21 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     }
   }
 
+  showOverlayLoader() {
+    Loader.show(
+      context,
+      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+    );
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+  }
+
   void getProviderDetails() async {
-    ProgressDialogBuilder.showCommonProgressDialog(context);
+    showOverlayLoader();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
@@ -1421,7 +1435,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     setState(() {
       status = 1;
     });
-    ProgressDialogBuilder.hideCommonProgressDialog(context);
+    hideLoader();
   }
 
   void showToolTip(String text) {

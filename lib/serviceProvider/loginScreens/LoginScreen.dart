@@ -6,6 +6,8 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -55,6 +57,19 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print("Credentials revoked");
       });
     }
+  }
+
+  showOverlayLoader() {
+    Loader.show(
+      context,
+      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+    );
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   @override
@@ -433,7 +448,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
 
     try {
-      ProgressDialogBuilder.showLoginProviderProgressDialog(context);
+      showOverlayLoader();
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -457,10 +472,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+          hideLoader();
           NavigationRouter.switchToServiceProviderBottomBar(context);
         } else {
-          ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+          hideLoader();
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -470,13 +485,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
           return;
         }
       } else {
-        ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+        hideLoader();
         print('Response Failure !!');
         return;
       }
     } catch (e) {
       print('Response Error !! ${e.toString()}');
-      ProgressDialogBuilder.hideLoginProviderProgressDialog(context);
+      hideLoader();
       return;
     }
   }
