@@ -59,6 +59,7 @@ class Data {
 class SearchList {
   SearchList({
     this.ratings,
+    this.leastPriceMin,
     this.id,
     this.userId,
     this.categoryId,
@@ -69,10 +70,12 @@ class SearchList {
     this.oneTwentyMin,
     this.oneFifityMin,
     this.oneEightyMin,
+    this.lowestPrice,
     this.user,
   });
 
   String ratings;
+  String leastPriceMin;
   int id;
   int userId;
   int categoryId;
@@ -83,10 +86,12 @@ class SearchList {
   int oneTwentyMin;
   int oneFifityMin;
   int oneEightyMin;
+  int lowestPrice;
   User user;
 
   factory SearchList.fromJson(Map<String, dynamic> json) => SearchList(
     ratings: json["ratings"],
+    leastPriceMin: json["leastPriceMin"],
     id: json["id"],
     userId: json["userId"],
     categoryId: json["categoryId"],
@@ -97,11 +102,13 @@ class SearchList {
     oneTwentyMin: json["oneTwentyMin"],
     oneFifityMin: json["oneFifityMin"],
     oneEightyMin: json["oneEightyMin"],
+    lowestPrice: json["lowestPrice"],
     user: User.fromJson(json["user"]),
   );
 
   Map<String, dynamic> toJson() => {
     "ratings": ratings,
+    "leastPriceMin": leastPriceMin,
     "id": id,
     "userId": userId,
     "categoryId": categoryId,
@@ -112,6 +119,7 @@ class SearchList {
     "oneTwentyMin": oneTwentyMin,
     "oneFifityMin": oneFifityMin,
     "oneEightyMin": oneEightyMin,
+    "lowestPrice": lowestPrice,
     "user": user.toJson(),
   };
 }
@@ -121,26 +129,50 @@ class User {
     this.id,
     this.userName,
     this.uploadProfileImgUrl,
+    this.storeType,
+    this.coronameasure,
+    this.businesstrip,
+    this.childrenMeasure,
+    this.genderOfService,
     this.addresses,
+    this.certificationUploads,
   });
 
   int id;
   String userName;
   dynamic uploadProfileImgUrl;
+  String storeType;
+  int coronameasure;
+  int businesstrip;
+  String childrenMeasure;
+  String genderOfService;
   List<Address> addresses;
+  List<dynamic> certificationUploads;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
     userName: json["userName"],
     uploadProfileImgUrl: json["uploadProfileImgUrl"],
+    storeType: json["storeType"],
+    coronameasure: json["coronameasure"],
+    businesstrip: json["businesstrip "],
+    childrenMeasure: json["childrenMeasure"],
+    genderOfService: json["genderOfService"],
     addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
+    certificationUploads: List<dynamic>.from(json["certification_uploads"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "userName": userName,
     "uploadProfileImgUrl": uploadProfileImgUrl,
+    "storeType": storeType,
+    "coronameasure": coronameasure,
+    "businesstrip ": businesstrip,
+    "childrenMeasure": childrenMeasure,
+    "genderOfService": genderOfService,
     "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+    "certification_uploads": List<dynamic>.from(certificationUploads.map((x) => x)),
   };
 }
 
@@ -150,6 +182,7 @@ class Address {
     this.lat,
     this.lon,
     this.geomet,
+    this.address,
     this.distance,
   });
 
@@ -157,6 +190,7 @@ class Address {
   double lat;
   double lon;
   Geomet geomet;
+  String address;
   double distance;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
@@ -164,6 +198,7 @@ class Address {
     lat: json["lat"].toDouble(),
     lon: json["lon"].toDouble(),
     geomet: Geomet.fromJson(json["geomet"]),
+    address: json["address"],
     distance: json["distance"].toDouble(),
   );
 
@@ -172,6 +207,7 @@ class Address {
     "lat": lat,
     "lon": lon,
     "geomet": geomet.toJson(),
+    "address": address,
     "distance": distance,
   };
 }

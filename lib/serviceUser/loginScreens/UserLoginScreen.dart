@@ -5,6 +5,8 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -24,22 +26,6 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-  /*List<Address> addressFromJson(String str) =>
-      List<Address>.from(json.decode(str).map((x) => Address.fromJson(x)));
-
-  String addressToJson(List<Address> data) =>
-      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-  void saveData(String key, List<Address> value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, addressToJson(value));
-  }
-
-  Future<List<Address>> getData(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    String keyString = prefs.getString(key);
-    return Future.value(addressFromJson(keyString));
-  }*/
 
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
@@ -65,7 +51,18 @@ class _UserLoginState extends State<UserLogin> {
     // TODO: implement initState
     super.initState();
   }
+  showOverlayLoader() {
+    Loader.show(
+      context,
+      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+    );
+  }
 
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -472,7 +469,7 @@ class _UserLoginState extends State<UserLogin> {
     }
 
     try {
-      ProgressDialogBuilder.showLoginUserProgressDialog(context);
+      showOverlayLoader();
 
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
@@ -555,10 +552,10 @@ class _UserLoginState extends State<UserLogin> {
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          hideLoader();
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else {
-          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          hideLoader();
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -568,12 +565,12 @@ class _UserLoginState extends State<UserLogin> {
           return;
         }
       } else {
-        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+        hideLoader();
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+      hideLoader();
       print('Response catch error : ${e.toString()}');
       return;
     }
