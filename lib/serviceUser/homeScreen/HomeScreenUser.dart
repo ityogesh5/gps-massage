@@ -2916,7 +2916,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                             Axis.horizontal,
                                                         allowHalfRating: true,
                                                         itemCount: 5,
-                                                        itemSize: 25,
+                                                        itemSize: 22,
                                                         itemPadding: EdgeInsets
                                                             .symmetric(
                                                                 horizontal:
