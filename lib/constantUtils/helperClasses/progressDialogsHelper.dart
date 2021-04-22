@@ -30,8 +30,7 @@ class ProgressDialogBuilder {
   // Adding address
   static void showAddAddressProgressDialog(BuildContext context) {
     progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '住所の追加中...',
-        dismissAfter: Duration(seconds: 3));
+        textToBeDisplayed: '住所の追加中...', dismissAfter: Duration(seconds: 3));
   }
 
   static void hideAddAddressProgressDialog(BuildContext context) {
@@ -156,11 +155,13 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
-  static void showOverlayLoader(BuildContext context) {
+  static void showLoader(BuildContext context) {
     Loader.show(context,
-        progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-        themeData: Theme.of(context).copyWith(accentColor: Colors.limeAccent));
-    Future.delayed(Duration(seconds: 5), () {
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+  }
+
+  static void hideLoader(BuildContext context) {
+    Future.delayed(Duration(seconds: 0), () {
       Loader.hide();
     });
   }

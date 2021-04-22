@@ -73,7 +73,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     //getEditUserFields();
     getUserProfileData();
-    _getStates();
+
   }
 
   @override
@@ -87,7 +87,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   }
 
   hideLoader() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 0), () {
       Loader.hide();
     });
   }
@@ -1697,7 +1697,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   // CityList cityResponse;
   getCities(var prefId) async {
-    showOverlayLoader();
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
@@ -2292,6 +2291,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             HealingMatchConstants.userEditPlaceForMassageOther;
         userAreaController.text = HealingMatchConstants.userEditArea;
         _mySearchRadiusDistance = HealingMatchConstants.searchDistanceRadius;
+        _getStates();
         _sharedPreferences.then((value) {
           var addressData = value.getString('addressData');
           isDeleted = value.getBool('subAddressDeleted');
@@ -2313,6 +2313,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               });
             }
           } catch (e) {
+            hideLoader();
             e.toString();
           }
         });
@@ -2331,7 +2332,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('UserBuildName: $rUserBuildName');
       print('UserRoomNo: $rUserRoomNo');
 
-      hideLoader();
     } catch (e) {
       print(e.toString());
       hideLoader();
