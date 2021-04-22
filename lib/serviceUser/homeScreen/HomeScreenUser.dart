@@ -2737,14 +2737,16 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                         children: [
                                                           Text(
                                                             '${therapistUsers[index].user.userName}',
-                                                            maxLines: therapistUsers[
-                                                                            index]
-                                                                        .user
-                                                                        .userName
-                                                                        .length >
+                                                            maxLines:
+                                                                therapistUsers[
+                                                                        index]
+                                                                    .user
+                                                                    .userName
+                                                                    .length,
+                                                            /*>TODO
                                                                     10
                                                                 ? 2
-                                                                : 1,
+                                                                : 1,*/
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors
