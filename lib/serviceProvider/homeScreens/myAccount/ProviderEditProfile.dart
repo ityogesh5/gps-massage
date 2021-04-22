@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -3328,12 +3329,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   void showProgressDialog() {
-    _progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5)); */
   }
 
   void hideProgressDialog() {
-    _progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /* _progressDialog.dismissProgressDialog(context); */
   }
 
   void showIdSelectError() {

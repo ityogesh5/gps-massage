@@ -458,8 +458,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
             "isTherapist": "1"
           }));
       print('Status code : ${response.statusCode}');
+
       if (StatusCodeHelper.isLoginSuccess(
           response.statusCode, context, response.body)) {
+        hideLoader();
         print('Response Success');
         final Map loginResponse = json.decode(response.body);
         loginResponseModel = LoginResponseModel.fromJson(loginResponse);
@@ -472,10 +474,8 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          hideLoader();
           NavigationRouter.switchToServiceProviderBottomBar(context);
         } else {
-          hideLoader();
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -485,7 +485,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
           return;
         }
       } else {
-        hideLoader();
         print('Response Failure !!');
         return;
       }
