@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -80,12 +82,17 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   void showProgressDialog() {
-    _progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5)); */
   }
 
   void hideProgressDialog() {
-    _progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /* _progressDialog.dismissProgressDialog(context); */
   }
 
   @override
@@ -1926,6 +1933,7 @@ class _ShiftServiceState extends State<ShiftService> {
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
           response.statusCode, context, response.body)) {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         final Map updateResponse = json.decode(response.body);
         updateResponseModel = LoginResponseModel.fromJson(updateResponse);
         HealingMatchConstants.userData = updateResponseModel.data;

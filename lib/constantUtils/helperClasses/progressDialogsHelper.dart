@@ -18,13 +18,18 @@ class ProgressDialogBuilder {
 
 //Register Provider
   static void showProviderRegisterProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    /* progressDialog.showProgressDialog(context,
         textToBeDisplayed: '${HealingMatchConstants.registerProgressText}',
-        dismissAfter: Duration(seconds: 15));
+        dismissAfter: Duration(seconds: 15)); */
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
   }
 
   static void hideRegisterProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /*  progressDialog.dismissProgressDialog(context); */
   }
 
   // Adding address
@@ -50,13 +55,18 @@ class ProgressDialogBuilder {
 
   // Getting Cities
   static void showGetCitiesProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  progressDialog.showProgressDialog(context,
         textToBeDisplayed: '${HealingMatchConstants.getCityProgressText}',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideGetCitiesProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /*   progressDialog.dismissProgressDialog(context); */
   }
 
   // Login user
@@ -72,72 +82,104 @@ class ProgressDialogBuilder {
 
 //user forgetPassword
   static void showForgetPasswordUserProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*   progressDialog.showProgressDialog(context,
         //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideForgetPasswordUserProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    /* progressDialog.dismissProgressDialog(context); */
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   //user change password
   static void showChangePasswordUserProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  progressDialog.showProgressDialog(context,
         //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideChangePasswordUserProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    /*  progressDialog.dismissProgressDialog(context); */
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   //verify otp
   static void showVerifyOtpProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*    progressDialog.showProgressDialog(context,
         textToBeDisplayed: 'ユーザー認証コードの確認中。。。',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideVerifyOtpProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    /*  progressDialog.dismissProgressDialog(context); */
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   // Login Provider
   static void showLoginProviderProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  progressDialog.showProgressDialog(context,
         textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideLoginProviderProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    /*   progressDialog.dismissProgressDialog(context); */ Future.delayed(
+        Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   //For Normal Loading of Progress Dialog
   static void showCommonProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
-        textToBeDisplayed: 'お待ちください。', dismissAfter: Duration(seconds: 5));
+    /*  progressDialog.showProgressDialog(context,
+        textToBeDisplayed: 'お待ちください。', dismissAfter: Duration(seconds: 5)); */
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
   }
 
   static void hideCommonProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    /*   progressDialog.dismissProgressDialog(context); */
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
   }
 
   // upadte user details 更新中。
   static void showUserDetailsUpdateProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /* progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideUserDetailsUpdateProgressDialog(BuildContext context) {
-    progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /*   progressDialog.dismissProgressDialog(context); */
   }
 
   // update provider shop description details 更新中。
   static void showProviderShopDescription(BuildContext context) {
-    progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '更新中。。', dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideProviderShopDescription(BuildContext context) {
@@ -146,9 +188,11 @@ class ProgressDialogBuilder {
 
 //  Ratings And Review Dialog
   static void showRatingsAndReviewProgressDialog(BuildContext context) {
-    progressDialog.showProgressDialog(context,
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*   progressDialog.showProgressDialog(context,
         //textToBeDisplayed: '${HealingMatchConstants.getLoginProgressText}',
-        dismissAfter: Duration(seconds: 5));
+        dismissAfter: Duration(seconds: 5)); */
   }
 
   static void hideRatingsAndReviewProgressDialog(BuildContext context) {
