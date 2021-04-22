@@ -105,7 +105,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  var _prefId;
+  var _prefId, _cityId;
 
   showHide() {
     setState(() {
@@ -664,7 +664,8 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: phoneNumberController,
                         maxLength: 10,
                         autofocus: false,
-                        keyboardType: TextInputType.numberWithOptions(signed: true),
+                        keyboardType:
+                            TextInputType.numberWithOptions(signed: true),
                         onEditingComplete: () {
                           var phnNum = phoneNumberController.text.toString();
                           var userPhoneNumber =
@@ -1141,6 +1142,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                                               .serviceUserCity =
                                                           _myCity;
                                                       //print(_myBldGrp.toString());
+                                                      _cityId =
+                                                          cityDropDownValues
+                                                                  .indexOf(
+                                                                      value) +
+                                                              1;
                                                     });
                                                   },
                                                   dataSource:

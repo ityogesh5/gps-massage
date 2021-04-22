@@ -8,6 +8,7 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 
 import 'package:http/http.dart' as http;
@@ -117,6 +118,10 @@ class HealingMatchConstants {
   static const String DELETE_SUB_ADDRESS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
 
+  // delete user sub address
+  static const String FETCH_THERAPIST_SEARCH_RESULTS =
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -159,6 +164,9 @@ class HealingMatchConstants {
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
   static String serviceUserAddress = '';
+  static String searchKeyWordValue;
+  static var searchAddressLatitude;
+  static var searchAddressLongitude;
   static String serviceUserPrefecture = '';
   static String serviceUserPrefectureId = '';
   static String serviceUserCity = '';
@@ -168,6 +176,7 @@ class HealingMatchConstants {
   static String userAddress = '';
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
+  static List<SearchList> searchList = new List<SearchList>();
 
   // User Register otp
   static String serviceUserOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
@@ -418,7 +427,7 @@ class HealingMatchConstants {
   static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
-  static String searchKeyword = 'キーワードでさがす';
+  static String searchKeywordHint = 'キーワードでさがす';
   static String searchAreaTxt = 'さがすエリアを選んでください';
   static String searchGpsIconTxt = '現在地';
   static String searchHomeIconTxt = '自宅';

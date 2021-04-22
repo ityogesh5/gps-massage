@@ -9,6 +9,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/Ther
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
@@ -27,6 +28,9 @@ class ServiceUserAPIProvider {
   // DeleteSubAddressModel
   static DeleteSubAddressModel _deleteSubAddressModel =
       new DeleteSubAddressModel();
+
+  static SearchTherapistResultsModel _searchTherapistResultsModel =
+      new SearchTherapistResultsModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers() async {
@@ -178,5 +182,40 @@ class ServiceUserAPIProvider {
       print('Exception in delete !!');
     }
     return _deleteSubAddressModel;
+  }
+
+  // get search screen user therapist results
+  static Future<SearchTherapistResultsModel> getTherapistSearchResults(
+      BuildContext context, int pageNumber, int pageSize) async {
+    try {
+      final url =
+          '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "searchKeyword": HealingMatchConstants.searchKeyWordValue,
+            "userAddress": HealingMatchConstants.searchUserAddress,
+            "serviceType": HealingMatchConstants.serviceType,
+            "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,
+            "serviceTimeCriteria": HealingMatchConstants.isTimeCriteria,
+            "selectedTime": HealingMatchConstants.dateTime.toIso8601String(),
+            "searchDistanceRadius": HealingMatchConstants.searchDistanceRadius,
+            "latitude": HealingMatchConstants.searchAddressLatitude,
+            "longitude": HealingMatchConstants.searchAddressLongitude,
+          }));
+      print('Search results Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getDeletedResponse = json.decode(response.body);
+        _searchTherapistResultsModel =
+            SearchTherapistResultsModel.fromJson(getDeletedResponse);
+      }
+    } catch (e) {
+      print('Exception Search API : ${e.toString()}');
+    }
+    return _searchTherapistResultsModel;
   }
 }
