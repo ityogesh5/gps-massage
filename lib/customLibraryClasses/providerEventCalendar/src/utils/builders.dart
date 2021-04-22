@@ -72,67 +72,71 @@ class DefaultBuilders {
         padding: EdgeInsets.all(4.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  event.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                ),
-                event.description == '0'
-                    ? Row(
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images_gps/processing.svg",
-                            height: 20.0,
-                            width: 20.0,
-                          ),
-                          /*  Icon(
-                            Icons.hourglass_top_outlined,
-                            color: Color.fromRGBO(255, 193, 7, 1),
-                          ), */
-                          Text("承認待ち",
-                              style: TextStyle(
-                                color: Color.fromRGBO(255, 193, 7, 1),
-                              ))
-                        ],
-                      )
-                    : Row(
-                        children: [
-                          Text("承認済み", style: TextStyle(color: Colors.black))
-                        ],
-                      )
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    event.title,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                  ),
+                  event.description == '0'
+                      ? Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/images_gps/processing.svg",
+                              height: 20.0,
+                              width: 20.0,
+                            ),
+                            /*  Icon(
+                              Icons.hourglass_top_outlined,
+                              color: Color.fromRGBO(255, 193, 7, 1),
+                            ), */
+                            Text("承認待ち",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(255, 193, 7, 1),
+                                ))
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Text("承認済み", style: TextStyle(color: Colors.black))
+                          ],
+                        )
+                ],
+              ),
             ),
             SizedBox(
               height: 8,
             ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  "assets/images_gps/clock.svg",
-                  height: 14.77,
-                  width: 16.0,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    "assets/images_gps/clock.svg",
+                    height: 14.77,
+                    width: 16.0,
                   ),
-                ),
-                Text(
-                  ' 60分 ',
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(102, 102, 102, 1),
+                  SizedBox(
+                    width: 8,
                   ),
-                ),
-              ],
+                  Text(
+                    '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    ' 60分 ',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ));
