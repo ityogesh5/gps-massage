@@ -277,21 +277,26 @@ class _ProviderConfirmReservationScreenState
                               );
                             });
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
+                      child: Card(
+                        elevation: 4.0,
+                        shape: CircleBorder(),
+                        margin: EdgeInsets.all(0.0),
+                        child: Container(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset(
+                              "assets/images_gps/cancel.svg",
+                              color: Color.fromRGBO(217, 217, 217, 1),
+                              height: 15.0,
+                              width: 15.0,
                             ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset(
-                            "assets/images_gps/cancel.svg",
-                            color: Color.fromRGBO(217, 217, 217, 1),
-                            height: 20.0,
-                            width: 20.0,
                           ),
                         ),
                       ),
@@ -300,22 +305,18 @@ class _ProviderConfirmReservationScreenState
                 : Container(),
             index == 0
                 ? Positioned(
-                    top: 88.0,
+                    top: 85.0,//88.0
                     right: 10.0,
                     child: InkWell(
                       onTap: () {
                         print('abc');
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                      child: Card(
+                        elevation: 4.0,
+                        shape: CircleBorder(),
+                        margin: EdgeInsets.all(0.0),
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: SvgPicture.asset(
                             "assets/images_gps/mark_completed.svg",
                             height: 20.0,
@@ -335,14 +336,10 @@ class _ProviderConfirmReservationScreenState
                         NavigationRouter.switchToProviderReviewScreen(
                             context, 0);
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
+                      child: Card(
+                        elevation: 4.0,
+                        shape: CircleBorder(),
+                        margin: EdgeInsets.all(0.0),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: SvgPicture.asset(
@@ -364,20 +361,25 @@ class _ProviderConfirmReservationScreenState
                         NavigationRouter.switchToProviderReviewScreenSent(
                             context);
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
+                      child: Card(
+                        elevation: 4.0,
+                        shape: CircleBorder(),
+                        margin: EdgeInsets.all(0.0),
+                        child: Container(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset(
+                              "assets/images_gps/givenReview.svg",
+                              height: 15.0,
+                              width: 15.0,
                             ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset(
-                            "assets/images_gps/givenReview.svg",
-                            height: 20.0,
-                            width: 20.0,
                           ),
                         ),
                       ),

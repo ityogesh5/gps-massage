@@ -56,7 +56,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
-  //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     getProviderDetails();
     dateString = '';
     displayDay = today;
@@ -175,6 +175,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
+                                                  color: Colors.white,
                                                   border: Border.all(
                                                     color: Colors.grey[400],
                                                   ),
@@ -184,8 +185,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       const EdgeInsets.all(8.0),
                                                   child: SvgPicture.asset(
                                                     "assets/images_gps/info.svg",
-                                                    height: 15.0,
-                                                    width: 15.0,
+                                                    height: 10.0,
+                                                    width: 10.0,
                                                     key: key,
                                                     color: Colors.black,
                                                   ),
@@ -877,29 +878,37 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                           SizedBox(width: 20),
                           Padding(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: Color.fromRGBO(228, 228, 228, 1),
-                                  )),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        NavigationRouter.switchToProviderCalendarScreen(context);
-                                      },
-                                      child: SvgPicture.asset(
-                                        "assets/images_gps/calendar.svg",
-                                        height: 25.0,
-                                        width: 25.0,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 8.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                      color: Color.fromRGBO(228, 228, 228, 1),
+                                    )),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          NavigationRouter
+                                              .switchToProviderCalendarScreen(
+                                                  context);
+                                        },
+                                        child: SvgPicture.asset(
+                                          "assets/images_gps/calendar.svg",
+                                          height: 25.0,
+                                          width: 25.0,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

@@ -1662,7 +1662,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     );
   }
 
- 
   validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
