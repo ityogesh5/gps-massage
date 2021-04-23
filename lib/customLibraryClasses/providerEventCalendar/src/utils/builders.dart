@@ -78,7 +78,8 @@ class DefaultBuilders {
                 children: [
                   Text(
                     event.title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
                   event.description == '0'
                       ? Row(

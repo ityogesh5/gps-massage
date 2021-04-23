@@ -23,9 +23,8 @@ class ViewUserProfile extends StatefulWidget {
 }
 
 class _ViewUserProfileState extends State<ViewUserProfile> {
-
   Future<SharedPreferences> _sharedPreferences =
-  SharedPreferences.getInstance();
+      SharedPreferences.getInstance();
   var userProfileImage;
   String userName;
 
@@ -115,57 +114,52 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                       SizedBox(width: 35.0),
                       HealingMatchConstants.userProfileImage != null
                           ? CachedNetworkImage(
-                        imageUrl:
-                        HealingMatchConstants.userProfileImage,
-                        filterQuality: FilterQuality.high,
-                        fadeInCurve: Curves.easeInSine,
-                        imageBuilder: (context, imageProvider) =>
-                            Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover),
+                              imageUrl: HealingMatchConstants.userProfileImage,
+                              filterQuality: FilterQuality.high,
+                              fadeInCurve: Curves.easeInSine,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
                               ),
-                            ),
-                        placeholder: (context, url) =>
-                            SpinKitDoubleBounce(
-                                color: Colors.lightGreenAccent),
-                        errorWidget: (context, url, error) =>
-                            Container(
-                              width: 80.0,
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                Border.all(color: Colors.black12),
-                                image: DecorationImage(
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder_image.png'),
-                                    fit: BoxFit.cover),
+                              placeholder: (context, url) =>
+                                  SpinKitDoubleBounce(
+                                      color: Colors.lightGreenAccent),
+                              errorWidget: (context, url, error) => Container(
+                                width: 80.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.black12),
+                                  image: DecorationImage(
+                                      image: new AssetImage(
+                                          'assets/images_gps/placeholder_image.png'),
+                                      fit: BoxFit.cover),
+                                ),
                               ),
-                            ),
-                      )
+                            )
                           : new Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.black12),
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                                fit: BoxFit.cover,
-                                image: new AssetImage(
-                                    'assets/images_gps/placeholder_image.png')),
-                          )),
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.black12),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: new AssetImage(
+                                        'assets/images_gps/placeholder_image.png')),
+                              )),
                       SizedBox(width: 10.0),
                       CircleAvatar(
                         radius: 16,
                         backgroundColor: Colors.grey[100],
                         child: CircleAvatar(
-                          backgroundColor:
-                          Color.fromRGBO(255, 255, 255, 1),
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
                           radius: 15,
                           child: IconButton(
                               icon: Icon(
@@ -176,7 +170,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               onPressed: () {
                                 NavigationRouter
                                     .switchToServiceUserEditProfileScreen(
-                                    context, userProfileImage);
+                                        context, userProfileImage);
                               }),
                         ),
                       )
@@ -184,21 +178,21 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                   ),
                   SizedBox(height: 20.0),
                   HealingMatchConstants.serviceUserName == null ||
-                      HealingMatchConstants.serviceUserName.isEmpty
+                          HealingMatchConstants.serviceUserName.isEmpty
                       ? new Text(
-                    'お名前',
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.bold),
-                  )
+                          'お名前',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold),
+                        )
                       : new Text(
-                    '${HealingMatchConstants.serviceUserName}',
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.bold),
-                  ),
+                          '${HealingMatchConstants.serviceUserName}',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold),
+                        ),
                   Chip(
                       avatar: SvgPicture.asset(
                         'assets/images_gps/phone.svg',
@@ -214,24 +208,23 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                               topLeft: Radius.circular(10),
                               bottomLeft: Radius.circular(10))),
                       label: HealingMatchConstants
-                          .serviceUserPhoneNumber.isEmpty ||
-                          HealingMatchConstants
-                              .serviceUserPhoneNumber ==
-                              null
+                                  .serviceUserPhoneNumber.isEmpty ||
+                              HealingMatchConstants.serviceUserPhoneNumber ==
+                                  null
                           ? Text(
-                        "電話番号",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      )
+                              "電話番号",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            )
                           : Text(
-                        "${HealingMatchConstants.serviceUserPhoneNumber}",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      )),
+                              "${HealingMatchConstants.serviceUserPhoneNumber}",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            )),
                   SizedBox(height: 20.0),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -248,10 +241,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                           ),
                           borderRadius: BorderRadius.circular(16.0),
                           color: Colors.white),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.85,
                       // height: MediaQuery.of(context).size.height * 0.42,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -266,25 +256,23 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   color: iconColor,
                                 ),
                                 HealingMatchConstants
-                                    .serviceUserEmailAddress
-                                    .isEmpty ||
-                                    HealingMatchConstants
-                                        .serviceUserEmailAddress ==
-                                        null
+                                            .serviceUserEmailAddress.isEmpty ||
+                                        HealingMatchConstants
+                                                .serviceUserEmailAddress ==
+                                            null
                                     ? Text('メールアドレス',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500))
                                     : Text(
-                                    '${HealingMatchConstants
-                                        .serviceUserEmailAddress}',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.0)),
+                                        '${HealingMatchConstants.serviceUserEmailAddress}',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.0)),
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
@@ -294,85 +282,79 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   width: iconWidth,
                                   color: iconColor,
                                 ),
-                                HealingMatchConstants
-                                    .serviceUserDOB.isEmpty ||
-                                    HealingMatchConstants
-                                        .serviceUserDOB ==
-                                        null
+                                HealingMatchConstants.serviceUserDOB.isEmpty ||
+                                        HealingMatchConstants.serviceUserDOB ==
+                                            null
                                     ? Text('生年月日',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500))
                                     : Text(
-                                    '${HealingMatchConstants.serviceUserDOB}',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500)),
+                                        '${HealingMatchConstants.serviceUserDOB}',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500)),
                                 CircleAvatar(
                                   radius: 15,
                                   backgroundColor: Colors.grey[200],
                                   child: HealingMatchConstants
-                                      .serviceUserAge.isEmpty ||
-                                      HealingMatchConstants
-                                          .serviceUserAge ==
-                                          null
+                                              .serviceUserAge.isEmpty ||
+                                          HealingMatchConstants
+                                                  .serviceUserAge ==
+                                              null
                                       ? Text(
-                                    '0',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Colors.black,
-                                        fontWeight:
-                                        FontWeight.w500),
-                                  )
+                                          '0',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NotoSansJP',
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500),
+                                        )
                                       : Text(
-                                    '${HealingMatchConstants.serviceUserAge}',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP',
-                                        color: Colors.black,
-                                        fontWeight:
-                                        FontWeight.w500),
-                                  ),
+                                          '${HealingMatchConstants.serviceUserAge}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'NotoSansJP',
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                 )),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
                                 SvgPicture.asset(
                                   HealingMatchConstants.serviceUserGender
-                                      .contains('男性')
+                                          .contains('男性')
                                       ? 'assets/images_gps/male.svg'
-                                      : HealingMatchConstants
-                                      .serviceUserGender
-                                      .contains('女性')
-                                      ? 'assets/images_gps/female.svg'
-                                      : "assets/images_gps/profile_pic_user.svg",
+                                      : HealingMatchConstants.serviceUserGender
+                                              .contains('女性')
+                                          ? 'assets/images_gps/female.svg'
+                                          : "assets/images_gps/profile_pic_user.svg",
                                   height: iconHeight,
                                   width: iconWidth,
                                   color: iconColor,
                                 ),
                                 HealingMatchConstants
-                                    .serviceUserGender.isEmpty ||
-                                    HealingMatchConstants
-                                        .serviceUserGender ==
-                                        null
+                                            .serviceUserGender.isEmpty ||
+                                        HealingMatchConstants
+                                                .serviceUserGender ==
+                                            null
                                     ? Text('性別',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500))
                                     : Text(
-                                    '${HealingMatchConstants
-                                        .serviceUserGender}',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500)),
+                                        '${HealingMatchConstants.serviceUserGender}',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500)),
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
@@ -383,25 +365,23 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   color: iconColor,
                                 ),
                                 HealingMatchConstants
-                                    .serviceUserOccupation
-                                    .isEmpty ||
-                                    HealingMatchConstants
-                                        .serviceUserOccupation ==
-                                        null
+                                            .serviceUserOccupation.isEmpty ||
+                                        HealingMatchConstants
+                                                .serviceUserOccupation ==
+                                            null
                                     ? Text('職業',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500))
                                     : Text(
-                                    '${HealingMatchConstants
-                                        .serviceUserOccupation}',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500)),
+                                        '${HealingMatchConstants.serviceUserOccupation}',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500)),
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
@@ -412,26 +392,26 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   color: iconColor,
                                 ),
                                 HealingMatchConstants
-                                    .serviceUserAddress.isEmpty ||
-                                    HealingMatchConstants
-                                        .serviceUserAddress ==
-                                        null
+                                            .serviceUserAddress.isEmpty ||
+                                        HealingMatchConstants
+                                                .serviceUserAddress ==
+                                            null
                                     ? Text(
-                                  '436-C鉄道地区ウィンターペットアラコナム。',
-                                  style: TextStyle(
-                                      fontFamily: 'NotoSansJP',
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                )
+                                        '436-C鉄道地区ウィンターペットアラコナム。',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                      )
                                     : Text(
-                                  '${HealingMatchConstants.serviceUserAddress}',
-                                  style: TextStyle(
-                                      fontFamily: 'NotoSansJP',
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                                        '${HealingMatchConstants.serviceUserAddress}',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                 SizedBox(width: 0)),
                             Divider(color: Colors.grey[300], height: 1),
                             MyRow(
@@ -441,23 +421,21 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
                                   width: iconWidth,
                                   color: iconColor,
                                 ),
-                                HealingMatchConstants
-                                    .searchDistanceRadius !=
-                                    null
+                                HealingMatchConstants.searchDistanceRadius !=
+                                        null
                                     ? Text(
-                                    'セラピスト検索範囲${HealingMatchConstants
-                                        .searchDistanceRadius}Km距離。',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500))
+                                        'セラピスト検索範囲${HealingMatchConstants.searchDistanceRadius}Km距離。',
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500))
                                     : Text('セラピスト検索範囲10Km距離。',
-                                    style: TextStyle(
-                                        fontFamily: 'NotoSansJP',
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500)),
+                                        style: TextStyle(
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500)),
                                 SizedBox(width: 0))
                           ],
                         ),
@@ -500,8 +478,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
         color: Colors.black,
         size: 30.0,
       ),
-      itemBuilder: (BuildContext context) =>
-      <PopupMenuEntry<String>>[
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         PopupMenuItem<String>(
           value: "1",
           child: Text(
@@ -554,8 +531,8 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
   }
 
   getUserProfileData() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     try {
-      showOverlayLoader();
       var userListApiProvider = ServiceUserAPIProvider.getUserDetails(
           context, HealingMatchConstants.serviceUserID);
       userListApiProvider.then((value) {
@@ -575,10 +552,13 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
           HealingMatchConstants.serviceUserGender = value.data.gender;
           HealingMatchConstants.serviceUserOccupation =
               value.data.userOccupation;
+          HealingMatchConstants.searchDistanceRadius =
+              value.data.userSearchRadiusDistance;
+          print('User Distance :${HealingMatchConstants.searchDistanceRadius}');
           for (int i = 0; i < value.data.addresses.length; i++) {
             if (value.data.addresses[0].isDefault) {
-              HealingMatchConstants.constantUserAddressValuesList =
-                  value.data.addresses.cast<Addresses>();
+              HealingMatchConstants.userAddressesList =
+                  value.data.addresses.cast<UserAddresses>();
               HealingMatchConstants.serviceUserID =
                   value.data.addresses[0].userId.toString();
               HealingMatchConstants.serviceUserAddress =
@@ -600,6 +580,7 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
               print('Is default false');
             }
           }
+
           print(
               'User Profile image : ${HealingMatchConstants.userProfileImage}');
           status = 1;
@@ -610,32 +591,27 @@ class _ViewUserProfileState extends State<ViewUserProfile> {
       print('serviceUserName: ${HealingMatchConstants.serviceUserName}');
       print('userOccupation: ${HealingMatchConstants.userEditUserOccupation}');
       print(
-          'serviceUserPhoneNumber: ${HealingMatchConstants
-              .serviceUserPhoneNumber}');
+          'serviceUserPhoneNumber: ${HealingMatchConstants.serviceUserPhoneNumber}');
       print(
-          'serviceUserEmailAddress: ${HealingMatchConstants
-              .serviceUserEmailAddress}');
+          'serviceUserEmailAddress: ${HealingMatchConstants.serviceUserEmailAddress}');
       print('serviceUserDOB: ${HealingMatchConstants.serviceUserDOB}');
       print('serviceUserAge: ${HealingMatchConstants.serviceUserAge}');
       print('serviceUserGender: ${HealingMatchConstants.serviceUserGender}');
       print(
-          'serviceUserOccupation: ${HealingMatchConstants
-              .serviceUserOccupation}');
+          'serviceUserOccupation: ${HealingMatchConstants.serviceUserOccupation}');
       print('userEditCity: ${HealingMatchConstants.userEditCity}');
       print('userEditPrefecture: ${HealingMatchConstants.userEditPrefecture}');
       print(
-          'userEditPlaceForMassage: ${HealingMatchConstants
-              .userEditPlaceForMassage}');
+          'userEditPlaceForMassage: ${HealingMatchConstants.userEditPlaceForMassage}');
       print(
-          'userEditPlaceForMassageOther: ${HealingMatchConstants
-              .userEditPlaceForMassageOther}');
+          'userEditPlaceForMassageOther: ${HealingMatchConstants.userEditPlaceForMassageOther}');
       print('userEditArea: ${HealingMatchConstants.userEditArea}');
       print('userEditBuildName: ${HealingMatchConstants.userEditBuildName}');
       print('userEditRoomNo: ${HealingMatchConstants.userEditRoomNo}');
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       //ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print(e.toString());
       //ProgressDialogBuilder.hideCommonProgressDialog(context);
     }

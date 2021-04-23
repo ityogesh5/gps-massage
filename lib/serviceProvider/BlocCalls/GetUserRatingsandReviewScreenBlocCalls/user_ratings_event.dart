@@ -12,8 +12,7 @@ class FetchUserReviewEvent extends UserReviewEvent {
       this.accessToken, this.userId, this.pageNumber, this.pageSize);
 
   @override
-  List<Object> get props =>
-      [accessToken, userId, pageNumber, pageSize];
+  List<Object> get props => [accessToken, userId, pageNumber, pageSize];
 }
 
 class RefreshEvent extends UserReviewEvent {

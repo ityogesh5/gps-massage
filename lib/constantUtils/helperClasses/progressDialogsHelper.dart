@@ -155,7 +155,7 @@ class ProgressDialogBuilder {
     progressDialog.dismissProgressDialog(context);
   }
 
-  static void showLoader(BuildContext context) {
+  static void showOverlayLoader(BuildContext context) {
     Loader.show(context,
         progressIndicator: SpinKitThreeBounce(color: Colors.lime));
   }

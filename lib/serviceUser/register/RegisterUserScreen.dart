@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -1400,61 +1398,8 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      currentLocationPlaceMark = p[0];
-
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
-
-      setState(() {
-        _currentAddress =
-            '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
-            ',${currentLocationPlaceMark.country}';
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print(
-              'Current address : $_currentAddress : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceUserCity =
-              currentLocationPlaceMark.locality;
-          HealingMatchConstants.serviceUserPrefecture =
-              currentLocationPlaceMark.administrativeArea;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   Future<Map<String, dynamic>> _registerUserDetails() async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var phnNum = phoneNumberController.text.toString();
@@ -1484,7 +1429,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //gps address Validation
 
     if (userName.length > 20) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1512,7 +1457,7 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1543,7 +1488,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1575,7 +1520,7 @@ class _RegisterUserState extends State<RegisterUser> {
     // Age 18+ validation
 
     if (ageOfUser != 0 && ageOfUser < 18) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1606,7 +1551,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user gender validation
     if (_myGender == null || _myGender.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1637,7 +1582,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user Occupation validation
     if (_myOccupation == null || _myOccupation.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1670,7 +1615,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1700,7 +1645,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!(email.contains(regexMail))) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1729,7 +1674,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (email.length > 50) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1758,7 +1703,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if ((email.contains(regexEmojis))) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1788,7 +1733,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length < 8) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1818,7 +1763,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length > 16) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1849,7 +1794,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (password != confirmPassword) {
       //print("Entering password state");
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1878,7 +1823,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (password.contains(regexEmojis)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1910,7 +1855,7 @@ class _RegisterUserState extends State<RegisterUser> {
     // user place for massage validation
     if (_myCategoryPlaceForMassage == null ||
         _myCategoryPlaceForMassage.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1941,7 +1886,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //place for service (other option)
     if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
         (otherCategory == null || otherCategory.isEmpty)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1971,7 +1916,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     // user perfecture validation
     if (_myPrefecture == null || _myPrefecture.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2002,7 +1947,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2033,7 +1978,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2214,17 +2159,17 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
-            hideLoader();
+            ProgressDialogBuilder.hideLoader(context);
             NavigationRouter.switchToUserOtpScreen(context);
           }
         });
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');
       }
     } on SocketException catch (_) {
       //handle socket Exception
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
     }
@@ -2291,19 +2236,6 @@ class _RegisterUserState extends State<RegisterUser> {
     });
   }
 
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
-  }
-
   _getStates() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
@@ -2318,7 +2250,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   // CityList cityResponse;
   _getCities(var prefId) async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     //ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
@@ -2329,7 +2261,7 @@ class _RegisterUserState extends State<RegisterUser> {
           cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       //ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });

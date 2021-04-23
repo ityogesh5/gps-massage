@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -178,7 +179,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   double ratingsValue = 3.0;
   bool isLoading = false;
   var _pageNumber = 1;
-  var _pageSize = 1;
+  var _pageSize = 10;
   Map<String, String> certificateImages = Map<String, String>();
   List<CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
@@ -197,7 +198,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   getProvidersList() async {
     //therapistUsers.clear();
     var providerListApiProvider =
-        ServiceUserAPIProvider.getAllTherapistsByLimit(_pageNumber, _pageSize);
+        ServiceUserAPIProvider.getAllTherapistsByLimit(
+            context, _pageNumber, _pageSize);
     providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
@@ -880,7 +882,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                        '残念ながらお近くにはセラピスト・店舗の登録がまだありません。',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'NotoSansJP',
@@ -941,7 +943,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
           print('Page number : $_pageNumber Page Size : $_pageSize');
           var providerListApiProvider =
               ServiceUserAPIProvider.getAllTherapistsByLimit(
-                  _pageNumber, _pageSize);
+                  context, _pageNumber, _pageSize);
           providerListApiProvider.then((value) {
             if (value.homeTherapistData.therapistData.isEmpty) {
               setState(() {
@@ -1595,7 +1597,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                        '残念ながらお近くにはセラピスト・店舗の登録がまだありません。',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'NotoSansJP',
@@ -1736,7 +1738,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
           print('Page number : $_pageNumberType Page Size : $_pageSizeType');
           var providerListApiProvider =
               ServiceUserAPIProvider.getTherapistsByTypeLimit(
-                  _pageNumberType, _pageSizeType);
+                  context, _pageNumberType, _pageSizeType);
           providerListApiProvider.then((value) {
             if (value.homeTherapistData.typeTherapistData.isEmpty) {
               setState(() {

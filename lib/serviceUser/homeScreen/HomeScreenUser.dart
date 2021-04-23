@@ -15,6 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
@@ -53,7 +54,7 @@ List<InitialTherapistData> therapistUsers = [];
 var accessToken;
 var userID;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
-List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
 
 String result = '';
 var colorsValue = Colors.white;
@@ -208,7 +209,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
       HealingMatchConstants.serviceUserID = value.getString('userID');
       if (accessToken != null) {
         print('Access token value : $accessToken');
-        print('Address ID VALUE : ${HealingMatchConstants.userAddressId} && ${HealingMatchConstants.serviceUserID}');
+        print(
+            'Address ID VALUE : ${HealingMatchConstants.userAddressId} && ${HealingMatchConstants.serviceUserID}');
         HealingMatchConstants.accessToken = accessToken;
         getBannerImages();
         getUserDetails();
@@ -237,8 +239,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
         for (int i = 0; i < value.data.addresses.length; i++) {
           if (value.data.addresses[0].isDefault) {
-            HealingMatchConstants.constantUserAddressValuesList =
-                value.data.addresses.cast<Addresses>();
+            HealingMatchConstants.userAddressesList =
+                value.data.addresses.cast<UserAddresses>();
             HealingMatchConstants.serviceUserID =
                 value.data.addresses[0].userId.toString();
             HealingMatchConstants.serviceUserAddress =
@@ -1425,7 +1427,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                             child: Column(
                               children: [
                                 Text(
-                                  '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                  '残念ながらお近くにはセラピスト・店舗の登録がまだありません。',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'NotoSansJP',
@@ -2457,7 +2459,7 @@ class BuildProviderUsers extends StatefulWidget {
 
 class _BuildProviderUsersState extends State<BuildProviderUsers> {
   var _pageNumber = 1;
-  var _pageSize = 1;
+  var _pageSize = 10;
   var keys;
   Map<int, String> storeTypeValues;
 
@@ -2498,7 +2500,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
     //therapistUsers.clear();
     try {
       var apiProvider = ServiceUserAPIProvider.getAllTherapistsByLimit(
-          _pageNumber, _pageSize);
+          context, _pageNumber, _pageSize);
       // wait for 2 seconds to simulate loading of data
       await Future.delayed(const Duration(seconds: 2));
       apiProvider.then((value) {
@@ -3084,7 +3086,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                             child: Column(
                               children: [
                                 Text(
-                                  '残念ながらお近くにはラピスト・店舗の登録がまだありません。',
+                                  '残念ながらお近くにはセラピスト・店舗の登録がまだありません。',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'NotoSansJP',

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -27,14 +30,15 @@ class SearchScreenUser extends StatefulWidget {
 }
 
 class _SearchScreenUserState extends State<SearchScreenUser> {
-  final Geolocator geoLocator = Geolocator()
-    ..forceAndroidLocationManager;
+  final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
   var _pageNumber = 1;
   var _pageSize = 10;
   bool _isVisible = true;
   bool _addAddressVisible = false;
+  String _currentAddress = '';
+  Placemark currentLocationPlaceMark;
 
   NumberPicker dayPicker;
   int _cyear;
@@ -63,10 +67,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   var searchAddressLatitude, searchAddressLongitude;
 
-  List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
   var constantUserAddressSize = new List();
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
+  Position _currentPosition;
 
   void initState() {
     super.initState();
@@ -74,15 +79,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
     dateString = '';
     displayDay = today;
-    _cyear = DateTime
-        .now()
-        .year;
-    _cmonth = DateTime
-        .now()
-        .month;
-    _currentDay = DateTime
-        .now()
-        .day;
+    _cyear = DateTime.now().year;
+    _cmonth = DateTime.now().month;
+    _currentDay = DateTime.now().day;
     _lastday = DateTime(today.year, today.month + 1, 0).day;
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
@@ -117,7 +116,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           margin: EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(6.0)),
+                                BorderRadius.all(Radius.circular(6.0)),
                           ),
                           child: Container(
                             margin: EdgeInsets.all(0.0),
@@ -134,7 +133,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   hintText:
-                                  HealingMatchConstants.searchKeywordHint,
+                                      HealingMatchConstants.searchKeywordHint,
                                   suffixIcon: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: IconButton(
@@ -143,28 +142,28 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           _searchKey.currentState
                                               .showSnackBar(SnackBar(
                                             backgroundColor:
-                                            ColorConstants.snackBarColor,
+                                                ColorConstants.snackBarColor,
                                             duration: Duration(seconds: 3),
                                             content: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Flexible(
                                                   child: Text(
                                                       '検索に有効なキーワードを入力してください。',
                                                       overflow:
-                                                      TextOverflow.ellipsis,
+                                                          TextOverflow.ellipsis,
                                                       maxLines: 2,
                                                       style: TextStyle(
                                                           fontFamily:
-                                                          'NotoSansJP')),
+                                                              'NotoSansJP')),
                                                 ),
                                                 InkWell(
                                                   onTap: () {
                                                     FocusScope.of(context)
                                                         .requestFocus(
-                                                        new FocusNode());
+                                                            new FocusNode());
                                                     _searchKey.currentState
                                                         .hideCurrentSnackBar();
                                                   },
@@ -172,19 +171,19 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontFamily:
-                                                          'NotoSansJP',
+                                                              'NotoSansJP',
                                                           fontWeight:
-                                                          FontWeight.w500,
+                                                              FontWeight.w500,
                                                           decoration:
-                                                          TextDecoration
-                                                              .underline)),
+                                                              TextDecoration
+                                                                  .underline)),
                                                 ),
                                               ],
                                             ),
                                           ));
                                         } else {
                                           HealingMatchConstants
-                                              .searchKeyWordValue =
+                                                  .searchKeyWordValue =
                                               keywordController.text;
                                           _getKeywordResults();
                                         }
@@ -242,14 +241,20 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/current_location.svg',
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  height: 30,
-                                  width: 30),
+                            GestureDetector(
+                              onTap: () {
+                                _getCurrentLocation();
+                              },
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor:
+                                    Color.fromRGBO(200, 217, 33, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/current_location.svg',
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
                             ),
                             SizedBox(
                               height: 8,
@@ -291,7 +296,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     onPressed: () {
                                       NavigationRouter
                                           .switchToServiceUserViewProfileScreen(
-                                          context);
+                                              context);
                                     },
                                   ),
                                 ),
@@ -322,13 +327,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   return Row(
                                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Visibility(
                                         visible: constantUserAddressValuesList[
-                                        index]
-                                            .userPlaceForMassage !=
-                                            null &&
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('自宅'),
@@ -341,9 +346,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                 BoxShadow(
                                                   offset: Offset.zero,
                                                   color: _addressType == 1 &&
-                                                      HealingMatchConstants
-                                                          .searchUserAddress !=
-                                                          null
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
                                                       ? Colors.grey[200]
                                                       : Colors.white,
                                                   blurRadius: 7.0,
@@ -351,36 +356,35 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ]),
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
                                                     _addressType = 1;
                                                     HealingMatchConstants
-                                                        .searchUserAddress =
+                                                            .searchUserAddress =
                                                         constantUserAddressValuesList[
-                                                        index]
+                                                                index]
                                                             .address;
                                                   });
                                                   print(
-                                                      'User address home : ${HealingMatchConstants
-                                                          .searchUserAddress}');
+                                                      'User address home : ${HealingMatchConstants.searchUserAddress}');
                                                 },
                                                 child: CircleAvatar(
                                                   maxRadius: 32,
                                                   backgroundColor:
-                                                  Colors.grey[100],
+                                                      Colors.grey[100],
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/house.svg',
                                                       placeholderBuilder:
                                                           (context) {
-                                                        return SpinKitDoubleBounce(
-                                                            color: Colors
-                                                                .lightGreenAccent);
-                                                      },
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
                                                       color: Color.fromRGBO(
                                                           0, 0, 0, 1),
                                                       height: 30,
@@ -405,9 +409,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       SizedBox(width: 1),
                                       Visibility(
                                         visible: constantUserAddressValuesList[
-                                        index]
-                                            .userPlaceForMassage !=
-                                            null &&
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('オフィス'),
@@ -420,9 +424,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                 BoxShadow(
                                                   offset: Offset.zero,
                                                   color: _addressType == 2 &&
-                                                      HealingMatchConstants
-                                                          .searchUserAddress !=
-                                                          null
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
                                                       ? Colors.grey[200]
                                                       : Colors.white,
                                                   blurRadius: 7.0,
@@ -430,36 +434,35 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ]),
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
                                                     _addressType = 2;
                                                     HealingMatchConstants
-                                                        .searchUserAddress =
+                                                            .searchUserAddress =
                                                         constantUserAddressValuesList[
-                                                        index]
+                                                                index]
                                                             .address;
                                                   });
                                                   print(
-                                                      'User address office : ${HealingMatchConstants
-                                                          .searchUserAddress}');
+                                                      'User address office : ${HealingMatchConstants.searchUserAddress}');
                                                 },
                                                 child: CircleAvatar(
                                                   maxRadius: 32,
                                                   backgroundColor:
-                                                  Colors.grey[100],
+                                                      Colors.grey[100],
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/office.svg',
                                                       placeholderBuilder:
                                                           (context) {
-                                                        return SpinKitDoubleBounce(
-                                                            color: Colors
-                                                                .lightGreenAccent);
-                                                      },
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
                                                       color: Color.fromRGBO(
                                                           0, 0, 0, 1),
                                                       height: 30,
@@ -484,9 +487,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       SizedBox(width: 1),
                                       Visibility(
                                         visible: constantUserAddressValuesList[
-                                        index]
-                                            .userPlaceForMassage !=
-                                            null &&
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('実家'),
@@ -499,9 +502,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                 BoxShadow(
                                                   offset: Offset.zero,
                                                   color: _addressType == 3 &&
-                                                      HealingMatchConstants
-                                                          .searchUserAddress !=
-                                                          null
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
                                                       ? Colors.grey[200]
                                                       : Colors.white,
                                                   blurRadius: 7.0,
@@ -509,36 +512,35 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ]),
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
                                                     _addressType = 3;
                                                     HealingMatchConstants
-                                                        .searchUserAddress =
+                                                            .searchUserAddress =
                                                         constantUserAddressValuesList[
-                                                        index]
+                                                                index]
                                                             .address;
                                                   });
                                                   print(
-                                                      'User address parents house : ${HealingMatchConstants
-                                                          .searchUserAddress}');
+                                                      'User address parents house : ${HealingMatchConstants.searchUserAddress}');
                                                 },
                                                 child: CircleAvatar(
                                                   maxRadius: 32,
                                                   backgroundColor:
-                                                  Colors.grey[100],
+                                                      Colors.grey[100],
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/parents_house.svg',
                                                       placeholderBuilder:
                                                           (context) {
-                                                        return SpinKitDoubleBounce(
-                                                            color: Colors
-                                                                .lightGreenAccent);
-                                                      },
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
                                                       color: Color.fromRGBO(
                                                           0, 0, 0, 1),
                                                       height: 30,
@@ -563,9 +565,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                       SizedBox(width: 1),
                                       Visibility(
                                         visible: constantUserAddressValuesList[
-                                        index]
-                                            .userPlaceForMassage !=
-                                            null &&
+                                                        index]
+                                                    .userPlaceForMassage !=
+                                                null &&
                                             constantUserAddressValuesList[index]
                                                 .userPlaceForMassage
                                                 .contains('その他'),
@@ -578,9 +580,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                                 BoxShadow(
                                                   offset: Offset.zero,
                                                   color: _addressType == 4 &&
-                                                      HealingMatchConstants
-                                                          .searchUserAddress !=
-                                                          null
+                                                          HealingMatchConstants
+                                                                  .searchUserAddress !=
+                                                              null
                                                       ? Colors.grey[200]
                                                       : Colors.white,
                                                   blurRadius: 7.0,
@@ -588,36 +590,35 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ]),
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
                                                     _addressType = 4;
                                                     HealingMatchConstants
-                                                        .searchUserAddress =
+                                                            .searchUserAddress =
                                                         constantUserAddressValuesList[
-                                                        index]
+                                                                index]
                                                             .address;
                                                   });
                                                   print(
-                                                      'User address other : ${HealingMatchConstants
-                                                          .searchUserAddress}');
+                                                      'User address other : ${HealingMatchConstants.searchUserAddress}');
                                                 },
                                                 child: CircleAvatar(
                                                   maxRadius: 32,
                                                   backgroundColor:
-                                                  Colors.grey[100],
+                                                      Colors.grey[100],
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/others.svg',
                                                       placeholderBuilder:
                                                           (context) {
-                                                        return SpinKitDoubleBounce(
-                                                            color: Colors
-                                                                .lightGreenAccent);
-                                                      },
+                                                    return SpinKitDoubleBounce(
+                                                        color: Colors
+                                                            .lightGreenAccent);
+                                                  },
                                                       color: Color.fromRGBO(
                                                           0, 0, 0, 1),
                                                       height: 30,
@@ -698,7 +699,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 1
                                               ? Color.fromRGBO(102, 102, 102, 1)
                                               : Color.fromRGBO(
-                                              228, 228, 228, 1),
+                                                  228, 228, 228, 1),
                                         ),
                                       ),
                                       child: Padding(
@@ -708,7 +709,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 1
                                               ? Color.fromRGBO(0, 0, 0, 1)
                                               : Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                                  217, 217, 217, 1),
                                           height: 29.81,
                                           width: 27.61,
                                         ),
@@ -745,7 +746,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 2
                                               ? Color.fromRGBO(102, 102, 102, 1)
                                               : Color.fromRGBO(
-                                              228, 228, 228, 1),
+                                                  228, 228, 228, 1),
                                         ),
                                       ),
                                       child: Padding(
@@ -755,7 +756,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 2
                                               ? Color.fromRGBO(0, 0, 0, 1)
                                               : Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                                  217, 217, 217, 1),
                                           height: 33,
                                           width: 34,
                                         ),
@@ -801,7 +802,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 3
                                               ? Color.fromRGBO(102, 102, 102, 1)
                                               : Color.fromRGBO(
-                                              228, 228, 228, 1),
+                                                  228, 228, 228, 1),
                                         ),
                                       ),
                                       child: Padding(
@@ -811,7 +812,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 3
                                               ? Color.fromRGBO(0, 0, 0, 1)
                                               : Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                                  217, 217, 217, 1),
                                           height: 25,
                                           width: 25,
                                         ),
@@ -857,7 +858,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 4
                                               ? Color.fromRGBO(102, 102, 102, 1)
                                               : Color.fromRGBO(
-                                              228, 228, 228, 1),
+                                                  228, 228, 228, 1),
                                         ),
                                       ),
                                       child: Padding(
@@ -867,7 +868,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                           color: _value == 4
                                               ? Color.fromRGBO(0, 0, 0, 1)
                                               : Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                                  217, 217, 217, 1),
                                           height: 35,
                                           width: 27,
                                           fit: BoxFit.contain,
@@ -973,28 +974,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     height: 10,
                   ),
                   ButtonTheme(
-                    minWidth: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.45,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.07,
+                    minWidth: MediaQuery.of(context).size.width * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     child: CustomRadioButton(
                       padding: 0.0,
                       elevation: 4,
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.07,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.40,
-                      buttonColor: Theme
-                          .of(context)
-                          .canvasColor,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      buttonColor: Theme.of(context).canvasColor,
                       enableShape: true,
 
                       /*  customShape: RoundedRectangleBorder(
@@ -1010,8 +997,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                       radioButtonValue: (value) {
                         HealingMatchConstants.isLocationCriteria = value;
                         print(
-                            'Location coming/not value : ${HealingMatchConstants
-                                .isLocationCriteria}');
+                            'Location coming/not value : ${HealingMatchConstants.isLocationCriteria}');
                       },
                       selectedColor: Color.fromRGBO(242, 242, 242, 1),
                     ),
@@ -1037,28 +1023,14 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     height: 10,
                   ),
                   ButtonTheme(
-                    minWidth: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.45,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.07,
+                    minWidth: MediaQuery.of(context).size.width * 0.45,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     child: CustomRadioButton(
                       padding: 0.0,
                       elevation: 4.0,
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.07,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.40,
-                      buttonColor: Theme
-                          .of(context)
-                          .canvasColor,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.40,
+                      buttonColor: Theme.of(context).canvasColor,
                       enableShape: true,
                       buttonLables: ["受けたい日時でさがす", "セラピストをさがす"],
                       fontSize: 12.0,
@@ -1070,8 +1042,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         setState(() {
                           HealingMatchConstants.isTimeCriteria = value;
                           print(
-                              'Time there/not value : ${HealingMatchConstants
-                                  .isLocationCriteria}');
+                              'Time there/not value : ${HealingMatchConstants.isLocationCriteria}');
                           if (HealingMatchConstants.isTimeCriteria) {
                             _isVisible = true;
                           } else {
@@ -1095,10 +1066,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.3,
+                                width: MediaQuery.of(context).size.width * 0.3,
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 child: DropDownFormField(
                                   enabled: _isVisible,
@@ -1108,7 +1076,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   hintText: readonly
                                       ? yearString
                                       : HealingMatchConstants
-                                      .registrationBankAccountType,
+                                          .registrationBankAccountType,
                                   onSaved: (value) {
                                     setState(() {
                                       yearString = value;
@@ -1156,33 +1124,27 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                         ),
                         SizedBox(width: 10),
                         Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.3,
                             child: Form(
                               key: monthKey,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width *
+                                    width: MediaQuery.of(context).size.width *
                                         0.38,
                                     color: Colors.transparent,
                                     child: DropDownFormField(
                                       enabled: _isVisible,
                                       fillColor:
-                                      Color.fromRGBO(255, 255, 255, 1),
+                                          Color.fromRGBO(255, 255, 255, 1),
                                       borderColor:
-                                      Color.fromRGBO(228, 228, 228, 1),
+                                          Color.fromRGBO(228, 228, 228, 1),
                                       titleText: null,
                                       hintText: readonly
                                           ? monthString
                                           : HealingMatchConstants
-                                          .registrationBankAccountType,
+                                              .registrationBankAccountType,
                                       onSaved: (value) {
                                         setState(() {
                                           monthString = value;
@@ -1277,9 +1239,9 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                   ),
                   _isVisible
                       ? Container(
-                    child: buildTimeController(
-                        HealingMatchConstants.dateTime),
-                  )
+                          child: buildTimeController(
+                              HealingMatchConstants.dateTime),
+                        )
                       : Container(),
                   SizedBox(
                     height: 20,
@@ -1344,12 +1306,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       initialValue: _currentDay,
       minValue: 1,
       maxValue: daysToDisplay,
-      onChanged: (newValue) =>
-          setState(() {
-            if ((newValue != _currentDay)) {
-              changeDay(newValue);
-            }
-          }),
+      onChanged: (newValue) => setState(() {
+        if ((newValue != _currentDay)) {
+          changeDay(newValue);
+        }
+      }),
     );
     return Padding(
       padding: const EdgeInsets.all(2.0),
@@ -1486,7 +1447,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getValidSearchFields() async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     _sharedPreferences.then((value) {
       if (value != null) {
         var userDetails = ServiceUserAPIProvider.getUserDetails(
@@ -1496,24 +1457,22 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             constantUserAddressValuesList = value.data.addresses;
             for (var category in constantUserAddressValuesList) {
               print(
-                  'List length search : ${constantUserAddressValuesList
-                      .length}');
+                  'List length search : ${constantUserAddressValuesList.length}');
 
               var categoryData = category.userPlaceForMassage;
               constantUserAddressSize.add(categoryData);
               print(
-                  'Size of list category : ${constantUserAddressSize
-                      .length} && $categoryData');
-              hideLoader();
+                  'Size of list category : ${constantUserAddressSize.length} && $categoryData');
+              ProgressDialogBuilder.hideLoader(context);
             }
           });
         }).catchError((onError) {
-          hideLoader();
+          ProgressDialogBuilder.hideLoader(context);
           print('Catch error search : $onError');
         });
       }
     }).catchError((onError) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('S_Pref Exception : $onError');
     });
   }
@@ -1521,7 +1480,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   _getLatLngFromAddress(String userAddress) async {
     try {
       List<Placemark> address =
-      await geoLocator.placemarkFromAddress(userAddress);
+          await geoLocator.placemarkFromAddress(userAddress);
 
       userAddedAddressPlaceMark = address[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
@@ -1538,7 +1497,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           HealingMatchConstants.searchAddressLongitude != null) {
         _getSearchResults();
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1574,12 +1533,13 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   proceedToSearchResults() async {
     try {
-      showOverlayLoader();
-      print('User address proceed : ${HealingMatchConstants.searchUserAddress}');
+      ProgressDialogBuilder.showOverlayLoader(context);
+      print(
+          'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
         _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1609,22 +1569,25 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Exception in search criteria : ${e.toString()}');
     }
   }
 
   _getKeywordResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(context,_pageNumber,_pageSize).then((value) {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
       if (value != null &&
           value.status != null &&
-          value.data.searchList != null && value.data.searchList.length != 0) {
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
         HealingMatchConstants.searchList = value.data.searchList;
         print(
             'Search List Length : ${HealingMatchConstants.searchList.length}');
         NavigationRouter.switchToUserSearchResult(context);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 7),
@@ -1653,22 +1616,25 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ));
       }
     }).catchError((onError) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Search catch error : ${onError.toString()}');
     });
   }
 
   _getSearchResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(context,_pageNumber,_pageSize).then((value) {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
       if (value != null &&
           value.status != null &&
-          value.data.searchList != null && value.data.searchList.length != 0) {
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
         HealingMatchConstants.searchList = value.data.searchList;
         print(
             'Search List Length : ${HealingMatchConstants.searchList.length}');
         NavigationRouter.switchToUserSearchResult(context);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 7),
@@ -1697,19 +1663,55 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ));
       }
     }).catchError((onError) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Search catch error : ${onError.toString()}');
     });
   }
 
-  showOverlayLoader() {
-    Loader.show(context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),);
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    geoLocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      _currentPosition = position;
+      print('Current lat : ${_currentPosition.latitude}');
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print(e);
+    });
   }
 
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
+  _getAddressFromLatLng() async {
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      currentLocationPlaceMark = p[0];
+
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+
+      _currentAddress =
+          '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
+          ',${currentLocationPlaceMark.country}';
+      if (_currentAddress != null && _currentAddress.isNotEmpty) {
+        HealingMatchConstants.searchUserAddress = _currentAddress;
+        print(
+            'Current Search address : ${HealingMatchConstants.searchUserAddress} : '
+            '${HealingMatchConstants.currentLatitude} && '
+            '${HealingMatchConstants.currentLongitude}');
+        proceedToSearchResults();
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        return null;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print(e);
+    }
   }
 }

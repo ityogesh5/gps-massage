@@ -1,9 +1,10 @@
 import 'dart:convert';
+
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
-import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
+import 'package:http/http.dart' as http;
 
 class ServiceProviderApi {
   static Future<ProviderReviewandRatingsViewResponseModel>
@@ -79,12 +80,12 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "userId": '1',//HealingMatchConstants.serviceUserId,
+            "userId": '1', //HealingMatchConstants.serviceUserId,
             "therapistId": HealingMatchConstants.userId,
-            "ratingsCount":rating,
-            "reviewComment":review,
+            "ratingsCount": rating,
+            "reviewComment": review,
           }));
-       if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         UserReviewCreateResponseModel usersReview =
             UserReviewCreateResponseModel.fromJson(userData);

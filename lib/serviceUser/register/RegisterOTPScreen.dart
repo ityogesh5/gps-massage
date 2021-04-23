@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
@@ -30,19 +28,6 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
   void initState() {
     super.initState();
-  }
-
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
   }
 
   @override
@@ -254,7 +239,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
       return null;
     }
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
       final url = HealingMatchConstants.CHANGE_PASSWORD_VERIFY_OTP_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -268,7 +253,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
           response.statusCode, context, response.body)) {
         final vrfyOtp = json.decode(response.body);
         UserVerifyOtp = VerifyOtpModel.fromJson(vrfyOtp);
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         /*_firebaseMessaging.getToken().then((value) {
           HealingMatchConstants.userFcmToken = value;
           print('FCM Token : ${value.toString()}');
@@ -276,12 +261,12 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         DialogHelper.showRegisterSuccessDialog(context);
         HealingMatchConstants.isUserVerified = true;
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }
@@ -289,7 +274,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
 
   resendOtp() async {
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
       final url = HealingMatchConstants.SEND_VERIFY_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -303,17 +288,17 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         final sendVerify = json.decode(response.body);
         reSendVerifyResponse = SendVerifyResponseModel.fromJson(sendVerify);
 
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
 
         // NavigationRouter.switchToUserChangePasswordScreen(context);
 
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }

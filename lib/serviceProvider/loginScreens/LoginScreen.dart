@@ -59,19 +59,6 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
   }
 
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -448,7 +435,7 @@ class _ProviderLoginState extends State<ProviderLogin> {
     }
 
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
@@ -472,10 +459,10 @@ class _ProviderLoginState extends State<ProviderLogin> {
         print('Login token : ${loginResponseModel.accessToken}');
         print('Is Provider verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          hideLoader();
+          ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceProviderBottomBar(context);
         } else {
-          hideLoader();
+          ProgressDialogBuilder.hideLoader(context);
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -485,13 +472,13 @@ class _ProviderLoginState extends State<ProviderLogin> {
           return;
         }
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
       print('Response Error !! ${e.toString()}');
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       return;
     }
   }

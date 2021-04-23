@@ -86,7 +86,7 @@ class _SearchResultState extends State<SearchResult> {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: BouncingScrollPhysics(),
-                          itemCount: 10,//HealingMatchConstants.searchList,
+                          itemCount: 10, //HealingMatchConstants.searchList,
                           itemBuilder: (context, index) {
                             return Container(
                               // height: MediaQuery.of(context).size.height * 0.22,

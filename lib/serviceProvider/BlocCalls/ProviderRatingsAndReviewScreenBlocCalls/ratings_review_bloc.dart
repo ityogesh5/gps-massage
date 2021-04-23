@@ -5,7 +5,8 @@ import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndRevie
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_state.dart';
 import 'package:meta/meta.dart';
 
-class TherapistReviewBloc extends Bloc<TherapistReviewEvent, TherapistReviewState> {
+class TherapistReviewBloc
+    extends Bloc<TherapistReviewEvent, TherapistReviewState> {
   GetTherapistReviewRepository getTherapistReviewRepository;
 
   TherapistReviewBloc({@required this.getTherapistReviewRepository});
@@ -14,7 +15,8 @@ class TherapistReviewBloc extends Bloc<TherapistReviewEvent, TherapistReviewStat
   TherapistReviewState get initialState => GetTherapistReviewLoadingState();
 
   @override
-  Stream<TherapistReviewState> mapEventToState(TherapistReviewEvent event) async* {
+  Stream<TherapistReviewState> mapEventToState(
+      TherapistReviewEvent event) async* {
     if (event is FetchTherapistReviewEvent) {
       yield GetTherapistReviewLoaderState();
       try {

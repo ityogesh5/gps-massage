@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_bloc.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/Repository/user_ratings_review_repository.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 
 class ProviderRatingsAndReviewUser extends StatefulWidget {
   final int index;

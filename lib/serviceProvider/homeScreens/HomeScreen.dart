@@ -57,7 +57,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
-  //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     getProviderDetails();
     dateString = '';
     displayDay = today;
@@ -892,7 +892,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        NavigationRouter.switchToProviderCalendarScreen(context);
+                                        NavigationRouter
+                                            .switchToProviderCalendarScreen(
+                                                context);
                                       },
                                       child: SvgPicture.asset(
                                         "assets/images_gps/calendar.svg",
@@ -1378,21 +1380,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     }
   }
 
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
-  }
-
   void getProviderDetails() async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
@@ -1435,7 +1424,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     setState(() {
       status = 1;
     });
-    hideLoader();
+    ProgressDialogBuilder.hideLoader(context);
   }
 
   void showToolTip(String text) {

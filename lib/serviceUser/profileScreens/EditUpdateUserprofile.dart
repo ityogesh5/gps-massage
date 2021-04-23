@@ -11,9 +11,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/customModels/address.dart';
 import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/ErrorClass/UpdateErrorModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
@@ -29,7 +32,8 @@ List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
     new List<AddUserSubAddress>();
 
-var deletePosition;
+var deletePosition, editPosition;
+var addressID;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   String userProfileImage;
@@ -73,7 +77,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.initState();
     //getEditUserFields();
     getUserProfileData();
-
   }
 
   @override
@@ -92,7 +95,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  var userAddressType = '';
+  var userAddressType;
   final _searchRadiusKey = new GlobalKey<FormState>();
   var _mySearchRadiusDistance;
   TextEditingController _userDOBController = new TextEditingController();
@@ -157,7 +160,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   final additionalAddressController = new TextEditingController();
   DateTime selectedDate = DateTime.now();
-  bool isDeleted = false;
 
   //final gpsAddressController = new TextEditingController();
 
@@ -1074,7 +1076,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
                     SizedBox(height: 15),
 
-                    constantUserAddressValuesList != null
+                    constantUserAddressValuesList != null ||
+                            HealingMatchConstants.userAddressesList != null
                         ? Container(
                             // height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.85,
@@ -1089,7 +1092,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   icon: Icon(Icons.add,
                                       size: 28, color: Colors.black),
                                   onPressed: () {
-                                    if (constantUserAddressValuesList.length ==
+                                    if (HealingMatchConstants
+                                            .userAddressesList.length ==
                                         3) {
                                       _scaffoldKey.currentState
                                           .showSnackBar(SnackBar(
@@ -1188,15 +1192,21 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             ),
                           ),
                     SizedBox(height: 15),
-                    Text(
-                      'メインの地点以外に3箇所まで地点登録ができます',
-                      style: TextStyle(
-                          fontFamily: 'NotoSansJP',
-                          fontSize: 14,
-                          color: Colors.grey),
+                    Visibility(
+                      visible: constantUserAddressValuesList != null &&
+                          constantUserAddressValuesList.isNotEmpty,
+                      child: Text(
+                        '更新用に追加された住所を表示します。',
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            fontSize: 14,
+                            color: Colors.grey),
+                      ),
                     ),
-                    SizedBox(height: 15),
-
+                    Visibility(
+                        visible: constantUserAddressValuesList != null &&
+                            constantUserAddressValuesList.isNotEmpty,
+                        child: SizedBox(height: 15)),
                     constantUserAddressValuesList != null
                         ? Container(
                             child: Padding(
@@ -1209,6 +1219,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   itemCount:
                                       constantUserAddressValuesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
+                                    bool isFocus = false;
                                     return Column(
                                       children: [
                                         FittedBox(
@@ -1221,8 +1232,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                     0.86,
                                                 child: TextFormField(
                                                   //display the address
-                                                  readOnly: true,
-                                                  autofocus: false,
+                                                  readOnly: false,
+                                                  autofocus: isFocus,
                                                   initialValue:
                                                       constantUserAddressValuesList[
                                                               index]
@@ -1314,6 +1325,180 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                           suffixIcon:
                                                               IconButton(
                                                             icon: Icon(
+                                                                Icons.edit,
+                                                                size: 25,
+                                                                color: Colors
+                                                                    .black),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                isFocus = true;
+                                                              });
+                                                              //Delete Value at index
+                                                              /*constantUserAddressValuesList
+                                                                .removeAt(index);*/
+                                                              var position =
+                                                                  constantUserAddressValuesList[
+                                                                      index];
+                                                              print(
+                                                                  'Position of other address : $position');
+                                                              /*openAddressEditDialog(
+                                                                  constantUserAddressValuesList[
+                                                                          index]
+                                                                      .subAddress,
+                                                                  constantUserAddressValuesList
+                                                                      .indexOf(
+                                                                          position));*/
+                                                            },
+                                                          )),
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      constantUserAddressValuesList[
+                                                              index]
+                                                          .subAddress = value;
+                                                    });
+                                                  },
+                                                  // validator: (value) => _validateEmail(value),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    );
+                                  }),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      'メインの地点以外に3箇所まで地点登録ができます',
+                      style: TextStyle(
+                          fontFamily: 'NotoSansJP',
+                          fontSize: 14,
+                          color: Colors.grey),
+                    ),
+                    SizedBox(height: 15),
+
+                    HealingMatchConstants.userAddressesList != null
+                        ? Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: HealingMatchConstants
+                                      .userAddressesList.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    return Column(
+                                      children: [
+                                        FittedBox(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.86,
+                                                child: TextFormField(
+                                                  //display the address
+                                                  readOnly: true,
+                                                  autofocus: false,
+                                                  initialValue:
+                                                      HealingMatchConstants
+                                                          .userAddressesList[
+                                                              index]
+                                                          .address,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                          filled: true,
+                                                          fillColor: ColorConstants
+                                                              .formFieldFillColor,
+                                                          hintText:
+                                                              '${HealingMatchConstants.userAddressesList[index]}',
+                                                          hintStyle: TextStyle(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontSize: 14),
+                                                          focusColor:
+                                                              Colors.grey[100],
+                                                          border: HealingMatchConstants
+                                                              .textFormInputBorder,
+                                                          focusedBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          disabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          enabledBorder:
+                                                              HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                          prefixIcon: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            8.0),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient: LinearGradient(
+                                                                      begin: Alignment
+                                                                          .topCenter,
+                                                                      end: Alignment
+                                                                          .bottomCenter,
+                                                                      colors: [
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                        Color.fromRGBO(
+                                                                            255,
+                                                                            255,
+                                                                            255,
+                                                                            1),
+                                                                      ]),
+                                                                  shape: BoxShape
+                                                                      .rectangle,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        100],
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              6.0),
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                ),
+                                                                child: Text(
+                                                                  '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            1),
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                          suffixIcon:
+                                                              IconButton(
+                                                            icon: Icon(
                                                                 Icons
                                                                     .keyboard_arrow_down_sharp,
                                                                 size: 30,
@@ -1324,15 +1509,18 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               /*constantUserAddressValuesList
                                                                 .removeAt(index);*/
                                                               var position =
-                                                                  constantUserAddressValuesList[
+                                                                  HealingMatchConstants
+                                                                          .userAddressesList[
                                                                       index];
                                                               print(
-                                                                  'Position of other address : $position');
+                                                                  'Position of sub edit list position : $position');
+                                                              print(
+                                                                  'Position of sub edit list address : ${position.address}');
                                                               openAddressEditDialog(
-                                                                  constantUserAddressValuesList[
-                                                                          index]
-                                                                      .subAddress,
-                                                                  constantUserAddressValuesList
+                                                                  position
+                                                                      .address,
+                                                                  HealingMatchConstants
+                                                                      .userAddressesList
                                                                       .indexOf(
                                                                           position));
                                                             },
@@ -1341,9 +1529,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                       color: Colors.black54),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      constantUserAddressValuesList[
+                                                      HealingMatchConstants
+                                                          .userAddressesList[
                                                               index]
-                                                          .subAddress = value;
+                                                          .address = value;
                                                     });
                                                   },
                                                   // validator: (value) => _validateEmail(value),
@@ -1380,7 +1569,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 width: MediaQuery.of(context).size.width * 0.38,
                                 child: DropDownFormField(
                                   hintText: '検索範囲値',
-                                  value: _mySearchRadiusDistance,
+                                  value: HealingMatchConstants
+                                      .searchDistanceRadius,
                                   onSaved: (value) {
                                     setState(() {
                                       _mySearchRadiusDistance = value;
@@ -1438,6 +1628,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ),
                         color: Colors.lime,
                         onPressed: () {
+                          print(
+                              'JSON LIST SUB ADDRESS CONST LIST : ${json.encode(HealingMatchConstants.userAddressesList)}');
+                          print(
+                              'JSON LIST SUB ADDRESS LOCAL LIST : ${json.encode(constantUserAddressValuesList)}');
                           _updateUserDetails();
                           print(
                               'User id : ${HealingMatchConstants.serviceUserID}');
@@ -1466,14 +1660,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void openAddressEditDialog(String subAddress, var position) {
     _editAddressController.text = subAddress;
     AwesomeDialog dialog;
-    var addressType;
-    bool isDelete = false;
+    bool isFocus = false;
     dialog = AwesomeDialog(
       context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      dialogType: DialogType.QUESTION,
       keyboardAware: true,
       width: MediaQuery.of(context).size.width,
+      dismissOnTouchOutside: true,
+      showCloseIcon: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -1484,134 +1679,90 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               child: TextFormField(
                 controller: _editAddressController,
                 //initialValue: subAddress,
-                autofocus: false,
+                autofocus: isFocus,
                 minLines: 1,
                 decoration: InputDecoration(
                   hintText: '新しい住所を入力してください。',
                   hintStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
                   border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      //_editAddressController.clear();
-                      if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('自宅')) {
-                        addressType = 1;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('オフィス')) {
-                        addressType = 2;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('実家')) {
-                        addressType = 3;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('その他（直接入力）')) {
-                        addressType = 4;
-                      }
-                      print('Address Type : $addressType');
-                      deletePosition = position;
-                      var deleteSubAddress =
-                          ServiceUserAPIProvider.deleteUserSubAddress(
-                              context, addressType);
-                      deleteSubAddress.then((value) {
-                        if (value != null && value.status == 'success') {
-                          print('Delete Success');
-                          constantUserAddressValuesList.removeAt(position);
-                          isDelete = true;
-                          _sharedPreferences.then((value) {
-                            value.setBool('subAddressDeleted', isDelete);
-                          });
-                          dialog.dissmiss();
-                          NavigationRouter.switchToServiceUserEditProfileScreen(
-                              context, widget.userProfileImage);
-                        }
-                      }).catchError((onError) {
-                        print('Delete error : $onError');
-                      });
-                    },
-                  ),
                 ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            AnimatedButton(
-                text: 'Ok',
-                pressEvent: () {
-                  if (_editAddressController.text != null &&
-                      _editAddressController.text.isNotEmpty &&
-                      isDelete == false) {
-                    constantUserAddressValuesList[position].subAddress =
-                        _editAddressController.text.toString();
-                    dialog.dissmiss();
-                    NavigationRouter.switchToServiceUserEditProfileScreen(
-                        context, widget.userProfileImage);
-                    //print('Edit address value : ${_editAddressController.text.toString()} && ${constantUserAddressValuesList[position].subAddress}');
-                  } else {
-                    dialog.dissmiss();
-                  }
-                })
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ButtonTheme(
+                  minWidth: MediaQuery.of(context).size.width * 0.33,
+                  child: CustomToggleButton(
+                    initialValue: 0,
+                    elevation: 0,
+                    height: 50.0,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    autoWidth: false,
+                    buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                    enableShape: true,
+                    customShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.transparent)),
+                    buttonLables: ["編集する", "削除する"],
+                    fontSize: 16.0,
+                    buttonValues: [
+                      "Y",
+                      "N",
+                    ],
+                    radioButtonValue: (value) {
+                      if (value == 'Y') {
+                        ProgressDialogBuilder.showOverlayLoader(context);
+                        if (_editAddressController.text != null &&
+                            _editAddressController.text.isNotEmpty) {
+                          HealingMatchConstants.userAddressesList[position]
+                              .address = _editAddressController.text.toString();
+                          editPosition = position;
+                          _getLatLngFromAddress(
+                              _editAddressController.text.toString(), position);
+                        } else {
+                          ProgressDialogBuilder.hideLoader(context);
+                        }
+                      } else {
+                        ProgressDialogBuilder.showOverlayLoader(context);
+                        deletePosition = position;
+                        addressID = HealingMatchConstants
+                            .userAddressesList[position].id;
+                        print(
+                            'Delete values :${_editAddressController.text} && $addressID');
+                        var deleteSubAddress =
+                            ServiceUserAPIProvider.deleteUserSubAddress(
+                                context, addressID);
+                        deleteSubAddress.then((value) {
+                          if (value != null && value.status == 'success') {
+                            print('Delete Success');
+                            ProgressDialogBuilder.hideLoader(context);
+                            dialog.dissmiss();
+                            NavigationRouter
+                                .switchToServiceUserEditProfileScreen(
+                                    context, widget.userProfileImage);
+                          }
+                        }).catchError((onError) {
+                          ProgressDialogBuilder.hideLoader(context);
+                          dialog.dissmiss();
+                          print('Delete error : $onError');
+                        });
+                      }
+                      print('Radio value : $value');
+                    },
+                    selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     )..show();
-  }
-
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    showOverlayLoader();
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      currentLocationPlaceMark = p[0];
-
-      HealingMatchConstants.editCurrentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.editCurrentLongitude = _currentPosition.longitude;
-
-      setState(() {
-        _currentAddress =
-            '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
-            ',${currentLocationPlaceMark.country}';
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print(
-              'Current address : $_currentAddress : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.userEditCity =
-              currentLocationPlaceMark.locality;
-          HealingMatchConstants.userEditPrefecture =
-              currentLocationPlaceMark.administrativeArea;
-        } else {
-          hideLoader();
-          return null;
-        }
-      });
-      hideLoader();
-    } catch (e) {
-      hideLoader();
-      print(e);
-    }
   }
 
   void _showPicker(context, int index) {
@@ -1709,14 +1860,30 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           });
         }
       }
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
 
       print('Response City list : ${response.body}');
     });
   }
 
+  getSubAddressList() async {
+    var userListApiProvider = ServiceUserAPIProvider.getUserDetails(
+        context, HealingMatchConstants.serviceUserID);
+
+    userListApiProvider.then((value) {
+      setState(() {
+        for (int i = 0; i < value.data.addresses.length; i++) {
+          HealingMatchConstants.userAddressesList = value.data.addresses;
+        }
+        HealingMatchConstants.userAddressesList.removeAt(0);
+      });
+    }).catchError((onError) {
+      print('Edit user response : ${onError.toString()}');
+    });
+  }
+
   _updateUserDetails() async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var userPhoneNumber = phoneNumberController.text.toString();
@@ -1736,7 +1903,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user perfecture validation
     if ((_myPrefecture == null || _myPrefecture.isEmpty)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1767,7 +1934,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if ((_myCity == null || _myCity.isEmpty)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1798,7 +1965,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if ((userArea == null || userArea.isEmpty)) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1829,7 +1996,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // room number validation
     if (roomNumber == null || roomNumber.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1860,7 +2027,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1891,7 +2058,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1944,7 +2111,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (userPhoneNumber != null &&
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length < 10) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2214,7 +2381,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "gender": _myGender,
           "uploadProfileImgUrl": _profileImage.path,
           "isTherapist": "0",
-          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
           "address": json.encode(updateAddress),
           "subAddress": json.encode(constantUserAddressValuesList)
         });
@@ -2230,7 +2397,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "email": email,
           "gender": _myGender,
           "isTherapist": "0",
-          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
           "address": json.encode(updateAddress),
           "subAddress": json.encode(constantUserAddressValuesList)
         });
@@ -2243,21 +2410,61 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           final Map userDetailsResponse = json.decode(value.body);
           final profileUpdateResponseModel =
               UserUpdateResponseModel.fromJson(userDetailsResponse);
+          HealingMatchConstants.editUserSubAddressList =
+              profileUpdateResponseModel.subAddress;
           print(profileUpdateResponseModel.toJson());
+          print(
+              'Profile response list : ${profileUpdateResponseModel.subAddress} && ${profileUpdateResponseModel.data.addresses}');
           updateAddress.clear();
-          hideLoader();
+          constantUserAddressValuesList.clear();
+          HealingMatchConstants.userAddressesList.clear();
+          ProgressDialogBuilder.hideLoader(context);
           DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+        } else if (value.statusCode == 400) {
+          print('Error Response inside : ${value.body}');
+          final Map errorResponse = json.decode(value.body);
+          final editErrorUpdateResponse =
+              UpdateErrorModel.fromJson(errorResponse);
+          print('Error Message : ${editErrorUpdateResponse.message}');
+          ProgressDialogBuilder.hideLoader(context);
+
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: ColorConstants.snackBarColor,
+            duration: Duration(seconds: 5),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text('選択した住所のカテゴリタイプはすでに追加されています。',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
+                ),
+                InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                  },
+                  child: Text('はい',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          decoration: TextDecoration.underline)),
+                ),
+              ],
+            ),
+          ));
+          return;
         } else {
-          print('Response error : ${value.body.toString()}');
-          hideLoader();
           updateAddress.clear();
+          ProgressDialogBuilder.hideLoader(context);
+          return;
         }
       }).catchError((onError) {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Catch error : ${onError.toString()}');
       });
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Edit user Exception : ${e.toString()}');
     }
   }
@@ -2265,8 +2472,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   getUserProfileData() async {
     List<AddUserSubAddress> deletedDataListSubAddress =
         new List<AddUserSubAddress>();
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     try {
+      HealingMatchConstants.userAddressesList.clear();
       print('Getting values...EPF');
       setState(() {
         _myCity = HealingMatchConstants.userEditCity;
@@ -2292,31 +2500,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         userAreaController.text = HealingMatchConstants.userEditArea;
         _mySearchRadiusDistance = HealingMatchConstants.searchDistanceRadius;
         _getStates();
-        _sharedPreferences.then((value) {
-          var addressData = value.getString('addressData');
-          isDeleted = value.getBool('subAddressDeleted');
-
-          try {
-            if (addressData != null) {
-              var addressValues = jsonDecode(addressData) as List;
-              setState(() {
-                if (deletePosition != null && isDeleted) {
-                  print('Su add true : $isDeleted');
-                  constantUserAddressValuesList.removeAt(deletePosition);
-                } else {
-                  value.setBool('subAddressDeleted', false);
-                  print('Su add false : $isDeleted');
-                  constantUserAddressValuesList = addressValues
-                      .map((address) => AddUserSubAddress.fromJson(address))
-                      .toList();
-                }
-              });
-            }
-          } catch (e) {
-            hideLoader();
-            e.toString();
-          }
-        });
+        getSubAddressList();
       });
 
       print(_myCategoryPlaceForMassage);
@@ -2331,10 +2515,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('UserId: $rUserID');
       print('UserBuildName: $rUserBuildName');
       print('UserRoomNo: $rUserRoomNo');
-
     } catch (e) {
       print(e.toString());
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
     }
   }
 
@@ -2360,6 +2543,122 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   refreshPage() {
     setState(() {});
+  }
+
+  openActionDialog(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      width: MediaQuery.of(context).size.width * 0.98,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            blurRadius: 15.0, // soften the shadow
+            spreadRadius: 5, //extend the shadow
+            offset: Offset(
+              0.0, // Move to right 10  horizontally
+              10.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FittedBox(
+            child: Text(
+              'この住所を削除してもよろしいですか？',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontFamily: 'Open Sans'),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.30,
+                child: CustomToggleButton(
+                  elevation: 0,
+                  height: 50.0,
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["はい", "いいえ"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "Y",
+                    "N",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                    } else {}
+                    print('Radio value : $value');
+                  },
+                  selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _getLatLngFromAddress(String subAddress, var position) async {
+    try {
+      List<Placemark> address =
+          await geoLocator.placemarkFromAddress(subAddress);
+
+      userAddedAddressPlaceMark = address[0];
+      Position addressPosition = userAddedAddressPlaceMark.position;
+
+      var searchAddressLatitude = addressPosition.latitude;
+      var searchAddressLongitude = addressPosition.longitude;
+
+      print(
+          'Address location points : $searchAddressLatitude && $searchAddressLongitude');
+      addressID = HealingMatchConstants.userAddressesList[position].id;
+      print('Edit values :${_editAddressController.text} && $addressID');
+
+      if (searchAddressLatitude != null && searchAddressLongitude != null) {
+        var editSubAddress = ServiceUserAPIProvider.editUserSubAddress(
+            context,
+            addressID,
+            subAddress,
+            searchAddressLatitude,
+            searchAddressLongitude);
+        editSubAddress.then((value) {
+          if (value != null && value.status == 'success') {
+            print('Sub address edited!!');
+            ProgressDialogBuilder.hideLoader(context);
+            NavigationRouter.switchToServiceUserEditProfileScreen(
+                context, widget.userProfileImage);
+          }
+        }).catchError((onError) {
+          print('Delete error : $onError');
+          ProgressDialogBuilder.hideLoader(context);
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+      ProgressDialogBuilder.hideLoader(context);
+    }
   }
 }
 
@@ -2961,61 +3260,6 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _additionalAddressCurrentLocation() {
-    addAddressgeoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _addAddressPosition = position;
-      });
-      _getAdditionalAddressLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAdditionalAddressLatLng() async {
-    try {
-      List<Placemark> p = await addAddressgeoLocator.placemarkFromCoordinates(
-          _addAddressPosition.latitude, _addAddressPosition.longitude);
-
-      userGPSAddressPlaceMark = p[0];
-
-      HealingMatchConstants.addedCurrentLatitude = _addAddressPosition.latitude;
-      HealingMatchConstants.addedCurrentLongitude =
-          _addAddressPosition.longitude;
-
-      setState(() {
-        _addedAddress =
-            '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
-            '${userGPSAddressPlaceMark.administrativeArea},${userGPSAddressPlaceMark.postalCode}'
-            ',${userGPSAddressPlaceMark.country}';
-        if (_addedAddress != null && _addedAddress.isNotEmpty) {
-          print(
-              'Additional address GPS location : $_addedAddress : ${HealingMatchConstants.addedCurrentLatitude} && '
-              '${HealingMatchConstants.addedCurrentLongitude}');
-          additionalAddressController.value =
-              TextEditingValue(text: _addedAddress);
-          setState(() {
-            _isAddedGPSLocation = true;
-          });
-          HealingMatchConstants.addedServiceUserCity =
-              userGPSAddressPlaceMark.locality;
-          HealingMatchConstants.addedServiceUserPrefecture =
-              userGPSAddressPlaceMark.administrativeArea;
-        } else {
-          hideLoader();
-          return null;
-        }
-      });
-      hideLoader();
-    } catch (e) {
-      hideLoader();
-      print(e);
-    }
-  }
-
   _getAddedAddressStates() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
@@ -3030,7 +3274,7 @@ class _AddAddressState extends State<AddAddress> {
 
   // CityList cityResponse;
   _getAddedAddressCities(var prefId) async {
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
@@ -3041,7 +3285,7 @@ class _AddAddressState extends State<AddAddress> {
               .add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Response City list : ${response.body}');
     });
   }
@@ -3057,7 +3301,7 @@ class _AddAddressState extends State<AddAddress> {
         addedUserAreaController.text.isEmpty ||
         _myAddedCity.isEmpty ||
         _myAddedPrefecture.isEmpty) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Manual address empty fields');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3097,7 +3341,7 @@ class _AddAddressState extends State<AddAddress> {
         visible = false;
       });
 
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 4),
@@ -3133,7 +3377,7 @@ class _AddAddressState extends State<AddAddress> {
         _myCategoryPlaceForMassage = '';
         visible = false;
       });
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 4),
@@ -3162,7 +3406,7 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-    showOverlayLoader();
+    ProgressDialogBuilder.showOverlayLoader(context);
     String manualAddedAddress = addedRoomNumberController.text.toString() +
         ',' +
         addedBuildingNameController.text.toString() +
@@ -3212,9 +3456,9 @@ class _AddAddressState extends State<AddAddress> {
         widget.callBack();
         Navigator.pop(context);
       });
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
     } else {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -3285,8 +3529,6 @@ class _AddAddressState extends State<AddAddress> {
           constantUserAddressValuesList.add(addUserAddress);
           value.setBool('subAddressDeleted', false);
           value.setBool('isUserVerified', false);
-          var addressData = json.encode(constantUserAddressValuesList);
-          value.setString('addressData', addressData);
         }
       });
     });
