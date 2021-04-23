@@ -342,6 +342,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: userNameController,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -361,7 +362,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -395,6 +396,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     autofocus: false,
                                     keyboardType: TextInputType.number,
                                     decoration: new InputDecoration(
+                                      contentPadding: EdgeInsets.all(16.0),
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
@@ -426,7 +428,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                             text: '*',
                                             style: TextStyle(
                                                 color: Colors.red,
-                                                fontSize: 20),
+                                                fontSize: 16),
                                           ),
                                         ],
                                         style: TextStyle(
@@ -705,7 +707,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -719,13 +721,13 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 15),
                     Container(
                       height: containerHeight,
-                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -745,7 +747,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -764,8 +766,11 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFieldCustom(
                         controller: passwordController,
                         obscureText: _secureText,
+                        maxLength: 16,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
@@ -791,7 +796,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -811,7 +816,10 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
                         autofocus: false,
+                        maxLength: 16,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -841,7 +849,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
@@ -1191,8 +1199,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                         0.39,
                                     child: TextFieldCustom(
                                       controller: userAreaController,
+                                      maxLength: 25,
                                       autofocus: false,
                                       decoration: new InputDecoration(
+                                        counterText: '',
+                                        contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
@@ -1215,7 +1226,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                               text: '*',
                                               style: TextStyle(
                                                   color: Colors.red,
-                                                  fontSize: 20),
+                                                  fontSize: 16),
                                             ),
                                           ],
                                           style: TextStyle(
@@ -1239,7 +1250,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                     // keyboardType: TextInputType.number,
                                     autofocus: false,
                                     controller: buildingNameController,
+                                    maxLength: 20,
                                     decoration: new InputDecoration(
+                                      counterText: '',
                                       contentPadding: EdgeInsets.all(4.0),
                                       filled: true,
                                       fillColor:

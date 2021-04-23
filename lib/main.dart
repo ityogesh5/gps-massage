@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/SocketModules/SocketConnectionTest.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/BookingConfirmationScreens/FinalBookingConfirmationScreen.dart';
 import 'package:gps_massageapp/utils/AwesomeDialogsSample.dart';
 import 'package:gps_massageapp/utils/NotherapistScreen.dart';
 import 'package:gps_massageapp/utils/Tooltipclasses/superTooltipExample.dart';
@@ -37,15 +38,10 @@ class HealingMatchApp extends StatelessWidget {
         ],
         title: 'Healing Match',
         debugShowCheckedModeBanner: false,
-        home: SplashScreen()
-        ); //FloatingSample());
+        home: SplashScreen()); //FloatingSample());
     /*routes: Routes.routes(),
       initialRoute: Routes.initScreen(),*/ //StripePaymentUser
 
     //home: SplashScreen());
   }
-
-
-
-
 }

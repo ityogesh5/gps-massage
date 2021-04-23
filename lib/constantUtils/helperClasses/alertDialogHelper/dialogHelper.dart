@@ -1212,7 +1212,6 @@ class DialogHelper {
         });
   }
 
-
   // Delete sub address service user
   static void showDeleteSubAddressDialog(BuildContext context) {
     showDialog(
