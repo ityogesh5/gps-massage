@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
+import 'package:geocoding/geocoding.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
@@ -2228,27 +2229,34 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         myCity +
         ',' +
         myState;
-    List<Placemark> userAddress =
-        await geolocator.placemarkFromAddress(address);
-    var userAddedAddressPlaceMark = userAddress[0];
-    Position addressPosition = userAddedAddressPlaceMark.position;
-    HealingMatchConstants.serviceProviderCurrentLatitude =
-        addressPosition.latitude;
-    HealingMatchConstants.serviceProviderCurrentLongitude =
-        addressPosition.longitude;
-    /* HealingMatchConstants.serviceProviderCity =
-          userAddedAddressPlaceMark.locality;
-       HealingMatchConstants.serviceProviderPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;*/
-    HealingMatchConstants.serviceProviderAddress = address;
-    HealingMatchConstants.serviceProviderPrefecture = myState;
-    HealingMatchConstants.serviceProviderCity = myCity;
-    HealingMatchConstants.serviceProviderArea = manualAddresss;
-    HealingMatchConstants.serviceProviderCityID =
-        cityDropDownValues.indexOf(myCity) + 1;
-    HealingMatchConstants.serviceProviderPrefectureID =
-        stateDropDownValues.indexOf(myState) + 1;
+    try {
+      /*   List<Placemark> userAddress =
+          await geolocator.placemarkFromAddress(address);
+      var userAddedAddressPlaceMark = userAddress[0];
+      Position addressPosition = userAddedAddressPlaceMark.position;
+        HealingMatchConstants.serviceProviderCurrentLatitude =
+          addressPosition.latitude;
+      HealingMatchConstants.serviceProviderCurrentLongitude =
+          addressPosition.longitude;
+     */
+      List<Location> locations =
+          await locationFromAddress(address, localeIdentifier: "ja_JP");
+      HealingMatchConstants.serviceProviderCurrentLatitude =
+          locations[0].latitude;
+      HealingMatchConstants.serviceProviderCurrentLongitude =
+          locations[0].longitude;
 
+      HealingMatchConstants.serviceProviderAddress = address;
+      HealingMatchConstants.serviceProviderPrefecture = myState;
+      HealingMatchConstants.serviceProviderCity = myCity;
+      HealingMatchConstants.serviceProviderArea = manualAddresss;
+      HealingMatchConstants.serviceProviderCityID =
+          cityDropDownValues.indexOf(myCity) + 1;
+      HealingMatchConstants.serviceProviderPrefectureID =
+          stateDropDownValues.indexOf(myState) + 1;
+    } catch (e) {
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+    }
     ProgressDialogBuilder.hideCommonProgressDialog(context);
     NavigationRouter.switchToServiceProviderSecondScreen(context);
   }
