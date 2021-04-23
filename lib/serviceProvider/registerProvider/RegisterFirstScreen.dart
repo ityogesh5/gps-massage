@@ -19,7 +19,6 @@ import 'package:intl/intl.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:toast/toast.dart';
-import 'package:geocoder/geocoder.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
