@@ -18,6 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
+import 'package:geocoder/geocoder.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
@@ -2229,24 +2231,21 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         myCity +
         ',' +
         myState;
+    String query =    Platform.isIOS?  myCity +
+        ',' +
+        myState :address;
     try {
-      /*   List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
-      var userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-        HealingMatchConstants.serviceProviderCurrentLatitude =
-          addressPosition.latitude;
-      HealingMatchConstants.serviceProviderCurrentLongitude =
-          addressPosition.longitude;
-     */
-      List<Location> locations =
-          await locationFromAddress(address, localeIdentifier: "ja_JP");
+      
+      List<Location> locations = 
+          await locationFromAddress(query, localeIdentifier:  "ja_JP" );
       HealingMatchConstants.serviceProviderCurrentLatitude =
           locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude }");
       HealingMatchConstants.serviceProviderCurrentLongitude =
           locations[0].longitude;
-
-      HealingMatchConstants.serviceProviderAddress = address;
+             print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude }");
+    
+       HealingMatchConstants.serviceProviderAddress = address;
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = manualAddresss;
@@ -2254,11 +2253,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           cityDropDownValues.indexOf(myCity) + 1;
       HealingMatchConstants.serviceProviderPrefectureID =
           stateDropDownValues.indexOf(myState) + 1;
+           Toast.show("Address Success ${locations[0].latitude} , ${locations[0].longitude}", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
+    NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
+       Toast.show("Address not got ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
     }
-    ProgressDialogBuilder.hideCommonProgressDialog(context);
-    NavigationRouter.switchToServiceProviderSecondScreen(context);
+    
   }
 
   void _showPicker(context) {
