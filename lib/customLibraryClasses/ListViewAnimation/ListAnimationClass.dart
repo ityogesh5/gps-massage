@@ -23,9 +23,9 @@ class _AnimatorState extends State<Animator>
   }
   @override
   void dispose() {
+    animationController.dispose();
     super.dispose();
     timer.cancel();
-    animationController.dispose();
   }
   @override
   Widget build(BuildContext context) {
