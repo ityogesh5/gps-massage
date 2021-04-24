@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,14 +32,13 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerRegistered = false;
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
     if (HealingMatchConstants.isInternetAvailable) {
       _navigateUser();
-      //NavigationRouter.switchToServiceUserBottomBar(context);
     } else {
       DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
     }
@@ -51,9 +51,9 @@ class _SplashScreenPageState extends State<SplashScreen>
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
     animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 4));
+        vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.easeInCirc);
+        parent: animationController, curve: Curves.slowMiddle);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();

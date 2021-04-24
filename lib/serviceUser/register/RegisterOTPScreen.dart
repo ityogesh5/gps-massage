@@ -54,7 +54,7 @@ class _RegisterOtpScreenState extends State<RegisterOtpScreen> {
         },
         child: Form(
           key: formKey,
-          autovalidate: autoValidate,
+          autovalidateMode: AutovalidateMode.disabled,
           child: Center(
             child: SingleChildScrollView(
               child: Container(
