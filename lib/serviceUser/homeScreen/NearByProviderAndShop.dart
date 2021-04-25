@@ -287,7 +287,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    showOverlayLoader();
+    //showOverlayLoader();
   }
 
   showOverlayLoader() {

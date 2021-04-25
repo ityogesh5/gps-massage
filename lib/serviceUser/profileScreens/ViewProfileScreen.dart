@@ -610,7 +610,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
                   value.data.addresses[0].userPlaceForMassage;
               HealingMatchConstants.userEditPlaceForMassageOther =
                   value.data.addresses[0].otherAddressType;
-              HealingMatchConstants.userEditArea = value.data.addresses[i].area;
+              HealingMatchConstants.userEditArea = value.data.addresses[0].area;
               HealingMatchConstants.userEditBuildName =
                   value.data.addresses[0].buildingName;
               HealingMatchConstants.userEditRoomNo =

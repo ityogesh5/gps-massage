@@ -604,7 +604,7 @@ class NavigationRouter {
         transitionDuration: Duration(milliseconds: 3000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
           animation = CurvedAnimation(
-              curve: HealingMatchConstants.curveList[5], parent: animation);
+              curve: HealingMatchConstants.curveList[3], parent: animation);
           return Align(
             child: SizeTransition(
               sizeFactor: animation,

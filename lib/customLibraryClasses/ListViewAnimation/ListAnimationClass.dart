@@ -48,11 +48,11 @@ Timer timer;
 Duration duration = Duration();
 wait() {
   if (timer == null || !timer.isActive) {
-    timer = Timer(Duration(milliseconds: 300), () {
+    timer = Timer(Duration(milliseconds: 200), () {
       duration = Duration();
     });
   }
-  duration += Duration(milliseconds: 100);
+  duration += Duration(milliseconds: 200);
   return duration;
 }
 class WidgetAnimator extends StatelessWidget {
