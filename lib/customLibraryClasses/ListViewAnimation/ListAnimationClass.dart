@@ -52,7 +52,7 @@ wait() {
       duration = Duration();
     });
   }
-  duration += Duration(milliseconds: 300);
+  duration += Duration(milliseconds: 100);
   return duration;
 }
 class WidgetAnimator extends StatelessWidget {

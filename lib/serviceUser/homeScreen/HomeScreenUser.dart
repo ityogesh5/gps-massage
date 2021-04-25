@@ -370,9 +370,8 @@ class _LoadHomePageState extends State<LoadHomePage> {
   }
 
   showOverlayLoader() {
-    Loader.show(context,
-        progressIndicator: LoadInitialHomePage());
-    Future.delayed(Duration(seconds: 2), () {
+    Loader.show(context, progressIndicator: LoadInitialHomePage());
+    Future.delayed(Duration(seconds: 3), () {
       Loader.hide();
     });
   }
@@ -403,7 +402,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (therapistUsers.isNotEmpty) {
+                      if (therapistUsers != null && therapistUsers.isNotEmpty) {
                         NavigationRouter.switchToNearByProviderAndShop(context);
                       } else {
                         return;
@@ -1639,65 +1638,63 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                     borderRadius: BorderRadius.all(Radius.circular(12.0))),
                 child: Column(children: [
                   CarouselSlider(
-                      items: <Widget>[
-                        for (int i = 0; i < userBannerImages.length; i++)
-                          Container(
-                            child: Container(
-                              margin: EdgeInsets.all(5.0),
-                              child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                  child: Stack(
-                                    children: <Widget>[
-                                        CachedNetworkImage(
-                                            width: 2000.0,
-                                            fit: BoxFit.cover,
-                                            imageUrl: userBannerImages[i],
-                                            placeholder: (context, url) =>
-                                                SpinKitWave(
-                                                    color: Colors.lightBlueAccent),
-                                            errorWidget: (context, url, error) =>
-                                                Column(
-                                                  children: [
-                                                    Text(
-                                                      'Failed to Download Banners...Try Again!!',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          color: Colors.black,
-                                                          fontSize: 16),
-                                                    ),
-                                                    new IconButton(
-                                                      icon: Icon(
-                                                          Icons.refresh_sharp,
-                                                          size: 40),
-                                                      onPressed: () {
-                                                        _getBannerImages();
-                                                      },
-                                                    ),
-                                                  ],
-                                                )),
-
-                                    ],
-                                  )),
-                            ),
-                          )
-                      ],
-                      options: CarouselOptions(
-                          autoPlay: true,
-                          autoPlayCurve: Curves.easeInOutCubic,
-                          enlargeCenterPage: false,
-                          viewportFraction: 1.02,
-                          aspectRatio: 2.0,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          }),
-                    ),
-
+                    items: <Widget>[
+                      for (int i = 0; i < userBannerImages.length; i++)
+                        Container(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    CachedNetworkImage(
+                                        width: 2000.0,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userBannerImages[i],
+                                        placeholder: (context, url) =>
+                                            SpinKitWave(
+                                                color: Colors.lightBlueAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to Download Banners...Try Again!!',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                ),
+                                                new IconButton(
+                                                  icon: Icon(
+                                                      Icons.refresh_sharp,
+                                                      size: 40),
+                                                  onPressed: () {
+                                                    _getBannerImages();
+                                                  },
+                                                ),
+                                              ],
+                                            )),
+                                  ],
+                                )),
+                          ),
+                        )
+                    ],
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                  ),
                 ]),
               ),
               Positioned(
@@ -1733,21 +1730,20 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
-                    CarouselSlider(
-                      items: dummyImageSliders,
-                      options: CarouselOptions(
-                          autoPlay: true,
-                          autoPlayCurve: Curves.easeInOutCubic,
-                          enlargeCenterPage: false,
-                          viewportFraction: 1.02,
-                          aspectRatio: 2.0,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          }),
-                    ),
-
+                  CarouselSlider(
+                    items: dummyImageSliders,
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                  ),
                 ]),
               ),
               Positioned(

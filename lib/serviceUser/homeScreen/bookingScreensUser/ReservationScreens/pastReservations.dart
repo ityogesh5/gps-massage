@@ -1,6 +1,9 @@
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +21,11 @@ class _PastReservationsState extends State<PastReservations> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // getId();
+    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Future.delayed(Duration(seconds: 2), () {
+      Loader.hide();
+    });
   }
 
   @override
