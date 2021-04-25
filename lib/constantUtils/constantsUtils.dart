@@ -8,9 +8,9 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -125,6 +125,10 @@ class HealingMatchConstants {
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
 
   // delete user sub address
+  static const String EDIT_SUB_ADDRESS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/userSubAddressUpdate';
+
+  // fetch therapist results
   static const String FETCH_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
 
@@ -409,8 +413,6 @@ class HealingMatchConstants {
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
   static double mEditCurrentLongitude = 0.0;
-  static double editCurrentLatitude = 0.0;
-  static double editCurrentLongitude = 0.0;
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
@@ -423,10 +425,12 @@ class HealingMatchConstants {
   static bool isTimeCriteria = true;
   static int serviceType = 0;
   static DateTime dateTime = DateTime.now();
-  static List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
   static String serviceUserID;
+  static List<AddedSubAddresses> editUserSubAddressList =
+      new List<AddedSubAddresses>();
 
   // User Home screen
   static int serviceTypeValue = 0;

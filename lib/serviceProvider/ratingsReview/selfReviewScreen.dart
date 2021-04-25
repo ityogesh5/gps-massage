@@ -9,11 +9,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_bloc.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override

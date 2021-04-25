@@ -113,8 +113,7 @@ class ShowToolTip {
     var storeType = {for (int i = 0; i < split.length; i++) i: split[i]};
     final jsonList = split.map((item) => jsonEncode(item)).toList();
     final uniqueJsonList = jsonList.toSet().toList();
-    final result =
-    uniqueJsonList.map((item) => jsonDecode(item)).toList();
+    final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -161,7 +160,7 @@ class ShowToolTip {
                                   ),
                                   child: Padding(
                                       padding: const EdgeInsets.all(4.0),
-                                      child: result[index].contains ("エステ")
+                                      child: result[index].contains("エステ")
                                           ? SvgPicture.asset(
                                               "assets/images_gps/serviceTypeOne.svg",
                                               height: 15.0,
@@ -175,7 +174,8 @@ class ShowToolTip {
                                                   width: 15.0,
                                                   color: Colors.black,
                                                 )
-                                              : result[index].contains ("リラクゼーション")
+                                              : result[index]
+                                                      .contains("リラクゼーション")
                                                   ? SvgPicture.asset(
                                                       "assets/images_gps/serviceTypeThree.svg",
                                                       height: 15.0,

@@ -155,8 +155,8 @@ class DropDownFormField extends FormField<dynamic> {
                                   style: enabled
                                       ? HealingMatchConstants.formTextStyle
                                       : TextStyle(
-                                      fontFamily: 'NotoSansJP',
-                                      fontSize: 14,
+                                          fontFamily: 'NotoSansJP',
+                                          fontSize: 14,
                                           color: Color.fromRGBO(0, 0, 0, 1)),
                                   onChanged: (dynamic newValue) {
                                     state.didChange(newValue);

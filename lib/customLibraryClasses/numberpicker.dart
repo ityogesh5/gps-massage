@@ -1,9 +1,10 @@
 import 'dart:math' as math;
-import 'package:intl/intl.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:infinite_listview/infinite_listview.dart';
+import 'package:intl/intl.dart';
 
 /// Created by Marcin Szałek
 ///Define a text mapper to transform the text displayed by the picker

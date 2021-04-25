@@ -77,13 +77,15 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                     if (value == 'Y') {
                       print('User Logged out!!');
                       _sharedPreferences.then((value) {
+                        value.remove('accessToken');
+                        value.remove('addressData');
                         value.setBool('isUserLoggedOut', true);
                         value.setBool('isUserLoggedIn', false);
                         value.setBool('isProviderLoggedOut', false);
                         value.setBool('isUserRegister', false);
                         bool loggedOut = value.getBool('isUserLoggedOut');
                         print('userLogout is false : $loggedOut');
-                        //value.remove('accessToken');
+
                         NavigationRouter.switchToUserLogin(context);
                       });
                     } else {

@@ -4,7 +4,7 @@ class AddUserSubAddress {
   var _userId;
   String _address;
   String _lat;
-  String _lng;
+  String _lon;
   String _addressType;
   String _addressCategory;
   String _city;
@@ -17,7 +17,7 @@ class AddUserSubAddress {
       this._userId,
       this._address,
       this._lat,
-      this._lng,
+      this._lon,
       this._addressType,
       this._addressCategory,
       this._city,
@@ -32,7 +32,7 @@ class AddUserSubAddress {
 
   String get lat => _lat;
 
-  String get lng => _lng;
+  String get lon => _lon;
 
   String get addressType => _addressType;
 
@@ -56,8 +56,8 @@ class AddUserSubAddress {
     this._lat = lat;
   }
 
-  set lng(String lang) {
-    this._lng = lang;
+  set lon(String lon) {
+    this._lon = lon;
   }
 
   set addressType(String addressType) {
@@ -93,7 +93,7 @@ class AddUserSubAddress {
     _userId = json['userId'];
     _address = json['subAddress'];
     _lat = json['lat'];
-    _lng = json['lng'];
+    lon = json['lon'];
     _addressType = json['addressTypeSelection'];
     _addressCategory = json['userPlaceForMassage'];
     _city = json['cityName'];
@@ -108,7 +108,7 @@ class AddUserSubAddress {
     data['userId'] = this._userId;
     data['subAddress'] = this._address;
     data['lat'] = this._lat;
-    data['lng'] = this._lng;
+    data['lon'] = this.lon;
     data['addressTypeSelection'] = this._addressType;
     data['userPlaceForMassage'] = this._addressCategory;
     data['cityName'] = this._city;
@@ -126,10 +126,11 @@ class AddUserSubAddress {
   }
 
   static String encode(List<AddUserSubAddress> subAddress) => json.encode(
-    subAddress
-        .map<Map<String, dynamic>>((subAddress) => AddUserSubAddress.toMap(subAddress))
-        .toList(),
-  );
+        subAddress
+            .map<Map<String, dynamic>>(
+                (subAddress) => AddUserSubAddress.toMap(subAddress))
+            .toList(),
+      );
 
   static List<AddUserSubAddress> decode(String subAddress) =>
       (json.decode(subAddress) as List<dynamic>)
@@ -137,18 +138,18 @@ class AddUserSubAddress {
           .toList();
 
   static toMap(AddUserSubAddress subAddress) => {
-    'userId': subAddress._userId,
-    'subAddress': subAddress._address,
-    'lat': subAddress._lat,
-    'lng': subAddress._lng,
-    'addressTypeSelection': subAddress._addressType,
-    'userPlaceForMassage': subAddress._addressCategory,
-    'cityName': subAddress._city,
-    'capitalAndPrefecture': subAddress._prefecture,
-    'roomNumber': subAddress._roomNumber,
-    'buildingName': subAddress._buildingName,
-    'area': subAddress._area
-  };
+        'userId': subAddress._userId,
+        'subAddress': subAddress._address,
+        'lat': subAddress._lat,
+        'lon': subAddress.lon,
+        'addressTypeSelection': subAddress._addressType,
+        'userPlaceForMassage': subAddress._addressCategory,
+        'cityName': subAddress._city,
+        'capitalAndPrefecture': subAddress._prefecture,
+        'roomNumber': subAddress._roomNumber,
+        'buildingName': subAddress._buildingName,
+        'area': subAddress._area
+      };
 
   String get address => _address;
 
@@ -156,4 +157,3 @@ class AddUserSubAddress {
     _address = value;
   }
 }
-

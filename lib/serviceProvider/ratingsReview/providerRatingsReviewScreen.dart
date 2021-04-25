@@ -530,7 +530,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > userReviewList.ratingsCount-1
+                    icon: index > userReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
@@ -799,7 +799,7 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > userReviewList.ratingsCount-1
+                    icon: index > userReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
