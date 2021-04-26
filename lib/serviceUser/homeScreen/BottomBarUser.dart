@@ -66,8 +66,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
         backgroundColor: Colors.red.withOpacity(0),
         // Colors.red,
         color: Colors.white,
-        animationCurve: Curves.decelerate,
-        animationDuration: Duration(milliseconds: 200),
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
         items: <Widget>[
           SvgPicture.asset(
             "assets/images_gps/provicer_home_black.svg",

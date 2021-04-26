@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 
@@ -13,6 +16,15 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   double ratingsValue = 3.0;
+
+  @override
+  void initState() {
+    super.initState();
+    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Future.delayed(Duration(seconds: 2), () {
+      Loader.hide();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +68,8 @@ class _FavoriteState extends State<Favorite> {
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           flex: 1,
@@ -110,13 +123,14 @@ class _FavoriteState extends State<Favorite> {
                                                             ]),
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                          color: Colors.grey[400],
+                                                          color:
+                                                              Colors.grey[400],
                                                         ),
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
                                                           height: 15.0,
@@ -158,43 +172,47 @@ class _FavoriteState extends State<Favorite> {
                                                           .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Color.fromRGBO(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      1),
-                                                                  Color.fromRGBO(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      1),
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Color.fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                      Color.fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         child: Text(
                                                           '店舗',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -203,33 +221,39 @@ class _FavoriteState extends State<Favorite> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           '出張',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -238,33 +262,39 @@ class _FavoriteState extends State<Favorite> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           'コロナ対策実施',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                   ],
@@ -289,15 +319,16 @@ class _FavoriteState extends State<Favorite> {
                                                       initialRating: 3,
                                                       minRating: 1,
                                                       ignoreGestures: true,
-                                                      direction: Axis.horizontal,
+                                                      direction:
+                                                          Axis.horizontal,
                                                       allowHalfRating: true,
                                                       itemCount: 5,
                                                       itemSize: 20,
                                                       itemPadding:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 4.0),
-                                                      itemBuilder: (context, _) =>
-                                                          Icon(
+                                                      itemBuilder:
+                                                          (context, _) => Icon(
                                                         Icons.star,
                                                         size: 5,
                                                         color: Color.fromRGBO(
@@ -327,7 +358,8 @@ class _FavoriteState extends State<Favorite> {
                                               Row(
                                                 children: [
                                                   Container(
-                                                      padding: EdgeInsets.all(4),
+                                                      padding:
+                                                          EdgeInsets.all(4),
                                                       decoration: BoxDecoration(
                                                           gradient: LinearGradient(
                                                               begin: Alignment
@@ -338,15 +370,16 @@ class _FavoriteState extends State<Favorite> {
                                                                 Colors.white,
                                                                 Colors.white,
                                                               ]),
-                                                          shape:
-                                                              BoxShape.rectangle,
+                                                          shape: BoxShape
+                                                              .rectangle,
                                                           border: Border.all(
-                                                            color:
-                                                                Colors.grey[300],
+                                                            color: Colors
+                                                                .grey[300],
                                                           ),
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(5.0),
+                                                                  .circular(
+                                                                      5.0),
                                                           color:
                                                               Colors.grey[200]),
                                                       child: Text(
@@ -384,7 +417,8 @@ class _FavoriteState extends State<Favorite> {
                                           Text(
                                             '埼玉県浦和区高砂4丁目4',
                                             style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Spacer(),

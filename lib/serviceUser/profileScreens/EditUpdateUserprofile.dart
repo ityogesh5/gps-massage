@@ -951,6 +951,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     child: WidgetAnimator(
                                       TextFormField(
                                         enabled: false,
+
                                         //enableInteractiveSelection: false,
                                         autofocus: false,
                                         controller: userAreaController,
@@ -991,6 +992,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   child: WidgetAnimator(
                                     TextFormField(
                                       enabled: false,
+
                                       //enableInteractiveSelection: false,
                                       // keyboardType: TextInputType.number,
                                       autofocus: false,
@@ -1042,6 +1044,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     child: WidgetAnimator(
                                       TextFormField(
                                         enabled: false,
+
                                         //enableInteractiveSelection: false,
                                         autofocus: false,
                                         controller: roomNumberController,

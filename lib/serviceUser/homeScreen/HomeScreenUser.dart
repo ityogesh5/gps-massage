@@ -373,7 +373,11 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
+<<<<<<< HEAD
     Future.delayed(Duration(seconds: 2), () {
+=======
+    Future.delayed(Duration(seconds: 3), () {
+>>>>>>> origin/origin/DEV/devYogeshwar
       Loader.hide();
     });
   }
@@ -404,7 +408,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (therapistUsers.isNotEmpty) {
+                      if (therapistUsers != null && therapistUsers.isNotEmpty) {
                         NavigationRouter.switchToNearByProviderAndShop(context);
                       } else {
                         return;

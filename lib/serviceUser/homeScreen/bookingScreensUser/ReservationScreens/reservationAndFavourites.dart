@@ -1,6 +1,8 @@
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/favorite.dart';
@@ -24,6 +26,12 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
+
+    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Future.delayed(Duration(seconds: 2), () {
+      Loader.hide();
+    });
+
   }
 
   buildUnSelectedTabBar(String title) {
@@ -97,6 +105,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
 
         bottom: TabBar(
           controller: _tabController,
+          physics: BouncingScrollPhysics(),
           isScrollable: true,
           labelColor: Colors.white,
           labelPadding:
@@ -108,7 +117,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
             tabBarIndicatorSize: TabBarIndicatorSize.tab,
           ),
           onTap: (index) {},
-          dragStartBehavior: DragStartBehavior.start,
+          dragStartBehavior: DragStartBehavior.down,
           tabs: [
             Tab(
               child: _tabIndex == 0
@@ -154,8 +163,8 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
           ],
         ),
       ),
-      body: WidgetAnimator(TabBarView(
-          physics: NeverScrollableScrollPhysics(), //Disable Horizontal Swipe
+      body: TabBarView(
+          physics: BouncingScrollPhysics(), //Disable Horizontal Swipe
           controller: _tabController,
           children: [
             ReservationStatus(),
@@ -163,7 +172,7 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
             Favorite(),
           ],
         ),
-      ),
+
     );
   }
 }

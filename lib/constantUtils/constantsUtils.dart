@@ -14,6 +14,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:flutter/animation.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -530,15 +531,46 @@ class HealingMatchConstants {
     ),
   );
 
-  static Future<void> getMoreData(int page, int size) async {
-    var loadDataURL =
-        '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$page&size=$size';
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'x-access-token': '${HealingMatchConstants.accessToken}'
-    };
-    var response = await http.post(loadDataURL, headers: headers);
-    print('response : ${response.body}');
-    return response;
-  }
+  static List<Curve> curveList = [
+    Curves.bounceIn,
+    Curves.bounceInOut,
+    Curves.bounceOut,
+    Curves.decelerate,
+    Curves.ease,
+    Curves.easeIn,
+    Curves.easeInBack,
+    Curves.easeInCirc,
+    Curves.easeInCubic,
+    Curves.easeInExpo,
+    Curves.easeInOut,
+    Curves.easeInOutBack,
+    Curves.easeInOutCirc,
+    Curves.easeInOutCubic,
+    Curves.easeInOutExpo,
+    Curves.easeInOutQuad,
+    Curves.easeInOutQuart,
+    Curves.easeInOutQuint,
+    Curves.easeInOutSine,
+    Curves.easeInQuad,
+    Curves.easeInQuart,
+    Curves.easeInQuint,
+    Curves.easeInSine,
+    Curves.easeInToLinear,
+    Curves.easeOut,
+    Curves.easeOutBack,
+    Curves.easeOutCubic,
+    Curves.easeOutExpo,
+    Curves.easeOutQuad,
+    Curves.easeOutQuart,
+    Curves.easeOutQuint,
+    Curves.easeOutSine,
+    Curves.elasticIn,
+    Curves.elasticInOut,
+    Curves.elasticOut,
+    Curves.fastLinearToSlowEaseIn,
+    Curves.fastOutSlowIn,
+    Curves.linear,
+    Curves.linearToEaseOut,
+    Curves.slowMiddle
+  ];
 }
