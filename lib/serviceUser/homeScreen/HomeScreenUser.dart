@@ -408,17 +408,14 @@ class _LoadHomePageState extends State<LoadHomePage> {
                         return;
                       }
                     },
-                    child: Visibility(
-                      visible: therapistUsers != null,
-                      child: Text(
-                        'もっとみる',
-                        style: TextStyle(
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            fontFamily: ColorConstants.fontFamily,
-                            decoration: TextDecoration.underline),
-                      ),
+                    child: Text(
+                      'もっとみる',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          fontFamily: ColorConstants.fontFamily,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                 ],
@@ -509,22 +506,20 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (widget.getTherapistByType.isNotEmpty) {
+                      if (widget.getTherapistByType != null &&
+                          widget.getTherapistByType.isNotEmpty) {
                         NavigationRouter.switchToNearByProviderAndShop(context);
                       } else {
                         return;
                       }
                     },
-                    child: Visibility(
-                      visible: widget.getTherapistByType != null,
-                      child: Text(
-                        'もっと見る',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            decoration: TextDecoration.underline),
-                      ),
+                    child: Text(
+                      'もっと見る',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                 ],
@@ -1129,7 +1124,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                   ),
                                                 ),
                                               ),
-                                              Spacer(),
+                                              Spacer(flex: 2),
                                               FavoriteButton(
                                                   iconSize: 40,
                                                   iconColor: Colors.red,
@@ -1371,30 +1366,38 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                       }),
                                                 )
                                               : Container(),
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                //Spacer(),
-                                                widget.getTherapistByType[index]
-                                                            .lowestPrice !=
-                                                        null
-                                                    ? Text(
-                                                        '¥${widget.getTherapistByType[index].lowestPrice}/${widget.getTherapistByType[index].priceForMinute}',
+                                          widget.getTherapistByType[index]
+                                                          .lowestPrice !=
+                                                      null &&
+                                                  widget
+                                                          .getTherapistByType[
+                                                              index]
+                                                          .lowestPrice !=
+                                                      0
+                                              ? Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        '¥${widget.getTherapistByType[index].lowestPrice}',
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 16),
-                                                      )
-                                                    : Text(
-                                                        '¥0/0分',
+                                                            fontSize: 18),
+                                                      ),
+                                                      Text(
+                                                        '/${widget.getTherapistByType[index].priceForMinute}',
                                                         style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 16),
+                                                                FontWeight
+                                                                    .normal,
+                                                            color: Colors
+                                                                .grey[400],
+                                                            fontSize: 14),
                                                       )
-                                              ],
-                                            ),
-                                          ),
+                                                    ],
+                                                  ),
+                                                )
+                                              : SizedBox.shrink()
                                         ],
                                       ),
                                     )
@@ -1500,54 +1503,59 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   getCertificateValues(List<TypeTherapistData> getTherapistByType) async {
     if (this.mounted) {
       setState(() {
-        for (int i = 0; i < getTherapistByType.length; i++) {
-          if (getTherapistByType[i].user.storeType != null &&
-              getTherapistByType[i].user.storeType != '') {
-            var split = getTherapistByType[i].user.storeType.split(',');
-            final jsonList = split.map((item) => jsonEncode(item)).toList();
-            final uniqueJsonList = jsonList.toSet().toList();
-            final result =
-                uniqueJsonList.map((item) => jsonDecode(item)).toList();
-            print('Map Duplicate type : $result');
-            storeTypeValues = {
-              for (int i = 0; i < result.length; i++) i: result[i]
-            };
-            print('Store type map values type : $storeTypeValues');
-          }
-          certificateUpload = getTherapistByType[i].user.certificationUploads;
-          for (int j = 0; j < certificateUpload.length; j++) {
-            print('Certificate upload type : ${certificateUpload[j].toJson()}');
-            certificateUploadKeys = certificateUpload[j].toJson();
-            certificateUploadKeys.remove('id');
-            certificateUploadKeys.remove('userId');
-            certificateUploadKeys.remove('createdAt');
-            certificateUploadKeys.remove('updatedAt');
-            print('Keys certificate type : $certificateUploadKeys');
-          }
-        }
-        certificateUploadKeys.forEach((key, value) async {
-          if (certificateUploadKeys[key] != null) {
-            String jKey = getQualificationJPWordsForType(key);
-            if (jKey == "はり師" ||
-                jKey == "きゅう師" ||
-                jKey == "鍼灸師" ||
-                jKey == "あん摩マッサージ指圧師" ||
-                jKey == "柔道整復師" ||
-                jKey == "理学療法士") {
-              certificateImages["国家資格保有"] = "国家資格保有";
-            } else if (jKey == "国家資格取得予定（学生）") {
-              certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-            } else if (jKey == "民間資格") {
-              certificateImages["民間資格"] = "民間資格";
-            } else if (jKey == "無資格") {
-              certificateImages["無資格"] = "無資格";
+        if (getTherapistByType != null && getTherapistByType.isNotEmpty) {
+          for (int i = 0; i < getTherapistByType.length; i++) {
+            if (getTherapistByType[i].user.storeType != null &&
+                getTherapistByType[i].user.storeType != '') {
+              var split = getTherapistByType[i].user.storeType.split(',');
+              final jsonList = split.map((item) => jsonEncode(item)).toList();
+              final uniqueJsonList = jsonList.toSet().toList();
+              final result =
+                  uniqueJsonList.map((item) => jsonDecode(item)).toList();
+              print('Map Duplicate type : $result');
+              storeTypeValues = {
+                for (int i = 0; i < result.length; i++) i: result[i]
+              };
+              print('Store type map values type : $storeTypeValues');
+            }
+            certificateUpload = getTherapistByType[i].user.certificationUploads;
+            for (int j = 0; j < certificateUpload.length; j++) {
+              print(
+                  'Certificate upload type : ${certificateUpload[j].toJson()}');
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate type : $certificateUploadKeys');
             }
           }
-        });
-        if (certificateImages.length == 0) {
-          certificateImages["無資格"] = "無資格";
+          certificateUploadKeys.forEach((key, value) async {
+            if (certificateUploadKeys[key] != null) {
+              String jKey = getQualificationJPWordsForType(key);
+              if (jKey == "はり師" ||
+                  jKey == "きゅう師" ||
+                  jKey == "鍼灸師" ||
+                  jKey == "あん摩マッサージ指圧師" ||
+                  jKey == "柔道整復師" ||
+                  jKey == "理学療法士") {
+                certificateImages["国家資格保有"] = "国家資格保有";
+              } else if (jKey == "国家資格取得予定（学生）") {
+                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+              } else if (jKey == "民間資格") {
+                certificateImages["民間資格"] = "民間資格";
+              } else if (jKey == "無資格") {
+                certificateImages["無資格"] = "無資格";
+              }
+            }
+          });
+          if (certificateImages.length == 0) {
+            certificateImages["無資格"] = "無資格";
+          }
+          print('certificateImages data type : $certificateImages');
+        } else {
+          print('List is empty');
         }
-        print('certificateImages data type : $certificateImages');
       });
     }
   }
@@ -2549,55 +2557,61 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
         if (this.mounted) {
           setState(() {
             therapistUsers = value.homeTherapistData.therapistData;
-            for (int i = 0; i < therapistUsers.length; i++) {
-              if (therapistUsers[i].user.storeType != null &&
-                  therapistUsers[i].user.storeType != '') {
-                var split = therapistUsers[i].user.storeType.split(',');
-                final jsonList = split.map((item) => jsonEncode(item)).toList();
-                final uniqueJsonList = jsonList.toSet().toList();
-                final result =
-                    uniqueJsonList.map((item) => jsonDecode(item)).toList();
-                print('Map Duplicate : $result');
-                storeTypeValues = {
-                  for (int i = 0; i < result.length; i++) i: result[i]
-                };
-                print('Store type map values : $storeTypeValues');
-              }
-              certificateUpload = value
-                  .homeTherapistData.therapistData[i].user.certificationUploads;
-              for (int j = 0; j < certificateUpload.length; j++) {
-                print('Certificate upload : ${certificateUpload[j].toJson()}');
-                certificateUploadKeys = certificateUpload[j].toJson();
-                certificateUploadKeys.remove('id');
-                certificateUploadKeys.remove('userId');
-                certificateUploadKeys.remove('createdAt');
-                certificateUploadKeys.remove('updatedAt');
-                print('Keys certificate : $certificateUploadKeys');
-              }
-            }
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWords(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
+            if (therapistUsers != null && therapistUsers.isNotEmpty) {
+              for (int i = 0; i < therapistUsers.length; i++) {
+                if (therapistUsers[i].user.storeType != null &&
+                    therapistUsers[i].user.storeType != '') {
+                  var split = therapistUsers[i].user.storeType.split(',');
+                  final jsonList =
+                      split.map((item) => jsonEncode(item)).toList();
+                  final uniqueJsonList = jsonList.toSet().toList();
+                  final result =
+                      uniqueJsonList.map((item) => jsonDecode(item)).toList();
+                  print('Map Duplicate : $result');
+                  storeTypeValues = {
+                    for (int i = 0; i < result.length; i++) i: result[i]
+                  };
+                  print('Store type map values : $storeTypeValues');
+                }
+                certificateUpload = value.homeTherapistData.therapistData[i]
+                    .user.certificationUploads;
+                for (int j = 0; j < certificateUpload.length; j++) {
+                  print(
+                      'Certificate upload : ${certificateUpload[j].toJson()}');
+                  certificateUploadKeys = certificateUpload[j].toJson();
+                  certificateUploadKeys.remove('id');
+                  certificateUploadKeys.remove('userId');
+                  certificateUploadKeys.remove('createdAt');
+                  certificateUploadKeys.remove('updatedAt');
+                  print('Keys certificate : $certificateUploadKeys');
                 }
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWords(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data : $certificateImages');
+            } else {
+              print('List is empty !!');
             }
-            print('certificateImages data : $certificateImages');
           });
         }
       }).catchError((onError) {
@@ -2832,7 +2846,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                     ),
                                                   ),
                                                 ),
-                                                Spacer(),
+                                                Spacer(flex: 2),
                                                 FavoriteButton(
                                                     iconSize: 40,
                                                     iconColor: Colors.red,
@@ -3062,32 +3076,36 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                         }),
                                                   )
                                                 : Container(),
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  //Spacer(),
-                                                  therapistUsers[index]
-                                                              .lowestPrice !=
-                                                          null
-                                                      ? Text(
-                                                          '¥${therapistUsers[index].lowestPrice}/${therapistUsers[index].priceForMinute}',
+                                            therapistUsers[index].lowestPrice !=
+                                                        null &&
+                                                    therapistUsers[index]
+                                                            .lowestPrice !=
+                                                        0
+                                                ? Expanded(
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          '¥${therapistUsers[index].lowestPrice}',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
-                                                              fontSize: 16),
-                                                        )
-                                                      : Text(
-                                                          '¥0/0分',
+                                                              fontSize: 18),
+                                                        ),
+                                                        Text(
+                                                          '/${therapistUsers[index].priceForMinute}',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
-                                                              fontSize: 16),
+                                                                      .normal,
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              fontSize: 14),
                                                         )
-                                                ],
-                                              ),
-                                            ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox.shrink()
                                           ],
                                         ),
                                       ],

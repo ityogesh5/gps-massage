@@ -117,21 +117,6 @@ class DialogHelper {
                 SizedBox(height: 5),
               ],
             ),
-            Positioned(
-              top: -40,
-              //right: 150,
-              left: 260,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white70,
-                  maxRadius: MediaQuery.of(context).size.width * 0.11,
-                  child: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        dialog.dissmiss();
-                        NavigationRouter.switchToServiceUserBottomBar(context);
-                        print('Close');
-                      })),
-            ),
           ],
         ),
       ),
