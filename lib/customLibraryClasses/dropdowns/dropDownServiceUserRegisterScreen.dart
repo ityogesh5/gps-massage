@@ -148,8 +148,7 @@ class DropDownFormField extends FormField<dynamic> {
                                         : TextStyle(
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 14,
-                                            color: Color.fromRGBO(
-                                                217, 217, 217, 1)),
+                                            color: Color.fromRGBO(0, 0, 0, 1)),
                                   ),
                                   value: value == '' ? null : value,
                                   style: enabled

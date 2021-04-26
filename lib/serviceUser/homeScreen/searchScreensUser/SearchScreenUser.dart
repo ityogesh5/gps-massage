@@ -112,7 +112,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     children: [
                       Expanded(
                         child: Card(
-                          elevation: 4.0,
+                          elevation: 8.0,
                           margin: EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -1456,34 +1456,40 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   getValidSearchFields() async {
     ProgressDialogBuilder.showOverlayLoader(context);
-    _sharedPreferences.then((value) {
-      if (value != null) {
-        var userDetails = ServiceUserAPIProvider.getUserDetails(
-            context, HealingMatchConstants.serviceUserID);
-        userDetails.then((value) {
-          setState(() {
-            constantUserAddressValuesList = value.data.addresses;
-            for (var category in constantUserAddressValuesList) {
-              print(
-                  'List length search : ${constantUserAddressValuesList.length}');
-
-              var categoryData = category.userPlaceForMassage;
-              constantUserAddressSize.add(categoryData);
-              print(
-                  'Size of list category : ${constantUserAddressSize.length} && $categoryData');
-
-              ProgressDialogBuilder.hideLoader(context);
-            }
-          });
-        }).catchError((onError) {
-          ProgressDialogBuilder.hideLoader(context);
-          print('Catch error search : $onError');
-        });
-      }
-    }).catchError((onError) {
+    if (HealingMatchConstants.isUserRegistrationSkipped != null &&
+        HealingMatchConstants.isUserRegistrationSkipped) {
       ProgressDialogBuilder.hideLoader(context);
-      print('S_Pref Exception : $onError');
-    });
+      return;
+    } else {
+      _sharedPreferences.then((value) {
+        if (value != null) {
+          var userDetails = ServiceUserAPIProvider.getUserDetails(
+              context, HealingMatchConstants.serviceUserID);
+          userDetails.then((value) {
+            setState(() {
+              constantUserAddressValuesList = value.data.addresses;
+              for (var category in constantUserAddressValuesList) {
+                print(
+                    'List length search : ${constantUserAddressValuesList.length}');
+
+                var categoryData = category.userPlaceForMassage;
+                constantUserAddressSize.add(categoryData);
+                print(
+                    'Size of list category : ${constantUserAddressSize.length} && $categoryData');
+
+                ProgressDialogBuilder.hideLoader(context);
+              }
+            });
+          }).catchError((onError) {
+            ProgressDialogBuilder.hideLoader(context);
+            print('Catch error search : $onError');
+          });
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('S_Pref Exception : $onError');
+      });
+    }
   }
 
   _getLatLngFromAddress(String userAddress) async {

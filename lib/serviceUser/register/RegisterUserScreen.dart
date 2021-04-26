@@ -224,7 +224,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text(
                 'スキップ',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color.fromRGBO(0, 0, 0, 1),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'NotoSansJP',
                     fontSize: 18.0,
@@ -249,11 +249,11 @@ class _RegisterUserState extends State<RegisterUser> {
                   children: [
                     Text('サービス利用者情報の入力',
                         style: new TextStyle(
-                            fontSize: 14,
-                            color: Color.fromRGBO(102, 102, 0, 1),
-                            fontStyle: FontStyle.normal,
-                            fontFamily: 'NotoSansJP',
-                            fontWeight: FontWeight.w100)),
+                          fontSize: 14,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'NotoSansJP',
+                        )),
                     SizedBox(height: 5),
                     RichText(
                       textAlign: TextAlign.start,
@@ -268,11 +268,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           new TextSpan(
                               text: 'は必須項目です',
                               style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(102, 102, 0, 1),
-                                  fontFamily: 'NotoSansJP',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w100)),
+                                fontSize: 14,
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP',
+                              )),
                         ],
                       ),
                     ),
@@ -364,7 +363,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 16),
                           ),
@@ -430,7 +429,8 @@ class _RegisterUserState extends State<RegisterUser> {
                                           ),
                                         ],
                                         style: TextStyle(
-                                            color: Colors.grey[400],
+                                            color: Color.fromRGBO(
+                                                197, 197, 197, 1),
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 14),
                                       ),
@@ -458,7 +458,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   fillColor: ColorConstants.formFieldFillColor,
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(197, 197, 197, 1),
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
@@ -709,7 +709,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -749,7 +749,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -798,7 +798,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -851,7 +851,7 @@ class _RegisterUserState extends State<RegisterUser> {
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -876,11 +876,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                 new TextSpan(
                                     text: '半角英数 8 ～１６文字以内',
                                     style: new TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP',
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(197, 197, 197, 1),
                                         fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w100)),
+                                        fontWeight: FontWeight.w300)),
                               ],
                             ),
                           ),
@@ -1355,8 +1355,8 @@ class _RegisterUserState extends State<RegisterUser> {
                             new TextSpan(
                                 text: '登録した場所周辺のセラピストが表示されます',
                                 style: new TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[500],
+                                    fontSize: 14,
+                                    color: Color.fromRGBO(197, 197, 197, 1),
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300)),
                           ],
@@ -1395,10 +1395,9 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: Text('すでにアカウントをお持ちの方',
                           style: new TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               fontFamily: 'NotoSansJP',
                               fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w100,
                               decoration: TextDecoration.underline)),
                     ),
                   ],
@@ -1695,7 +1694,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('メールアドレスは100文字以内で入力してください。',
+              child: Text('メールアドレスは50文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1907,7 +1906,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('検索地点を入力してください。',
+              child: Text('"登録する地点のカテゴリーを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),

@@ -37,10 +37,10 @@ class DialogHelper {
       context: context,
       headerAnimationLoop: false,
       dialogType: DialogType.NO_HEADER,
-      body: Container(
-        child: Stack(
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Container(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -117,23 +117,19 @@ class DialogHelper {
                 SizedBox(height: 5),
               ],
             ),
-            Positioned(
-              top: -40,
-              //right: 150,
-              left: 260,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white70,
-                  maxRadius: MediaQuery.of(context).size.width * 0.11,
-                  child: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        dialog.dissmiss();
-                        NavigationRouter.switchToServiceUserBottomBar(context);
-                        print('Close');
-                      })),
-            ),
-          ],
-        ),
+          ),
+          Positioned(
+            top: -5,
+            right: -5,
+            child: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () {
+                  dialog.dissmiss();
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  print('Close');
+                }),
+          ),
+        ],
       ),
       btnOkOnPress: () {
         debugPrint('OnClcik');

@@ -72,6 +72,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
 
+  double containerHeight =
+      48.0; //height of Every TextFormField wrapped with container
+
   @override
   void initState() {
     // TODO: implement initState
@@ -400,9 +403,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
+                      height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: WidgetAnimator(TextFormField(
+                      child: WidgetAnimator(
+                        TextFormField(
                           //enableInteractiveSelection: false,
                           //maxLength: 20,
                           autofocus: false,
@@ -440,13 +444,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              // height: MediaQuery.of(context).size.height * 0.07,
+                              height: containerHeight,
                               width: MediaQuery.of(context).size.width * 0.63,
                               alignment: Alignment.topCenter,
                               child: GestureDetector(
                                 onTap: () => _selectDate(context),
                                 child: AbsorbPointer(
-                                  child: WidgetAnimator(TextFormField(
+                                  child: WidgetAnimator(
+                                    TextFormField(
                                       //enableInteractiveSelection: false,
                                       controller: _userDOBController,
                                       keyboardType: TextInputType.text,
@@ -469,7 +474,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         ),
                                         suffixIcon: Icon(
                                           Icons.calendar_today,
-                                          color: Color.fromRGBO(211, 211, 211, 1),
+                                          color:
+                                              Color.fromRGBO(211, 211, 211, 1),
                                         ),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
@@ -490,30 +496,32 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             ),
                             //age
                             Container(
-                              // height: MediaQuery.of(context).size.height * 0.07,
+                              height: containerHeight,
                               width: MediaQuery.of(context).size.width * 0.20,
                               alignment: Alignment.topCenter,
-                              child: WidgetAnimator(TextFormField(
+                              child: WidgetAnimator(
+                                TextFormField(
                                   //enableInteractiveSelection: false,
                                   controller: ageController,
                                   autofocus: false,
                                   readOnly: true,
                                   decoration: new InputDecoration(
                                     filled: true,
-                                    fillColor: ColorConstants.formFieldFillColor,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
                                     labelText: '年齢',
                                     labelStyle: TextStyle(
                                         color: Colors.grey[400],
                                         fontFamily: 'NotoSansJP',
                                         fontSize: 14),
-                                    border:
-                                        HealingMatchConstants.textFormInputBorder,
-                                    focusedBorder:
-                                        HealingMatchConstants.textFormInputBorder,
-                                    disabledBorder:
-                                        HealingMatchConstants.textFormInputBorder,
-                                    enabledBorder:
-                                        HealingMatchConstants.textFormInputBorder,
+                                    border: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
                                   ),
                                 ),
                               ),
@@ -532,7 +540,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          WidgetAnimator(Text(
+                          WidgetAnimator(
+                            Text(
                               '性別',
                               style: TextStyle(
                                   fontSize: 16,
@@ -545,7 +554,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             child: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.38,
-                                child: WidgetAnimator(DropDownFormField(
+                                child: WidgetAnimator(
+                                  DropDownFormField(
                                     hintText: '性別',
                                     value: _myGender,
                                     onSaved: (value) {
@@ -595,7 +605,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           Center(
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.85,
-                              child: WidgetAnimator(DropDownFormField(
+                              child: WidgetAnimator(
+                                DropDownFormField(
                                   hintText: '職業',
                                   value: _myOccupation,
                                   onSaved: (value) {
@@ -662,9 +673,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
+                      // height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: WidgetAnimator(TextFormField(
+                      child: WidgetAnimator(
+                        TextFormField(
                           //enableInteractiveSelection: false,
                           enabled: false,
                           autofocus: false,
@@ -702,9 +714,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       ),
                     ),
                     Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
+                      height: containerHeight,
                       width: MediaQuery.of(context).size.width * 0.85,
-                      child: WidgetAnimator(TextFormField(
+                      child: WidgetAnimator(
+                        TextFormField(
                           //enableInteractiveSelection: false,
                           enabled: false,
                           autofocus: false,
@@ -747,7 +760,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
-                                  child: WidgetAnimator(DropDownFormField(
+                                  child: WidgetAnimator(
+                                    DropDownFormField(
+                                      enabled: false,
                                       hintText: '登録する地点のカテゴリー ',
                                       value: _myCategoryPlaceForMassage,
                                       onSaved: (value) {
@@ -759,12 +774,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         setState(() {
                                           if (value == "その他（直接入力）") {
                                             setState(() {
-                                              _myCategoryPlaceForMassage = value;
+                                              _myCategoryPlaceForMassage =
+                                                  value;
                                               visible = true; // !visible;
                                             });
                                           } else {
                                             setState(() {
-                                              _myCategoryPlaceForMassage = value;
+                                              _myCategoryPlaceForMassage =
+                                                  value;
                                               visible = false;
                                             });
                                           }
@@ -802,8 +819,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ),
                         _myCategoryPlaceForMassage == "その他（直接入力）"
                             ? Container(
+                                height: containerHeight,
                                 width: MediaQuery.of(context).size.width * 0.85,
-                                child: WidgetAnimator(TextFormField(
+                                child: WidgetAnimator(
+                                  TextFormField(
                                     controller: otherController,
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: InputDecoration(
@@ -846,7 +865,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                           Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.39,
-                                    child: WidgetAnimator(DropDownFormField(
+                                    child: WidgetAnimator(
+                                      DropDownFormField(
+                                          enabled: false,
                                           hintText: '府県',
                                           value: _myPrefecture,
                                           onSaved: (value) {
@@ -869,13 +890,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               getCities(_prefId);
                                             });
                                           },
-                                          dataSource: stateDropDownValues,
+                                          dataSource: [_myCity],
                                           isList: true,
                                           textField: 'display',
                                           valueField: 'value'),
                                     ),
-                                  )
-                                      ),
+                                  )),
                                 ),
                                 Expanded(
                                   child: Form(
@@ -887,8 +907,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.39,
-                                        child: WidgetAnimator(DropDownFormField(
-                                              hintText: readonly ? _myCity : '市',
+                                        child: WidgetAnimator(
+                                          DropDownFormField(
+                                              enabled: false,
+                                              hintText:
+                                                  readonly ? _myCity : '市',
                                               value: _myCity,
                                               onSaved: (value) {
                                                 setState(() {
@@ -906,9 +929,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               textField: 'display',
                                               valueField: 'value'),
                                         ),
-                                      )
-
-                                      ),
+                                      )),
                                 ),
                               ],
                             ),
@@ -924,10 +945,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               Expanded(
                                 child: Center(
                                   child: Container(
-                                    // height: MediaQuery.of(context).size.height * 0.07,
+                                    height: containerHeight,
                                     width: MediaQuery.of(context).size.width *
                                         0.39,
-                                    child: WidgetAnimator(TextFormField(
+                                    child: WidgetAnimator(
+                                      TextFormField(
+                                        enabled: false,
                                         //enableInteractiveSelection: false,
                                         autofocus: false,
                                         controller: userAreaController,
@@ -962,10 +985,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               ),
                               Expanded(
                                 child: Container(
-                                  // height: MediaQuery.of(context).size.height * 0.07,
+                                  height: containerHeight,
                                   width:
                                       MediaQuery.of(context).size.width * 0.39,
-                                  child: WidgetAnimator(TextFormField(
+                                  child: WidgetAnimator(
+                                    TextFormField(
+                                      enabled: false,
                                       //enableInteractiveSelection: false,
                                       // keyboardType: TextInputType.number,
                                       autofocus: false,
@@ -1011,10 +1036,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               Expanded(
                                 child: Center(
                                   child: Container(
-                                    // height: MediaQuery.of(context).size.height * 0.07,
+                                    height: containerHeight,
                                     width: MediaQuery.of(context).size.width *
                                         0.39,
-                                    child: WidgetAnimator(TextFormField(
+                                    child: WidgetAnimator(
+                                      TextFormField(
+                                        enabled: false,
                                         //enableInteractiveSelection: false,
                                         autofocus: false,
                                         controller: roomNumberController,
@@ -1057,9 +1084,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     constantUserAddressValuesList != null ||
                             HealingMatchConstants.userAddressesList != null
                         ? Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
+                            height: containerHeight,
                             width: MediaQuery.of(context).size.width * 0.85,
-                            child: WidgetAnimator(TextFormField(
+                            child: WidgetAnimator(
+                              TextFormField(
                                 readOnly: true,
                                 enableInteractiveSelection: false,
                                 decoration: new InputDecoration(
@@ -1100,11 +1128,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 child: Text('はい',
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        decoration: TextDecoration
-                                                            .underline)),
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline)),
                                               ),
                                             ],
                                           ),
@@ -1135,9 +1165,10 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             ),
                           )
                         : Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
+                            height: containerHeight,
                             width: MediaQuery.of(context).size.width * 0.85,
-                            child: WidgetAnimator(TextFormField(
+                            child: WidgetAnimator(
+                              TextFormField(
                                 readOnly: true,
                                 enableInteractiveSelection: false,
                                 decoration: new InputDecoration(
@@ -1200,17 +1231,20 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       constantUserAddressValuesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
                                     bool isFocus = false;
-                                    return WidgetAnimator(Column(
+                                    return WidgetAnimator(
+                                      Column(
                                         children: [
                                           FittedBox(
                                             child: Row(
                                               children: [
                                                 Container(
+                                                  height: containerHeight,
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
                                                       0.86,
-                                                  child: WidgetAnimator(TextFormField(
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
                                                       //display the address
                                                       readOnly: false,
                                                       autofocus: isFocus,
@@ -1220,17 +1254,22 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               .subAddress,
                                                       decoration:
                                                           new InputDecoration(
+                                                              contentPadding:
+                                                                  EdgeInsets.all(
+                                                                      11.0),
                                                               filled: true,
-                                                              fillColor: ColorConstants
-                                                                  .formFieldFillColor,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
                                                               hintText:
                                                                   '${constantUserAddressValuesList[index]}',
                                                               hintStyle: TextStyle(
                                                                   color: Colors
-                                                                      .grey[400],
+                                                                          .grey[
+                                                                      400],
                                                                   fontSize: 14),
-                                                              focusColor:
-                                                                  Colors.grey[100],
+                                                              focusColor: Colors
+                                                                  .grey[100],
                                                               border: HealingMatchConstants
                                                                   .textFormInputBorder,
                                                               focusedBorder:
@@ -1242,65 +1281,53 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               enabledBorder:
                                                                   HealingMatchConstants
                                                                       .textFormInputBorder,
-                                                              prefixIcon: Padding(
+                                                              prefixIcon:
+                                                                  Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(8.0),
-                                                                child: Container(
-                                                                    padding:
-                                                                        EdgeInsets
                                                                             .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
                                                                                 8.0),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Color.fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                1),
-                                                                            Color.fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                1),
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: Colors
-                                                                                .grey[
-                                                                            100],
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                                  6.0),
-                                                                      color: Color
-                                                                          .fromRGBO(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
                                                                               255,
                                                                               255,
                                                                               255,
                                                                               1),
-                                                                    ),
-                                                                    child: Text(
-                                                                      '${constantUserAddressValuesList[index].addressCategory}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color
-                                                                            .fromRGBO(
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${constantUserAddressValuesList[index].addressCategory}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
                                                                                 0,
                                                                                 0,
                                                                                 0,
                                                                                 1),
-                                                                      ),
-                                                                    )),
+                                                                          ),
+                                                                        )),
                                                               ),
                                                               suffixIcon:
                                                                   IconButton(
@@ -1311,7 +1338,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                         .black),
                                                                 onPressed: () {
                                                                   setState(() {
-                                                                    isFocus = true;
+                                                                    isFocus =
+                                                                        true;
                                                                   });
                                                                   //Delete Value at index
                                                                   /*constantUserAddressValuesList
@@ -1331,12 +1359,14 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                 },
                                                               )),
                                                       style: TextStyle(
-                                                          color: Colors.black54),
+                                                          color:
+                                                              Colors.black54),
                                                       onChanged: (value) {
                                                         setState(() {
                                                           constantUserAddressValuesList[
-                                                                  index]
-                                                              .subAddress = value;
+                                                                      index]
+                                                                  .subAddress =
+                                                              value;
                                                         });
                                                       },
                                                       // validator: (value) => _validateEmail(value),
@@ -1375,17 +1405,20 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   itemCount: HealingMatchConstants
                                       .userAddressesList.length,
                                   itemBuilder: (BuildContext ctxt, int index) {
-                                    return WidgetAnimator(Column(
+                                    return WidgetAnimator(
+                                      Column(
                                         children: [
                                           FittedBox(
                                             child: Row(
                                               children: [
                                                 Container(
+                                                  height: containerHeight,
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
                                                       0.86,
-                                                  child: WidgetAnimator(TextFormField(
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
                                                       //display the address
                                                       readOnly: true,
                                                       autofocus: false,
@@ -1396,17 +1429,22 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               .address,
                                                       decoration:
                                                           new InputDecoration(
+                                                              contentPadding:
+                                                                  EdgeInsets.all(
+                                                                      11.0),
                                                               filled: true,
-                                                              fillColor: ColorConstants
-                                                                  .formFieldFillColor,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
                                                               hintText:
                                                                   '${HealingMatchConstants.userAddressesList[index]}',
                                                               hintStyle: TextStyle(
                                                                   color: Colors
-                                                                      .grey[400],
+                                                                          .grey[
+                                                                      400],
                                                                   fontSize: 14),
-                                                              focusColor:
-                                                                  Colors.grey[100],
+                                                              focusColor: Colors
+                                                                  .grey[100],
                                                               border: HealingMatchConstants
                                                                   .textFormInputBorder,
                                                               focusedBorder:
@@ -1418,65 +1456,53 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                               enabledBorder:
                                                                   HealingMatchConstants
                                                                       .textFormInputBorder,
-                                                              prefixIcon: Padding(
+                                                              prefixIcon:
+                                                                  Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(8.0),
-                                                                child: Container(
-                                                                    padding:
-                                                                        EdgeInsets
                                                                             .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
                                                                                 8.0),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      gradient: LinearGradient(
-                                                                          begin: Alignment
-                                                                              .topCenter,
-                                                                          end: Alignment
-                                                                              .bottomCenter,
-                                                                          colors: [
-                                                                            Color.fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                1),
-                                                                            Color.fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                1),
-                                                                          ]),
-                                                                      shape: BoxShape
-                                                                          .rectangle,
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: Colors
-                                                                                .grey[
-                                                                            100],
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                                  6.0),
-                                                                      color: Color
-                                                                          .fromRGBO(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
                                                                               255,
                                                                               255,
                                                                               255,
                                                                               1),
-                                                                    ),
-                                                                    child: Text(
-                                                                      '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color
-                                                                            .fromRGBO(
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
                                                                                 0,
                                                                                 0,
                                                                                 0,
                                                                                 1),
-                                                                      ),
-                                                                    )),
+                                                                          ),
+                                                                        )),
                                                               ),
                                                               suffixIcon:
                                                                   IconButton(
@@ -1508,7 +1534,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                 },
                                                               )),
                                                       style: TextStyle(
-                                                          color: Colors.black54),
+                                                          color:
+                                                              Colors.black54),
                                                       onChanged: (value) {
                                                         setState(() {
                                                           HealingMatchConstants
@@ -1551,7 +1578,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             child: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.38,
-                                child: WidgetAnimator(DropDownFormField(
+                                child: WidgetAnimator(
+                                  DropDownFormField(
                                     hintText: '検索範囲値',
                                     value: HealingMatchConstants
                                         .searchDistanceRadius,
@@ -1661,7 +1689,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             Material(
               elevation: 0,
               color: Colors.blueGrey.withAlpha(40),
-              child: WidgetAnimator(TextFormField(
+              child: WidgetAnimator(
+                TextFormField(
                   controller: _editAddressController,
                   //initialValue: subAddress,
                   autofocus: isFocus,
@@ -2776,7 +2805,8 @@ class _AddAddressState extends State<AddAddress> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.85,
-                                        child: WidgetAnimator(DropDownFormField(
+                                        child: WidgetAnimator(
+                                          DropDownFormField(
                                             hintText: '登録する地点のカテゴリー *',
                                             value: _myCategoryPlaceForMassage,
                                             onSaved: (value) {
@@ -2833,12 +2863,14 @@ class _AddAddressState extends State<AddAddress> {
                               Visibility(
                                 visible: visible,
                                 child: Container(
+                                  height: containerHeight,
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
-                                  height: containerHeight,
-                                  child: WidgetAnimator(TextFormField(
+                                  child: WidgetAnimator(
+                                    TextFormField(
                                       controller: otherController,
-                                      style: HealingMatchConstants.formTextStyle,
+                                      style:
+                                          HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
                                         counterText: '',
                                         contentPadding:
@@ -2897,49 +2929,49 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                            WidgetAnimator(DropDownFormField(
-                                                                      hintText:
-                                                                          '府県',
-                                                                      value:
-                                                                          _myAddedPrefecture,
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedPrefecture =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      onChanged:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedPrefecture =
-                                                                              value;
-                                                                          print(
-                                                                              'Prefecture value : ${_myAddedPrefecture.toString()}');
-                                                                          _addedAddressPrefId =
-                                                                              addedAddressStateDropDownValues.indexOf(value) +
-                                                                                  1;
-                                                                          print(
-                                                                              'prefID : ${_addedAddressPrefId.toString()}');
-                                                                          addedAddressCityDropDownValues
-                                                                              .clear();
-                                                                          _myAddedCity =
-                                                                              '';
-                                                                          _getAddedAddressCities(
-                                                                              _addedAddressPrefId);
-                                                                        });
-                                                                      },
-                                                                      dataSource:
-                                                                          addedAddressStateDropDownValues,
-                                                                      isList:
-                                                                          true,
-                                                                      textField:
-                                                                          'display',
-                                                                      valueField:
-                                                                          'value'),
-                                                                ),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                      print(
+                                                                          'Prefecture value : ${_myAddedPrefecture.toString()}');
+                                                                      _addedAddressPrefId =
+                                                                          addedAddressStateDropDownValues.indexOf(value) +
+                                                                              1;
+                                                                      print(
+                                                                          'prefID : ${_addedAddressPrefId.toString()}');
+                                                                      addedAddressCityDropDownValues
+                                                                          .clear();
+                                                                      _myAddedCity =
+                                                                          '';
+                                                                      _getAddedAddressCities(
+                                                                          _addedAddressPrefId);
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressStateDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )
                                                         : Container(
                                                             width: MediaQuery.of(
@@ -2948,27 +2980,27 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                            WidgetAnimator(DropDownFormField(
-                                                                      hintText:
-                                                                          '府県',
-                                                                      value:
-                                                                          _myAddedPrefecture,
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedPrefecture =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      dataSource: [],
-                                                                      isList:
-                                                                          true,
-                                                                      textField:
-                                                                          'display',
-                                                                      valueField:
-                                                                          'value'),
-                                                                ),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )),
                                           ),
                                           SizedBox(width: 3),
@@ -2985,37 +3017,36 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                            WidgetAnimator(DropDownFormField(
-                                                                      hintText:
-                                                                          '市',
-                                                                      value:
-                                                                          _myAddedCity,
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedCity =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      onChanged:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedCity =
-                                                                              value;
-                                                                          //print(_myBldGrp.toString());
-                                                                        });
-                                                                      },
-                                                                      dataSource:
-                                                                          addedAddressCityDropDownValues,
-                                                                      isList:
-                                                                          true,
-                                                                      textField:
-                                                                          'display',
-                                                                      valueField:
-                                                                          'value'),
-                                                                ),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                      //print(_myBldGrp.toString());
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressCityDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )
                                                         : Container(
                                                             width: MediaQuery.of(
@@ -3024,27 +3055,26 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                            WidgetAnimator(DropDownFormField(
-                                                                      hintText:
-                                                                          '市',
-                                                                      value:
-                                                                          _myAddedCity,
-                                                                      onSaved:
-                                                                          (value) {
-                                                                        setState(
-                                                                            () {
-                                                                          _myAddedCity =
-                                                                              value;
-                                                                        });
-                                                                      },
-                                                                      dataSource: [],
-                                                                      isList:
-                                                                          true,
-                                                                      textField:
-                                                                          'display',
-                                                                      valueField:
-                                                                          'value'),
-                                                                ),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )),
                                           ),
                                         ],
@@ -3070,12 +3100,14 @@ class _AddAddressState extends State<AddAddress> {
                                                       .width *
                                                   0.39,
                                               height: containerHeight,
-                                              child: WidgetAnimator(TextFormField(
+                                              child: WidgetAnimator(
+                                                TextFormField(
                                                   //enableInteractiveSelection: false,
                                                   autofocus: false,
                                                   controller:
                                                       addedUserAreaController,
-                                                  decoration: new InputDecoration(
+                                                  decoration:
+                                                      new InputDecoration(
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
@@ -3086,9 +3118,11 @@ class _AddAddressState extends State<AddAddress> {
                                                     ),*/
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
-                                                    focusColor: Colors.grey[100],
+                                                    focusColor:
+                                                        Colors.grey[100],
                                                     border: HealingMatchConstants
                                                         .textFormInputBorder,
                                                     focusedBorder:
@@ -3115,7 +3149,8 @@ class _AddAddressState extends State<AddAddress> {
                                                     .width *
                                                 0.39,
                                             height: containerHeight,
-                                            child: WidgetAnimator(TextFormField(
+                                            child: WidgetAnimator(
+                                              TextFormField(
                                                 //enableInteractiveSelection: false,
                                                 // keyboardType: TextInputType.number,
                                                 autofocus: false,
@@ -3174,13 +3209,15 @@ class _AddAddressState extends State<AddAddress> {
                                                       .width *
                                                   0.39,
                                               height: containerHeight,
-                                              child: WidgetAnimator(TextFormField(
+                                              child: WidgetAnimator(
+                                                TextFormField(
                                                   //enableInteractiveSelection: false,
                                                   autofocus: false,
                                                   maxLength: 4,
                                                   controller:
                                                       addedRoomNumberController,
-                                                  decoration: new InputDecoration(
+                                                  decoration:
+                                                      new InputDecoration(
                                                     counterText: '',
                                                     filled: true,
                                                     fillColor: ColorConstants
@@ -3188,9 +3225,11 @@ class _AddAddressState extends State<AddAddress> {
                                                     labelText: '部屋番号',
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
-                                                        fontFamily: 'NotoSansJP',
+                                                        fontFamily:
+                                                            'NotoSansJP',
                                                         fontSize: 14),
-                                                    focusColor: Colors.grey[100],
+                                                    focusColor:
+                                                        Colors.grey[100],
                                                     border: HealingMatchConstants
                                                         .textFormInputBorder,
                                                     focusedBorder:

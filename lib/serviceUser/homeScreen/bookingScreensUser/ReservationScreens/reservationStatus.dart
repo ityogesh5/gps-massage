@@ -52,7 +52,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                         return Container(
                           // height: MediaQuery.of(context).size.height * 0.32,
                           width: MediaQuery.of(context).size.width * 0.90,
-                          child: WidgetAnimator(new Card(
+                          child: WidgetAnimator(
+                            new Card(
                               color: Color.fromRGBO(242, 242, 242, 1),
                               semanticContainer: true,
                               shape: RoundedRectangleBorder(
@@ -77,7 +78,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       color: Colors.blue,
                                                     ),
                                                     radius: 35,
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                   ),
                                                   SizedBox(
                                                     height: 5,
@@ -109,10 +111,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         '店舗名',
                                                         style: TextStyle(
                                                             fontSize: 14,
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                             fontWeight:
-                                                                FontWeight.bold),
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
@@ -142,13 +146,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(8.0),
-                                                            child:
-                                                                SvgPicture.asset(
+                                                            child: SvgPicture
+                                                                .asset(
                                                               "assets/images_gps/info.svg",
                                                               height: 15.0,
                                                               width: 15.0,
                                                               // key: key,
-                                                              color: Colors.black,
+                                                              color:
+                                                                  Colors.black,
                                                             ), /* Icon(
                                                               Icons
                                                                   .shopping_bag_rounded,
@@ -193,8 +198,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
@@ -206,13 +212,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .grey[
                                                                         200]),
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             child: Text(
                                                               '店舗',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -220,7 +230,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -236,16 +247,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -253,8 +264,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               '出張',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -262,7 +276,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -278,16 +293,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -295,8 +310,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               'コロナ対策実施',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                       ],
@@ -311,8 +329,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Text(
                                                           '(${ratingsValue.toString()})',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                153, 153, 153, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    153,
+                                                                    153,
+                                                                    153,
+                                                                    1),
                                                           ),
                                                         ),
                                                         RatingBar.builder(
@@ -333,8 +355,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                   Icon(
                                                             Icons.star,
                                                             size: 5,
-                                                            color: Color.fromRGBO(
-                                                                255, 217, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    217,
+                                                                    0,
+                                                                    1),
                                                           ),
                                                           onRatingUpdate:
                                                               (rating) {
@@ -349,8 +375,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         Text(
                                                           '(1518)',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                153, 153, 153, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    153,
+                                                                    153,
+                                                                    153,
+                                                                    1),
                                                           ),
                                                         ),
                                                       ],
@@ -364,7 +394,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       children: [
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -380,16 +411,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -397,8 +428,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               '国家資格保有',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                       ],
@@ -423,8 +457,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             FittedBox(
                                               child: SvgPicture.asset(
                                                   'assets/images_gps/gps.svg',
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   height: 20,
                                                   width: 20),
                                             ),
@@ -434,8 +468,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Text(
                                               '埼玉県浦和区高砂4丁目4',
                                               style: TextStyle(
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
@@ -450,8 +484,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
                                                       gradient: LinearGradient(
-                                                          begin:
-                                                              Alignment.topCenter,
+                                                          begin: Alignment
+                                                              .topCenter,
                                                           end: Alignment
                                                               .bottomCenter,
                                                           colors: [
@@ -495,8 +529,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             FittedBox(
                                               child: SvgPicture.asset(
                                                   'assets/images_gps/calendar.svg',
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   height: 20,
                                                   width: 20),
                                             ),
@@ -508,8 +542,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 '予約日時：10月17',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                 ),
                                               ),
                                             ),
@@ -612,7 +646,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       color: Colors.blue,
                                                     ),
                                                     radius: 35,
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                   ),
                                                   SizedBox(
                                                     height: 5,
@@ -644,10 +679,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         '店舗名',
                                                         style: TextStyle(
                                                             fontSize: 14,
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                             fontWeight:
-                                                                FontWeight.bold),
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
@@ -677,13 +714,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(8.0),
-                                                            child:
-                                                                SvgPicture.asset(
+                                                            child: SvgPicture
+                                                                .asset(
                                                               "assets/images_gps/info.svg",
                                                               height: 15.0,
                                                               width: 15.0,
                                                               // key: key,
-                                                              color: Colors.black,
+                                                              color:
+                                                                  Colors.black,
                                                             ), /* Icon(
                                                               Icons
                                                                   .shopping_bag_rounded,
@@ -728,8 +766,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
@@ -741,13 +780,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .grey[
                                                                         200]),
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             child: Text(
                                                               '店舗',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -755,7 +798,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -771,16 +815,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -788,8 +832,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               '出張',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -797,7 +844,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -813,16 +861,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -830,8 +878,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               'コロナ対策実施',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                       ],
@@ -858,20 +909,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ignoreGestures: true,
                                                         itemCount: 5,
                                                         itemSize: 25,
-                                                        itemPadding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: 4.0),
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
                                                         itemBuilder:
-                                                            (context, _) => Icon(
+                                                            (context, _) =>
+                                                                Icon(
                                                           Icons.star,
                                                           size: 5,
                                                           color: Color.fromRGBO(
                                                               255, 217, 0, 1),
                                                         ),
-                                                        onRatingUpdate: (rating) {
+                                                        onRatingUpdate:
+                                                            (rating) {
                                                           // print(rating);
                                                           setState(() {
-                                                            ratingsValue = rating;
+                                                            ratingsValue =
+                                                                rating;
                                                           });
                                                           print(ratingsValue);
                                                         },
@@ -908,8 +963,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ]),
                                                                   shape: BoxShape
                                                                       .rectangle,
-                                                                  border:
-                                                                      Border.all(
+                                                                  border: Border
+                                                                      .all(
                                                                     color: Colors
                                                                             .grey[
                                                                         300],
@@ -919,13 +974,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           .circular(
                                                                               5.0),
                                                                   color: Colors
-                                                                      .grey[200]),
+                                                                          .grey[
+                                                                      200]),
                                                           child: Text(
                                                             '国家資格保有',
                                                             style: TextStyle(
-                                                              color:
-                                                                  Color.fromRGBO(
-                                                                      0, 0, 0, 1),
+                                                              color: Color
+                                                                  .fromRGBO(0,
+                                                                      0, 0, 1),
                                                             ),
                                                           )),
                                                     ],
@@ -956,7 +1012,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   backgroundColor: Colors.white,
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/chat.svg',
-                                                      // color: Color.fromRGBO(255, 128, 0, 1),
                                                       height: 30,
                                                       width: 30)),
                                             ),
@@ -983,7 +1038,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           children: [
                                             SvgPicture.asset(
                                                 'assets/images_gps/gps.svg',
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 height: 20,
                                                 width: 20),
                                             SizedBox(
@@ -992,8 +1048,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Text(
                                               '埼玉県浦和区高砂4丁目4',
                                               style: TextStyle(
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
@@ -1008,8 +1064,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   padding: EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
                                                       gradient: LinearGradient(
-                                                          begin:
-                                                              Alignment.topCenter,
+                                                          begin: Alignment
+                                                              .topCenter,
                                                           end: Alignment
                                                               .bottomCenter,
                                                           colors: [
@@ -1051,7 +1107,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           children: [
                                             SvgPicture.asset(
                                                 'assets/images_gps/calendar.svg',
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 height: 20,
                                                 width: 20),
                                             SizedBox(
@@ -1060,8 +1117,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Text(
                                               '予約日時：10月17',
                                               style: TextStyle(
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
@@ -1161,7 +1218,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                       color: Colors.blue,
                                                     ),
                                                     radius: 35,
-                                                    backgroundColor: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.white,
                                                   ),
                                                   SizedBox(
                                                     height: 5,
@@ -1191,10 +1249,12 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         '店舗名',
                                                         style: TextStyle(
                                                             fontSize: 14,
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                             fontWeight:
-                                                                FontWeight.bold),
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
@@ -1224,13 +1284,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(8.0),
-                                                            child:
-                                                                SvgPicture.asset(
+                                                            child: SvgPicture
+                                                                .asset(
                                                               "assets/images_gps/info.svg",
                                                               height: 15.0,
                                                               width: 15.0,
                                                               // key: key,
-                                                              color: Colors.black,
+                                                              color:
+                                                                  Colors.black,
                                                             ), /* Icon(
                                                               Icons
                                                                   .shopping_bag_rounded,
@@ -1275,8 +1336,9 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
@@ -1288,13 +1350,17 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                             .grey[
                                                                         200]),
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             child: Text(
                                                               '店舗',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -1302,7 +1368,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -1318,16 +1385,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -1335,8 +1402,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               '出張',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                         SizedBox(
@@ -1344,7 +1414,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ),
                                                         Container(
                                                             padding:
-                                                                EdgeInsets.all(4),
+                                                                EdgeInsets.all(
+                                                                    4),
                                                             decoration:
                                                                 BoxDecoration(
                                                                     gradient: LinearGradient(
@@ -1360,16 +1431,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                         ]),
                                                                     shape: BoxShape
                                                                         .rectangle,
-                                                                    border: Border
-                                                                        .all(
+                                                                    border:
+                                                                        Border
+                                                                            .all(
                                                                       color: Colors
                                                                               .grey[
                                                                           300],
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5.0),
+                                                                        BorderRadius.circular(
+                                                                            5.0),
                                                                     color: Colors
                                                                             .grey[
                                                                         200]),
@@ -1377,8 +1448,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                               'コロナ対策実施',
                                                               style: TextStyle(
                                                                 color: Color
-                                                                    .fromRGBO(0,
-                                                                        0, 0, 1),
+                                                                    .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        1),
                                                               ),
                                                             )),
                                                       ],
@@ -1405,20 +1479,24 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                         ignoreGestures: true,
                                                         itemCount: 5,
                                                         itemSize: 25,
-                                                        itemPadding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: 4.0),
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
                                                         itemBuilder:
-                                                            (context, _) => Icon(
+                                                            (context, _) =>
+                                                                Icon(
                                                           Icons.star,
                                                           size: 5,
                                                           color: Color.fromRGBO(
                                                               255, 217, 0, 1),
                                                         ),
-                                                        onRatingUpdate: (rating) {
+                                                        onRatingUpdate:
+                                                            (rating) {
                                                           // print(rating);
                                                           setState(() {
-                                                            ratingsValue = rating;
+                                                            ratingsValue =
+                                                                rating;
                                                           });
                                                           print(ratingsValue);
                                                         },
@@ -1455,8 +1533,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                       ]),
                                                                   shape: BoxShape
                                                                       .rectangle,
-                                                                  border:
-                                                                      Border.all(
+                                                                  border: Border
+                                                                      .all(
                                                                     color: Colors
                                                                             .grey[
                                                                         300],
@@ -1466,13 +1544,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                           .circular(
                                                                               5.0),
                                                                   color: Colors
-                                                                      .grey[200]),
+                                                                          .grey[
+                                                                      200]),
                                                           child: Text(
                                                             '国家資格保有',
                                                             style: TextStyle(
-                                                              color:
-                                                                  Color.fromRGBO(
-                                                                      0, 0, 0, 1),
+                                                              color: Color
+                                                                  .fromRGBO(0,
+                                                                      0, 0, 1),
                                                             ),
                                                           )),
                                                     ],
@@ -1502,7 +1581,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                   backgroundColor: Colors.white,
                                                   child: SvgPicture.asset(
                                                       'assets/images_gps/chat.svg',
-                                                      // color: Color.fromRGBO(255, 128, 0, 1),
                                                       height: 25,
                                                       width: 25)),
                                             ),
@@ -1543,7 +1621,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           children: [
                                             SvgPicture.asset(
                                                 'assets/images_gps/gps.svg',
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 height: 20,
                                                 width: 20),
                                             SizedBox(
@@ -1552,8 +1631,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Text(
                                               '埼玉県浦和区高砂4丁目4',
                                               style: TextStyle(
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
@@ -1609,7 +1688,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           children: [
                                             SvgPicture.asset(
                                                 'assets/images_gps/calendar.svg',
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                                 height: 20,
                                                 width: 20),
                                             SizedBox(
@@ -1618,8 +1698,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             Text(
                                               '予約日時：10月17',
                                               style: TextStyle(
-                                                  color:
-                                                      Color.fromRGBO(0, 0, 0, 1),
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
@@ -1753,13 +1833,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             ]),
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                          color: Colors.grey[400],
+                                                          color:
+                                                              Colors.grey[400],
                                                         ),
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
                                                           height: 15.0,
@@ -1795,35 +1876,41 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         child: Text(
                                                           '店舗',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -1832,33 +1919,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           '出張',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -1867,33 +1960,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           'コロナ対策実施',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                   ],
@@ -1952,7 +2051,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Row(
                                                 children: [
                                                   Container(
-                                                      padding: EdgeInsets.all(4),
+                                                      padding:
+                                                          EdgeInsets.all(4),
                                                       decoration: BoxDecoration(
                                                           gradient: LinearGradient(
                                                               begin: Alignment
@@ -1963,15 +2063,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Colors.white,
                                                                 Colors.white,
                                                               ]),
-                                                          shape:
-                                                              BoxShape.rectangle,
+                                                          shape: BoxShape
+                                                              .rectangle,
                                                           border: Border.all(
-                                                            color:
-                                                                Colors.grey[300],
+                                                            color: Colors
+                                                                .grey[300],
                                                           ),
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(5.0),
+                                                                  .circular(
+                                                                      5.0),
                                                           color:
                                                               Colors.grey[200]),
                                                       child: Text(
@@ -1994,8 +2095,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           child: Divider(
                                             // height: 50,
 
-                                            color:
-                                                Color.fromRGBO(217, 217, 217, 1),
+                                            color: Color.fromRGBO(
+                                                217, 217, 217, 1),
                                           ),
                                         ),
                                         InkWell(
@@ -2009,7 +2110,6 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               backgroundColor: Colors.white,
                                               child: SvgPicture.asset(
                                                   'assets/images_gps/chat.svg',
-                                                  // color: Color.fromRGBO(255, 128, 0, 1),
                                                   height: 25,
                                                   width: 25)),
                                         ),
@@ -2077,7 +2177,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             child: Text(
                                               'オフィス',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -2086,8 +2187,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         Text(
                                           '東京都 墨田区 押上 1-1-2',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         ),
                                       ],
@@ -2240,13 +2341,14 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             ]),
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                          color: Colors.grey[400],
+                                                          color:
+                                                              Colors.grey[400],
                                                         ),
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
                                                           height: 15.0,
@@ -2282,35 +2384,41 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                           .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         child: Text(
                                                           '店舗',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -2319,33 +2427,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           '出張',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -2354,33 +2468,39 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           'コロナ対策実施',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                   ],
@@ -2439,7 +2559,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               Row(
                                                 children: [
                                                   Container(
-                                                      padding: EdgeInsets.all(4),
+                                                      padding:
+                                                          EdgeInsets.all(4),
                                                       decoration: BoxDecoration(
                                                           gradient: LinearGradient(
                                                               begin: Alignment
@@ -2450,15 +2571,16 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 Colors.white,
                                                                 Colors.white,
                                                               ]),
-                                                          shape:
-                                                              BoxShape.rectangle,
+                                                          shape: BoxShape
+                                                              .rectangle,
                                                           border: Border.all(
-                                                            color:
-                                                                Colors.grey[300],
+                                                            color: Colors
+                                                                .grey[300],
                                                           ),
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(5.0),
+                                                                  .circular(
+                                                                      5.0),
                                                           color:
                                                               Colors.grey[200]),
                                                       child: Text(
@@ -2523,7 +2645,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                             child: Text(
                                               'オフィス',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -2532,8 +2655,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         Text(
                                           '東京都 墨田区 押上 1-1-2',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         ),
                                       ],
@@ -2563,8 +2686,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                         Text(
                                           '10:30~11:30',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         )
                                       ],

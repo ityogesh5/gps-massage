@@ -255,7 +255,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
                 value.data.addresses[0].userPlaceForMassage;
             HealingMatchConstants.userEditPlaceForMassageOther =
                 value.data.addresses[0].otherAddressType;
-            HealingMatchConstants.userEditArea = value.data.addresses[i].area;
+            HealingMatchConstants.userEditArea = value.data.addresses[0].area;
             HealingMatchConstants.userEditBuildName =
                 value.data.addresses[0].buildingName;
             HealingMatchConstants.userEditRoomNo =
@@ -520,7 +520,7 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                     child: Visibility(
                       visible: widget.getTherapistByType != null,
                       child: Text(
-                        'もっと見る',
+                        'もっとみる',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
