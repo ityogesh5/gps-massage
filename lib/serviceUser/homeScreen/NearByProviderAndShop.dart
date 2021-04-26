@@ -293,15 +293,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
-<<<<<<< HEAD
-<<<<<<< HEAD
-    Future.delayed(Duration(seconds: 1), () {
-=======
-    Future.delayed(Duration(seconds: 2), () {
->>>>>>> origin/origin/DEV/devYogeshwar
-=======
     Future.delayed(Duration(seconds: 3), () {
->>>>>>> origin/origin/DEV/devYogeshwar
       Loader.hide();
     });
   }
@@ -366,24 +358,6 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                   // Next, create a SliverList
                   SliverList(
                       delegate: SliverChildListDelegate([
-<<<<<<< HEAD
-                    GestureDetector(
-                      onTap: () {
-                        NavigationRouter
-                            .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context, therapistId);
-                      },
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: therapistUsers.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == therapistUsers.length) {
-                              return _buildProgressIndicator();
-                            } else {
-                              return Container(
-=======
                     ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
@@ -398,10 +372,9 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                               onTap: () {
                                 NavigationRouter
                                     .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                        context);
+                                        context, therapistId);
                               },
                               child: Container(
->>>>>>> origin/origin/DEV/devYogeshwar
                                 // height: MediaQuery.of(context).size.height * 0.22,
                                 width: MediaQuery.of(context).size.width * 0.85,
                                 child: WidgetAnimator(

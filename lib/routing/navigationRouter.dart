@@ -678,17 +678,10 @@ class NavigationRouter {
 
   //User BookingDetailsCompletedScreen one
   static void switchToServiceUserBookingDetailsCompletedScreenOne(
-<<<<<<< HEAD
-      BuildContext context, var arg) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => BookingDetailsCompletedScreenOne(arg)));
-=======
-      BuildContext context) {
+      BuildContext context, arg) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingDetailsCompletedScreenOne();
+          return BookingDetailsCompletedScreenOne(arg);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -702,7 +695,6 @@ class NavigationRouter {
             ),
           );
         }));
->>>>>>> origin/origin/DEV/devYogeshwar
   }
 
   // Service User View Profile Screen

@@ -117,7 +117,6 @@ class DialogHelper {
                 SizedBox(height: 5),
               ],
             ),
-<<<<<<< HEAD
           ),
           Positioned(
             top: -5,
@@ -131,10 +130,6 @@ class DialogHelper {
                 }),
           ),
         ],
-=======
-          ],
-        ),
->>>>>>> origin/origin/DEV/devYogeshwar
       ),
       btnOkOnPress: () {
         debugPrint('OnClcik');

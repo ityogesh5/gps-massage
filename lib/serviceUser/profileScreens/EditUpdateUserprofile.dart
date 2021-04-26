@@ -762,11 +762,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       MediaQuery.of(context).size.width * 0.85,
                                   child: WidgetAnimator(
                                     DropDownFormField(
-<<<<<<< HEAD
                                       enabled: false,
-=======
                                       filled: true,
->>>>>>> origin/origin/DEV/devYogeshwar
                                       hintText: '登録する地点のカテゴリー ',
                                       value: _myCategoryPlaceForMassage,
                                       onSaved: (value) {
@@ -894,11 +891,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               getCities(_prefId);
                                             });*/
                                           },
-<<<<<<< HEAD
-                                          dataSource: [_myCity],
-=======
                                           dataSource: [_myPrefecture],
->>>>>>> origin/origin/DEV/devYogeshwar
                                           isList: true,
                                           textField: 'display',
                                           valueField: 'value'),

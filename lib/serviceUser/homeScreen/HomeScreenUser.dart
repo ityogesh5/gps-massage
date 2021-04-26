@@ -373,11 +373,8 @@ class _LoadHomePageState extends State<LoadHomePage> {
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
-<<<<<<< HEAD
-    Future.delayed(Duration(seconds: 2), () {
-=======
+
     Future.delayed(Duration(seconds: 3), () {
->>>>>>> origin/origin/DEV/devYogeshwar
       Loader.hide();
     });
   }
@@ -519,7 +516,6 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                         return;
                       }
                     },
-<<<<<<< HEAD
                     child: Visibility(
                       visible: widget.getTherapistByType != null,
                       child: Text(
@@ -530,15 +526,6 @@ class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
                             fontSize: 14,
                             decoration: TextDecoration.underline),
                       ),
-=======
-                    child: Text(
-                      'もっと見る',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline),
->>>>>>> origin/origin/DEV/devYogeshwar
                     ),
                   ),
                 ],
