@@ -762,7 +762,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       MediaQuery.of(context).size.width * 0.85,
                                   child: WidgetAnimator(
                                     DropDownFormField(
+<<<<<<< HEAD
                                       enabled: false,
+=======
+                                      filled: true,
+>>>>>>> origin/origin/DEV/devYogeshwar
                                       hintText: '登録する地点のカテゴリー ',
                                       value: _myCategoryPlaceForMassage,
                                       onSaved: (value) {
@@ -771,7 +775,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         });
                                       },
                                       onChanged: (value) {
-                                        setState(() {
+                                        /*setState(() {
                                           if (value == "その他（直接入力）") {
                                             setState(() {
                                               _myCategoryPlaceForMassage =
@@ -785,7 +789,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               visible = false;
                                             });
                                           }
-                                        });
+                                        });*/
                                       },
                                       dataSource: [
                                         {
@@ -876,7 +880,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                             });
                                           },
                                           onChanged: (value) {
-                                            setState(() {
+                                            /*setState(() {
                                               _myPrefecture = value;
                                               print(
                                                   'Prefecture value : ${_myPrefecture.toString()}');
@@ -888,9 +892,13 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               cityDropDownValues.clear();
                                               _myCity = '';
                                               getCities(_prefId);
-                                            });
+                                            });*/
                                           },
+<<<<<<< HEAD
                                           dataSource: [_myCity],
+=======
+                                          dataSource: [_myPrefecture],
+>>>>>>> origin/origin/DEV/devYogeshwar
                                           isList: true,
                                           textField: 'display',
                                           valueField: 'value'),
@@ -919,12 +927,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                 });
                                               },
                                               onChanged: (value) {
-                                                setState(() {
+                                                /*setState(() {
                                                   _myCity = value;
                                                   //print(_myBldGrp.toString());
-                                                });
+                                                });*/
                                               },
-                                              dataSource: cityDropDownValues,
+                                              dataSource: [_myCity],
                                               isList: true,
                                               textField: 'display',
                                               valueField: 'value'),

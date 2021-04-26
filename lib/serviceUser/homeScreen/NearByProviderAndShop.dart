@@ -288,15 +288,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //showOverlayLoader();
+    showOverlayLoader();
   }
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
 <<<<<<< HEAD
+<<<<<<< HEAD
     Future.delayed(Duration(seconds: 1), () {
 =======
     Future.delayed(Duration(seconds: 2), () {
+>>>>>>> origin/origin/DEV/devYogeshwar
+=======
+    Future.delayed(Duration(seconds: 3), () {
 >>>>>>> origin/origin/DEV/devYogeshwar
       Loader.hide();
     });
@@ -399,16 +403,14 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                               child: Container(
 >>>>>>> origin/origin/DEV/devYogeshwar
                                 // height: MediaQuery.of(context).size.height * 0.22,
-                                width:
-                                    MediaQuery.of(context).size.width * 0.85,
+                                width: MediaQuery.of(context).size.width * 0.85,
                                 child: WidgetAnimator(
                                   Card(
                                     elevation: 0.0,
                                     color: Colors.grey[100],
                                     semanticContainer: true,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(12.0),
+                                      borderRadius: BorderRadius.circular(12.0),
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
@@ -427,8 +429,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                             .user
                                                             .uploadProfileImgUrl,
                                                         filterQuality:
-                                                            FilterQuality
-                                                                .high,
+                                                            FilterQuality.high,
                                                         fadeInCurve:
                                                             Curves.easeInSine,
                                                         imageBuilder: (context,
@@ -438,8 +439,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                           height: 80.0,
                                                           decoration:
                                                               BoxDecoration(
-                                                            shape: BoxShape
-                                                                .circle,
+                                                            shape:
+                                                                BoxShape.circle,
                                                             image: DecorationImage(
                                                                 image:
                                                                     imageProvider,
@@ -482,8 +483,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                           shape:
                                                               BoxShape.circle,
                                                           image: new DecorationImage(
-                                                              fit: BoxFit
-                                                                  .cover,
+                                                              fit: BoxFit.cover,
                                                               image: new AssetImage(
                                                                   'assets/images_gps/placeholder_image.png')),
                                                         )),
@@ -521,7 +521,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   child: Text(
                                                                     '${therapistUsers[index].user.userName}',
                                                                     maxLines:
-                                                                        therapistUsers[index].user.userName.length > 15
+                                                                        therapistUsers[index].user.userName.length >
+                                                                                15
                                                                             ? 2
                                                                             : 1,
                                                                     style: TextStyle(
@@ -563,8 +564,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                 FittedBox(
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       therapistUsers[index]
                                                                   .user
@@ -600,35 +600,30 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         width: 5,
                                                       ),
                                                       Visibility(
-                                                        visible:
-                                                            therapistUsers[
-                                                                    index]
-                                                                .user
-                                                                .businessTrip,
+                                                        visible: therapistUsers[
+                                                                index]
+                                                            .user
+                                                            .businessTrip,
                                                         child: Container(
                                                             padding:
-                                                                EdgeInsets
-                                                                    .all(4),
-                                                            color:
-                                                                Colors.white,
-                                                            child:
-                                                                Text('出張')),
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            color: Colors.white,
+                                                            child: Text('出張')),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
                                                       ),
                                                       Visibility(
-                                                        visible:
-                                                            therapistUsers[
-                                                                    index]
-                                                                .user
-                                                                .coronaMeasure,
+                                                        visible: therapistUsers[
+                                                                index]
+                                                            .user
+                                                            .coronaMeasure,
                                                         child: Container(
                                                             padding:
-                                                                EdgeInsets
-                                                                    .all(4),
-                                                            color:
-                                                                Colors.white,
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            color: Colors.white,
                                                             child: Text(
                                                                 'コロナ対策実施有無')),
                                                       ),
@@ -683,13 +678,13 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         ? RatingBar.builder(
                                                             ignoreGestures:
                                                                 true,
-                                                            initialRating: double.parse(
-                                                                therapistUsers[
+                                                            initialRating: double
+                                                                .parse(therapistUsers[
                                                                         index]
                                                                     .reviewAvgData),
                                                             minRating: 1,
-                                                            direction: Axis
-                                                                .horizontal,
+                                                            direction:
+                                                                Axis.horizontal,
                                                             allowHalfRating:
                                                                 true,
                                                             itemCount: 5,
@@ -699,8 +694,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                     horizontal:
                                                                         4.0),
                                                             itemBuilder:
-                                                                (context,
-                                                                        _) =>
+                                                                (context, _) =>
                                                                     Icon(
                                                               Icons.star,
                                                               size: 5,
@@ -717,11 +711,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         : RatingBar.builder(
                                                             ignoreGestures:
                                                                 true,
-                                                            initialRating:
-                                                                0.0,
+                                                            initialRating: 0.0,
                                                             minRating: 1,
-                                                            direction: Axis
-                                                                .horizontal,
+                                                            direction:
+                                                                Axis.horizontal,
                                                             allowHalfRating:
                                                                 true,
                                                             itemCount: 5,
@@ -731,8 +724,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                     horizontal:
                                                                         4.0),
                                                             itemBuilder:
-                                                                (context,
-                                                                        _) =>
+                                                                (context, _) =>
                                                                     Icon(
                                                               Icons.star,
                                                               size: 5,
@@ -749,12 +741,8 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                     Text(
                                                       '(1518)',
                                                       style: TextStyle(
-                                                          color:
-                                                              Color.fromRGBO(
-                                                                  153,
-                                                                  153,
-                                                                  153,
-                                                                  1),
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
                                                           fontFamily:
                                                               ColorConstants
                                                                   .fontFamily),
@@ -772,16 +760,15 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                 .size
                                                                 .width -
                                                             130.0, //200.0,
-                                                        child:
-                                                            GestureDetector(
+                                                        child: GestureDetector(
                                                           onTap: () {
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
                                                                     context,
                                                                     therapistId);
                                                           },
-                                                          child: ListView
-                                                              .builder(
+                                                          child:
+                                                              ListView.builder(
                                                                   shrinkWrap:
                                                                       true,
                                                                   scrollDirection:
@@ -793,16 +780,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   itemBuilder:
                                                                       (context,
                                                                           index) {
-                                                                    String key = certificateImages
-                                                                        .keys
-                                                                        .elementAt(
-                                                                            index);
+                                                                    String key =
+                                                                        certificateImages
+                                                                            .keys
+                                                                            .elementAt(index);
                                                                     return WidgetAnimator(
                                                                       Wrap(
                                                                         children: [
                                                                           Padding(
-                                                                            padding: index == 0 ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0) : const EdgeInsets.all(4.0),
-                                                                            child: Container(
+                                                                            padding: index == 0
+                                                                                ? const EdgeInsets.only(left: 0.0, top: 4.0, right: 4.0, bottom: 4.0)
+                                                                                : const EdgeInsets.all(4.0),
+                                                                            child:
+                                                                                Container(
                                                                               padding: EdgeInsets.all(5),
                                                                               decoration: boxDecoration,
                                                                               child: Text(
@@ -822,30 +812,35 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                         ),
                                                       )
                                                     : Container(),
-                                                Row(
-                                                  children: [
-                                                    //Spacer(),
-                                                    therapistUsers[index]
+                                                therapistUsers[index]
                                                                 .lowestPrice !=
-                                                            null
-                                                        ? Text(
-                                                            '¥${therapistUsers[index].lowestPrice}/${therapistUsers[index].priceForMinute}',
+                                                            null &&
+                                                        therapistUsers[index]
+                                                                .lowestPrice !=
+                                                            0
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                            '¥${therapistUsers[index].lowestPrice}',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 19),
-                                                          )
-                                                        : Text(
-                                                            '¥0/0分',
+                                                                fontSize: 18),
+                                                          ),
+                                                          Text(
+                                                            '/${therapistUsers[index].priceForMinute}',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold,
-                                                                fontSize: 19),
+                                                                        .normal,
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontSize: 14),
                                                           )
-                                                  ],
-                                                ),
+                                                        ],
+                                                      )
+                                                    : SizedBox.shrink()
                                               ],
                                             ),
                                           )
@@ -1534,30 +1529,37 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                         ),
                                                       )
                                                     : Container(),
-                                                Row(
-                                                  children: [
-                                                    //Spacer(),
-                                                    widget.getTherapistByType[index]
+                                                widget.getTherapistByType[index]
                                                                 .lowestPrice !=
-                                                            null
-                                                        ? Text(
-                                                            '¥${widget.getTherapistByType[index].lowestPrice}/${widget.getTherapistByType[index].priceForMinute}',
+                                                            null &&
+                                                        widget
+                                                                .getTherapistByType[
+                                                                    index]
+                                                                .lowestPrice !=
+                                                            0
+                                                    ? Row(
+                                                        children: [
+                                                          Text(
+                                                            '¥${widget.getTherapistByType[index].lowestPrice}',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 19),
-                                                          )
-                                                        : Text(
-                                                            '¥0/0分',
+                                                                fontSize: 18),
+                                                          ),
+                                                          Text(
+                                                            '/${widget.getTherapistByType[index].priceForMinute}',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold,
-                                                                fontSize: 19),
+                                                                        .normal,
+                                                                color: Colors
+                                                                    .grey[400],
+                                                                fontSize: 14),
                                                           )
-                                                  ],
-                                                ),
+                                                        ],
+                                                      )
+                                                    : SizedBox.shrink()
                                               ],
                                             ),
                                           )

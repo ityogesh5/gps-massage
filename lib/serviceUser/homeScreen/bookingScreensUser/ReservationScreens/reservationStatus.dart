@@ -84,10 +84,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               child: Column(
                                                 children: [
                                                   CircleAvatar(
-                                                    child: SvgPicture.asset(
-                                                      'assets/images_gps/gpsLogo.svg',
-                                                      height: 40,
-                                                      color: Colors.blue,
+                                                    child: Image.asset(
+                                                      'assets/images_gps/placeholder_image.png',
+                                                      height: 70,
+                                                      color: Colors.black,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                     radius: 35,
                                                     backgroundColor:
@@ -652,10 +653,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               child: Column(
                                                 children: [
                                                   CircleAvatar(
-                                                    child: SvgPicture.asset(
-                                                      'assets/images_gps/gpsLogo.svg',
-                                                      height: 35,
-                                                      color: Colors.blue,
+                                                    child: Image.asset(
+                                                      'assets/images_gps/placeholder_image.png',
+                                                      height: 70,
+                                                      color: Colors.black,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                     radius: 35,
                                                     backgroundColor:
@@ -1224,10 +1226,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                               child: Column(
                                                 children: [
                                                   CircleAvatar(
-                                                    child: SvgPicture.asset(
-                                                      'assets/images_gps/gpsLogo.svg',
-                                                      height: 35,
-                                                      color: Colors.blue,
+                                                    child: Image.asset(
+                                                      'assets/images_gps/placeholder_image.png',
+                                                      height: 70,
+                                                      color: Colors.black,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                     radius: 35,
                                                     backgroundColor:
@@ -1787,10 +1790,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           child: Column(
                                             children: [
                                               CircleAvatar(
-                                                child: SvgPicture.asset(
-                                                  'assets/images_gps/gpsLogo.svg',
-                                                  height: 35,
-                                                  color: Colors.blue,
+                                                child: Image.asset(
+                                                  'assets/images_gps/placeholder_image.png',
+                                                  height: 70,
+                                                  color: Colors.black,
+                                                  fit: BoxFit.cover,
                                                 ),
                                                 radius: 35,
                                                 backgroundColor: Colors.white,
@@ -2295,10 +2299,11 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                           child: Column(
                                             children: [
                                               CircleAvatar(
-                                                child: SvgPicture.asset(
-                                                  'assets/images_gps/gpsLogo.svg',
-                                                  height: 35,
-                                                  color: Colors.blue,
+                                                child: Image.asset(
+                                                  'assets/images_gps/placeholder_image.png',
+                                                  height: 70,
+                                                  color: Colors.black,
+                                                  fit: BoxFit.cover,
                                                 ),
                                                 radius: 35,
                                                 backgroundColor: Colors.white,
