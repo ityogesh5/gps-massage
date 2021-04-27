@@ -623,6 +623,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
         setState(() {
           HealingMatchConstants.userProfileImage =
               value.data.uploadProfileImgUrl;
+          HealingMatchConstants.serviceUserById = value.data.id.toString();
           HealingMatchConstants.serviceUserName = value.data.userName;
           HealingMatchConstants.userEditUserOccupation =
               value.data.userOccupation;

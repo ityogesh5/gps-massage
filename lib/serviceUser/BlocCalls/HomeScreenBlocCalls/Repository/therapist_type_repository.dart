@@ -29,10 +29,10 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "type": massageTypeValue,
+            "type": massageTypeValue.toString(),
           }));
       print(
-          'Therapist repo token : $accessToken : Massage type : $massageTypeValue');
+          'Therapist request : ${response.request} : Massage type : $massageTypeValue');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
         List<TypeTherapistData> therapistUsers =

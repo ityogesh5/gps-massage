@@ -2116,7 +2116,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isRegisterSuccess(
           response.statusCode, context, response.body)) {
-        final Map userDetailsResponse = json.decode(response.body);
+        final Map userDetailsResponse = json.decode(response.body.toString());
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
