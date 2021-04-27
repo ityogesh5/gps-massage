@@ -18,6 +18,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -66,8 +68,8 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
+  // Placemark currentLocationPlaceMark;
+  // Placemark userAddedAddressPlaceMark;
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
@@ -2018,36 +2020,32 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
+
+    String address = roomNumber +
+        ',' +
+        buildingName +
+        ',' +
+        userArea +
+        ',' +
+        _myCity +
+        ',' +
+        _myPrefecture;
+    String query = Platform.isIOS ? _myCity + ',' + _myPrefecture : address;
     try {
-      if (HealingMatchConstants.userAddress.isEmpty) {
-        String address = roomNumber +
-            ',' +
-            buildingName +
-            ',' +
-            userArea +
-            ',' +
-            _myCity +
-            ',' +
-            _myPrefecture;
-
-        List<Placemark> userAddress =
-            await geoLocator.placemarkFromAddress(address);
-        userAddedAddressPlaceMark = userAddress[0];
-        Position addressPosition = userAddedAddressPlaceMark.position;
-        HealingMatchConstants.currentLatitude = addressPosition.latitude;
-        HealingMatchConstants.currentLongitude = addressPosition.longitude;
-        HealingMatchConstants.userAddress = address;
-
-        print(
-            'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
-            '${HealingMatchConstants.currentLongitude}');
-        print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
-        print('Manual Address : ${HealingMatchConstants.userAddress}');
-      }
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.currentLatitude = locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.currentLatitude}");
+      HealingMatchConstants.currentLongitude = locations[0].longitude;
+      print("Long : ${HealingMatchConstants.currentLongitude}");
+      HealingMatchConstants.userAddress = address;
     } catch (e) {
-      print('GPRC Exception : ${e.toString()}');
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
     }
-
     //Calling Service User API for Register
     try {
       //MultiPart request

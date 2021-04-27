@@ -22,8 +22,7 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      /* "http://103.92.19.158:9094/api";*/
-      "http://106.51.49.160:9094/api";
+      "http://106.51.49.160:9087/api";
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';

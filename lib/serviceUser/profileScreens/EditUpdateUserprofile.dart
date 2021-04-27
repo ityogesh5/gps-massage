@@ -27,6 +27,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
@@ -130,8 +132,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   File _profileImage;
   bool readonly = false;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
+  // Placemark currentLocationPlaceMark;
+  // Placemark userAddedAddressPlaceMark;
 
   bool visible = false;
   bool _showCurrentLocationInput = false;
@@ -682,8 +684,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           autofocus: false,
                           maxLength: 10,
                           controller: phoneNumberController,
-                          keyboardType:
-                              TextInputType.numberWithOptions(signed: true),
+                          keyboardType: TextInputType.text,
                           onEditingComplete: () {
                             var phnNum = phoneNumberController.text.toString();
                             var userPhoneNumber =
@@ -693,6 +694,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             FocusScope.of(context).requestFocus(FocusNode());
                           },
                           decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.all(11),
                             filled: true,
                             fillColor: ColorConstants.formFieldFillColor,
                             labelText: '電話番号',
@@ -828,8 +830,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     style: HealingMatchConstants.formTextStyle,
                                     decoration: InputDecoration(
                                       counterText: '',
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      contentPadding: EdgeInsets.all(11),
                                       border: HealingMatchConstants
                                           .textFormInputBorder,
                                       focusedBorder: HealingMatchConstants
@@ -1741,8 +1742,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           HealingMatchConstants.userAddressesList[position]
                               .address = _editAddressController.text.toString();
                           editPosition = position;
-                          _getLatLngFromAddress(
-                              _editAddressController.text.toString(), position);
+                          String address = Platform.isIOS
+                              ? HealingMatchConstants
+                                      .userAddressesList[position].cityName +
+                                  ',' +
+                                  HealingMatchConstants
+                                      .userAddressesList[position]
+                                      .capitalAndPrefecture
+                              : _editAddressController.text.toString();
+                          _getLatLngFromAddress(address, position);
                         } else {
                           ProgressDialogBuilder.hideLoader(context);
                         }
@@ -2305,7 +2313,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
     } else */
-    if (HealingMatchConstants.userEditAddress.isEmpty) {
+    /*  if (HealingMatchConstants.userEditAddress.isEmpty) {
       String manualUserAddress = roomNumber +
           ',' +
           buildingName +
@@ -2332,7 +2340,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
     }
-
+*/
     print('Id: ${HealingMatchConstants.accessToken}');
     print('Id: $HealingMatchConstants.serviceUserById');
     print('Address ID : $_userAddressID');
@@ -2446,31 +2454,6 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           print('Error Message : ${editErrorUpdateResponse.message}');
           ProgressDialogBuilder.hideLoader(context);
 
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-            backgroundColor: ColorConstants.snackBarColor,
-            duration: Duration(seconds: 5),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text('選択した住所のカテゴリタイプはすでに追加されています。',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(fontFamily: 'NotoSansJP')),
-                ),
-                InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState.hideCurrentSnackBar();
-                  },
-                  child: Text('はい',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'NotoSansJP',
-                          decoration: TextDecoration.underline)),
-                ),
-              ],
-            ),
-          ));
           return;
         } else {
           updateAddress.clear();
@@ -2639,14 +2622,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   void _getLatLngFromAddress(String subAddress, var position) async {
     try {
-      List<Placemark> address =
-          await geoLocator.placemarkFromAddress(subAddress);
+      List<Location> manualLocations =
+          await locationFromAddress(subAddress, localeIdentifier: "ja_JP");
 
-      userAddedAddressPlaceMark = address[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-
-      var searchAddressLatitude = addressPosition.latitude;
-      var searchAddressLongitude = addressPosition.longitude;
+      var searchAddressLatitude = manualLocations[0].latitude;
+      var searchAddressLongitude = manualLocations[0].longitude;
 
       print(
           'Address location points : $searchAddressLatitude && $searchAddressLongitude');
@@ -2673,7 +2653,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         });
       }
     } catch (e) {
-      print(e.toString());
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
       ProgressDialogBuilder.hideLoader(context);
     }
   }
@@ -2697,8 +2681,8 @@ class _AddAddressState extends State<AddAddress> {
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
   String _myCategoryPlaceForMassage = '';
-  Placemark userGPSAddressPlaceMark;
-  Placemark userManualAddressPlaceMark;
+  // Placemark userGPSAddressPlaceMark;
+  // Placemark userManualAddressPlaceMark;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
@@ -2877,8 +2861,7 @@ class _AddAddressState extends State<AddAddress> {
                                           HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
                                         counterText: '',
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                        contentPadding: EdgeInsets.all(11),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -3443,7 +3426,7 @@ class _AddAddressState extends State<AddAddress> {
       return;
     }
     ProgressDialogBuilder.showOverlayLoader(context);
-    String manualAddedAddress = addedRoomNumberController.text.toString() +
+/*    String manualAddedAddress = addedRoomNumberController.text.toString() +
         ',' +
         addedBuildingNameController.text.toString() +
         ',' +
@@ -3470,8 +3453,36 @@ class _AddAddressState extends State<AddAddress> {
         'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
         '${HealingMatchConstants.manualAddressCurrentLongitude}');
     print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
-    print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
-
+    print('Manual Address : ${HealingMatchConstants.manualUserAddress}');*/
+    String manualAddedAddress = addedRoomNumberController.text.toString() +
+        ',' +
+        addedBuildingNameController.text.toString() +
+        ',' +
+        addedUserAreaController.text.toString() +
+        ',' +
+        _myAddedCity +
+        ',' +
+        _myAddedPrefecture;
+    String query = Platform.isIOS
+        ? _myAddedCity + ',' + _myAddedPrefecture
+        : manualAddedAddress;
+    try {
+      List<Location> updateLocations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.manualAddressCurrentLatitude =
+          updateLocations[0].latitude;
+      print("Lat: ${HealingMatchConstants.manualAddressCurrentLatitude}");
+      HealingMatchConstants.manualAddressCurrentLongitude =
+          updateLocations[0].longitude;
+      print("Long : ${HealingMatchConstants.manualAddressCurrentLongitude}");
+      HealingMatchConstants.manualUserAddress = manualAddedAddress;
+    } catch (e) {
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    }
     if (constantUserAddressValuesList.length <= 2) {
       String city = _myAddedCity;
       setState(() {

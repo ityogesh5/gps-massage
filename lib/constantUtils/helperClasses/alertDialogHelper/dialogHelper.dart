@@ -6,6 +6,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
@@ -194,7 +195,7 @@ class DialogHelper {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-                              //Navigator.pop(context);
+                              // Navigator.pop(context);
                               _sharedPreferences.then((value) {
                                 value.setBool('isUserVerified', true);
                               });
@@ -221,19 +222,20 @@ class DialogHelper {
                   left: 50,
                   child: CircleAvatar(
                     backgroundColor: Colors.white70,
-                    maxRadius: MediaQuery.of(context).size.width * 0.11,
+                    maxRadius: MediaQuery.of(context).size.width * 0.13,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
-                      height: MediaQuery.of(context).size.height * 0.15,
+                      child: SvgPicture.asset(
+                        "assets/images_gps/correct.svg",
+                        // height: 5.0,
+                        // width: 5.0,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.23,
+                      height: MediaQuery.of(context).size.height * 0.18,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images_gps/correct.png'),
-                          fit: BoxFit.none,
-                        ),
                       ),
                     ),
                   ),
