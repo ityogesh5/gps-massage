@@ -69,12 +69,13 @@ class _RecommendState extends State<Recommend> {
                               child: Column(
                                 children: [
                                   CircleAvatar(
-                                    child: SvgPicture.asset(
-                                      'assets/images_gps/gpsLogo.svg',
-                                      height: 35,
-                                      color: Colors.blue,
+                                    child: Image.asset(
+                                      'assets/images_gps/placeholder_image.png',
+                                      height: 70,
+                                      color: Colors.black,
+                                      fit: BoxFit.cover,
                                     ),
-                                    radius: 30,
+                                    radius: 40,
                                     backgroundColor: Colors.white,
                                   ),
                                   FittedBox(

@@ -3,17 +3,14 @@ import 'package:equatable/equatable.dart';
 abstract class SearchEvent extends Equatable {}
 
 class FetchSearchResultsEvent extends SearchEvent {
-  final accessToken;
-  final massageTypeValue;
   final pageNumber;
   final pageSize;
 
-  FetchSearchResultsEvent(
-      this.accessToken, this.massageTypeValue, this.pageNumber, this.pageSize);
+  FetchSearchResultsEvent(this.pageNumber, this.pageSize);
 
   @override
   List<Object> get props =>
-      [accessToken, massageTypeValue, pageNumber, pageSize];
+      [pageNumber, pageSize];
 }
 
 class RefreshSearchEvent extends SearchEvent {

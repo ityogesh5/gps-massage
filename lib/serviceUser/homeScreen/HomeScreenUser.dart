@@ -2254,7 +2254,7 @@ class _RecommendListsState extends State<RecommendLists> {
                                       image: new DecorationImage(
                                           fit: BoxFit.cover,
                                           image: new AssetImage(
-                                              'assets/images_gps/logo.png')),
+                                              'assets/images_gps/placeholder_image.png')),
                                     )),
                                 FittedBox(
                                   child: Text(
