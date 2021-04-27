@@ -181,18 +181,18 @@ class User {
 class CertificationUploadsByType {
   int id;
   int userId;
-  Null acupuncturist;
+  dynamic acupuncturist;
   String moxibutionist;
-  Null acupuncturistAndMoxibustion;
-  Null anmaMassageShiatsushi;
-  Null judoRehabilitationTeacher;
-  Null physicalTherapist;
-  Null acquireNationalQualifications;
-  Null privateQualification1;
-  Null privateQualification2;
-  Null privateQualification3;
-  Null privateQualification4;
-  Null privateQualification5;
+  dynamic acupuncturistAndMoxibustion;
+  dynamic anmaMassageShiatsushi;
+  dynamic judoRehabilitationTeacher;
+  dynamic physicalTherapist;
+  dynamic acquireNationalQualifications;
+  dynamic privateQualification1;
+  dynamic privateQualification2;
+  dynamic privateQualification3;
+  dynamic privateQualification4;
+  dynamic privateQualification5;
   String createdAt;
   String updatedAt;
 
