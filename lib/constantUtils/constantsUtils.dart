@@ -161,8 +161,9 @@ class HealingMatchConstants {
   static const String userPasswordPhn = "電話番号 ";
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
-  static const String userPasswordTxt =
-      "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
+  static const String userPasswordTxt1 = "パスワードを再設定するための認証コードを送信します。";
+  static const String userPasswordTxt2 = "ご登録の電話番号を入力の上「送信」ボタンを";
+  static const String userPasswordTxt3 = "クリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserById = '';

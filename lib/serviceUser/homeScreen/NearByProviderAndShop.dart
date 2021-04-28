@@ -372,7 +372,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                               onTap: () {
                                 NavigationRouter
                                     .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                        context, therapistId);
+                                        context);
                               },
                               child: Container(
                                 // height: MediaQuery.of(context).size.height * 0.22,
@@ -737,8 +737,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                           onTap: () {
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context,
-                                                                    therapistId);
+                                                                    context);
                                                           },
                                                           child:
                                                               ListView.builder(
@@ -1068,7 +1067,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                       onTap: () {
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context, therapistId);
+                                context);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -1454,8 +1453,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                           onTap: () {
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context,
-                                                                    therapistId);
+                                                                    context);
                                                           },
                                                           child:
                                                               ListView.builder(

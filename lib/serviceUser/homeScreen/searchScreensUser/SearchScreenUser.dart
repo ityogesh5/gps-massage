@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
@@ -299,7 +300,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               null &&
                                           HealingMatchConstants
                                               .isUserRegistrationSkipped) {
-                                        return;
+                                        DialogHelper.showUserAddAddressDialog(
+                                            context);
                                       } else {
                                         NavigationRouter
                                             .switchToServiceUserViewProfileScreen(

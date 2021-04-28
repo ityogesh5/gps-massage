@@ -20,7 +20,8 @@ class _FavoriteState extends State<Favorite> {
   @override
   void initState() {
     super.initState();
-    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
     Future.delayed(Duration(seconds: 2), () {
       Loader.hide();
     });
@@ -42,7 +43,7 @@ class _FavoriteState extends State<Favorite> {
                   onTap: () {
                     NavigationRouter
                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                            context, therapistId);
+                            context);
                   },
                   child: ListView.builder(
                       shrinkWrap: true,
@@ -134,8 +135,8 @@ class _FavoriteState extends State<Favorite> {
                                                                 .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
-                                                          height: 15.0,
-                                                          width: 15.0,
+                                                          height: 10.0,
+                                                          width: 10.0,
                                                           // key: key,
                                                           color: Colors.black,
                                                         ), /* Icon(

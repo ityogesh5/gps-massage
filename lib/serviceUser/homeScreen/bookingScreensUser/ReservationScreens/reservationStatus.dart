@@ -19,7 +19,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
   @override
   void initState() {
     super.initState();
-    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
     Future.delayed(Duration(seconds: 2), () {
       Loader.hide();
     });
@@ -162,8 +163,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: SvgPicture
                                                                 .asset(
                                                               "assets/images_gps/info.svg",
-                                                              height: 15.0,
-                                                              width: 15.0,
+                                                              height: 10.0,
+                                                              width: 10.0,
                                                               // key: key,
                                                               color:
                                                                   Colors.black,
@@ -731,8 +732,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: SvgPicture
                                                                 .asset(
                                                               "assets/images_gps/info.svg",
-                                                              height: 15.0,
-                                                              width: 15.0,
+                                                              height: 10.0,
+                                                              width: 10.0,
                                                               // key: key,
                                                               color:
                                                                   Colors.black,
@@ -1021,16 +1022,21 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     .switchToServiceUserChatScreen(
                                                         context);
                                               },
-                                              child: CircleAvatar(
-                                                  maxRadius: 20,
-                                                  backgroundColor: Colors.white,
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/chat.svg',
-                                                      height: 30,
-                                                      width: 30)),
+                                              child: Card(
+                                                elevation: 3,
+                                                shape: CircleBorder(),
+                                                child: CircleAvatar(
+                                                    maxRadius: 20,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images_gps/chat.svg',
+                                                        height: 20,
+                                                        width: 20)),
+                                              ),
                                             ),
                                             SizedBox(
-                                              width: 5,
+                                              width: 3,
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -1038,13 +1044,18 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     .switchToUserBookingApprovedThirdScreen(
                                                         context);
                                               },
-                                              child: CircleAvatar(
-                                                  maxRadius: 20,
-                                                  backgroundColor: Colors.white,
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/accept.svg',
-                                                      height: 30,
-                                                      width: 30)),
+                                              child: Card(
+                                                elevation: 3,
+                                                shape: CircleBorder(),
+                                                child: CircleAvatar(
+                                                    maxRadius: 20,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images_gps/accept.svg',
+                                                        height: 20,
+                                                        width: 20)),
+                                              ),
                                             ),
                                           ]),
                                         ),
@@ -1302,8 +1313,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                             child: SvgPicture
                                                                 .asset(
                                                               "assets/images_gps/info.svg",
-                                                              height: 15.0,
-                                                              width: 15.0,
+                                                              height: 10.0,
+                                                              width: 10.0,
                                                               // key: key,
                                                               color:
                                                                   Colors.black,
@@ -1591,28 +1602,37 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     .switchToServiceUserChatScreen(
                                                         context);
                                               },
+                                              child: Card(
+                                                elevation: 3,
+                                                shape: CircleBorder(),
+                                                child: CircleAvatar(
+                                                    maxRadius: 20,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images_gps/chat.svg',
+                                                        height: 20,
+                                                        width: 20)),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Card(
+                                              shape: CircleBorder(),
+                                              elevation: 3,
                                               child: CircleAvatar(
                                                   maxRadius: 20,
                                                   backgroundColor: Colors.white,
                                                   child: SvgPicture.asset(
-                                                      'assets/images_gps/chat.svg',
-                                                      height: 25,
-                                                      width: 25)),
+                                                      'assets/images_gps/pay.svg',
+                                                      color: Color.fromRGBO(
+                                                          255, 193, 7, 1),
+                                                      height: 20,
+                                                      width: 20)),
                                             ),
                                             SizedBox(
-                                              width: 5,
-                                            ),
-                                            CircleAvatar(
-                                                maxRadius: 20,
-                                                backgroundColor: Colors.white,
-                                                child: SvgPicture.asset(
-                                                    'assets/images_gps/pay.svg',
-                                                    color: Color.fromRGBO(
-                                                        255, 193, 7, 1),
-                                                    height: 25,
-                                                    width: 25)),
-                                            SizedBox(
-                                              width: 5,
+                                              width: 3,
                                             ),
                                             InkWell(
                                               onTap: () {
@@ -1620,15 +1640,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                     .switchToServiceUserBookingCancelScreen(
                                                         context);
                                               },
-                                              child: CircleAvatar(
-                                                  maxRadius: 20,
-                                                  backgroundColor: Colors.white,
-                                                  child: SvgPicture.asset(
-                                                      'assets/images_gps/cancel.svg',
-                                                      color: Color.fromRGBO(
-                                                          217, 217, 217, 1),
-                                                      height: 20,
-                                                      width: 20)),
+                                              child: Card(
+                                                elevation: 3,
+                                                shape: CircleBorder(),
+                                                child: CircleAvatar(
+                                                    maxRadius: 20,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: SvgPicture.asset(
+                                                        'assets/images_gps/cancel.svg',
+                                                        color: Color.fromRGBO(
+                                                            217, 217, 217, 1),
+                                                        height: 20,
+                                                        width: 20)),
+                                              ),
                                             ),
                                           ]),
                                         ),
@@ -1859,8 +1884,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
-                                                          height: 15.0,
-                                                          width: 15.0,
+                                                          height: 10.0,
+                                                          width: 10.0,
                                                           // key: key,
                                                           color: Colors.black,
                                                         ), /* Icon(
@@ -2121,16 +2146,20 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .switchToServiceUserChatScreen(
                                                     context);
                                           },
-                                          child: CircleAvatar(
-                                              maxRadius: 20,
-                                              backgroundColor: Colors.white,
-                                              child: SvgPicture.asset(
-                                                  'assets/images_gps/chat.svg',
-                                                  height: 25,
-                                                  width: 25)),
+                                          child: Card(
+                                            elevation: 3,
+                                            shape: CircleBorder(),
+                                            child: CircleAvatar(
+                                                maxRadius: 20,
+                                                backgroundColor: Colors.white,
+                                                child: SvgPicture.asset(
+                                                    'assets/images_gps/chat.svg',
+                                                    height: 20,
+                                                    width: 20)),
+                                          ),
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          width: 3,
                                         ),
                                         InkWell(
                                           onTap: () {
@@ -2138,15 +2167,19 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                 .switchToServiceUserBookingCancelScreen(
                                                     context);
                                           },
-                                          child: CircleAvatar(
-                                              maxRadius: 20,
-                                              backgroundColor: Colors.white,
-                                              child: SvgPicture.asset(
-                                                  'assets/images_gps/cancel.svg',
-                                                  color: Color.fromRGBO(
-                                                      217, 217, 217, 1),
-                                                  height: 20,
-                                                  width: 20)),
+                                          child: Card(
+                                            shape: CircleBorder(),
+                                            elevation: 3,
+                                            child: CircleAvatar(
+                                                maxRadius: 20,
+                                                backgroundColor: Colors.white,
+                                                child: SvgPicture.asset(
+                                                    'assets/images_gps/cancel.svg',
+                                                    color: Color.fromRGBO(
+                                                        217, 217, 217, 1),
+                                                    height: 20,
+                                                    width: 20)),
+                                          ),
                                         ),
                                       ]),
                                     ),
@@ -2368,8 +2401,8 @@ class _ReservationStatusState extends State<ReservationStatus> {
                                                                 .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
-                                                          height: 15.0,
-                                                          width: 15.0,
+                                                          height: 10.0,
+                                                          width: 10.0,
                                                           // key: key,
                                                           color: Colors.black,
                                                         ), /* Icon(

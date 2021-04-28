@@ -196,11 +196,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         context: context,
         //locale : const Locale("ja","JP"),
         initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
+        initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime.now());
     if (picked != null) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         _userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
@@ -1296,7 +1297,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                     Container(
                                                                         padding:
                                                                             EdgeInsets.all(
-                                                                                8.0),
+                                                                                4.0),
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           gradient: LinearGradient(

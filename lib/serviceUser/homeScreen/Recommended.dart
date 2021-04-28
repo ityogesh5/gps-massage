@@ -45,8 +45,7 @@ class _RecommendState extends State<Recommend> {
         child: GestureDetector(
           onTap: () {
             NavigationRouter
-                .switchToServiceUserBookingDetailsCompletedScreenOne(
-                    context, therapistId);
+                .switchToServiceUserBookingDetailsCompletedScreenOne(context);
           },
           child: ListView.builder(
               shrinkWrap: true,
@@ -57,7 +56,8 @@ class _RecommendState extends State<Recommend> {
                 return Container(
                   height: 152,
                   width: MediaQuery.of(context).size.width * 0.85,
-                  child: WidgetAnimator(new Card(
+                  child: WidgetAnimator(
+                    new Card(
                       elevation: 0.0,
                       color: Color.fromRGBO(242, 242, 242, 1),
                       semanticContainer: true,
@@ -153,7 +153,8 @@ class _RecommendState extends State<Recommend> {
                                             child: Text(
                                               '店舗',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -179,7 +180,8 @@ class _RecommendState extends State<Recommend> {
                                             child: Text(
                                               '出張',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -205,7 +207,8 @@ class _RecommendState extends State<Recommend> {
                                             child: Text(
                                               'コロナ対策実施',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                       ],
@@ -220,7 +223,8 @@ class _RecommendState extends State<Recommend> {
                                         ratingsValue.toString(),
                                         style: TextStyle(
                                           decoration: TextDecoration.underline,
-                                          color: Color.fromRGBO(153, 153, 153, 1),
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
                                         ),
                                       ),
                                       RatingBar.builder(
@@ -230,8 +234,8 @@ class _RecommendState extends State<Recommend> {
                                         allowHalfRating: true,
                                         itemCount: 5,
                                         itemSize: 22,
-                                        itemPadding:
-                                            EdgeInsets.symmetric(horizontal: 4.0),
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 4.0),
                                         itemBuilder: (context, _) => Icon(
                                           Icons.star,
                                           size: 5,
@@ -248,7 +252,8 @@ class _RecommendState extends State<Recommend> {
                                       Text(
                                         '(1518)',
                                         style: TextStyle(
-                                          color: Color.fromRGBO(153, 153, 153, 1),
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
                                         ),
                                       ),
                                     ],
@@ -292,7 +297,8 @@ class _RecommendState extends State<Recommend> {
                                       Text(
                                         '/60分',
                                         style: TextStyle(
-                                          color: Color.fromRGBO(153, 153, 153, 1),
+                                          color:
+                                              Color.fromRGBO(153, 153, 153, 1),
                                         ),
                                       )
                                     ],

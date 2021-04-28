@@ -31,6 +31,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
   FocusNode pinCodeFoucs = FocusNode();
   FocusNode createPasswordFocus = FocusNode();
   FocusNode confirmPasswordFocus = FocusNode();
+  double containerHeight = 48.0;
 
   List<String> changePasswordDetails = [];
 
@@ -162,73 +163,80 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                     SizedBox(
                       height: 12,
                     ),
-                    TextFormField(
-                      obscureText: _secureText,
-                      textInputAction: TextInputAction.next,
-                      focusNode: createPasswordFocus,
-                      maxLength: 16,
-                      controller: createPasswordController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: HealingMatchConstants.formTextStyle,
-                      decoration: new InputDecoration(
-                        counterText: "",
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: _secureText
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                _secureText = !_secureText;
-                              });
-                            }),
-                        filled: true,
-                        labelText: HealingMatchConstants.changePasswordNewpass,
-                        labelStyle: HealingMatchConstants.formLabelTextStyle,
-                        fillColor: ColorConstants.formFieldFillColor,
+                    Container(
+                      height: containerHeight,
+                      child: TextFormField(
+                        obscureText: _secureText,
+                        textInputAction: TextInputAction.next,
+                        focusNode: createPasswordFocus,
+                        maxLength: 16,
+                        controller: createPasswordController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: HealingMatchConstants.formTextStyle,
+                        decoration: new InputDecoration(
+                          counterText: "",
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: _secureText
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  _secureText = !_secureText;
+                                });
+                              }),
+                          filled: true,
+                          labelText:
+                              HealingMatchConstants.changePasswordNewpass,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
+                          fillColor: ColorConstants.formFieldFillColor,
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 15,
                     ),
-                    TextFormField(
-                      obscureText: passwordConfirmVisibility,
-                      textInputAction: TextInputAction.done,
-                      focusNode: confirmPasswordFocus,
-                      controller: confirmPasswordController,
-                      keyboardType: TextInputType.emailAddress,
-                      style: HealingMatchConstants.formTextStyle,
-                      maxLength: 16,
-                      decoration: new InputDecoration(
-                        counterText: "",
-                        border: HealingMatchConstants.textFormInputBorder,
-                        focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                        suffixIcon: IconButton(
-                            icon: passwordConfirmVisibility
-                                ? Icon(Icons.visibility_off)
-                                : Icon(Icons.visibility),
-                            onPressed: () {
-                              setState(() {
-                                passwordConfirmVisibility =
-                                    !passwordConfirmVisibility;
-                              });
-                            }),
-                        filled: true,
-                        labelText:
-                            HealingMatchConstants.changePasswordConfirmpass,
-                        labelStyle: HealingMatchConstants.formLabelTextStyle,
-                        fillColor: ColorConstants.formFieldFillColor,
+                    Container(
+                      height: containerHeight,
+                      child: TextFormField(
+                        obscureText: passwordConfirmVisibility,
+                        textInputAction: TextInputAction.done,
+                        focusNode: confirmPasswordFocus,
+                        controller: confirmPasswordController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: HealingMatchConstants.formTextStyle,
+                        maxLength: 16,
+                        decoration: new InputDecoration(
+                          counterText: "",
+                          border: HealingMatchConstants.textFormInputBorder,
+                          focusedBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          disabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          enabledBorder:
+                              HealingMatchConstants.textFormInputBorder,
+                          suffixIcon: IconButton(
+                              icon: passwordConfirmVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passwordConfirmVisibility =
+                                      !passwordConfirmVisibility;
+                                });
+                              }),
+                          filled: true,
+                          labelText:
+                              HealingMatchConstants.changePasswordConfirmpass,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle,
+                          fillColor: ColorConstants.formFieldFillColor,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -236,7 +244,7 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: 45,
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.changePasswordBtn,
@@ -245,12 +253,12 @@ class _UserChangePasswordState extends State<UserChangePassword> {
                               fontFamily: 'NotoSansJP',
                               fontSize: 20),
                         ),
-                        color: Colors.lime,
+                        color: Color.fromRGBO(200, 217, 33, 1),
                         onPressed: () {
                           _userChangePasswordDetails();
                         },
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(7.0),
                         ),
                       ),
                     ),

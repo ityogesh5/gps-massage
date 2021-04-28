@@ -678,10 +678,11 @@ class NavigationRouter {
 
   //User BookingDetailsCompletedScreen one
   static void switchToServiceUserBookingDetailsCompletedScreenOne(
-      BuildContext context, arg) {
+    BuildContext context,
+  ) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingDetailsCompletedScreenOne(arg);
+          return BookingDetailsCompletedScreenOne();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

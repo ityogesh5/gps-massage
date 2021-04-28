@@ -22,7 +22,8 @@ class _PastReservationsState extends State<PastReservations> {
   @override
   void initState() {
     super.initState();
-    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
     Future.delayed(Duration(seconds: 2), () {
       Loader.hide();
     });
@@ -135,17 +136,18 @@ class _PastReservationsState extends State<PastReservations> {
                                                             ]),
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                          color: Colors.grey[400],
+                                                          color:
+                                                              Colors.grey[400],
                                                         ),
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(
-                                                                8.0),
+                                                            const EdgeInsets
+                                                                .all(8.0),
                                                         child: SvgPicture.asset(
                                                           "assets/images_gps/info.svg",
-                                                          height: 15.0,
-                                                          width: 15.0,
+                                                          height: 10.0,
+                                                          width: 10.0,
                                                           // key: key,
                                                           color: Colors.black,
                                                         ), /* Icon(
@@ -177,35 +179,41 @@ class _PastReservationsState extends State<PastReservations> {
                                                           .spaceBetween,
                                                   children: [
                                                     Container(
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         padding:
                                                             EdgeInsets.all(4),
                                                         child: Text(
                                                           '店舗',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -214,33 +222,39 @@ class _PastReservationsState extends State<PastReservations> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           '出張',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                     SizedBox(
@@ -249,33 +263,39 @@ class _PastReservationsState extends State<PastReservations> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           'コロナ対策実施',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                   ],
@@ -290,33 +310,39 @@ class _PastReservationsState extends State<PastReservations> {
                                                     Container(
                                                         padding:
                                                             EdgeInsets.all(4),
-                                                        decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment
-                                                                    .topCenter,
-                                                                end: Alignment
-                                                                    .bottomCenter,
-                                                                colors: [
-                                                                  Colors.white,
-                                                                  Colors.white,
-                                                                ]),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            border: Border.all(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                            color:
-                                                                Colors.grey[200]),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Colors
+                                                                          .white,
+                                                                      Colors
+                                                                          .white,
+                                                                    ]),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      300],
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5.0),
+                                                                color: Colors
+                                                                    .grey[200]),
                                                         child: Text(
                                                           '国家資格保有',
                                                           style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                0, 0, 0, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
                                                           ),
                                                         )),
                                                   ],
@@ -358,8 +384,8 @@ class _PastReservationsState extends State<PastReservations> {
                                         Text(
                                           '月曜日出張',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         )
                                       ],
@@ -389,8 +415,8 @@ class _PastReservationsState extends State<PastReservations> {
                                         Text(
                                           '60分',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         )
                                       ],
@@ -420,7 +446,8 @@ class _PastReservationsState extends State<PastReservations> {
                                             child: Text(
                                               '足つぼ',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -438,8 +465,8 @@ class _PastReservationsState extends State<PastReservations> {
                                         Text(
                                           '(交通費込み-¥1,000)',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(153, 153, 153, 1),
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
                                           ),
                                         )
                                       ],
@@ -449,7 +476,8 @@ class _PastReservationsState extends State<PastReservations> {
                                         child: Divider(
                                           // height: 50,
 
-                                          color: Color.fromRGBO(217, 217, 217, 1),
+                                          color:
+                                              Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ),
                                       InkWell(
@@ -459,14 +487,18 @@ class _PastReservationsState extends State<PastReservations> {
                                                   context);
                                           print(accessToken);
                                         },
-                                        child: CircleAvatar(
-                                            maxRadius: 25,
-                                            backgroundColor:
-                                                Color.fromRGBO(253, 253, 253, 1),
-                                            child: SvgPicture.asset(
-                                                'assets/images_gps/give_rating.svg',
-                                                height: 30,
-                                                width: 30)),
+                                        child: Card(
+                                          elevation: 3,
+                                          shape: CircleBorder(),
+                                          child: CircleAvatar(
+                                              maxRadius: 20,
+                                              backgroundColor: Color.fromRGBO(
+                                                  253, 253, 253, 1),
+                                              child: SvgPicture.asset(
+                                                  'assets/images_gps/give_rating.svg',
+                                                  height: 20,
+                                                  width: 20)),
+                                        ),
                                       ),
                                     ]),
                                     Row(
@@ -514,7 +546,8 @@ class _PastReservationsState extends State<PastReservations> {
                                             child: Text(
                                               '店舗',
                                               style: TextStyle(
-                                                color: Color.fromRGBO(0, 0, 0, 1),
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1),
                                               ),
                                             )),
                                         SizedBox(
@@ -523,8 +556,8 @@ class _PastReservationsState extends State<PastReservations> {
                                         Text(
                                           '東京都 墨田区 押上 1-1-2',
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(102, 102, 102, 1),
+                                            color: Color.fromRGBO(
+                                                102, 102, 102, 1),
                                           ),
                                         ),
                                       ],

@@ -81,13 +81,14 @@ class _SearchResultState extends State<SearchResult> {
                       onTap: () {
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context, therapistId);
+                                context);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           physics: BouncingScrollPhysics(),
-                          itemCount: HealingMatchConstants.searchList.length, //HealingMatchConstants.searchList,
+                          itemCount: HealingMatchConstants.searchList
+                              .length, //HealingMatchConstants.searchList,
                           itemBuilder: (context, index) {
                             return Container(
                               // height: MediaQuery.of(context).size.height * 0.22,
