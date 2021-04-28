@@ -6,6 +6,7 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
@@ -659,10 +660,10 @@ class NavigationRouter {
 
   //User BookingDetailsCompletedScreen one
   static void switchToServiceUserBookingDetailsCompletedScreenOne(
-      BuildContext context) {
+      BuildContext context, var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingDetailsCompletedScreenOne();
+          return BookingDetailsCompletedScreenOne(userID);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

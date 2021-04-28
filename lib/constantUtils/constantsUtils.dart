@@ -111,10 +111,13 @@ class HealingMatchConstants {
       '/adminBanner' +
       '/getAllAdminBannerListMobile';
 
-  // get Users banner images from Admin
+  // get Users details
   static const String GET_USER_DETAILS =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
   // delete user sub address
   static const String DELETE_SUB_ADDRESS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
@@ -140,6 +143,7 @@ class HealingMatchConstants {
   static bool isBottomBarVisible = true;
   static String userFcmToken = '';
   static String currentDate;
+
 
   static String currentDay;
 
@@ -425,6 +429,17 @@ class HealingMatchConstants {
   // User Home screen
   static int serviceTypeValue = 0;
   static List<String> userBannerImages = [];
+
+  //User details
+  static String userRegisteredAddressDetail = '';
+  static String userRoomNo = '';
+  static String userCity = '';
+  static String userPrefecture = '';
+  static String userPlaceForMassage = '';
+  static String userPlaceForMassageOther = '';
+  static String userArea = '';
+  static String userBuildName = '';
+  static List<UserAddresses> userAddressDetailsList= new List<UserAddresses>();
 
   // User Profile screen
   //Uint8List profile image;

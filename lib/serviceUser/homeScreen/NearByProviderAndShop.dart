@@ -366,18 +366,19 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                           if (index == therapistUsers.length) {
                             return _buildProgressIndicator();
                           } else {
-                            return InkWell(
-                              splashColor: Colors.lime,
-                              onTap: () {
-                                NavigationRouter
-                                    .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                        context);
-                              },
-                              child: Container(
-                                // height: MediaQuery.of(context).size.height * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: WidgetAnimator(
-                                  Card(
+                            return Container(
+                              // height: MediaQuery.of(context).size.height * 0.22,
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: WidgetAnimator(
+                                InkWell(
+                                  splashColor: Colors.lime,
+                                  onTap: () {
+                                    var userID = therapistUsers[index].user.id;
+                                    NavigationRouter
+                                        .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                        context,userID);
+                                  },
+                                  child: Card(
                                     elevation: 0.0,
                                     color: Colors.grey[100],
                                     semanticContainer: true,
@@ -734,9 +735,10 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                             130.0, //200.0,
                                                         child: GestureDetector(
                                                           onTap: () {
+                                                            var userID = therapistUsers[index].user.id;
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context);
+                                                                    context,userID);
                                                           },
                                                           child:
                                                               ListView.builder(
@@ -1062,26 +1064,29 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                   // Next, create a SliverList
                   SliverList(
                       delegate: SliverChildListDelegate([
-                    GestureDetector(
-                      onTap: () {
-                        NavigationRouter
-                            .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context);
-                      },
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: widget.getTherapistByType.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == widget.getTherapistByType.length) {
-                              return _buildProgressIndicator();
-                            } else {
-                              return Container(
-                                // height: MediaQuery.of(context).size.height * 0.22,
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: WidgetAnimator(
-                                  new Card(
+                    ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: widget.getTherapistByType.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == widget.getTherapistByType.length) {
+                            return _buildProgressIndicator();
+                          } else {
+                            return Container(
+                              // height: MediaQuery.of(context).size.height * 0.22,
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: WidgetAnimator(
+                                InkWell(
+                                  splashColor: Colors.lime,
+                                  hoverColor: Colors.lime,
+                                  onTap: (){
+                                    var userID = widget.getTherapistByType[index].user.id;
+                                    NavigationRouter
+                                        .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                        context,userID);
+                                  },
+                                  child: new Card(
                                     elevation: 0.0,
                                     color: Colors.grey[100],
                                     semanticContainer: true,
@@ -1450,9 +1455,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                             130.0, //200.0,
                                                         child: GestureDetector(
                                                           onTap: () {
+                                                            var userID = widget.getTherapistByType[index].user.id;
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context);
+                                                                    context,userID);
                                                           },
                                                           child:
                                                               ListView.builder(
@@ -1538,10 +1544,10 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                     ),
                                   ),
                                 ),
-                              );
-                            }
-                          }),
-                    )
+                              ),
+                            );
+                          }
+                        })
                   ]))
                 ],
               ),

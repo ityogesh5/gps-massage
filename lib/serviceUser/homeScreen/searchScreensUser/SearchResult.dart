@@ -80,7 +80,7 @@ class _SearchResultState extends State<SearchResult> {
                       onTap: () {
                         NavigationRouter
                             .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                context);
+                                context,null);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
