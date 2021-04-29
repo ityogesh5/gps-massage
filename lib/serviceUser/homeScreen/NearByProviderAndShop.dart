@@ -72,6 +72,8 @@ class InitialProvidersScreen extends StatefulWidget {
 }
 
 class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
+  var _pageNumber = 1;
+  var _pageSize = 10;
   @override
   void initState() {
     checkInternet();
@@ -81,12 +83,30 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
   checkInternet() {
     CheckInternetConnection.checkConnectivity(context);
     if (HealingMatchConstants.isInternetAvailable) {
-      BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));
+      /*BlocProvider.of<TherapistTypeBloc>(context)
+          .add(RefreshEvent(HealingMatchConstants.accessToken));*/
     } else {
       print('No internet Bloc !!');
       //return HomePageError();
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showOverlayLoader();
+  }
+
+  showOverlayLoader() {
+    Loader.show(context, progressIndicator: LoadInitialHomePage());
+    Future.delayed(Duration(seconds: 5), () {
+      BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(
+          HealingMatchConstants.accessToken,
+          _pageNumber,
+          _pageSize,
+          context));
+      Loader.hide();
+    });
   }
 
   @override
@@ -101,9 +121,9 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
           },
           child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
             builder: (context, state) {
-              if (state is GetTherapistTypeLoadingState) {
+              if (state is GetTherapistLoadedState) {
                 print('Loading state');
-                return LoadProvidersPage();
+                return LoadProvidersPage(getTherapistProfiles : state.getTherapistsUsers);
               } else if (state is GetTherapistTypeLoaderState) {
                 print('Loader widget');
                 return LoadInitialHomePage();
@@ -168,6 +188,11 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 }
 
 class LoadProvidersPage extends StatefulWidget {
+
+  List<InitialTherapistData> getTherapistProfiles;
+
+  LoadProvidersPage({Key key, @required this.getTherapistProfiles})
+      : super(key: key);
   @override
   State createState() {
     return _LoadProvidersPageState();
@@ -197,17 +222,11 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   }
 
   getProvidersList() async {
-    //therapistUsers.clear();
-    var providerListApiProvider =
-        ServiceUserAPIProvider.getAllTherapistsByLimit(
-            context, _pageNumber, _pageSize);
-    providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
-          therapistUsers = value.homeTherapistData.therapistData;
+          therapistUsers = widget.getTherapistProfiles;
           for (int i = 0; i < therapistUsers.length; i++) {
-            certificateUpload = value
-                .homeTherapistData.therapistData[i].user.certificationUploads;
+            certificateUpload = therapistUsers[i].user.certificationUploads;
 
             for (int j = 0; j < certificateUpload.length; j++) {
               print('Certificate upload : ${certificateUpload[j].toJson()}');
@@ -245,7 +264,6 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
           }
         });
       }
-    });
   }
 
   String getQualificationJPWords(String key) {
@@ -283,19 +301,6 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
         return '民間資格';
         break;
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    showOverlayLoader();
-  }
-
-  showOverlayLoader() {
-    Loader.show(context, progressIndicator: LoadInitialHomePage());
-    Future.delayed(Duration(seconds: 3), () {
-      Loader.hide();
-    });
   }
 
   @override
@@ -1916,9 +1921,9 @@ class _HomePageErrorState extends State<HomePageError> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              BlocProvider.of<TherapistTypeBloc>(context).add(
+                              /*BlocProvider.of<TherapistTypeBloc>(context).add(
                                   RefreshEvent(
-                                      HealingMatchConstants.accessToken));
+                                      HealingMatchConstants.accessToken));*/
                             },
                           ),
                           Text(

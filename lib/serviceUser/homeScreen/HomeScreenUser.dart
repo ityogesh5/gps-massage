@@ -164,9 +164,9 @@ class _HomePageErrorState extends State<HomePageError> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              BlocProvider.of<TherapistTypeBloc>(context).add(
+                              /*BlocProvider.of<TherapistTypeBloc>(context).add(
                                   RefreshEvent(
-                                      HealingMatchConstants.accessToken));
+                                      HealingMatchConstants.accessToken));*/
                             },
                           ),
                           Text(
@@ -197,11 +197,26 @@ class InitialUserHomeScreen extends StatefulWidget {
 }
 
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
+  var _pageNumber = 1;
+  var _pageSize = 10;
   @override
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
     getAccessToken();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    showOverlayLoader();
+  }
+
+  showOverlayLoader() {
+    Loader.show(context, progressIndicator: LoadInitialHomePage());
+    Future.delayed(Duration(seconds: 5), () {
+      Loader.hide();
+    });
   }
 
   getAccessToken() async {
@@ -264,6 +279,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
           }
         }
         print('User Profile image : ${HealingMatchConstants.userProfileImage}');
+        BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(
+            HealingMatchConstants.accessToken,
+            _pageNumber,
+            _pageSize,
+            context));
       }).catchError((onError) {
         print('Home error user details : $onError');
       });
@@ -321,9 +341,9 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
           },
           child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
             builder: (context, state) {
-              if (state is GetTherapistTypeLoadingState) {
-                print('Loading state');
-                return LoadHomePage();
+              if (state is GetTherapistLoadedState) {
+                return LoadHomePage(
+                    getTherapistProfiles: state.getTherapistsUsers);
               } else if (state is GetTherapistTypeLoaderState) {
                 print('Loader widget');
                 return LoadInitialHomePage();
@@ -348,6 +368,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 }
 
 class LoadHomePage extends StatefulWidget {
+  List<InitialTherapistData> getTherapistProfiles;
+
+  LoadHomePage({Key key, @required this.getTherapistProfiles})
+      : super(key: key);
+
   @override
   State createState() {
     return _LoadHomePageState();
@@ -356,26 +381,14 @@ class LoadHomePage extends StatefulWidget {
 
 class _LoadHomePageState extends State<LoadHomePage> {
   TherapistTypeBloc _therapistTypeBloc;
+  var _pageNumber = 1;
+  var _pageSize = 10;
 
   @override
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    showOverlayLoader();
-  }
-
-  showOverlayLoader() {
-    Loader.show(context, progressIndicator: LoadInitialHomePage());
-
-    Future.delayed(Duration(seconds: 3), () {
-      Loader.hide();
-    });
   }
 
   @override
@@ -425,7 +438,7 @@ class _LoadHomePageState extends State<LoadHomePage> {
             ),
           ),
           BuildMassageTypeChips(),
-          BuildProviderUsers(),
+          BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
           ReservationList(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -614,9 +627,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Column(children: [
                   Shimmer(
-                    duration: Duration(seconds: 1),
+                    duration: Duration(milliseconds: 300),
                     //Default value
-                    interval: Duration(seconds: 1),
+                    interval: Duration(milliseconds: 300),
                     //Default value: Duration(seconds: 0)
                     color: Colors.grey[300],
                     //Default value
@@ -640,9 +653,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Shimmer(
-              duration: Duration(seconds: 1),
+              duration: Duration(milliseconds: 300),
               //Default value
-              interval: Duration(seconds: 2),
+              interval: Duration(milliseconds: 300),
               //Default value: Duration(seconds: 0)
               color: Colors.grey[400],
               //Default value
@@ -678,9 +691,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Shimmer(
-              duration: Duration(seconds: 1),
+              duration: Duration(milliseconds: 300),
               //Default value
-              interval: Duration(seconds: 2),
+              interval: Duration(milliseconds: 300),
               //Default value: Duration(seconds: 0)
               color: Colors.grey[400],
               //Default value
@@ -745,9 +758,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
             ),
           ),
           Shimmer(
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 300),
             //Default value
-            interval: Duration(seconds: 1),
+            interval: Duration(milliseconds: 300),
             //Default value: Duration(seconds: 0)
             color: Colors.grey[300],
             //Default value
@@ -760,9 +773,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
             ),
           ),
           Shimmer(
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 300),
             //Default value
-            interval: Duration(seconds: 2),
+            interval: Duration(milliseconds: 300),
             //Default value: Duration(seconds: 0)
             color: Colors.grey[400],
             //Default value
@@ -800,9 +813,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
               height: MediaQuery.of(context).size.height * 0.22,
               width: MediaQuery.of(context).size.width * 0.95,
               child: Shimmer(
-                duration: Duration(seconds: 1),
+                duration: Duration(milliseconds: 300),
                 //Default value
-                interval: Duration(seconds: 2),
+                interval: Duration(milliseconds: 300),
                 //Default value: Duration(seconds: 0)
                 color: Colors.grey[300],
                 //Default value
@@ -859,9 +872,9 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
             height: 10,
           ),
           Shimmer(
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 300),
             //Default value
-            interval: Duration(seconds: 2),
+            interval: Duration(milliseconds: 300),
             //Default value: Duration(seconds: 0)
             color: Colors.grey[400],
             //Default value
@@ -2501,6 +2514,13 @@ class _RecommendListsState extends State<RecommendLists> {
 }
 
 class BuildProviderUsers extends StatefulWidget {
+  List<InitialTherapistData> getTherapistProfiles;
+
+  // Create the key
+
+  BuildProviderUsers({Key key, @required this.getTherapistProfiles})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _BuildProviderUsersState();
@@ -2528,7 +2548,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   @override
   void initState() {
     super.initState();
-    getAccessToken();
+    //getAccessToken();
+    getTherapists();
     _formKeyUsers = GlobalKey<FormState>();
   }
 
@@ -2538,6 +2559,11 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
       if (accessToken != null) {
         print('Access token value : $accessToken');
         HealingMatchConstants.accessToken = accessToken;
+        BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(
+            HealingMatchConstants.accessToken,
+            _pageNumber,
+            _pageSize,
+            context));
         getTherapists();
       } else {
         print('No prefs value found !!');
@@ -2547,76 +2573,66 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // get therapist api
   getTherapists() async {
-    //therapistUsers.clear();
     try {
-      var apiProvider = ServiceUserAPIProvider.getAllTherapistsByLimit(
-          context, _pageNumber, _pageSize);
       // wait for 2 seconds to simulate loading of data
       await Future.delayed(const Duration(seconds: 2));
-      apiProvider.then((value) {
-        if (this.mounted) {
-          setState(() {
-            therapistUsers = value.homeTherapistData.therapistData;
-            if (therapistUsers != null && therapistUsers.isNotEmpty) {
-              for (int i = 0; i < therapistUsers.length; i++) {
-                if (therapistUsers[i].user.storeType != null &&
-                    therapistUsers[i].user.storeType != '') {
-                  var split = therapistUsers[i].user.storeType.split(',');
-                  final jsonList =
-                      split.map((item) => jsonEncode(item)).toList();
-                  final uniqueJsonList = jsonList.toSet().toList();
-                  final result =
-                      uniqueJsonList.map((item) => jsonDecode(item)).toList();
-                  print('Map Duplicate : $result');
-                  storeTypeValues = {
-                    for (int i = 0; i < result.length; i++) i: result[i]
-                  };
-                  print('Store type map values : $storeTypeValues');
-                }
-                certificateUpload = value.homeTherapistData.therapistData[i]
-                    .user.certificationUploads;
-                for (int j = 0; j < certificateUpload.length; j++) {
-                  print(
-                      'Certificate upload : ${certificateUpload[j].toJson()}');
-                  certificateUploadKeys = certificateUpload[j].toJson();
-                  certificateUploadKeys.remove('id');
-                  certificateUploadKeys.remove('userId');
-                  certificateUploadKeys.remove('createdAt');
-                  certificateUploadKeys.remove('updatedAt');
-                  print('Keys certificate : $certificateUploadKeys');
-                }
+      if (this.mounted) {
+        setState(() {
+          therapistUsers = widget.getTherapistProfiles;
+          if (therapistUsers != null && therapistUsers.isNotEmpty) {
+            for (int i = 0; i < therapistUsers.length; i++) {
+              if (therapistUsers[i].user.storeType != null &&
+                  therapistUsers[i].user.storeType != '') {
+                var split = therapistUsers[i].user.storeType.split(',');
+                final jsonList = split.map((item) => jsonEncode(item)).toList();
+                final uniqueJsonList = jsonList.toSet().toList();
+                final result =
+                    uniqueJsonList.map((item) => jsonDecode(item)).toList();
+                print('Map Duplicate : $result');
+                storeTypeValues = {
+                  for (int i = 0; i < result.length; i++) i: result[i]
+                };
+                print('Store type map values : $storeTypeValues');
               }
-              certificateUploadKeys.forEach((key, value) async {
-                if (certificateUploadKeys[key] != null) {
-                  String jKey = getQualificationJPWords(key);
-                  if (jKey == "はり師" ||
-                      jKey == "きゅう師" ||
-                      jKey == "鍼灸師" ||
-                      jKey == "あん摩マッサージ指圧師" ||
-                      jKey == "柔道整復師" ||
-                      jKey == "理学療法士") {
-                    certificateImages["国家資格保有"] = "国家資格保有";
-                  } else if (jKey == "国家資格取得予定（学生）") {
-                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                  } else if (jKey == "民間資格") {
-                    certificateImages["民間資格"] = "民間資格";
-                  } else if (jKey == "無資格") {
-                    certificateImages["無資格"] = "無資格";
-                  }
-                }
-              });
-              if (certificateImages.length == 0) {
-                certificateImages["無資格"] = "無資格";
+              certificateUpload = therapistUsers[i].user.certificationUploads;
+              for (int j = 0; j < certificateUpload.length; j++) {
+                print('Certificate upload : ${certificateUpload[j].toJson()}');
+                certificateUploadKeys = certificateUpload[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate : $certificateUploadKeys');
               }
-              print('certificateImages data : $certificateImages');
-            } else {
-              print('List is empty !!');
             }
-          });
-        }
-      }).catchError((onError) {
-        print('Catch Error Exception caught : ${onError.toString()}');
-      });
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWords(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages');
+          } else {
+            print('List is empty !!');
+          }
+        });
+      }
     } catch (e) {
       print('Exception caught : ${e.toString()}');
       throw Exception(e);
