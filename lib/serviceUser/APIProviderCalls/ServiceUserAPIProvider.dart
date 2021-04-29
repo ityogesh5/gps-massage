@@ -291,7 +291,6 @@ class ServiceUserAPIProvider {
             SearchTherapistResultsModel.fromJson(getDeletedResponse);
       }
     } catch (e) {
-      ProgressDialogBuilder.hideLoader(context);
       print('Exception Search API : ${e.toString()}');
     }
     return _searchTherapistResultsModel;

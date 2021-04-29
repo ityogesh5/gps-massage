@@ -122,6 +122,9 @@ class HomePageError extends StatefulWidget {
 }
 
 class _HomePageErrorState extends State<HomePageError> {
+  var _pageNumber = 1;
+  var _pageSize = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,9 +165,12 @@ class _HomePageErrorState extends State<HomePageError> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              /*BlocProvider.of<TherapistTypeBloc>(context).add(
+                              BlocProvider.of<TherapistTypeBloc>(context).add(
                                   RefreshEvent(
-                                      HealingMatchConstants.accessToken));*/
+                                      HealingMatchConstants.accessToken,
+                                      _pageNumber,
+                                      _pageSize,
+                                      context));
                             },
                           ),
                           Text(
@@ -197,6 +203,7 @@ class InitialUserHomeScreen extends StatefulWidget {
 class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
   var _pageNumber = 1;
   var _pageSize = 10;
+
   @override
   void initState() {
     CheckInternetConnection.checkConnectivity(context);
@@ -362,235 +369,6 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         ),
       ),
     );
-  }
-}
-
-class LoadHomePage extends StatefulWidget {
-  List<InitialTherapistData> getTherapistProfiles;
-
-  LoadHomePage({Key key, @required this.getTherapistProfiles})
-      : super(key: key);
-
-  @override
-  State createState() {
-    return _LoadHomePageState();
-  }
-}
-
-class _LoadHomePageState extends State<LoadHomePage> {
-  TherapistTypeBloc _therapistTypeBloc;
-  var _pageNumber = 1;
-  var _pageSize = 10;
-
-  @override
-  void initState() {
-    CheckInternetConnection.checkConnectivity(context);
-    super.initState();
-    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
-  }
-
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          SizedBox(height: 20),
-          CarouselWithIndicatorDemo(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '近くのセラピスト＆お店',
-                    style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: ColorConstants.fontFamily,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (therapistUsers != null && therapistUsers.isNotEmpty) {
-                        NavigationRouter.switchToNearByProviderAndShop(context);
-                      } else {
-                        return;
-                      }
-                    },
-                    child: Text(
-                      'もっとみる',
-                      style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          fontFamily: ColorConstants.fontFamily,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          BuildMassageTypeChips(),
-          BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
-          ReservationList(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'おすすめ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: ColorConstants.fontFamily,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    NavigationRouter.switchToRecommended(context);
-                  },
-                  child: Text(
-                    'もっとみる',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: ColorConstants.fontFamily,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          RecommendLists(),
-          Container(height: 65),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeScreenByMassageType extends StatefulWidget {
-  List<TypeTherapistData> getTherapistByType;
-
-  HomeScreenByMassageType({Key key, @required this.getTherapistByType})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _HomeScreenByMassageType();
-  }
-}
-
-class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
-  TherapistTypeBloc _therapistTypeBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          CarouselWithIndicatorDemo(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '近くのセラピスト＆お店',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (widget.getTherapistByType != null &&
-                          widget.getTherapistByType.isNotEmpty) {
-                        NavigationRouter.switchToNearByProviderAndShop(context);
-                      } else {
-                        return;
-                      }
-                    },
-                    child: Text(
-                      'もっと見る',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          BuildMassageTypeChips(),
-          BuildProviderListByType(
-              getTherapistByType: widget.getTherapistByType),
-          ReservationList(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'おすすめ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'もっとみる',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                )
-              ],
-            ),
-          ),
-          RecommendLists(),
-          Container(height: 65),
-        ],
-      ),
-    );
-  }
-
-  // Awesome custom dialog viewer
-  showNoTherapistsDialog(BuildContext context) {
-    AwesomeDialog(
-        dismissOnTouchOutside: false,
-        context: context,
-        dialogType: DialogType.INFO,
-        headerAnimationLoop: false,
-        animType: AnimType.TOPSLIDE,
-        showCloseIcon: false,
-        closeIcon: Icon(Icons.close),
-        title: '情報',
-        desc: '近くにはセラピストもお店もありません。',
-        btnOkOnPress: () {
-          print('Ok pressed!!');
-          return InitialUserHomeScreen();
-        })
-      ..show();
   }
 }
 
@@ -910,6 +688,234 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
   }
 }
 
+// Load home page
+
+class LoadHomePage extends StatefulWidget {
+  List<InitialTherapistData> getTherapistProfiles;
+
+  LoadHomePage({Key key, @required this.getTherapistProfiles})
+      : super(key: key);
+
+  @override
+  State createState() {
+    return _LoadHomePageState();
+  }
+}
+
+class _LoadHomePageState extends State<LoadHomePage> {
+  TherapistTypeBloc _therapistTypeBloc;
+  var _pageNumber = 1;
+  var _pageSize = 10;
+
+  @override
+  void initState() {
+    CheckInternetConnection.checkConnectivity(context);
+    super.initState();
+    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          SizedBox(height: 20),
+          CarouselWithIndicatorDemo(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '近くのセラピスト＆お店',
+                    style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: ColorConstants.fontFamily,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (therapistUsers != null && therapistUsers.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Text(
+                      'もっとみる',
+                      style: TextStyle(
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          fontFamily: ColorConstants.fontFamily,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          BuildMassageTypeChips(),
+          BuildProviderUsers(getTherapistProfiles: widget.getTherapistProfiles),
+          ReservationList(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'おすすめ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: ColorConstants.fontFamily,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToRecommended(context);
+                  },
+                  child: Text(
+                    'もっとみる',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: ColorConstants.fontFamily,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          RecommendLists(),
+          Container(height: 65),
+        ],
+      ),
+    );
+  }
+}
+
+class HomeScreenByMassageType extends StatefulWidget {
+  List<TypeTherapistData> getTherapistByType;
+
+  HomeScreenByMassageType({Key key, @required this.getTherapistByType})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HomeScreenByMassageType();
+  }
+}
+
+class _HomeScreenByMassageType extends State<HomeScreenByMassageType> {
+  TherapistTypeBloc _therapistTypeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          CarouselWithIndicatorDemo(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '近くのセラピスト＆お店',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (widget.getTherapistByType != null &&
+                          widget.getTherapistByType.isNotEmpty) {
+                        NavigationRouter.switchToNearByProviderAndShop(context);
+                      } else {
+                        return;
+                      }
+                    },
+                    child: Text(
+                      'もっと見る',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          BuildMassageTypeChips(),
+          BuildProviderListByType(
+              getTherapistByType: widget.getTherapistByType),
+          ReservationList(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'おすすめ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'もっとみる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                )
+              ],
+            ),
+          ),
+          RecommendLists(),
+          Container(height: 65),
+        ],
+      ),
+    );
+  }
+
+  // Awesome custom dialog viewer
+  showNoTherapistsDialog(BuildContext context) {
+    AwesomeDialog(
+        dismissOnTouchOutside: false,
+        context: context,
+        dialogType: DialogType.INFO,
+        headerAnimationLoop: false,
+        animType: AnimType.TOPSLIDE,
+        showCloseIcon: false,
+        closeIcon: Icon(Icons.close),
+        title: '情報',
+        desc: '近くにはセラピストもお店もありません。',
+        btnOkOnPress: () {
+          print('Ok pressed!!');
+          return InitialUserHomeScreen();
+        })
+      ..show();
+  }
+}
+
 //Build therapists list view
 
 class BuildProviderListByType extends StatefulWidget {
@@ -936,6 +942,10 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
+
+  var distanceRadius;
+  List<TherapistTypeAddress> therapistTypeAddress =
+      new List<TherapistTypeAddress>();
 
   @override
   void initState() {
@@ -1047,18 +1057,31 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                         image: new AssetImage(
                                                             'assets/images_gps/placeholder_image.png')),
                                                   )),
-                                          FittedBox(
-                                            child: Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    ColorConstants.fontFamily,
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    153, 153, 153, 1),
-                                              ),
-                                            ),
-                                          ),
+                                          distanceRadius[index] != null
+                                              ? FittedBox(
+                                                  child: Text(
+                                                    '${distanceRadius[index]}ｋｍ圏内',
+                                                    style: TextStyle(
+                                                      fontFamily: ColorConstants
+                                                          .fontFamily,
+                                                      fontSize: 12,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  ),
+                                                )
+                                              : FittedBox(
+                                                  child: Text(
+                                                    '0.0ｋｍ圏内',
+                                                    style: TextStyle(
+                                                      fontFamily: ColorConstants
+                                                          .fontFamily,
+                                                      fontSize: 12,
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                    ),
+                                                  ),
+                                                )
                                         ],
                                       ),
                                     ),
@@ -1549,30 +1572,41 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
               certificateUploadKeys.remove('updatedAt');
               print('Keys certificate type : $certificateUploadKeys');
             }
-          }
-          certificateUploadKeys.forEach((key, value) async {
-            if (certificateUploadKeys[key] != null) {
-              String jKey = getQualificationJPWordsForType(key);
-              if (jKey == "はり師" ||
-                  jKey == "きゅう師" ||
-                  jKey == "鍼灸師" ||
-                  jKey == "あん摩マッサージ指圧師" ||
-                  jKey == "柔道整復師" ||
-                  jKey == "理学療法士") {
-                certificateImages["国家資格保有"] = "国家資格保有";
-              } else if (jKey == "国家資格取得予定（学生）") {
-                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-              } else if (jKey == "民間資格") {
-                certificateImages["民間資格"] = "民間資格";
-              } else if (jKey == "無資格") {
-                certificateImages["無資格"] = "無資格";
+
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWordsForType(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
               }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
             }
-          });
-          if (certificateImages.length == 0) {
-            certificateImages["無資格"] = "無資格";
+            print('certificateImages data type : $certificateImages');
+
+            for (int k = 0;
+                k < getTherapistByType[i].user.addresses.length;
+                k++) {
+              therapistTypeAddress
+                  .add(getTherapistByType[i].user.addresses[k].distance);
+              distanceRadius = therapistTypeAddress;
+              print(
+                  'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+            }
           }
-          print('certificateImages data type : $certificateImages');
         } else {
           print('List is empty');
         }
@@ -1644,6 +1678,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
           setState(() {
             bannerImages = value.data.bannersList;
             for (var item in bannerImages) {
+              if (item.bannerImageUrl == null || item.bannerImageUrl.isEmpty) {
+                userBannerImages.add(
+                    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+              }
               userBannerImages.add(item.bannerImageUrl);
               print('Therapist banner images : ${item.bannerImageUrl}');
             }
@@ -1683,29 +1721,14 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                         placeholder: (context, url) =>
                                             SpinKitWave(
                                                 color: Colors.lightBlueAccent),
-                                        errorWidget: (context, url, error) =>
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  'Failed to Download Banners...Try Again!!',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      color: Colors.black,
-                                                      fontSize: 16),
-                                                ),
-                                                new IconButton(
-                                                  icon: Icon(
-                                                      Icons.refresh_sharp,
-                                                      size: 40),
-                                                  onPressed: () {
-                                                    _getBannerImages();
-                                                  },
-                                                ),
-                                              ],
-                                            )),
+                                        errorWidget: (context, url, error) {
+                                          return CachedNetworkImage(
+                                            width: 2000.0,
+                                            fit: BoxFit.cover,
+                                            imageUrl:
+                                                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+                                          );
+                                        }),
                                   ],
                                 )),
                           ),
@@ -2551,6 +2574,8 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   GlobalKey<FormState> _formKeyUsers;
   List<CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
+  var distanceRadius;
+  List<TherapistAddress> therapistAddress = new List<TherapistAddress>();
 
   @override
   void initState() {
@@ -2611,30 +2636,40 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                 certificateUploadKeys.remove('updatedAt');
                 print('Keys certificate : $certificateUploadKeys');
               }
-            }
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWords(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWords(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
                 }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
+
+              print('certificateImages data : $certificateImages');
+              for (int k = 0;
+                  k < therapistUsers[i].user.addresses.length;
+                  k++) {
+                therapistAddress
+                    .add(therapistUsers[i].user.addresses[k].distance);
+                distanceRadius = therapistAddress;
+                print(
+                    'Position values : $distanceRadius && ${therapistAddress.length}');
+              }
             }
-            print('certificateImages data : $certificateImages');
           } else {
             print('List is empty !!');
           }
@@ -2786,14 +2821,25 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                         image: new AssetImage(
                                                             'assets/images_gps/placeholder_image.png')),
                                                   )),
-                                          FittedBox(
-                                            child: Text(
-                                              '1.5km圏内',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey[400]),
-                                            ),
-                                          ),
+                                          distanceRadius[index] != null
+                                              ? FittedBox(
+                                                  child: Text(
+                                                    '${distanceRadius[index]}ｋｍ圏内',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color:
+                                                            Colors.grey[400]),
+                                                  ),
+                                                )
+                                              : FittedBox(
+                                                  child: Text(
+                                                    '0.0ｋｍ圏内',
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color:
+                                                            Colors.grey[400]),
+                                                  ),
+                                                )
                                         ],
                                       ),
                                     ),

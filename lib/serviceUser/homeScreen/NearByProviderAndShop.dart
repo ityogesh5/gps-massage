@@ -73,6 +73,7 @@ class InitialProvidersScreen extends StatefulWidget {
 class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
   var _pageNumber = 1;
   var _pageSize = 10;
+
   @override
   void initState() {
     checkInternet();
@@ -82,8 +83,8 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
   checkInternet() {
     CheckInternetConnection.checkConnectivity(context);
     if (HealingMatchConstants.isInternetAvailable) {
-      /*BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));*/
+      BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(
+          HealingMatchConstants.accessToken, _pageNumber, _pageSize, context));
     } else {
       print('No internet Bloc !!');
       //return HomePageError();
@@ -99,11 +100,6 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
     Future.delayed(Duration(seconds: 5), () {
-      BlocProvider.of<TherapistTypeBloc>(context).add(RefreshEvent(
-          HealingMatchConstants.accessToken,
-          _pageNumber,
-          _pageSize,
-          context));
       Loader.hide();
     });
   }
@@ -122,7 +118,8 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
             builder: (context, state) {
               if (state is GetTherapistLoadedState) {
                 print('Loading state');
-                return LoadProvidersPage(getTherapistProfiles : state.getTherapistsUsers);
+                return LoadProvidersPage(
+                    getTherapistProfiles: state.getTherapistsUsers);
               } else if (state is GetTherapistTypeLoaderState) {
                 print('Loader widget');
                 return LoadInitialHomePage();
@@ -187,11 +184,11 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 }
 
 class LoadProvidersPage extends StatefulWidget {
-
   List<InitialTherapistData> getTherapistProfiles;
 
   LoadProvidersPage({Key key, @required this.getTherapistProfiles})
       : super(key: key);
+
   @override
   State createState() {
     return _LoadProvidersPageState();
@@ -205,6 +202,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   bool isLoading = false;
   var _pageNumber = 1;
   var _pageSize = 10;
+  var distanceRadius;
   Map<String, String> certificateImages = Map<String, String>();
   List<CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
@@ -217,52 +215,60 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   void initState() {
     super.initState();
     _therapistTypeBloc = BlocProvider.of<TherapistTypeBloc>(context);
-    getProvidersList();
+    getProvidersList(widget.getTherapistProfiles);
   }
 
-  getProvidersList() async {
-      if (this.mounted) {
-        setState(() {
-          therapistUsers = widget.getTherapistProfiles;
-          for (int i = 0; i < therapistUsers.length; i++) {
-            certificateUpload = therapistUsers[i].user.certificationUploads;
+  getProvidersList(List<InitialTherapistData> getTherapistProfiles) async {
+    List<TherapistAddress> therapistAddress = new List<TherapistAddress>();
+    if (this.mounted) {
+      setState(() {
+        therapistUsers = widget.getTherapistProfiles;
+        for (int i = 0; i < therapistUsers.length; i++) {
+          certificateUpload = therapistUsers[i].user.certificationUploads;
 
-            for (int j = 0; j < certificateUpload.length; j++) {
-              print('Certificate upload : ${certificateUpload[j].toJson()}');
-              certificateUploadKeys = certificateUpload[j].toJson();
-              certificateUploadKeys.remove('id');
-              certificateUploadKeys.remove('userId');
-              certificateUploadKeys.remove('createdAt');
-              certificateUploadKeys.remove('updatedAt');
-              print('Keys certificate : $certificateUploadKeys');
-            }
-
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWords(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
-                }
-              }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
-            }
-            print('certificateImages data : $certificateImages');
+          for (int j = 0; j < certificateUpload.length; j++) {
+            print('Certificate upload : ${certificateUpload[j].toJson()}');
+            certificateUploadKeys = certificateUpload[j].toJson();
+            certificateUploadKeys.remove('id');
+            certificateUploadKeys.remove('userId');
+            certificateUploadKeys.remove('createdAt');
+            certificateUploadKeys.remove('updatedAt');
+            print('Keys certificate : $certificateUploadKeys');
           }
-        });
-      }
+
+          certificateUploadKeys.forEach((key, value) async {
+            if (certificateUploadKeys[key] != null) {
+              String jKey = getQualificationJPWords(key);
+              if (jKey == "はり師" ||
+                  jKey == "きゅう師" ||
+                  jKey == "鍼灸師" ||
+                  jKey == "あん摩マッサージ指圧師" ||
+                  jKey == "柔道整復師" ||
+                  jKey == "理学療法士") {
+                certificateImages["国家資格保有"] = "国家資格保有";
+              } else if (jKey == "国家資格取得予定（学生）") {
+                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+              } else if (jKey == "民間資格") {
+                certificateImages["民間資格"] = "民間資格";
+              } else if (jKey == "無資格") {
+                certificateImages["無資格"] = "無資格";
+              }
+            }
+          });
+          if (certificateImages.length == 0) {
+            certificateImages["無資格"] = "無資格";
+          }
+          print('certificateImages data : $certificateImages');
+
+          for (int k = 0; k < therapistUsers[i].user.addresses.length; k++) {
+            therapistAddress.add(therapistUsers[i].user.addresses[k].distance);
+            distanceRadius = therapistAddress;
+            print(
+                'Position values : ${distanceRadius[0]} && ${therapistAddress.length}');
+          }
+        }
+      });
+    }
   }
 
   String getQualificationJPWords(String key) {
@@ -365,7 +371,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                     ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        physics: BouncingScrollPhysics(),
+                        physics: ClampingScrollPhysics(),
                         itemCount: therapistUsers.length + 1,
                         itemBuilder: (context, index) {
                           if (index == therapistUsers.length) {
@@ -381,7 +387,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                     var userID = therapistUsers[index].user.id;
                                     NavigationRouter
                                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                        context,userID);
+                                            context, userID);
                                   },
                                   child: Card(
                                     elevation: 0.0,
@@ -466,14 +472,25 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   'assets/images_gps/placeholder_image.png')),
                                                         )),
                                                 SizedBox(height: 5),
-                                                FittedBox(
-                                                  child: Text(
-                                                    '1.5km園内',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
+                                                distanceRadius[index] != null
+                                                    ? FittedBox(
+                                                        child: Text(
+                                                          '${distanceRadius[index]}ｋｍ圏内',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.grey),
+                                                        ),
+                                                      )
+                                                    : FittedBox(
+                                                        child: Text(
+                                                          '0.0ｋｍ圏内',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.grey),
+                                                        ),
+                                                      )
                                               ],
                                             ),
                                           ),
@@ -740,10 +757,15 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                             130.0, //200.0,
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            var userID = therapistUsers[index].user.id;
+                                                            var userID =
+                                                                therapistUsers[
+                                                                        index]
+                                                                    .user
+                                                                    .id;
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context,userID);
+                                                                    context,
+                                                                    userID);
                                                           },
                                                           child:
                                                               ListView.builder(
@@ -961,6 +983,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                 isLoading = false;
                 if (this.mounted) {
                   therapistUsers.addAll(value.homeTherapistData.therapistData);
+                  getProvidersList(therapistUsers);
                 }
               });
             }
@@ -1001,6 +1024,9 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
+  var distanceRadius;
+  List<TherapistTypeAddress> therapistTypeAddress =
+      new List<TherapistTypeAddress>();
 
   @override
   void initState() {
@@ -1072,7 +1098,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                     ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        physics: BouncingScrollPhysics(),
+                        physics: ClampingScrollPhysics(),
                         itemCount: widget.getTherapistByType.length + 1,
                         itemBuilder: (context, index) {
                           if (index == widget.getTherapistByType.length) {
@@ -1085,11 +1111,12 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                 InkWell(
                                   splashColor: Colors.lime,
                                   hoverColor: Colors.lime,
-                                  onTap: (){
-                                    var userID = widget.getTherapistByType[index].user.id;
+                                  onTap: () {
+                                    var userID = widget
+                                        .getTherapistByType[index].user.id;
                                     NavigationRouter
                                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                        context,userID);
+                                            context, userID);
                                   },
                                   child: new Card(
                                     elevation: 0.0,
@@ -1177,14 +1204,25 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   'assets/images_gps/placeholder_image.png')),
                                                         )),
                                                 SizedBox(height: 5),
-                                                FittedBox(
-                                                  child: Text(
-                                                    '1.5km園内',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ),
+                                                distanceRadius[index] != null
+                                                    ? FittedBox(
+                                                        child: Text(
+                                                          '${distanceRadius[index]}ｋｍ圏内',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.grey),
+                                                        ),
+                                                      )
+                                                    : FittedBox(
+                                                        child: Text(
+                                                          '0.0ｋｍ圏内',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.grey),
+                                                        ),
+                                                      )
                                               ],
                                             ),
                                           ),
@@ -1460,10 +1498,15 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                             130.0, //200.0,
                                                         child: GestureDetector(
                                                           onTap: () {
-                                                            var userID = widget.getTherapistByType[index].user.id;
+                                                            var userID = widget
+                                                                .getTherapistByType[
+                                                                    index]
+                                                                .user
+                                                                .id;
                                                             NavigationRouter
                                                                 .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                                    context,userID);
+                                                                    context,
+                                                                    userID);
                                                           },
                                                           child:
                                                               ListView.builder(
@@ -1663,31 +1706,41 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
             certificateUploadKeys.remove('updatedAt');
             print('Keys certificate : $certificateUploadKeys');
           }
-        }
 
-        certificateUploadKeys.forEach((key, value) async {
-          if (certificateUploadKeys[key] != null) {
-            String jKey = getQualificationJPWords(key);
-            if (jKey == "はり師" ||
-                jKey == "きゅう師" ||
-                jKey == "鍼灸師" ||
-                jKey == "あん摩マッサージ指圧師" ||
-                jKey == "柔道整復師" ||
-                jKey == "理学療法士") {
-              certificateImages["国家資格保有"] = "国家資格保有";
-            } else if (jKey == "国家資格取得予定（学生）") {
-              certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-            } else if (jKey == "民間資格") {
-              certificateImages["民間資格"] = "民間資格";
-            } else if (jKey == "無資格") {
-              certificateImages["無資格"] = "無資格";
+          certificateUploadKeys.forEach((key, value) async {
+            if (certificateUploadKeys[key] != null) {
+              String jKey = getQualificationJPWords(key);
+              if (jKey == "はり師" ||
+                  jKey == "きゅう師" ||
+                  jKey == "鍼灸師" ||
+                  jKey == "あん摩マッサージ指圧師" ||
+                  jKey == "柔道整復師" ||
+                  jKey == "理学療法士") {
+                certificateImages["国家資格保有"] = "国家資格保有";
+              } else if (jKey == "国家資格取得予定（学生）") {
+                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+              } else if (jKey == "民間資格") {
+                certificateImages["民間資格"] = "民間資格";
+              } else if (jKey == "無資格") {
+                certificateImages["無資格"] = "無資格";
+              }
             }
+          });
+          if (certificateImages.length == 0) {
+            certificateImages["無資格"] = "無資格";
           }
-        });
-        if (certificateImages.length == 0) {
-          certificateImages["無資格"] = "無資格";
+          print('certificateImages data : $certificateImages');
+
+          for (int k = 0;
+              k < getTherapistByType[i].user.addresses.length;
+              k++) {
+            therapistTypeAddress
+                .add(getTherapistByType[i].user.addresses[k].distance);
+            distanceRadius = therapistTypeAddress;
+            print(
+                'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+          }
         }
-        print('certificateImages data : $certificateImages');
       });
     }
   }
@@ -1768,6 +1821,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                 if (this.mounted) {
                   widget.getTherapistByType
                       .addAll(value.homeTherapistData.typeTherapistData);
+                  getProvidersCertifications(widget.getTherapistByType);
                 }
               });
             }
@@ -1880,6 +1934,9 @@ class HomePageError extends StatefulWidget {
 }
 
 class _HomePageErrorState extends State<HomePageError> {
+  var _pageNumber = 1;
+  var _pageSize = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1920,9 +1977,12 @@ class _HomePageErrorState extends State<HomePageError> {
                           IconButton(
                             icon: Icon(MaterialIcons.refresh),
                             onPressed: () {
-                              /*BlocProvider.of<TherapistTypeBloc>(context).add(
+                              BlocProvider.of<TherapistTypeBloc>(context).add(
                                   RefreshEvent(
-                                      HealingMatchConstants.accessToken));*/
+                                      HealingMatchConstants.accessToken,
+                                      _pageNumber,
+                                      _pageSize,
+                                      context));
                             },
                           ),
                           Text(

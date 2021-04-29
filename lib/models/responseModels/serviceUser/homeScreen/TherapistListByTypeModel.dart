@@ -113,6 +113,7 @@ class User {
   String childrenMeasure;
   bool coronaMeasure;
   bool businessTrip;
+  List<TherapistTypeAddress> addresses;
   List<CertificationUploadsByType> certificationUploads;
   List<Banners> banners;
 
@@ -127,6 +128,7 @@ class User {
       this.childrenMeasure,
       this.coronaMeasure,
       this.businessTrip,
+      this.addresses,
       this.certificationUploads,
       this.banners});
 
@@ -141,6 +143,14 @@ class User {
     childrenMeasure = json['childrenMeasure'];
     coronaMeasure = json['coronaMeasure'];
     businessTrip = json['businessTrip'];
+
+    if (json['addresses'] != null) {
+      addresses = new List<TherapistTypeAddress>();
+      json['addresses'].forEach((v) {
+        addresses.add(new TherapistTypeAddress.fromJson(v));
+      });
+    }
+
     if (json['certification_uploads'] != null) {
       certificationUploads = new List<CertificationUploadsByType>();
       json['certification_uploads'].forEach((v) {
@@ -167,6 +177,11 @@ class User {
     data['childrenMeasure'] = this.childrenMeasure;
     data['coronaMeasure'] = this.coronaMeasure;
     data['businessTrip'] = this.businessTrip;
+
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
+    }
+
     if (this.certificationUploads != null) {
       data['certification_uploads'] =
           this.certificationUploads.map((v) => v.toJson()).toList();
@@ -302,4 +317,41 @@ class Banners {
     data['updatedAt'] = this.updatedAt;
     return data;
   }
+}
+
+class TherapistTypeAddress {
+  TherapistTypeAddress({
+    this.id,
+    this.lat,
+    this.lon,
+    this.geomet,
+    this.address,
+    this.distance,
+  });
+
+  int id;
+  double lat;
+  double lon;
+  dynamic geomet;
+  String address;
+  dynamic distance;
+
+  factory TherapistTypeAddress.fromJson(Map<String, dynamic> json) =>
+      TherapistTypeAddress(
+        id: json["id"],
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
+        geomet: json["geomet"],
+        address: json["address"],
+        distance: json["distance"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "lat": lat,
+        "lon": lon,
+        "geomet": geomet,
+        "address": address,
+        "distance": distance,
+      };
 }
