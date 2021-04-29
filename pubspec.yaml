@@ -102,6 +102,9 @@ dependencies:
   web_socket_channel: any
   super_tooltip: any
   time: any
+  
+  googleapis:
+  googleapis_auth:
 
 
 #  flutter_line_login: ^0.2.0

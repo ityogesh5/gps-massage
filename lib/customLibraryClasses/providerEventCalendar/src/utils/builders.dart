@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/styles/day_bar.dart';
@@ -68,19 +69,22 @@ class DefaultBuilders {
         break;
       }
     }
+    Calendar.Event googleApiEvent = event.events;
     return Container(
         padding: EdgeInsets.all(4.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    event.title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                    googleApiEvent.organizer.email,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
                   ),
-                  event.description == '0'
+                  googleApiEvent.status == 'tentative'
                       ? Row(
                           children: [
                             SvgPicture.asset(
@@ -89,9 +93,9 @@ class DefaultBuilders {
                               width: 20.0,
                             ),
                             /*  Icon(
-                              Icons.hourglass_top_outlined,
-                              color: Color.fromRGBO(255, 193, 7, 1),
-                            ), */
+                  Icons.hourglass_top_outlined,
+                  color: Color.fromRGBO(255, 193, 7, 1),
+                ), */
                             Text("承認待ち",
                                 style: TextStyle(
                                   color: Color.fromRGBO(255, 193, 7, 1),
@@ -111,6 +115,7 @@ class DefaultBuilders {
             ),
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset(
                     "assets/images_gps/clock.svg",

@@ -4,7 +4,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
@@ -16,13 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
-// ON-PREMISE API URLS == http://106.51.49.160:9092/api/
-// DOMAIN URL'S
-  //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
+  static const String ON_PREMISE_USER_BASE_URL = "http://106.51.49.160:9087";
 
-  static const String ON_PREMISE_USER_BASE_URL =
-      /* "http://103.92.19.158:9094/api";*/
-      "http://106.51.49.160:9094/api";
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
@@ -376,6 +373,7 @@ class HealingMatchConstants {
   static String accessToken = '';
   static int serviceUserId;
   static int userId;
+  static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
 
   //User Token
   static String uAccessToken = '';

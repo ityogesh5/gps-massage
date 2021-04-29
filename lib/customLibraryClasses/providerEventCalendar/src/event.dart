@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:googleapis/calendar/v3.dart' as Calendar;
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/builders.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/utils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/day_view.dart';
@@ -11,6 +12,9 @@ typedef EventTextBuilder = Widget Function(FlutterWeekViewEvent event,
 
 /// Represents a flutter week view event.
 class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
+  /// Google Calendar Event
+  final Calendar.Event events;
+
   /// The event title.
   final String title;
 
@@ -49,10 +53,11 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
 
   /// Creates a new flutter week view event instance.
   FlutterWeekViewEvent({
-    @required this.title,
-    @required this.description,
-    @required DateTime start,
-    @required DateTime end,
+    this.title,
+    this.description,
+    DateTime start,
+    DateTime end,
+    this.events,
     this.backgroundColor = const Color(0xCC2196F3),
     this.decoration,
     this.textStyle = const TextStyle(color: Colors.white),
@@ -62,11 +67,12 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
     this.onLongPress,
     this.eventTextBuilder,
   })  : start = start.yearMonthDayHourMinute,
-        end = end.yearMonthDayHourMinute,
-        assert(title != null),
+        end = end.yearMonthDayHourMinute
+  /*   assert(title != null),
         assert(description != null),
         assert(start != null),
-        assert(end != null);
+        assert(end != null) */
+  ;
 
   /// Builds the event widget.
   Widget build(
@@ -78,18 +84,22 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
       onTap: onTap,
       onLongPress: onLongPress,
       child: Container(
-        decoration: decoration ??
+        /* decoration: decoration ??
             (backgroundColor != null
                 ? BoxDecoration(color: backgroundColor)
-                : null),
-        margin: margin,
+                : null), */
+        color: Colors.white,
+        margin: EdgeInsets.all(4.0),
         padding: padding,
-        child: (eventTextBuilder ?? DefaultBuilders.defaultEventTextBuilder)(
-          this,
-          context,
-          dayView,
-          math.max(0.0, height),
-          math.max(0.0, width),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: (eventTextBuilder ?? DefaultBuilders.defaultEventTextBuilder)(
+            this,
+            context,
+            dayView,
+            math.max(0.0, height),
+            math.max(0.0, width),
+          ),
         ),
       ),
     );
