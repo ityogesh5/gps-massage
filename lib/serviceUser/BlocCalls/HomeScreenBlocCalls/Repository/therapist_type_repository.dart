@@ -2,14 +2,20 @@ import 'dart:convert';
 
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GetTherapistTypeRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int massageTypeValue = HealingMatchConstants.serviceTypeValue;
+  var pageNumber = 1;
+  var pageSize = 10;
 
   Future<List<TypeTherapistData>> getTherapistProfilesByType(
       String accessToken, int massageTypeValue, int pageNumber, int pageSize);
+
+  Future<List<InitialTherapistData>> getTherapistProfiles(
+      String accessToken, int pageNumber, int pageSize);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -52,4 +58,33 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
 
   @override
   int massageTypeValue;
+
+  @override
+  Future<List<InitialTherapistData>> getTherapistProfiles(
+      String accessToken, int pageNumber, int pageSize) async {
+    try {
+      final url =
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistList?page=$pageNumber&size=$pageSize';
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.get(url, headers: headers);
+      final getTherapists = json.decode(response.body);
+      List<InitialTherapistData> getTherapistUsers =
+          TherapistUsersModel.fromJson(getTherapists)
+              .homeTherapistData
+              .therapistData;
+      print('More Response body : ${response.body}');
+      return getTherapistUsers;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  int pageNumber;
+
+  @override
+  int pageSize;
 }

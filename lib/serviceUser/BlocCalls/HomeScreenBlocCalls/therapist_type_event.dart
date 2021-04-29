@@ -18,8 +18,11 @@ class FetchTherapistTypeEvent extends TherapistTypeEvent {
 
 class RefreshEvent extends TherapistTypeEvent {
   final accessToken;
+  final pageNumber;
+  final pageSize;
+  final context;
 
-  RefreshEvent(this.accessToken);
+  RefreshEvent(this.accessToken, this.pageNumber, this.pageSize, this.context);
 
   @override
   // TODO: implement props

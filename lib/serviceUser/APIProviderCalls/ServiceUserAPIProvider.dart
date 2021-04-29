@@ -83,10 +83,7 @@ class ServiceUserAPIProvider {
       print(e.toString());
       ProgressDialogBuilder.hideLoader(context);
     }
-    /*return (response.data).map((therapistUsers) {
-      print('Inserting >>> $therapistUsers');
-      //DBProvider.db.createTherapistUsers(therapistUsers);
-    }).toList();*/
+
     return listOfTherapistModel;
   }
 
@@ -134,8 +131,6 @@ class ServiceUserAPIProvider {
       print('Socket Exception...Occurred');
     } catch (e) {
       print('Banner Exception caught : ${e.toString()}');
-      BlocProvider.of<TherapistTypeBloc>(context)
-          .add(RefreshEvent(HealingMatchConstants.accessToken));
       ProgressDialogBuilder.hideLoader(context);
       throw Exception(e);
     }
@@ -167,7 +162,6 @@ class ServiceUserAPIProvider {
     } catch (e) {
       print('User Details Exception caught : ${e.toString()}');
       ProgressDialogBuilder.hideLoader(context);
-      throw Exception(e);
     }
     return _getUserDetailsByIdModel;
   }

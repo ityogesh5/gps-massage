@@ -6,7 +6,6 @@ import 'package:gps_massageapp/initialScreens/providerTutorial.dart';
 import 'package:gps_massageapp/initialScreens/termsAndConditions.dart';
 import 'package:gps_massageapp/initialScreens/userDefineScreen.dart';
 import 'package:gps_massageapp/initialScreens/userTutorial.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/ProviderBottomBar.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/AdminNotification.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/chat/NotificationPopups/ProviderOfferCancel.dart';
@@ -127,7 +126,22 @@ class NavigationRouter {
   // User bottom bar homescreen
   static void switchToServiceUserBottomBar(BuildContext context) {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (BuildContext context) => BottomBarUser(0)),
+        PageRouteBuilder(
+            pageBuilder: (context, animation, anotherAnimation) {
+              return BottomBarUser(0);
+            },
+            transitionDuration: Duration(milliseconds: 2000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: HealingMatchConstants.curveList[2], parent: animation);
+              return Align(
+                child: SizeTransition(
+                  sizeFactor: animation,
+                  child: child,
+                  axisAlignment: 0.0,
+                ),
+              );
+            }),
         (Route<dynamic> route) => false);
   }
 
