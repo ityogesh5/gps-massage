@@ -27,7 +27,6 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Reposit
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -93,104 +92,6 @@ class _HomeScreenUserState extends State<HomeScreen> {
       ),
     );
   }
-
-  convertBase64ProfileImage(String therapistProfileImage) async {
-    imgBase64TherapistImage =
-        await networkImageToBase64RightFront(therapistProfileImage);
-    therapistImageInBytes = Base64Decoder().convert(imgBase64TherapistImage);
-    setState(() {
-      HealingMatchConstants.therapistProfileImageInBytes =
-          therapistImageInBytes;
-      print(
-          'Bytes images : ${HealingMatchConstants.therapistProfileImageInBytes}');
-    });
-  }
-
-//Profile Image
-  Future<String> networkImageToBase64RightFront(String imageUrl) async {
-    http.Response response = await http.get(imageUrl);
-    final bytes = response?.bodyBytes;
-    return (bytes != null ? base64Encode(bytes) : null);
-  }
-}
-
-class HomePageError extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _HomePageErrorState();
-  }
-}
-
-class _HomePageErrorState extends State<HomePageError> {
-  var _pageNumber = 1;
-  var _pageSize = 10;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Center(
-            child: InkWell(
-              splashColor: Colors.deepOrangeAccent,
-              highlightColor: Colors.limeAccent,
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                color: Color.fromRGBO(255, 255, 255, 1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      AntDesign.disconnect,
-                      color: Colors.deepOrangeAccent,
-                      size: 50,
-                    ),
-                    Text('インターネット接続を確認してください。',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Open Sans',
-                            color: Colors.black)),
-                    InkWell(
-                      splashColor: Colors.deepOrangeAccent,
-                      highlightColor: Colors.limeAccent,
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(MaterialIcons.refresh),
-                            onPressed: () {
-                              BlocProvider.of<TherapistTypeBloc>(context).add(
-                                  RefreshEvent(
-                                      HealingMatchConstants.accessToken,
-                                      _pageNumber,
-                                      _pageSize,
-                                      context));
-                            },
-                          ),
-                          Text(
-                            'もう一度試してください。',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Open Sans',
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ));
-  }
 }
 
 class InitialUserHomeScreen extends StatefulWidget {
@@ -219,7 +120,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 4), () {
       Loader.hide();
     });
   }
@@ -944,8 +845,8 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
   );
 
   var distanceRadius;
-  List<TherapistTypeAddress> therapistTypeAddress =
-      new List<TherapistTypeAddress>();
+  List<dynamic> therapistTypeAddress =
+      new List();
 
   @override
   void initState() {
@@ -1057,31 +958,27 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                                         image: new AssetImage(
                                                             'assets/images_gps/placeholder_image.png')),
                                                   )),
-                                          distanceRadius[index] != null
-                                              ? FittedBox(
-                                                  child: Text(
-                                                    '${distanceRadius[index]}ｋｍ圏内',
-                                                    style: TextStyle(
-                                                      fontFamily: ColorConstants
-                                                          .fontFamily,
-                                                      fontSize: 12,
-                                                      color: Color.fromRGBO(
-                                                          153, 153, 153, 1),
-                                                    ),
-                                                  ),
-                                                )
-                                              : FittedBox(
-                                                  child: Text(
-                                                    '0.0ｋｍ圏内',
-                                                    style: TextStyle(
-                                                      fontFamily: ColorConstants
-                                                          .fontFamily,
-                                                      fontSize: 12,
-                                                      color: Color.fromRGBO(
-                                                          153, 153, 153, 1),
-                                                    ),
-                                                  ),
-                                                )
+                                          distanceRadius != null
+                                              ? Text(
+                                                '${distanceRadius[index]}ｋｍ圏内',
+                                                style: TextStyle(
+                                                  fontFamily: ColorConstants
+                                                      .fontFamily,
+                                                  fontSize: 12,
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
+                                              )
+                                              : Text(
+                                                '0.0ｋｍ圏内',
+                                                style: TextStyle(
+                                                  fontFamily: ColorConstants
+                                                      .fontFamily,
+                                                  fontSize: 12,
+                                                  color: Color.fromRGBO(
+                                                      153, 153, 153, 1),
+                                                ),
+                                              )
                                         ],
                                       ),
                                     ),
@@ -1601,7 +1498,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                 k < getTherapistByType[i].user.addresses.length;
                 k++) {
               therapistTypeAddress
-                  .add(getTherapistByType[i].user.addresses[k].distance);
+                  .add(getTherapistByType[i].user.addresses[k].distance.truncateToDouble());
               distanceRadius = therapistTypeAddress;
               print(
                   'Position values : $distanceRadius && ${therapistTypeAddress.length}');
@@ -1727,6 +1624,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                                             fit: BoxFit.cover,
                                             imageUrl:
                                                 'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+                                            placeholder: (context, url) =>
+                                                SpinKitWave(
+                                                    color:
+                                                        Colors.lightBlueAccent),
                                           );
                                         }),
                                   ],
@@ -2575,7 +2476,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
   List<CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
   var distanceRadius;
-  List<TherapistAddress> therapistAddress = new List<TherapistAddress>();
+  List<dynamic> therapistAddress = new List();
 
   @override
   void initState() {
@@ -2664,7 +2565,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                   k < therapistUsers[i].user.addresses.length;
                   k++) {
                 therapistAddress
-                    .add(therapistUsers[i].user.addresses[k].distance);
+                    .add(therapistUsers[i].user.addresses[k].distance.truncateToDouble());
                 distanceRadius = therapistAddress;
                 print(
                     'Position values : $distanceRadius && ${therapistAddress.length}');
@@ -2821,25 +2722,21 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                                         image: new AssetImage(
                                                             'assets/images_gps/placeholder_image.png')),
                                                   )),
-                                          distanceRadius[index] != null
-                                              ? FittedBox(
-                                                  child: Text(
-                                                    '${distanceRadius[index]}ｋｍ圏内',
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color:
-                                                            Colors.grey[400]),
-                                                  ),
-                                                )
-                                              : FittedBox(
-                                                  child: Text(
-                                                    '0.0ｋｍ圏内',
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color:
-                                                            Colors.grey[400]),
-                                                  ),
-                                                )
+                                          distanceRadius != null
+                                              ? Text(
+                                                '${distanceRadius[index]}ｋｍ圏内',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color:
+                                                        Colors.grey[400]),
+                                              )
+                                              : Text(
+                                                '0.0ｋｍ圏内',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color:
+                                                        Colors.grey[400]),
+                                              )
                                         ],
                                       ),
                                     ),
@@ -3302,5 +3199,84 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
     popup.show(
       widgetKey: _formKeyUsers,
     );
+  }
+}
+
+class HomePageError extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _HomePageErrorState();
+  }
+}
+
+class _HomePageErrorState extends State<HomePageError> {
+  var _pageNumber = 1;
+  var _pageSize = 10;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Center(
+            child: InkWell(
+              splashColor: Colors.deepOrangeAccent,
+              highlightColor: Colors.limeAccent,
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      AntDesign.disconnect,
+                      color: Colors.deepOrangeAccent,
+                      size: 50,
+                    ),
+                    Text('インターネット接続を確認してください。',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Open Sans',
+                            color: Colors.black)),
+                    InkWell(
+                      splashColor: Colors.deepOrangeAccent,
+                      highlightColor: Colors.limeAccent,
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(MaterialIcons.refresh),
+                            onPressed: () {
+                              BlocProvider.of<TherapistTypeBloc>(context).add(
+                                  RefreshEvent(
+                                      HealingMatchConstants.accessToken,
+                                      _pageNumber,
+                                      _pageSize,
+                                      context));
+                            },
+                          ),
+                          Text(
+                            'もう一度試してください。',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Open Sans',
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }

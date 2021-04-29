@@ -55,7 +55,7 @@ class _BookingDetailsCompletedScreenOneState
   int maternityTipColor;
   int babyTipColor;
   GlobalKey<FormState> _userDetailsFormKey = new GlobalKey<FormState>();
-  var therapistAddress , userRegisteredAddress , userPlaceForMassage;
+  var therapistAddress, userRegisteredAddress, userPlaceForMassage;
   bool shopLocationSelected = false;
 
   @override
@@ -3523,10 +3523,12 @@ class _BookingDetailsCompletedScreenOneState
                 ],
                 radioButtonValue: (value) {
                   if (value == 'Y') {
-                    setState(() {
-                      shopLocationSelected = true;
-                      dialog.dissmiss();
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        shopLocationSelected = true;
+                        dialog.dissmiss();
+                      });
+                    }
                   } else {
                     dialog.dissmiss();
                     getUserAddressValues();
@@ -3624,10 +3626,8 @@ class _BookingDetailsCompletedScreenOneState
                                                   .userAddressDetailsList[index]
                                                   .userPlaceForMassage;
                                           shopLocationSelected = false;
-                                          userRegisteredAddress =
-                                              address;
-                                          userPlaceForMassage =
-                                              placeForMassage;
+                                          userRegisteredAddress = address;
+                                          userPlaceForMassage = placeForMassage;
                                         });
                                       },
                                       child: Padding(
@@ -3699,13 +3699,14 @@ class _BookingDetailsCompletedScreenOneState
                 pressEvent: () {
                   _userDetailsFormKey.currentState.save();
                   if (address != null && placeForMassage != null) {
-                    setState(() {
-                      shopLocationSelected = false;
-                      userRegisteredAddress =
-                          address;
-                      userPlaceForMassage =
-                          placeForMassage;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        shopLocationSelected = false;
+                        userRegisteredAddress = address;
+                        userPlaceForMassage = placeForMassage;
+                      });
+                    }
+
                     dialog.dissmiss();
                   } else {
                     Toast.show("有効な住所を選択してください。", context,
@@ -3713,10 +3714,13 @@ class _BookingDetailsCompletedScreenOneState
                         gravity: Toast.CENTER,
                         backgroundColor: Colors.redAccent,
                         textColor: Colors.white);
-                    setState(() {
-                      address = null;
-                      placeForMassage = null;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        address = null;
+                        placeForMassage = null;
+                      });
+                    }
+
                     return;
                   }
                 })
@@ -3733,22 +3737,24 @@ class _BookingDetailsCompletedScreenOneState
           context, HealingMatchConstants.serviceUserID);
       userListApiProvider.then((value) {
         print('userProfileImage: ${value.data.uploadProfileImgUrl}');
-        setState(() {
-          for (int i = 0; i < value.data.addresses.length; i++) {
-            if (value.data.addresses[0].isDefault) {
-              HealingMatchConstants.userAddressDetailsList =
-                  value.data.addresses.cast<UserAddresses>();
-              print(
-                  'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
-              HealingMatchConstants.userAddressDetailsList.removeAt(0);
-              openAddressListDialog();
-            } else {
-              ProgressDialogBuilder.hideLoader(context);
-              print('Is default false');
-              return;
+        if (this.mounted) {
+          setState(() {
+            for (int i = 0; i < value.data.addresses.length; i++) {
+              if (value.data.addresses[0].isDefault) {
+                HealingMatchConstants.userAddressDetailsList =
+                    value.data.addresses.cast<UserAddresses>();
+                print(
+                    'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
+                HealingMatchConstants.userAddressDetailsList.removeAt(0);
+                openAddressListDialog();
+              } else {
+                ProgressDialogBuilder.hideLoader(context);
+                print('Is default false');
+                return;
+              }
             }
-          }
-        });
+          });
+        }
       });
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
@@ -3760,22 +3766,26 @@ class _BookingDetailsCompletedScreenOneState
   getTherapistDetails(userID) async {
     print('Therapist user id : $userID');
     HealingMatchConstants.userAddressDetailsList.clear();
-    print('List cleared : ${HealingMatchConstants.userAddressDetailsList.length})');
+    print(
+        'List cleared : ${HealingMatchConstants.userAddressDetailsList.length})');
     try {
       ProgressDialogBuilder.showOverlayLoader(context);
       var therapistDetails =
           ServiceUserAPIProvider.getTherapistDetails(context, userID);
       therapistDetails.then((value) {
-        setState(() {
-          userRegisteredAddress = HealingMatchConstants.userRegisteredAddressDetail;
-          userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
-          if (value.data.addresses != null) {
-            for (int i = 0; i < value.data.addresses.length; i++) {
-              therapistAddress = value.data.addresses[i].address;
-              ProgressDialogBuilder.hideLoader(context);
+        if (this.mounted) {
+          setState(() {
+            userRegisteredAddress =
+                HealingMatchConstants.userRegisteredAddressDetail;
+            userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
+            if (value.data.addresses != null) {
+              for (int i = 0; i < value.data.addresses.length; i++) {
+                therapistAddress = value.data.addresses[i].address;
+              }
             }
-          }
-        });
+          });
+          ProgressDialogBuilder.hideLoader(context);
+        }
       });
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);

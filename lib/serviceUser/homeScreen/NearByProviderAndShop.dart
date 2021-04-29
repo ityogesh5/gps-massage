@@ -99,7 +99,7 @@ class _InitialProvidersScreenState extends State<InitialProvidersScreen> {
 
   showOverlayLoader() {
     Loader.show(context, progressIndicator: LoadInitialHomePage());
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 4), () {
       Loader.hide();
     });
   }
@@ -219,7 +219,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
   }
 
   getProvidersList(List<InitialTherapistData> getTherapistProfiles) async {
-    List<TherapistAddress> therapistAddress = new List<TherapistAddress>();
+    List<dynamic> therapistAddress = new List();
     if (this.mounted) {
       setState(() {
         therapistUsers = widget.getTherapistProfiles;
@@ -261,7 +261,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
           print('certificateImages data : $certificateImages');
 
           for (int k = 0; k < therapistUsers[i].user.addresses.length; k++) {
-            therapistAddress.add(therapistUsers[i].user.addresses[k].distance);
+            therapistAddress.add(therapistUsers[i].user.addresses[k].distance.truncateToDouble());
             distanceRadius = therapistAddress;
             print(
                 'Position values : ${distanceRadius[0]} && ${therapistAddress.length}');
@@ -472,7 +472,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                                   'assets/images_gps/placeholder_image.png')),
                                                         )),
                                                 SizedBox(height: 5),
-                                                distanceRadius[index] != null
+                                                distanceRadius != null
                                                     ? FittedBox(
                                                         child: Text(
                                                           '${distanceRadius[index]}ｋｍ圏内',
@@ -1025,8 +1025,8 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
     color: Colors.white,
   );
   var distanceRadius;
-  List<TherapistTypeAddress> therapistTypeAddress =
-      new List<TherapistTypeAddress>();
+  List<dynamic> therapistTypeAddress =
+      new List();
 
   @override
   void initState() {
@@ -1204,7 +1204,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                                   'assets/images_gps/placeholder_image.png')),
                                                         )),
                                                 SizedBox(height: 5),
-                                                distanceRadius[index] != null
+                                                distanceRadius != null
                                                     ? FittedBox(
                                                         child: Text(
                                                           '${distanceRadius[index]}ｋｍ圏内',
@@ -1735,7 +1735,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
               k < getTherapistByType[i].user.addresses.length;
               k++) {
             therapistTypeAddress
-                .add(getTherapistByType[i].user.addresses[k].distance);
+                .add(getTherapistByType[i].user.addresses[k].distance.truncateToDouble());
             distanceRadius = therapistTypeAddress;
             print(
                 'Position values : $distanceRadius && ${therapistTypeAddress.length}');
