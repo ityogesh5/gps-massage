@@ -45,7 +45,7 @@ class _RecommendState extends State<Recommend> {
         child: GestureDetector(
           onTap: () {
             NavigationRouter
-                .switchToServiceUserBookingDetailsCompletedScreenOne(context);
+                .switchToServiceUserBookingDetailsCompletedScreenOne(context,null);
           },
           child: ListView.builder(
               shrinkWrap: true,

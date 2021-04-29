@@ -43,7 +43,7 @@ class _FavoriteState extends State<Favorite> {
                   onTap: () {
                     NavigationRouter
                         .switchToServiceUserBookingDetailsCompletedScreenOne(
-                            context);
+                            context,null);
                   },
                   child: ListView.builder(
                       shrinkWrap: true,

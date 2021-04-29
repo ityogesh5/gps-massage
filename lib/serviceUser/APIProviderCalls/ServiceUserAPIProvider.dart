@@ -14,6 +14,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteS
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,8 @@ class ServiceUserAPIProvider {
   static UserBannerImagesModel _bannerModel = new UserBannerImagesModel();
   static TherapistsByTypeModel _therapistsByTypeModel =
       new TherapistsByTypeModel();
-  static GetUserDetailsByIdModel userDetails = new GetUserDetailsByIdModel();
+
+  static TherapistByIdModel _therapisyByIdModel = new TherapistByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
   static GetTherapistDetails therapistDetails = new GetTherapistDetails();
@@ -172,6 +174,34 @@ class ServiceUserAPIProvider {
     return _getUserDetailsByIdModel;
   }
 
+  // get therapist details by ID
+  static Future<TherapistByIdModel> getTherapistDetails(
+      BuildContext context, var userID) async {
+    try {
+      final url = HealingMatchConstants.GET_THERAPIST_DETAILS;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapist_id": userID,
+          }));
+      final getTherapistDetails = json.decode(response.body);
+      print('Therapist Details Response : ${response.body}');
+      _therapisyByIdModel = TherapistByIdModel.fromJson(getTherapistDetails);
+    } on SocketException catch (_) {
+      //handle socket Exception
+      print('Socket Exception...Occurred');
+      ProgressDialogBuilder.hideLoader(context);
+    } catch (e) {
+      print('Therapist Details Exception caught : ${e.toString()}');
+      ProgressDialogBuilder.hideLoader(context);
+    }
+    return _therapisyByIdModel;
+  }
+
   // get home screen user banner images
   static Future<DeleteSubAddressModel> deleteUserSubAddress(
       BuildContext context, var addressID) async {
@@ -201,7 +231,7 @@ class ServiceUserAPIProvider {
     return _deleteSubAddressModel;
   }
 
-  static Future<GetTherapistDetails> getTherapistDetails() async {
+  /*static Future<GetTherapistDetails> getTherapistDetails() async {
     try {
       final url = HealingMatchConstants.THERAPIST_USER_BY_ID_URL;
       Map<String, String> headers = {
@@ -220,7 +250,7 @@ class ServiceUserAPIProvider {
       print(e.toString());
     }
     return therapistDetails;
-  }
+  }*/
 
   // get home screen user banner images
   static Future<EditUserSubAddressModel> editUserSubAddress(
