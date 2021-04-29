@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
@@ -13,6 +14,9 @@ import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomTog
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
 
@@ -35,6 +39,28 @@ List<String> _options = [
 ];
 double ratingsValue = 4.0;
 
+class DetailBloc extends StatefulWidget {
+  final userID;
+  DetailBloc(this.userID);
+
+  @override
+  _DetailBlocState createState() => _DetailBlocState();
+}
+
+class _DetailBlocState extends State<DetailBloc> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      body: BlocProvider(
+        create: (context) => TherapistTypeBloc(
+            getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
+        child: Container(),
+      ),
+    );
+  }
+}
+
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
   final userID;
 
@@ -55,14 +81,16 @@ class _BookingDetailsCompletedScreenOneState
   int maternityTipColor;
   int babyTipColor;
   GlobalKey<FormState> _userDetailsFormKey = new GlobalKey<FormState>();
-  var therapistAddress , userRegisteredAddress , userPlaceForMassage;
+  var therapistAddress, userRegisteredAddress, userPlaceForMassage;
   bool shopLocationSelected = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getTherapistDetails(widget.userID);
+    //getTherapistDetails(widget.userID);
+    BlocProvider.of<TherapistTypeBloc>(context)
+        .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));
   }
 
   @override
@@ -4241,10 +4269,8 @@ class _BookingDetailsCompletedScreenOneState
                                                   .userAddressDetailsList[index]
                                                   .userPlaceForMassage;
                                           shopLocationSelected = false;
-                                          userRegisteredAddress =
-                                              address;
-                                          userPlaceForMassage =
-                                              placeForMassage;
+                                          userRegisteredAddress = address;
+                                          userPlaceForMassage = placeForMassage;
                                         });
                                       },
                                       child: Padding(
@@ -4318,10 +4344,8 @@ class _BookingDetailsCompletedScreenOneState
                   if (address != null && placeForMassage != null) {
                     setState(() {
                       shopLocationSelected = false;
-                      userRegisteredAddress =
-                          address;
-                      userPlaceForMassage =
-                          placeForMassage;
+                      userRegisteredAddress = address;
+                      userPlaceForMassage = placeForMassage;
                     });
                     dialog.dissmiss();
                   } else {
@@ -4377,14 +4401,16 @@ class _BookingDetailsCompletedScreenOneState
   getTherapistDetails(userID) async {
     print('Therapist user id : $userID');
     HealingMatchConstants.userAddressDetailsList.clear();
-    print('List cleared : ${HealingMatchConstants.userAddressDetailsList.length})');
+    print(
+        'List cleared : ${HealingMatchConstants.userAddressDetailsList.length})');
     try {
       ProgressDialogBuilder.showOverlayLoader(context);
       var therapistDetails =
           ServiceUserAPIProvider.getTherapistDetails(context, userID);
       therapistDetails.then((value) {
         setState(() {
-          userRegisteredAddress = HealingMatchConstants.userRegisteredAddressDetail;
+          userRegisteredAddress =
+              HealingMatchConstants.userRegisteredAddressDetail;
           userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
           if (value.data.addresses != null) {
             for (int i = 0; i < value.data.addresses.length; i++) {

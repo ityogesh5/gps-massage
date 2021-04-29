@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
@@ -35,10 +36,18 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       try {
         List<InitialTherapistData> getTherapistsUsers =
             await getTherapistTypeRepository.getTherapistProfiles(
-                event.accessToken,
-                event.pageNumber,
-                event.pageSize);
+                event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistLoadedState(getTherapistsUsers: getTherapistsUsers);
+      } catch (e) {
+        yield GetTherapistTypeErrorState(message: e.toString());
+      }
+    } else if (event is DetailEvent) {
+      yield GetTherapistTypeLoaderState();
+      try {
+        TherapistByIdModel getTherapistByIdModel =
+            await getTherapistTypeRepository.getTherapistById(
+                event.accessToken, event.userId);
+        yield GetTherapistId(getTherapistByIdModel: getTherapistByIdModel);
       } catch (e) {
         yield GetTherapistTypeErrorState(message: e.toString());
       }

@@ -696,7 +696,7 @@ class NavigationRouter {
       BuildContext context, var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return BookingDetailsCompletedScreenOne(userID);
+          return DetailBloc(userID);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

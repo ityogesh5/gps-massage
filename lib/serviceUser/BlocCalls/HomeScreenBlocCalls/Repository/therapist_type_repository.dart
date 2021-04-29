@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GetTherapistTypeRepository {
@@ -16,6 +17,8 @@ abstract class GetTherapistTypeRepository {
 
   Future<List<InitialTherapistData>> getTherapistProfiles(
       String accessToken, int pageNumber, int pageSize);
+
+  Future<TherapistByIdModel> getTherapistById(String accessToken, int userId);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -87,4 +90,30 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
 
   @override
   int pageSize;
+
+  @override
+  Future<TherapistByIdModel> getTherapistById(
+      String accessToken, var userId) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_USER_BY_ID_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '$accessToken'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapist_id": userId,
+          }));
+      if (response.statusCode == 200) {
+        var therpistDataById = json.decode(response.body);
+        TherapistByIdModel getTherapistByIdModel =
+            TherapistByIdModel.fromJson(therpistDataById);
+        print('TherapistById : ${response.body}');
+        return getTherapistByIdModel;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
