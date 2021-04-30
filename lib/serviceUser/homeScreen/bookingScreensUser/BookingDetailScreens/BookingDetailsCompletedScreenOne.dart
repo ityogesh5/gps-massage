@@ -1,9 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -11,6 +13,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -41,6 +45,8 @@ List<String> _options = [
   'リラクゼーション'
 ];
 double ratingsValue = 4.0;
+var certificateUpload;
+var certificateUploadKeys;
 
 class DetailBloc extends StatefulWidget {
   final userID;
@@ -101,7 +107,8 @@ class _DetailPageListnerState extends State<DetailPageListner> {
         child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
             builder: (context, state) {
           if (state is GetTherapistId) {
-            return BookingDetailsCompletedScreenOne();
+            return BookingDetailsCompletedScreenOne(
+                state.getTherapistByIdModel, widget.userID);
           } else {
             print('error somewhere');
           }
@@ -112,9 +119,10 @@ class _DetailPageListnerState extends State<DetailPageListner> {
 }
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
-  // final userID;
+  final userID;
+  TherapistByIdModel getTherapistByIdModel;
 
-  // BookingDetailsCompletedScreenOne(this.userID);
+  BookingDetailsCompletedScreenOne(this.getTherapistByIdModel, this.userID);
 
   @override
   _BookingDetailsCompletedScreenOneState createState() =>
@@ -138,9 +146,36 @@ class _BookingDetailsCompletedScreenOneState
   void initState() {
     // TODO: implement initState
     super.initState();
-    //getTherapistDetails(widget.userID);
+    getTherapistCertificate(widget.getTherapistByIdModel);
+    getTherapistDetails(widget.userID);
     /*   BlocProvider.of<TherapistTypeBloc>(context)
         .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
+  }
+
+  getTherapistCertificate(TherapistByIdModel getTherapistByIdModel) async {
+    print('Hi');
+    try {
+      if (this.mounted) {
+        setState(() {
+          if (getTherapistByIdModel.data.certificationUploads != null) {
+            for (int j = 0;
+                j < getTherapistByIdModel.data.certificationUploads.length;
+                j++) {
+              print('Hiiii');
+              print(
+                  'Certificate upload type : ${certificateUpload = getTherapistByIdModel.data.certificationUploads[j].toJson()}');
+
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate type : $certificateUploadKeys');
+            }
+          }
+        });
+      }
+    } catch (e) {}
   }
 
   @override
@@ -159,71 +194,82 @@ class _BookingDetailsCompletedScreenOneState
                 CarouselWithIndicatorDemo(),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeOne.svg',
-                                  height: 15,
-                                  width: 15),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeOne.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('エステ'),
-                        ],
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeTwo.svg',
-                                  height: 15,
-                                  width: 15),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('エステ'),
+                          ],
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeTwo.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('整骨・整体'),
-                        ],
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeThree.svg',
-                                  height: 15,
-                                  width: 15),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('整骨・整体'),
+                          ],
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeThree.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('リラクゼーション'),
-                        ],
-                      ),
-                    ],
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.01),
+                            Text('リラクゼーション'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -235,18 +281,54 @@ class _BookingDetailsCompletedScreenOneState
                       children: <Widget>[
                         Expanded(
                           flex: 1,
-                          child: new Container(
-                              width: 60.0,
-                              height: 60.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: new AssetImage(
-                                      'assets/images_gps/logo.png'),
-                                ),
-                              )),
+                          child: widget.getTherapistByIdModel.data
+                                      .uploadProfileImgUrl !=
+                                  null
+                              ? CachedNetworkImage(
+                                  imageUrl: widget.getTherapistByIdModel.data
+                                      .uploadProfileImgUrl,
+                                  filterQuality: FilterQuality.high,
+                                  fadeInCurve: Curves.easeInSine,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      SpinKitDoubleBounce(
+                                          color: Colors.lightGreenAccent),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.black12),
+                                      image: DecorationImage(
+                                          image: new AssetImage(
+                                              'assets/images_gps/placeholder_image.png'),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.fitHeight,
+                                      image: new AssetImage(
+                                          'assets/images_gps/logo.png'),
+                                    ),
+                                  )),
                         ),
                         SizedBox(width: 5),
                         Expanded(
@@ -259,7 +341,8 @@ class _BookingDetailsCompletedScreenOneState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "店舗名",
+                                      widget
+                                          .getTherapistByIdModel.data.userName,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
@@ -273,81 +356,120 @@ class _BookingDetailsCompletedScreenOneState
                                     FittedBox(
                                       child: Row(
                                         children: [
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('店舗')),
+                                          widget.getTherapistByIdModel.data
+                                                      .businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員あり') ||
+                                                  widget.getTherapistByIdModel
+                                                      .data.businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                  widget.getTherapistByIdModel
+                                                      .data.businessForm
+                                                      .contains(
+                                                          '施術店舗なし 施術従業員なし（個人)')
+                                              ? Visibility(
+                                                  visible: true,
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      decoration: BoxDecoration(
+                                                          gradient: LinearGradient(
+                                                              begin: Alignment
+                                                                  .topCenter,
+                                                              end: Alignment
+                                                                  .bottomCenter,
+                                                              colors: [
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                              ]),
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          border: Border.all(
+                                                            color: Colors
+                                                                .grey[300],
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                          color:
+                                                              Colors.grey[200]),
+                                                      child: Text('店舗')),
+                                                )
+                                              : Container(),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('出張')),
+                                          Visibility(
+                                            visible: widget
+                                                .getTherapistByIdModel
+                                                .data
+                                                .businessTrip,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text('出張')),
+                                          ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('コロナ対策実施有無')),
+                                          Visibility(
+                                            visible: widget
+                                                .getTherapistByIdModel
+                                                .data
+                                                .coronaMeasure,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text('コロナ対策実施有無')),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -359,6 +481,7 @@ class _BookingDetailsCompletedScreenOneState
                                       0.01),
                               Row(
                                 children: [
+                                  // widget.getTherapistByIdModel.data.
                                   Text(
                                     '(${ratingsValue.toString()})',
                                     style: TextStyle(
