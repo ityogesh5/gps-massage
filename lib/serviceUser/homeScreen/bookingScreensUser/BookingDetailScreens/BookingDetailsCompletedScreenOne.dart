@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -136,19 +135,35 @@ class _BookingDetailsCompletedScreenOneState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
-                    child: new Container(
-                        width: 60.0,
-                        height: 60.0,
-                        decoration: new BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          shape: BoxShape.circle,
-                          image: new DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: new AssetImage('assets/images_gps/logo.png'),
-                          ),
-                        )),
-                  ),
+                      flex: 1,
+                      child: HealingMatchConstants.therapistDProfileImage ==
+                                  null ||
+                              HealingMatchConstants
+                                  .therapistDProfileImage.isEmpty
+                          ? new Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: new AssetImage(
+                                      'assets/images_gps/logo.png'),
+                                ),
+                              ))
+                          : Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: new AssetImage(
+                                      'assets/images_gps/logo.png'),
+                                ),
+                              ))),
                   SizedBox(width: 5),
                   Expanded(
                     flex: 5,
@@ -158,14 +173,24 @@ class _BookingDetailsCompletedScreenOneState
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              "店舗名",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
-                            ),
+                            HealingMatchConstants.therapistDStoreName == null ||
+                                    HealingMatchConstants
+                                        .therapistDStoreName.isEmpty
+                                ? new Text(
+                                    '店舗名',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
+                                  )
+                                : new Text(
+                                    ' ${HealingMatchConstants.therapistDStoreName}',
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontFamily: 'NotoSansJP',
+                                        fontWeight: FontWeight.bold),
+                                  ),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
@@ -3958,6 +3983,38 @@ class _BookingDetailsCompletedScreenOneState
       ),
     );
   }
+
+  getTherapistDetailData() async {
+    try {
+      var therapistListApiProvider =
+          ServiceUserAPIProvider.getTherapistDetails();
+      therapistListApiProvider.then((value) {
+        print('storeName: ${value.data.storeName}');
+        print('uploadProfileImgUrl: ${value.data.uploadProfileImgUrl}');
+        print('storeType: ${value.data.storeType}');
+        print('businessForm: ${value.data.businessForm}');
+        print('numberOfEmp: ${value.data.numberOfEmp}');
+        print('storeDescription: ${value.data.storeDescription}');
+        print('proofOfIdentityType: ${value.data.proofOfIdentityType}');
+
+        setState(() {
+          HealingMatchConstants.therapistDStoreName = value.data.storeName;
+          HealingMatchConstants.therapistDProfileImage =
+              value.data.uploadProfileImgUrl;
+          HealingMatchConstants.therapistDStoreType = value.data.storeType;
+          HealingMatchConstants.therapistDBusinessForm =
+              value.data.businessForm;
+          HealingMatchConstants.therapistDNumberOfEmp = value.data.numberOfEmp;
+          HealingMatchConstants.therapistDStoreDescription =
+              value.data.storeDescription;
+          HealingMatchConstants.therapistDProofOfIdentityType =
+              value.data.proofOfIdentityType;
+        });
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
 
 //Build Carousel images for banner
@@ -4061,15 +4118,6 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
         ),
       ],
     );
-  }
-}
-
-getTherapistDetailData() async {
-  try {
-    var userListApiProvider = ServiceUserAPIProvider.getTherapistDetails();
-    userListApiProvider.then((value) {});
-  } catch (e) {
-    print(e.toString());
   }
 }
 

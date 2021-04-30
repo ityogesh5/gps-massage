@@ -21,10 +21,12 @@ class HealingMatchConstants {
 
   static const String ON_PREMISE_USER_BASE_URL =
       /* "http://103.92.19.158:9094/api";*/
-      "http://106.51.49.160:9094/api";
+      "http://106.51.49.160:9087/api";
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
+  static const String GET_RECOMMENDED_THERAPIST_LIST_URL =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistSuggestionList';
   static const String REGISTER_PROVIDER_URL =
       ON_PREMISE_USER_BASE_URL + '/user/registerProvider';
   static const String STATE_PROVIDER_URL =
@@ -416,6 +418,15 @@ class HealingMatchConstants {
   static var searchDistanceRadius;
   static String userProfileImage;
   static String serviceUserID;
+
+  //Therapist Detail Screen
+  static String therapistDStoreName = '';
+  static var therapistDProfileImage;
+  static String therapistDStoreType = '';
+  static String therapistDBusinessForm = '';
+  static int therapistDNumberOfEmp = 0;
+  static String therapistDStoreDescription = '';
+  static String therapistDProofOfIdentityType = '';
 
   // User Home screen
   static int serviceTypeValue = 0;

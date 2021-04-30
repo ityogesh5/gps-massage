@@ -202,4 +202,24 @@ class ServiceUserAPIProvider {
     }
     return therapistDetails;
   }
+
+  static Future<GetTherapistDetails> getRecommendedTherapistList() async {
+    try {
+      final url = HealingMatchConstants.GET_RECOMMENDED_THERAPIST_LIST_URL;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(
+        url,
+        headers: headers,
+      );
+      final getUser = json.decode(response.body);
+      therapistDetails = GetTherapistDetails.fromJson(getUser);
+      print('Response body : ${response.body}');
+    } catch (e) {
+      print(e.toString());
+    }
+    return therapistDetails;
+  }
 }
