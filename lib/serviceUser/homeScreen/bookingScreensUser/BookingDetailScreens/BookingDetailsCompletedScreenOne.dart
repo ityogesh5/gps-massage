@@ -19,6 +19,9 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -55,16 +58,63 @@ class _DetailBlocState extends State<DetailBloc> {
       body: BlocProvider(
         create: (context) => TherapistTypeBloc(
             getTherapistTypeRepository: GetTherapistTypeRepositoryImpl()),
-        child: Container(),
+        child: DetailPageListner(widget.userID),
+      ),
+    );
+  }
+}
+
+class DetailPageListner extends StatefulWidget {
+  final userID;
+  DetailPageListner(this.userID);
+  @override
+  _DetailPageListnerState createState() => _DetailPageListnerState();
+}
+
+class _DetailPageListnerState extends State<DetailPageListner> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //getTherapistDetails(widget.userID);
+    getTherapist();
+  }
+
+  getTherapist() {
+    try {
+      BlocProvider.of<TherapistTypeBloc>(context)
+          .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));
+      print('AccessToken : ${HealingMatchConstants.accessToken}');
+      print('UserId : ${widget.userID}');
+    } catch (e) {}
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
+        listener: (context, state) {
+          if (state is GetTherapistTypeErrorState) {
+            return DetailPageError();
+          }
+        },
+        child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
+            builder: (context, state) {
+          if (state is GetTherapistId) {
+            return BookingDetailsCompletedScreenOne();
+          } else {
+            print('error somewhere');
+          }
+        }),
       ),
     );
   }
 }
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
-  final userID;
+  // final userID;
 
-  BookingDetailsCompletedScreenOne(this.userID);
+  // BookingDetailsCompletedScreenOne(this.userID);
 
   @override
   _BookingDetailsCompletedScreenOneState createState() =>
@@ -89,8 +139,8 @@ class _BookingDetailsCompletedScreenOneState
     // TODO: implement initState
     super.initState();
     //getTherapistDetails(widget.userID);
-    BlocProvider.of<TherapistTypeBloc>(context)
-        .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));
+    /*   BlocProvider.of<TherapistTypeBloc>(context)
+        .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
   }
 
   @override
@@ -4168,10 +4218,12 @@ class _BookingDetailsCompletedScreenOneState
                 ],
                 radioButtonValue: (value) {
                   if (value == 'Y') {
-                    setState(() {
-                      shopLocationSelected = true;
-                      dialog.dissmiss();
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        shopLocationSelected = true;
+                        dialog.dissmiss();
+                      });
+                    }
                   } else {
                     dialog.dissmiss();
                     getUserAddressValues();
@@ -4342,11 +4394,14 @@ class _BookingDetailsCompletedScreenOneState
                 pressEvent: () {
                   _userDetailsFormKey.currentState.save();
                   if (address != null && placeForMassage != null) {
-                    setState(() {
-                      shopLocationSelected = false;
-                      userRegisteredAddress = address;
-                      userPlaceForMassage = placeForMassage;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        shopLocationSelected = false;
+                        userRegisteredAddress = address;
+                        userPlaceForMassage = placeForMassage;
+                      });
+                    }
+
                     dialog.dissmiss();
                   } else {
                     Toast.show("有効な住所を選択してください。", context,
@@ -4354,10 +4409,13 @@ class _BookingDetailsCompletedScreenOneState
                         gravity: Toast.CENTER,
                         backgroundColor: Colors.redAccent,
                         textColor: Colors.white);
-                    setState(() {
-                      address = null;
-                      placeForMassage = null;
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        address = null;
+                        placeForMassage = null;
+                      });
+                    }
+
                     return;
                   }
                 })
@@ -4374,22 +4432,24 @@ class _BookingDetailsCompletedScreenOneState
           context, HealingMatchConstants.serviceUserID);
       userListApiProvider.then((value) {
         print('userProfileImage: ${value.data.uploadProfileImgUrl}');
-        setState(() {
-          for (int i = 0; i < value.data.addresses.length; i++) {
-            if (value.data.addresses[0].isDefault) {
-              HealingMatchConstants.userAddressDetailsList =
-                  value.data.addresses.cast<UserAddresses>();
-              print(
-                  'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
-              HealingMatchConstants.userAddressDetailsList.removeAt(0);
-              openAddressListDialog();
-            } else {
-              ProgressDialogBuilder.hideLoader(context);
-              print('Is default false');
-              return;
+        if (this.mounted) {
+          setState(() {
+            for (int i = 0; i < value.data.addresses.length; i++) {
+              if (value.data.addresses[0].isDefault) {
+                HealingMatchConstants.userAddressDetailsList =
+                    value.data.addresses.cast<UserAddresses>();
+                print(
+                    'Address length loop : ${HealingMatchConstants.userAddressDetailsList.length}');
+                HealingMatchConstants.userAddressDetailsList.removeAt(0);
+                openAddressListDialog();
+              } else {
+                ProgressDialogBuilder.hideLoader(context);
+                print('Is default false');
+                return;
+              }
             }
-          }
-        });
+          });
+        }
       });
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
@@ -4408,17 +4468,19 @@ class _BookingDetailsCompletedScreenOneState
       var therapistDetails =
           ServiceUserAPIProvider.getTherapistDetails(context, userID);
       therapistDetails.then((value) {
-        setState(() {
-          userRegisteredAddress =
-              HealingMatchConstants.userRegisteredAddressDetail;
-          userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
-          if (value.data.addresses != null) {
-            for (int i = 0; i < value.data.addresses.length; i++) {
-              therapistAddress = value.data.addresses[i].address;
-              ProgressDialogBuilder.hideLoader(context);
+        if (this.mounted) {
+          setState(() {
+            userRegisteredAddress =
+                HealingMatchConstants.userRegisteredAddressDetail;
+            userPlaceForMassage = HealingMatchConstants.userPlaceForMassage;
+            if (value.data.addresses != null) {
+              for (int i = 0; i < value.data.addresses.length; i++) {
+                therapistAddress = value.data.addresses[i].address;
+              }
             }
-          }
-        });
+          });
+          ProgressDialogBuilder.hideLoader(context);
+        }
       });
     } catch (e) {
       ProgressDialogBuilder.hideLoader(context);
@@ -4551,3 +4613,19 @@ final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
           ),
         ))
     .toList();
+
+class DetailPageError extends StatefulWidget {
+  @override
+  _DetailPageErrorState createState() => _DetailPageErrorState();
+}
+
+class _DetailPageErrorState extends State<DetailPageError> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: Text('Error'),
+      ),
+    );
+  }
+}

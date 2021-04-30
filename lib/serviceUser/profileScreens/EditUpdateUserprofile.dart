@@ -956,6 +956,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         enabled: false,
 
                                         //enableInteractiveSelection: false,
+                                        readOnly: true,
                                         autofocus: false,
                                         controller: userAreaController,
                                         decoration: new InputDecoration(
@@ -1000,6 +1001,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       // keyboardType: TextInputType.number,
                                       autofocus: false,
                                       controller: buildingNameController,
+                                      readOnly: true,
                                       decoration: new InputDecoration(
                                         filled: true,
                                         fillColor:
@@ -1049,6 +1051,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         enabled: false,
 
                                         //enableInteractiveSelection: false,
+                                        readOnly: true,
                                         autofocus: false,
                                         controller: roomNumberController,
                                         decoration: new InputDecoration(

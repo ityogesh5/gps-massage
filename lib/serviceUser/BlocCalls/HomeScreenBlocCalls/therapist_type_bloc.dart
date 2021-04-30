@@ -13,7 +13,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
   TherapistTypeBloc({@required this.getTherapistTypeRepository});
 
   @override
-  TherapistTypeState get initialState => GetTherapistTypeLoadingState();
+  TherapistTypeState get initialState => GetTherapistTypeLoaderState();
 
   @override
   Stream<TherapistTypeState> mapEventToState(TherapistTypeEvent event) async* {

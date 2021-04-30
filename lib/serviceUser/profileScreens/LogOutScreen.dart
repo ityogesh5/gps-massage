@@ -77,7 +77,6 @@ class _LogOutServiceUserState extends State<LogOutServiceUser> {
                     if (value == 'Y') {
                       print('User Logged out!!');
                       _sharedPreferences.then((value) {
-                        // value.remove('accessToken');
                         value.remove('addressData');
                         value.setBool('isUserLoggedOut', true);
                         value.setBool('isUserLoggedIn', false);

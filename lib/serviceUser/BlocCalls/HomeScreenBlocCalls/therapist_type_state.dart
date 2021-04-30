@@ -6,11 +6,6 @@ import 'package:meta/meta.dart';
 
 abstract class TherapistTypeState extends Equatable {}
 
-class GetTherapistLoadingState extends TherapistTypeState {
-  @override
-  List<Object> get props => null;
-}
-
 class GetTherapistTypeLoadingState extends TherapistTypeState {
   @override
   List<Object> get props => null;

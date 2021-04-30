@@ -1550,8 +1550,6 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   proceedToSearchResults() async {
     try {
-      ProgressDialogBuilder.showOverlayLoader(context);
-
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
@@ -1698,7 +1696,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       _getAddressFromLatLng();
     }).catchError((e) {
       ProgressDialogBuilder.hideLoader(context);
-      print(e);
+      print('Current Location exception : ${e.toString()}');
     });
   }
 
