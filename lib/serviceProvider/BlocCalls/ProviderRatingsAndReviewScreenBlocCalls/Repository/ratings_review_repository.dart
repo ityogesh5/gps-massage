@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +8,7 @@ abstract class GetTherapistReviewRepository {
   String accessToken = HealingMatchConstants.accessToken;
   int therapistId = HealingMatchConstants.userId;
 
-  Future<List<UserList>> getTherapistReviewById(
+  Future<List<TherapistReviewList>> getTherapistReviewById(
       String accessToken, int therapistId, int pageNumber, int pageSize);
 }
 
@@ -19,7 +20,7 @@ class GetTherapistReviewRepositoryImpl implements GetTherapistReviewRepository {
   int therapistId;
 
   @override
-  Future<List<UserList>> getTherapistReviewById(
+  Future<List<TherapistReviewList>> getTherapistReviewById(
       String accessToken, int therapistId, int pageNumber, int pageSize) async {
     try {
       print("Api hit");
@@ -37,10 +38,10 @@ class GetTherapistReviewRepositoryImpl implements GetTherapistReviewRepository {
       print('Therapist repo token : $accessToken : Tid  : $therapistId');
       if (response.statusCode == 200) {
         var therapistData = json.decode(response.body);
-        List<UserList> therapistUsers =
+        List<TherapistReviewList> therapistUsers =
             ProviderReviewandRatingsViewResponseModel.fromJson(therapistData)
-                .userData
-                .userList;
+                .therapistsData
+                .therapistReviewList;
         print('Types list:  $therapistData');
         return therapistUsers;
       } else {

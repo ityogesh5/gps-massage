@@ -12,8 +12,7 @@ class FetchTherapistReviewEvent extends TherapistReviewEvent {
       this.accessToken, this.therapistId, this.pageNumber, this.pageSize);
 
   @override
-  List<Object> get props =>
-      [accessToken, therapistId, pageNumber, pageSize];
+  List<Object> get props => [accessToken, therapistId, pageNumber, pageSize];
 }
 
 class RefreshEvent extends TherapistReviewEvent {

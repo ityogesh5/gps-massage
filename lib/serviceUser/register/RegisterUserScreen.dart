@@ -18,6 +18,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
   @override
@@ -66,8 +68,8 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
+  // Placemark currentLocationPlaceMark;
+  // Placemark userAddedAddressPlaceMark;
 
   bool _showCurrentLocationInput = false;
   bool _secureText = true;
@@ -105,7 +107,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
-  var _prefId;
+  var _prefId, _cityId;
 
   showHide() {
     setState(() {
@@ -224,7 +226,7 @@ class _RegisterUserState extends State<RegisterUser> {
               child: Text(
                 'スキップ',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Color.fromRGBO(0, 0, 0, 1),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'NotoSansJP',
                     fontSize: 18.0,
@@ -249,11 +251,11 @@ class _RegisterUserState extends State<RegisterUser> {
                   children: [
                     Text('サービス利用者情報の入力',
                         style: new TextStyle(
-                            fontSize: 14,
-                            color: Color.fromRGBO(102, 102, 0, 1),
-                            fontStyle: FontStyle.normal,
-                            fontFamily: 'NotoSansJP',
-                            fontWeight: FontWeight.w100)),
+                          fontSize: 14,
+                          color: Color.fromRGBO(102, 102, 102, 1),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'NotoSansJP',
+                        )),
                     SizedBox(height: 5),
                     RichText(
                       textAlign: TextAlign.start,
@@ -268,11 +270,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           new TextSpan(
                               text: 'は必須項目です',
                               style: new TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(102, 102, 0, 1),
-                                  fontFamily: 'NotoSansJP',
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w100)),
+                                fontSize: 14,
+                                color: Color.fromRGBO(102, 102, 102, 1),
+                                fontFamily: 'NotoSansJP',
+                              )),
                         ],
                       ),
                     ),
@@ -340,6 +341,7 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: userNameController,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -359,11 +361,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 16),
                           ),
@@ -393,6 +395,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                     autofocus: false,
                                     keyboardType: TextInputType.number,
                                     decoration: new InputDecoration(
+                                      contentPadding: EdgeInsets.all(16.0),
                                       filled: true,
                                       fillColor:
                                           ColorConstants.formFieldFillColor,
@@ -424,11 +427,12 @@ class _RegisterUserState extends State<RegisterUser> {
                                             text: '*',
                                             style: TextStyle(
                                                 color: Colors.red,
-                                                fontSize: 20),
+                                                fontSize: 16),
                                           ),
                                         ],
                                         style: TextStyle(
-                                            color: Colors.grey[400],
+                                            color: Color.fromRGBO(
+                                                197, 197, 197, 1),
                                             fontFamily: 'NotoSansJP',
                                             fontSize: 14),
                                       ),
@@ -456,7 +460,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                   fillColor: ColorConstants.formFieldFillColor,
                                   labelText: '年齢',
                                   labelStyle: TextStyle(
-                                      color: Colors.grey[400],
+                                      color: Color.fromRGBO(197, 197, 197, 1),
                                       fontFamily: 'NotoSansJP',
                                       fontSize: 14),
                                   border:
@@ -703,11 +707,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -717,13 +721,13 @@ class _RegisterUserState extends State<RegisterUser> {
                     SizedBox(height: 15),
                     Container(
                       height: containerHeight,
-                      // height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: TextFieldCustom(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -743,11 +747,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -762,8 +766,11 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: TextFieldCustom(
                         controller: passwordController,
                         obscureText: _secureText,
+                        maxLength: 16,
                         autofocus: false,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           suffixIcon: IconButton(
                             onPressed: showHide,
                             icon: Icon(_secureText
@@ -789,11 +796,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -809,7 +816,10 @@ class _RegisterUserState extends State<RegisterUser> {
                         controller: confirmPasswordController,
                         obscureText: passwordConfirmVisibility,
                         autofocus: false,
+                        maxLength: 16,
                         decoration: new InputDecoration(
+                          counterText: '',
+                          contentPadding: EdgeInsets.all(16.0),
                           filled: true,
                           fillColor: ColorConstants.formFieldFillColor,
                           focusColor: Colors.grey[100],
@@ -839,11 +849,11 @@ class _RegisterUserState extends State<RegisterUser> {
                               TextSpan(
                                 text: '*',
                                 style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
+                                    TextStyle(color: Colors.red, fontSize: 16),
                               ),
                             ],
                             style: TextStyle(
-                                color: Colors.grey[400],
+                                color: Color.fromRGBO(197, 197, 197, 1),
                                 fontFamily: 'NotoSansJP',
                                 fontSize: 14),
                           ),
@@ -868,11 +878,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                 new TextSpan(
                                     text: '半角英数 8 ～１６文字以内',
                                     style: new TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP',
-                                        color: Colors.grey[400],
+                                        color: Color.fromRGBO(197, 197, 197, 1),
                                         fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w100)),
+                                        fontWeight: FontWeight.w300)),
                               ],
                             ),
                           ),
@@ -1077,19 +1087,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                                                       value) +
                                                               1;
                                                       print(
-                                                          'prefID : ${_prefId}');
+                                                          'prefID : $_prefId');
                                                       cityDropDownValues
                                                           .clear();
                                                       _myCity = '';
                                                       _getCities(_prefId);
-                                                      _sharedPreferences
-                                                          .then((value) {
-                                                        value.setString(
-                                                            'cityID', _prefId);
-
-                                                        print(
-                                                            'Pref id : ${_prefId}');
-                                                      });
                                                     });
                                                   },
                                                   dataSource:
@@ -1141,6 +1143,13 @@ class _RegisterUserState extends State<RegisterUser> {
                                                       HealingMatchConstants
                                                               .serviceUserCity =
                                                           _myCity;
+                                                      _cityId =
+                                                          cityDropDownValues
+                                                                  .indexOf(
+                                                                      value) +
+                                                              1;
+                                                      print(
+                                                          '_cityId : $_cityId');
                                                       //print(_myBldGrp.toString());
                                                     });
                                                   },
@@ -1190,8 +1199,11 @@ class _RegisterUserState extends State<RegisterUser> {
                                         0.39,
                                     child: TextFieldCustom(
                                       controller: userAreaController,
+                                      maxLength: 25,
                                       autofocus: false,
                                       decoration: new InputDecoration(
+                                        counterText: '',
+                                        contentPadding: EdgeInsets.all(16.0),
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
@@ -1214,7 +1226,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                               text: '*',
                                               style: TextStyle(
                                                   color: Colors.red,
-                                                  fontSize: 20),
+                                                  fontSize: 16),
                                             ),
                                           ],
                                           style: TextStyle(
@@ -1238,7 +1250,9 @@ class _RegisterUserState extends State<RegisterUser> {
                                     // keyboardType: TextInputType.number,
                                     autofocus: false,
                                     controller: buildingNameController,
+                                    maxLength: 20,
                                     decoration: new InputDecoration(
+                                      counterText: '',
                                       contentPadding: EdgeInsets.all(4.0),
                                       filled: true,
                                       fillColor:
@@ -1343,8 +1357,8 @@ class _RegisterUserState extends State<RegisterUser> {
                             new TextSpan(
                                 text: '登録した場所周辺のセラピストが表示されます',
                                 style: new TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[500],
+                                    fontSize: 14,
+                                    color: Color.fromRGBO(197, 197, 197, 1),
                                     fontStyle: FontStyle.normal,
                                     fontWeight: FontWeight.w300)),
                           ],
@@ -1383,10 +1397,9 @@ class _RegisterUserState extends State<RegisterUser> {
                       child: Text('すでにアカウントをお持ちの方',
                           style: new TextStyle(
                               fontSize: 14,
-                              color: Colors.black,
+                              color: Color.fromRGBO(0, 0, 0, 1),
                               fontFamily: 'NotoSansJP',
                               fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w100,
                               decoration: TextDecoration.underline)),
                     ),
                   ],
@@ -1399,60 +1412,8 @@ class _RegisterUserState extends State<RegisterUser> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      currentLocationPlaceMark = p[0];
-
-      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
-
-      setState(() {
-        _currentAddress =
-            '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
-            ',${currentLocationPlaceMark.country}';
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print(
-              'Current address : $_currentAddress : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceUserCity =
-              currentLocationPlaceMark.locality;
-          HealingMatchConstants.serviceUserPrefecture =
-              currentLocationPlaceMark.administrativeArea;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   Future<Map<String, dynamic>> _registerUserDetails() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var phnNum = phoneNumberController.text.toString();
@@ -1482,6 +1443,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //gps address Validation
 
     if (userName.length > 20) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1509,6 +1471,7 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
     }
     if (userName.length == 0 || userName.isEmpty || userName == null) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1539,6 +1502,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user DOB validation
     if (userDOB == null || userDOB.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1570,6 +1534,7 @@ class _RegisterUserState extends State<RegisterUser> {
     // Age 18+ validation
 
     if (ageOfUser != 0 && ageOfUser < 18) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1600,6 +1565,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user gender validation
     if (_myGender == null || _myGender.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1630,6 +1596,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user Occupation validation
     if (_myOccupation == null || _myOccupation.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1662,6 +1629,7 @@ class _RegisterUserState extends State<RegisterUser> {
     if (userPhoneNumber.length > 10 ||
         userPhoneNumber == null ||
         userPhoneNumber.length < 10) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1691,6 +1659,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (!(email.contains(regexMail))) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1719,6 +1688,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (email.length > 50) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1726,7 +1696,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('メールアドレスは100文字以内で入力してください。',
+              child: Text('メールアドレスは50文字以内で入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1747,6 +1717,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if ((email.contains(regexEmojis))) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1776,6 +1747,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length < 8) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1805,6 +1777,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
 
     if (password.length > 16) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1835,6 +1808,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     if (password != confirmPassword) {
       //print("Entering password state");
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1863,6 +1837,7 @@ class _RegisterUserState extends State<RegisterUser> {
       return null;
     }
     if (password.contains(regexEmojis)) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1894,6 +1869,7 @@ class _RegisterUserState extends State<RegisterUser> {
     // user place for massage validation
     if (_myCategoryPlaceForMassage == null ||
         _myCategoryPlaceForMassage.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1924,6 +1900,7 @@ class _RegisterUserState extends State<RegisterUser> {
     //place for service (other option)
     if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
         (otherCategory == null || otherCategory.isEmpty)) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1931,7 +1908,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('検索地点を入力してください。',
+              child: Text('"登録する地点のカテゴリーを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1953,6 +1930,7 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     // user perfecture validation
     if (_myPrefecture == null || _myPrefecture.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1983,6 +1961,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2013,6 +1992,7 @@ class _RegisterUserState extends State<RegisterUser> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2040,34 +2020,32 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
-    if (HealingMatchConstants.userAddress.isEmpty) {
-      String address = roomNumber +
-          ',' +
-          buildingName +
-          ',' +
-          userArea +
-          ',' +
-          _myCity +
-          ',' +
-          _myPrefecture;
 
-      List<Placemark> userAddress =
-          await geoLocator.placemarkFromAddress(address);
-      userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-      HealingMatchConstants.currentLatitude = addressPosition.latitude;
-      HealingMatchConstants.currentLongitude = addressPosition.longitude;
+    String address = roomNumber +
+        ',' +
+        buildingName +
+        ',' +
+        userArea +
+        ',' +
+        _myCity +
+        ',' +
+        _myPrefecture;
+    String query = Platform.isIOS ? _myCity + ',' + _myPrefecture : address;
+    try {
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.currentLatitude = locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.currentLatitude}");
+      HealingMatchConstants.currentLongitude = locations[0].longitude;
+      print("Long : ${HealingMatchConstants.currentLongitude}");
       HealingMatchConstants.userAddress = address;
-
-      print(
-          'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
-          '${HealingMatchConstants.currentLongitude}');
-      print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
-      print('Manual Address : ${HealingMatchConstants.userAddress}');
+    } catch (e) {
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
     }
-
-    ProgressDialogBuilder.showRegisterProgressDialog(context);
-
     //Calling Service User API for Register
     try {
       //MultiPart request
@@ -2138,7 +2116,7 @@ class _RegisterUserState extends State<RegisterUser> {
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isRegisterSuccess(
           response.statusCode, context, response.body)) {
-        final Map userDetailsResponse = json.decode(response.body);
+        final Map userDetailsResponse = json.decode(response.body.toString());
         final serviceUserDetails =
             ServiceUserRegisterModel.fromJson(userDetailsResponse);
         print('Response Status Message : ${serviceUserDetails.status}');
@@ -2191,17 +2169,17 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
-            ProgressDialogBuilder.hideRegisterProgressDialog(context);
+            ProgressDialogBuilder.hideLoader(context);
             NavigationRouter.switchToUserOtpScreen(context);
           }
         });
       } else {
-        ProgressDialogBuilder.hideRegisterProgressDialog(context);
+        ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');
       }
     } on SocketException catch (_) {
       //handle socket Exception
-      ProgressDialogBuilder.hideRegisterProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       NavigationRouter.switchToNetworkHandler(context);
       print('Network error !!');
     }
@@ -2282,7 +2260,8 @@ class _RegisterUserState extends State<RegisterUser> {
 
   // CityList cityResponse;
   _getCities(var prefId) async {
-    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
+    ProgressDialogBuilder.showOverlayLoader(context);
+    //ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
@@ -2292,8 +2271,8 @@ class _RegisterUserState extends State<RegisterUser> {
           cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
-
-      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
+      //ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
       print('Response City list : ${response.body}');
     });
   }

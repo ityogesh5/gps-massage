@@ -202,11 +202,11 @@ class _MyAccountState extends State<MyAccount> {
                                       Text(userData.businessForm,
                                           style: textStyle), //Business Form
                                       SizedBox(width: 0)),
-                                  userData.numberOfEmp != null
+                                  userData.numberOfEmp != null &&  userData.numberOfEmp !=0
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.numberOfEmp != null
+                                  userData.numberOfEmp != null &&  userData.numberOfEmp !=0
                                       ? MyRow(
                                           Image.asset(
                                             "assets/images_gps/number_of_employee.png",
@@ -363,11 +363,13 @@ class _MyAccountState extends State<MyAccount> {
                                       Text(userData.gender,
                                           style: textStyle), //gender
                                       SizedBox(width: 0)),
-                                  userData.storePhone != null
+                                  userData.storePhone != null &&
+                                          userData.storePhone != 0
                                       ? Divider(
                                           color: Colors.grey[300], height: 1)
                                       : Container(),
-                                  userData.storePhone != null
+                                  userData.storePhone != null &&
+                                          userData.storePhone != 0
                                       ? MyRow(
                                           SvgPicture.asset(
                                             "assets/images_gps/shop_number.svg",

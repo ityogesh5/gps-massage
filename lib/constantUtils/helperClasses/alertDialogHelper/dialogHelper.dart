@@ -6,6 +6,7 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/LogOutScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
@@ -37,10 +38,10 @@ class DialogHelper {
       context: context,
       headerAnimationLoop: false,
       dialogType: DialogType.NO_HEADER,
-      body: Container(
-        child: Stack(
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          Container(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -117,23 +118,19 @@ class DialogHelper {
                 SizedBox(height: 5),
               ],
             ),
-            Positioned(
-              top: -40,
-              //right: 150,
-              left: 260,
-              child: CircleAvatar(
-                  backgroundColor: Colors.white70,
-                  maxRadius: MediaQuery.of(context).size.width * 0.11,
-                  child: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        dialog.dissmiss();
-                        NavigationRouter.switchToServiceUserBottomBar(context);
-                        print('Close');
-                      })),
-            ),
-          ],
-        ),
+          ),
+          /* Positioned(
+            top: -5,
+            right: -5,
+            child: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () {
+                  dialog.dissmiss();
+                  NavigationRouter.switchToServiceUserBottomBar(context);
+                  print('Close');
+                }),
+          ),*/
+        ],
       ),
       btnOkOnPress: () {
         debugPrint('OnClcik');
@@ -144,6 +141,112 @@ class DialogHelper {
           pressEvent: () {
             dialog.dissmiss();
             NavigationRouter.switchToServiceUserBottomBar(context);
+          }),
+    )..show();
+  }
+
+  //Add address SkipPopup
+
+  static void showUserAddAddressDialog(BuildContext context) {
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      //showCloseIcon: true,
+      context: context,
+      headerAnimationLoop: false,
+      dialogType: DialogType.NO_HEADER,
+      body: Stack(
+        children: [
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: new BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image:
+                              new AssetImage('assets/images_gps/appIcon.png')),
+                    )),
+                Center(
+                    child: InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToServiceUserRegistration(context);
+                  },
+                  child: Text('登録する',
+                      style: new TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontWeight: FontWeight.w100,
+                          decoration: TextDecoration.underline)),
+                )),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 15.0),
+                          child: Divider(
+                            //  height: 50,
+                            color: Colors.grey,
+                          )),
+                    ),
+                    Text(
+                      "または",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Expanded(
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.only(left: 15.0, right: 10.0),
+                          child: Divider(
+                            color: Colors.grey,
+                            //height: 50,
+                          )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: () {
+                    NavigationRouter.switchToUserLogin(context);
+                  },
+                  child: Text('すでにアカウントをお持ちの方',
+                      style: new TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w100,
+                          decoration: TextDecoration.underline)),
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+          ),
+        ],
+      ),
+      btnOkOnPress: () {
+        debugPrint('OnClcik');
+      },
+      btnOk: AnimatedButton(
+          color: Color.fromRGBO(200, 217, 33, 1),
+          text: 'OK',
+          pressEvent: () {
+            dialog.dissmiss();
+            // NavigationRouter.switchToServiceUserBottomBar(context);
+            // Navigator.pop(context);
           }),
     )..show();
   }
@@ -198,7 +301,7 @@ class DialogHelper {
                             ),
                             color: Colors.lime,
                             onPressed: () {
-                              //Navigator.pop(context);
+                              // Navigator.pop(context);
                               _sharedPreferences.then((value) {
                                 value.setBool('isUserVerified', true);
                               });
@@ -225,19 +328,20 @@ class DialogHelper {
                   left: 50,
                   child: CircleAvatar(
                     backgroundColor: Colors.white70,
-                    maxRadius: MediaQuery.of(context).size.width * 0.11,
+                    maxRadius: MediaQuery.of(context).size.width * 0.13,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.20,
-                      height: MediaQuery.of(context).size.height * 0.15,
+                      child: SvgPicture.asset(
+                        "assets/images_gps/correct.svg",
+                        // height: 5.0,
+                        // width: 5.0,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.23,
+                      height: MediaQuery.of(context).size.height * 0.18,
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey[300]),
                         shape: BoxShape.circle,
                         color: Colors.white,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images_gps/correct.png'),
-                          fit: BoxFit.none,
-                        ),
                       ),
                     ),
                   ),
@@ -1211,7 +1315,6 @@ class DialogHelper {
           );
         });
   }
-
 
   // Delete sub address service user
   static void showDeleteSubAddressDialog(BuildContext context) {

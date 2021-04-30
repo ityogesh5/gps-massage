@@ -565,7 +565,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             NavigationRouter.switchToServiceUserBottomBarFavourite(context);
           },
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
         ),
       ),

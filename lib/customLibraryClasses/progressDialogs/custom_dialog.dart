@@ -15,15 +15,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:synchronized/synchronized.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
-    Key navigatorKey,
+    Key key,
     this.child,
     this.insetAnimationDuration = const Duration(milliseconds: 100),
     this.insetAnimationCurve = Curves.decelerate,
     this.shape,
-  }) : super(key: navigatorKey);
+  }) : super(key: key);
 
   /// The widget below this widget in the tree.
   ///
@@ -99,6 +98,11 @@ class ProgressDialog {
   var lock = Lock();
   Timer _timer;
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+  }
+
   Future<void> dismissProgressDialog(BuildContext context) async {
     _timer?.cancel();
     await lock.synchronized(() async {
@@ -109,7 +113,7 @@ class ProgressDialog {
       }
       isDismissed = true;
       //Navigator.of(context).pop();
-      Navigator.of(context, rootNavigator: true).pop(isDismissed);
+      Navigator.of(context, rootNavigator: true).pop();
 
       //Navigator.of(context, nullOk: true).pop(true);
       //Navigator.of(context).pop();

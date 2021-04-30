@@ -102,7 +102,8 @@ class _SearchWithoutRegisterState extends State<SearchWithoutRegister> {
                                 contentPadding: EdgeInsets.all(4.0),
                                 filled: true,
                                 fillColor: Colors.white,
-                                hintText: HealingMatchConstants.searchKeyword,
+                                hintText:
+                                    HealingMatchConstants.searchKeywordHint,
                                 suffixIcon: Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Image.asset(

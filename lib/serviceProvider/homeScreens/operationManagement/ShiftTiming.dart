@@ -980,6 +980,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                     onTimeChange: (time) {
                       setState(() {
                         _dateTime = time;
+                        print("$_dateTime");
                       });
                     },
                   )),

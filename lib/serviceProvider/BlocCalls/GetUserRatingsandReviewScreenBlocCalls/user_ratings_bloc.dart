@@ -3,6 +3,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewa
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/GetUserRatingsandReviewScreenBlocCalls/user_ratings_state.dart';
 import 'package:meta/meta.dart';
+
 import 'Repository/user_ratings_review_repository.dart';
 
 class UserReviewBloc extends Bloc<UserReviewEvent, UserReviewState> {
@@ -18,7 +19,7 @@ class UserReviewBloc extends Bloc<UserReviewEvent, UserReviewState> {
     if (event is FetchUserReviewEvent) {
       yield GetUserReviewLoaderState();
       try {
-        List<UserList> getUsersRatings =
+        List<UserReviewList> getUsersRatings =
             await getUserReviewRepository.getUserReviewById(event.accessToken,
                 event.userId, event.pageNumber, event.pageSize);
         yield GetUserReviewLoadedState(getUsersRatings: getUsersRatings);

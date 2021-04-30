@@ -5,6 +5,8 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -17,6 +19,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -24,23 +27,6 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-  /*List<Address> addressFromJson(String str) =>
-      List<Address>.from(json.decode(str).map((x) => Address.fromJson(x)));
-
-  String addressToJson(List<Address> data) =>
-      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-  void saveData(String key, List<Address> value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, addressToJson(value));
-  }
-
-  Future<List<Address>> getData(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    String keyString = prefs.getString(key);
-    return Future.value(addressFromJson(keyString));
-  }*/
-
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
   bool passwordVisibility = true;
@@ -451,7 +437,7 @@ class _UserLoginState extends State<UserLogin> {
         content: Row(
           children: [
             Flexible(
-              child: Text('正しい電話番号とパスワードを入力してください。',
+              child: Text('正しいパスワードを入力してください。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -472,7 +458,7 @@ class _UserLoginState extends State<UserLogin> {
     }
 
     try {
-      ProgressDialogBuilder.showLoginUserProgressDialog(context);
+      ProgressDialogBuilder.showOverlayLoader(context);
 
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
@@ -538,7 +524,8 @@ class _UserLoginState extends State<UserLogin> {
             value.setBool('userLoginSkipped', false);
             value.setBool('isProviderLoggedIn', false);
 
-            print('Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
+            print(
+                'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
           }
 
           print('ID: ${loginResponseModel.data.id}');
@@ -555,10 +542,10 @@ class _UserLoginState extends State<UserLogin> {
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else {
-          ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+          ProgressDialogBuilder.hideLoader(context);
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -568,12 +555,12 @@ class _UserLoginState extends State<UserLogin> {
           return;
         }
       } else {
-        ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      ProgressDialogBuilder.hideLoginUserProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }

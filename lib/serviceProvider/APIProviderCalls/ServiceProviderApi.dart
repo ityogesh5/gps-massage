@@ -10,7 +10,7 @@ class ServiceProviderApi {
       getTherapistReviewById(int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/mobileReview/userReviewListById'; //?page=$pageNumber&size=$pageSize';
+          'http://106.51.49.160:9094/api/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -40,7 +40,7 @@ class ServiceProviderApi {
       int pageNumber, int pageSize) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/review/userReviewMobileListbyId'; //?page=$pageNumber&size=$pageSize';
+          'http://106.51.49.160:9094/api/mobileReview/userReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -48,7 +48,7 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "userId": '1', //HealingMatchConstants.serviceUserId,
+            "userId": '20', //HealingMatchConstants.serviceUserId,
           }));
       print(
           'Therapist repo token :${HealingMatchConstants.accessToken} : UserId  : ${HealingMatchConstants.serviceUserId}');
@@ -71,7 +71,7 @@ class ServiceProviderApi {
       double rating, String review) async {
     try {
       final url =
-          'http://106.51.49.160:9094/api/review/userReviewCreate'; //?page=$pageNumber&size=$pageSize';
+          'http://106.51.49.160:9094/api/mobileReview/createUserReview'; /* 'http://106.51.49.160:9094/api/review/createUserReview'; */
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -79,12 +79,12 @@ class ServiceProviderApi {
       final response = await http.post(url,
           headers: headers,
           body: json.encode({
-            "userId": '1',//HealingMatchConstants.serviceUserId,
-            "therapistId": HealingMatchConstants.userId,
-            "ratingsCount":rating,
-            "reviewComment":review,
+            "userId": '20', //HealingMatchConstants.serviceUserId,
+            "ratingsCount": rating,
+            "reviewComment": review,
           }));
-       if (response.statusCode == 200) {
+      print('$response');
+      if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         UserReviewCreateResponseModel usersReview =
             UserReviewCreateResponseModel.fromJson(userData);

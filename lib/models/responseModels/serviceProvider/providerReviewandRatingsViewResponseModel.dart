@@ -4,88 +4,98 @@
 
 import 'dart:convert';
 
-ProviderReviewandRatingsViewResponseModel providerReviewandRatingsViewResponseModelFromJson(String str) => ProviderReviewandRatingsViewResponseModel.fromJson(json.decode(str));
+ProviderReviewandRatingsViewResponseModel
+    providerReviewandRatingsViewResponseModelFromJson(String str) =>
+        ProviderReviewandRatingsViewResponseModel.fromJson(json.decode(str));
 
-String providerReviewandRatingsViewResponseModelToJson(ProviderReviewandRatingsViewResponseModel data) => json.encode(data.toJson());
+String providerReviewandRatingsViewResponseModelToJson(
+        ProviderReviewandRatingsViewResponseModel data) =>
+    json.encode(data.toJson());
 
 class ProviderReviewandRatingsViewResponseModel {
-    ProviderReviewandRatingsViewResponseModel({
-        this.status,
-        this.userData,
-    });
+  ProviderReviewandRatingsViewResponseModel({
+    this.status,
+    this.therapistsData,
+  });
 
-    String status;
-    UserData userData;
+  String status;
+  TherapistsData therapistsData;
 
-    factory ProviderReviewandRatingsViewResponseModel.fromJson(Map<String, dynamic> json) => ProviderReviewandRatingsViewResponseModel(
+  factory ProviderReviewandRatingsViewResponseModel.fromJson(
+          Map<String, dynamic> json) =>
+      ProviderReviewandRatingsViewResponseModel(
         status: json["status"],
-        userData: UserData.fromJson(json["userData"]),
-    );
+        therapistsData: TherapistsData.fromJson(json["therapistsData"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
-        "userData": userData.toJson(),
-    };
+        "therapistsData": therapistsData.toJson(),
+      };
 }
 
-class UserData {
-    UserData({
-        this.totalElements,
-        this.userList,
-        this.totalPages,
-        this.pageNumber,
-    });
+class TherapistsData {
+  TherapistsData({
+    this.totalElements,
+    this.therapistReviewList,
+    this.totalPages,
+    this.pageNumber,
+  });
 
-    int totalElements;
-    List<UserList> userList;
-    int totalPages;
-    int pageNumber;
+  int totalElements;
+  List<TherapistReviewList> therapistReviewList;
+  int totalPages;
+  int pageNumber;
 
-    factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+  factory TherapistsData.fromJson(Map<String, dynamic> json) => TherapistsData(
         totalElements: json["totalElements"],
-        userList: List<UserList>.from(json["userList"].map((x) => UserList.fromJson(x))),
+        therapistReviewList: List<TherapistReviewList>.from(
+            json["therapistReviewList"]
+                .map((x) => TherapistReviewList.fromJson(x))),
         totalPages: json["totalPages"],
         pageNumber: json["pageNumber"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "totalElements": totalElements,
-        "userList": List<dynamic>.from(userList.map((x) => x.toJson())),
+        "therapistReviewList":
+            List<dynamic>.from(therapistReviewList.map((x) => x.toJson())),
         "totalPages": totalPages,
         "pageNumber": pageNumber,
-    };
+      };
 }
 
-class UserList {
-    UserList({
-        this.id,
-        this.userId,
-        this.therapistId,
-        this.ratingsId,
-        this.isReviewStatus,
-        this.ratingsCount,
-        this.reviewComment,
-        this.createdUser,
-        this.updatedUser,
-        this.createdAt,
-        this.updatedAt,
-        this.userName,
-    });
+class TherapistReviewList {
+  TherapistReviewList({
+    this.id,
+    this.userId,
+    this.therapistId,
+    this.ratingsId,
+    this.isReviewStatus,
+    this.ratingsCount,
+    this.reviewComment,
+    this.createdUser,
+    this.updatedUser,
+    this.createdAt,
+    this.updatedAt,
+    this.reviewUserId,
+  });
 
-    int id;
-    int userId;
-    int therapistId;
-    dynamic ratingsId;
-    bool isReviewStatus;
-    int ratingsCount;
-    String reviewComment;
-    String createdUser;
-    String updatedUser;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String userName;
+  int id;
+  int userId;
+  int therapistId;
+  dynamic ratingsId;
+  bool isReviewStatus;
+  int ratingsCount;
+  String reviewComment;
+  String createdUser;
+  String updatedUser;
+  DateTime createdAt;
+  DateTime updatedAt;
+  ReviewUserId reviewUserId;
 
-    factory UserList.fromJson(Map<String, dynamic> json) => UserList(
+  factory TherapistReviewList.fromJson(Map<String, dynamic> json) =>
+      TherapistReviewList(
         id: json["id"],
         userId: json["userId"],
         therapistId: json["therapistId"],
@@ -97,10 +107,10 @@ class UserList {
         updatedUser: json["updatedUser"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        userName: json["userName"],
-    );
+        reviewUserId: ReviewUserId.fromJson(json["reviewUserId"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
         "therapistId": therapistId,
@@ -112,6 +122,34 @@ class UserList {
         "updatedUser": updatedUser,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "reviewUserId": reviewUserId.toJson(),
+      };
+}
+
+class ReviewUserId {
+  ReviewUserId({
+    this.id,
+    this.userId,
+    this.userName,
+    this.uploadProfileImgUrl,
+  });
+
+  int id;
+  String userId;
+  String userName;
+  dynamic uploadProfileImgUrl;
+
+  factory ReviewUserId.fromJson(Map<String, dynamic> json) => ReviewUserId(
+        id: json["id"],
+        userId: json["userId"],
+        userName: json["userName"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
         "userName": userName,
-    };
+        "uploadProfileImgUrl": uploadProfileImgUrl,
+      };
 }

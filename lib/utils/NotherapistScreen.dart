@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
-
-
-class NoTherapists extends StatefulWidget{
+class NoTherapists extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _NoTherapistsState();
   }
-
 }
 
-class _NoTherapistsState extends State<NoTherapists>{
+class _NoTherapistsState extends State<NoTherapists> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,15 +43,12 @@ class _NoTherapistsState extends State<NoTherapists>{
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         child: new Container(
                             width: 80.0,
                             height: 80.0,
                             decoration: new BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black12),
+                              border: Border.all(color: Colors.black12),
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                                   fit: BoxFit.fill,
@@ -86,5 +80,4 @@ class _NoTherapistsState extends State<NoTherapists>{
       ),
     );
   }
-
 }

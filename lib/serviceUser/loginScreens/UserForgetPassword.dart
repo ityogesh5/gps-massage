@@ -57,19 +57,35 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
               child: Container(
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FittedBox(
                       child: Text(
-                        HealingMatchConstants.userPasswordTxt,
+                        HealingMatchConstants.userPasswordTxt1,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
                             fontFamily: 'NotoSansJP',
-                            color: Colors.grey),
+                            color: Color.fromRGBO(102, 102, 102, 1)),
+                      ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        HealingMatchConstants.userPasswordTxt2,
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            color: Color.fromRGBO(102, 102, 102, 1)),
+                      ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        HealingMatchConstants.userPasswordTxt3,
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            color: Color.fromRGBO(102, 102, 102, 1)),
                       ),
                     ),
                     SizedBox(
-                      height: 18,
+                      height: 16,
                     ),
                     TextFormField(
                       maxLength: 10,
@@ -100,11 +116,11 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                       ),
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 21,
                     ),
                     Container(
                       width: double.infinity,
-                      height: 50,
+                      height: 41,
                       child: RaisedButton(
                         child: Text(
                           HealingMatchConstants.userForgetPassBtn,
@@ -113,7 +129,7 @@ class _UserForgetPasswordState extends State<UserForgetPassword> {
                               fontFamily: 'NotoSansJP',
                               fontSize: 20),
                         ),
-                        color: Colors.lime,
+                        color: Color.fromRGBO(200, 217, 33, 1),
                         onPressed: () {
                           _userForgetPasswordDetails();
                         },

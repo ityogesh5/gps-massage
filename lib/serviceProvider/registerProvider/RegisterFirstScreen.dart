@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -17,6 +18,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:gps_massageapp/utils/text_field_custom.dart';
+
+import 'package:toast/toast.dart';
 
 class RegisterProviderFirstScreen extends StatefulWidget {
   @override
@@ -116,7 +119,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       coronaMeasures,
       genderTreatment,
       gender,
-      registrationAddressType,
       myCity,
       myState;
 
@@ -1303,7 +1305,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       obscureText: passwordConfirmVisibility,
                       style: HealingMatchConstants.formTextStyle,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(4.0),
+                        contentPadding: EdgeInsets.all(16.0),
                         /* labelText:
                               HealingMatchConstants.registrationConfirmPassword,
                           labelStyle: HealingMatchConstants.formLabelTextStyle, */
@@ -1340,246 +1342,218 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                       ),
                     ),
                   )),
-              SizedBox(
-                height: sizedBoxFormHeight,
-              ),
-              Container(
-                height: containerHeight,
-                width: containerWidth,
-                /*  decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                color: Colors.black12,
-                                                                border: Border.all(color: Colors.black12)), */
-                child: DropDownFormField(
-                  requiredField: true,
-                  hintText: '検索地点の登録',
-                  value: registrationAddressType,
-                  onSaved: (value) {
-                    setState(() {
-                      registrationAddressType = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    if (value == "現在地を取得する") {
-                      setState(() {
-                        gpsAddressController.clear();
-                        registrationAddressType = value;
-                        showAddressField = true;
-                        visible = true; // !visible;
-                        //_getCurrentLocation();
-                      });
-                    } else {
-                      setState(() {
-                        registrationAddressType = value;
-                        showAddressField = true;
-                        visible = false;
-                      });
-                    }
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  },
-                  dataSource: registrationAddressTypeDropDownValues,
-                  isList: true,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              Visibility(
-                visible: showAddressField,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      width: containerWidth,
-                      child: Text(
-                        HealingMatchConstants.registrationIndividualText,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: ColorConstants.formHintTextColor,
-                        ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                    width: containerWidth,
+                    child: Text(
+                      HealingMatchConstants.registrationIndividualText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: ColorConstants.formHintTextColor,
                       ),
                     ),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                        height: 60.0, //containerHeight,
-                        width: size.width * 0.8,
-                        child: Theme(
-                          data: Theme.of(context)
-                              .copyWith(splashColor: Colors.black12),
-                          child: visible
-                              ? TextFormField(
-                                  controller: gpsAddressController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  decoration: InputDecoration(
-                                    labelText: "現在地を取得する",
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    suffixIcon: IconButton(
-                                      icon: Icon(Icons.location_on, size: 28),
-                                      onPressed: () {
-                                        setState(() {
-                                          _changeProgressText = true;
-                                          print(
-                                              'location getting.... : $_changeProgressText');
-                                        });
-                                        _getCurrentLocation();
-                                      },
-                                    ),
-                                  ),
-                                )
-                              : TextFormField(
-                                  controller: manualAddressController,
-                                  style: HealingMatchConstants.formTextStyle,
-                                  decoration: InputDecoration(
-                                    labelText: "丁目, 番地",
-                                    labelStyle: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                    filled: true,
-                                    fillColor:
-                                        ColorConstants.formFieldFillColor,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                  ),
+                  ),
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                      height: 60.0, //containerHeight,
+                      width: containerWidth,
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(splashColor: Colors.black12),
+                        child: TextFieldCustom(
+                          controller: manualAddressController,
+                          style: HealingMatchConstants.formTextStyle,
+                          decoration: InputDecoration(
+                            /*  labelText: "丁目, 番地",
+                            labelStyle:
+                                HealingMatchConstants.formLabelTextStyle, */
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
+                          labelText: Text.rich(
+                            TextSpan(
+                              text: "丁目, 番地",
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
                                 ),
-                        )),
-                    !visible
-                        ? Column(
+                              ],
+                              style: HealingMatchConstants.formLabelTextStyle,
+                            ),
+                          ),
+                        ),
+                      )),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: sizedBoxFormHeight,
+                      ),
+                      Container(
+                          width: containerWidth,
+                          child: Row(
                             children: [
-                              SizedBox(
-                                height: sizedBoxFormHeight,
-                              ),
-                              Container(
-                                  width: size.width * 0.8,
-                                  child: Row(
+                              Expanded(
+                                child: Form(
+                                  key: statekey,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Form(
-                                          key: statekey,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.all(0.0),
-                                                //    width: MediaQuery.of(context).size.width * 0.33,
+                                      Container(
+                                        margin: EdgeInsets.all(0.0),
+                                        //    width: MediaQuery.of(context).size.width * 0.33,
 
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText: readonly
-                                                      ? myState
-                                                      : '都、県選択',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myState = value;
-                                                    });
-                                                  },
-                                                  value: myState,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myState = value;
+                                        child: DropDownFormField(
+                                          titleText: null,
+                                          hintText:
+                                              readonly ? myState : '都、県選択',
+                                          onSaved: (value) {
+                                            setState(() {
+                                              myState = value;
+                                            });
+                                          },
+                                          value: myState,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              myState = value;
 
-                                                      _prefid =
-                                                          stateDropDownValues
-                                                                  .indexOf(
-                                                                      value) +
-                                                              1;
-                                                      print(
-                                                          'prefID : ${_prefid.toString()}');
-                                                      cityDropDownValues
-                                                          .clear();
-                                                      myCity = '';
-                                                      _getCityDropDown(_prefid);
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      stateDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.all(0.0),
-                                          child: DropDownFormField(
-                                            titleText: null,
-                                            hintText: readonly ? myCity : '市',
-                                            onSaved: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                              });
-                                            },
-                                            value: myCity,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                myCity = value;
-                                                FocusScope.of(context)
-                                                    .requestFocus(
-                                                        new FocusNode());
-                                              });
-                                            },
-                                            dataSource: cityDropDownValues,
-                                            isList: true,
-                                            textField: 'display',
-                                            valueField: 'value',
-                                          ),
+                                              _prefid = stateDropDownValues
+                                                      .indexOf(value) +
+                                                  1;
+                                              print(
+                                                  'prefID : ${_prefid.toString()}');
+                                              cityDropDownValues.clear();
+                                              myCity = '';
+                                              _getCityDropDown(_prefid);
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                            });
+                                          },
+                                          dataSource: stateDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value',
                                         ),
                                       ),
                                     ],
-                                  )),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(0.0),
+                                  child: DropDownFormField(
+                                    titleText: null,
+                                    hintText: readonly ? myCity : '市',
+                                    onSaved: (value) {
+                                      setState(() {
+                                        myCity = value;
+                                      });
+                                    },
+                                    value: myCity,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        myCity = value;
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                      });
+                                    },
+                                    dataSource: cityDropDownValues,
+                                    isList: true,
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
+                              ),
                             ],
-                          )
-                        : Container(),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      height: containerHeight,
-                      width: size.width * 0.8,
-                      //margin: EdgeInsets.all(16.0),
-                      //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Row(
-                        children: [
-                          Expanded(
+                          )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: sizedBoxFormHeight,
+                  ),
+                  Container(
+                    height: containerHeight,
+                    width: containerWidth,
+                    //margin: EdgeInsets.all(16.0),
+                    //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Theme(
+                          data: Theme.of(context)
+                              .copyWith(splashColor: Colors.black12),
+                          child: TextFieldCustom(
+                            controller: buildingNameController,
+                            style: HealingMatchConstants.formTextStyle,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(16.0),
+                              /*  labelText: HealingMatchConstants
+                                    .registrationBuildingName,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
+                            labelText: Text.rich(
+                              TextSpan(
+                                text: HealingMatchConstants
+                                    .registrationBuildingName,
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  ),
+                                ],
+                                style: HealingMatchConstants.formLabelTextStyle,
+                              ),
+                            ),
+                          ),
+                        )),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Expanded(
+                          child: Container(
                               child: Theme(
                             data: Theme.of(context)
                                 .copyWith(splashColor: Colors.black12),
                             child: TextFieldCustom(
-                              controller: buildingNameController,
+                              controller: roomNumberController,
                               style: HealingMatchConstants.formTextStyle,
+                              keyboardType: TextInputType.text,
+                              maxLengthEnforced: true,
+                              maxLength: 4,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(16.0),
-                                /*  labelText: HealingMatchConstants
-                                      .registrationBuildingName,
-                                  labelStyle:
-                                      HealingMatchConstants.formLabelTextStyle, */
+                                counterText: "",
+                                /*  labelText:
+                                    HealingMatchConstants.registrationRoomNo,
+                                labelStyle:
+                                    HealingMatchConstants.formLabelTextStyle, */
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
                                 focusedBorder:
@@ -1589,8 +1563,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                               labelText: Text.rich(
                                 TextSpan(
-                                  text: HealingMatchConstants
-                                      .registrationBuildingName,
+                                  text:
+                                      HealingMatchConstants.registrationRoomNo,
                                   children: <InlineSpan>[
                                     TextSpan(
                                       text: '*',
@@ -1604,57 +1578,11 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               ),
                             ),
                           )),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Expanded(
-                            child: Container(
-                                child: Theme(
-                              data: Theme.of(context)
-                                  .copyWith(splashColor: Colors.black12),
-                              child: TextFieldCustom(
-                                controller: roomNumberController,
-                                style: HealingMatchConstants.formTextStyle,
-                                keyboardType: TextInputType.text,
-                                maxLengthEnforced: true,
-                                maxLength: 4,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16.0),
-                                  counterText: "",
-                                 /*  labelText:
-                                      HealingMatchConstants.registrationRoomNo,
-                                  labelStyle:
-                                      HealingMatchConstants.formLabelTextStyle, */
-                                  filled: true,
-                                  fillColor: ColorConstants.formFieldFillColor,
-                                  focusedBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                  enabledBorder:
-                                      HealingMatchConstants.textFormInputBorder,
-                                ),
-                                labelText: Text.rich(
-                                  TextSpan(
-                                    text: HealingMatchConstants
-                                        .registrationRoomNo,
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                        text: '*',
-                                        style: HealingMatchConstants
-                                            .formHintTextStyleStar,
-                                      ),
-                                    ],
-                                    style: HealingMatchConstants
-                                        .formLabelTextStyle,
-                                  ),
-                                ),
-                              ),
-                            )),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: sizedBoxFormHeight,
@@ -1737,56 +1665,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      var latitude = _currentPosition.latitude;
-      var longitude = _currentPosition.longitude;
-      setState(() {
-        _currentAddress =
-            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
-        // print('Place Json : ${place.toJson()}');
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress : $latitude : $longitude');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceProviderCurrentLatitude = latitude;
-          HealingMatchConstants.serviceProviderCurrentLongitude = longitude;
-          HealingMatchConstants.serviceProviderCity = place.locality;
-          HealingMatchConstants.serviceProviderPrefecture =
-              place.administrativeArea;
-          HealingMatchConstants.serviceProviderArea = place.country;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var password = passwordController.text.toString();
@@ -1796,11 +1674,9 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
-    var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
-    var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
     var genderSelecetedValue = gender;
     var businessFormVal = bussinessForm;
@@ -2204,42 +2080,8 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       return;
     }
 
-    //addressType validation
-    if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content:
-            Text('検索地点を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return null;
-    }
-
-    //gps address Validation
-    if ((_myAddressInputType == "現在地を取得する") &&
-        (address == null || address.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
-            style: TextStyle(fontFamily: 'NotoSansJP')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
     //manual address Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (manualAddresss == null || manualAddresss.isEmpty)) {
+    if ((manualAddresss == null || manualAddresss.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2255,8 +2097,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //prefecture Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myState == null || myState.isEmpty)) {
+    if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2272,8 +2113,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //city validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myCity == null || myCity.isEmpty)) {
+    if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2294,6 +2134,22 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    //building Length Validation
+    if (buildingname.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('建物名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2346,7 +2202,6 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
     HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
     HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
     HealingMatchConstants.serviceProviderBuildingName = buildingname;
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
     HealingMatchConstants.serviceProviderPassword = passwordController.text;
@@ -2366,41 +2221,54 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
     ProgressDialogBuilder.showCommonProgressDialog(context);
-    // Getting user GPS Address value
-    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する' &&
-        _isGPSLocation) {
-      HealingMatchConstants.serviceProviderAddress = address;
-      print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else //if (HealingMatchConstants.serviceProviderAddress.isEmpty) {
-    {
-      String address = roomnumber +
-          ',' +
-          buildingname +
-          ',' +
-          manualAddresss +
-          ',' +
-          myCity +
-          ',' +
-          myState;
-      List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
-      var userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
+
+    String address = roomnumber +
+        ',' +
+        buildingname +
+        ',' +
+        manualAddresss +
+        ',' +
+        myCity +
+        ',' +
+        myState;
+    String query =    Platform.isIOS?  myCity +
+        ',' +
+        myState :address;
+    try {
+      
+      List<Location> locations = 
+          await locationFromAddress(query, localeIdentifier:  "ja_JP" );
       HealingMatchConstants.serviceProviderCurrentLatitude =
-          addressPosition.latitude;
+          locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude }");
       HealingMatchConstants.serviceProviderCurrentLongitude =
-          addressPosition.longitude;
-      /* HealingMatchConstants.serviceProviderCity =
-          userAddedAddressPlaceMark.locality;
-       HealingMatchConstants.serviceProviderPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;*/
-      HealingMatchConstants.serviceProviderAddress = address;
+          locations[0].longitude;
+             print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude }");
+    
+       HealingMatchConstants.serviceProviderAddress = address;
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;
-      HealingMatchConstants.serviceProviderArea = myCity;
-    }
-    ProgressDialogBuilder.hideCommonProgressDialog(context);
+      HealingMatchConstants.serviceProviderArea = manualAddresss;
+      HealingMatchConstants.serviceProviderCityID =
+          cityDropDownValues.indexOf(myCity) + 1;
+      HealingMatchConstants.serviceProviderPrefectureID =
+          stateDropDownValues.indexOf(myState) + 1;
+           Toast.show("Address Success ${locations[0].latitude} , ${locations[0].longitude}", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.lime,
+          textColor: Colors.white);
+          ProgressDialogBuilder.hideCommonProgressDialog(context);
     NavigationRouter.switchToServiceProviderSecondScreen(context);
+    } catch (e) {
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+       Toast.show("Address not got ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    }
+    
   }
 
   void _showPicker(context) {

@@ -1079,6 +1079,21 @@ class _RegistrationSecondPageState
       return;
     } */
 
+    if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な銀行名を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
     if (branchCodeController.text != null || branchCodeController.text != '') {
       if (branchCodeController.text.length > 20) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -1221,9 +1236,12 @@ class _RegistrationSecondPageState
           : '',
       'isTherapist': '1',
       'buildingName': HealingMatchConstants.serviceProviderBuildingName,
-      'addressTypeSelection': HealingMatchConstants.serviceProviderAddressType,
+      'addressTypeSelection': "直接入力",
       'address': HealingMatchConstants.serviceProviderAddress,
       'capitalAndPrefecture': HealingMatchConstants.serviceProviderPrefecture,
+      'capitalAndPrefectureId':
+          HealingMatchConstants.serviceProviderPrefectureID.toString(),
+      'citiesId': HealingMatchConstants.serviceProviderCityID.toString(),
       'cityName': HealingMatchConstants.serviceProviderCity,
       'area': HealingMatchConstants.serviceProviderArea,
       'lat': HealingMatchConstants.serviceProviderCurrentLatitude.toString(),

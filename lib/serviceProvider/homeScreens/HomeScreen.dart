@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:date_util/date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,7 +48,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   int _lastday;
   int _counter = 0;
   int daysToDisplay;
-
+  List<FlutterWeekViewEvent> flutterWeekEvents = List<FlutterWeekViewEvent>();
   int status = 0;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -56,7 +57,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   void initState() {
     super.initState();
-  //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     getProviderDetails();
     dateString = '';
     displayDay = today;
@@ -67,9 +68,102 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
+    addEvents();
     setState(() {
       print(daysToDisplay);
     });
+  }
+
+  addEvents() {
+    DateTime date = DateTime(today.year, today.month, today.day);
+    DateTime next = DateTime(today.year, today.month, today.day + 1);
+    flutterWeekEvents.add(FlutterWeekViewEvent(
+      title: 'AKさん (男性) ',
+      description: '0',
+      start: date.add(const Duration(hours: 9)),
+      margin: EdgeInsets.only(left: 8.0, right: 8.0),
+      textStyle: TextStyle(color: Colors.black),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          shape: BoxShape
+              .rectangle /* (
+                                                                           borderRadius: new BorderRadius.circular(10.0)), */
+          ),
+      end: date.add(
+        const Duration(hours: 10, minutes: 00),
+      ),
+      /* eventTextBuilder: (event, a, b, c, d) {
+                                                                                                   return Text('a');
+                                                                                                 } */
+    ));
+    flutterWeekEvents.add(
+      FlutterWeekViewEvent(
+        title: 'AKさん (男性)',
+        description: '1',
+        start: date.add(const Duration(hours: 13)),
+        end: date.add(const Duration(hours: 14)),
+        textStyle: TextStyle(color: Colors.black),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            shape: BoxShape
+                .rectangle /* (
+                                                                           borderRadius: new BorderRadius.circular(10.0)), */
+            ),
+      ),
+    );
+    /*  FlutterWeekViewEvent(
+                                                title: 'An event 3',
+                                                description: 'A description 3',
+                                                start: date.add(const Duration(
+                                                    hours: 13, minutes: 30)),
+                                                end: date.add(const Duration(
+                                                    hours: 15, minutes: 30)),
+                                              ),
+                                               */
+    flutterWeekEvents.add(FlutterWeekViewEvent(
+      title: 'AKさん (男性)',
+      description: '1',
+      start: date.add(const Duration(hours: 15)),
+      end: date.add(const Duration(hours: 16)),
+      textStyle: TextStyle(color: Colors.black),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          shape: BoxShape
+              .rectangle /* (
+                                                                           borderRadius: new BorderRadius.circular(10.0)), */
+          ),
+    ));
+    flutterWeekEvents.add(FlutterWeekViewEvent(
+      title: 'AKさん (男性)',
+      description: '0',
+      start: next.add(const Duration(hours: 13)),
+      end: next.add(const Duration(hours: 14)),
+      textStyle: TextStyle(color: Colors.black),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          shape: BoxShape
+              .rectangle /* (
+                                                                           borderRadius: new BorderRadius.circular(10.0)), */
+          ),
+    ));
+    flutterWeekEvents.add(FlutterWeekViewEvent(
+      title: 'AKさん (男性)',
+      description: '1',
+      start: next.add(const Duration(hours: 10)),
+      end: next.add(const Duration(hours: 12)),
+      textStyle: TextStyle(color: Colors.black),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          shape: BoxShape
+              .rectangle /* (
+                                                                           borderRadius: new BorderRadius.circular(10.0)), */
+          ),
+    ));
   }
 
   @override
@@ -175,6 +269,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
+                                                  color: Colors.white,
                                                   border: Border.all(
                                                     color: Colors.grey[400],
                                                   ),
@@ -184,8 +279,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                       const EdgeInsets.all(8.0),
                                                   child: SvgPicture.asset(
                                                     "assets/images_gps/info.svg",
-                                                    height: 15.0,
-                                                    width: 15.0,
+                                                    height: 10.0,
+                                                    width: 10.0,
                                                     key: key,
                                                     color: Colors.black,
                                                   ),
@@ -266,7 +361,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                           EdgeInsets.all(8),
                                                       decoration: boxDecoration,
                                                       child: Text(
-                                                        'コロ才対策実施', //Corona Measure
+                                                        'コロナ対策実施', //Corona Measure
                                                         style: TextStyle(
                                                           fontSize: 9,
                                                           color: Colors.black,
@@ -877,29 +972,37 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                           SizedBox(width: 20),
                           Padding(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: Color.fromRGBO(228, 228, 228, 1),
-                                  )),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        NavigationRouter.switchToProviderCalendarScreen(context);
-                                      },
-                                      child: SvgPicture.asset(
-                                        "assets/images_gps/calendar.svg",
-                                        height: 25.0,
-                                        width: 25.0,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 8.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                      color: Color.fromRGBO(228, 228, 228, 1),
+                                    )),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          NavigationRouter
+                                              .switchToProviderCalendarScreen(
+                                                  context);
+                                        },
+                                        child: SvgPicture.asset(
+                                          "assets/images_gps/calendar.svg",
+                                          height: 25.0,
+                                          width: 25.0,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -989,119 +1092,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               currentTimeRuleColor:
                                                   Colors.transparent,
                                               headerSize: 0.0),
-                                          events: [
-                                            FlutterWeekViewEvent(
-                                              title: 'AKさん (男性) ',
-                                              description: '0',
-                                              start: date.add(
-                                                  const Duration(hours: 9)),
-                                              margin: EdgeInsets.only(
-                                                  left: 8.0, right: 8.0),
-                                              textStyle: TextStyle(
-                                                  color: Colors.black),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  shape: BoxShape
-                                                      .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                                  ),
-                                              end: date.add(
-                                                const Duration(
-                                                    hours: 10, minutes: 00),
-                                              ),
-                                              /* eventTextBuilder: (event, a, b, c, d) {
-                                                                                                   return Text('a');
-                                                                                                 } */
-                                            ),
-                                            FlutterWeekViewEvent(
-                                              title: 'AKさん (男性)',
-                                              description: '1',
-                                              start: date.add(
-                                                  const Duration(hours: 13)),
-                                              end: date.add(
-                                                  const Duration(hours: 14)),
-                                              textStyle: TextStyle(
-                                                  color: Colors.black),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  shape: BoxShape
-                                                      .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                                  ),
-                                            ),
-                                            /*  FlutterWeekViewEvent(
-                                                title: 'An event 3',
-                                                description: 'A description 3',
-                                                start: date.add(const Duration(
-                                                    hours: 13, minutes: 30)),
-                                                end: date.add(const Duration(
-                                                    hours: 15, minutes: 30)),
-                                              ),
-                                               */
-                                            FlutterWeekViewEvent(
-                                              title: 'AKさん (男性)',
-                                              description: '1',
-                                              start: date.add(
-                                                  const Duration(hours: 15)),
-                                              end: date.add(
-                                                  const Duration(hours: 16)),
-                                              textStyle: TextStyle(
-                                                  color: Colors.black),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  shape: BoxShape
-                                                      .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                                  ),
-                                            ),
-                                            FlutterWeekViewEvent(
-                                              title: 'AKさん (男性)',
-                                              description: '0',
-                                              start: next.add(
-                                                  const Duration(hours: 13)),
-                                              end: next.add(
-                                                  const Duration(hours: 14)),
-                                              textStyle: TextStyle(
-                                                  color: Colors.black),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  shape: BoxShape
-                                                      .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                                  ),
-                                            ),
-                                            FlutterWeekViewEvent(
-                                              title: 'AKさん (男性)',
-                                              description: '1',
-                                              start: next.add(
-                                                  const Duration(hours: 10)),
-                                              end: next.add(
-                                                  const Duration(hours: 12)),
-                                              textStyle: TextStyle(
-                                                  color: Colors.black),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  shape: BoxShape
-                                                      .rectangle /* (
-                                                                           borderRadius: new BorderRadius.circular(10.0)), */
-                                                  ),
-                                            ),
-                                          ],
+                                          events: flutterWeekEvents,
                                         ),
                                       ),
                                     ),
@@ -1377,8 +1368,21 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     }
   }
 
+  showOverlayLoader() {
+    Loader.show(
+      context,
+      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
+    );
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+  }
+
   void getProviderDetails() async {
-    ProgressDialogBuilder.showCommonProgressDialog(context);
+    showOverlayLoader();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     userData =
         Data.fromJson(json.decode(sharedPreferences.getString("userData")));
@@ -1421,7 +1425,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     setState(() {
       status = 1;
     });
-    ProgressDialogBuilder.hideCommonProgressDialog(context);
+    hideLoader();
   }
 
   void showToolTip(String text) {

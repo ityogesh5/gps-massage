@@ -16,7 +16,7 @@ class GetUserReviewLoaderState extends UserReviewState {
 
 // ignore: must_be_immutable
 class GetUserReviewLoadedState extends UserReviewState {
-  List<UserList> getUsersRatings;
+  List<UserReviewList> getUsersRatings;
 
   GetUserReviewLoadedState({@required this.getUsersRatings});
 

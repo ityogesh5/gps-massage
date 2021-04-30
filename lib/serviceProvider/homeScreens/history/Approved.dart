@@ -265,19 +265,16 @@ class _ProviderApprovedScreenState extends State<ProviderApprovedScreen> {
                   NavigationRouter.switchToServiceProviderChatHistoryScreen(
                       context);
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Card(
+                  elevation: 4.0,
+                  shape: CircleBorder(),
+                  margin: EdgeInsets.all(0.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: SvgPicture.asset(
                       "assets/images_gps/providerChat.svg",
-                      height: 20.0,
-                      width: 20.0,
+                      height: 15.0,
+                      width: 15.0,
                     ),
                   ),
                 ),

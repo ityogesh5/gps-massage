@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,6 +24,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/providerPro
     as profileUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/stateList.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/utils/text_field_custom.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -142,7 +144,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       coronaMeasures,
       genderTreatment,
       gender,
-      registrationAddressType,
       myCity,
       myState;
 
@@ -488,10 +489,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 : storeTypeDisplayStatus = 0;
                           });
                         },
-                        child: TextFormField(
+                        child: TextFieldCustom(
                           enabled: false,
-                          initialValue:
-                              HealingMatchConstants.registrationStoretype,
+                          hintText: Text.rich(
+                            TextSpan(
+                              text: HealingMatchConstants.registrationStoretype,
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: '*',
+                                  style: HealingMatchConstants
+                                      .formHintTextStyleStar,
+                                ),
+                              ],
+                              style: HealingMatchConstants.formHintTextStyle,
+                            ),
+                          ),
+                          /*  initialValue:
+                              HealingMatchConstants.registrationStoretype, */
                           style: HealingMatchConstants.formHintTextStyle,
                           decoration: new InputDecoration(
                             focusedBorder:
@@ -848,22 +862,37 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                         child: Theme(
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
-                          child: TextFormField(
-                              enabled: false,
-                              controller: providerNameController,
-                              style: HealingMatchConstants.formTextStyle,
-                              decoration: InputDecoration(
-                                labelText:
-                                    HealingMatchConstants.editProfileName,
-                                labelStyle:
-                                    HealingMatchConstants.formLabelTextStyle,
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                              )),
+                          child: TextFieldCustom(
+                            enabled: false,
+                            controller: providerNameController,
+                            style: HealingMatchConstants.formTextStyle,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(16.0),
+                              /*  labelText: HealingMatchConstants.registrationName,
+                          labelStyle: HealingMatchConstants.formLabelTextStyle, */
+                              filled: true,
+                              fillColor: ColorConstants.formFieldFillColor,
+                              disabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              focusedBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                              enabledBorder:
+                                  HealingMatchConstants.textFormInputBorder,
+                            ),
+                            labelText: Text.rich(
+                              TextSpan(
+                                text: HealingMatchConstants.registrationName,
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  ),
+                                ],
+                                style: HealingMatchConstants.formLabelTextStyle,
+                              ),
+                            ),
+                          ),
                         )),
                     bussinessForm == "施術店舗あり 施術従業員あり" ||
                             bussinessForm == "施術店舗あり 施術従業員なし（個人経営）"
@@ -877,9 +906,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 HealingMatchConstants.registrationStoreTxt,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 11,
+                                  color: ColorConstants.formHintTextColor,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -891,23 +920,39 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                 child: Theme(
                                   data: Theme.of(context)
                                       .copyWith(splashColor: Colors.black12),
-                                  child: TextFormField(
-                                      controller: storeNameController,
-                                      style:
-                                          HealingMatchConstants.formTextStyle,
-                                      decoration: InputDecoration(
-                                        labelText: HealingMatchConstants
-                                            .editProfileStoreName,
-                                        labelStyle: HealingMatchConstants
+                                  child: TextFieldCustom(
+                                    controller: storeNameController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(16.0),
+                                      /*  labelText: HealingMatchConstants
+                                      .registrationStoreName,
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle, */
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationStoreName,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
                                             .formLabelTextStyle,
-                                        filled: true,
-                                        fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                        focusedBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        enabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 )),
                           ])
                         : Container(),
@@ -930,16 +975,31 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   onTap: () {
                                     //   _selectDate(context);
                                   },
-                                  child: TextFormField(
+                                  child: TextFieldCustom(
                                       enabled: false,
                                       controller: userDOBController,
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: HealingMatchConstants
+                                              .registrationDob,
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            ),
+                                          ],
+                                          style: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                        ),
+                                      ),
                                       style:
                                           HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
-                                          labelText: HealingMatchConstants
+                                          /*  labelText: HealingMatchConstants
                                               .editProfileDob,
                                           labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
+                                              .formLabelTextStyle, */
                                           filled: true,
                                           fillColor:
                                               ColorConstants.formFieldFillColor,
@@ -1013,6 +1073,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  Text(
+                                    '*',
+                                    style: HealingMatchConstants
+                                        .formHintTextStyleStar,
+                                  )
                                   // Text("*", style: TextStyle(color: Colors.red)),
                                 ],
                               ),
@@ -1069,6 +1134,8 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     HealingMatchConstants.formLabelTextStyle,
                                 filled: true,
                                 fillColor: ColorConstants.formFieldFillColor,
+                                disabledBorder:
+                                    HealingMatchConstants.textFormInputBorder,
                                 focusedBorder:
                                     HealingMatchConstants.textFormInputBorder,
                                 enabledBorder:
@@ -1118,11 +1185,12 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                           data: Theme.of(context)
                               .copyWith(splashColor: Colors.black12),
                           child: TextFormField(
-                              enabled: false,
+                              enabled: true,
                               controller: mailAddressController,
                               style: HealingMatchConstants.formTextStyle,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(16.0),
                                 labelText:
                                     HealingMatchConstants.editProfileMailAdress,
                                 labelStyle:
@@ -1135,302 +1203,257 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                     HealingMatchConstants.textFormInputBorder,
                               )),
                         )),
-                    SizedBox(
-                      height: sizedBoxFormHeight,
-                    ),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      /*  decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(10.0),
-                                                                        color: Colors.black12,
-                                                                        border: Border.all(color: Colors.black12)), */
-                      child: DropDownFormField(
-                        hintText: '検索地点の登録',
-                        value: registrationAddressType,
-                        onSaved: (value) {
-                          setState(() {
-                            registrationAddressType = value;
-                          });
-                        },
-                        onChanged: (value) {
-                          if (value == "現在地を取得する") {
-                            setState(() {
-                              gpsAddressController.clear();
-                              registrationAddressType = value;
-                              showAddressField = true;
-                              gpsAddressVisible = true; // !visible;
-                              _getCurrentLocation();
-                            });
-                          } else {
-                            setState(() {
-                              registrationAddressType = value;
-                              showAddressField = true;
-                              gpsAddressVisible = false;
-                            });
-                          }
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                        },
-                        dataSource: registrationAddressTypeDropDownValues,
-                        isList: true,
-                        textField: 'display',
-                        valueField: 'value',
-                      ),
-                    ),
-                    Visibility(
-                      visible: showAddressField,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: sizedBoxFormHeight,
-                          ),
-                          Container(
-                            width: containerWidth,
-                            child: Text(
-                              HealingMatchConstants.registrationIndividualText,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: ColorConstants.formHintTextColor,
-                              ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: sizedBoxFormHeight,
+                        ),
+                        Container(
+                          width: containerWidth,
+                          child: Text(
+                            HealingMatchConstants.registrationIndividualText,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: ColorConstants.formHintTextColor,
                             ),
                           ),
-                          SizedBox(
-                            height: sizedBoxFormHeight,
-                          ),
-                          Container(
-                              height: 60.0, //containerHeight,
-                              width: size.width * 0.8,
-                              child: Theme(
-                                data: Theme.of(context)
-                                    .copyWith(splashColor: Colors.black12),
-                                child: gpsAddressVisible
-                                    ? TextFormField(
-                                        controller: gpsAddressController,
-                                        style:
-                                            HealingMatchConstants.formTextStyle,
-                                        decoration: InputDecoration(
-                                          labelText: "現在地を取得する",
-                                          labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
-                                          filled: true,
-                                          fillColor:
-                                              ColorConstants.formFieldFillColor,
-                                          disabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          focusedBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          suffixIcon: IconButton(
-                                            icon: SvgPicture.asset(
-                                              "assets/images_gps/gps.svg",
-                                              height: iconHeight,
-                                              width: iconWidth,
-                                              color: iconColor,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                _changeProgressText = true;
-                                                print(
-                                                    'location getting.... : $_changeProgressText');
-                                              });
-                                              _getCurrentLocation();
-                                            },
-                                          ),
-                                        ),
-                                      )
-                                    : TextFormField(
-                                        controller: manualAddressController,
-                                        style:
-                                            HealingMatchConstants.formTextStyle,
-                                        decoration: InputDecoration(
-                                          labelText: "丁目, 番地",
-                                          labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
-                                          filled: true,
-                                          fillColor:
-                                              ColorConstants.formFieldFillColor,
-                                          disabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          focusedBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                        ),
+                        ),
+                        SizedBox(
+                          height: sizedBoxFormHeight,
+                        ),
+                        Container(
+                            height: 60.0, //containerHeight,
+                            width: containerWidth,
+                            child: Theme(
+                              data: Theme.of(context)
+                                  .copyWith(splashColor: Colors.black12),
+                              child: TextFieldCustom(
+                                controller: manualAddressController,
+                                style: HealingMatchConstants.formTextStyle,
+                                decoration: InputDecoration(
+                                  /*  labelText: "丁目, 番地",
+                                  labelStyle:
+                                      HealingMatchConstants.formLabelTextStyle,
+                                   */
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                labelText: Text.rich(
+                                  TextSpan(
+                                    text: "丁目, 番地",
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '*',
+                                        style: HealingMatchConstants
+                                            .formHintTextStyleStar,
                                       ),
-                              )),
-                          !gpsAddressVisible
-                              ? Column(
+                                    ],
+                                    style: HealingMatchConstants
+                                        .formLabelTextStyle,
+                                  ),
+                                ),
+                              ),
+                            )),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: sizedBoxFormHeight,
+                            ),
+                            Container(
+                                width: containerWidth,
+                                child: Row(
                                   children: [
-                                    SizedBox(
-                                      height: sizedBoxFormHeight,
-                                    ),
-                                    Container(
-                                        width: size.width * 0.8,
-                                        child: Row(
+                                    Expanded(
+                                      child: Form(
+                                        key: statekey,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
-                                            Expanded(
-                                              child: Form(
-                                                key: statekey,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      margin:
-                                                          EdgeInsets.all(0.0),
-                                                      //    width: MediaQuery.of(context).size.width * 0.33,
+                                            Container(
+                                              margin: EdgeInsets.all(0.0),
+                                              //    width: MediaQuery.of(context).size.width * 0.33,
 
-                                                      child: DropDownFormField(
-                                                        titleText: null,
-                                                        hintText: readonly
-                                                            ? myState
-                                                            : '都、県選択',
-                                                        onSaved: (value) {
-                                                          setState(() {
-                                                            myState = value;
-                                                          });
-                                                        },
-                                                        value: myState,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            myState = value;
+                                              child: DropDownFormField(
+                                                requiredField: true,
+                                                titleText: null,
+                                                hintText: readonly
+                                                    ? myState
+                                                    : '都、県選択',
+                                                onSaved: (value) {
+                                                  setState(() {
+                                                    myState = value;
+                                                  });
+                                                },
+                                                value: myState,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    myState = value;
 
-                                                            _prefid =
-                                                                stateDropDownValues
-                                                                        .indexOf(
-                                                                            value) +
-                                                                    1;
-                                                            print(
-                                                                'prefID : ${_prefid.toString()}');
-                                                            cityDropDownValues
-                                                                .clear();
-                                                            myCity = '';
-                                                            _getCityDropDown(
-                                                                _prefid);
-                                                            FocusScope.of(
-                                                                    context)
-                                                                .requestFocus(
-                                                                    new FocusNode());
-                                                          });
-                                                        },
-                                                        dataSource:
-                                                            stateDropDownValues,
-                                                        isList: true,
-                                                        textField: 'display',
-                                                        valueField: 'value',
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 10.0,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                margin: EdgeInsets.all(0.0),
-                                                child: DropDownFormField(
-                                                  titleText: null,
-                                                  hintText:
-                                                      readonly ? myCity : '市',
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                    });
-                                                  },
-                                                  value: myCity,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      myCity = value;
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      cityDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value',
-                                                ),
+                                                    _prefid =
+                                                        stateDropDownValues
+                                                                .indexOf(
+                                                                    value) +
+                                                            1;
+                                                    print(
+                                                        'prefID : ${_prefid.toString()}');
+                                                    cityDropDownValues.clear();
+                                                    myCity = '';
+                                                    _getCityDropDown(_prefid);
+                                                    FocusScope.of(context)
+                                                        .requestFocus(
+                                                            new FocusNode());
+                                                  });
+                                                },
+                                                dataSource: stateDropDownValues,
+                                                isList: true,
+                                                textField: 'display',
+                                                valueField: 'value',
                                               ),
                                             ),
                                           ],
-                                        )),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.all(0.0),
+                                        child: DropDownFormField(
+                                          requiredField: true,
+                                          titleText: null,
+                                          hintText: readonly ? myCity : '市',
+                                          onSaved: (value) {
+                                            setState(() {
+                                              myCity = value;
+                                            });
+                                          },
+                                          value: myCity,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              myCity = value;
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                            });
+                                          },
+                                          dataSource: cityDropDownValues,
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value',
+                                        ),
+                                      ),
+                                    ),
                                   ],
-                                )
-                              : Container(),
-                          SizedBox(
-                            height: sizedBoxFormHeight,
-                          ),
-                          Container(
-                            height: containerHeight,
-                            width: size.width * 0.8,
-                            //margin: EdgeInsets.all(16.0),
-                            //margin: EdgeInsets.only(left: 30.0, right: 30.0),
-                            child: Row(
-                              children: [
-                                Expanded(
+                                )),
+                          ],
+                        ),
+                        SizedBox(
+                          height: sizedBoxFormHeight,
+                        ),
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          //margin: EdgeInsets.all(16.0),
+                          //margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Theme(
+                                data: Theme.of(context)
+                                    .copyWith(splashColor: Colors.black12),
+                                child: TextFieldCustom(
+                                  controller: buildingNameController,
+                                  style: HealingMatchConstants.formTextStyle,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(16.0),
+                                    /*  labelText: HealingMatchConstants
+                                        .editProfileBuildingName,
+                                    labelStyle: HealingMatchConstants
+                                        .formLabelTextStyle, */
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                  ),
+                                  labelText: Text.rich(
+                                    TextSpan(
+                                      text: HealingMatchConstants
+                                          .registrationBuildingName,
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text: '*',
+                                          style: HealingMatchConstants
+                                              .formHintTextStyleStar,
+                                        ),
+                                      ],
+                                      style: HealingMatchConstants
+                                          .formLabelTextStyle,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                child: Container(
                                     child: Theme(
                                   data: Theme.of(context)
                                       .copyWith(splashColor: Colors.black12),
-                                  child: TextFormField(
-                                      controller: buildingNameController,
-                                      style:
-                                          HealingMatchConstants.formTextStyle,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(4.0),
-                                        labelText: HealingMatchConstants
-                                            .editProfileBuildingName,
+                                  child: TextFieldCustom(
+                                    controller: roomNumberController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    keyboardType: TextInputType.text,
+                                    maxLength: 4,
+                                    decoration: InputDecoration(
+                                      counterText: "",
+                                      /*  labelText: HealingMatchConstants
+                                            .editProfileRoomNo,
                                         labelStyle: HealingMatchConstants
+                                            .formLabelTextStyle, */
+                                      filled: true,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                    ),
+                                    labelText: Text.rich(
+                                      TextSpan(
+                                        text: HealingMatchConstants
+                                            .registrationRoomNo,
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: HealingMatchConstants
+                                                .formHintTextStyleStar,
+                                          ),
+                                        ],
+                                        style: HealingMatchConstants
                                             .formLabelTextStyle,
-                                        filled: true,
-                                        fillColor:
-                                            ColorConstants.formFieldFillColor,
-                                        focusedBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                        enabledBorder: HealingMatchConstants
-                                            .textFormInputBorder,
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 )),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                      child: Theme(
-                                    data: Theme.of(context)
-                                        .copyWith(splashColor: Colors.black12),
-                                    child: TextFormField(
-                                        controller: roomNumberController,
-                                        style:
-                                            HealingMatchConstants.formTextStyle,
-                                        keyboardType: TextInputType.text,
-                                        maxLength: 4,
-                                        decoration: InputDecoration(
-                                          counterText: "",
-                                          labelText: HealingMatchConstants
-                                              .editProfileRoomNo,
-                                          labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
-                                          filled: true,
-                                          fillColor:
-                                              ColorConstants.formFieldFillColor,
-                                          focusedBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                          enabledBorder: HealingMatchConstants
-                                              .textFormInputBorder,
-                                        )),
-                                  )),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: sizedBoxFormHeight),
                     Container(
@@ -1845,6 +1868,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                             MediaQuery.of(context).size.width *
                                                 0.8,
                                         child: DropDownFormField(
+                                          requiredField: true,
                                           titleText: null,
                                           hintText: readonly
                                               ? bankname
@@ -1887,19 +1911,20 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         children: [
                                           SizedBox(
                                             height: 50.0,
-                                            child: TextFormField(
+                                            child: TextFieldCustom(
                                               style: HealingMatchConstants
                                                   .formTextStyle,
                                               controller:
                                                   bankOtherFieldController,
                                               decoration: InputDecoration(
-                                                  hintText: "銀行名",
+                                                  /*   hintText: "銀行名",
                                                   hintStyle:
                                                       HealingMatchConstants
-                                                          .formHintTextStyle,
+                                                          .formHintTextStyle, */
                                                   contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          5, 5, 5, 0),
+                                                      EdgeInsets.all(16.0),
+                                                  /*    EdgeInsets.fromLTRB(
+                                                          5, 5, 5, 0) ,*/
                                                   filled: true,
                                                   fillColor: Colors.white,
                                                   enabledBorder:
@@ -1913,6 +1938,20 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                           .otherFiledTextFormInputBorder,
                                                   border: HealingMatchConstants
                                                       .otherFiledTextFormInputBorder),
+                                              labelText: Text.rich(
+                                                TextSpan(
+                                                  text: "銀行名",
+                                                  children: <InlineSpan>[
+                                                    TextSpan(
+                                                      text: '*',
+                                                      style: HealingMatchConstants
+                                                          .formHintTextStyleStar,
+                                                    ),
+                                                  ],
+                                                  style: HealingMatchConstants
+                                                      .formLabelTextStyle,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
@@ -1938,6 +1977,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                                   .width *
                                               0.38,
                                           child: DropDownFormField(
+                                            requiredField: true,
                                             titleText: null,
                                             hintText: readonly
                                                 ? accountType
@@ -1981,15 +2021,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.38,
-                                    child: TextFormField(
+                                    child: TextFieldCustom(
                                       controller: branchCodeController,
                                       decoration: new InputDecoration(
-                                        labelText: HealingMatchConstants
+                                        /*  labelText: HealingMatchConstants
                                             .registrationBankBranchCode,
                                         labelStyle: HealingMatchConstants
-                                            .formLabelTextStyle,
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                            .formLabelTextStyle, */
+                                        contentPadding: EdgeInsets.all(14.0),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -1999,6 +2038,21 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
+                                      ),
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: HealingMatchConstants
+                                              .registrationBankBranchCode,
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            ),
+                                          ],
+                                          style: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2012,15 +2066,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.38,
-                                    child: TextFormField(
+                                    child: TextFieldCustom(
                                       controller: branchNumberController,
                                       decoration: new InputDecoration(
-                                        labelText: HealingMatchConstants
+                                        /*  labelText: HealingMatchConstants
                                             .registrationBankBranchNumber,
                                         labelStyle: HealingMatchConstants
-                                            .formLabelTextStyle,
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                            .formLabelTextStyle, */
+                                        contentPadding: EdgeInsets.all(14.0),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -2031,20 +2084,34 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
                                       ),
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: HealingMatchConstants
+                                              .registrationBankBranchNumber,
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            ),
+                                          ],
+                                          style: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
                                         0.38,
-                                    child: TextFormField(
+                                    child: TextFieldCustom(
                                       controller: accountnumberController,
                                       decoration: new InputDecoration(
-                                        labelText: HealingMatchConstants
+                                        /*  labelText: HealingMatchConstants
                                             .registrationBankAccountNumber,
                                         labelStyle: HealingMatchConstants
-                                            .formLabelTextStyle,
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(5, 5, 5, 0),
+                                            .formLabelTextStyle, */
+                                        contentPadding: EdgeInsets.all(14.0),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -2054,6 +2121,21 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
+                                      ),
+                                      labelText: Text.rich(
+                                        TextSpan(
+                                          text: HealingMatchConstants
+                                              .registrationBankAccountNumber,
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text: '*',
+                                              style: HealingMatchConstants
+                                                  .formHintTextStyleStar,
+                                            ),
+                                          ],
+                                          style: HealingMatchConstants
+                                              .formLabelTextStyle,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2098,56 +2180,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-      Placemark place = p[0];
-      var latitude = _currentPosition.latitude;
-      var longitude = _currentPosition.longitude;
-      setState(() {
-        _currentAddress =
-            '${place.locality},${place.subAdministrativeArea},${place.postalCode},${place.country}';
-        // print('Place Json : ${place.toJson()}');
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print('Current address : $_currentAddress : $latitude : $longitude');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.serviceProviderCurrentLatitude = latitude;
-          HealingMatchConstants.serviceProviderCurrentLongitude = longitude;
-          HealingMatchConstants.serviceProviderCity = place.locality;
-          HealingMatchConstants.serviceProviderPrefecture =
-              place.administrativeArea;
-          HealingMatchConstants.serviceProviderArea = place.country;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   validateFields() async {
     var userPhoneNumber = phoneNumberController.text.toString();
     var email = mailAddressController.text.toString();
@@ -2155,11 +2187,9 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     var storename = storeNameController.text.toString();
     var storenumber = storePhoneNumberController.text.toString();
     var age = ageController.text.toString();
-    var address = gpsAddressController.text.toString();
     var manualAddresss = manualAddressController.text.toString();
     var buildingname = buildingNameController.text.toString();
     var roomnumber = roomNumberController.text.toString();
-    var _myAddressInputType = registrationAddressType;
     var userDOB = userDOBController.text;
     var genderSelecetedValue = gender;
 
@@ -2168,7 +2198,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('プロフィール画像を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2184,7 +2214,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2200,7 +2230,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('お名前を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2215,7 +2245,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お名前は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2230,7 +2260,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
               _scaffoldKey.currentState.showSnackBar(SnackBar(
                 backgroundColor: ColorConstants.snackBarColor,
                 content:
-                    Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+                    Text('生年月日を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
                 action: SnackBarAction(
                     onPressed: () {
                       _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2248,7 +2278,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('店舗名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2265,7 +2295,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('店舗名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2281,7 +2311,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('有効な生年月日を選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2313,7 +2343,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('性別フィールドを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2329,7 +2359,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('電話番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2347,7 +2377,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2365,7 +2395,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('お店の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2385,7 +2415,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('10文字の店舗の電話番号を入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2401,7 +2431,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('あなたのメールアドレスを入力してください',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2416,7 +2446,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('正しいメールアドレスを入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2430,7 +2460,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('メールアドレスは50文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2444,40 +2474,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text("有効なメールアドレスを入力してください。",
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return;
-    }
-
-    //addressType validation
-    if (_myAddressInputType == null || _myAddressInputType.isEmpty) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('有効な登録する地点のカテゴリーを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
-        action: SnackBarAction(
-            onPressed: () {
-              _scaffoldKey.currentState.hideCurrentSnackBar();
-            },
-            label: 'はい',
-            textColor: Colors.white),
-      ));
-      return null;
-    }
-
-    //gps address Validation
-    if ((_myAddressInputType == "現在地を取得する") &&
-        (address == null || address.isEmpty)) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: ColorConstants.snackBarColor,
-        content: Text('現在の住所を取得するには、場所アイコンを選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2489,12 +2486,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //manual address Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (manualAddresss == null || manualAddresss.isEmpty)) {
+    if ((manualAddresss == null || manualAddresss.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('住所を入力してください。。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2506,12 +2502,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //prefecture Validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myState == null || myState.isEmpty)) {
+    if ((myState == null || myState.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な府県を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2523,12 +2518,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //city validation
-    if ((_myAddressInputType != "現在地を取得する") &&
-        (myCity == null || myCity.isEmpty)) {
+    if ((myCity == null || myCity.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('有効な市を選択してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2544,7 +2538,23 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('ビル名を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    //building Validation
+    if (buildingname.length > 20) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('建物名は20文字以内で入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2560,7 +2570,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
-            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'Open Sans')),
+            Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2575,7 +2585,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('銀行名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2592,7 +2602,22 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('銀行名は必須項目なので入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
+
+    if (bankname == 'その他' && bankOtherFieldController.text.length > 25) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('有効な銀行名を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2607,7 +2632,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('口座種類は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2622,7 +2647,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店名は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2637,7 +2662,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店名は20文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2653,7 +2678,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2668,7 +2693,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('支店番号は5文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2684,7 +2709,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('口座番号は必須項目なので選択してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2699,7 +2724,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('アカウント番号は10文字以内で入力してください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2717,7 +2742,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('証明書ファイルをアップロードしてください。',
-            style: TextStyle(fontFamily: 'Open Sans')),
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2738,7 +2763,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     HealingMatchConstants.serviceProviderPhoneNumber = userPhoneNumber;
     HealingMatchConstants.serviceProviderStorePhoneNumber = storenumber;
     HealingMatchConstants.serviceProviderEmailAddress = email;
-    HealingMatchConstants.serviceProviderAddressType = _myAddressInputType;
     HealingMatchConstants.serviceProviderBuildingName = buildingname;
     HealingMatchConstants.serviceProviderRoomNumber = roomnumber;
     HealingMatchConstants.serviceProviderBusinessForm = bussinessForm;
@@ -2754,38 +2778,32 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         .addAll(childrenMeasuresDropDownValuesSelected);
     HealingMatchConstants.serviceProviderGenderService = genderTreatment;
 
-    /*  // Getting user GPS Address value
-    if (HealingMatchConstants.serviceProviderAddressType == '現在地を取得する') {
-      HealingMatchConstants.serviceProviderAddress = address;
-      print('GPS Address : ${HealingMatchConstants.serviceProviderAddress}');
-    } else {
-      String address = roomnumber +
-          ',' +
-          buildingname +
-          ',' +
-          manualAddresss +
-          ',' +
-          myCity +
-          ',' +
-          myState;
+    String address = roomnumber +
+        ',' +
+        buildingname +
+        ',' +
+        manualAddresss +
+        ',' +
+        myCity +
+        ',' +
+        myState;
 
-      List<Placemark> userAddress =
-          await geolocator.placemarkFromAddress(address);
-      var userAddedAddressPlaceMark = userAddress[0];
-      Position addressPosition = userAddedAddressPlaceMark.position;
-      HealingMatchConstants.serviceProviderCurrentLatitude =
-          addressPosition.latitude;
-      HealingMatchConstants.serviceProviderCurrentLongitude =
-          addressPosition.longitude;
-      HealingMatchConstants.serviceProviderCity =
-          userAddedAddressPlaceMark.locality;
-      HealingMatchConstants.serviceProviderPrefecture =
-          userAddedAddressPlaceMark.administrativeArea;
-      HealingMatchConstants.serviceProviderAddress = address;
-      HealingMatchConstants.serviceProviderPrefecture = myState;
-      HealingMatchConstants.serviceProviderCity = myCity;
-      HealingMatchConstants.serviceProviderArea = myCity;
-    } */
+    List<Placemark> userAddress =
+        await geolocator.placemarkFromAddress(address);
+    var userAddedAddressPlaceMark = userAddress[0];
+    Position addressPosition = userAddedAddressPlaceMark.position;
+    HealingMatchConstants.serviceProviderCurrentLatitude =
+        addressPosition.latitude;
+    HealingMatchConstants.serviceProviderCurrentLongitude =
+        addressPosition.longitude;
+    HealingMatchConstants.serviceProviderCity =
+        userAddedAddressPlaceMark.locality;
+    HealingMatchConstants.serviceProviderPrefecture =
+        userAddedAddressPlaceMark.administrativeArea;
+    HealingMatchConstants.serviceProviderAddress = address;
+    HealingMatchConstants.serviceProviderPrefecture = myState;
+    HealingMatchConstants.serviceProviderCity = myCity;
+    HealingMatchConstants.serviceProviderArea = manualAddresss;
     updateProfile();
   }
 
@@ -2863,7 +2881,14 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'id': userData.id.toString(),
       'isTherapist': '1',
       'email': HealingMatchConstants.serviceProviderEmailAddress,
-      'storeName': HealingMatchConstants.serviceProviderStoreName,
+      'storeName': bussinessForm == "施術店舗あり 施術従業員あり" ||
+              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+          ? HealingMatchConstants.serviceProviderStoreName
+          : '',
+      'storePhone': bussinessForm == "施術店舗あり 施術従業員あり" ||
+              bussinessForm == "施術店舗なし 施術従業員あり（出張のみ)"
+          ? HealingMatchConstants.serviceProviderStorePhoneNumber
+          : '0',
       'genderOfService':
           HealingMatchConstants.serviceProviderGenderService != null
               ? HealingMatchConstants.serviceProviderGenderService
@@ -2883,15 +2908,17 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       'childrenMeasure': childrenMeasure,
       'businessForm': HealingMatchConstants.serviceProviderBusinessForm,
       'bankDetails': json.encode(userData.bankDetails),
-      'address': json.encode(userData.addresses),
+      'addressTypeSelection': "直接入力",
+      'address': json.encode(userData.addresses), //address update in json
     });
-    if (storePhoneNumberController.text != '' &&
+    /* if (storePhoneNumberController.text != '' &&
         storePhoneNumberController.text != null) {
       request.fields.addAll({
-        'storePhone':
-            '9842765543' //HealingMatchConstants.serviceProviderStorePhoneNumber
+        'storePhone': HealingMatchConstants.serviceProviderStorePhoneNumber
       });
-    }
+    } else {
+      request.fields.addAll({'storePhone': ''});
+    } */
     if (userData.qulaificationCertImgUrl != null &&
         userData.qulaificationCertImgUrl != '') {
       if (qualification != '') {
@@ -2928,26 +2955,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
     request.headers.addAll(headers);
 
-    /*  try { */
-    final userDetailsRequest = await request.send();
-    print("This is request : ${userDetailsRequest.request}");
-    final response = await http.Response.fromStream(userDetailsRequest);
-    print("This is response: ${response.statusCode}\n${response.body}");
-    if (StatusCodeHelper.isProfileUpdateSuccess(
-        response.statusCode, context, response.body)) {
-      loginResponse.LoginResponseModel loginResponseModel =
-          loginResponse.LoginResponseModel.fromJson(json.decode(response.body));
-      sharedPreferences.setString(
-          "userData", json.encode(loginResponseModel.data));
-      HealingMatchConstants.userData = loginResponseModel.data;
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      print('Update response : ${loginResponseModel.toJson()}');
-      DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
-    } else {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-      print('Response error occured!');
-    }
-    /* }  on SocketException catch (_) {
+    try {
+      final userDetailsRequest = await request.send();
+      print("This is request : ${userDetailsRequest.request}");
+      final response = await http.Response.fromStream(userDetailsRequest);
+      print("This is response: ${response.statusCode}\n${response.body}");
+      if (StatusCodeHelper.isProfileUpdateSuccess(
+          response.statusCode, context, response.body)) {
+        loginResponse.LoginResponseModel loginResponseModel =
+            loginResponse.LoginResponseModel.fromJson(
+                json.decode(response.body));
+        sharedPreferences.setString(
+            "userData", json.encode(loginResponseModel.data));
+        HealingMatchConstants.userData = loginResponseModel.data;
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Update response : ${loginResponseModel.toJson()}');
+        DialogHelper.showProviderProfileUpdatedSuccessDialog(context);
+      } else {
+        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        print('Response error occured!');
+      }
+    } on SocketException catch (_) {
       //handle socket Exception
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
       NavigationRouter.switchToNetworkHandler(context);
@@ -2956,10 +2984,11 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       //handle other error
       print("Error $e");
       ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
-    } */
+    }
   }
 
   void updateBankValues() {
+    userData.bankDetails[0].userId = userData.id;
     userData.bankDetails[0].bankName =
         bankname == HealingMatchConstants.registrationBankOtherDropdownFiled
             ? bankOtherFieldController.text
@@ -2972,8 +3001,6 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   void updateAddressValues() {
-    userData.addresses[0].addressTypeSelection =
-        HealingMatchConstants.serviceProviderAddressType;
     userData.addresses[0].address =
         HealingMatchConstants.serviceProviderAddress;
     userData.addresses[0].area = HealingMatchConstants.serviceProviderArea;
@@ -2988,11 +3015,10 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         HealingMatchConstants.serviceProviderCurrentLatitude;
     userData.addresses[0].lon =
         HealingMatchConstants.serviceProviderCurrentLongitude;
-    if (HealingMatchConstants.serviceProviderAddressType == "直接入力") {
-      userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
-      userData.addresses[0].capitalAndPrefectureId =
-          stateDropDownValues.indexOf(myState) + 1;
-    }
+
+    userData.addresses[0].citiesId = cityDropDownValues.indexOf(myCity) + 1;
+    userData.addresses[0].capitalAndPrefectureId =
+        stateDropDownValues.indexOf(myState) + 1;
   }
 
   void _showPicker(context, int index) {
@@ -3083,9 +3109,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         }
         ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
         setState(() {
-          if (registrationAddressType != '現在地を取得する') {
-            myCity = userData.addresses[0].cityName;
-          }
+          myCity = userData.addresses[0].cityName;
         });
       }
     });
@@ -3305,19 +3329,24 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
   }
 
   void showProgressDialog() {
-    _progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '住所を取得しています...', dismissAfter: Duration(seconds: 5)); */
   }
 
   void hideProgressDialog() {
-    _progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /* _progressDialog.dismissProgressDialog(context); */
   }
 
   void showIdSelectError() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる本人確認は1つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -3332,7 +3361,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: ColorConstants.snackBarColor,
       content: Text('アップロードできる品質証明書は5つだけです。',
-          style: TextStyle(fontFamily: 'Open Sans')),
+          style: TextStyle(fontFamily: 'NotoSansJP')),
       action: SnackBarAction(
           onPressed: () {
             _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -3457,11 +3486,13 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
       String privateQualificationImage, int index) {
     return Container(
       padding: EdgeInsets.only(
-          left: index == 0 &&
+          left:
+              16.0 /*  index == 0 &&
                   (oldCertificateImages.length == 0 &&
                       certificateImages.length == 0)
-              ? 0.0
-              : 16.0),
+              ? 16.0
+              : 0.0 */
+          ),
       child: Column(
         children: [
           Stack(
@@ -3532,23 +3563,21 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     gender = userData.gender;
     phoneNumberController.text = userData.phoneNumber.toString();
     if (/* userData.storePhone.toString() != '' && */
-        userData.storePhone != null) {
+        userData.storePhone != null && userData.storePhone != 0) {
       storePhoneNumberController.text = userData.storePhone.toString();
     }
     mailAddressController.text = userData.email;
-    registrationAddressType = userData.addresses[0].addressTypeSelection;
-    showAddressField = true;
-    if (registrationAddressType == '現在地を取得する') {
-      gpsAddressController.text = userData.addresses[0].address;
-      gpsAddressVisible = true;
-    } else {
-      manualAddressController.text = userData.addresses[0].address;
-      //   myCity = userData.addresses[0].cityName;
-      myState = userData.addresses[0].capitalAndPrefecture;
-      _prefid = stateDropDownValues.indexOf(myState) + 1;
-      _getCityDropDown(_prefid);
-    }
+    manualAddressController.text = userData.addresses[0].area;
+    //   myCity = userData.addresses[0].cityName;
+    myState = userData.addresses[0].capitalAndPrefecture;
+    _prefid = stateDropDownValues.indexOf(myState) + 1;
+    _getCityDropDown(_prefid);
+
     identificationverify = userData.proofOfIdentityType;
+    if (userData.qulaificationCertImgUrl == "無資格") {
+      visible = true;
+      qualification = userData.qulaificationCertImgUrl;
+    }
     roomNumberController.text = userData.addresses[0].userRoomNumber;
     buildingNameController.text = userData.addresses[0].buildingName;
     if (userData.bankDetails[0].bankName != '') {

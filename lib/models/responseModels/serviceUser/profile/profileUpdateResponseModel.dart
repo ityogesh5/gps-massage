@@ -1,7 +1,7 @@
 class UserUpdateResponseModel {
   String status;
   Data data;
-  List<SubAddress> subAddress;
+  List<AddedSubAddresses> subAddress;
 
   UserUpdateResponseModel({this.status, this.data, this.subAddress});
 
@@ -9,9 +9,9 @@ class UserUpdateResponseModel {
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     if (json['subAddress'] != null) {
-      subAddress = new List<SubAddress>();
+      subAddress = new List<AddedSubAddresses>();
       json['subAddress'].forEach((v) {
-        subAddress.add(new SubAddress.fromJson(v));
+        subAddress.add(new AddedSubAddresses.fromJson(v));
       });
     }
   }
@@ -46,18 +46,18 @@ class Data {
 
   Data(
       {this.id,
-        this.email,
-        this.phoneNumber,
-        this.userName,
-        this.gender,
-        this.dob,
-        this.age,
-        this.isTherapist,
-        this.isVerified,
-        this.userOccupation,
-        this.uploadProfileImgUrl,
-        this.userSearchRadiusDistance,
-        this.addresses});
+      this.email,
+      this.phoneNumber,
+      this.userName,
+      this.gender,
+      this.dob,
+      this.age,
+      this.isTherapist,
+      this.isVerified,
+      this.userOccupation,
+      this.uploadProfileImgUrl,
+      this.userSearchRadiusDistance,
+      this.addresses});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -126,26 +126,26 @@ class Addresses {
 
   Addresses(
       {this.id,
-        this.userId,
-        this.addressTypeSelection,
-        this.address,
-        this.userRoomNumber,
-        this.userPlaceForMassage,
-        this.otherAddressType,
-        this.capitalAndPrefecture,
-        this.capitalAndPrefectureId,
-        this.cityName,
-        this.citiesId,
-        this.area,
-        this.buildingName,
-        this.postalCode,
-        this.lat,
-        this.lon,
-        this.createdUser,
-        this.updatedUser,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.addressTypeSelection,
+      this.address,
+      this.userRoomNumber,
+      this.userPlaceForMassage,
+      this.otherAddressType,
+      this.capitalAndPrefecture,
+      this.capitalAndPrefectureId,
+      this.cityName,
+      this.citiesId,
+      this.area,
+      this.buildingName,
+      this.postalCode,
+      this.lat,
+      this.lon,
+      this.createdUser,
+      this.updatedUser,
+      this.isDefault,
+      this.createdAt,
+      this.updatedAt});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -198,7 +198,7 @@ class Addresses {
   }
 }
 
-class SubAddress {
+class AddedSubAddresses {
   int id;
   int userId;
   String addressTypeSelection;
@@ -214,23 +214,23 @@ class SubAddress {
   dynamic lon;
   bool isDefault;
 
-  SubAddress(
+  AddedSubAddresses(
       {this.id,
-        this.userId,
-        this.addressTypeSelection,
-        this.address,
-        this.userRoomNumber,
-        this.userPlaceForMassage,
-        this.otherAddressType,
-        this.capitalAndPrefecture,
-        this.cityName,
-        this.area,
-        this.buildingName,
-        this.lat,
-        this.lon,
-        this.isDefault});
+      this.userId,
+      this.addressTypeSelection,
+      this.address,
+      this.userRoomNumber,
+      this.userPlaceForMassage,
+      this.otherAddressType,
+      this.capitalAndPrefecture,
+      this.cityName,
+      this.area,
+      this.buildingName,
+      this.lat,
+      this.lon,
+      this.isDefault});
 
-  SubAddress.fromJson(Map<String, dynamic> json) {
+  AddedSubAddresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['userId'];
     addressTypeSelection = json['addressTypeSelection'];

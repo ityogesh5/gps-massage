@@ -513,7 +513,7 @@ class _BannerImageState extends State<BannerImage> {
         sharedPreferences.setString("userData", json.encode(userData));
         HealingMatchConstants.userData =
             Data.fromJson(json.decode(sharedPreferences.getString("userData")));
-        // ProgressDialogBuilder.hideCommonProgressDialog(context);
+         ProgressDialogBuilder.hideCommonProgressDialog(context);
         NavigationRouter.switchToServiceProviderShiftBanner(context);
       } else {
         ProgressDialogBuilder.hideCommonProgressDialog(context);

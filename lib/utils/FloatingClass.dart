@@ -23,9 +23,7 @@ class FloatingSample extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0.0,
           leading: IconButton(
-            onPressed: () {
-
-            },
+            onPressed: () {},
             icon: Icon(
               Icons.arrow_back_ios,
               color: Color.fromRGBO(0, 0, 0, 1),
@@ -66,9 +64,7 @@ class FloatingSample extends StatelessWidget {
                 ),
                 // Display a placeholder widget to visualize the shrinking size.
                 // Make the initial height of the SliverAppBar larger than normal.
-                actions: <Widget>[
-
-                ],
+                actions: <Widget>[],
               ),
               // Next, create a SliverList
               SliverList(
@@ -76,7 +72,7 @@ class FloatingSample extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   // The builder function returns a ListTile with a title that
                   // displays the index of the current item.
-                      (context, index) => ListTile(title: Text('Item #$index')),
+                  (context, index) => ListTile(title: Text('Item #$index')),
                   // Builds 1000 ListTiles
                   childCount: 100,
                 ),
@@ -128,7 +124,6 @@ class _MassageTypeChipsState extends State<MassageTypeChips>
               _selectedIndex = i;
             }
           });
-
         },
       );
 

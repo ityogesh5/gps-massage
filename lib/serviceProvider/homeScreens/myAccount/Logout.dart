@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProviderLogout extends StatefulWidget {
   @override
@@ -44,7 +44,7 @@ class _ProviderLogoutState extends State<ProviderLogout> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  fontFamily: 'Open Sans'),
+                  fontFamily: 'NotoSansJP'),
             ),
           ),
           SizedBox(

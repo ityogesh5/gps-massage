@@ -242,14 +242,14 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
           () => isHourScrolling = false,
         ),
       ),
-        SizedBox(
+      SizedBox(
         width: _getItemWidth(),
         height: _getItemHeight() * 3,
         child: Center(
           child: Text(":", style: _getHighlightedTextStyle()),
         ),
       ),
-     // spacer(),
+      // spacer(),
       new SizedBox(
         width: _getItemWidth(),
         height: _getItemHeight() * 3,

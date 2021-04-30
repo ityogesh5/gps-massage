@@ -50,6 +50,7 @@ dependencies:
   google_fonts: ^1.1.1
   intl: any # Yogeshwar Date / Time format parsing
   geolocator: ^5.3.1 # Yogeshwar Finding Location of user to fetch Latitude and Longitude
+  geocoding: #Aswin for Getting lat and long from Address
   animated_text_kit: ^1.1.0 # Yogeshwar Text kit with Text display animation
   flutter_svg: any # Yogeshwar SVG Picture inclusion library from assets
   multiselect_formfield: ^0.1.5
@@ -101,6 +102,7 @@ dependencies:
   web_socket_channel: any
   super_tooltip: any
   time: any
+  location: any
 
 
 #  flutter_line_login: ^0.2.0

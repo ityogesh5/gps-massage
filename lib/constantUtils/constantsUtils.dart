@@ -8,11 +8,13 @@ import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:flutter/animation.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -22,6 +24,7 @@ class HealingMatchConstants {
   static const String ON_PREMISE_USER_BASE_URL =
       /* "http://103.92.19.158:9094/api";*/
       "http://106.51.49.160:9087/api";
+
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
@@ -117,13 +120,24 @@ class HealingMatchConstants {
       '/adminBanner' +
       '/getAllAdminBannerListMobile';
 
-  // get Users banner images from Admin
+  // get Users details
   static const String GET_USER_DETAILS =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
+  // get therapist details
+  static const String GET_THERAPIST_DETAILS =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
   // delete user sub address
   static const String DELETE_SUB_ADDRESS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
+
+  // delete user sub address
+  static const String EDIT_SUB_ADDRESS_URL =
+      ON_PREMISE_USER_BASE_URL + '/user/userSubAddressUpdate';
+
+  // fetch therapist results
+  static const String FETCH_THERAPIST_SEARCH_RESULTS =
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
 
   //Common string
   static bool isInternetAvailable = false;
@@ -139,6 +153,7 @@ class HealingMatchConstants {
   static String userFcmToken = '';
   static String currentDate;
 
+
   static String currentDay;
 
   static String currentMonth;
@@ -152,8 +167,9 @@ class HealingMatchConstants {
   static const String userPasswordPhn = "電話番号 ";
   static var userPhnNum = '';
   static var userForgetPassBtn = '送信';
-  static const String userPasswordTxt =
-      "パスワードを再設定するための認証コードを送信します。\nご登録の電話番号を入力の上「送信」ボタンを\nクリックしてください";
+  static const String userPasswordTxt1 = "パスワードを再設定するための認証コードを送信します。";
+  static const String userPasswordTxt2 = "ご登録の電話番号を入力の上「送信」ボタンを";
+  static const String userPasswordTxt3 = "クリックしてください";
 
   //Register Service User Screen Constants
   static String serviceUserById = '';
@@ -167,7 +183,11 @@ class HealingMatchConstants {
   static String serviceUserAddressType = '';
   static String serviceUserMassagePlace = '';
   static String serviceUserAddress = '';
-  // static List<Address> getUserAddress = new List();
+
+  static String searchKeyWordValue;
+  static var searchAddressLatitude;
+  static var searchAddressLongitude;
+
   static String serviceUserPrefecture = '';
   static String serviceUserPrefectureId = '';
   static String serviceUserCity = '';
@@ -177,6 +197,7 @@ class HealingMatchConstants {
   static String userAddress = '';
   static double currentLatitude = 0.0;
   static double currentLongitude = 0.0;
+  static List<SearchList> searchList = new List<SearchList>();
 
   // User Register otp
   static String serviceUserOtpTxt = 'に届いた「認証コード」を入力し、\n「確認」ボタンをクリックしてください。';
@@ -198,9 +219,10 @@ class HealingMatchConstants {
   static String serviceProviderPhoneNumber = '';
   static String serviceProviderStorePhoneNumber = '';
   static String serviceProviderEmailAddress = '';
-  static String serviceProviderAddressType = '';
   static String serviceProviderPrefecture = '';
+  static int serviceProviderPrefectureID;
   static String serviceProviderCity = '';
+  static int serviceProviderCityID;
   static String serviceProviderBuildingName = '';
   static String serviceProviderArea = '';
   static String serviceProviderRoomNumber = '';
@@ -304,10 +326,10 @@ class HealingMatchConstants {
       '登録地点周辺のサービス利用者に優先的に\n 検索されるようになります。';
   static const String registrationNextBtn = '次へ';
 
-  static const String registrationIdentityVerification = '本人確認証を選択してください*';
-  static const String registrationIdentityUpload = '本人確認証のアップロード*';
+  static const String registrationIdentityVerification = '本人確認証を選択してください';
+  static const String registrationIdentityUpload = '本人確認証のアップロード';
   static const String registrationAdd = '保有資格の種類を選択し、\n証明書をアップロードしてください。';
-  static const String registrationQualificationDropdown = '保有資格の種類を選択してください。*';
+  static const String registrationQualificationDropdown = '保有資格の種類を選択してください。';
   static const String registrationQualificationUpload = 'ファイルをアップロードする';
   static const String registrationChooseServiceNavBtn = '提供サービスと料金設定';
   static const String registrationMultiPhotoUpload = '掲載写真のアップロード';
@@ -400,8 +422,6 @@ class HealingMatchConstants {
   static String userEditAddress = '';
   static double mEditCurrentLatitude = 0.0;
   static double mEditCurrentLongitude = 0.0;
-  static double editCurrentLatitude = 0.0;
-  static double editCurrentLongitude = 0.0;
   static double addedCurrentLatitude = 0.0;
   static double addedCurrentLongitude = 0.0;
   static double manualAddressCurrentLatitude = 0.0;
@@ -414,10 +434,12 @@ class HealingMatchConstants {
   static bool isTimeCriteria = true;
   static int serviceType = 0;
   static DateTime dateTime = DateTime.now();
-  static List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  static List<UserAddresses> userAddressesList = new List<UserAddresses>();
   static var searchDistanceRadius;
   static String userProfileImage;
   static String serviceUserID;
+  static List<AddedSubAddresses> editUserSubAddressList =
+      new List<AddedSubAddresses>();
 
   //Therapist Detail Screen
   static String therapistDStoreName = '';
@@ -433,13 +455,24 @@ class HealingMatchConstants {
   static List<String> userBannerImages = [];
   static int therapistId = 0;
 
+  //User details
+  static String userRegisteredAddressDetail = '';
+  static String userRoomNo = '';
+  static String userCity = '';
+  static String userPrefecture = '';
+  static String userPlaceForMassage = '';
+  static String userPlaceForMassageOther = '';
+  static String userArea = '';
+  static String userBuildName = '';
+  static List<UserAddresses> userAddressDetailsList= new List<UserAddresses>();
+
   // User Profile screen
   //Uint8List profile image;
   static Uint8List profileImageInBytes;
   static Uint8List therapistProfileImageInBytes;
 
   //User Search screen
-  static String searchKeyword = 'キーワードでさがす';
+  static String searchKeywordHint = 'キーワードでさがす';
   static String searchAreaTxt = 'さがすエリアを選んでください';
   static String searchGpsIconTxt = '現在地';
   static String searchHomeIconTxt = '自宅';
@@ -526,15 +559,46 @@ class HealingMatchConstants {
     ),
   );
 
-  static Future<void> getMoreData(int page, int size) async {
-    var loadDataURL =
-        '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/therapistUserList?page=$page&size=$size';
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'x-access-token': '${HealingMatchConstants.accessToken}'
-    };
-    var response = await http.post(loadDataURL, headers: headers);
-    print('response : ${response.body}');
-    return response;
-  }
+  static List<Curve> curveList = [
+    Curves.bounceIn,
+    Curves.bounceInOut,
+    Curves.bounceOut,
+    Curves.decelerate,
+    Curves.ease,
+    Curves.easeIn,
+    Curves.easeInBack,
+    Curves.easeInCirc,
+    Curves.easeInCubic,
+    Curves.easeInExpo,
+    Curves.easeInOut,
+    Curves.easeInOutBack,
+    Curves.easeInOutCirc,
+    Curves.easeInOutCubic,
+    Curves.easeInOutExpo,
+    Curves.easeInOutQuad,
+    Curves.easeInOutQuart,
+    Curves.easeInOutQuint,
+    Curves.easeInOutSine,
+    Curves.easeInQuad,
+    Curves.easeInQuart,
+    Curves.easeInQuint,
+    Curves.easeInSine,
+    Curves.easeInToLinear,
+    Curves.easeOut,
+    Curves.easeOutBack,
+    Curves.easeOutCubic,
+    Curves.easeOutExpo,
+    Curves.easeOutQuad,
+    Curves.easeOutQuart,
+    Curves.easeOutQuint,
+    Curves.easeOutSine,
+    Curves.elasticIn,
+    Curves.elasticInOut,
+    Curves.elasticOut,
+    Curves.fastLinearToSlowEaseIn,
+    Curves.fastOutSlowIn,
+    Curves.linear,
+    Curves.linearToEaseOut,
+    Curves.slowMiddle
+  ];
 }

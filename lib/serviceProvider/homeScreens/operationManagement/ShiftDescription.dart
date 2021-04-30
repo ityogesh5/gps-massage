@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
@@ -9,7 +10,6 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/providerSto
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 
 class ShiftDescription extends StatefulWidget {
   @override
@@ -84,7 +84,10 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                     Text(
                       "サービス利用者に向けたPRコメントを記入してください。",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: ColorConstants.multiTextHintTextColor, fontSize: 12),//HealingMatchConstants.multiTextHintTextStyle,
+                      style: TextStyle(
+                          color: ColorConstants.multiTextHintTextColor,
+                          fontSize:
+                              12), //HealingMatchConstants.multiTextHintTextStyle,
                     ),
                   ],
                 ),
@@ -106,7 +109,10 @@ class _ShiftDescriptionState extends State<ShiftDescription> {
                     Text(
                       "電話番号、メールアドレス、SNSのアカウント、\n ホームページURL等の記載はお控えください。\n（詳しくは利用規約をご覧ください。）",
                       //textAlign: TextAlign.center,
-                      style: TextStyle(color: ColorConstants.multiTextHintTextColor, fontSize: 12),//HealingMatchConstants.multiTextHintTextStyle,
+                      style: TextStyle(
+                          color: ColorConstants.multiTextHintTextColor,
+                          fontSize:
+                              12), //HealingMatchConstants.multiTextHintTextStyle,
                     ),
                   ],
                 ),

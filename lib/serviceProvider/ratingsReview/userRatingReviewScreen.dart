@@ -123,9 +123,9 @@ class LoadUserReviewPage extends StatefulWidget {
 
 class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
   UserReviewBloc userReviewBloc;
-  List<UserList> userReviewList = [];
+  List<UserReviewList> userReviewList = [];
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   int _totalReviews = 0;
 
@@ -157,7 +157,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
     providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
-          userReviewList = value.userData.userList;
+          userReviewList = value.userData.userReviewList;
           _totalReviews = value.userData.totalElements;
         });
       }
@@ -261,18 +261,19 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
           var providerListApiProvider =
               ServiceProviderApi.getUserReviewById(_pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.userData.userList.isEmpty) {
+            if (value.userData.userReviewList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
-                    'UserList data count is Zero : ${value.userData.userList.length}');
+                    'UserReviewList data count is Zero : ${value.userData.userReviewList.length}');
               });
             } else {
-              print('UserList data Size : ${value.userData.userList.length}');
+              print(
+                  'UserReviewList data Size : ${value.userData.userReviewList.length}');
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  userReviewList.addAll(value.userData.userList);
+                  userReviewList.addAll(value.userData.userReviewList);
                 }
               });
             }
@@ -285,10 +286,34 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
     }
   }
 
-  Widget buildReviewContent(UserList userReviewList) {
+  Widget buildReviewContent(UserReviewList userReviewList) {
     return new Column(
       children: [
         SizedBox(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${userReviewList.reviewTherapistId.userName}",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Spacer(),
+              Text(
+                '${userReviewList.createdAt.month}月${userReviewList.createdAt.day}',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
+              ),
+            ],
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +333,7 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > userReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
@@ -321,8 +346,8 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                             width: 13.0,
                             color: Colors.black,
                           ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                                                                    Icons.star,
+                                                                    size: 20.0), */
                   )),
               onRatingUpdate: (rating) {
                 print(rating);
@@ -340,14 +365,6 @@ class _LoadUserReviewPageState extends State<LoadUserReviewPage> {
                 fontSize: 14.0,
                 color: Colors.transparent,
                 decoration: TextDecoration.underline,
-              ),
-            ),
-            Spacer(),
-            Text(
-              '${userReviewList.createdAt.month}月${userReviewList.createdAt.day}',
-              style: TextStyle(
-                fontSize: 10,
-                color: Color.fromRGBO(0, 0, 0, 1),
               ),
             ),
           ],
@@ -393,7 +410,7 @@ class _LoadInitialPageState extends State<LoadInitialPage> {
 }
 
 class LoadUserReviewRatingsById extends StatefulWidget {
-  List<UserList> userReviewList;
+  List<UserReviewList> userReviewList;
 
   LoadUserReviewRatingsById({Key key, @required this.userReviewList})
       : super(key: key);
@@ -404,9 +421,9 @@ class LoadUserReviewRatingsById extends StatefulWidget {
 
 class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
   UserReviewBloc userReviewBloc;
-  List<UserList> userReviewList = [];
+  List<UserReviewList> userReviewList = [];
   bool isLoading = false;
-  var _pageNumberType = 1;
+  var _pageNumberType = 0;
   var _pageSizeType = 10;
 
   @override
@@ -513,19 +530,19 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
           var providerListApiProvider = ServiceProviderApi.getUserReviewById(
               _pageNumberType, _pageSizeType);
           providerListApiProvider.then((value) {
-            if (value.userData.userList.isEmpty) {
+            if (value.userData.userReviewList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
-                    'TherapistList data count is Zero : ${value.userData.userList.length}');
+                    'TherapistList data count is Zero : ${value.userData.userReviewList.length}');
               });
             } else {
               print(
-                  'TherapistList data Size : ${value.userData.userList.length}');
+                  'TherapistList data Size : ${value.userData.userReviewList.length}');
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  widget.userReviewList.addAll(value.userData.userList);
+                  widget.userReviewList.addAll(value.userData.userReviewList);
                 }
               });
             }
@@ -538,10 +555,34 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
     }
   }
 
-  Widget buildReviewContent(UserList userReviewList) {
+  Widget buildReviewContent(UserReviewList userReviewList) {
     return new Column(
       children: [
         SizedBox(height: 10.0),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${userReviewList.reviewTherapistId.userName}",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Spacer(),
+              Text(
+                '${userReviewList.createdAt.month}月${userReviewList.createdAt.day}',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
+              ),
+            ],
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -561,7 +602,7 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > userReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
@@ -574,8 +615,8 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                             width: 13.0,
                             color: Colors.black,
                           ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                                                                    Icons.star,
+                                                                    size: 20.0), */
                   )),
               onRatingUpdate: (rating) {
                 print(rating);
@@ -593,14 +634,6 @@ class _LoadUserReviewRatingsByIdState extends State<LoadUserReviewRatingsById> {
                 fontSize: 14.0,
                 color: Colors.transparent,
                 decoration: TextDecoration.underline,
-              ),
-            ),
-            Spacer(),
-            Text(
-              '${userReviewList.createdAt.month}月${userReviewList.createdAt.day}',
-              style: TextStyle(
-                fontSize: 10,
-                color: Color.fromRGBO(0, 0, 0, 1),
               ),
             ),
           ],

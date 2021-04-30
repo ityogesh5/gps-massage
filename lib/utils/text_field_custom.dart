@@ -5,12 +5,13 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+import 'package:gps_massageapp/utils/input_decorator.dart';
 
 export 'package:flutter/services.dart'
     show TextInputType, TextInputAction, TextCapitalization;
@@ -1069,27 +1070,27 @@ class _TextFieldState extends State<TextFieldCustom>
       ),
     );
 
-    // if (widget.decoration != null) {
-    //   child = AnimatedBuilder(
-    //     animation: Listenable.merge(<Listenable>[focusNode, controller]),
-    //     builder: (BuildContext context, Widget child) {
-    //       return InputDecoratorCustom(
-    //         decoration: _getEffectiveDecoration(),
-    //         baseStyle: widget.style,
-    //         labelText: widget.labelText,
-    //         textAlign: widget.textAlign,
-    //         textAlignVertical: widget.textAlignVertical,
-    //         hintText: widget.hintText,
-    //         isHovering: _isHovering,
-    //         isFocused: focusNode.hasFocus,
-    //         isEmpty: controller.value.text.isEmpty,
-    //         expands: widget.expands,
-    //         child: child,
-    //       );
-    //     },
-    //     child: child,
-    //   );
-    // }
+    if (widget.decoration != null) {
+      child = AnimatedBuilder(
+        animation: Listenable.merge(<Listenable>[focusNode, controller]),
+        builder: (BuildContext context, Widget child) {
+          return InputDecoratorCustom(
+            decoration: _getEffectiveDecoration(),
+            baseStyle: widget.style,
+            labelText: widget.labelText,
+            textAlign: widget.textAlign,
+            textAlignVertical: widget.textAlignVertical,
+            hintText: widget.hintText,
+            isHovering: _isHovering,
+            isFocused: focusNode.hasFocus,
+            isEmpty: controller.value.text.isEmpty,
+            expands: widget.expands,
+            child: child,
+          );
+        },
+        child: child,
+      );
+    }
 
     return Semantics(
       onTap: () {

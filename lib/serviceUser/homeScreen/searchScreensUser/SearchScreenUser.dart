@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -29,9 +34,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   final Geolocator geoLocator = Geolocator()..forceAndroidLocationManager;
   Placemark userAddedAddressPlaceMark;
   int _value = 0;
-
+  var _pageNumber = 1;
+  var _pageSize = 10;
   bool _isVisible = true;
   bool _addAddressVisible = false;
+  String _currentAddress = '';
+  Placemark currentLocationPlaceMark;
 
   NumberPicker dayPicker;
   int _cyear;
@@ -60,10 +68,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   var searchAddressLatitude, searchAddressLongitude;
 
-  List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
   var constantUserAddressSize = new List();
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
+  Position _currentPosition;
 
   void initState() {
     super.initState();
@@ -104,7 +113,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     children: [
                       Expanded(
                         child: Card(
-                          elevation: 4.0,
+                          elevation: 8.0,
                           margin: EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -124,7 +133,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                   contentPadding: EdgeInsets.all(4.0),
                                   filled: true,
                                   fillColor: Colors.white,
-                                  hintText: HealingMatchConstants.searchKeyword,
+                                  hintText:
+                                      HealingMatchConstants.searchKeywordHint,
                                   suffixIcon: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: IconButton(
@@ -172,6 +182,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               ],
                                             ),
                                           ));
+                                        } else {
+                                          HealingMatchConstants
+                                                  .searchKeyWordValue =
+                                              keywordController.text;
+                                          _getKeywordResults();
                                         }
                                       },
                                       icon: Image.asset(
@@ -227,14 +242,20 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/current_location.svg',
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  height: 30,
-                                  width: 30),
+                            GestureDetector(
+                              onTap: () {
+                                _getCurrentLocation();
+                              },
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor:
+                                    Color.fromRGBO(200, 217, 33, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/current_location.svg',
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
                             ),
                             SizedBox(
                               height: 8,
@@ -274,9 +295,18 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                     highlightColor: Color.fromRGBO(0, 0, 0, 1),
                                     iconSize: 35,
                                     onPressed: () {
-                                      NavigationRouter
-                                          .switchToServiceUserViewProfileScreen(
-                                              context);
+                                      if (HealingMatchConstants
+                                                  .isUserRegistrationSkipped !=
+                                              null &&
+                                          HealingMatchConstants
+                                              .isUserRegistrationSkipped) {
+                                        DialogHelper.showUserAddAddressDialog(
+                                            context);
+                                      } else {
+                                        NavigationRouter
+                                            .switchToServiceUserViewProfileScreen(
+                                                context);
+                                      }
                                     },
                                   ),
                                 ),
@@ -293,7 +323,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 15),
+                        SizedBox(width: 5),
                         Expanded(
                           flex: 4,
                           child: SizedBox(
@@ -1427,30 +1457,41 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getValidSearchFields() async {
-    _sharedPreferences.then((value) {
-      if (value != null) {
-        var userDetails =
-            ServiceUserAPIProvider.getUserDetails(context, HealingMatchConstants.serviceUserID);
-        userDetails.then((value) {
-          setState(() {
-            constantUserAddressValuesList = value.data.addresses;
-            for (var category in constantUserAddressValuesList) {
-              print(
-                  'List length search : ${constantUserAddressValuesList.length}');
+    ProgressDialogBuilder.showOverlayLoader(context);
+    if (HealingMatchConstants.isUserRegistrationSkipped != null &&
+        HealingMatchConstants.isUserRegistrationSkipped) {
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      _sharedPreferences.then((value) {
+        if (value != null) {
+          var userDetails = ServiceUserAPIProvider.getUserDetails(
+              context, HealingMatchConstants.serviceUserID);
+          userDetails.then((value) {
+            setState(() {
+              constantUserAddressValuesList = value.data.addresses;
+              for (var category in constantUserAddressValuesList) {
+                print(
+                    'List length search : ${constantUserAddressValuesList.length}');
 
-              var categoryData = category.userPlaceForMassage;
-              constantUserAddressSize.add(categoryData);
-              print(
-                  'Size of list category : ${constantUserAddressSize.length} && $categoryData');
-            }
+                var categoryData = category.userPlaceForMassage;
+                constantUserAddressSize.add(categoryData);
+                print(
+                    'Size of list category : ${constantUserAddressSize.length} && $categoryData');
+
+                ProgressDialogBuilder.hideLoader(context);
+              }
+            });
+          }).catchError((onError) {
+            ProgressDialogBuilder.hideLoader(context);
+            print('Catch error search : $onError');
           });
-        }).catchError((onError) {
-          print('Catch error search : $onError');
-        });
-      }
-    }).catchError((onError) {
-      print('S_Pref Exception : $onError');
-    });
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('S_Pref Exception : $onError');
+      });
+    }
   }
 
   _getLatLngFromAddress(String userAddress) async {
@@ -1464,11 +1505,16 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
       searchAddressLatitude = addressPosition.latitude;
       searchAddressLongitude = addressPosition.longitude;
 
+      HealingMatchConstants.searchAddressLatitude = searchAddressLatitude;
+      HealingMatchConstants.searchAddressLongitude = searchAddressLongitude;
+
       print(
           'Address location points : $searchAddressLatitude && $searchAddressLongitude');
-      if (searchAddressLatitude != null && searchAddressLongitude != null) {
-        //NavigationRouter.switchToUserSearchResult(context);
+      if (HealingMatchConstants.searchAddressLatitude != null &&
+          HealingMatchConstants.searchAddressLongitude != null) {
+        _getSearchResults();
       } else {
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1476,7 +1522,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text('検索に有効な住所タイプを選択してください。',
+                child: Text('検索に有効な住所を選択してください。',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1504,10 +1550,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   proceedToSearchResults() async {
     try {
-      print('User address : ${HealingMatchConstants.searchUserAddress}');
+      print(
+          'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
         _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
       } else {
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1536,23 +1584,150 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         ));
         return;
       }
-      if (HealingMatchConstants.isTimeCriteria) {
-        if (HealingMatchConstants.dateTime != null) {
-          print(
-              'Date time in String : ${HealingMatchConstants.dateTime.toIso8601String()}');
-          // run search event bloc & API Call
-          NavigationRouter.switchToUserSearchResult(context);
-        } else {
-          print('Date time in String null');
-        }
-      } else {
-        print('Time : ${HealingMatchConstants.dateTime.toIso8601String()}');
-        print('Date time is false');
-      }
-
-      // Run search bloc call
     } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
       print('Exception in search criteria : ${e.toString()}');
+    }
+  }
+
+  _getKeywordResults() {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
+      if (value != null &&
+          value.status != null &&
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
+        HealingMatchConstants.searchList = value.data.searchList;
+        print(
+            'Search List Length : ${HealingMatchConstants.searchList.length}');
+        NavigationRouter.switchToUserSearchResult(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 7),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+      }
+    }).catchError((onError) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Search catch error : ${onError.toString()}');
+    });
+  }
+
+  _getSearchResults() {
+    ServiceUserAPIProvider.getTherapistSearchResults(
+            context, _pageNumber, _pageSize)
+        .then((value) {
+      if (value != null &&
+          value.status != null &&
+          value.data.searchList != null &&
+          value.data.searchList.length != 0) {
+        HealingMatchConstants.searchList = value.data.searchList;
+        print(
+            'Search List Length : ${HealingMatchConstants.searchList.length}');
+        NavigationRouter.switchToUserSearchResult(context);
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        _searchKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: ColorConstants.snackBarColor,
+          duration: Duration(seconds: 7),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontFamily: 'NotoSansJP')),
+              ),
+              InkWell(
+                onTap: () {
+                  _searchKey.currentState.hideCurrentSnackBar();
+                },
+                child: Text('はい',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'NotoSansJP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline)),
+              ),
+            ],
+          ),
+        ));
+      }
+    }).catchError((onError) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Search catch error : ${onError.toString()}');
+    });
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    geoLocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      _currentPosition = position;
+      print('Current lat : ${_currentPosition.latitude}');
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Current Location exception : ${e.toString()}');
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      currentLocationPlaceMark = p[0];
+
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+
+      _currentAddress =
+          '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
+          ',${currentLocationPlaceMark.country}';
+      if (_currentAddress != null && _currentAddress.isNotEmpty) {
+        HealingMatchConstants.searchUserAddress = _currentAddress;
+        print(
+            'Current Search address : ${HealingMatchConstants.searchUserAddress} : '
+            '${HealingMatchConstants.currentLatitude} && '
+            '${HealingMatchConstants.currentLongitude}');
+        proceedToSearchResults();
+      } else {
+        ProgressDialogBuilder.hideLoader(context);
+        return null;
+      }
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print(e);
     }
   }
 }

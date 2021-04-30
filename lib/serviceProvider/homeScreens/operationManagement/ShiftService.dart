@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDropDownModel.dart';
@@ -17,7 +20,6 @@ import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 
 class ShiftService extends StatefulWidget {
   @override
@@ -80,12 +82,17 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   void showProgressDialog() {
-    _progressDialog.showProgressDialog(context,
-        textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    /*  _progressDialog.showProgressDialog(context,
+        textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5)); */
   }
 
   void hideProgressDialog() {
-    _progressDialog.dismissProgressDialog(context);
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+    /* _progressDialog.dismissProgressDialog(context); */
   }
 
   @override
@@ -1429,22 +1436,38 @@ class _ShiftServiceState extends State<ShiftService> {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 996);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 1;
                                                   } else if (mindex == 1) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 999);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 4;
                                                   } else if (mindex == 2) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 998);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 3;
                                                   } else if (mindex == 3) {
                                                     servicePriceModel[
                                                                 lengthModel]
                                                             .subCategoryId =
-                                                        getID(index, mindex);
+                                                        getID(
+                                                            index, mindex, 997);
+                                                    servicePriceModel[
+                                                            lengthModel]
+                                                        .categoryId = 2;
                                                   }
 
                                                   selectedDropdownValues
@@ -1763,9 +1786,9 @@ class _ShiftServiceState extends State<ShiftService> {
   }
 
   //get the id of the Message Value
-  int getID(int index, int mindex) {
+  int getID(int index, int mindex, int induvidualConstantID) {
     int id;
-    int constantID = 999;
+    int constantID = induvidualConstantID;
     if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
@@ -1819,31 +1842,30 @@ class _ShiftServiceState extends State<ShiftService> {
         in HealingMatchConstants.userData.therapistSubCategories) {
       if (therapistSubCategory.categoryId == 1) {
         estheticServicePriceModel.add(therapistSubCategory);
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 996) {
           otherEstheticDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedEstheticDropdownValues.add(therapistSubCategory.name);
         }
+        selectedEstheticDropdownValues.add(therapistSubCategory.name);
       } else if (therapistSubCategory.categoryId == 2) {
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 997) {
           otherFitnessDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedFitnessDropdownValues.add(therapistSubCategory.name);
         }
+        selectedFitnessDropdownValues.add(therapistSubCategory.name);
+
         fitnessServicePriceModel.add(therapistSubCategory);
       } else if (therapistSubCategory.categoryId == 3) {
-        if (therapistSubCategory.subCategoryId == 999) {
+        if (therapistSubCategory.subCategoryId == 998) {
           otherTreatmentDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedTreatmentDropdownValues.add(therapistSubCategory.name);
         }
+        selectedTreatmentDropdownValues.add(therapistSubCategory.name);
+
         treatmentServicePriceModel.add(therapistSubCategory);
       } else if (therapistSubCategory.categoryId == 4) {
         if (therapistSubCategory.subCategoryId == 999) {
           otherRelaxationDropDownValues.add(therapistSubCategory.name);
-        } else {
-          selectedRelaxationDropdownValues.add(therapistSubCategory.name);
         }
+        selectedRelaxationDropdownValues.add(therapistSubCategory.name);
+
         relaxationServicePriceModel.add(therapistSubCategory);
       }
     }
@@ -1911,6 +1933,7 @@ class _ShiftServiceState extends State<ShiftService> {
       print("This is response: ${response.statusCode}\n${response.body}");
       if (StatusCodeHelper.isTherpaistServiceUpdateSuccess(
           response.statusCode, context, response.body)) {
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         final Map updateResponse = json.decode(response.body);
         updateResponseModel = LoginResponseModel.fromJson(updateResponse);
         HealingMatchConstants.userData = updateResponseModel.data;

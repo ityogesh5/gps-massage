@@ -9,11 +9,11 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_bloc.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_event.dart';
 import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/ratings_review_state.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:gps_massageapp/serviceProvider/BlocCalls/ProviderRatingsAndReviewScreenBlocCalls/Repository/ratings_review_repository.dart';
 
 class ProviderSelfReviewScreen extends StatefulWidget {
   @override
@@ -125,9 +125,9 @@ class LoadProviderReviewPage extends StatefulWidget {
 
 class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
   TherapistReviewBloc therapistReviewBloc;
-  List<UserList> therapistReviewList = [];
+  List<TherapistReviewList> therapistReviewList = [];
   bool isLoading = false;
-  var _pageNumber = 1;
+  var _pageNumber = 0;
   var _pageSize = 10;
   int _totalReviews = 0;
 
@@ -159,8 +159,8 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
     providerListApiProvider.then((value) {
       if (this.mounted) {
         setState(() {
-          therapistReviewList = value.userData.userList;
-          _totalReviews = value.userData.totalElements;
+          therapistReviewList = value.therapistsData.therapistReviewList;
+          _totalReviews = value.therapistsData.totalElements;
         });
       }
     });
@@ -263,19 +263,20 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
           var providerListApiProvider =
               ServiceProviderApi.getTherapistReviewById(_pageNumber, _pageSize);
           providerListApiProvider.then((value) {
-            if (value.userData.userList.isEmpty) {
+            if (value.therapistsData.therapistReviewList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
-                    'TherapistList data count is Zero : ${value.userData.userList.length}');
+                    'TherapistList data count is Zero : ${value.therapistsData.therapistReviewList.length}');
               });
             } else {
               print(
-                  'TherapistList data Size : ${value.userData.userList.length}');
+                  'TherapistList data Size : ${value.therapistsData.therapistReviewList.length}');
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  therapistReviewList.addAll(value.userData.userList);
+                  therapistReviewList
+                      .addAll(value.therapistsData.therapistReviewList);
                 }
               });
             }
@@ -288,7 +289,7 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
     }
   }
 
-  Widget buildReviewContent(UserList therapistReviewList) {
+  Widget buildReviewContent(TherapistReviewList therapistReviewList) {
     return new Column(
       children: [
         SizedBox(height: 10.0),
@@ -311,12 +312,12 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > therapistReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
                             width: 13.0,
-                            color: Colors.black,
+                           // color: Colors.black,
                           )
                         : SvgPicture.asset(
                             "assets/images_gps/star_1.svg",
@@ -396,7 +397,7 @@ class _LoadInitialPageState extends State<LoadInitialPage> {
 }
 
 class LoadProviderReviewRatingsById extends StatefulWidget {
-  List<UserList> therapistReviewList;
+  List<TherapistReviewList> therapistReviewList;
 
   LoadProviderReviewRatingsById({Key key, @required this.therapistReviewList})
       : super(key: key);
@@ -408,9 +409,9 @@ class LoadProviderReviewRatingsById extends StatefulWidget {
 class _LoadProviderReviewRatingsByIdState
     extends State<LoadProviderReviewRatingsById> {
   TherapistReviewBloc therapistReviewBloc;
-  List<UserList> therapistReviewList = [];
+  List<TherapistReviewList> therapistReviewList = [];
   bool isLoading = false;
-  var _pageNumberType = 1;
+  var _pageNumberType = 0;
   var _pageSizeType = 10;
 
   @override
@@ -519,19 +520,20 @@ class _LoadProviderReviewRatingsByIdState
               ServiceProviderApi.getTherapistReviewById(
                   _pageNumberType, _pageSizeType);
           providerListApiProvider.then((value) {
-            if (value.userData.userList.isEmpty) {
+            if (value.therapistsData.therapistReviewList.isEmpty) {
               setState(() {
                 isLoading = false;
                 print(
-                    'TherapistList data count is Zero : ${value.userData.userList.length}');
+                    'TherapistList data count is Zero : ${value.therapistsData.therapistReviewList.length}');
               });
             } else {
               print(
-                  'TherapistList data Size : ${value.userData.userList.length}');
+                  'TherapistList data Size : ${value.therapistsData.therapistReviewList.length}');
               setState(() {
                 isLoading = false;
                 if (this.mounted) {
-                  widget.therapistReviewList.addAll(value.userData.userList);
+                  widget.therapistReviewList
+                      .addAll(value.therapistsData.therapistReviewList);
                 }
               });
             }
@@ -544,7 +546,7 @@ class _LoadProviderReviewRatingsByIdState
     }
   }
 
-  Widget buildReviewContent(UserList therapistReviewList) {
+  Widget buildReviewContent(TherapistReviewList therapistReviewList) {
     return new Column(
       children: [
         SizedBox(height: 10.0),
@@ -567,7 +569,7 @@ class _LoadProviderReviewRatingsByIdState
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index == 4
+                    icon: index > therapistReviewList.ratingsCount-1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,

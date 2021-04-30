@@ -16,7 +16,7 @@ class GetTherapistReviewLoaderState extends TherapistReviewState {
 
 // ignore: must_be_immutable
 class GetTherapistReviewLoadedState extends TherapistReviewState {
-  List<UserList> getTherapistsUsers;
+  List<TherapistReviewList> getTherapistsUsers;
 
   GetTherapistReviewLoadedState({@required this.getTherapistsUsers});
 

@@ -5,15 +5,19 @@ import 'dart:typed_data';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
+import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/models/customModels/address.dart';
 import 'package:gps_massageapp/models/customModels/userAddressAdd.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/profile/ErrorClass/UpdateErrorModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/cityListResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/register/stateListResponseModel.dart';
@@ -23,13 +27,16 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
 
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
     new List<AddUserSubAddress>();
 
-var deletePosition;
+var deletePosition, editPosition;
+var addressID;
 
 class UpdateServiceUserDetails extends StatefulWidget {
   String userProfileImage;
@@ -67,13 +74,15 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   String imgBase64ProfileImage;
   Uint8List profileImageInBytes;
 
+  double containerHeight =
+      48.0; //height of Every TextFormField wrapped with container
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //getEditUserFields();
     getUserProfileData();
-    _getStates();
   }
 
   @override
@@ -81,10 +90,20 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     super.dispose();
   }
 
-  var userAddressType = '';
+  showOverlayLoader() {
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 0), () {
+      Loader.hide();
+    });
+  }
+
+  var userAddressType;
   final _searchRadiusKey = new GlobalKey<FormState>();
   var _mySearchRadiusDistance;
-
   TextEditingController _userDOBController = new TextEditingController();
   TextEditingController _editAddressController = new TextEditingController();
 
@@ -113,8 +132,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   File _profileImage;
   bool readonly = false;
   final picker = ImagePicker();
-  Placemark currentLocationPlaceMark;
-  Placemark userAddedAddressPlaceMark;
+  // Placemark currentLocationPlaceMark;
+  // Placemark userAddedAddressPlaceMark;
 
   bool visible = false;
   bool _showCurrentLocationInput = false;
@@ -177,11 +196,12 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
         context: context,
         //locale : const Locale("ja","JP"),
         initialDatePickerMode: DatePickerMode.day,
-        initialDate: DateTime.now(),
+        initialDate: selectedDate,
         firstDate: DateTime(1901, 1),
         lastDate: DateTime.now());
     if (picked != null) {
       setState(() {
+        selectedDate = picked;
         _selectedDOBDate = new DateFormat("yyyy-MM-dd").format(picked);
         _userDOBController.value =
             TextEditingValue(text: _selectedDOBDate.toString());
@@ -273,237 +293,193 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: cityStatus == 0
-          ? buildLoading()
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: Form(
-                  key: _updateUserFormKey,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Stack(
-                            overflow: Overflow.visible,
-                            children: [
-                              _profileImage != null
-                                  ? InkWell(
-                                      onTap: () {
-                                        _showPicker(context, 0);
-                                      },
-                                      child: Container(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: Form(
+            key: _updateUserFormKey,
+            child: ListView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      overflow: Overflow.visible,
+                      children: [
+                        _profileImage != null
+                            ? InkWell(
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: new FileImage(_profileImage)),
+                                    )),
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: HealingMatchConstants.userProfileImage !=
+                                        null
+                                    ? CachedNetworkImage(
+                                        imageUrl: HealingMatchConstants
+                                            .userProfileImage,
+                                        filterQuality: FilterQuality.high,
+                                        fadeInCurve: Curves.easeInSine,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
                                           width: 95.0,
                                           height: 95.0,
-                                          decoration: new BoxDecoration(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            SpinKitDoubleBounce(
+                                                color: Colors.lightGreenAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
                                             border: Border.all(
                                                 color: Colors.black12),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: new FileImage(
-                                                    _profileImage)),
-                                          )),
-                                    )
-                                  : InkWell(
-                                      onTap: () {
-                                        _showPicker(context, 0);
-                                      },
-                                      child: HealingMatchConstants
-                                                  .userProfileImage !=
-                                              null
-                                          ? CachedNetworkImage(
-                                              imageUrl: HealingMatchConstants
-                                                  .userProfileImage,
-                                              filterQuality: FilterQuality.high,
-                                              fadeInCurve: Curves.easeInSine,
-                                              imageBuilder:
-                                                  (context, imageProvider) =>
-                                                      Container(
-                                                width: 95.0,
-                                                height: 95.0,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              ),
-                                              placeholder: (context, url) =>
-                                                  SpinKitDoubleBounce(
-                                                      color: Colors
-                                                          .lightGreenAccent),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Container(
-                                                width: 95.0,
-                                                height: 95.0,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                      color: Colors.black12),
-                                                  image: DecorationImage(
-                                                      image: new AssetImage(
-                                                          'assets/images_gps/placeholder_image.png'),
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              ),
-                                            )
-                                          : Container(
-                                              width: 95.0,
-                                              height: 95.0,
-                                              decoration: new BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black12),
-                                                shape: BoxShape.circle,
-                                                image: new DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: new AssetImage(
-                                                        'assets/images_gps/placeholder_image.png')),
-                                              )),
-                                    ),
-                              Visibility(
-                                visible: true,
-                                child: Positioned(
-                                  right: -70.0,
-                                  top: 65,
-                                  left: 10.0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showPicker(context, 0);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[500],
-                                      radius: 13,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 12,
-                                        child: Icon(Icons.edit,
-                                            color: Colors.grey[400],
-                                            size: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                            image: DecorationImage(
+                                                image: new AssetImage(
+                                                    'assets/images_gps/placeholder_image.png'),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 95.0,
+                                        height: 95.0,
+                                        decoration: new BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.black12),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/placeholder_image.png')),
+                                        )),
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: TextFormField(
-                              //enableInteractiveSelection: false,
-                              //maxLength: 20,
-                              autofocus: false,
-                              controller: userNameController,
-                              decoration: new InputDecoration(
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                labelText: 'お名前',
-                                //hintText: 'お名前 *',
-                                /*hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),*/
-                                labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontFamily: 'NotoSansJP',
-                                    fontSize: 14),
-                                focusColor: Colors.grey[100],
-                                border:
-                                    HealingMatchConstants.textFormInputBorder,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
+                        Visibility(
+                          visible: true,
+                          child: Positioned(
+                            right: -70.0,
+                            top: 65,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                _showPicker(context, 0);
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.grey[500],
+                                radius: 13,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 12,
+                                  child: Icon(Icons.edit,
+                                      color: Colors.grey[400], size: 20.0),
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 15),
-                          Container(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    // height: MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.63,
-                                    alignment: Alignment.topCenter,
-                                    child: GestureDetector(
-                                      onTap: () => _selectDate(context),
-                                      child: AbsorbPointer(
-                                        child: TextFormField(
-                                          //enableInteractiveSelection: false,
-                                          controller: _userDOBController,
-                                          keyboardType: TextInputType.text,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'NotoSansJP'),
-                                          cursorColor: Colors.redAccent,
-                                          readOnly: true,
-                                          decoration: new InputDecoration(
-                                            filled: true,
-                                            fillColor: ColorConstants
-                                                .formFieldFillColor,
-                                            labelText: '生年月日',
-                                            hintText: '生年月日',
-                                            hintStyle: TextStyle(
-                                                color: Colors.grey[400],
-                                                fontSize: 14),
-                                            labelStyle: TextStyle(
-                                              color: Colors.grey[400],
-                                            ),
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today,
-                                              color: Color.fromRGBO(
-                                                  211, 211, 211, 1),
-                                            ),
-                                            border: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            focusedBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            disabledBorder:
-                                                HealingMatchConstants
-                                                    .textFormInputBorder,
-                                            enabledBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  //age
-                                  Container(
-                                    // height: MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.20,
-                                    alignment: Alignment.topCenter,
-                                    child: TextFormField(
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: containerHeight,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: WidgetAnimator(
+                        TextFormField(
+                          //enableInteractiveSelection: false,
+                          //maxLength: 20,
+                          autofocus: false,
+                          controller: userNameController,
+                          decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            labelText: 'お名前',
+                            //hintText: 'お名前 *',
+                            /*hintStyle: TextStyle(
+                              color: Colors.grey[400],
+                            ),*/
+                            labelStyle: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                            focusColor: Colors.grey[100],
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: containerHeight,
+                              width: MediaQuery.of(context).size.width * 0.63,
+                              alignment: Alignment.topCenter,
+                              child: GestureDetector(
+                                onTap: () => _selectDate(context),
+                                child: AbsorbPointer(
+                                  child: WidgetAnimator(
+                                    TextFormField(
                                       //enableInteractiveSelection: false,
-                                      controller: ageController,
-                                      autofocus: false,
+                                      controller: _userDOBController,
+                                      keyboardType: TextInputType.text,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'NotoSansJP'),
+                                      cursorColor: Colors.redAccent,
                                       readOnly: true,
                                       decoration: new InputDecoration(
                                         filled: true,
                                         fillColor:
                                             ColorConstants.formFieldFillColor,
-                                        labelText: '年齢',
-                                        labelStyle: TextStyle(
+                                        labelText: '生年月日',
+                                        hintText: '生年月日',
+                                        hintStyle: TextStyle(
                                             color: Colors.grey[400],
-                                            fontFamily: 'NotoSansJP',
                                             fontSize: 14),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.calendar_today,
+                                          color:
+                                              Color.fromRGBO(211, 211, 211, 1),
+                                        ),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -515,138 +491,322 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            //age
+                            Container(
+                              height: containerHeight,
+                              width: MediaQuery.of(context).size.width * 0.20,
+                              alignment: Alignment.topCenter,
+                              child: WidgetAnimator(
+                                TextFormField(
+                                  //enableInteractiveSelection: false,
+                                  controller: ageController,
+                                  autofocus: false,
+                                  readOnly: true,
+                                  decoration: new InputDecoration(
+                                    filled: true,
+                                    fillColor:
+                                        ColorConstants.formFieldFillColor,
+                                    labelText: '年齢',
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontFamily: 'NotoSansJP',
+                                        fontSize: 14),
+                                    border: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    focusedBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    disabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                    enabledBorder: HealingMatchConstants
+                                        .textFormInputBorder,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Drop down gender user
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100.0, right: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          WidgetAnimator(
+                            Text(
+                              '性別',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'NotoSansJP',
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ),
+                          Form(
+                            key: _genderKey,
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.38,
+                                child: WidgetAnimator(
+                                  DropDownFormField(
+                                    hintText: '性別',
+                                    value: _myGender,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _myGender = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _myGender = value;
+                                        //print(_myBldGrp.toString());
+                                      });
+                                    },
+                                    dataSource: [
+                                      {
+                                        "display": "男性",
+                                        "value": "男性",
+                                      },
+                                      {
+                                        "display": "女性",
+                                        "value": "女性",
+                                      },
+                                      {
+                                        "display": "どちらでもない",
+                                        "value": "どちらでもない",
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          // Drop down gender user
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 100.0, right: 25.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  '性別',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.w300),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Drop down occupation user
+                    Form(
+                      key: _occupationKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              child: WidgetAnimator(
+                                DropDownFormField(
+                                  hintText: '職業',
+                                  value: _myOccupation,
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _myOccupation = value;
+                                    });
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _myOccupation = value;
+                                      //print(_myBldGrp.toString());
+                                    });
+                                  },
+                                  dataSource: [
+                                    {
+                                      "display": "会社員",
+                                      "value": "会社員",
+                                    },
+                                    {
+                                      "display": "公務員",
+                                      "value": "公務員",
+                                    },
+                                    {
+                                      "display": "自営業",
+                                      "value": "自営業",
+                                    },
+                                    {
+                                      "display": "会社役員",
+                                      "value": "会社役員",
+                                    },
+                                    {
+                                      "display": "会社経営",
+                                      "value": "会社経営",
+                                    },
+                                    {
+                                      "display": "自由業",
+                                      "value": "自由業",
+                                    },
+                                    {
+                                      "display": "専業主婦（夫）",
+                                      "value": "専業主婦（夫）",
+                                    },
+                                    {
+                                      "display": "学生",
+                                      "value": "学生",
+                                    },
+                                    {
+                                      "display": "パート・アルバイト",
+                                      "value": "パート・アルバイト",
+                                    },
+                                    {
+                                      "display": "無職",
+                                      "value": "無職",
+                                    },
+                                  ],
+                                  textField: 'display',
+                                  valueField: 'value',
                                 ),
-                                Form(
-                                  key: _genderKey,
-                                  child: Center(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.38,
-                                      child: DropDownFormField(
-                                        hintText: '性別',
-                                        value: _myGender,
-                                        onSaved: (value) {
-                                          setState(() {
-                                            _myGender = value;
-                                          });
-                                        },
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _myGender = value;
-                                            //print(_myBldGrp.toString());
-                                          });
-                                        },
-                                        dataSource: [
-                                          {
-                                            "display": "男性",
-                                            "value": "男性",
-                                          },
-                                          {
-                                            "display": "女性",
-                                            "value": "女性",
-                                          },
-                                          {
-                                            "display": "どちらでもない",
-                                            "value": "どちらでもない",
-                                          },
-                                        ],
-                                        textField: 'display',
-                                        valueField: 'value',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            height: 15,
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      // height: containerHeight,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: WidgetAnimator(
+                        TextFormField(
+                          //enableInteractiveSelection: false,
+                          enabled: false,
+                          autofocus: false,
+                          maxLength: 10,
+                          controller: phoneNumberController,
+                          keyboardType: TextInputType.text,
+                          onEditingComplete: () {
+                            var phnNum = phoneNumberController.text.toString();
+                            var userPhoneNumber =
+                                phnNum.replaceFirst(RegExp(r'^0+'), "");
+                            print('Phone number after edit : $userPhoneNumber');
+                            phoneNumberController.text = userPhoneNumber;
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.all(11),
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            labelText: '電話番号',
+                            labelStyle: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                            focusColor: Colors.grey[100],
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
                           ),
-                          // Drop down occupation user
-                          Form(
-                            key: _occupationKey,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Center(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.85,
-                                    child: DropDownFormField(
-                                      hintText: '職業',
-                                      value: _myOccupation,
+                          // validator: (value) => _validateEmail(value),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: containerHeight,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: WidgetAnimator(
+                        TextFormField(
+                          //enableInteractiveSelection: false,
+                          enabled: false,
+                          autofocus: false,
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+
+                          decoration: new InputDecoration(
+                            filled: true,
+                            fillColor: ColorConstants.formFieldFillColor,
+                            labelText: 'メールアドレス',
+                            labelStyle: TextStyle(
+                                color: Colors.grey[400],
+                                fontFamily: 'NotoSansJP',
+                                fontSize: 14),
+                            focusColor: Colors.grey[100],
+                            border: HealingMatchConstants.textFormInputBorder,
+                            focusedBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            disabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                            enabledBorder:
+                                HealingMatchConstants.textFormInputBorder,
+                          ),
+                          // validator: (value) => _validateEmail(value),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 15),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Form(
+                          key: _placeOfAddressKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Center(
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: WidgetAnimator(
+                                    DropDownFormField(
+                                      enabled: false,
+                                      filled: true,
+                                      hintText: '登録する地点のカテゴリー ',
+                                      value: _myCategoryPlaceForMassage,
                                       onSaved: (value) {
                                         setState(() {
-                                          _myOccupation = value;
+                                          _myCategoryPlaceForMassage = value;
                                         });
                                       },
                                       onChanged: (value) {
-                                        setState(() {
-                                          _myOccupation = value;
-                                          //print(_myBldGrp.toString());
-                                        });
+                                        /*setState(() {
+                                          if (value == "その他（直接入力）") {
+                                            setState(() {
+                                              _myCategoryPlaceForMassage =
+                                                  value;
+                                              visible = true; // !visible;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              _myCategoryPlaceForMassage =
+                                                  value;
+                                              visible = false;
+                                            });
+                                          }
+                                        });*/
                                       },
                                       dataSource: [
                                         {
-                                          "display": "会社員",
-                                          "value": "会社員",
+                                          "display": "自宅",
+                                          "value": "自宅",
                                         },
                                         {
-                                          "display": "公務員",
-                                          "value": "公務員",
+                                          "display": "オフィス",
+                                          "value": "オフィス",
                                         },
                                         {
-                                          "display": "自営業",
-                                          "value": "自営業",
+                                          "display": "実家",
+                                          "value": "実家",
                                         },
                                         {
-                                          "display": "会社役員",
-                                          "value": "会社役員",
-                                        },
-                                        {
-                                          "display": "会社経営",
-                                          "value": "会社経営",
-                                        },
-                                        {
-                                          "display": "自由業",
-                                          "value": "自由業",
-                                        },
-                                        {
-                                          "display": "専業主婦（夫）",
-                                          "value": "専業主婦（夫）",
-                                        },
-                                        {
-                                          "display": "学生",
-                                          "value": "学生",
-                                        },
-                                        {
-                                          "display": "パート・アルバイト",
-                                          "value": "パート・アルバイト",
-                                        },
-                                        {
-                                          "display": "無職",
-                                          "value": "無職",
+                                          "display": "その他（直接入力）",
+                                          "value": "その他（直接入力）",
                                         },
                                       ],
                                       textField: 'display',
@@ -654,167 +814,165 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: TextFormField(
-                              //enableInteractiveSelection: false,
-                              enabled: false,
-                              autofocus: false,
-                              maxLength: 10,
-                              controller: phoneNumberController,
-                              keyboardType:
-                                  TextInputType.numberWithOptions(signed: true),
-                              onEditingComplete: () {
-                                var phnNum =
-                                    phoneNumberController.text.toString();
-                                var userPhoneNumber =
-                                    phnNum.replaceFirst(RegExp(r'^0+'), "");
-                                print(
-                                    'Phone number after edit : $userPhoneNumber');
-                                phoneNumberController.text = userPhoneNumber;
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                              },
-                              decoration: new InputDecoration(
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                labelText: '電話番号',
-                                labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontFamily: 'NotoSansJP',
-                                    fontSize: 14),
-                                focusColor: Colors.grey[100],
-                                border:
-                                    HealingMatchConstants.textFormInputBorder,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
                               ),
-                              // validator: (value) => _validateEmail(value),
-                            ),
+                            ],
                           ),
-                          Container(
-                            // height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.85,
-                            child: TextFormField(
-                              //enableInteractiveSelection: false,
-                              enabled: false,
-                              autofocus: false,
-                              controller: emailController,
-                              keyboardType: TextInputType.emailAddress,
-
-                              decoration: new InputDecoration(
-                                filled: true,
-                                fillColor: ColorConstants.formFieldFillColor,
-                                labelText: 'メールアドレス',
-                                labelStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                    fontFamily: 'NotoSansJP',
-                                    fontSize: 14),
-                                focusColor: Colors.grey[100],
-                                border:
-                                    HealingMatchConstants.textFormInputBorder,
-                                focusedBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                disabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                                enabledBorder:
-                                    HealingMatchConstants.textFormInputBorder,
-                              ),
-                              // validator: (value) => _validateEmail(value),
-                            ),
-                          ),
-
-                          SizedBox(height: 15),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Form(
-                                key: _placeOfAddressKey,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.85,
-                                        child: DropDownFormField(
-                                          hintText: '登録する地点のカテゴリー ',
-                                          value: _myCategoryPlaceForMassage,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _myCategoryPlaceForMassage == "その他（直接入力）"
+                            ? Container(
+                                height: containerHeight,
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                child: WidgetAnimator(
+                                  TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding: EdgeInsets.all(11),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      labelText: '登録する地点のカテゴリー (直接入力)',
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                        SizedBox(height: 10),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: Form(
+                            key: _perfectureKey,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Center(
+                                      child:
+                                          /*stateDropDownValues != null
+                                                ? */
+                                          Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.39,
+                                    child: WidgetAnimator(
+                                      DropDownFormField(
+                                          enabled: false,
+                                          hintText: '府県',
+                                          value: _myPrefecture,
                                           onSaved: (value) {
                                             setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
+                                              _myPrefecture = value;
                                             });
                                           },
                                           onChanged: (value) {
-                                            setState(() {
-                                              if (value == "その他（直接入力）") {
-                                                setState(() {
-                                                  _myCategoryPlaceForMassage =
-                                                      value;
-                                                  visible = true; // !visible;
-                                                });
-                                              } else {
-                                                setState(() {
-                                                  _myCategoryPlaceForMassage =
-                                                      value;
-                                                  visible = false;
-                                                });
-                                              }
-                                            });
+                                            /*setState(() {
+                                              _myPrefecture = value;
+                                              print(
+                                                  'Prefecture value : ${_myPrefecture.toString()}');
+                                              _prefId = stateDropDownValues
+                                                      .indexOf(value) +
+                                                  1;
+                                              print(
+                                                  'prefID : ${_prefId.toString()}');
+                                              cityDropDownValues.clear();
+                                              _myCity = '';
+                                              getCities(_prefId);
+                                            });*/
                                           },
-                                          dataSource: [
-                                            {
-                                              "display": "自宅",
-                                              "value": "自宅",
-                                            },
-                                            {
-                                              "display": "オフィス",
-                                              "value": "オフィス",
-                                            },
-                                            {
-                                              "display": "実家",
-                                              "value": "実家",
-                                            },
-                                            {
-                                              "display": "その他（直接入力）",
-                                              "value": "その他（直接入力）",
-                                            },
-                                          ],
+                                          dataSource: [_myPrefecture],
+                                          isList: true,
                                           textField: 'display',
-                                          valueField: 'value',
-                                        ),
-                                      ),
+                                          valueField: 'value'),
                                     ),
-                                  ],
+                                  )),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              _myCategoryPlaceForMassage == "その他（直接入力）"
-                                  ? Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.85,
-                                      child: TextFormField(
-                                        controller: otherController,
-                                        style:
-                                            HealingMatchConstants.formTextStyle,
-                                        decoration: InputDecoration(
-                                          counterText: '',
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                Expanded(
+                                  child: Form(
+                                      key: _cityKey,
+                                      child:
+                                          /* cityDropDownValues != null
+                                                ?*/
+                                          Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.39,
+                                        child: WidgetAnimator(
+                                          DropDownFormField(
+                                              enabled: false,
+                                              hintText:
+                                                  readonly ? _myCity : '市',
+                                              value: _myCity,
+                                              onSaved: (value) {
+                                                setState(() {
+                                                  _myCity = value;
+                                                });
+                                              },
+                                              onChanged: (value) {
+                                                /*setState(() {
+                                                  _myCity = value;
+                                                  //print(_myBldGrp.toString());
+                                                });*/
+                                              },
+                                              dataSource: [_myCity],
+                                              isList: true,
+                                              textField: 'display',
+                                              valueField: 'value'),
+                                        ),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Center(
+                                  child: Container(
+                                    height: containerHeight,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.39,
+                                    child: WidgetAnimator(
+                                      TextFormField(
+                                        enabled: false,
+
+                                        //enableInteractiveSelection: false,
+                                        readOnly: true,
+                                        autofocus: false,
+                                        controller: userAreaController,
+                                        decoration: new InputDecoration(
+                                          filled: true,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                          labelText: '丁目, 番地',
+                                          /*hintText: '都、県選 *',
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey[400],
+                                  ),*/
+                                          labelStyle: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 14),
+                                          focusColor: Colors.grey[100],
                                           border: HealingMatchConstants
                                               .textFormInputBorder,
                                           focusedBorder: HealingMatchConstants
@@ -823,703 +981,716 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               .textFormInputBorder,
                                           enabledBorder: HealingMatchConstants
                                               .textFormInputBorder,
-                                          filled: true,
-                                          labelText: '登録する地点のカテゴリー (直接入力)',
-                                          labelStyle: HealingMatchConstants
-                                              .formLabelTextStyle,
-                                          fillColor:
-                                              ColorConstants.formFieldFillColor,
                                         ),
+                                        // validator: (value) => _validateEmail(value),
                                       ),
-                                    )
-                                  : Container(),
-                              SizedBox(height: 10),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: Form(
-                                  key: _perfectureKey,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Center(
-                                            child:
-                                                /*stateDropDownValues != null
-                                                ? */
-                                                Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.39,
-                                          child: DropDownFormField(
-                                              hintText: '府県',
-                                              value: _myPrefecture,
-                                              onSaved: (value) {
-                                                setState(() {
-                                                  _myPrefecture = value;
-                                                });
-                                              },
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _myPrefecture = value;
-                                                  print(
-                                                      'Prefecture value : ${_myPrefecture.toString()}');
-                                                  _prefId = stateDropDownValues
-                                                          .indexOf(value) +
-                                                      1;
-                                                  print(
-                                                      'prefID : ${_prefId.toString()}');
-                                                  cityDropDownValues.clear();
-                                                  _myCity = '';
-                                                  getCities(_prefId);
-                                                });
-                                              },
-                                              dataSource: stateDropDownValues,
-                                              isList: true,
-                                              textField: 'display',
-                                              valueField: 'value'),
-                                        )
-                                            /* : Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.39,
-                                                    child: DropDownFormField(
-                                                        hintText: '府県',
-                                                        value: _myPrefecture,
-                                                        onSaved: (value) {
-                                                          setState(() {
-                                                            _myPrefecture =
-                                                                value;
-                                                          });
-                                                        },
-                                                        dataSource: [],
-                                                        isList: true,
-                                                        textField: 'display',
-                                                        valueField: 'value'),
-                                                  )*/
-                                            ),
-                                      ),
-                                      Expanded(
-                                        child: Form(
-                                            key: _cityKey,
-                                            child:
-                                                /* cityDropDownValues != null
-                                                ?*/
-                                                Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.39,
-                                              child: DropDownFormField(
-                                                  hintText:
-                                                      readonly ? _myCity : '市',
-                                                  value: _myCity,
-                                                  onSaved: (value) {
-                                                    setState(() {
-                                                      _myCity = value;
-                                                    });
-                                                  },
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _myCity = value;
-                                                      //print(_myBldGrp.toString());
-                                                    });
-                                                  },
-                                                  dataSource:
-                                                      cityDropDownValues,
-                                                  isList: true,
-                                                  textField: 'display',
-                                                  valueField: 'value'),
-                                            )
-                                            /*: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.39,
-                                                    child: DropDownFormField(
-                                                        hintText: '市 *',
-                                                        value: _myCity,
-                                                        onSaved: (value) {
-                                                          setState(() {
-                                                            _myCity = value;
-                                                          });
-                                                        },
-                                                        dataSource: [],
-                                                        isList: true,
-                                                        textField: 'display',
-                                                        valueField: 'value'),
-                                                  )*/
-                                            ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          // height: MediaQuery.of(context).size.height * 0.07,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.39,
-                                          child: TextFormField(
-                                            //enableInteractiveSelection: false,
-                                            autofocus: false,
-                                            controller: userAreaController,
-                                            decoration: new InputDecoration(
-                                              filled: true,
-                                              fillColor: ColorConstants
-                                                  .formFieldFillColor,
-                                              labelText: '丁目, 番地',
-                                              /*hintText: '都、県選 *',
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey[400],
-                                  ),*/
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: 'NotoSansJP',
-                                                  fontSize: 14),
-                                              focusColor: Colors.grey[100],
-                                              border: HealingMatchConstants
-                                                  .textFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                            ),
-                                            // validator: (value) => _validateEmail(value),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        // height: MediaQuery.of(context).size.height * 0.07,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.39,
-                                        child: TextFormField(
-                                          //enableInteractiveSelection: false,
-                                          // keyboardType: TextInputType.number,
-                                          autofocus: false,
-                                          controller: buildingNameController,
-                                          decoration: new InputDecoration(
-                                            filled: true,
-                                            fillColor: ColorConstants
-                                                .formFieldFillColor,
-                                            labelText: '建物名',
-                                            /*hintText: 'ビル名 *',
+                              Expanded(
+                                child: Container(
+                                  height: containerHeight,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.39,
+                                  child: WidgetAnimator(
+                                    TextFormField(
+                                      enabled: false,
+
+                                      //enableInteractiveSelection: false,
+                                      // keyboardType: TextInputType.number,
+                                      autofocus: false,
+                                      controller: buildingNameController,
+                                      readOnly: true,
+                                      decoration: new InputDecoration(
+                                        filled: true,
+                                        fillColor:
+                                            ColorConstants.formFieldFillColor,
+                                        labelText: '建物名',
+                                        /*hintText: 'ビル名 *',
                                 hintStyle: TextStyle(
-                                  color: Colors.grey[400],
+                                    color: Colors.grey[400],
                                 ),*/
-                                            labelStyle: TextStyle(
-                                                color: Colors.grey[400],
-                                                fontFamily: 'NotoSansJP',
-                                                fontSize: 14),
-                                            focusColor: Colors.grey[100],
-                                            border: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            focusedBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                            disabledBorder:
-                                                HealingMatchConstants
-                                                    .textFormInputBorder,
-                                            enabledBorder: HealingMatchConstants
-                                                .textFormInputBorder,
-                                          ),
-                                          // validator: (value) => _validateEmail(value),
-                                        ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontFamily: 'NotoSansJP',
+                                            fontSize: 14),
+                                        focusColor: Colors.grey[100],
+                                        border: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        focusedBorder: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        disabledBorder: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        enabledBorder: HealingMatchConstants
+                                            .textFormInputBorder,
                                       ),
+                                      // validator: (value) => _validateEmail(value),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.85,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          // height: MediaQuery.of(context).size.height * 0.07,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.39,
-                                          child: TextFormField(
-                                            //enableInteractiveSelection: false,
-                                            autofocus: false,
-                                            controller: roomNumberController,
-                                            decoration: new InputDecoration(
-                                              filled: true,
-                                              fillColor: ColorConstants
-                                                  .formFieldFillColor,
-                                              labelText: '部屋番号',
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey[400],
-                                                  fontFamily: 'NotoSansJP',
-                                                  fontSize: 14),
-                                              focusColor: Colors.grey[100],
-                                              border: HealingMatchConstants
-                                                  .textFormInputBorder,
-                                              focusedBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              disabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                              enabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
-                                            ),
-                                            // validator: (value) => _validateEmail(value),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                        ),
+                        SizedBox(height: 15),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Center(
+                                  child: Container(
+                                    height: containerHeight,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.39,
+                                    child: WidgetAnimator(
+                                      TextFormField(
+                                        enabled: false,
 
-                          SizedBox(height: 15),
-
-                          constantUserAddressValuesList != null
-                              ? Container(
-                                  // height: MediaQuery.of(context).size.height * 0.07,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    enableInteractiveSelection: false,
-                                    decoration: new InputDecoration(
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      hintText: 'その他の登録場所',
-                                      suffixIcon: IconButton(
-                                        icon: Icon(Icons.add,
-                                            size: 28, color: Colors.black),
-                                        onPressed: () {
-                                          if (constantUserAddressValuesList
-                                                  .length ==
-                                              3) {
-                                            _scaffoldKey.currentState
-                                                .showSnackBar(SnackBar(
-                                              backgroundColor:
-                                                  ColorConstants.snackBarColor,
-                                              duration: Duration(seconds: 3),
-                                              content: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Flexible(
-                                                    child: Text(
-                                                        'メインの地点以外に3箇所まで地点登録ができます。',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'NotoSansJP')),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      _scaffoldKey.currentState
-                                                          .hideCurrentSnackBar();
-                                                    },
-                                                    child: Text('はい',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'NotoSansJP',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ));
-                                          } else {
-                                            _updateUserFormKey.currentState
-                                                .save();
-                                            NavigationRouter
-                                                .switchToUserAddAddressScreen(
-                                                    context, refreshPage);
-                                          }
-                                        },
+                                        //enableInteractiveSelection: false,
+                                        readOnly: true,
+                                        autofocus: false,
+                                        controller: roomNumberController,
+                                        decoration: new InputDecoration(
+                                          filled: true,
+                                          fillColor:
+                                              ColorConstants.formFieldFillColor,
+                                          labelText: '部屋番号',
+                                          labelStyle: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontFamily: 'NotoSansJP',
+                                              fontSize: 14),
+                                          focusColor: Colors.grey[100],
+                                          border: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          focusedBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          disabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                          enabledBorder: HealingMatchConstants
+                                              .textFormInputBorder,
+                                        ),
+                                        // validator: (value) => _validateEmail(value),
                                       ),
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14),
-                                      focusColor: Colors.grey[100],
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
                                     ),
-                                    style: TextStyle(color: Colors.black54),
-                                    // validator: (value) => _validateEmail(value),
-                                  ),
-                                )
-                              : Container(
-                                  // height: MediaQuery.of(context).size.height * 0.07,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    enableInteractiveSelection: false,
-                                    decoration: new InputDecoration(
-                                      filled: true,
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
-                                      hintText: 'その他の登録場所',
-                                      suffixIcon: IconButton(
-                                        icon: Icon(Icons.add,
-                                            size: 28, color: Colors.black),
-                                        onPressed: () {
-                                          _updateUserFormKey.currentState
-                                              .save();
-                                          NavigationRouter
-                                              .switchToUserAddAddressScreen(
-                                                  context, refreshPage);
-                                        },
-                                      ),
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14),
-                                      focusColor: Colors.grey[100],
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                    ),
-                                    style: TextStyle(color: Colors.black54),
-                                    // validator: (value) => _validateEmail(value),
                                   ),
                                 ),
-                          SizedBox(height: 15),
-                          Text(
-                            'メインの地点以外に3箇所まで地点登録ができます',
-                            style: TextStyle(
-                                fontFamily: 'NotoSansJP',
-                                fontSize: 14,
-                                color: Colors.grey),
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 15),
+                        ),
+                      ],
+                    ),
 
-                          constantUserAddressValuesList != null
-                              ? Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 12.0),
-                                    child: ListView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        itemCount: constantUserAddressValuesList
-                                            .length,
-                                        itemBuilder:
-                                            (BuildContext ctxt, int index) {
-                                          return Column(
+                    SizedBox(height: 15),
+
+                    constantUserAddressValuesList != null ||
+                            HealingMatchConstants.userAddressesList != null
+                        ? Container(
+                            height: containerHeight,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              TextFormField(
+                                readOnly: true,
+                                enableInteractiveSelection: false,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  hintText: 'その他の登録場所',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.add,
+                                        size: 28, color: Colors.black),
+                                    onPressed: () {
+                                      if (HealingMatchConstants
+                                              .userAddressesList.length ==
+                                          3) {
+                                        _scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          backgroundColor:
+                                              ColorConstants.snackBarColor,
+                                          duration: Duration(seconds: 3),
+                                          content: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              FittedBox(
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.86,
-                                                      child: TextFormField(
-                                                        //display the address
-                                                        readOnly: true,
-                                                        autofocus: false,
-                                                        initialValue:
-                                                            constantUserAddressValuesList[
-                                                                    index]
-                                                                .subAddress,
-                                                        decoration:
-                                                            new InputDecoration(
-                                                                filled: true,
-                                                                fillColor: ColorConstants
-                                                                    .formFieldFillColor,
-                                                                hintText:
-                                                                    '${constantUserAddressValuesList[index]}',
-                                                                hintStyle: TextStyle(
-                                                                    color:
-                                                                        Colors.grey[
-                                                                            400],
-                                                                    fontSize:
-                                                                        14),
-                                                                focusColor:
-                                                                    Colors.grey[
-                                                                        100],
-                                                                border: HealingMatchConstants
-                                                                    .textFormInputBorder,
-                                                                focusedBorder:
-                                                                    HealingMatchConstants
-                                                                        .textFormInputBorder,
-                                                                disabledBorder:
-                                                                    HealingMatchConstants
-                                                                        .textFormInputBorder,
-                                                                enabledBorder:
-                                                                    HealingMatchConstants
-                                                                        .textFormInputBorder,
-                                                                prefixIcon:
-                                                                    Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          8.0),
-                                                                  child: Container(
-                                                                      padding: EdgeInsets.all(8.0),
-                                                                      decoration: BoxDecoration(
-                                                                        gradient: LinearGradient(
-                                                                            begin:
-                                                                                Alignment.topCenter,
-                                                                            end: Alignment.bottomCenter,
-                                                                            colors: [
-                                                                              Color.fromRGBO(255, 255, 255, 1),
-                                                                              Color.fromRGBO(255, 255, 255, 1),
-                                                                            ]),
-                                                                        shape: BoxShape
-                                                                            .rectangle,
-                                                                        border:
-                                                                            Border.all(
-                                                                          color:
-                                                                              Colors.grey[100],
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(6.0),
-                                                                        color: Color.fromRGBO(
-                                                                            255,
-                                                                            255,
-                                                                            255,
-                                                                            1),
-                                                                      ),
-                                                                      child: Text(
-                                                                        '${constantUserAddressValuesList[index].addressCategory}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              1),
-                                                                        ),
-                                                                      )),
-                                                                ),
-                                                                suffixIcon:
-                                                                    IconButton(
-                                                                  icon: Icon(
-                                                                      Icons
-                                                                          .keyboard_arrow_down_sharp,
-                                                                      size: 30,
-                                                                      color: Colors
-                                                                          .black),
-                                                                  onPressed:
-                                                                      () {
-                                                                    //Delete Value at index
-                                                                    /*constantUserAddressValuesList
-                                                                .removeAt(index);*/
-                                                                    var position =
-                                                                        constantUserAddressValuesList[
-                                                                            index];
-                                                                    print(
-                                                                        'Position of other address : $position');
-                                                                    openAddressEditDialog(
-                                                                        constantUserAddressValuesList[index]
-                                                                            .subAddress,
-                                                                        constantUserAddressValuesList
-                                                                            .indexOf(position));
-                                                                  },
-                                                                )),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black54),
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            constantUserAddressValuesList[
-                                                                        index]
-                                                                    .subAddress =
-                                                                value;
-                                                          });
-                                                        },
-                                                        // validator: (value) => _validateEmail(value),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                              Flexible(
+                                                child: Text(
+                                                    'メインの地点以外に3箇所まで地点登録ができます。',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NotoSansJP')),
                                               ),
-                                              SizedBox(height: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  _scaffoldKey.currentState
+                                                      .hideCurrentSnackBar();
+                                                },
+                                                child: Text('はい',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline)),
+                                              ),
                                             ],
-                                          );
-                                        }),
+                                          ),
+                                        ));
+                                      } else {
+                                        _updateUserFormKey.currentState.save();
+                                        NavigationRouter
+                                            .switchToUserAddAddressScreen(
+                                                context, refreshPage);
+                                      }
+                                    },
                                   ),
-                                )
-                              : Container(),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 25.0, right: 25.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'セラピスト検索範囲',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'NotoSansJP',
-                                      fontWeight: FontWeight.normal),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14),
+                                  focusColor: Colors.grey[100],
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                 ),
-                                Form(
-                                  key: _searchRadiusKey,
-                                  child: Center(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.38,
-                                      child: DropDownFormField(
-                                        hintText: '検索範囲値',
-                                        value: _mySearchRadiusDistance,
-                                        onSaved: (value) {
-                                          setState(() {
-                                            _mySearchRadiusDistance = value;
-                                          });
-                                        },
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _mySearchRadiusDistance = value;
-                                            print(
-                                                'Search distance : ${_mySearchRadiusDistance.toString()}');
-                                            HealingMatchConstants
-                                                    .searchDistanceRadius =
-                                                _mySearchRadiusDistance;
-                                          });
-                                        },
-                                        dataSource: [
-                                          {
-                                            "display": "５Ｋｍ圏内",
-                                            "value": 5,
-                                          },
-                                          {
-                                            "display": "１０Ｋｍ圏内",
-                                            "value": 10,
-                                          },
-                                          {
-                                            "display": "１５Ｋｍ圏内",
-                                            "value": 15,
-                                          },
-                                          {
-                                            "display": "２０Ｋｍ圏内",
-                                            "value": 20,
-                                          },
-                                          {
-                                            "display": "２５Ｋｍ圏内",
-                                            "value": 25,
-                                          },
-                                        ],
-                                        textField: 'display',
-                                        valueField: 'value',
-                                      ),
-                                    ),
+                                style: TextStyle(color: Colors.black54),
+                                // validator: (value) => _validateEmail(value),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: containerHeight,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              TextFormField(
+                                readOnly: true,
+                                enableInteractiveSelection: false,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  hintText: 'その他の登録場所',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.add,
+                                        size: 28, color: Colors.black),
+                                    onPressed: () {
+                                      _updateUserFormKey.currentState.save();
+                                      NavigationRouter
+                                          .switchToUserAddAddressScreen(
+                                              context, refreshPage);
+                                    },
                                   ),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14),
+                                  focusColor: Colors.grey[100],
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
                                 ),
-                              ],
+                                style: TextStyle(color: Colors.black54),
+                                // validator: (value) => _validateEmail(value),
+                              ),
                             ),
                           ),
-                          SizedBox(height: 15),
-                          ButtonTheme(
-                            minWidth: MediaQuery.of(context).size.width * 0.85,
-                            height: MediaQuery.of(context).size.height * 0.06,
-                            child: new RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0),
-                                //side: BorderSide(color: Colors.black),
-                              ),
-                              color: Colors.lime,
-                              onPressed: () {
-                                print("json Converted sub address :" +
-                                    json.encode(constantUserAddressValuesList));
-                                print("json Converted Address:" +
-                                    json.encode(updateAddress));
-                                _updateUserDetails(context);
-                                print(
-                                    'User id : ${HealingMatchConstants.serviceUserID}');
-                              },
-                              child: new Text(
-                                '更新',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'NotoSansJP',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14),
+                    SizedBox(height: 15),
+                    Visibility(
+                      visible: constantUserAddressValuesList != null &&
+                          constantUserAddressValuesList.isNotEmpty,
+                      child: Text(
+                        '更新用に追加された住所を表示します。',
+                        style: TextStyle(
+                            fontFamily: 'NotoSansJP',
+                            fontSize: 14,
+                            color: Colors.grey),
+                      ),
+                    ),
+                    Visibility(
+                        visible: constantUserAddressValuesList != null &&
+                            constantUserAddressValuesList.isNotEmpty,
+                        child: SizedBox(height: 15)),
+                    constantUserAddressValuesList != null
+                        ? Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      constantUserAddressValuesList.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    bool isFocus = false;
+                                    return WidgetAnimator(
+                                      Column(
+                                        children: [
+                                          FittedBox(
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: containerHeight,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.86,
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
+                                                      //display the address
+                                                      readOnly: false,
+                                                      autofocus: isFocus,
+                                                      initialValue:
+                                                          constantUserAddressValuesList[
+                                                                  index]
+                                                              .subAddress,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                              contentPadding:
+                                                                  EdgeInsets.all(
+                                                                      11.0),
+                                                              filled: true,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
+                                                              hintText:
+                                                                  '${constantUserAddressValuesList[index]}',
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                  fontSize: 14),
+                                                              focusColor: Colors
+                                                                  .grey[100],
+                                                              border: HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                              focusedBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              disabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              enabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
+                                                                                4.0),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${constantUserAddressValuesList[index].addressCategory}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                0,
+                                                                                0,
+                                                                                1),
+                                                                          ),
+                                                                        )),
+                                                              ),
+                                                              suffixIcon:
+                                                                  IconButton(
+                                                                icon: Icon(
+                                                                    Icons.edit,
+                                                                    size: 25,
+                                                                    color: Colors
+                                                                        .black),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    isFocus =
+                                                                        true;
+                                                                  });
+                                                                  //Delete Value at index
+                                                                  /*constantUserAddressValuesList
+                                                                    .removeAt(index);*/
+                                                                  var position =
+                                                                      constantUserAddressValuesList[
+                                                                          index];
+                                                                  print(
+                                                                      'Position of other address : $position');
+                                                                  /*openAddressEditDialog(
+                                                                      constantUserAddressValuesList[
+                                                                              index]
+                                                                          .subAddress,
+                                                                      constantUserAddressValuesList
+                                                                          .indexOf(
+                                                                              position));*/
+                                                                },
+                                                              )),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black54),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          constantUserAddressValuesList[
+                                                                      index]
+                                                                  .subAddress =
+                                                              value;
+                                                        });
+                                                      },
+                                                      // validator: (value) => _validateEmail(value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      'メインの地点以外に3箇所まで地点登録ができます',
+                      style: TextStyle(
+                          fontFamily: 'NotoSansJP',
+                          fontSize: 14,
+                          color: Colors.grey),
+                    ),
+                    SizedBox(height: 15),
+
+                    HealingMatchConstants.userAddressesList != null
+                        ? Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: HealingMatchConstants
+                                      .userAddressesList.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    return WidgetAnimator(
+                                      Column(
+                                        children: [
+                                          FittedBox(
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: containerHeight,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.86,
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
+                                                      //display the address
+                                                      readOnly: true,
+                                                      autofocus: false,
+                                                      initialValue:
+                                                          HealingMatchConstants
+                                                              .userAddressesList[
+                                                                  index]
+                                                              .address,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                              contentPadding:
+                                                                  EdgeInsets.all(
+                                                                      11.0),
+                                                              filled: true,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
+                                                              hintText:
+                                                                  '${HealingMatchConstants.userAddressesList[index]}',
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                  fontSize: 14),
+                                                              focusColor: Colors
+                                                                  .grey[100],
+                                                              border: HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                              focusedBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              disabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              enabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
+                                                                                8.0),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                0,
+                                                                                0,
+                                                                                1),
+                                                                          ),
+                                                                        )),
+                                                              ),
+                                                              suffixIcon:
+                                                                  IconButton(
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_down_sharp,
+                                                                    size: 30,
+                                                                    color: Colors
+                                                                        .black),
+                                                                onPressed: () {
+                                                                  //Delete Value at index
+                                                                  /*constantUserAddressValuesList
+                                                                    .removeAt(index);*/
+                                                                  var position =
+                                                                      HealingMatchConstants
+                                                                              .userAddressesList[
+                                                                          index];
+                                                                  print(
+                                                                      'Position of sub edit list position : $position');
+                                                                  print(
+                                                                      'Position of sub edit list address : ${position.address}');
+                                                                  openAddressEditDialog(
+                                                                      position
+                                                                          .address,
+                                                                      HealingMatchConstants
+                                                                          .userAddressesList
+                                                                          .indexOf(
+                                                                              position));
+                                                                },
+                                                              )),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black54),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          HealingMatchConstants
+                                                              .userAddressesList[
+                                                                  index]
+                                                              .address = value;
+                                                        });
+                                                      },
+                                                      // validator: (value) => _validateEmail(value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          )
+                        : Container(),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'セラピスト検索範囲',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'NotoSansJP',
+                                fontWeight: FontWeight.normal),
+                          ),
+                          Form(
+                            key: _searchRadiusKey,
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.38,
+                                child: WidgetAnimator(
+                                  DropDownFormField(
+                                    hintText: '検索範囲値',
+                                    value: HealingMatchConstants
+                                        .searchDistanceRadius,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _mySearchRadiusDistance = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _mySearchRadiusDistance = value;
+                                        print(
+                                            'Search distance : ${_mySearchRadiusDistance.toString()}');
+                                        HealingMatchConstants
+                                                .searchDistanceRadius =
+                                            _mySearchRadiusDistance;
+                                      });
+                                    },
+                                    dataSource: [
+                                      {
+                                        "display": "５Ｋｍ圏内",
+                                        "value": 5,
+                                      },
+                                      {
+                                        "display": "１０Ｋｍ圏内",
+                                        "value": 10,
+                                      },
+                                      {
+                                        "display": "１５Ｋｍ圏内",
+                                        "value": 15,
+                                      },
+                                      {
+                                        "display": "２０Ｋｍ圏内",
+                                        "value": 20,
+                                      },
+                                      {
+                                        "display": "２５Ｋｍ圏内",
+                                        "value": 25,
+                                      },
+                                    ],
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    ButtonTheme(
+                      minWidth: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: new RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.black),
+                        ),
+                        color: Colors.lime,
+                        onPressed: () {
+                          print(
+                              'JSON LIST SUB ADDRESS CONST LIST : ${json.encode(HealingMatchConstants.userAddressesList)}');
+                          print(
+                              'JSON LIST SUB ADDRESS LOCAL LIST : ${json.encode(constantUserAddressValuesList)}');
+                          _updateUserDetails();
+                          print(
+                              'User id : ${HealingMatchConstants.serviceUserID}');
+                        },
+                        child: new Text(
+                          '更新',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'NotoSansJP',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 
   // Edit address dialog
   void openAddressEditDialog(String subAddress, var position) {
     _editAddressController.text = subAddress;
-    bool isDelete = false;
     AwesomeDialog dialog;
-    var addressType;
+    bool isFocus = false;
     dialog = AwesomeDialog(
       context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      dialogType: DialogType.QUESTION,
       keyboardAware: true,
       width: MediaQuery.of(context).size.width,
+      dismissOnTouchOutside: true,
+      showCloseIcon: true,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -1527,62 +1698,16 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             Material(
               elevation: 0,
               color: Colors.blueGrey.withAlpha(40),
-              child: TextFormField(
-                controller: _editAddressController,
-                //initialValue: subAddress,
-                autofocus: false,
-                minLines: 1,
-                decoration: InputDecoration(
-                  hintText: '新しい住所を入力してください。',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      //_editAddressController.clear();
-                      isDelete = true;
-                      if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('自宅')) {
-                        addressType = 1;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('オフィス')) {
-                        addressType = 2;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('実家')) {
-                        addressType = 3;
-                      } else if (constantUserAddressValuesList[position]
-                          .addressCategory
-                          .contains('その他（直接入力）')) {
-                        addressType = 4;
-                      }
-                      print('Address Type : $addressType');
-                      if (isDelete) {
-                        deletePosition = position;
-                        constantUserAddressValuesList.remove(
-                            constantUserAddressValuesList[position]
-                                .addressCategory);
-                        constantUserAddressValuesList.remove(
-                            constantUserAddressValuesList[position].subAddress);
-                        var deleteSubAddress =
-                            ServiceUserAPIProvider.deleteUserSubAddress(
-                                context, addressType);
-                        deleteSubAddress.then((value) {
-                          if (value != null && value.status == 'success') {
-                            print('Delete Success');
-
-                            dialog.dissmiss();
-                            NavigationRouter
-                                .switchToServiceUserEditProfileScreen(
-                                    context, widget.userProfileImage);
-                          }
-                        }).catchError((onError) {
-                          print('Delete error : $onError');
-                        });
-                      }
-                    },
+              child: WidgetAnimator(
+                TextFormField(
+                  controller: _editAddressController,
+                  //initialValue: subAddress,
+                  autofocus: isFocus,
+                  minLines: 1,
+                  decoration: InputDecoration(
+                    hintText: '新しい住所を入力してください。',
+                    hintStyle: TextStyle(color: Colors.grey[400], fontSize: 12),
+                    border: InputBorder.none,
                   ),
                 ),
               ),
@@ -1590,79 +1715,85 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             SizedBox(
               height: 10,
             ),
-            AnimatedButton(
-                text: 'Ok',
-                pressEvent: () {
-                  if (_editAddressController.text != null &&
-                      _editAddressController.text.isNotEmpty &&
-                      isDelete == false) {
-                    constantUserAddressValuesList[position].subAddress =
-                        _editAddressController.text.toString();
-                    dialog.dissmiss();
-                    NavigationRouter.switchToServiceUserEditProfileScreen(
-                        context, widget.userProfileImage);
-                    //print('Edit address value : ${_editAddressController.text.toString()} && ${constantUserAddressValuesList[position].subAddress}');
-                  } else {
-                    dialog.dissmiss();
-                  }
-                })
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ButtonTheme(
+                  minWidth: MediaQuery.of(context).size.width * 0.33,
+                  child: CustomToggleButton(
+                    initialValue: 0,
+                    elevation: 0,
+                    height: 50.0,
+                    width: MediaQuery.of(context).size.width * 0.33,
+                    autoWidth: false,
+                    buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                    enableShape: true,
+                    customShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.transparent)),
+                    buttonLables: ["編集する", "削除する"],
+                    fontSize: 16.0,
+                    buttonValues: [
+                      "Y",
+                      "N",
+                    ],
+                    radioButtonValue: (value) {
+                      if (value == 'Y') {
+                        ProgressDialogBuilder.showOverlayLoader(context);
+                        if (_editAddressController.text != null &&
+                            _editAddressController.text.isNotEmpty) {
+                          HealingMatchConstants.userAddressesList[position]
+                              .address = _editAddressController.text.toString();
+                          editPosition = position;
+                          String address = Platform.isIOS
+                              ? HealingMatchConstants
+                                      .userAddressesList[position].cityName +
+                                  ',' +
+                                  HealingMatchConstants
+                                      .userAddressesList[position]
+                                      .capitalAndPrefecture
+                              : _editAddressController.text.toString();
+                          _getLatLngFromAddress(address, position);
+                        } else {
+                          ProgressDialogBuilder.hideLoader(context);
+                        }
+                      } else {
+                        ProgressDialogBuilder.showOverlayLoader(context);
+                        deletePosition = position;
+                        addressID = HealingMatchConstants
+                            .userAddressesList[position].id;
+                        print(
+                            'Delete values :${_editAddressController.text} && $addressID');
+                        var deleteSubAddress =
+                            ServiceUserAPIProvider.deleteUserSubAddress(
+                                context, addressID);
+                        deleteSubAddress.then((value) {
+                          if (value != null && value.status == 'success') {
+                            print('Delete Success');
+                            ProgressDialogBuilder.hideLoader(context);
+                            dialog.dissmiss();
+                            NavigationRouter
+                                .switchToServiceUserEditProfileScreen(
+                                    context, widget.userProfileImage);
+                          }
+                        }).catchError((onError) {
+                          ProgressDialogBuilder.hideLoader(context);
+                          dialog.dissmiss();
+                          print('Delete error : $onError');
+                        });
+                      }
+                      print('Radio value : $value');
+                    },
+                    selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     )..show();
-  }
-
-  // Get current address from Latitude Longitude
-  _getCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    geoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      currentLocationPlaceMark = p[0];
-
-      HealingMatchConstants.editCurrentLatitude = _currentPosition.latitude;
-      HealingMatchConstants.editCurrentLongitude = _currentPosition.longitude;
-
-      setState(() {
-        _currentAddress =
-            '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
-            ',${currentLocationPlaceMark.country}';
-        if (_currentAddress != null && _currentAddress.isNotEmpty) {
-          print(
-              'Current address : $_currentAddress : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
-          gpsAddressController.value = TextEditingValue(text: _currentAddress);
-          setState(() {
-            _isGPSLocation = true;
-          });
-          HealingMatchConstants.userEditCity =
-              currentLocationPlaceMark.locality;
-          HealingMatchConstants.userEditPrefecture =
-              currentLocationPlaceMark.administrativeArea;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
   }
 
   void _showPicker(context, int index) {
@@ -1748,27 +1879,41 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   // CityList cityResponse;
   getCities(var prefId) async {
-    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
       print(cities.toJson());
       for (var cityList in cities.data) {
-        setState(() {
-          cityDropDownValues.add(cityList.cityJa + cityList.specialDistrictJa);
-          /*_sharedPreferences.then((value) {
-            _myCity = value.getString('cityName');
-          });*/
-        });
+        if (this.mounted) {
+          setState(() {
+            cityDropDownValues
+                .add(cityList.cityJa + cityList.specialDistrictJa);
+          });
+        }
       }
-      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
 
       print('Response City list : ${response.body}');
     });
   }
 
-  _updateUserDetails(BuildContext context) async {
-    ProgressDialogBuilder.showUserDetailsUpdateProgressDialog(context);
+  getSubAddressList() async {
+    var userListApiProvider = ServiceUserAPIProvider.getUserDetails(
+        context, HealingMatchConstants.serviceUserID);
+
+    userListApiProvider.then((value) {
+      setState(() {
+        for (int i = 0; i < value.data.addresses.length; i++) {
+          HealingMatchConstants.userAddressesList = value.data.addresses;
+        }
+        HealingMatchConstants.userAddressesList.removeAt(0);
+      });
+    }).catchError((onError) {
+      print('Edit user response : ${onError.toString()}');
+    });
+  }
+
+  _updateUserDetails() async {
+    ProgressDialogBuilder.showOverlayLoader(context);
     var userName = userNameController.text.toString();
     var email = emailController.text.toString();
     var userPhoneNumber = phoneNumberController.text.toString();
@@ -1788,7 +1933,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user perfecture validation
     if ((_myPrefecture == null || _myPrefecture.isEmpty)) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1819,7 +1964,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if ((_myCity == null || _myCity.isEmpty)) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1850,7 +1995,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if ((userArea == null || userArea.isEmpty)) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1881,7 +2026,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // room number validation
     if (roomNumber == null || roomNumber.isEmpty) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1912,7 +2057,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user city validation
     if (_myCity == null || _myCity.isEmpty) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1943,7 +2088,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     // user area validation
     if (userArea == null || userArea.isEmpty) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -1996,7 +2141,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     if (userPhoneNumber != null &&
         userPhoneNumber.isNotEmpty &&
         userPhoneNumber.length < 10) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -2172,7 +2317,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           roomNumber + ',' + buildingName + ',' + userGPSAddress;
       print('GPS Modified Address : ${userCurrentLocation.trim()}');
     } else */
-    if (HealingMatchConstants.userEditAddress.isEmpty) {
+    /*  if (HealingMatchConstants.userEditAddress.isEmpty) {
       String manualUserAddress = roomNumber +
           ',' +
           buildingName +
@@ -2199,7 +2344,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
     }
-
+*/
     print('Id: ${HealingMatchConstants.accessToken}');
     print('Id: $HealingMatchConstants.serviceUserById');
     print('Address ID : $_userAddressID');
@@ -2228,6 +2373,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             lon: HealingMatchConstants.mEditCurrentLongitude,
           );
           updateAddress.add(addUpdateAddress);
+          print("json Converted sub address :" +
+              json.encode(constantUserAddressValuesList));
+          print("json Converted Address:" + json.encode(updateAddress));
         });
       }
     }
@@ -2263,7 +2411,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "gender": _myGender,
           "uploadProfileImgUrl": _profileImage.path,
           "isTherapist": "0",
-          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
           "address": json.encode(updateAddress),
           "subAddress": json.encode(constantUserAddressValuesList)
         });
@@ -2279,7 +2427,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           "email": email,
           "gender": _myGender,
           "isTherapist": "0",
-          //"userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
+          "userSearchRadiusDistance": _mySearchRadiusDistance.toString(),
           "address": json.encode(updateAddress),
           "subAddress": json.encode(constantUserAddressValuesList)
         });
@@ -2292,34 +2440,46 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           final Map userDetailsResponse = json.decode(value.body);
           final profileUpdateResponseModel =
               UserUpdateResponseModel.fromJson(userDetailsResponse);
+          HealingMatchConstants.editUserSubAddressList =
+              profileUpdateResponseModel.subAddress;
           print(profileUpdateResponseModel.toJson());
+          print(
+              'Profile response list : ${profileUpdateResponseModel.subAddress} && ${profileUpdateResponseModel.data.addresses}');
           updateAddress.clear();
-          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+          constantUserAddressValuesList.clear();
+          HealingMatchConstants.userAddressesList.clear();
+          ProgressDialogBuilder.hideLoader(context);
           DialogHelper.showUserProfileUpdatedSuccessDialog(context);
+        } else if (value.statusCode == 400) {
+          print('Error Response inside : ${value.body}');
+          final Map errorResponse = json.decode(value.body);
+          final editErrorUpdateResponse =
+              UpdateErrorModel.fromJson(errorResponse);
+          print('Error Message : ${editErrorUpdateResponse.message}');
+          ProgressDialogBuilder.hideLoader(context);
+
+          return;
         } else {
-          print('Response error : ${value.body.toString()}');
-          ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
           updateAddress.clear();
+          ProgressDialogBuilder.hideLoader(context);
+          return;
         }
       }).catchError((onError) {
-        ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+        ProgressDialogBuilder.hideLoader(context);
         print('Catch error : ${onError.toString()}');
       });
     } catch (e) {
-      ProgressDialogBuilder.hideUserDetailsUpdateProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       print('Edit user Exception : ${e.toString()}');
     }
   }
 
-  subAddressDeleteApi() async {}
-
   getUserProfileData() async {
     List<AddUserSubAddress> deletedDataListSubAddress =
         new List<AddUserSubAddress>();
-    ProgressDialogBuilder.showCommonProgressDialog(context);
     try {
+      HealingMatchConstants.userAddressesList.clear();
       print('Getting values...EPF');
-
       setState(() {
         _myCity = HealingMatchConstants.userEditCity;
         print('City: $_myCity');
@@ -2343,35 +2503,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
             HealingMatchConstants.userEditPlaceForMassageOther;
         userAreaController.text = HealingMatchConstants.userEditArea;
         _mySearchRadiusDistance = HealingMatchConstants.searchDistanceRadius;
-        _sharedPreferences.then((value) {
-          var addressData = value.getString('addressData');
-          if (addressData != null) {
-            var addressValues = jsonDecode(addressData) as List;
-            //constantUserAddressValuesList.clear();
-            if (deletePosition != null) {
-              print('Delete position not null :$deletePosition');
-              setState(() {
-                constantUserAddressValuesList = addressValues
-                    .map((address) => AddUserSubAddress.fromJson(address))
-                    .toList();
-                constantUserAddressValuesList.removeAt(deletePosition);
-              });
-            } else {
-              print('Delete position null');
-              setState(() {
-                constantUserAddressValuesList = addressValues
-                    .map((address) => AddUserSubAddress.fromJson(address))
-                    .toList();
-              });
-            }
-
-            print(
-                'Address List data : ${constantUserAddressValuesList.length} &&'
-                ' ${constantUserAddressValuesList.toString()}');
-          } else {
-            print('Address data no values found !!');
-          }
-        });
+        _getStates();
+        getSubAddressList();
       });
 
       print(_myCategoryPlaceForMassage);
@@ -2386,11 +2519,9 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       print('UserId: $rUserID');
       print('UserBuildName: $rUserBuildName');
       print('UserRoomNo: $rUserRoomNo');
-
-      ProgressDialogBuilder.hideCommonProgressDialog(context);
     } catch (e) {
       print(e.toString());
-      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
     }
   }
 
@@ -2414,22 +2545,125 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
     });
   }
 
-  Widget buildLoading() {
-    return Center(
-      child: SingleChildScrollView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            SpinKitPulse(color: Colors.lime),
-            //buildLoadingIndicator()
-          ],
-        ),
+  refreshPage() {
+    setState(() {});
+  }
+
+  openActionDialog(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      width: MediaQuery.of(context).size.width * 0.98,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            blurRadius: 15.0, // soften the shadow
+            spreadRadius: 5, //extend the shadow
+            offset: Offset(
+              0.0, // Move to right 10  horizontally
+              10.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FittedBox(
+            child: Text(
+              'この住所を削除してもよろしいですか？',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontFamily: 'Open Sans'),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.30,
+                child: CustomToggleButton(
+                  elevation: 0,
+                  height: 50.0,
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  autoWidth: false,
+                  buttonColor: Color.fromRGBO(217, 217, 217, 1),
+                  enableShape: true,
+                  customShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Colors.transparent)),
+                  buttonLables: ["はい", "いいえ"],
+                  fontSize: 16.0,
+                  buttonValues: [
+                    "Y",
+                    "N",
+                  ],
+                  radioButtonValue: (value) {
+                    if (value == 'Y') {
+                    } else {}
+                    print('Radio value : $value');
+                  },
+                  selectedColor: Color.fromRGBO(200, 217, 33, 1),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  refreshPage() {
-    setState(() {});
+  void _getLatLngFromAddress(String subAddress, var position) async {
+    try {
+      List<Location> manualLocations =
+          await locationFromAddress(subAddress, localeIdentifier: "ja_JP");
+
+      var searchAddressLatitude = manualLocations[0].latitude;
+      var searchAddressLongitude = manualLocations[0].longitude;
+
+      print(
+          'Address location points : $searchAddressLatitude && $searchAddressLongitude');
+      addressID = HealingMatchConstants.userAddressesList[position].id;
+      print('Edit values :${_editAddressController.text} && $addressID');
+
+      if (searchAddressLatitude != null && searchAddressLongitude != null) {
+        var editSubAddress = ServiceUserAPIProvider.editUserSubAddress(
+            context,
+            addressID,
+            subAddress,
+            searchAddressLatitude,
+            searchAddressLongitude);
+        editSubAddress.then((value) {
+          if (value != null && value.status == 'success') {
+            print('Sub address edited!!');
+            ProgressDialogBuilder.hideLoader(context);
+            NavigationRouter.switchToServiceUserEditProfileScreen(
+                context, widget.userProfileImage);
+          }
+        }).catchError((onError) {
+          print('Delete error : $onError');
+          ProgressDialogBuilder.hideLoader(context);
+        });
+      }
+    } catch (e) {
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+      ProgressDialogBuilder.hideLoader(context);
+    }
   }
 }
 
@@ -2451,8 +2685,8 @@ class _AddAddressState extends State<AddAddress> {
   String _myAddedPrefecture = '';
   String _myAddedCity = '';
   String _myCategoryPlaceForMassage = '';
-  Placemark userGPSAddressPlaceMark;
-  Placemark userManualAddressPlaceMark;
+  // Placemark userGPSAddressPlaceMark;
+  // Placemark userManualAddressPlaceMark;
   final _addedAddressTypeKey = new GlobalKey<FormState>();
   final _addedPrefectureKey = new GlobalKey<FormState>();
   final _placeOfAddressKey = new GlobalKey<FormState>();
@@ -2480,6 +2714,17 @@ class _AddAddressState extends State<AddAddress> {
     // TODO: implement initState
     super.initState();
     _getAddedAddressStates();
+  }
+
+  showOverlayLoader() {
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+  }
+
+  hideLoader() {
+    Future.delayed(Duration(seconds: 1), () {
+      Loader.hide();
+    });
   }
 
   @override
@@ -2552,50 +2797,52 @@ class _AddAddressState extends State<AddAddress> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.85,
-                                        child: DropDownFormField(
-                                          hintText: '登録する地点のカテゴリー *',
-                                          value: _myCategoryPlaceForMassage,
-                                          onSaved: (value) {
-                                            setState(() {
-                                              _myCategoryPlaceForMassage =
-                                                  value;
-                                            });
-                                          },
-                                          onChanged: (value) {
-                                            if (value == "その他（直接入力）") {
+                                        child: WidgetAnimator(
+                                          DropDownFormField(
+                                            hintText: '登録する地点のカテゴリー *',
+                                            value: _myCategoryPlaceForMassage,
+                                            onSaved: (value) {
                                               setState(() {
                                                 _myCategoryPlaceForMassage =
                                                     value;
-                                                visible = true; // !visible;
                                               });
-                                            } else {
-                                              setState(() {
-                                                _myCategoryPlaceForMassage =
-                                                    value;
-                                                visible = false;
-                                              });
-                                            }
-                                          },
-                                          dataSource: [
-                                            {
-                                              "display": "自宅",
-                                              "value": "自宅",
                                             },
-                                            {
-                                              "display": "オフィス",
-                                              "value": "オフィス",
+                                            onChanged: (value) {
+                                              if (value == "その他（直接入力）") {
+                                                setState(() {
+                                                  _myCategoryPlaceForMassage =
+                                                      value;
+                                                  visible = true; // !visible;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _myCategoryPlaceForMassage =
+                                                      value;
+                                                  visible = false;
+                                                });
+                                              }
                                             },
-                                            {
-                                              "display": "実家",
-                                              "value": "実家",
-                                            },
-                                            {
-                                              "display": "その他（直接入力）",
-                                              "value": "その他（直接入力）",
-                                            },
-                                          ],
-                                          textField: 'display',
-                                          valueField: 'value',
+                                            dataSource: [
+                                              {
+                                                "display": "自宅",
+                                                "value": "自宅",
+                                              },
+                                              {
+                                                "display": "オフィス",
+                                                "value": "オフィス",
+                                              },
+                                              {
+                                                "display": "実家",
+                                                "value": "実家",
+                                              },
+                                              {
+                                                "display": "その他（直接入力）",
+                                                "value": "その他（直接入力）",
+                                              },
+                                            ],
+                                            textField: 'display',
+                                            valueField: 'value',
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -2608,31 +2855,33 @@ class _AddAddressState extends State<AddAddress> {
                               Visibility(
                                 visible: visible,
                                 child: Container(
+                                  height: containerHeight,
                                   width:
                                       MediaQuery.of(context).size.width * 0.85,
-                                  height: containerHeight,
-                                  child: TextFormField(
-                                    controller: otherController,
-                                    style: HealingMatchConstants.formTextStyle,
-                                    decoration: InputDecoration(
-                                      counterText: '',
-                                      contentPadding:
-                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
-                                      border: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      focusedBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      disabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      enabledBorder: HealingMatchConstants
-                                          .textFormInputBorder,
-                                      filled: true,
-                                      /* labelText: HealingMatchConstants
-                                          .loginPhoneNumber,
-                                      labelStyle: HealingMatchConstants
-                                          .formLabelTextStyle,*/
-                                      fillColor:
-                                          ColorConstants.formFieldFillColor,
+                                  child: WidgetAnimator(
+                                    TextFormField(
+                                      controller: otherController,
+                                      style:
+                                          HealingMatchConstants.formTextStyle,
+                                      decoration: InputDecoration(
+                                        counterText: '',
+                                        contentPadding: EdgeInsets.all(11),
+                                        border: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        focusedBorder: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        disabledBorder: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        enabledBorder: HealingMatchConstants
+                                            .textFormInputBorder,
+                                        filled: true,
+                                        /* labelText: HealingMatchConstants
+                                            .loginPhoneNumber,
+                                        labelStyle: HealingMatchConstants
+                                            .formLabelTextStyle,*/
+                                        fillColor:
+                                            ColorConstants.formFieldFillColor,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -2671,48 +2920,49 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                                DropDownFormField(
-                                                                    hintText:
-                                                                        '府県',
-                                                                    value:
-                                                                        _myAddedPrefecture,
-                                                                    onSaved:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedPrefecture =
-                                                                            value;
-                                                                      });
-                                                                    },
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedPrefecture =
-                                                                            value;
-                                                                        print(
-                                                                            'Prefecture value : ${_myAddedPrefecture.toString()}');
-                                                                        _addedAddressPrefId =
-                                                                            addedAddressStateDropDownValues.indexOf(value) +
-                                                                                1;
-                                                                        print(
-                                                                            'prefID : ${_addedAddressPrefId.toString()}');
-                                                                        addedAddressCityDropDownValues
-                                                                            .clear();
-                                                                        _myAddedCity =
-                                                                            '';
-                                                                        _getAddedAddressCities(
-                                                                            _addedAddressPrefId);
-                                                                      });
-                                                                    },
-                                                                    dataSource:
-                                                                        addedAddressStateDropDownValues,
-                                                                    isList:
-                                                                        true,
-                                                                    textField:
-                                                                        'display',
-                                                                    valueField:
-                                                                        'value'),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                      print(
+                                                                          'Prefecture value : ${_myAddedPrefecture.toString()}');
+                                                                      _addedAddressPrefId =
+                                                                          addedAddressStateDropDownValues.indexOf(value) +
+                                                                              1;
+                                                                      print(
+                                                                          'prefID : ${_addedAddressPrefId.toString()}');
+                                                                      addedAddressCityDropDownValues
+                                                                          .clear();
+                                                                      _myAddedCity =
+                                                                          '';
+                                                                      _getAddedAddressCities(
+                                                                          _addedAddressPrefId);
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressStateDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )
                                                         : Container(
                                                             width: MediaQuery.of(
@@ -2721,26 +2971,27 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                                DropDownFormField(
-                                                                    hintText:
-                                                                        '府県',
-                                                                    value:
-                                                                        _myAddedPrefecture,
-                                                                    onSaved:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedPrefecture =
-                                                                            value;
-                                                                      });
-                                                                    },
-                                                                    dataSource: [],
-                                                                    isList:
-                                                                        true,
-                                                                    textField:
-                                                                        'display',
-                                                                    valueField:
-                                                                        'value'),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )),
                                           ),
                                           SizedBox(width: 3),
@@ -2757,36 +3008,36 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                                DropDownFormField(
-                                                                    hintText:
-                                                                        '市',
-                                                                    value:
-                                                                        _myAddedCity,
-                                                                    onSaved:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedCity =
-                                                                            value;
-                                                                      });
-                                                                    },
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedCity =
-                                                                            value;
-                                                                        //print(_myBldGrp.toString());
-                                                                      });
-                                                                    },
-                                                                    dataSource:
-                                                                        addedAddressCityDropDownValues,
-                                                                    isList:
-                                                                        true,
-                                                                    textField:
-                                                                        'display',
-                                                                    valueField:
-                                                                        'value'),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                      //print(_myBldGrp.toString());
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressCityDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )
                                                         : Container(
                                                             width: MediaQuery.of(
@@ -2795,26 +3046,26 @@ class _AddAddressState extends State<AddAddress> {
                                                                     .width *
                                                                 0.39,
                                                             child:
-                                                                DropDownFormField(
-                                                                    hintText:
-                                                                        '市',
-                                                                    value:
-                                                                        _myAddedCity,
-                                                                    onSaved:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        _myAddedCity =
-                                                                            value;
-                                                                      });
-                                                                    },
-                                                                    dataSource: [],
-                                                                    isList:
-                                                                        true,
-                                                                    textField:
-                                                                        'display',
-                                                                    valueField:
-                                                                        'value'),
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
                                                           )),
                                           ),
                                         ],
@@ -2840,17 +3091,68 @@ class _AddAddressState extends State<AddAddress> {
                                                       .width *
                                                   0.39,
                                               height: containerHeight,
-                                              child: TextFormField(
+                                              child: WidgetAnimator(
+                                                TextFormField(
+                                                  //enableInteractiveSelection: false,
+                                                  autofocus: false,
+                                                  controller:
+                                                      addedUserAreaController,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                    filled: true,
+                                                    fillColor: ColorConstants
+                                                        .formFieldFillColor,
+                                                    labelText: '丁目, 番地',
+                                                    /*hintText: '都、県選 *',
+                                                    hintStyle: TextStyle(
+                                                      color: Colors.grey[400],
+                                                    ),*/
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.grey[400],
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontSize: 14),
+                                                    focusColor:
+                                                        Colors.grey[100],
+                                                    border: HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                    focusedBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    disabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    enabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                  ),
+                                                  // validator: (value) => _validateEmail(value),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            // height: MediaQuery.of(context).size.height * 0.07,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.39,
+                                            height: containerHeight,
+                                            child: WidgetAnimator(
+                                              TextFormField(
                                                 //enableInteractiveSelection: false,
+                                                // keyboardType: TextInputType.number,
                                                 autofocus: false,
                                                 controller:
-                                                    addedUserAreaController,
+                                                    addedBuildingNameController,
                                                 decoration: new InputDecoration(
                                                   filled: true,
                                                   fillColor: ColorConstants
                                                       .formFieldFillColor,
-                                                  labelText: '丁目, 番地',
-                                                  /*hintText: '都、県選 *',
+                                                  labelText: '建物名',
+                                                  /*hintText: 'ビル名 *',
                                                   hintStyle: TextStyle(
                                                     color: Colors.grey[400],
                                                   ),*/
@@ -2876,50 +3178,6 @@ class _AddAddressState extends State<AddAddress> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Container(
-                                            // height: MediaQuery.of(context).size.height * 0.07,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.39,
-                                            height: containerHeight,
-                                            child: TextFormField(
-                                              //enableInteractiveSelection: false,
-                                              // keyboardType: TextInputType.number,
-                                              autofocus: false,
-                                              controller:
-                                                  addedBuildingNameController,
-                                              decoration: new InputDecoration(
-                                                filled: true,
-                                                fillColor: ColorConstants
-                                                    .formFieldFillColor,
-                                                labelText: '建物名',
-                                                /*hintText: 'ビル名 *',
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey[400],
-                                                ),*/
-                                                labelStyle: TextStyle(
-                                                    color: Colors.grey[400],
-                                                    fontFamily: 'NotoSansJP',
-                                                    fontSize: 14),
-                                                focusColor: Colors.grey[100],
-                                                border: HealingMatchConstants
-                                                    .textFormInputBorder,
-                                                focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                              ),
-                                              // validator: (value) => _validateEmail(value),
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
@@ -2942,36 +3200,41 @@ class _AddAddressState extends State<AddAddress> {
                                                       .width *
                                                   0.39,
                                               height: containerHeight,
-                                              child: TextFormField(
-                                                //enableInteractiveSelection: false,
-                                                autofocus: false,
-                                                maxLength: 4,
-                                                controller:
-                                                    addedRoomNumberController,
-                                                decoration: new InputDecoration(
-                                                  counterText: '',
-                                                  filled: true,
-                                                  fillColor: ColorConstants
-                                                      .formFieldFillColor,
-                                                  labelText: '部屋番号',
-                                                  labelStyle: TextStyle(
-                                                      color: Colors.grey[400],
-                                                      fontFamily: 'NotoSansJP',
-                                                      fontSize: 14),
-                                                  focusColor: Colors.grey[100],
-                                                  border: HealingMatchConstants
-                                                      .textFormInputBorder,
-                                                  focusedBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                  disabledBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
-                                                  enabledBorder:
-                                                      HealingMatchConstants
-                                                          .textFormInputBorder,
+                                              child: WidgetAnimator(
+                                                TextFormField(
+                                                  //enableInteractiveSelection: false,
+                                                  autofocus: false,
+                                                  maxLength: 4,
+                                                  controller:
+                                                      addedRoomNumberController,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                    counterText: '',
+                                                    filled: true,
+                                                    fillColor: ColorConstants
+                                                        .formFieldFillColor,
+                                                    labelText: '部屋番号',
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.grey[400],
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontSize: 14),
+                                                    focusColor:
+                                                        Colors.grey[100],
+                                                    border: HealingMatchConstants
+                                                        .textFormInputBorder,
+                                                    focusedBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    disabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                    enabledBorder:
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
+                                                  ),
+                                                  // validator: (value) => _validateEmail(value),
                                                 ),
-                                                // validator: (value) => _validateEmail(value),
                                               ),
                                             ),
                                           ),
@@ -3020,62 +3283,6 @@ class _AddAddressState extends State<AddAddress> {
     );
   }
 
-  // Get current address from Latitude Longitude
-  _additionalAddressCurrentLocation() {
-    ProgressDialogBuilder.showLocationProgressDialog(context);
-    addAddressgeoLocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _addAddressPosition = position;
-      });
-      _getAdditionalAddressLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAdditionalAddressLatLng() async {
-    try {
-      List<Placemark> p = await addAddressgeoLocator.placemarkFromCoordinates(
-          _addAddressPosition.latitude, _addAddressPosition.longitude);
-
-      userGPSAddressPlaceMark = p[0];
-
-      HealingMatchConstants.addedCurrentLatitude = _addAddressPosition.latitude;
-      HealingMatchConstants.addedCurrentLongitude =
-          _addAddressPosition.longitude;
-
-      setState(() {
-        _addedAddress =
-            '${userGPSAddressPlaceMark.locality},${userGPSAddressPlaceMark.subAdministrativeArea},'
-            '${userGPSAddressPlaceMark.administrativeArea},${userGPSAddressPlaceMark.postalCode}'
-            ',${userGPSAddressPlaceMark.country}';
-        if (_addedAddress != null && _addedAddress.isNotEmpty) {
-          print(
-              'Additional address GPS location : $_addedAddress : ${HealingMatchConstants.addedCurrentLatitude} && '
-              '${HealingMatchConstants.addedCurrentLongitude}');
-          additionalAddressController.value =
-              TextEditingValue(text: _addedAddress);
-          setState(() {
-            _isAddedGPSLocation = true;
-          });
-          HealingMatchConstants.addedServiceUserCity =
-              userGPSAddressPlaceMark.locality;
-          HealingMatchConstants.addedServiceUserPrefecture =
-              userGPSAddressPlaceMark.administrativeArea;
-        } else {
-          ProgressDialogBuilder.hideLocationProgressDialog(context);
-          return null;
-        }
-      });
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-    } catch (e) {
-      ProgressDialogBuilder.hideLocationProgressDialog(context);
-      print(e);
-    }
-  }
-
   _getAddedAddressStates() async {
     await http.get(HealingMatchConstants.STATE_PROVIDER_URL).then((response) {
       states = StatesListResponseModel.fromJson(json.decode(response.body));
@@ -3090,7 +3297,7 @@ class _AddAddressState extends State<AddAddress> {
 
   // CityList cityResponse;
   _getAddedAddressCities(var prefId) async {
-    ProgressDialogBuilder.showGetCitiesProgressDialog(context);
+    ProgressDialogBuilder.showOverlayLoader(context);
     await http.post(HealingMatchConstants.CITY_PROVIDER_URL,
         body: {'prefecture_id': prefId.toString()}).then((response) {
       cities = CitiesListResponseModel.fromJson(json.decode(response.body));
@@ -3101,7 +3308,7 @@ class _AddAddressState extends State<AddAddress> {
               .add(cityList.cityJa + cityList.specialDistrictJa);
         });
       }
-      ProgressDialogBuilder.hideGetCitiesProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       print('Response City list : ${response.body}');
     });
   }
@@ -3117,7 +3324,7 @@ class _AddAddressState extends State<AddAddress> {
         addedUserAreaController.text.isEmpty ||
         _myAddedCity.isEmpty ||
         _myAddedPrefecture.isEmpty) {
-      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       print('Manual address empty fields');
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
@@ -3157,7 +3364,7 @@ class _AddAddressState extends State<AddAddress> {
         visible = false;
       });
 
-      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 4),
@@ -3193,7 +3400,7 @@ class _AddAddressState extends State<AddAddress> {
         _myCategoryPlaceForMassage = '';
         visible = false;
       });
-      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 4),
@@ -3222,8 +3429,8 @@ class _AddAddressState extends State<AddAddress> {
       ));
       return;
     }
-    ProgressDialogBuilder.showAddAddressProgressDialog(context);
-    String manualAddedAddress = addedRoomNumberController.text.toString() +
+    ProgressDialogBuilder.showOverlayLoader(context);
+/*    String manualAddedAddress = addedRoomNumberController.text.toString() +
         ',' +
         addedBuildingNameController.text.toString() +
         ',' +
@@ -3250,8 +3457,36 @@ class _AddAddressState extends State<AddAddress> {
         'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
         '${HealingMatchConstants.manualAddressCurrentLongitude}');
     print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
-    print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
-
+    print('Manual Address : ${HealingMatchConstants.manualUserAddress}');*/
+    String manualAddedAddress = addedRoomNumberController.text.toString() +
+        ',' +
+        addedBuildingNameController.text.toString() +
+        ',' +
+        addedUserAreaController.text.toString() +
+        ',' +
+        _myAddedCity +
+        ',' +
+        _myAddedPrefecture;
+    String query = Platform.isIOS
+        ? _myAddedCity + ',' + _myAddedPrefecture
+        : manualAddedAddress;
+    try {
+      List<Location> updateLocations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.manualAddressCurrentLatitude =
+          updateLocations[0].latitude;
+      print("Lat: ${HealingMatchConstants.manualAddressCurrentLatitude}");
+      HealingMatchConstants.manualAddressCurrentLongitude =
+          updateLocations[0].longitude;
+      print("Long : ${HealingMatchConstants.manualAddressCurrentLongitude}");
+      HealingMatchConstants.manualUserAddress = manualAddedAddress;
+    } catch (e) {
+      Toast.show("有効な住所を入力してください ", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    }
     if (constantUserAddressValuesList.length <= 2) {
       String city = _myAddedCity;
       setState(() {
@@ -3272,9 +3507,9 @@ class _AddAddressState extends State<AddAddress> {
         widget.callBack();
         Navigator.pop(context);
       });
-      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
     } else {
-      ProgressDialogBuilder.hideAddAddressProgressDialog(context);
+      ProgressDialogBuilder.hideLoader(context);
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         duration: Duration(seconds: 3),
@@ -3311,10 +3546,41 @@ class _AddAddressState extends State<AddAddress> {
     }
     _sharedPreferences.then((value) {
       setState(() {
-        constantUserAddressValuesList.add(addUserAddress);
-        value.setBool('isUserVerified', false);
-        var addressData = json.encode(constantUserAddressValuesList);
-        value.setString('addressData', addressData);
+        if (constantUserAddressValuesList
+            .contains(_myCategoryPlaceForMassage)) {
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            backgroundColor: ColorConstants.snackBarColor,
+            duration: Duration(seconds: 3),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text('選択した登録する地点のカテゴリーがすでに追加されました。',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(fontFamily: 'NotoSansJP')),
+                ),
+                InkWell(
+                  onTap: () {
+                    _scaffoldKey.currentState.hideCurrentSnackBar();
+                    Navigator.pop(context);
+                  },
+                  child: Text('はい',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'NotoSansJP',
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline)),
+                ),
+              ],
+            ),
+          ));
+          return;
+        } else {
+          constantUserAddressValuesList.add(addUserAddress);
+          value.setBool('subAddressDeleted', false);
+          value.setBool('isUserVerified', false);
+        }
       });
     });
   }

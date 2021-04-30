@@ -264,19 +264,24 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                 onTap: () {
                   print('abc');
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
+                child: Card(
+                  elevation: 4.0,
+                  shape: CircleBorder(),
+                  margin: EdgeInsets.all(0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
                         color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SvgPicture.asset(
+                        "assets/images_gps/calendar.svg",
+                        height: 18.0,
+                        width: 28.0,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: SvgPicture.asset(
-                      "assets/images_gps/calendar.svg",
-                      height: 23.0,
-                      width: 23.0,
                     ),
                   ),
                 ),
@@ -298,20 +303,25 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                         );
                       });
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
+                child: Card(
+                  elevation: 4.0,
+                  shape: CircleBorder(),
+                  margin: EdgeInsets.all(0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
                         color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SvgPicture.asset(
+                        "assets/images_gps/cancel.svg",
+                        color: Color.fromRGBO(217, 217, 217, 1),
+                        height: 15.0,
+                        width: 15.0,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: SvgPicture.asset(
-                      "assets/images_gps/cancel.svg",
-                      color: Color.fromRGBO(217, 217, 217, 1),
-                      height: 20.0,
-                      width: 20.0,
                     ),
                   ),
                 ),
@@ -324,19 +334,24 @@ class _ProviderRequestScreenState extends State<ProviderRequestScreen> {
                 onTap: () {
                   print('abc');
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
+                child: Card(
+                  elevation: 4.0,
+                  shape: CircleBorder(),
+                  margin: EdgeInsets.all(0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
                         color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SvgPicture.asset(
+                        "assets/images_gps/accept.svg",
+                        height: 15.0,
+                        width: 15.0,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: SvgPicture.asset(
-                      "assets/images_gps/accept.svg",
-                      height: 20.0,
-                      width: 20.0,
                     ),
                   ),
                 ),
