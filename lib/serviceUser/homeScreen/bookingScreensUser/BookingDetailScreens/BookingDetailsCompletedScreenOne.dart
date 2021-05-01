@@ -47,6 +47,7 @@ List<String> _options = [
 double ratingsValue = 4.0;
 var certificateUpload;
 var certificateUploadKeys;
+Map<String, String> certificateImages = Map<String, String>();
 
 class DetailBloc extends StatefulWidget {
   final userID;
@@ -173,9 +174,69 @@ class _BookingDetailsCompletedScreenOneState
               print('Keys certificate type : $certificateUploadKeys');
             }
           }
+          certificateUploadKeys.forEach((key, value) async {
+            if (certificateUploadKeys[key] != null) {
+              String jKey = getQualificationJPWordsForType(key);
+              if (jKey == "はり師" ||
+                  jKey == "きゅう師" ||
+                  jKey == "鍼灸師" ||
+                  jKey == "あん摩マッサージ指圧師" ||
+                  jKey == "柔道整復師" ||
+                  jKey == "理学療法士") {
+                certificateImages["国家資格保有"] = "国家資格保有";
+              } else if (jKey == "国家資格取得予定（学生）") {
+                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+              } else if (jKey == "民間資格") {
+                certificateImages["民間資格"] = "民間資格";
+              } else if (jKey == "無資格") {
+                certificateImages["無資格"] = "無資格";
+              }
+            }
+          });
+          if (certificateImages.length == 0) {
+            certificateImages["無資格"] = "無資格";
+          }
+          print('certificateImages data type : $certificateImages');
         });
       }
     } catch (e) {}
+  }
+
+  String getQualificationJPWordsForType(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   @override
