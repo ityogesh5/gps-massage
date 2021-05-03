@@ -5,6 +5,7 @@ import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/Get
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:meta/meta.dart';
 
 class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
@@ -51,6 +52,13 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
       } catch (e) {
         yield GetTherapistTypeErrorState(message: e.toString());
       }
+    } else if (event is RecommendEvent) {
+      yield GetTherapistTypeLoaderState();
+      try {
+        List<Rows> getRecommendList = await getTherapistTypeRepository
+            .getRecommendDetails(event.accessToken);
+        yield GetRecommendLoadedState(getRecommendList: getRecommendList);
+      } catch (e) {}
     }
   }
 }

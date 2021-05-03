@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:meta/meta.dart';
 
 abstract class TherapistTypeState extends Equatable {}
@@ -53,4 +54,12 @@ class GetTherapistId extends TherapistTypeState {
   @override
   // TODO: implement props
   List<Object> get props => [getTherapistByIdModel];
+}
+
+class GetRecommendLoadedState extends TherapistTypeState {
+  List<Rows> getRecommendList;
+  GetRecommendLoadedState({@required this.getRecommendList});
+  @override
+  // TODO: implement props
+  List<Object> get props => throw UnimplementedError();
 }
