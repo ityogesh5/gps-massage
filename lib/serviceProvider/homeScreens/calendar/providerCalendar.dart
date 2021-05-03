@@ -79,7 +79,9 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        HealingMatchConstants.isProviderHomePage = true;
+        setState(() {
+          HealingMatchConstants.isProviderHomePage = true;
+        });
         return Future.value(true);
       },
       child: Scaffold(
@@ -89,7 +91,9 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
           backgroundColor: Colors.white,
           leading: IconButton(
             onPressed: () {
-              HealingMatchConstants.isProviderHomePage = true;
+              setState(() {
+                HealingMatchConstants.isProviderHomePage = true;
+              });
               Navigator.pop(context);
             },
             icon: Icon(
