@@ -26,8 +26,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       } catch (e) {
         yield SearchErrorState(message: e.toString());
       }
-    } else if (event is RefreshSearchEvent) {
+    } else if (event is CallSearchEvent) {
       yield SearchLoadingState();
+      try {
+        List<SearchList> getTherapistsSearchResults =
+        await getSearchResultsRepository.getSearchResultsByType(
+            event.pageNumber, event.pageSize);
+        yield SearchLoadedState(
+            getTherapistsSearchResults: getTherapistsSearchResults);
+      } catch (e) {
+        yield SearchErrorState(message: e.toString());
+      }
     }
   }
 }

@@ -13,7 +13,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -21,11 +20,9 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -51,6 +48,7 @@ Map<String, String> certificateImages = Map<String, String>();
 
 class DetailBloc extends StatefulWidget {
   final userID;
+
   DetailBloc(this.userID);
 
   @override
@@ -73,7 +71,9 @@ class _DetailBlocState extends State<DetailBloc> {
 
 class DetailPageListner extends StatefulWidget {
   final userID;
+
   DetailPageListner(this.userID);
+
   @override
   _DetailPageListnerState createState() => _DetailPageListnerState();
 }
@@ -393,7 +393,7 @@ class _BookingDetailsCompletedScreenOneState
                         ),
                         SizedBox(width: 5),
                         Expanded(
-                          flex: 5,
+                          flex: 3,
                           child: Column(
                             children: [
                               FittedBox(
@@ -1853,7 +1853,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   1, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -2426,7 +2427,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3004,7 +3006,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3612,7 +3615,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -4185,7 +4189,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )

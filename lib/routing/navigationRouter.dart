@@ -275,7 +275,7 @@ class NavigationRouter {
   static void switchToUserSearchResult(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return SearchResult();
+          return SearchResultScreen();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

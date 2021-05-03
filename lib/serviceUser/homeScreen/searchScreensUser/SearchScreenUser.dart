@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -1264,7 +1263,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             ),
           ),
           Positioned(
-            top: 500.0,
+            top: 600.0,
             bottom: 100.0,
             right: 20.0,
             left: 0.0,
@@ -1638,50 +1637,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   _getSearchResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(
-            context, _pageNumber, _pageSize)
-        .then((value) {
-      if (value != null &&
-          value.status != null &&
-          value.data.searchList != null &&
-          value.data.searchList.length != 0) {
-        HealingMatchConstants.searchList = value.data.searchList;
-        print(
-            'Search List Length : ${HealingMatchConstants.searchList.length}');
-        NavigationRouter.switchToUserSearchResult(context);
-      } else {
-        ProgressDialogBuilder.hideLoader(context);
-        _searchKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 7),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _searchKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-      }
-    }).catchError((onError) {
-      ProgressDialogBuilder.hideLoader(context);
-      print('Search catch error : ${onError.toString()}');
-    });
+    try {
+      NavigationRouter.switchToUserSearchResult(context);
+    } catch (e) {
+      print('Search Exception before bloc : ${e.toString()}');
+    }
   }
 
   // Get current address from Latitude Longitude

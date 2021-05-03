@@ -3,20 +3,16 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/getTherapistDetail.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -29,7 +25,6 @@ class ServiceUserAPIProvider {
   static TherapistByIdModel _therapisyByIdModel = new TherapistByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
-  static GetTherapistDetails therapistDetails = new GetTherapistDetails();
 
   static SearchTherapistResultsModel _searchTherapistResultsModel =
       new SearchTherapistResultsModel();
@@ -294,7 +289,7 @@ class ServiceUserAPIProvider {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "searchKeyword": HealingMatchConstants.searchKeyWordValue,
+            "keyword": HealingMatchConstants.searchKeyWordValue,
             "userAddress": HealingMatchConstants.searchUserAddress,
             "serviceType": HealingMatchConstants.serviceType,
             "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,

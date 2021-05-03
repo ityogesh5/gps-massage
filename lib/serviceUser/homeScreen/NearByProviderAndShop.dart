@@ -956,7 +956,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
       child: new Center(
         child: new Opacity(
           opacity: isLoading ? 1.0 : 00,
-          child: new SpinKitPulse(color: Colors.greenAccent),
+          child: new SpinKitPulse(color: Colors.lime),
         ),
       ),
     );

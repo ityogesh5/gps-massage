@@ -13,12 +13,13 @@ class FetchSearchResultsEvent extends SearchEvent {
       [pageNumber, pageSize];
 }
 
-class RefreshSearchEvent extends SearchEvent {
-  final accessToken;
+class CallSearchEvent extends SearchEvent {
+  final pageNumber;
+  final pageSize;
 
-  RefreshSearchEvent(this.accessToken);
+  CallSearchEvent(this.pageNumber, this.pageSize);
 
   @override
   // TODO: implement props
-  List<Object> get props => [accessToken];
+  List<Object> get props => [pageNumber, pageSize];
 }

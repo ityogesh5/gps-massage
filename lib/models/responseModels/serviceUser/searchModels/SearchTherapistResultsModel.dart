@@ -1,78 +1,58 @@
-// To parse this JSON data, do
-//
-//     final searchTherapistResultsModel = searchTherapistResultsModelFromJson(jsonString);
-
-import 'dart:convert';
-
-SearchTherapistResultsModel searchTherapistResultsModelFromJson(String str) => SearchTherapistResultsModel.fromJson(json.decode(str));
-
-String searchTherapistResultsModelToJson(SearchTherapistResultsModel data) => json.encode(data.toJson());
-
 class SearchTherapistResultsModel {
-  SearchTherapistResultsModel({
-    this.status,
-    this.data,
-  });
-
   String status;
   Data data;
 
-  factory SearchTherapistResultsModel.fromJson(Map<String, dynamic> json) => SearchTherapistResultsModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-  );
+  SearchTherapistResultsModel({this.status, this.data});
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "data": data.toJson(),
-  };
+  SearchTherapistResultsModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
+    }
+    return data;
+  }
 }
 
 class Data {
-  Data({
-    this.totalElements,
-    this.searchList,
-    this.totalPages,
-    this.pageNumber,
-  });
-
   int totalElements;
   List<SearchList> searchList;
   int totalPages;
   int pageNumber;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    totalElements: json["totalElements"],
-    searchList: List<SearchList>.from(json["searchList"].map((x) => SearchList.fromJson(x))),
-    totalPages: json["totalPages"],
-    pageNumber: json["pageNumber"],
-  );
+  Data({this.totalElements, this.searchList, this.totalPages, this.pageNumber});
 
-  Map<String, dynamic> toJson() => {
-    "totalElements": totalElements,
-    "searchList": List<dynamic>.from(searchList.map((x) => x.toJson())),
-    "totalPages": totalPages,
-    "pageNumber": pageNumber,
-  };
+  Data.fromJson(Map<String, dynamic> json) {
+    totalElements = json['totalElements'];
+    if (json['searchList'] != null) {
+      searchList = new List<SearchList>();
+      json['searchList'].forEach((v) {
+        searchList.add(new SearchList.fromJson(v));
+      });
+    }
+    totalPages = json['totalPages'];
+    pageNumber = json['pageNumber'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['totalElements'] = this.totalElements;
+    if (this.searchList != null) {
+      data['searchList'] = this.searchList.map((v) => v.toJson()).toList();
+    }
+    data['totalPages'] = this.totalPages;
+    data['pageNumber'] = this.pageNumber;
+    return data;
+  }
 }
 
 class SearchList {
-  SearchList({
-    this.leastPriceMin,
-    this.id,
-    this.userId,
-    this.categoryId,
-    this.subCategoryId,
-    this.name,
-    this.sixtyMin,
-    this.nintyMin,
-    this.oneTwentyMin,
-    this.oneFifityMin,
-    this.oneEightyMin,
-    this.lowestPrice,
-    this.user,
-  });
-
+  String ratingAvg;
   String leastPriceMin;
   int id;
   int userId;
@@ -87,143 +67,230 @@ class SearchList {
   int lowestPrice;
   User user;
 
-  factory SearchList.fromJson(Map<String, dynamic> json) => SearchList(
-    leastPriceMin: json["leastPriceMin"],
-    id: json["id"],
-    userId: json["userId"],
-    categoryId: json["categoryId"],
-    subCategoryId: json["subCategoryId"],
-    name: json["name"],
-    sixtyMin: json["sixtyMin"],
-    nintyMin: json["nintyMin"],
-    oneTwentyMin: json["oneTwentyMin"],
-    oneFifityMin: json["oneFifityMin"],
-    oneEightyMin: json["oneEightyMin"],
-    lowestPrice: json["lowestPrice"],
-    user: User.fromJson(json["user"]),
-  );
+  SearchList(
+      {this.ratingAvg,
+        this.leastPriceMin,
+        this.id,
+        this.userId,
+        this.categoryId,
+        this.subCategoryId,
+        this.name,
+        this.sixtyMin,
+        this.nintyMin,
+        this.oneTwentyMin,
+        this.oneFifityMin,
+        this.oneEightyMin,
+        this.lowestPrice,
+        this.user});
 
-  Map<String, dynamic> toJson() => {
-    "leastPriceMin": leastPriceMin,
-    "id": id,
-    "userId": userId,
-    "categoryId": categoryId,
-    "subCategoryId": subCategoryId,
-    "name": name,
-    "sixtyMin": sixtyMin,
-    "nintyMin": nintyMin,
-    "oneTwentyMin": oneTwentyMin,
-    "oneFifityMin": oneFifityMin,
-    "oneEightyMin": oneEightyMin,
-    "lowestPrice": lowestPrice,
-    "user": user.toJson(),
-  };
+  SearchList.fromJson(Map<String, dynamic> json) {
+    ratingAvg = json['ratingAvg'];
+    leastPriceMin = json['leastPriceMin'];
+    id = json['id'];
+    userId = json['userId'];
+    categoryId = json['categoryId'];
+    subCategoryId = json['subCategoryId'];
+    name = json['name'];
+    sixtyMin = json['sixtyMin'];
+    nintyMin = json['nintyMin'];
+    oneTwentyMin = json['oneTwentyMin'];
+    oneFifityMin = json['oneFifityMin'];
+    oneEightyMin = json['oneEightyMin'];
+    lowestPrice = json['lowestPrice'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ratingAvg'] = this.ratingAvg;
+    data['leastPriceMin'] = this.leastPriceMin;
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['categoryId'] = this.categoryId;
+    data['subCategoryId'] = this.subCategoryId;
+    data['name'] = this.name;
+    data['sixtyMin'] = this.sixtyMin;
+    data['nintyMin'] = this.nintyMin;
+    data['oneTwentyMin'] = this.oneTwentyMin;
+    data['oneFifityMin'] = this.oneFifityMin;
+    data['oneEightyMin'] = this.oneEightyMin;
+    data['lowestPrice'] = this.lowestPrice;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    return data;
+  }
 }
 
 class User {
-  User({
-    this.id,
-    this.userName,
-    this.uploadProfileImgUrl,
-    this.storeType,
-    this.coronameasure,
-    this.businesstrip,
-    this.childrenMeasure,
-    this.genderOfService,
-    this.addresses,
-    this.certificationUploads,
-  });
-
   int id;
   String userName;
   dynamic uploadProfileImgUrl;
+  String businessForm;
   String storeType;
   int coronameasure;
   int businesstrip;
   String childrenMeasure;
   String genderOfService;
-  List<Address> addresses;
-  List<Map<String, int>> certificationUploads;
+  bool isShop;
+  List<Addresses> addresses;
+  List<SearchTherapistCertificates> certificationUploads;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    userName: json["userName"],
-    uploadProfileImgUrl: json["uploadProfileImgUrl"],
-    storeType: json["storeType"],
-    coronameasure: json["coronameasure"],
-    businesstrip: json["businesstrip "],
-    childrenMeasure: json["childrenMeasure"],
-    genderOfService: json["genderOfService"],
-    addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
-    certificationUploads: List<Map<String, int>>.from(json["certification_uploads"].map((x) => Map.from(x).map((k, v) => MapEntry<String, int>(k, v == null ? null : v)))),
-  );
+  User(
+      {this.id,
+        this.userName,
+        this.uploadProfileImgUrl,
+        this.businessForm,
+        this.storeType,
+        this.coronameasure,
+        this.businesstrip,
+        this.childrenMeasure,
+        this.genderOfService,
+        this.isShop,
+        this.addresses,
+        this.certificationUploads});
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "userName": userName,
-    "uploadProfileImgUrl": uploadProfileImgUrl,
-    "storeType": storeType,
-    "coronameasure": coronameasure,
-    "businesstrip ": businesstrip,
-    "childrenMeasure": childrenMeasure,
-    "genderOfService": genderOfService,
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
-    "certification_uploads": List<dynamic>.from(certificationUploads.map((x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v == null ? null : v)))),
-  };
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userName = json['userName'];
+    uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    businessForm = json['businessForm'];
+    storeType = json['storeType'];
+    coronameasure = json['coronameasure'];
+    businesstrip = json['businesstrip '];
+    childrenMeasure = json['childrenMeasure'];
+    genderOfService = json['genderOfService'];
+    isShop = json['isShop'];
+    if (json['addresses'] != null) {
+      addresses = new List<Addresses>();
+      json['addresses'].forEach((v) {
+        addresses.add(new Addresses.fromJson(v));
+      });
+    }
+    if (json['certification_uploads'] != null) {
+      certificationUploads = new List<SearchTherapistCertificates>();
+      json['certification_uploads'].forEach((v) {
+        certificationUploads.add(new SearchTherapistCertificates.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userName'] = this.userName;
+    data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['businessForm'] = this.businessForm;
+    data['storeType'] = this.storeType;
+    data['coronameasure'] = this.coronameasure;
+    data['businesstrip '] = this.businesstrip;
+    data['childrenMeasure'] = this.childrenMeasure;
+    data['genderOfService'] = this.genderOfService;
+    data['isShop'] = this.isShop;
+    if (this.addresses != null) {
+      data['addresses'] = this.addresses.map((v) => v.toJson()).toList();
+    }
+    if (this.certificationUploads != null) {
+      data['certification_uploads'] =
+          this.certificationUploads.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Address {
-  Address({
-    this.id,
-    this.lat,
-    this.lon,
-    this.geomet,
-    this.address,
-    this.distance,
-  });
-
+class Addresses {
   int id;
   double lat;
   double lon;
-  Geomet geomet;
+  dynamic geomet;
   String address;
-  int distance;
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-    id: json["id"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
-    geomet: Geomet.fromJson(json["geomet"]),
-    address: json["address"],
-    distance: json["distance"],
-  );
+  Addresses({this.id, this.lat, this.lon, this.geomet, this.address});
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "lat": lat,
-    "lon": lon,
-    "geomet": geomet.toJson(),
-    "address": address,
-    "distance": distance,
-  };
+  Addresses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    lat = json['lat'];
+    lon = json['lon'];
+    geomet = json['geomet'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['geomet'] = this.geomet;
+    data['address'] = this.address;
+    return data;
+  }
 }
 
-class Geomet {
-  Geomet({
-    this.type,
-    this.coordinates,
-  });
+class SearchTherapistCertificates {
+  int id;
+  int userId;
+  dynamic acupuncturist;
+  dynamic moxibutionist;
+  dynamic acupuncturistAndMoxibustion;
+  dynamic anmaMassageShiatsushi;
+  dynamic judoRehabilitationTeacher;
+  dynamic physicalTherapist;
+  dynamic acquireNationalQualifications;
+  dynamic privateQualification1;
+  dynamic privateQualification2;
+  dynamic privateQualification3;
+  dynamic privateQualification4;
+  dynamic privateQualification5;
 
-  String type;
-  List<double> coordinates;
+  SearchTherapistCertificates(
+      {this.id,
+        this.userId,
+        this.acupuncturist,
+        this.moxibutionist,
+        this.acupuncturistAndMoxibustion,
+        this.anmaMassageShiatsushi,
+        this.judoRehabilitationTeacher,
+        this.physicalTherapist,
+        this.acquireNationalQualifications,
+        this.privateQualification1,
+        this.privateQualification2,
+        this.privateQualification3,
+        this.privateQualification4,
+        this.privateQualification5});
 
-  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
-    type: json["type"],
-    coordinates: List<double>.from(json["coordinates"].map((x) => x.toDouble())),
-  );
+  SearchTherapistCertificates.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    acupuncturist = json['acupuncturist'];
+    moxibutionist = json['moxibutionist'];
+    acupuncturistAndMoxibustion = json['acupuncturistAndMoxibustion'];
+    anmaMassageShiatsushi = json['anmaMassageShiatsushi'];
+    judoRehabilitationTeacher = json['judoRehabilitationTeacher'];
+    physicalTherapist = json['physicalTherapist'];
+    acquireNationalQualifications = json['acquireNationalQualifications'];
+    privateQualification1 = json['privateQualification1'];
+    privateQualification2 = json['privateQualification2'];
+    privateQualification3 = json['privateQualification3'];
+    privateQualification4 = json['privateQualification4'];
+    privateQualification5 = json['privateQualification5'];
+  }
 
-  Map<String, dynamic> toJson() => {
-    "type": type,
-    "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['acupuncturist'] = this.acupuncturist;
+    data['moxibutionist'] = this.moxibutionist;
+    data['acupuncturistAndMoxibustion'] = this.acupuncturistAndMoxibustion;
+    data['anmaMassageShiatsushi'] = this.anmaMassageShiatsushi;
+    data['judoRehabilitationTeacher'] = this.judoRehabilitationTeacher;
+    data['physicalTherapist'] = this.physicalTherapist;
+    data['acquireNationalQualifications'] = this.acquireNationalQualifications;
+    data['privateQualification1'] = this.privateQualification1;
+    data['privateQualification2'] = this.privateQualification2;
+    data['privateQualification3'] = this.privateQualification3;
+    data['privateQualification4'] = this.privateQualification4;
+    data['privateQualification5'] = this.privateQualification5;
+    return data;
+  }
 }
