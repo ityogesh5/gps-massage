@@ -15,10 +15,12 @@ import 'package:gps_massageapp/customLibraryClasses/numberpicker.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
+import 'package:date_util/date_util.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   @override
@@ -49,6 +51,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   int _counter = 0;
   int daysToDisplay;
   List<FlutterWeekViewEvent> flutterWeekEvents = List<FlutterWeekViewEvent>();
+  List<DateTime> eventDateTime = List<DateTime>();
   int status = 0;
   BoxDecoration boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(8.0),
@@ -58,7 +61,17 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   void initState() {
     super.initState();
     //  FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
+    HealingMatchConstants.isProvider = true;
+    HealingMatchConstants.isProviderHomePage = true;
     getProviderDetails();
+
+    ServiceProviderApi.getCalEvents().then((value) {
+      flutterWeekEvents.addAll(value);
+      setState(() {
+        status = status + 1;
+      });
+    });
+
     dateString = '';
     displayDay = today;
     _cyear = DateTime.now().year;
@@ -68,7 +81,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
-    addEvents();
+    // addEvents();
     setState(() {
       print(daysToDisplay);
     });
@@ -172,7 +185,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     DateTime next = DateTime(today.year, today.month, today.day + 1);
 
     return Scaffold(
-      body: status == 0
+      body: status != 2
           ? Container(color: Colors.white)
           : SingleChildScrollView(
               child: SafeArea(
@@ -815,27 +828,47 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                               : HealingMatchConstants
                                                   .registrationBankAccountType,
                                           onSaved: (value) {
+                                            var dateUtility = DateUtil();
+
                                             setState(() {
                                               yearString = value;
                                               _cyear = int.parse(value);
-                                              _currentDay = 1;
+                                              //To resolve the currentDay selected error from other month of greater than 28
+                                              if (_cmonth == 2) {
+                                                if (_currentDay > 28) {
+                                                  _currentDay = 28;
+                                                }
+                                              }
+
+                                              var day1 = dateUtility
+                                                  .daysInMonth(_cmonth, _cyear);
+
+                                              daysToDisplay = day1;
+
                                               displayDay = DateTime(
                                                   _cyear, _cmonth, _currentDay);
-                                              /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
                                             });
                                           },
                                           value: yearString,
                                           onChanged: (value) {
                                             yearString = value;
                                             _cyear = int.parse(value);
-                                            _currentDay = 1;
+                                            //To resolve the currentDay selected error from other month of greater than 28
+                                            if (_cmonth == 2) {
+                                              if (_currentDay > 28) {
+                                                _currentDay = 28;
+                                              }
+                                            }
+
+                                            var dateUtility = DateUtil();
+                                            var day1 = dateUtility.daysInMonth(
+                                                _cmonth, _cyear);
+
                                             setState(() {
+                                              daysToDisplay = day1;
+
                                               displayDay = DateTime(
                                                   _cyear, _cmonth, _currentDay);
-
-                                              /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
                                             });
                                           },
                                           dataSource: [
@@ -885,28 +918,45 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                   : HealingMatchConstants
                                                       .registrationBankAccountType,
                                               onSaved: (value) {
+                                                monthString = value;
+                                                var dateUtility = DateUtil();
+                                                _cmonth = int.parse(value);
+                                                //To resolve the currentDay selected error from other month of greater than 28
+                                                if (_cmonth == 2) {
+                                                  if (_currentDay > 28) {
+                                                    _currentDay = 28;
+                                                  }
+                                                }
+
+                                                var day1 =
+                                                    dateUtility.daysInMonth(
+                                                        _cmonth, _cyear);
                                                 setState(() {
-                                                  monthString = value;
-                                                  _cmonth = int.parse(value);
+                                                  daysToDisplay = day1;
+
                                                   displayDay = DateTime(_cyear,
                                                       _cmonth, _currentDay);
-                                                  /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
-                                                  _currentDay = 1;
-                                                  _incrementCounter();
                                                 });
                                               },
                                               value: monthString,
                                               onChanged: (value) {
                                                 monthString = value;
                                                 _cmonth = int.parse(value);
+                                                if (_cmonth == 2) {
+                                                  if (_currentDay > 28) {
+                                                    _currentDay = 28;
+                                                  }
+                                                }
+
                                                 displayDay = DateTime(_cyear,
                                                     _cmonth, _currentDay);
+                                                var dateUtility = DateUtil();
+                                                var day1 =
+                                                    dateUtility.daysInMonth(
+                                                        _cmonth, _cyear);
+
                                                 setState(() {
-                                                  /*    daysToDisplay =
-                                                        totalDays(_cmonth, _cyear); */
-                                                  _currentDay = 1;
-                                                  _incrementCounter();
+                                                  daysToDisplay = day1;
                                                 });
                                               },
                                               dataSource: [
@@ -1011,7 +1061,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
+
                     buildDayPicker(),
+
                     //  SizedBox(height: 20),
                     Expanded(
                       flex: 0,
@@ -1287,6 +1339,16 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     // });
   }
 
+  List<DateTime> getEventDateTime() {
+    eventDateTime.clear();
+    for (var event in flutterWeekEvents) {
+      DateTime eventDate = DateTime(event.events.start.dateTime.year,
+          event.events.start.dateTime.month, event.events.start.dateTime.day);
+      eventDateTime.add(eventDate);
+    }
+    return eventDateTime;
+  }
+
   buildDayPicker() {
     dayPicker = NumberPicker.horizontal(
       currentDate: DateTime.now(),
@@ -1295,13 +1357,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       ismonth: true,
       numberToDisplay: 7,
       selectedMonth: _cmonth,
-      eventDates: [
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day),
-        DateTime(today.year, today.month, today.day + 1),
-        DateTime(today.year, today.month, today.day + 1)
-      ],
+      eventDates: getEventDateTime(),
       zeroPad: false,
       initialValue: _currentDay,
       minValue: 1,
@@ -1313,15 +1369,101 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       }),
     );
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(0.0),
       child: SizedBox(
         height: 95.0,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: <Widget>[
-              dayPicker,
+              Positioned(
+                left: 0,
+                top: 34.0,
+                child: InkWell(
+                  onTap: () {
+                    var dateUtility = DateUtil();
+                    if (_currentDay != 1) {
+                      _currentDay = _currentDay - 1;
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else if (_currentDay == 1 && _cmonth != 1) {
+                      var day1 = dateUtility.daysInMonth(_cmonth - 1, _cyear);
+                      daysToDisplay = day1;
+                      _currentDay = day1;
+                      _cmonth = _cmonth - 1;
+                      monthString = _cmonth.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else {
+                      var day1 =
+                          dateUtility.daysInMonth(_cmonth - 1, _cyear - 1);
+                      daysToDisplay = day1;
+                      _currentDay = day1;
+                      _cmonth = 12;
+                      monthString = _cmonth.toString();
+                      _cyear = _cyear + 1;
+                      yearString = _cyear.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 15.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: dayPicker, //Daypicker Build here
+              ),
+              Positioned(
+                right: 0,
+                top: 34.0,
+                child: InkWell(
+                  onTap: () {
+                    var dateUtility = DateUtil();
+                    var day1 = dateUtility.daysInMonth(_cmonth, _cyear);
+                    if (_currentDay != day1) {
+                      _currentDay = _currentDay + 1;
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else if (_currentDay == day1 && _cmonth != 12) {
+                      day1 = dateUtility.daysInMonth(_cmonth + 1, _cyear);
+                      daysToDisplay = day1;
+                      _currentDay = 1;
+                      _cmonth = _cmonth + 1;
+                      monthString = _cmonth.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    } else {
+                      day1 = dateUtility.daysInMonth(_cmonth + 1, _cyear + 1);
+                      daysToDisplay = day1;
+                      _currentDay = 1;
+                      _cmonth = 1;
+                      monthString = _cmonth.toString();
+                      _cyear = _cyear + 1;
+                      yearString = _cyear.toString();
+                      dayPicker.animateInt(_currentDay);
+                      changeDay(_currentDay);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -1423,7 +1565,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     }
 
     setState(() {
-      status = 1;
+      status = status + 1;
     });
     hideLoader();
   }

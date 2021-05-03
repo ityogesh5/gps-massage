@@ -2,9 +2,12 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:googleapis/calendar/v3.dart' as Calendar;
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/builders.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/utils/utils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/widgets/day_view.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/calendarDetailPopup.dart';
 
 /// Builds an event text widget.
 typedef EventTextBuilder = Widget Function(FlutterWeekViewEvent event,
@@ -81,14 +84,24 @@ class FlutterWeekViewEvent extends Comparable<FlutterWeekViewEvent> {
     width = width - (padding?.left ?? 0.0) - (padding?.right ?? 0.0);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HealingMatchConstants.isProviderHomePage
+            ? NavigationRouter.switchToWeeklySchedule(context)
+            : ProviderCalendarDetailPopup.showBookingDetail(
+                context, events, start, end);
+      },
       onLongPress: onLongPress,
       child: Container(
         /* decoration: decoration ??
             (backgroundColor != null
                 ? BoxDecoration(color: backgroundColor)
                 : null), */
-        color: Colors.white,
+        decoration: BoxDecoration(
+          color: HealingMatchConstants.isProviderHomePage
+              ? Colors.white
+              : Color.fromRGBO(242, 242, 242, 1),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
         margin: EdgeInsets.all(4.0),
         padding: padding,
         child: SingleChildScrollView(

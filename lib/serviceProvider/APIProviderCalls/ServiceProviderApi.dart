@@ -17,7 +17,7 @@ class ServiceProviderApi {
       getTherapistReviewById(int pageNumber, int pageSize) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
-          '/api/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
+          '/mobileReview/therapistReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -47,7 +47,7 @@ class ServiceProviderApi {
       int pageNumber, int pageSize) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
-          '/api/mobileReview/userReviewListById?page=$pageNumber&size=$pageSize';
+          '/mobileReview/userReviewListById?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -78,7 +78,7 @@ class ServiceProviderApi {
       double rating, String review) async {
     try {
       final url = HealingMatchConstants.ON_PREMISE_USER_BASE_URL +
-          '/api/mobileReview/createUserReview';
+          '/mobileReview/createUserReview';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -124,15 +124,21 @@ class ServiceProviderApi {
     DateTime firstMonth = DateTime(2020, 09, 30);
     var calEvents = calendar.events.list(
       "aswin007arun@gmail.com",
-      q: "how",
+      q: "SP15",
       /*  timeMax: lastMonth.toUtc(), timeMin: firstMonth.toUtc() */
     );
     Events events = await calEvents;
     events.items.forEach((event) {
       // {events.items.forEach((event) => print("EVENT ${event.summary}"))});
-      DateTime start = event.start.dateTime ;
-      flutterEvents.add(FlutterWeekViewEvent(
-          events: event, start: event.start.dateTime, end: event.end.dateTime));
+      DateTime start = event.start.dateTime;
+
+      flutterEvents.add(
+        FlutterWeekViewEvent(
+          events: event,
+          start: event.start.dateTime.toLocal(),
+          end: event.end.dateTime.toLocal(),
+        ),
+      );
     });
     HealingMatchConstants.events.clear();
     HealingMatchConstants.events.addAll(flutterEvents);

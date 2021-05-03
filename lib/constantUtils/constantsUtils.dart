@@ -18,7 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class HealingMatchConstants {
-  static const String ON_PREMISE_USER_BASE_URL = "http://106.51.49.160:9087";
+  static const String ON_PREMISE_USER_BASE_URL =
+      "http://106.51.49.160:9087/api";
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -370,6 +371,8 @@ class HealingMatchConstants {
 
   //Provider Home
   static providerLogin.Data userData;
+  static bool isProvider = false;
+  static bool isProviderHomePage;
   static String accessToken = '';
   static int serviceUserId;
   static int userId;

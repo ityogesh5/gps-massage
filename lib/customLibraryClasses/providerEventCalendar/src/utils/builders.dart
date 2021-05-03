@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:googleapis/calendar/v3.dart' as Calendar;
+import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/styles/day_bar.dart';
@@ -36,7 +37,7 @@ class DefaultBuilders {
   /// Builds an event text widget in order to put it in a week view.
   static Widget defaultEventTextBuilder(FlutterWeekViewEvent event,
       BuildContext context, DayView dayView, double height, double width) {
-    List<TextSpan> text = [
+    /* List<TextSpan> text = [
       TextSpan(
         text: event.title,
         style: TextStyle(fontWeight: FontWeight.bold),
@@ -68,80 +69,79 @@ class DefaultBuilders {
       if (!_ellipsize(text)) {
         break;
       }
-    }
+    } */
     Calendar.Event googleApiEvent = event.events;
+    var split = googleApiEvent.summary.split(',');
+
     return Container(
-        padding: EdgeInsets.all(4.0),
+        padding: EdgeInsets.all(2.0),
+        width: MediaQuery.of(context).size.width - 120.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    googleApiEvent.organizer.email,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-                  ),
-                  googleApiEvent.status == 'tentative'
-                      ? Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images_gps/processing.svg",
-                              height: 20.0,
-                              width: 20.0,
-                            ),
-                            /*  Icon(
-                  Icons.hourglass_top_outlined,
-                  color: Color.fromRGBO(255, 193, 7, 1),
-                ), */
-                            Text("承認待ち",
-                                style: TextStyle(
-                                  color: Color.fromRGBO(255, 193, 7, 1),
-                                ))
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Text("承認済み", style: TextStyle(color: Colors.black))
-                          ],
-                        )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  HealingMatchConstants.isProvider ? split[3] : split[1],
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                ),
+                googleApiEvent.status == 'tentative'
+                    ? Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images_gps/processing.svg",
+                            height: 20.0,
+                            width: 20.0,
+                          ),
+                          /*  Icon(
+                Icons.hourglass_top_outlined,
+                color: Color.fromRGBO(255, 193, 7, 1),
+              ), */
+                          Text("承認待ち",
+                              style: TextStyle(
+                                color: Color.fromRGBO(255, 193, 7, 1),
+                              ))
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Text("承認済み", style: TextStyle(color: Colors.black))
+                        ],
+                      )
+              ],
             ),
             SizedBox(
-              height: 8,
+              height: 4,
             ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    "assets/images_gps/clock.svg",
-                    height: 14.77,
-                    width: 16.0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SvgPicture.asset(
+                  "assets/images_gps/clock.svg",
+                  height: 14.77,
+                  width: 16.0,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(
-                    width: 8,
+                ),
+                Text(
+                  ' 60分 ',
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Color.fromRGBO(102, 102, 102, 1),
                   ),
-                  Text(
-                    '${event.start.hour}:${event.start.minute} ~ ${event.end.hour}: ${event.end.minute}',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    ' 60分 ',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Color.fromRGBO(102, 102, 102, 1),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ));
