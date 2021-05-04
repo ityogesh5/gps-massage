@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +20,8 @@ abstract class GetTherapistTypeRepository {
       String accessToken, int pageNumber, int pageSize);
 
   Future<TherapistByIdModel> getTherapistById(String accessToken, int userId);
+
+  Future<List<Rows>> getRecommendDetails(String accessToken);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -108,12 +111,39 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       if (response.statusCode == 200) {
         var therpistDataById = json.decode(response.body);
         TherapistByIdModel getTherapistByIdModel =
-            TherapistByIdModel.fromJson(therpistDataById);
+        TherapistByIdModel.fromJson(therpistDataById);
         print('TherapistById : ${response.body}');
         return getTherapistByIdModel;
       }
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  @override
+  // ignore: missing_return
+  Future<List<Rows>> getRecommendDetails(String accessToken) async {
+    try {
+      final url =
+          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistSuggestionList';
+
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.get(
+        url,
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        final getRecommendedTherapists = json.decode(response.body);
+        List<Rows> getRecommedUser =
+            RecommenedTherapistListModel.fromJson(getRecommendedTherapists)
+                .homeTherapistData
+                .rows;
+        print('get Recommed therapist : ${response.body}');
+        return getRecommedUser;
+      }
+    } catch (e) {}
   }
 }

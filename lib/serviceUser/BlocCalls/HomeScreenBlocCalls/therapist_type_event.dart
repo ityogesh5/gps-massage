@@ -37,3 +37,11 @@ class DetailEvent extends TherapistTypeEvent {
   // TODO: implement props
   List<Object> get props => [accessToken, userId];
 }
+
+class RecommendEvent extends TherapistTypeEvent {
+  final accessToken;
+  RecommendEvent(this.accessToken);
+  @override
+  // TODO: implement props
+  List<Object> get props => [accessToken];
+}

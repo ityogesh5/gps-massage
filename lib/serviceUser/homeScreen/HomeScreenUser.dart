@@ -17,6 +17,7 @@ import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
@@ -260,7 +261,11 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
               } else if (state is GetTherapistTypeErrorState) {
                 print('Error state : ${state.message}');
                 return HomePageError();
-              } else
+              } else if (state is GetRecommendLoadedState) {
+                // print('Error state : ${state.message}');
+                return RecommendLists(getTherapistProfiles: state.getRecommendList);
+              }
+              else
                 return Text(
                   "エラーが発生しました！",
                   style: TextStyle(color: Colors.white),
@@ -593,6 +598,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 
 class LoadHomePage extends StatefulWidget {
   List<InitialTherapistData> getTherapistProfiles;
+
 
   LoadHomePage({Key key, @required this.getTherapistProfiles})
       : super(key: key);
@@ -2151,6 +2157,11 @@ class _ReservationListState extends State<ReservationList> {
 }
 
 class RecommendLists extends StatefulWidget {
+  List<Rows> getRecommendList;
+
+  RecommendLists({Key key, @required this.getRecommendList})
+      : super(key: key);
+
   @override
   _RecommendListsState createState() => _RecommendListsState();
 }
