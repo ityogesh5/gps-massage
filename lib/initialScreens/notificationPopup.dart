@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ class NotificationPopup extends StatefulWidget {
 class _NotificationPopupState extends State<NotificationPopup> {
   Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
+  final fireBaseMessaging = new FirebaseMessaging();
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +104,16 @@ class _NotificationPopupState extends State<NotificationPopup> {
                     if (value == 'Y') {
                       Navigator.pop(context);
                       print('Notification permission accepted!!');
+                      fireBaseMessaging.setAutoInitEnabled(true);
                       _sharedPreferences.then((value) {
                         value.setBool('fcmStatus', true);
                         bool fcmStatus = value.getBool('fcmStatus');
-                        print('fcmStatus is false : $fcmStatus');
+                        print('fcmStatus is true : $fcmStatus');
                       });
                     } else {
                       Navigator.pop(context);
+                      fireBaseMessaging.setAutoInitEnabled(false);
+                      print('Notification permission denied!!');
                       _sharedPreferences.then((value) {
                         value.setBool('fcmStatus', false);
                         bool fcmStatus = value.getBool('fcmStatus');

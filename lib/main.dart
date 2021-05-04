@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
-import 'package:gps_massageapp/utils/DistanceValueSet.dart';
-import 'package:gps_massageapp/utils/PageTransitionAnimationExample.dart';
 
 import 'initialScreens/splashScreen.dart';
 

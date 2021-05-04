@@ -2,19 +2,19 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:flutter/animation.dart';
 
 class HealingMatchConstants {
 // ON-PREMISE API URLS == http://106.51.49.160:9092/api/
@@ -22,8 +22,9 @@ class HealingMatchConstants {
   //static const String SEARCH_USER_PROFILE_DETAILS_URL = DOMAIN_BASE_URL + "/search";
 
   static const String ON_PREMISE_USER_BASE_URL =
-      /* "http://103.92.19.158:9094/api";*/
       "http://106.51.49.160:9087/api";
+
+  //"http://106.51.49.160:9094/api";
 
 // get therapist list By ID
   static const String THERAPIST_USER_BY_ID_URL =
@@ -81,12 +82,16 @@ class HealingMatchConstants {
 
   // get Therapists list
   static const String THERAPIST_LIST_URL =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserList';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistList';
 
   // get user
   // get Therapists list by type of massage service
   static const String THERAPIST_LIST_BY_TYPE =
-      ON_PREMISE_USER_BASE_URL + '/user' + '/therapistListByType';
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistListByType';
+
+  // get recommend therapists
+  static const String RECOMMENDED_THERAPISTS_LIST =
+      ON_PREMISE_USER_BASE_URL + '/user' + '/homeTherapistSuggestionList';
 
   // get Users list
   static const String USER_LIST_URL =
@@ -125,6 +130,7 @@ class HealingMatchConstants {
   // get therapist details
   static const String GET_THERAPIST_DETAILS =
       ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
+
   // delete user sub address
   static const String DELETE_SUB_ADDRESS_URL =
       ON_PREMISE_USER_BASE_URL + '/user/deleteUserSubAddress';
@@ -150,7 +156,6 @@ class HealingMatchConstants {
   static bool isBottomBarVisible = true;
   static String userFcmToken = '';
   static String currentDate;
-
 
   static String currentDay;
 
@@ -401,6 +406,7 @@ class HealingMatchConstants {
 
   static var userEditUserId;
   static var userAddressId;
+  static var userDeviceToken;
 
   static String userEditUserName = '';
   static String userEditPhoneNumber = '';
@@ -443,6 +449,7 @@ class HealingMatchConstants {
   static int serviceTypeValue = 0;
   static List<String> userBannerImages = [];
   static int therapistId = 0;
+  static List<RecommendTherapistList> getRecommendedTherapists = [];
 
   //User details
   static String userRegisteredAddressDetail = '';
@@ -453,7 +460,7 @@ class HealingMatchConstants {
   static String userPlaceForMassageOther = '';
   static String userArea = '';
   static String userBuildName = '';
-  static List<UserAddresses> userAddressDetailsList= new List<UserAddresses>();
+  static List<UserAddresses> userAddressDetailsList = new List<UserAddresses>();
 
   // User Profile screen
   //Uint8List profile image;

@@ -1638,6 +1638,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   _getSearchResults() {
     try {
+      ProgressDialogBuilder.hideLoader(context);
       NavigationRouter.switchToUserSearchResult(context);
     } catch (e) {
       print('Search Exception before bloc : ${e.toString()}');

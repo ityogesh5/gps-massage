@@ -194,7 +194,7 @@ class NavigationRouter {
   static void switchToRecommended(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return Recommend();
+          return Recommended();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

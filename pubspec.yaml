@@ -87,7 +87,7 @@ dependencies:
   syncfusion_flutter_calendar: ^18.4.35
 
   flutter_chat_bubble: ^1.0.2 # Yogeshwar chat bubbles for one to one chat user screen
-  #firebase_messaging: ^6.0.16 # Yogeshwar Firebase push notification configuration
+  firebase_messaging: ^6.0.16 # Yogeshwar Firebase push notification configuration
   #adhara_socket_io: ^0.4.2+1 # Yogeshwar socket connection for One to one chat
   simple_tooltip: ^0.1.16 # Yogeshwar tooltip customize popup
   dotted_border: ^1.0.7 # Yogeshwar for Circle rounded border

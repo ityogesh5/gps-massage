@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -18,7 +20,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:toast/toast.dart';
 
 class RegisterServiceUserScreen extends StatefulWidget {
@@ -68,6 +69,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
+
   // Placemark currentLocationPlaceMark;
   // Placemark userAddedAddressPlaceMark;
 
@@ -104,6 +106,8 @@ class _RegisterUserState extends State<RegisterUser> {
   List<dynamic> stateDropDownValues = List();
   List<dynamic> cityDropDownValues = List();
   List<dynamic> addressValues = List();
+  final fireBaseMessaging = new FirebaseMessaging();
+  var fcmToken;
 
   StatesListResponseModel states;
   CitiesListResponseModel cities;
@@ -1022,6 +1026,7 @@ class _RegisterUserState extends State<RegisterUser> {
                             width: MediaQuery.of(context).size.width * 0.85,
                             child: TextFormField(
                               controller: otherController,
+                              maxLength: 10,
                               style: HealingMatchConstants.formTextStyle,
                               decoration: InputDecoration(
                                 counterText: '',
@@ -1542,7 +1547,7 @@ class _RegisterUserState extends State<RegisterUser> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text('18歳未満のユーザーは登録できません！',
+              child: Text('大変申し訳ありませんが１８歳未満の方の登録はできません。',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontFamily: 'NotoSansJP')),
@@ -1928,6 +1933,38 @@ class _RegisterUserState extends State<RegisterUser> {
       ));
       return null;
     }
+
+    //place for service (other option)
+    if ((_myCategoryPlaceForMassage.contains("その他（直接入力）")) &&
+        (otherCategory.length > 10)) {
+      ProgressDialogBuilder.hideLoader(context);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        duration: Duration(seconds: 3),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text('登録する地点のカテゴリーを10文字数以内にする必要があります。',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontFamily: 'NotoSansJP')),
+            ),
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState.hideCurrentSnackBar();
+              },
+              child: Text('はい',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'NotoSansJP',
+                      decoration: TextDecoration.underline)),
+            ),
+          ],
+        ),
+      ));
+      return null;
+    }
     // user perfecture validation
     if (_myPrefecture == null || _myPrefecture.isEmpty) {
       ProgressDialogBuilder.hideLoader(context);
@@ -2048,6 +2085,21 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     //Calling Service User API for Register
     try {
+      fireBaseMessaging.getToken().then((fcmTokenValue) {
+        if (fcmTokenValue != null) {
+          fcmToken = fcmTokenValue;
+          print('FCM Reg Tokens : $fcmTokenValue && \n$fcmToken');
+        } else {
+          fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+            fcmToken = refreshToken;
+            print('FCM Reg Refresh Tokens : $refreshToken && \n$fcmToken');
+          }).onError((handleError) {
+            print('On FCM Reg Token Refresh error : ${handleError.toString()}');
+          });
+        }
+      }).catchError((onError) {
+        print('FCM Reg Token Exception : ${onError.toString()}');
+      });
       //MultiPart request
       Uri registerUser = Uri.parse(HealingMatchConstants.REGISTER_USER_URL);
       var request = http.MultipartRequest('POST', registerUser);
@@ -2081,7 +2133,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "userRoomNumber": roomNumber,
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
-          "lon": HealingMatchConstants.currentLongitude.toString()
+          "lon": HealingMatchConstants.currentLongitude.toString(),
+          "fcmToken":fcmToken
         });
       } else {
         print('Profile image  null');
@@ -2107,7 +2160,8 @@ class _RegisterUserState extends State<RegisterUser> {
           "userRoomNumber": roomNumber,
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
-          "lon": HealingMatchConstants.currentLongitude.toString()
+          "lon": HealingMatchConstants.currentLongitude.toString(),
+          "fcmToken":fcmToken
         });
       }
 
@@ -2147,6 +2201,7 @@ class _RegisterUserState extends State<RegisterUser> {
           // value.setString('userGender', japaneseGender);
           value.setString(
               'userOccupation', serviceUserDetails.data.userOccupation);
+          value.setString('deviceToken', fcmToken);
           // Way 1 for loop
           for (var userAddressData in serviceUserDetails.data.addresses) {
             print('Address of user : ${userAddressData.toJson()}');
@@ -2169,10 +2224,10 @@ class _RegisterUserState extends State<RegisterUser> {
                 'capitalAndPrefecture', userAddressData.capitalAndPrefecture);
 
             value.setBool('isUserRegister', true);
-            ProgressDialogBuilder.hideLoader(context);
-            NavigationRouter.switchToUserOtpScreen(context);
           }
         });
+        ProgressDialogBuilder.hideLoader(context);
+        NavigationRouter.switchToUserOtpScreen(context);
       } else {
         ProgressDialogBuilder.hideLoader(context);
         print('Response error occured!');
