@@ -73,6 +73,7 @@ var therapistAddressDetails;
 var bannerImages;
 
 List<String> userBannerImages = [];
+List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
   final userID;
@@ -199,8 +200,37 @@ class _BookingDetailsCompletedScreenOneState
     getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
+    getSubCategory();
     /*   BlocProvider.of<TherapistTypeBloc>(context)
         .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
+  }
+
+  getSubCategory() async {
+    print(
+        'arrayObjsText:${widget.getTherapistByIdModel.data.therapistSubCategories}');
+    try {
+      setState(() {
+        /*therapistSubCategories =
+            widget.getTherapistByIdModel.data.therapistSubCategories;*/
+        for (int i = 0;
+            i < widget.getTherapistByIdModel.data.therapistSubCategories.length;
+            i++) {
+          print(
+              'subCat: ${widget.getTherapistByIdModel.data.therapistSubCategories[i].toJson()}');
+          userSubCategory = widget
+              .getTherapistByIdModel.data.therapistSubCategories[i]
+              .toJson() as List<TherapistSubCategory>;
+        }
+        /*  for (var item in therapistSubCategories) {
+          userSubCategory.add(item.subCategoryId.toString());
+          userSubCategory.add(item.name);
+          userSubCategory.add(item.sixtyMin.toString());
+          userSubCategory.add(item.nintyMin.toString());
+          userSubCategory.add(item.oneTwentyMin.toString());
+          print('therapistSub:${item.name}');
+        }*/
+      });
+    } catch (e) {}
   }
 
   getBannerImages() async {

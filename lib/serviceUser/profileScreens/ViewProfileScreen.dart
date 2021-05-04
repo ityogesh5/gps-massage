@@ -670,6 +670,7 @@ class _ViewUserProfileState extends State<ViewUserProfile>
           status = 1;
         });
       });
+
       print('serviceUserById: ${HealingMatchConstants.serviceUserById}');
       print('userProfileImage: $userProfileImage');
       print('serviceUserName: ${HealingMatchConstants.serviceUserName}');
