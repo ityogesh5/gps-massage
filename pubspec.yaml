@@ -77,32 +77,33 @@ dependencies:
   horizontal_center_date_picker: ^1.0.0+2
   apple_sign_in: ^0.1.0
   date_util: ^0.1.4
-  #lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar
+  #lazy_data_table: ^0.2.1 #Aswin for Provider Schedule Calendar - Customized 
   url_launcher: any #Aswin for Mail app launch
   flutter_statusbarcolor: ^0.2.3 #Aswin StatusBar Color
-  #flutter_week_view: ^1.0.0+2
+  #flutter_week_view: ^1.0.0+2 - Customized
   shimmer_animation: any #Yogeshwar - Shows loading Shimmer effect while parsing API data..
-
-
-  syncfusion_flutter_calendar: ^18.4.35
-
   flutter_chat_bubble: ^1.0.2 # Yogeshwar chat bubbles for one to one chat user screen
-  #firebase_messaging: ^6.0.16 # Yogeshwar Firebase push notification configuration
-  #adhara_socket_io: ^0.4.2+1 # Yogeshwar socket connection for One to one chat
+  firebase_messaging: 7.0.3  # Yogeshwar Firebase push notification configuration
+  #adhara_socket_io: 0.4.2+1 # Yogeshwar socket connection for One to one chat
   simple_tooltip: ^0.1.16 # Yogeshwar tooltip customize popup
   dotted_border: ^1.0.7 # Yogeshwar for Circle rounded border
   table_calendar: ^2.3.3 #Gowtham for calendar Build
   awesome_dialog: any
   flutter_overlay_loader: ^0.0.2
-  lazy_load_scrollview: 1.1.0
+  lazy_load_scrollview: 1.1.0    
   liquid_progress_indicator: ^0.3.2
   cached_network_image: any
-  stripe_payment: any
+  stripe_payment:
   flutter_socket_io: ^0.6.0
   web_socket_channel: any
   super_tooltip: any
   time: any
+
   location: any
+
+  googleapis: #Aswin Google Calendar Api
+  googleapis_auth: # Aswin Google Cloud Authentication 
+
 
 
 #  flutter_line_login: ^0.2.0

@@ -2230,21 +2230,18 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
         myCity +
         ',' +
         myState;
-    String query =    Platform.isIOS?  myCity +
-        ',' +
-        myState :address;
+    String query = Platform.isIOS ? myCity + ',' + myState : address;
     try {
-      
-      List<Location> locations = 
-          await locationFromAddress(query, localeIdentifier:  "ja_JP" );
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
       HealingMatchConstants.serviceProviderCurrentLatitude =
           locations[0].latitude;
-      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude }");
+      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude}");
       HealingMatchConstants.serviceProviderCurrentLongitude =
           locations[0].longitude;
-             print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude }");
-    
-       HealingMatchConstants.serviceProviderAddress = address;
+      print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude}");
+
+      HealingMatchConstants.serviceProviderAddress = address;
       HealingMatchConstants.serviceProviderPrefecture = myState;
       HealingMatchConstants.serviceProviderCity = myCity;
       HealingMatchConstants.serviceProviderArea = manualAddresss;
@@ -2252,22 +2249,23 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           cityDropDownValues.indexOf(myCity) + 1;
       HealingMatchConstants.serviceProviderPrefectureID =
           stateDropDownValues.indexOf(myState) + 1;
-           Toast.show("Address Success ${locations[0].latitude} , ${locations[0].longitude}", context,
+      Toast.show(
+          "Address Success ${locations[0].latitude} , ${locations[0].longitude}",
+          context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
           textColor: Colors.white);
-          ProgressDialogBuilder.hideCommonProgressDialog(context);
-    NavigationRouter.switchToServiceProviderSecondScreen(context);
+      ProgressDialogBuilder.hideCommonProgressDialog(context);
+      NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
-       Toast.show("Address not got ", context,
+      Toast.show("Address not got ", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.CENTER,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     }
-    
   }
 
   void _showPicker(context) {
