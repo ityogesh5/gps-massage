@@ -57,11 +57,15 @@ class GetTherapistId extends TherapistTypeState {
   List<Object> get props => [getTherapistByIdModel];
 }
 
-// ignore: must_be_immutable
+
 class GetRecommendLoadedState extends TherapistTypeState {
   List<Rows> getRecommendList;
   GetRecommendLoadedState({@required this.getRecommendList});
   @override
   // TODO: implement props
-  List<Object> get props => throw UnimplementedError();
+
+  // List<Object> get props => throw UnimplementedError();
+
+  List<Object> get props => [getRecommendList];
+
 }

@@ -121,7 +121,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   }
 
   @override
-  // ignore: missing_return
+
   Future<List<Rows>> getRecommendDetails(String accessToken) async {
     try {
       final url =
@@ -131,6 +131,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
       };
+
       final response = await http.get(
         url,
         headers: headers,
@@ -141,7 +142,9 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
             RecommenedTherapistListModel.fromJson(getRecommendedTherapists)
                 .homeTherapistData
                 .rows;
+
         print('get Recommed therapist : ${response.body}');
+
         return getRecommedUser;
       }
     } catch (e) {}

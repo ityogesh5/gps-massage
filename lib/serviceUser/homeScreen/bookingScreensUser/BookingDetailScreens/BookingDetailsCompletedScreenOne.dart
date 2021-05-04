@@ -1,9 +1,15 @@
+import 'dart:core';
+import 'dart:ui';
+import 'dart:convert';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
@@ -11,6 +17,8 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvider.dart';
@@ -22,8 +30,9 @@ import 'package:toast/toast.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:http/http.dart' as http;
 
-final List<String> imgList = [
+final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
@@ -41,6 +50,30 @@ List<String> _options = [
   'リラクゼーション'
 ];
 double ratingsValue = 4.0;
+var certificateUpload;
+var certificateUploadKeys;
+Map<String, String> certificateImages = Map<String, String>();
+BoxDecoration boxDecoration = BoxDecoration(
+    gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color.fromRGBO(255, 255, 255, 1),
+          Color.fromRGBO(255, 255, 255, 1),
+        ]),
+    shape: BoxShape.rectangle,
+    border: Border.all(
+      color: Colors.grey[300],
+    ),
+    borderRadius: BorderRadius.circular(5.0),
+    color: Colors.grey[200]);
+String textChildren;
+var resultChildren, result;
+var therapistAddressDetails;
+var bannerImages;
+
+List<String> userBannerImages = [];
+List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
   final userID;
@@ -87,34 +120,59 @@ class _DetailPageListnerState extends State<DetailPageListner> {
       print('AccessToken : ${HealingMatchConstants.accessToken}');
       print('UserId : ${widget.userID}');
     } catch (e) {}
+    try {
+      if (userBannerImages != null) {
+        userBannerImages.clear();
+        bannerImages.clear();
+      }
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
-        listener: (context, state) {
-          if (state is GetTherapistTypeErrorState) {
-            return DetailPageError();
-          }
-        },
-        child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
-            builder: (context, state) {
-              if (state is GetTherapistId) {
-                return BookingDetailsCompletedScreenOne();
-              } else {
-                print('error somewhere');
-              }
-            }),
+    return Scaffold(
+      body: Container(
+        child: BlocListener<TherapistTypeBloc, TherapistTypeState>(
+          listener: (context, state) {
+            if (state is GetTherapistTypeErrorState) {
+              return DetailPageError();
+            }
+          },
+          child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
+              builder: (context, state) {
+            if (state is GetTherapistId) {
+              return BookingDetailsCompletedScreenOne(
+                  state.getTherapistByIdModel, widget.userID);
+            } else if (state is GetTherapistTypeLoaderState) {
+              print('error somewhere');
+              return buildLoading();
+            }
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoading() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            SpinKitPulse(color: Colors.lime),
+            //buildLoadingIndicator()
+          ],
+        ),
       ),
     );
   }
 }
 
 class BookingDetailsCompletedScreenOne extends StatefulWidget {
-  // final userID;
+  final userID;
+  TherapistByIdModel getTherapistByIdModel;
 
-  // BookingDetailsCompletedScreenOne(this.userID);
+  BookingDetailsCompletedScreenOne(this.getTherapistByIdModel, this.userID);
 
   @override
   _BookingDetailsCompletedScreenOneState createState() =>
@@ -138,9 +196,202 @@ class _BookingDetailsCompletedScreenOneState
   void initState() {
     // TODO: implement initState
     super.initState();
-    //getTherapistDetails(widget.userID);
+    getTherapistCertificate(widget.getTherapistByIdModel);
+    getTherapistDetails(widget.userID);
+    getServiceType();
+    getBannerImages();
+    getSubCategory();
     /*   BlocProvider.of<TherapistTypeBloc>(context)
         .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
+  }
+
+  getSubCategory() async {
+    print(
+        'arrayObjsText:${widget.getTherapistByIdModel.data.therapistSubCategories}');
+    try {
+      setState(() {
+        /*therapistSubCategories =
+            widget.getTherapistByIdModel.data.therapistSubCategories;*/
+        for (int i = 0;
+            i < widget.getTherapistByIdModel.data.therapistSubCategories.length;
+            i++) {
+          print(
+              'subCat: ${widget.getTherapistByIdModel.data.therapistSubCategories[i].toJson()}');
+          userSubCategory = widget
+              .getTherapistByIdModel.data.therapistSubCategories[i]
+              .toJson() as List<TherapistSubCategory>;
+        }
+        /*  for (var item in therapistSubCategories) {
+          userSubCategory.add(item.subCategoryId.toString());
+          userSubCategory.add(item.name);
+          userSubCategory.add(item.sixtyMin.toString());
+          userSubCategory.add(item.nintyMin.toString());
+          userSubCategory.add(item.oneTwentyMin.toString());
+          print('therapistSub:${item.name}');
+        }*/
+      });
+    } catch (e) {}
+  }
+
+  getBannerImages() async {
+    try {
+      setState(() {
+        bannerImages = widget.getTherapistByIdModel.data.banners;
+        for (var item in bannerImages) {
+          if (item.bannerImageUrl1 != null) {
+            userBannerImages.add(item.bannerImageUrl1);
+          } else {
+            userBannerImages.add(
+                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+          }
+          if (item.bannerImageUrl2 != null) {
+            userBannerImages.add(item.bannerImageUrl2);
+          } else {
+            userBannerImages.add(
+                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+          }
+          if (item.bannerImageUrl3 != null) {
+            userBannerImages.add(item.bannerImageUrl3);
+          } else {
+            userBannerImages.add(
+                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+          }
+          if (item.bannerImageUrl4 != null) {
+            userBannerImages.add(item.bannerImageUrl4);
+          } else {
+            userBannerImages.add(
+                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+          }
+          if (item.bannerImageUrl5 != null) {
+            userBannerImages.add(item.bannerImageUrl5);
+          } else {
+            userBannerImages.add(
+                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80');
+          }
+
+          print('Banner: ${userBannerImages}');
+        }
+      });
+    } catch (e) {}
+  }
+
+  getServiceType() async {
+    try {
+      String serviceType = widget.getTherapistByIdModel.data.storeType;
+      var splilts = serviceType.split(',');
+      final jsonListType = splilts.map((item) => jsonEncode(item)).toList();
+      final uniqueJsonListType = jsonListType.toSet().toList();
+      result = uniqueJsonListType.map((item) => jsonDecode(item)).toList();
+      print('result: ${result}');
+    } catch (e) {}
+    try {
+      textChildren = widget.getTherapistByIdModel.data.childrenMeasure;
+      print('children: ${textChildren}');
+      var split = textChildren.split(',');
+      final jsonList = split.map((item) => jsonEncode(item)).toList();
+      final uniqueJsonList = jsonList.toSet().toList();
+      resultChildren = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+      print('resultChildren: ${resultChildren}');
+    } catch (e) {}
+    try {} catch (e) {}
+  }
+
+  getTherapistCertificate(TherapistByIdModel getTherapistByIdModel) async {
+    //print('gender of service: ${getTherapistByIdModel.data.genderOfService}');
+    try {
+      if (this.mounted) {
+        setState(() {
+          if (getTherapistByIdModel.data.certificationUploads != null) {
+            for (int j = 0;
+                j < getTherapistByIdModel.data.certificationUploads.length;
+                j++) {
+              print(
+                  'Certificate upload type : ${certificateUpload = getTherapistByIdModel.data.certificationUploads[j].toJson()}');
+
+              certificateUploadKeys =
+                  getTherapistByIdModel.data.certificationUploads[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate type : $certificateUploadKeys');
+            }
+          }
+          certificateUploadKeys.forEach((key, value) async {
+            if (certificateUploadKeys[key] != null) {
+              String jKey = getQualificationJPWordsForType(key);
+              if (jKey == "はり師" ||
+                  jKey == "きゅう師" ||
+                  jKey == "鍼灸師" ||
+                  jKey == "あん摩マッサージ指圧師" ||
+                  jKey == "柔道整復師" ||
+                  jKey == "理学療法士") {
+                certificateImages["国家資格保有"] = "国家資格保有";
+              } else if (jKey == "国家資格取得予定（学生）") {
+                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+              } else if (jKey == "民間資格") {
+                certificateImages["民間資格"] = "民間資格";
+              } else if (jKey == "無資格") {
+                certificateImages["無資格"] = "無資格";
+              }
+            }
+          });
+          if (certificateImages.length == 0) {
+            certificateImages["無資格"] = "無資格";
+          }
+          print('certificateImages data type : $certificateImages');
+        });
+      }
+    } catch (e) {}
+    try {
+      setState(() {
+        if (getTherapistByIdModel.data.addresses != null) {
+          for (int i = 0;
+              i < getTherapistByIdModel.data.addresses.length;
+              i++) {
+            therapistAddressDetails =
+                getTherapistByIdModel.data.addresses[i].address;
+          }
+        }
+      });
+    } catch (e) {}
+  }
+
+  String getQualificationJPWordsForType(String key) {
+    switch (key) {
+      case 'acupuncturist':
+        return 'はり師';
+        break;
+      case 'moxibutionist':
+        return 'きゅう師';
+        break;
+      case 'acupuncturistAndMoxibustion':
+        return '鍼灸師';
+        break;
+      case 'anmaMassageShiatsushi':
+        return 'あん摩マッサージ指圧師';
+        break;
+      case 'judoRehabilitationTeacher':
+        return '柔道整復師';
+        break;
+      case 'physicalTherapist':
+        return '理学療法士';
+        break;
+      case 'acquireNationalQualifications':
+        return '国家資格取得予定（学生）';
+        break;
+      case 'privateQualification1':
+        return '民間資格';
+      case 'privateQualification2':
+        return '民間資格';
+      case 'privateQualification3':
+        return '民間資格';
+      case 'privateQualification4':
+        return '民間資格';
+      case 'privateQualification5':
+        return '民間資格';
+        break;
+    }
   }
 
   @override
@@ -159,71 +410,113 @@ class _BookingDetailsCompletedScreenOneState
                 CarouselWithIndicatorDemo(),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeOne.svg',
-                                  height: 15,
-                                  width: 15),
-                            ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('エステ'),
-                        ],
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeTwo.svg',
-                                  height: 15,
-                                  width: 15),
-                            ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('整骨・整体'),
-                        ],
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.black45,
-                            child: CircleAvatar(
-                              maxRadius: 10,
-                              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/serviceTypeThree.svg',
-                                  height: 15,
-                                  width: 15),
-                            ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01),
-                          Text('リラクゼーション'),
-                        ],
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        result.contains("エステ")
+                            ? Row(
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 12,
+                                    backgroundColor: Colors.black45,
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/serviceTypeOne.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.01),
+                                  Text('エステ'),
+                                ],
+                              )
+                            : SizedBox(width: 5),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        result.contains("接骨・整体")
+                            ? Row(
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 12,
+                                    backgroundColor: Colors.black45,
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/serviceTypeTwo.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.01),
+                                  Text('整骨・整体'),
+                                ],
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        result.contains("リラクゼーション")
+                            ? Row(
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 12,
+                                    backgroundColor: Colors.black45,
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/serviceTypeThree.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.01),
+                                  Text('リラクゼーション')
+                                ],
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        result.contains("フィットネス")
+                            ? Row(
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 12,
+                                    backgroundColor: Colors.black45,
+                                    child: CircleAvatar(
+                                      maxRadius: 10,
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 255, 255, 1),
+                                      child: SvgPicture.asset(
+                                          'assets/images_gps/serviceTypeFour.svg',
+                                          height: 15,
+                                          width: 15),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.01),
+                                  Text('フィットネス')
+                                ],
+                              )
+                            : SizedBox(),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -235,23 +528,60 @@ class _BookingDetailsCompletedScreenOneState
                       children: <Widget>[
                         Expanded(
                           flex: 1,
-                          child: new Container(
-                              width: 60.0,
-                              height: 60.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: new AssetImage(
-                                      'assets/images_gps/logo.png'),
-                                ),
-                              )),
+                          child: widget.getTherapistByIdModel.data
+                                      .uploadProfileImgUrl !=
+                                  null
+                              ? CachedNetworkImage(
+                                  imageUrl: widget.getTherapistByIdModel.data
+                                      .uploadProfileImgUrl,
+                                  filterQuality: FilterQuality.high,
+                                  fadeInCurve: Curves.easeInSine,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      SpinKitDoubleBounce(
+                                          color: Colors.lightGreenAccent),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.black12),
+                                      image: DecorationImage(
+                                          image: new AssetImage(
+                                              'assets/images_gps/placeholder_image.png'),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  decoration: new BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.fitHeight,
+                                      image: new AssetImage(
+                                          'assets/images_gps/logo.png'),
+                                    ),
+                                  )),
                         ),
                         SizedBox(width: 5),
                         Expanded(
                           flex: 5,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               FittedBox(
                                 child: Row(
@@ -259,7 +589,8 @@ class _BookingDetailsCompletedScreenOneState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "店舗名",
+                                      widget
+                                          .getTherapistByIdModel.data.userName,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
@@ -268,86 +599,127 @@ class _BookingDetailsCompletedScreenOneState
                                     ),
                                     SizedBox(
                                         width:
-                                        MediaQuery.of(context).size.width *
-                                            0.02),
-                                    FittedBox(
+
+                                            MediaQuery.of(context).size.width *
+                                                0.02),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: [
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                      Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('店舗')),
+                                          widget.getTherapistByIdModel.data
+                                                      .businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員あり') ||
+                                                  widget.getTherapistByIdModel
+                                                      .data.businessForm
+                                                      .contains(
+                                                          '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                  widget.getTherapistByIdModel
+                                                      .data.businessForm
+                                                      .contains(
+                                                          '施術店舗なし 施術従業員なし（個人)')
+                                              ? Visibility(
+                                                  visible: true,
+                                                  child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(4),
+                                                      decoration: BoxDecoration(
+                                                          gradient: LinearGradient(
+                                                              begin: Alignment
+                                                                  .topCenter,
+                                                              end: Alignment
+                                                                  .bottomCenter,
+                                                              colors: [
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1),
+                                                              ]),
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          border: Border.all(
+                                                            color: Colors
+                                                                .grey[300],
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                          color:
+                                                              Colors.grey[200]),
+                                                      child: Text('店舗')),
+                                                )
+                                              : Container(),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                      Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('出張')),
+                                          Visibility(
+                                            visible: widget
+                                                .getTherapistByIdModel
+                                                .data
+                                                .businessTrip,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text('出張')),
+                                          ),
                                           SizedBox(
                                             width: 5,
                                           ),
-                                          Container(
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin:
-                                                      Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                      colors: [
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                        Color.fromRGBO(
-                                                            255, 255, 255, 1),
-                                                      ]),
-                                                  shape: BoxShape.rectangle,
-                                                  border: Border.all(
-                                                    color: Colors.grey[300],
-                                                  ),
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
-                                                  color: Colors.grey[200]),
-                                              child: Text('コロナ対策実施有無')),
+                                          Visibility(
+                                            visible: widget
+                                                .getTherapistByIdModel
+                                                .data
+                                                .coronaMeasure,
+                                            child: Container(
+                                                padding: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ]),
+                                                    shape: BoxShape.rectangle,
+                                                    border: Border.all(
+                                                      color: Colors.grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                    color: Colors.grey[200]),
+                                                child: Text('コロナ対策実施有無')),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -359,19 +731,24 @@ class _BookingDetailsCompletedScreenOneState
                                       0.01),
                               Row(
                                 children: [
+                                  // widget.getTherapistByIdModel.data.
                                   Text(
-                                    '(${ratingsValue.toString()})',
+                                    '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
                                     style: TextStyle(
                                         color: Colors.grey[400],
                                         fontSize: 14,
                                         fontFamily: 'NotoSansJP'),
                                   ),
                                   RatingBar.builder(
-                                    initialRating: 3,
+                                    initialRating: double.parse(widget
+                                        .getTherapistByIdModel
+                                        .reviewData
+                                        .ratingAvg),
+                                    ignoreGestures: true,
                                     minRating: 1,
+                                    itemCount: 5,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
-                                    itemCount: 5,
                                     itemSize: 25,
                                     itemPadding:
                                     EdgeInsets.symmetric(horizontal: 1.0),
@@ -380,16 +757,9 @@ class _BookingDetailsCompletedScreenOneState
                                       size: 5,
                                       color: Color.fromRGBO(255, 217, 0, 1),
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      // print(rating);
-                                      setState(() {
-                                        ratingsValue = rating;
-                                      });
-                                      print(ratingsValue);
-                                    },
                                   ),
                                   Text(
-                                    '(1518)',
+                                    '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers.toString()})',
                                     style: TextStyle(
                                         color: Colors.grey[400],
                                         fontSize: 12,
@@ -423,10 +793,11 @@ class _BookingDetailsCompletedScreenOneState
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 7),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -446,142 +817,106 @@ class _BookingDetailsCompletedScreenOneState
                                   ),
                                   borderRadius: BorderRadius.circular(5.0),
                                   color: Colors.grey[200]),
-                              child: Text('女性のみ予約可')),
+                              child: Text(widget
+                                  .getTherapistByIdModel.data.genderOfService)),
                         ],
                       ),
                       SizedBox(height: 10),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('キッズスペース有')),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('保育士常駐')),
-                          SizedBox(
-                            width: 5,
-                          ),
+                          resultChildren.length != 0
+                              ? Container(
+                                  height: 38.0,
+                                  width: MediaQuery.of(context).size.width -
+                                      130.0, //200.0,
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: resultChildren.length,
+                                      itemBuilder: (context, index) {
+                                        String keys =
+                                            resultChildren.elementAt(index);
+                                        return WidgetAnimator(
+                                          Wrap(
+                                            children: [
+                                              Padding(
+                                                padding: index == 0
+                                                    ? const EdgeInsets.only(
+                                                        left: 0.0,
+                                                        top: 4.0,
+                                                        right: 4.0,
+                                                        bottom: 4.0)
+                                                    : const EdgeInsets.all(4.0),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(5),
+                                                  decoration: boxDecoration,
+                                                  child: Text(
+                                                    keys, //Qualififcation
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                )
+                              : Container(),
                         ],
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('国家資格')),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('民間資格')),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('国家資格')),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                        Color.fromRGBO(255, 255, 255, 1),
-                                      ]),
-                                  shape: BoxShape.rectangle,
-                                  border: Border.all(
-                                    color: Colors.grey[300],
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Colors.grey[200]),
-                              child: Text('民間資格')),
-                        ],
-                      ),
+                      certificateImages.length != 0
+                          ? Container(
+                              height: 38.0,
+                              width: MediaQuery.of(context).size.width -
+                                  130.0, //200.0,
+                              child: ListView.builder(
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: certificateImages.length,
+                                  itemBuilder: (context, index) {
+                                    String key =
+                                        certificateImages.keys.elementAt(index);
+                                    return WidgetAnimator(
+                                      Wrap(
+                                        children: [
+                                          Padding(
+                                            padding: index == 0
+                                                ? const EdgeInsets.only(
+                                                    left: 0.0,
+                                                    top: 4.0,
+                                                    right: 4.0,
+                                                    bottom: 4.0)
+                                                : const EdgeInsets.all(4.0),
+                                            child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: boxDecoration,
+                                              child: Text(
+                                                key,
+                                                //Qualififcation
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 7),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -600,7 +935,7 @@ class _BookingDetailsCompletedScreenOneState
                     width: MediaQuery.of(context).size.width * 0.90,
                     height: MediaQuery.of(context).size.height * 0.16,
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -621,36 +956,14 @@ class _BookingDetailsCompletedScreenOneState
                                         fontFamily: 'NotoSansJP'),
                                   ),
                                   SizedBox(width: 5),
-                                  new Text(
-                                    '東京都',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '墨田区',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '押上',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                  SizedBox(width: 5),
-                                  new Text(
-                                    '1-1-2',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 16,
-                                        fontFamily: 'NotoSansJP'),
+                                  FittedBox(
+                                    child: new Text(
+                                      therapistAddressDetails,
+                                      style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14,
+                                          fontFamily: 'NotoSansJP'),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -676,7 +989,7 @@ class _BookingDetailsCompletedScreenOneState
                                     '10:30 ～ 11:30',
                                     style: TextStyle(
                                         color: Colors.grey[400],
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: 'NotoSansJP'),
                                   ),
                                 ],
@@ -4503,94 +4816,138 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.loose,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Column(children: [
-            CarouselSlider(
-              items: imageSliders,
-              options: CarouselOptions(
-                  autoPlay: true,
-                  autoPlayCurve: Curves.easeInOutCubic,
-                  enlargeCenterPage: false,
-                  viewportFraction: 1.02,
-                  aspectRatio: 1.5,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }),
-            ),
-          ]),
-        ),
-        Positioned(
-          top: 30.0,
-          left: 20.0,
-          right: 20.0,
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            CircleAvatar(
-              maxRadius: 18,
-              backgroundColor: Colors.white,
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 20,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  NavigationRouter.switchToServiceUserBottomBar(context);
-                },
-              ),
-            ),
-            Spacer(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CircleAvatar(
-                  maxRadius: 18,
-                  backgroundColor: Colors.white,
-                  child: CustomFavoriteButton(
-                      iconSize: 40,
-                      iconColor: Colors.red,
-                      valueChanged: (_isFavorite) {
-                        print('Is Favorite : $_isFavorite');
-                      }),
-                ),
-              ],
-            ),
-          ]),
-        ),
-        Positioned(
-          bottom: 5.0,
-          left: 50.0,
-          right: 50.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: HealingMatchConstants.userBannerImages.map((url) {
-              int index = HealingMatchConstants.userBannerImages.indexOf(url);
-              return Expanded(
-                child: Container(
-                  width: 45.0,
-                  height: 4.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-// shape: BoxShape.circle,
-                    color: _current == index
-                        ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                        : Color.fromRGBO(0, 0, 0, 0.4),
+    return userBannerImages != null && userBannerImages.isNotEmpty
+        ? Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                child: Column(children: [
+                  CarouselSlider(
+                    items: <Widget>[
+                      for (int i = 0; i < userBannerImages.length; i++)
+                        Container(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    CachedNetworkImage(
+                                        width: 2000.0,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userBannerImages[i],
+                                        placeholder: (context, url) =>
+                                            SpinKitWave(
+                                                color: Colors.lightBlueAccent),
+                                        errorWidget: (context, url, error) {
+                                          return CachedNetworkImage(
+                                            width: 2000.0,
+                                            fit: BoxFit.cover,
+                                            imageUrl:
+                                                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+                                            placeholder: (context, url) =>
+                                                SpinKitWave(
+                                                    color:
+                                                        Colors.lightBlueAccent),
+                                          );
+                                        }),
+                                  ],
+                                )),
+                          ),
+                        )
+                    ],
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
+                ]),
+              ),
+              Positioned(
+                  bottom: 5.0,
+                  left: 50.0,
+                  right: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: userBannerImages.map((url) {
+                      int index = userBannerImages.indexOf(url);
+                      return Expanded(
+                        child: Container(
+                          width: 45.0,
+                          height: 4.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                            color: _current == index
+                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+            ],
+          )
+        : Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(children: [
+                  CarouselSlider(
+                    items: dummyImageSliders,
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayCurve: Curves.easeInOutCubic,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1.02,
+                        aspectRatio: 2.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                  ),
+                ]),
+              ),
+              Positioned(
+                  bottom: 5.0,
+                  left: 50.0,
+                  right: 50.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: dummyBannerImages.map((url) {
+                      int index = dummyBannerImages.indexOf(url);
+                      return Expanded(
+                        child: Container(
+                          width: 45.0,
+                          height: 4.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+// shape: BoxShape.circle,
+                            color: _current == index
+                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+            ],
+          );
   }
 }
 
@@ -4612,6 +4969,21 @@ final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
         )),
   ),
 ))
+    .toList();
+
+final List<Widget> dummyImageSliders = dummyBannerImages
+    .map((item) => Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Image.network(item, fit: BoxFit.cover, width: 2000.0),
+                  ],
+                )),
+          ),
+        ))
     .toList();
 
 class DetailPageError extends StatefulWidget {

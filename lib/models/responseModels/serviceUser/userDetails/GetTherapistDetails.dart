@@ -4,28 +4,35 @@
 
 import 'dart:convert';
 
-TherapistByIdModel therapistByIdModelFromJson(String str) => TherapistByIdModel.fromJson(json.decode(str));
+TherapistByIdModel therapistByIdModelFromJson(String str) =>
+    TherapistByIdModel.fromJson(json.decode(str));
 
-String therapistByIdModelToJson(TherapistByIdModel data) => json.encode(data.toJson());
+String therapistByIdModelToJson(TherapistByIdModel data) =>
+    json.encode(data.toJson());
 
 class TherapistByIdModel {
   TherapistByIdModel({
     this.status,
     this.data,
+    this.reviewData,
   });
 
   String status;
   Data data;
+  ReviewData reviewData;
 
-  factory TherapistByIdModel.fromJson(Map<String, dynamic> json) => TherapistByIdModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory TherapistByIdModel.fromJson(Map<String, dynamic> json) =>
+      TherapistByIdModel(
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+        reviewData: ReviewData.fromJson(json["ReviewData"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "data": data.toJson(),
-  };
+        "status": status,
+        "data": data.toJson(),
+        "ReviewData": reviewData.toJson(),
+      };
 }
 
 class Data {
@@ -118,94 +125,104 @@ class Data {
   List<TherapistSubCategory> therapistSubCategories;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["id"],
-    userId: json["userId"],
-    email: json["email"],
-    phoneNumber: json["phoneNumber"],
-    fcmToken: json["fcmToken"],
-    lineBotUserId: json["lineBotUserId"],
-    appleUserId: json["appleUserId"],
-    userName: json["userName"],
-    dob: DateTime.parse(json["dob"]),
-    age: json["age"],
-    gender: json["gender"],
-    isTherapist: json["isTherapist"],
-    isVerified: json["isVerified"],
-    isActive: json["isActive"],
-    isAccepted: json["isAccepted"],
-    rejectReason: json["rejectReason"],
-    updatedUser: json["updatedUser"],
-    uploadProfileImgUrl: json["uploadProfileImgUrl"],
-    proofOfIdentityType: json["proofOfIdentityType"],
-    proofOfIdentityImgUrl: json["proofOfIdentityImgUrl"],
-    qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
-    businessForm: json["businessForm"],
-    numberOfEmp: json["numberOfEmp"],
-    businessTrip: json["businessTrip"],
-    coronaMeasure: json["coronaMeasure"],
-    storeName: json["storeName"],
-    storeType: json["storeType"],
-    storePhone: json["storePhone"],
-    storeDescription: json["storeDescription"],
-    userOccupation: json["userOccupation"],
-    genderOfService: json["genderOfService"],
-    childrenMeasure: json["childrenMeasure"],
-    customerId: json["customerId"],
-    userSearchRadiusDistance: json["userSearchRadiusDistance"],
-    isShop: json["isShop"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    addresses: List<Address>.from(json["addresses"].map((x) => Address.fromJson(x))),
-    certificationUploads: List<CertificationUpload>.from(json["certification_uploads"].map((x) => CertificationUpload.fromJson(x))),
-    bankDetails: List<BankDetail>.from(json["bankDetails"].map((x) => BankDetail.fromJson(x))),
-    banners: List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
-    therapistSubCategories: List<TherapistSubCategory>.from(json["therapistSubCategories"].map((x) => TherapistSubCategory.fromJson(x))),
-  );
+        id: json["id"],
+        userId: json["userId"],
+        email: json["email"],
+        phoneNumber: json["phoneNumber"],
+        fcmToken: json["fcmToken"],
+        lineBotUserId: json["lineBotUserId"],
+        appleUserId: json["appleUserId"],
+        userName: json["userName"],
+        dob: DateTime.parse(json["dob"]),
+        age: json["age"],
+        gender: json["gender"],
+        isTherapist: json["isTherapist"],
+        isVerified: json["isVerified"],
+        isActive: json["isActive"],
+        isAccepted: json["isAccepted"],
+        rejectReason: json["rejectReason"],
+        updatedUser: json["updatedUser"],
+        uploadProfileImgUrl: json["uploadProfileImgUrl"],
+        proofOfIdentityType: json["proofOfIdentityType"],
+        proofOfIdentityImgUrl: json["proofOfIdentityImgUrl"],
+        qulaificationCertImgUrl: json["qulaificationCertImgUrl"],
+        businessForm: json["businessForm"],
+        numberOfEmp: json["numberOfEmp"],
+        businessTrip: json["businessTrip"],
+        coronaMeasure: json["coronaMeasure"],
+        storeName: json["storeName"],
+        storeType: json["storeType"],
+        storePhone: json["storePhone"],
+        storeDescription: json["storeDescription"],
+        userOccupation: json["userOccupation"],
+        genderOfService: json["genderOfService"],
+        childrenMeasure: json["childrenMeasure"],
+        customerId: json["customerId"],
+        userSearchRadiusDistance: json["userSearchRadiusDistance"],
+        isShop: json["isShop"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        addresses: List<Address>.from(
+            json["addresses"].map((x) => Address.fromJson(x))),
+        certificationUploads: List<CertificationUpload>.from(
+            json["certification_uploads"]
+                .map((x) => CertificationUpload.fromJson(x))),
+        bankDetails: List<BankDetail>.from(
+            json["bankDetails"].map((x) => BankDetail.fromJson(x))),
+        banners:
+            List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
+        therapistSubCategories: List<TherapistSubCategory>.from(
+            json["therapistSubCategories"]
+                .map((x) => TherapistSubCategory.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "email": email,
-    "phoneNumber": phoneNumber,
-    "fcmToken": fcmToken,
-    "lineBotUserId": lineBotUserId,
-    "appleUserId": appleUserId,
-    "userName": userName,
-    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
-    "age": age,
-    "gender": gender,
-    "isTherapist": isTherapist,
-    "isVerified": isVerified,
-    "isActive": isActive,
-    "isAccepted": isAccepted,
-    "rejectReason": rejectReason,
-    "updatedUser": updatedUser,
-    "uploadProfileImgUrl": uploadProfileImgUrl,
-    "proofOfIdentityType": proofOfIdentityType,
-    "proofOfIdentityImgUrl": proofOfIdentityImgUrl,
-    "qulaificationCertImgUrl": qulaificationCertImgUrl,
-    "businessForm": businessForm,
-    "numberOfEmp": numberOfEmp,
-    "businessTrip": businessTrip,
-    "coronaMeasure": coronaMeasure,
-    "storeName": storeName,
-    "storeType": storeType,
-    "storePhone": storePhone,
-    "storeDescription": storeDescription,
-    "userOccupation": userOccupation,
-    "genderOfService": genderOfService,
-    "childrenMeasure": childrenMeasure,
-    "customerId": customerId,
-    "userSearchRadiusDistance": userSearchRadiusDistance,
-    "isShop": isShop,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
-    "certification_uploads": List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
-    "bankDetails": List<dynamic>.from(bankDetails.map((x) => x.toJson())),
-    "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-    "therapistSubCategories": List<dynamic>.from(therapistSubCategories.map((x) => x.toJson())),
-  };
+        "id": id,
+        "userId": userId,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "fcmToken": fcmToken,
+        "lineBotUserId": lineBotUserId,
+        "appleUserId": appleUserId,
+        "userName": userName,
+        "dob":
+            "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+        "age": age,
+        "gender": gender,
+        "isTherapist": isTherapist,
+        "isVerified": isVerified,
+        "isActive": isActive,
+        "isAccepted": isAccepted,
+        "rejectReason": rejectReason,
+        "updatedUser": updatedUser,
+        "uploadProfileImgUrl": uploadProfileImgUrl,
+        "proofOfIdentityType": proofOfIdentityType,
+        "proofOfIdentityImgUrl": proofOfIdentityImgUrl,
+        "qulaificationCertImgUrl": qulaificationCertImgUrl,
+        "businessForm": businessForm,
+        "numberOfEmp": numberOfEmp,
+        "businessTrip": businessTrip,
+        "coronaMeasure": coronaMeasure,
+        "storeName": storeName,
+        "storeType": storeType,
+        "storePhone": storePhone,
+        "storeDescription": storeDescription,
+        "userOccupation": userOccupation,
+        "genderOfService": genderOfService,
+        "childrenMeasure": childrenMeasure,
+        "customerId": customerId,
+        "userSearchRadiusDistance": userSearchRadiusDistance,
+        "isShop": isShop,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+        "certification_uploads":
+            List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
+        "bankDetails": List<dynamic>.from(bankDetails.map((x) => x.toJson())),
+        "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
+        "therapistSubCategories":
+            List<dynamic>.from(therapistSubCategories.map((x) => x.toJson())),
+      };
 }
 
 class Address {
@@ -248,7 +265,7 @@ class Address {
   String area;
   String buildingName;
   dynamic postalCode;
-  dynamic geomet;
+  Geomet geomet;
   double lat;
   double lon;
   String createdUser;
@@ -258,54 +275,75 @@ class Address {
   DateTime updatedAt;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    id: json["id"],
-    userId: json["userId"],
-    addressTypeSelection: json["addressTypeSelection"],
-    address: json["address"],
-    userRoomNumber: json["userRoomNumber"],
-    userPlaceForMassage: json["userPlaceForMassage"],
-    otherAddressType: json["otherAddressType"],
-    capitalAndPrefecture: json["capitalAndPrefecture"],
-    capitalAndPrefectureId: json["capitalAndPrefectureId"],
-    cityName: json["cityName"],
-    citiesId: json["citiesId"],
-    area: json["area"],
-    buildingName: json["buildingName"],
-    postalCode: json["postalCode"],
-    geomet: json["geomet"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
-    createdUser: json["createdUser"],
-    updatedUser: json["updatedUser"],
-    isDefault: json["isDefault"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+        id: json["id"],
+        userId: json["userId"],
+        addressTypeSelection: json["addressTypeSelection"],
+        address: json["address"],
+        userRoomNumber: json["userRoomNumber"],
+        userPlaceForMassage: json["userPlaceForMassage"],
+        otherAddressType: json["otherAddressType"],
+        capitalAndPrefecture: json["capitalAndPrefecture"],
+        capitalAndPrefectureId: json["capitalAndPrefectureId"],
+        cityName: json["cityName"],
+        citiesId: json["citiesId"],
+        area: json["area"],
+        buildingName: json["buildingName"],
+        postalCode: json["postalCode"],
+        geomet: Geomet.fromJson(json["geomet"]),
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
+        createdUser: json["createdUser"],
+        updatedUser: json["updatedUser"],
+        isDefault: json["isDefault"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "addressTypeSelection": addressTypeSelection,
-    "address": address,
-    "userRoomNumber": userRoomNumber,
-    "userPlaceForMassage": userPlaceForMassage,
-    "otherAddressType": otherAddressType,
-    "capitalAndPrefecture": capitalAndPrefecture,
-    "capitalAndPrefectureId": capitalAndPrefectureId,
-    "cityName": cityName,
-    "citiesId": citiesId,
-    "area": area,
-    "buildingName": buildingName,
-    "postalCode": postalCode,
-    "geomet": geomet,
-    "lat": lat,
-    "lon": lon,
-    "createdUser": createdUser,
-    "updatedUser": updatedUser,
-    "isDefault": isDefault,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+        "id": id,
+        "userId": userId,
+        "addressTypeSelection": addressTypeSelection,
+        "address": address,
+        "userRoomNumber": userRoomNumber,
+        "userPlaceForMassage": userPlaceForMassage,
+        "otherAddressType": otherAddressType,
+        "capitalAndPrefecture": capitalAndPrefecture,
+        "capitalAndPrefectureId": capitalAndPrefectureId,
+        "cityName": cityName,
+        "citiesId": citiesId,
+        "area": area,
+        "buildingName": buildingName,
+        "postalCode": postalCode,
+        "geomet": geomet.toJson(),
+        "lat": lat,
+        "lon": lon,
+        "createdUser": createdUser,
+        "updatedUser": updatedUser,
+        "isDefault": isDefault,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class Geomet {
+  Geomet({
+    this.type,
+    this.coordinates,
+  });
+
+  String type;
+  List<double> coordinates;
+
+  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
+        type: json["type"],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+      };
 }
 
 class BankDetail {
@@ -332,28 +370,28 @@ class BankDetail {
   DateTime updatedAt;
 
   factory BankDetail.fromJson(Map<String, dynamic> json) => BankDetail(
-    id: json["id"],
-    userId: json["userId"],
-    bankName: json["bankName"],
-    branchCode: json["branchCode"],
-    branchNumber: json["branchNumber"],
-    accountNumber: json["accountNumber"],
-    accountType: json["accountType"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+        id: json["id"],
+        userId: json["userId"],
+        bankName: json["bankName"],
+        branchCode: json["branchCode"],
+        branchNumber: json["branchNumber"],
+        accountNumber: json["accountNumber"],
+        accountType: json["accountType"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "bankName": bankName,
-    "branchCode": branchCode,
-    "branchNumber": branchNumber,
-    "accountNumber": accountNumber,
-    "accountType": accountType,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+        "id": id,
+        "userId": userId,
+        "bankName": bankName,
+        "branchCode": branchCode,
+        "branchNumber": branchNumber,
+        "accountNumber": accountNumber,
+        "accountType": accountType,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
 }
 
 class Banner {
@@ -380,28 +418,28 @@ class Banner {
   DateTime updatedAt;
 
   factory Banner.fromJson(Map<String, dynamic> json) => Banner(
-    id: json["id"],
-    userId: json["userId"],
-    bannerImageUrl1: json["bannerImageUrl1"],
-    bannerImageUrl2: json["bannerImageUrl2"],
-    bannerImageUrl3: json["bannerImageUrl3"],
-    bannerImageUrl4: json["bannerImageUrl4"],
-    bannerImageUrl5: json["bannerImageUrl5"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+        id: json["id"],
+        userId: json["userId"],
+        bannerImageUrl1: json["bannerImageUrl1"],
+        bannerImageUrl2: json["bannerImageUrl2"],
+        bannerImageUrl3: json["bannerImageUrl3"],
+        bannerImageUrl4: json["bannerImageUrl4"],
+        bannerImageUrl5: json["bannerImageUrl5"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "bannerImageUrl1": bannerImageUrl1,
-    "bannerImageUrl2": bannerImageUrl2,
-    "bannerImageUrl3": bannerImageUrl3,
-    "bannerImageUrl4": bannerImageUrl4,
-    "bannerImageUrl5": bannerImageUrl5,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+        "id": id,
+        "userId": userId,
+        "bannerImageUrl1": bannerImageUrl1,
+        "bannerImageUrl2": bannerImageUrl2,
+        "bannerImageUrl3": bannerImageUrl3,
+        "bannerImageUrl4": bannerImageUrl4,
+        "bannerImageUrl5": bannerImageUrl5,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
 }
 
 class CertificationUpload {
@@ -441,43 +479,44 @@ class CertificationUpload {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory CertificationUpload.fromJson(Map<String, dynamic> json) => CertificationUpload(
-    id: json["id"],
-    userId: json["userId"],
-    acupuncturist: json["acupuncturist"],
-    moxibutionist: json["moxibutionist"],
-    acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"],
-    anmaMassageShiatsushi: json["anmaMassageShiatsushi"],
-    judoRehabilitationTeacher: json["judoRehabilitationTeacher"],
-    physicalTherapist: json["physicalTherapist"],
-    acquireNationalQualifications: json["acquireNationalQualifications"],
-    privateQualification1: json["privateQualification1"],
-    privateQualification2: json["privateQualification2"],
-    privateQualification3: json["privateQualification3"],
-    privateQualification4: json["privateQualification4"],
-    privateQualification5: json["privateQualification5"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+  factory CertificationUpload.fromJson(Map<String, dynamic> json) =>
+      CertificationUpload(
+        id: json["id"],
+        userId: json["userId"],
+        acupuncturist: json["acupuncturist"],
+        moxibutionist: json["moxibutionist"],
+        acupuncturistAndMoxibustion: json["acupuncturistAndMoxibustion"],
+        anmaMassageShiatsushi: json["anmaMassageShiatsushi"],
+        judoRehabilitationTeacher: json["judoRehabilitationTeacher"],
+        physicalTherapist: json["physicalTherapist"],
+        acquireNationalQualifications: json["acquireNationalQualifications"],
+        privateQualification1: json["privateQualification1"],
+        privateQualification2: json["privateQualification2"],
+        privateQualification3: json["privateQualification3"],
+        privateQualification4: json["privateQualification4"],
+        privateQualification5: json["privateQualification5"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "acupuncturist": acupuncturist,
-    "moxibutionist": moxibutionist,
-    "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion,
-    "anmaMassageShiatsushi": anmaMassageShiatsushi,
-    "judoRehabilitationTeacher": judoRehabilitationTeacher,
-    "physicalTherapist": physicalTherapist,
-    "acquireNationalQualifications": acquireNationalQualifications,
-    "privateQualification1": privateQualification1,
-    "privateQualification2": privateQualification2,
-    "privateQualification3": privateQualification3,
-    "privateQualification4": privateQualification4,
-    "privateQualification5": privateQualification5,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+        "id": id,
+        "userId": userId,
+        "acupuncturist": acupuncturist,
+        "moxibutionist": moxibutionist,
+        "acupuncturistAndMoxibustion": acupuncturistAndMoxibustion,
+        "anmaMassageShiatsushi": anmaMassageShiatsushi,
+        "judoRehabilitationTeacher": judoRehabilitationTeacher,
+        "physicalTherapist": physicalTherapist,
+        "acquireNationalQualifications": acquireNationalQualifications,
+        "privateQualification1": privateQualification1,
+        "privateQualification2": privateQualification2,
+        "privateQualification3": privateQualification3,
+        "privateQualification4": privateQualification4,
+        "privateQualification5": privateQualification5,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
 }
 
 class TherapistSubCategory {
@@ -509,33 +548,54 @@ class TherapistSubCategory {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory TherapistSubCategory.fromJson(Map<String, dynamic> json) => TherapistSubCategory(
-    id: json["id"],
-    userId: json["userId"],
-    categoryId: json["categoryId"] == null ? null : json["categoryId"],
-    subCategoryId: json["subCategoryId"],
-    name: json["name"],
-    sixtyMin: json["sixtyMin"],
-    nintyMin: json["nintyMin"],
-    oneTwentyMin: json["oneTwentyMin"],
-    oneFifityMin: json["oneFifityMin"],
-    oneEightyMin: json["oneEightyMin"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-  );
+  factory TherapistSubCategory.fromJson(Map<String, dynamic> json) =>
+      TherapistSubCategory(
+        id: json["id"],
+        userId: json["userId"],
+        categoryId: json["categoryId"] == null ? null : json["categoryId"],
+        subCategoryId: json["subCategoryId"],
+        name: json["name"],
+        sixtyMin: json["sixtyMin"],
+        nintyMin: json["nintyMin"],
+        oneTwentyMin: json["oneTwentyMin"],
+        oneFifityMin: json["oneFifityMin"],
+        oneEightyMin: json["oneEightyMin"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "userId": userId,
-    "categoryId": categoryId == null ? null : categoryId,
-    "subCategoryId": subCategoryId,
-    "name": name,
-    "sixtyMin": sixtyMin,
-    "nintyMin": nintyMin,
-    "oneTwentyMin": oneTwentyMin,
-    "oneFifityMin": oneFifityMin,
-    "oneEightyMin": oneEightyMin,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-  };
+        "id": id,
+        "userId": userId,
+        "categoryId": categoryId == null ? null : categoryId,
+        "subCategoryId": subCategoryId,
+        "name": name,
+        "sixtyMin": sixtyMin,
+        "nintyMin": nintyMin,
+        "oneTwentyMin": oneTwentyMin,
+        "oneFifityMin": oneFifityMin,
+        "oneEightyMin": oneEightyMin,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class ReviewData {
+  ReviewData({
+    this.ratingAvg,
+    this.noOfReviewsMembers,
+  });
+
+  String ratingAvg;
+  int noOfReviewsMembers;
+
+  factory ReviewData.fromJson(Map<String, dynamic> json) => ReviewData(
+        ratingAvg: json["ratingAvg"],
+        noOfReviewsMembers: json["NoOfReviewsMembers"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ratingAvg": ratingAvg,
+        "NoOfReviewsMembers": noOfReviewsMembers,
+      };
 }

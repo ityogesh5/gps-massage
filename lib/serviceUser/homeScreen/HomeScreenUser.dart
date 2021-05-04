@@ -19,7 +19,7 @@ import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimat
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart' as CertificationUploads ;
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -50,7 +50,7 @@ String therapistImage = '';
 
 int _selectedIndex;
 List<TypeTherapistData> therapistListByType = [];
-List<InitialTherapistData> therapistUsers = [];
+List<CertificationUploads.InitialTherapistData> therapistUsers = [];
 var accessToken;
 var userID;
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
@@ -263,7 +263,7 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
                 return HomePageError();
               } else if (state is GetRecommendLoadedState) {
                 // print('Error state : ${state.message}');
-                return RecommendLists(getTherapistProfiles: state.getRecommendList);
+                return RecommendLists(getRecommendList: state.getRecommendList);
               }
               else
                 return Text(
@@ -597,8 +597,7 @@ class _LoadInitialHomePageState extends State<LoadInitialHomePage> {
 // Load home page
 
 class LoadHomePage extends StatefulWidget {
-  List<InitialTherapistData> getTherapistProfiles;
-
+  List<CertificationUploads.InitialTherapistData> getTherapistProfiles;
 
   LoadHomePage({Key key, @required this.getTherapistProfiles})
       : super(key: key);
@@ -1151,97 +1150,103 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                                           SizedBox(
                                             height: 3,
                                           ),
-                                          Row(
-                                            children: [
-                                              widget.getTherapistByType[index]
-                                                          .reviewAvgData !=
-                                                      null
-                                                  ? Text(
-                                                      '(${widget.getTherapistByType[index].reviewAvgData.toString()})',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            ColorConstants
-                                                                .fontFamily,
-                                                        color: Color.fromRGBO(
-                                                            153, 153, 153, 1),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                          FittedBox(
+                                            child: Row(
+                                              children: [
+                                                widget.getTherapistByType[index]
+                                                            .reviewAvgData !=
+                                                        null
+                                                    ? Text(
+                                                        '(${widget.getTherapistByType[index].reviewAvgData.toString()})',
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              ColorConstants
+                                                                  .fontFamily,
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        '(0.0)',
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              ColorConstants
+                                                                  .fontFamily,
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
                                                       ),
-                                                    )
-                                                  : Text(
-                                                      '(0.0)',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            ColorConstants
-                                                                .fontFamily,
-                                                        color: Color.fromRGBO(
-                                                            153, 153, 153, 1),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                widget.getTherapistByType[index]
+                                                            .reviewAvgData !=
+                                                        null
+                                                    ? RatingBar.builder(
+                                                        ignoreGestures: true,
+                                                        initialRating:
+                                                            double.parse(widget
+                                                                .getTherapistByType[
+                                                                    index]
+                                                                .reviewAvgData),
+                                                        minRating: 1,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        allowHalfRating: true,
+                                                        itemCount: 5,
+                                                        itemSize: 22,
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          size: 5,
+                                                          color: Color.fromRGBO(
+                                                              255, 217, 0, 1),
+                                                        ),
+                                                        onRatingUpdate:
+                                                            (rating) {},
+                                                      )
+                                                    : RatingBar.builder(
+                                                        ignoreGestures: true,
+                                                        initialRating: 0.0,
+                                                        minRating: 1,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        allowHalfRating: true,
+                                                        itemCount: 5,
+                                                        itemSize: 25,
+                                                        itemPadding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    4.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          size: 5,
+                                                          color: Color.fromRGBO(
+                                                              255, 217, 0, 1),
+                                                        ),
+                                                        onRatingUpdate:
+                                                            (rating) {},
                                                       ),
-                                                    ),
-                                              widget.getTherapistByType[index]
-                                                          .reviewAvgData !=
-                                                      null
-                                                  ? RatingBar.builder(
-                                                      ignoreGestures: true,
-                                                      initialRating:
-                                                          double.parse(widget
-                                                              .getTherapistByType[
-                                                                  index]
-                                                              .reviewAvgData),
-                                                      minRating: 1,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemSize: 22,
-                                                      itemPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 4.0),
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
-                                                        Icons.star,
-                                                        size: 5,
-                                                        color: Color.fromRGBO(
-                                                            255, 217, 0, 1),
-                                                      ),
-                                                      onRatingUpdate:
-                                                          (rating) {},
-                                                    )
-                                                  : RatingBar.builder(
-                                                      ignoreGestures: true,
-                                                      initialRating: 0.0,
-                                                      minRating: 1,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      allowHalfRating: true,
-                                                      itemCount: 5,
-                                                      itemSize: 22,
-                                                      itemPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 4.0),
-                                                      itemBuilder:
-                                                          (context, _) => Icon(
-                                                        Icons.star,
-                                                        size: 5,
-                                                        color: Color.fromRGBO(
-                                                            255, 217, 0, 1),
-                                                      ),
-                                                      onRatingUpdate:
-                                                          (rating) {},
-                                                    ),
-                                              Text(
-                                                '(1518)',
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
-                                                    fontFamily: ColorConstants
-                                                        .fontFamily),
-                                              ),
-                                            ],
+                                                Text(
+                                                  '(1518)',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          153, 153, 153, 1),
+                                                      fontFamily: ColorConstants
+                                                          .fontFamily),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 3,
@@ -1938,35 +1943,37 @@ class _ReservationListState extends State<ReservationList> {
                       // trailing: Text('承認待ち'),
                       subtitle: Column(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                '4.0',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
+                          FittedBox(
+                            child: Row(
+                              children: [
+                                Text(
+                                  '4.0',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
-                              ),
-                              RatingBar.builder(
-                                ignoreGestures: true,
-                                initialRating: 3,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 25,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  size: 5,
-                                  color: Color.fromRGBO(255, 217, 0, 1),
+                                RatingBar.builder(
+                                  ignoreGestures: true,
+                                  initialRating: 3,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 25,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    size: 5,
+                                    color: Color.fromRGBO(255, 217, 0, 1),
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
                                 ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                              Text('(1518)'),
-                            ],
+                                Text('(1518)'),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 5,
@@ -2347,50 +2354,53 @@ class _RecommendListsState extends State<RecommendLists> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '(${ratingValue.toString()})',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(153, 153, 153, 1),
-                                          decoration: TextDecoration.underline,
-                                          fontFamily:
-                                              ColorConstants.fontFamily),
-                                    ),
-                                    RatingBar.builder(
-                                      ignoreGestures: true,
-                                      initialRating: 3,
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize: 22,
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        size: 5,
-                                        color: Color.fromRGBO(255, 217, 0, 1),
+                                FittedBox(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '(${ratingValue.toString()})',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontFamily:
+                                                ColorConstants.fontFamily),
                                       ),
-                                      onRatingUpdate: (rating) {
-                                        // print(rating);
-                                        setState(() {
-                                          ratingValue = rating;
-                                        });
+                                      RatingBar.builder(
+                                        ignoreGestures: true,
+                                        initialRating: 3,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 22,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          size: 5,
+                                          color: Color.fromRGBO(255, 217, 0, 1),
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          // print(rating);
+                                          setState(() {
+                                            ratingValue = rating;
+                                          });
 
-                                        print(ratingValue);
-                                      },
-                                    ),
-                                    Text(
-                                      '(1518)',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(153, 153, 153, 1),
-                                          fontFamily:
-                                              ColorConstants.fontFamily),
-                                    ),
-                                  ],
+                                          print(ratingValue);
+                                        },
+                                      ),
+                                      Text(
+                                        '(1518)',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                            fontFamily:
+                                                ColorConstants.fontFamily),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -2458,7 +2468,7 @@ class _RecommendListsState extends State<RecommendLists> {
 }
 
 class BuildProviderUsers extends StatefulWidget {
-  List<InitialTherapistData> getTherapistProfiles;
+  List<CertificationUploads.InitialTherapistData> getTherapistProfiles;
 
   // Create the key
 
@@ -2486,7 +2496,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
 
   // Create the key
   GlobalKey<FormState> _formKeyUsers;
-  List<CertificationUploads> certificateUpload = [];
+  List<CertificationUploads.CertificationUploads> certificateUpload = [];
   var certificateUploadKeys;
   var distanceRadius;
   List<dynamic> therapistAddress = new List();
@@ -2921,98 +2931,106 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              Row(
-                                                children: [
-                                                  therapistUsers[index]
-                                                              .reviewAvgData !=
-                                                          null
-                                                      ? Text(
-                                                          therapistUsers[index]
-                                                              .reviewAvgData,
-                                                          style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
+                                              FittedBox(
+                                                child: Row(
+                                                  children: [
+                                                    therapistUsers[index]
+                                                                .reviewAvgData !=
+                                                            null
+                                                        ? Text(
+                                                            therapistUsers[
+                                                                    index]
+                                                                .reviewAvgData,
+                                                            style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                            ),
+                                                          )
+                                                        : Text(
+                                                            '0.0',
+                                                            style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                            ),
                                                           ),
-                                                        )
-                                                      : Text(
-                                                          '0.0',
-                                                          style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
+                                                    therapistUsers[index]
+                                                                .reviewAvgData !=
+                                                            null
+                                                        ? RatingBar.builder(
+                                                            ignoreGestures:
+                                                                true,
+                                                            initialRating: double
+                                                                .parse(therapistUsers[
+                                                                        index]
+                                                                    .reviewAvgData),
+                                                            minRating: 0.25,
+                                                            direction:
+                                                                Axis.horizontal,
+                                                            allowHalfRating:
+                                                                true,
+                                                            itemCount: 5,
+                                                            itemSize: 25,
+                                                            itemPadding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        4.0),
+                                                            itemBuilder:
+                                                                (context, _) =>
+                                                                    Icon(
+                                                              Icons.star,
+                                                              size: 5,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      217,
+                                                                      0,
+                                                                      1),
+                                                            ),
+                                                            onRatingUpdate:
+                                                                (rating) {},
+                                                          )
+                                                        : RatingBar.builder(
+                                                            ignoreGestures:
+                                                                true,
+                                                            initialRating: 0.0,
+                                                            minRating: 3.0,
+                                                            direction:
+                                                                Axis.horizontal,
+                                                            allowHalfRating:
+                                                                true,
+                                                            itemCount: 5,
+                                                            itemSize: 25,
+                                                            itemPadding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        4.0),
+                                                            itemBuilder:
+                                                                (context, _) =>
+                                                                    Icon(
+                                                              Icons.star,
+                                                              size: 5,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      217,
+                                                                      0,
+                                                                      1),
+                                                            ),
+                                                            onRatingUpdate:
+                                                                (rating) {
+                                                              setState(() {
+                                                                ratingsValue =
+                                                                    rating;
+                                                              });
+                                                              print(
+                                                                  ratingsValue);
+                                                            },
                                                           ),
-                                                        ),
-                                                  therapistUsers[index]
-                                                              .reviewAvgData !=
-                                                          null
-                                                      ? RatingBar.builder(
-                                                          ignoreGestures: true,
-                                                          initialRating: double
-                                                              .parse(therapistUsers[
-                                                                      index]
-                                                                  .reviewAvgData),
-                                                          minRating: 0.25,
-                                                          direction:
-                                                              Axis.horizontal,
-                                                          allowHalfRating: true,
-                                                          itemCount: 5,
-                                                          itemSize: 25,
-                                                          itemPadding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      4.0),
-                                                          itemBuilder:
-                                                              (context, _) =>
-                                                                  Icon(
-                                                            Icons.star,
-                                                            size: 5,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    217,
-                                                                    0,
-                                                                    1),
-                                                          ),
-                                                          onRatingUpdate:
-                                                              (rating) {},
-                                                        )
-                                                      : RatingBar.builder(
-                                                          ignoreGestures: true,
-                                                          initialRating: 0.0,
-                                                          minRating: 3.0,
-                                                          direction:
-                                                              Axis.horizontal,
-                                                          allowHalfRating: true,
-                                                          itemCount: 5,
-                                                          itemSize: 25,
-                                                          itemPadding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      4.0),
-                                                          itemBuilder:
-                                                              (context, _) =>
-                                                                  Icon(
-                                                            Icons.star,
-                                                            size: 5,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    217,
-                                                                    0,
-                                                                    1),
-                                                          ),
-                                                          onRatingUpdate:
-                                                              (rating) {
-                                                            setState(() {
-                                                              ratingsValue =
-                                                                  rating;
-                                                            });
-                                                            print(ratingsValue);
-                                                          },
-                                                        ),
-                                                  Text('(1518)'),
-                                                ],
+                                                    Text('(1518)'),
+                                                  ],
+                                                ),
                                               ),
                                               certificateImages.length != 0
                                                   ? Container(
