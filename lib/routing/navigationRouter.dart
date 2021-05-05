@@ -17,7 +17,7 @@ import 'package:gps_massageapp/serviceProvider/homeScreens/chat/chat.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderEditProfile.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/ProviderTutorial.dart';
 import 'package:gps_massageapp/serviceProvider/homeScreens/myAccount/TermsAndConditions.dart';
-import 'package:gps_massageapp/serviceProvider/homeScreens/providerCalendar.dart';
+import 'package:gps_massageapp/serviceProvider/homeScreens/calendar/providerCalendar.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ChangePassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/ForgetPassword.dart';
 import 'package:gps_massageapp/serviceProvider/loginScreens/LoginScreen.dart';
@@ -295,7 +295,8 @@ class NavigationRouter {
   }
 
   //User Search detail design page one
-  static void switchToUserSearchDetailPageOne(BuildContext context,var userID) {
+  static void switchToUserSearchDetailPageOne(
+      BuildContext context, var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
           return DetailPageSearchOne(userID);

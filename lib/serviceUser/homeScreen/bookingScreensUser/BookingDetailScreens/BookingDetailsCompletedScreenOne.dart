@@ -50,30 +50,10 @@ List<String> _options = [
   'カッピング（全身）',
   'リラクゼーション'
 ];
-double ratingsValue = 4.0;
-var certificateUpload;
-var certificateUploadKeys;
-Map<String, String> certificateImages = Map<String, String>();
-BoxDecoration boxDecoration = BoxDecoration(
-    gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color.fromRGBO(255, 255, 255, 1),
-          Color.fromRGBO(255, 255, 255, 1),
-        ]),
-    shape: BoxShape.rectangle,
-    border: Border.all(
-      color: Colors.grey[300],
-    ),
-    borderRadius: BorderRadius.circular(5.0),
-    color: Colors.grey[200]);
-String textChildren;
-var resultChildren, result;
-var therapistAddressDetails;
-var bannerImages;
 
 List<String> userBannerImages = [];
+var bannerImages;
+
 // List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
@@ -123,13 +103,21 @@ class _DetailPageListnerState extends State<DetailPageListner> {
           .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));
       print('AccessToken : ${HealingMatchConstants.accessToken}');
       print('UserId : ${widget.userID}');
-    } catch (e) {}
+      clearValues();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  clearValues() {
     try {
       if (userBannerImages != null) {
         userBannerImages.clear();
         bannerImages.clear();
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -150,7 +138,11 @@ class _DetailPageListnerState extends State<DetailPageListner> {
             } else if (state is GetTherapistId) {
               return BookingDetailsCompletedScreenOne(
                   state.getTherapistByIdModel, widget.userID);
-            }
+            } else
+              return Text(
+                "エラーが発生しました！",
+                style: TextStyle(color: Colors.white),
+              );
           }),
         ),
       ),
@@ -196,6 +188,31 @@ class _BookingDetailsCompletedScreenOneState
   var therapistAddress, userRegisteredAddress, userPlaceForMassage;
   bool shopLocationSelected = false;
 
+  List<TherapistList> therapistEstheticList = List();
+  double ratingsValue = 4.0;
+  var certificateUpload;
+  var certificateUploadKeys;
+  Map<String, String> certificateImages = Map<String, String>();
+  BoxDecoration boxDecoration = BoxDecoration(
+      gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromRGBO(255, 255, 255, 1),
+            Color.fromRGBO(255, 255, 255, 1),
+          ]),
+      shape: BoxShape.rectangle,
+      border: Border.all(
+        color: Colors.grey[300],
+      ),
+      borderRadius: BorderRadius.circular(5.0),
+      color: Colors.grey[200]);
+  String textChildren;
+  var resultChildren, result;
+  var therapistAddressDetails;
+  var estheticList;
+  List<String> estheticDropDownValues = List<String>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -204,38 +221,42 @@ class _BookingDetailsCompletedScreenOneState
     getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
-    // getSubCategory();
-    /*   BlocProvider.of<TherapistTypeBloc>(context)
-        .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
+    getEstheticData();
+    getFitnessData();
   }
 
-/*  getSubCategory() async {
-    print(
-        'arrayObjsText:${widget.getTherapistByIdModel.data.therapistSubCategories}');
+  getEstheticData() async {
     try {
-      setState(() {
-        */ /*therapistSubCategories =
-            widget.getTherapistByIdModel.data.therapistSubCategories;*/ /*
+      therapistEstheticList =
+          widget.getTherapistByIdModel.therapistEstheticList;
+      if (widget.getTherapistByIdModel.therapistEstheticList != null) {
         for (int i = 0;
-            i < widget.getTherapistByIdModel.data.therapistSubCategories.length;
+            i < widget.getTherapistByIdModel.therapistEstheticList.length;
             i++) {
-          print(
-              'subCat: ${widget.getTherapistByIdModel.data.therapistSubCategories[i].toJson()}');
-          userSubCategory = widget
-              .getTherapistByIdModel.data.therapistSubCategories[i]
-              .toJson() as List<TherapistSubCategory>;
+          estheticList =
+              widget.getTherapistByIdModel.therapistEstheticList[i].toJson();
         }
-        */ /*  for (var item in therapistSubCategories) {
-          userSubCategory.add(item.subCategoryId.toString());
-          userSubCategory.add(item.name);
-          userSubCategory.add(item.sixtyMin.toString());
-          userSubCategory.add(item.nintyMin.toString());
-          userSubCategory.add(item.oneTwentyMin.toString());
-          print('therapistSub:${item.name}');
-        }*/ /*
-      });
-    } catch (e) {}
-  }*/
+        /*  for (var est in widget.getTherapistByIdModel.therapistEstheticList) {
+          estheticDropDownValues.add(est.name);
+        }*/
+
+      }
+      print('estheticList:$estheticList}');
+      print('therapistEstheticList:$therapistEstheticList}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getFitnessData() async {
+    List<TherapistList> therapistFitnessListList;
+    print('therapistFitnessList:${therapistFitnessListList}');
+    for (var Fit in widget.getTherapistByIdModel.therapistFitnessListList) {
+      print('FitnesssubCategoryId:${Fit.subCategoryId}');
+      print('FitnesscategoryId:${Fit.categoryId}');
+      print('Fitnessname:${Fit.name}');
+    }
+  }
 
   getBannerImages() async {
     try {
@@ -276,7 +297,9 @@ class _BookingDetailsCompletedScreenOneState
           print('Banner: ${userBannerImages}');
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   getServiceType() async {
@@ -287,7 +310,9 @@ class _BookingDetailsCompletedScreenOneState
       final uniqueJsonListType = jsonListType.toSet().toList();
       result = uniqueJsonListType.map((item) => jsonDecode(item)).toList();
       print('result: ${result}');
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
     try {
       textChildren = widget.getTherapistByIdModel.data.childrenMeasure;
       print('children: ${textChildren}');
@@ -296,8 +321,9 @@ class _BookingDetailsCompletedScreenOneState
       final uniqueJsonList = jsonList.toSet().toList();
       resultChildren = uniqueJsonList.map((item) => jsonDecode(item)).toList();
       print('resultChildren: ${resultChildren}');
-    } catch (e) {}
-    try {} catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   getTherapistCertificate(TherapistByIdModel getTherapistByIdModel) async {
@@ -346,7 +372,9 @@ class _BookingDetailsCompletedScreenOneState
           print('certificateImages data type : $certificateImages');
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
     try {
       setState(() {
         if (getTherapistByIdModel.data.addresses != null) {
@@ -358,7 +386,9 @@ class _BookingDetailsCompletedScreenOneState
           }
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   String getQualificationJPWordsForType(String key) {
@@ -421,7 +451,7 @@ class _BookingDetailsCompletedScreenOneState
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        result.contains("エステ")
+                        (result != null && result.contains("エステ"))
                             ? Row(
                                 children: [
                                   CircleAvatar(
@@ -446,7 +476,7 @@ class _BookingDetailsCompletedScreenOneState
                             : SizedBox(width: 5),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("接骨・整体")
+                        (result != null && result.contains("接骨・整体"))
                             ? Row(
                                 children: [
                                   CircleAvatar(
@@ -471,7 +501,7 @@ class _BookingDetailsCompletedScreenOneState
                             : SizedBox(),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("リラクゼーション")
+                        (result != null && result.contains("リラクゼーション"))
                             ? Row(
                                 children: [
                                   CircleAvatar(
@@ -496,7 +526,7 @@ class _BookingDetailsCompletedScreenOneState
                             : SizedBox(),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("フィットネス")
+                        (result != null && result.contains("フィットネス"))
                             ? Row(
                                 children: [
                                   CircleAvatar(
@@ -764,8 +794,7 @@ class _BookingDetailsCompletedScreenOneState
                                               fontSize: 14,
                                               fontFamily: 'NotoSansJP'),
                                         ),
-                                  widget.getTherapistByIdModel.reviewData
-                                              .ratingAvg !=
+                                  widget.getTherapistByIdModel.reviewData !=
                                           null
                                       ? RatingBar.builder(
                                           initialRating: double.parse(widget
@@ -804,11 +833,10 @@ class _BookingDetailsCompletedScreenOneState
                                                 Color.fromRGBO(255, 217, 0, 1),
                                           ),
                                         ),
-                                  widget.getTherapistByIdModel.reviewData
-                                              .noOfReviewsMembers !=
+                                  widget.getTherapistByIdModel.reviewData !=
                                           null
                                       ? Text(
-                                          '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers.toString()})',
+                                          '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers})',
                                           style: TextStyle(
                                               color: Colors.grey[400],
                                               fontSize: 12,
@@ -1271,89 +1299,112 @@ class _BookingDetailsCompletedScreenOneState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          GestureDetector(
-                            onTap: () => setState(() {
-                              _massageValue = 0;
-                              _massageValue != null ? _value = '' : _value;
-                            }),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: _massageValue == 0 ? 4.0 : 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _massageValue == 0
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _massageValue == 0
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                          result != null && result.contains("エステ")
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    _massageValue = 0;
+                                    _massageValue != null
+                                        ? _value = ''
+                                        : _value;
+                                  }),
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation:
+                                            _massageValue == 0 ? 4.0 : 0.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: _massageValue == 0
+                                                ? Color.fromRGBO(
+                                                    242, 242, 242, 1)
+                                                : Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                            border: Border.all(
+                                              color: _massageValue == 0
+                                                  ? Color.fromRGBO(
+                                                      102, 102, 102, 1)
+                                                  : Color.fromRGBO(
+                                                      228, 228, 228, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeOne.svg',
+                                              color: _massageValue == 0
+                                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                                  : Color.fromRGBO(
+                                                      217, 217, 217, 1),
+                                              height: 29.81,
+                                              width: 27.61,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/serviceTypeOne.svg',
-                                        color: _massageValue == 0
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                        height: 29.81,
-                                        width: 27.61,
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => setState(() {
-                              _massageValue = 1;
-                              _massageValue != null ? _value = '' : _value;
-                            }),
-                            //onTap: () => setState(() => _massageValue = 1),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: _massageValue == 1 ? 4.0 : 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _massageValue == 1
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _massageValue == 1
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("接骨・整体")
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    _massageValue = 1;
+                                    _massageValue != null
+                                        ? _value = ''
+                                        : _value;
+                                  }),
+                                  //onTap: () => setState(() => _massageValue = 1),
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation:
+                                            _massageValue == 1 ? 4.0 : 0.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: _massageValue == 1
+                                                ? Color.fromRGBO(
+                                                    242, 242, 242, 1)
+                                                : Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                            border: Border.all(
+                                              color: _massageValue == 1
+                                                  ? Color.fromRGBO(
+                                                      102, 102, 102, 1)
+                                                  : Color.fromRGBO(
+                                                      228, 228, 228, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeTwo.svg',
+                                              color: _massageValue == 1
+                                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                                  : Color.fromRGBO(
+                                                      217, 217, 217, 1),
+                                              height: 33,
+                                              width: 34,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/serviceTypeTwo.svg',
-                                        color: _massageValue == 1
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                        height: 33,
-                                        width: 34,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                /*  Text(
+                                      /*  Text(
                                         HealingMatchConstants.searchOsthepaticTxt,
                                         style: TextStyle(
                                           fontSize: 12.0,
@@ -1362,49 +1413,61 @@ class _BookingDetailsCompletedScreenOneState
                                               : Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ), */
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => setState(() {
-                              _massageValue = 2;
-                              _massageValue != null ? _value = '' : _value;
-                            }),
-                            // onTap: () => setState(() => _massageValue = 2),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: _massageValue == 2 ? 4.0 : 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    ],
                                   ),
-                                  child: Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _massageValue == 2
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _massageValue == 2
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("リラクゼーション")
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    _massageValue = 2;
+                                    _massageValue != null
+                                        ? _value = ''
+                                        : _value;
+                                  }),
+                                  // onTap: () => setState(() => _massageValue = 2),
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation:
+                                            _massageValue == 2 ? 4.0 : 0.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: _massageValue == 2
+                                                ? Color.fromRGBO(
+                                                    242, 242, 242, 1)
+                                                : Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                            border: Border.all(
+                                              color: _massageValue == 2
+                                                  ? Color.fromRGBO(
+                                                      102, 102, 102, 1)
+                                                  : Color.fromRGBO(
+                                                      228, 228, 228, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeThree.svg',
+                                              color: _massageValue == 2
+                                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                                  : Color.fromRGBO(
+                                                      217, 217, 217, 1),
+                                              height: 25,
+                                              width: 25,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/serviceTypeThree.svg',
-                                        color: _massageValue == 2
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                        height: 25,
-                                        width: 25,
-                                      ),
-                                    ),
-                                  ),
-                                ),
 /*                                 Text(
                                         HealingMatchConstants.searchRelaxationTxt,
                                         style: TextStyle(
@@ -1414,106 +1477,127 @@ class _BookingDetailsCompletedScreenOneState
                                               : Color.fromRGBO(217, 217, 217, 1),
                                         ),
                                       ), */
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => setState(() {
-                              _massageValue = 3;
-                              _massageValue != null ? _value = '' : _value;
-                            }),
-                            // onTap: () => setState(() => _massageValue = 3),
-                            child: Column(
-                              children: [
-                                Card(
-                                  elevation: _massageValue == 3 ? 4.0 : 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    ],
                                   ),
-                                  child: Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: _massageValue == 3
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
-                                      border: Border.all(
-                                        color: _massageValue == 3
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("フィットネス")
+                              ? GestureDetector(
+                                  onTap: () => setState(() {
+                                    _massageValue = 3;
+                                    _massageValue != null
+                                        ? _value = ''
+                                        : _value;
+                                  }),
+                                  // onTap: () => setState(() => _massageValue = 3),
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation:
+                                            _massageValue == 3 ? 4.0 : 0.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: _massageValue == 3
+                                                ? Color.fromRGBO(
+                                                    242, 242, 242, 1)
+                                                : Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                            border: Border.all(
+                                              color: _massageValue == 3
+                                                  ? Color.fromRGBO(
+                                                      102, 102, 102, 1)
+                                                  : Color.fromRGBO(
+                                                      228, 228, 228, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeFour.svg',
+                                              color: _massageValue == 3
+                                                  ? Color.fromRGBO(0, 0, 0, 1)
+                                                  : Color.fromRGBO(
+                                                      217, 217, 217, 1),
+                                              height: 35,
+                                              width: 27,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: SvgPicture.asset(
-                                        'assets/images_gps/serviceTypeFour.svg',
-                                        color: _massageValue == 3
-                                            ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
-                                        height: 35,
-                                        width: 27,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Text(
-                              HealingMatchConstants.searchEsteticTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: _massageValue == 0
-                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                    : Color.fromRGBO(217, 217, 217, 1),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              HealingMatchConstants.searchOsthepaticTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: _massageValue == 1
-                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                    : Color.fromRGBO(217, 217, 217, 1),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              HealingMatchConstants.searchRelaxationTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: _massageValue == 2
-                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                    : Color.fromRGBO(217, 217, 217, 1),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              HealingMatchConstants.searchFitnessTxt,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: _massageValue == 3
-                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                    : Color.fromRGBO(217, 217, 217, 1),
-                              ),
-                            ),
-                          ),
+                          result != null && result.contains("エステ")
+                              ? Expanded(
+                                  child: Text(
+                                    HealingMatchConstants.searchEsteticTxt,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: _massageValue == 0
+                                          ? Color.fromRGBO(0, 0, 0, 1)
+                                          : Color.fromRGBO(217, 217, 217, 1),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("接骨・整体")
+                              ? Expanded(
+                                  child: Text(
+                                    HealingMatchConstants.searchOsthepaticTxt,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: _massageValue == 1
+                                          ? Color.fromRGBO(0, 0, 0, 1)
+                                          : Color.fromRGBO(217, 217, 217, 1),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("リラクゼーション")
+                              ? Expanded(
+                                  child: Text(
+                                    HealingMatchConstants.searchRelaxationTxt,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: _massageValue == 2
+                                          ? Color.fromRGBO(0, 0, 0, 1)
+                                          : Color.fromRGBO(217, 217, 217, 1),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("フィットネス")
+                              ? Expanded(
+                                  child: Text(
+                                    HealingMatchConstants.searchFitnessTxt,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: _massageValue == 3
+                                          ? Color.fromRGBO(0, 0, 0, 1)
+                                          : Color.fromRGBO(217, 217, 217, 1),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
                         ],
                       )
                     ],
