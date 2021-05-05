@@ -127,6 +127,7 @@ class User {
   String userName;
   dynamic uploadProfileImgUrl;
   String businessForm;
+  String storeName;
   String storeType;
   int coronameasure;
   int businesstrip;
@@ -141,6 +142,7 @@ class User {
         this.userName,
         this.uploadProfileImgUrl,
         this.businessForm,
+        this.storeName,
         this.storeType,
         this.coronameasure,
         this.businesstrip,
@@ -155,6 +157,7 @@ class User {
     userName = json['userName'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     businessForm = json['businessForm'];
+    storeName = json['storeName'];
     storeType = json['storeType'];
     coronameasure = json['coronameasure'];
     businesstrip = json['businesstrip '];
@@ -181,6 +184,7 @@ class User {
     data['userName'] = this.userName;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['businessForm'] = this.businessForm;
+    data['storeName'] = this.storeName;
     data['storeType'] = this.storeType;
     data['coronameasure'] = this.coronameasure;
     data['businesstrip '] = this.businesstrip;

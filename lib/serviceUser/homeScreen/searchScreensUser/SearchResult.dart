@@ -494,10 +494,10 @@ class _SearchResultState extends State<SearchResult> {
                                                         Row(
                                                           children: [
                                                             widget.getTherapistsSearchResults[index]
-                                                                        .name !=
+                                                                        .user.storeName !=
                                                                     null
                                                                 ? Text(
-                                                                    '${widget.getTherapistsSearchResults[index].name}',
+                                                                    '${widget.getTherapistsSearchResults[index].user.storeName}',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             14,
@@ -946,7 +946,7 @@ class _SearchResultState extends State<SearchResult> {
                                                                     onRatingUpdate:
                                                                         (rating) {},
                                                                   ),
-                                                            Text('(1518)'),
+                                                            Text('(0)'),
                                                           ],
                                                         ),
                                                         SizedBox(

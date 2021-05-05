@@ -55,6 +55,7 @@ class TypeTherapistData {
   String name;
   User user;
   String reviewAvgData;
+  int noOfReviewsMembers;
   int lowestPrice;
   String priceForMinute;
 
@@ -66,6 +67,7 @@ class TypeTherapistData {
         this.name,
         this.user,
         this.reviewAvgData,
+        this.noOfReviewsMembers,
         this.lowestPrice,
         this.priceForMinute});
 
@@ -77,6 +79,7 @@ class TypeTherapistData {
     name = json['name'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     reviewAvgData = json['reviewAvgData'];
+    noOfReviewsMembers = json['NoOfReviewsMembers'];
     lowestPrice = json['lowestPrice'];
     priceForMinute = json['priceForMinute'];
   }
@@ -92,6 +95,7 @@ class TypeTherapistData {
       data['user'] = this.user.toJson();
     }
     data['reviewAvgData'] = this.reviewAvgData;
+    data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
     data['lowestPrice'] = this.lowestPrice;
     data['priceForMinute'] = this.priceForMinute;
     return data;
@@ -103,6 +107,7 @@ class User {
   String userId;
   String userName;
   String uploadProfileImgUrl;
+  String storeName;
   String storeType;
   String qulaificationCertImgUrl;
   String businessForm;
@@ -118,6 +123,7 @@ class User {
         this.userId,
         this.userName,
         this.uploadProfileImgUrl,
+        this.storeName,
         this.storeType,
         this.qulaificationCertImgUrl,
         this.businessForm,
@@ -133,6 +139,7 @@ class User {
     userId = json['userId'];
     userName = json['userName'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
+    storeName = json['storeName'];
     storeType = json['storeType'];
     qulaificationCertImgUrl = json['qulaificationCertImgUrl'];
     businessForm = json['businessForm'];
@@ -165,6 +172,7 @@ class User {
     data['userId'] = this.userId;
     data['userName'] = this.userName;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
+    data['storeName'] = this.storeName;
     data['storeType'] = this.storeType;
     data['qulaificationCertImgUrl'] = this.qulaificationCertImgUrl;
     data['businessForm'] = this.businessForm;

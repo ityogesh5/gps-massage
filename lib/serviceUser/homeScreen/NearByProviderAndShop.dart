@@ -519,16 +519,17 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                   Row(
                                                     children: [
                                                       therapistUsers[index]
-                                                                  .name !=
+                                                                  .user
+                                                                  .storeName !=
                                                               null
                                                           ? Expanded(
                                                               child: Row(
                                                                 children: [
                                                                   Flexible(
                                                                     child: Text(
-                                                                      '${therapistUsers[index].name}',
+                                                                      '${therapistUsers[index].user.storeName}',
                                                                       maxLines:
-                                                                          therapistUsers[index].name.length > 15
+                                                                          therapistUsers[index].user.storeName.length > 15
                                                                               ? 2
                                                                               : 1,
                                                                       style: TextStyle(
@@ -765,19 +766,39 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                                                               onRatingUpdate:
                                                                   (rating) {},
                                                             ),
-                                                      Text(
-                                                        '(1518)',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    153,
-                                                                    153,
-                                                                    153,
-                                                                    1),
-                                                            fontFamily:
-                                                                ColorConstants
-                                                                    .fontFamily),
-                                                      ),
+                                                      therapistUsers[index]
+                                                                      .noOfReviewsMembers !=
+                                                                  null &&
+                                                              therapistUsers[
+                                                                          index]
+                                                                      .noOfReviewsMembers !=
+                                                                  0
+                                                          ? Text(
+                                                              '(${therapistUsers[index].noOfReviewsMembers})',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                  fontFamily:
+                                                                      ColorConstants
+                                                                          .fontFamily),
+                                                            )
+                                                          : Text(
+                                                              '(0)',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                  fontFamily:
+                                                                      ColorConstants
+                                                                          .fontFamily),
+                                                            ),
                                                     ],
                                                   ),
                                                   SizedBox(
@@ -1277,17 +1298,20 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      widget.getTherapistByType[index]
-                                                                  .name !=
+                                                      widget
+                                                                  .getTherapistByType[
+                                                                      index]
+                                                                  .user
+                                                                  .storeName !=
                                                               null
                                                           ? Expanded(
                                                               child: Row(
                                                                 children: [
                                                                   Flexible(
                                                                     child: Text(
-                                                                      '${widget.getTherapistByType[index].name}',
+                                                                      '${widget.getTherapistByType[index].user.storeName}',
                                                                       maxLines:
-                                                                          widget.getTherapistByType[index].name.length > 15
+                                                                          widget.getTherapistByType[index].user.storeName.length > 15
                                                                               ? 2
                                                                               : 1,
                                                                       style: TextStyle(
@@ -1529,19 +1553,42 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                                                               onRatingUpdate:
                                                                   (rating) {},
                                                             ),
-                                                      Text(
-                                                        '(1518)',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    153,
-                                                                    153,
-                                                                    153,
-                                                                    1),
-                                                            fontFamily:
-                                                                ColorConstants
-                                                                    .fontFamily),
-                                                      ),
+                                                      widget
+                                                                      .getTherapistByType[
+                                                                          index]
+                                                                      .noOfReviewsMembers !=
+                                                                  null &&
+                                                              widget
+                                                                      .getTherapistByType[
+                                                                          index]
+                                                                      .noOfReviewsMembers !=
+                                                                  0
+                                                          ? Text(
+                                                              '(${widget.getTherapistByType[index].noOfReviewsMembers})',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                  fontFamily:
+                                                                      ColorConstants
+                                                                          .fontFamily),
+                                                            )
+                                                          : Text(
+                                                              '(0)',
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          153,
+                                                                          153,
+                                                                          153,
+                                                                          1),
+                                                                  fontFamily:
+                                                                      ColorConstants
+                                                                          .fontFamily),
+                                                            ),
                                                     ],
                                                   ),
                                                   SizedBox(

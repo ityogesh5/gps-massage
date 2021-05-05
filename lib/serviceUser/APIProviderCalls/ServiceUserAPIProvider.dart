@@ -118,7 +118,7 @@ class ServiceUserAPIProvider {
       final url = HealingMatchConstants.BANNER_IMAGES_URL;
       Map<String, String> headers = {
         'Content-Type': 'application/json',
-        'x-access-token': '${HealingMatchConstants.accessToken}'
+        'x-access-token': HealingMatchConstants.accessToken
       };
       final response = await http.get(url, headers: headers);
       final getBannerImages = json.decode(response.body);
