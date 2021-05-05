@@ -372,7 +372,7 @@ class _SearchResultState extends State<SearchResult> {
                                   return GestureDetector(
                                     onTap: () {
                                       NavigationRouter
-                                          .switchToServiceUserBookingDetailsCompletedScreenOne(
+                                          .switchToUserSearchDetailPageOne(
                                               context,
                                               widget
                                                   .getTherapistsSearchResults[

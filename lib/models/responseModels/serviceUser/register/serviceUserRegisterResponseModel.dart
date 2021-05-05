@@ -37,6 +37,9 @@ class Data {
     this.id,
     this.email,
     this.phoneNumber,
+    this.fcmToken,
+    this.lineBotUserId,
+    this.appleUserId,
     this.userName,
     this.gender,
     this.dob,
@@ -52,6 +55,9 @@ class Data {
   int id;
   String email;
   int phoneNumber;
+  String fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String gender;
   DateTime dob;
@@ -67,6 +73,9 @@ class Data {
     id: json["id"],
     email: json["email"],
     phoneNumber: json["phoneNumber"],
+    fcmToken : json['fcmToken'],
+    lineBotUserId : json['lineBotUserId'],
+    appleUserId : json['appleUserId'],
     userName: json["userName"],
     gender: json["gender"],
     dob: DateTime.parse(json["dob"]),
@@ -83,6 +92,9 @@ class Data {
     "id": id,
     "email": email,
     "phoneNumber": phoneNumber,
+    "fcmToken": fcmToken,
+    "lineBotUserId": lineBotUserId,
+    "appleUserId": appleUserId,
     "userName": userName,
     "gender": gender,
     "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
