@@ -69,6 +69,7 @@ class _RegisterUserState extends State<RegisterUser> {
   String _myCity = '';
   File _profileImage;
   final picker = ImagePicker();
+  bool fcmStatus = false;
 
   // Placemark currentLocationPlaceMark;
   // Placemark userAddedAddressPlaceMark;
@@ -203,6 +204,31 @@ class _RegisterUserState extends State<RegisterUser> {
   void initState() {
     super.initState();
     _getStates();
+  }
+
+  getFCMStatus() {
+    _sharedPreferences.then((value) {
+      fcmStatus = value.getBool('fcmStatus');
+      print('fcmStatus is : $fcmStatus');
+      if (fcmStatus) {
+        fireBaseMessaging.getToken().then((fcmTokenValue) {
+          if (fcmTokenValue != null) {
+            fcmToken = fcmTokenValue;
+            print('FCM Reg Tokens : $fcmToken');
+          } else {
+            fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
+              fcmToken = refreshToken;
+              print('FCM Reg Refresh Tokens : $fcmToken');
+            }).onError((handleError) {
+              print(
+                  'On FCM Reg Token Refresh error : ${handleError.toString()}');
+            });
+          }
+        }).catchError((onError) {
+          print('FCM Reg Token Exception : ${onError.toString()}');
+        });
+      }
+    });
   }
 
   @override
@@ -2085,21 +2111,6 @@ class _RegisterUserState extends State<RegisterUser> {
     }
     //Calling Service User API for Register
     try {
-      fireBaseMessaging.getToken().then((fcmTokenValue) {
-        if (fcmTokenValue != null) {
-          fcmToken = fcmTokenValue;
-          print('FCM Reg Tokens : $fcmTokenValue && \n$fcmToken');
-        } else {
-          fireBaseMessaging.onTokenRefresh.listen((refreshToken) {
-            fcmToken = refreshToken;
-            print('FCM Reg Refresh Tokens : $refreshToken && \n$fcmToken');
-          }).onError((handleError) {
-            print('On FCM Reg Token Refresh error : ${handleError.toString()}');
-          });
-        }
-      }).catchError((onError) {
-        print('FCM Reg Token Exception : ${onError.toString()}');
-      });
       //MultiPart request
       Uri registerUser = Uri.parse(HealingMatchConstants.REGISTER_USER_URL);
       var request = http.MultipartRequest('POST', registerUser);
@@ -2134,7 +2145,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken":fcmToken
+          "fcmToken": fcmToken
         });
       } else {
         print('Profile image  null');
@@ -2161,7 +2172,7 @@ class _RegisterUserState extends State<RegisterUser> {
           "addressTypeSelection": _myAddressInputTypeVal,
           "lat": HealingMatchConstants.currentLatitude.toString(),
           "lon": HealingMatchConstants.currentLongitude.toString(),
-          "fcmToken":fcmToken
+          "fcmToken": fcmToken
         });
       }
 
@@ -2310,6 +2321,7 @@ class _RegisterUserState extends State<RegisterUser> {
           stateDropDownValues.add(stateList.prefectureJa);
         });
       }
+      getFCMStatus();
     });
   }
 

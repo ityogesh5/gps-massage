@@ -292,10 +292,10 @@ class NavigationRouter {
   }
 
   //User Search detail design page one
-  static void switchToUserSearchDetailPageOne(BuildContext context) {
+  static void switchToUserSearchDetailPageOne(BuildContext context,var userID) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return DetailPageSearchOne();
+          return DetailPageSearchOne(userID);
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

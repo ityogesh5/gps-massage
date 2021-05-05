@@ -192,6 +192,8 @@ class _InitialUserHomeScreenState extends State<InitialUserHomeScreen> {
         HealingMatchConstants.serviceUserAge = value.data.age.toString();
         HealingMatchConstants.serviceUserGender = value.data.gender;
         HealingMatchConstants.serviceUserOccupation = value.data.userOccupation;
+        HealingMatchConstants.userDeviceToken = value.data.fcmToken;
+        print('User Device Token : ${HealingMatchConstants.userDeviceToken}');
         for (int i = 0; i < value.data.addresses.length; i++) {
           if (value.data.addresses[0].isDefault) {
             HealingMatchConstants.userAddressesList =

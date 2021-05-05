@@ -23,6 +23,9 @@ class Data {
   int id;
   String email;
   int phoneNumber;
+  String fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String gender;
   String dob;
@@ -38,6 +41,9 @@ class Data {
       {this.id,
       this.email,
       this.phoneNumber,
+      this.fcmToken,
+      this.lineBotUserId,
+      this.appleUserId,
       this.userName,
       this.gender,
       this.dob,
@@ -53,6 +59,9 @@ class Data {
     id = json['id'];
     email = json['email'];
     phoneNumber = json['phoneNumber'];
+    fcmToken = json['fcmToken'];
+    lineBotUserId = json['lineBotUserId'];
+    appleUserId = json['appleUserId'];
     userName = json['userName'];
     gender = json['gender'];
     dob = json['dob'];
@@ -75,6 +84,9 @@ class Data {
     data['id'] = this.id;
     data['email'] = this.email;
     data['phoneNumber'] = this.phoneNumber;
+    data['fcmToken'] = this.fcmToken;
+    data['lineBotUserId'] = this.lineBotUserId;
+    data['appleUserId'] = this.appleUserId;
     data['userName'] = this.userName;
     data['gender'] = this.gender;
     data['dob'] = this.dob;
