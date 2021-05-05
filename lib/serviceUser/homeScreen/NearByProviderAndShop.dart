@@ -266,7 +266,7 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
                 .user
                 .addresses[k]
                 .distance
-                .truncateToDouble());
+                .truncateToDouble().toStringAsFixed(2));
             distanceRadius = therapistAddress;
             print(
                 'Position values : ${distanceRadius[0]} && ${therapistAddress.length}');
@@ -1846,7 +1846,7 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
                 .user
                 .addresses[k]
                 .distance
-                .truncateToDouble());
+                .truncateToDouble().toStringAsFixed(2));
             distanceRadius = therapistTypeAddress;
             print(
                 'Position values : $distanceRadius && ${therapistTypeAddress.length}');

@@ -1627,7 +1627,7 @@ class _BuildProviderListByTypeState extends State<BuildProviderListByType> {
                   .user
                   .addresses[k]
                   .distance
-                  .truncateToDouble());
+                  .truncateToDouble().toStringAsFixed(2));
               distanceRadius = therapistTypeAddress;
               print(
                   'Position values : $distanceRadius && ${therapistTypeAddress.length}');
@@ -2384,7 +2384,7 @@ class _BuildProviderUsersState extends State<BuildProviderUsers> {
                     .user
                     .addresses[k]
                     .distance
-                    .truncateToDouble());
+                    .truncateToDouble().toStringAsFixed(2));
                 distanceRadius = therapistAddress;
                 print(
                     'Position values : $distanceRadius && ${therapistAddress.length}');
@@ -3171,7 +3171,7 @@ class _RecommendListsState extends State<RecommendLists> {
                   .user
                   .addresses[k]
                   .distance
-                  .truncateToDouble());
+                  .truncateToDouble().toStringAsFixed(2));
               recommendedDistanceRadius = recommendedTherapistAddress;
               print(
                   'Position values : $recommendedDistanceRadius && ${recommendedTherapistAddress.length}');

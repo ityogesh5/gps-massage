@@ -8,6 +8,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
@@ -214,7 +215,7 @@ class _SearchResultState extends State<SearchResult> {
               therapistAddress
                   .add(getTherapistsSearchResults[i].user.addresses[k].address);
               distanceOfTherapist.add(
-                  getTherapistsSearchResults[i].user.addresses[k].distance);
+                  getTherapistsSearchResults[i].user.addresses[k].distance.toStringAsFixed(2));
 
               addressOfTherapists = therapistAddress;
               distanceRadius = distanceOfTherapist;
@@ -374,7 +375,11 @@ class _SearchResultState extends State<SearchResult> {
                                       NavigationRouter
                                           .switchToUserSearchDetailPageOne(
                                               context,
-                                          widget.getTherapistsSearchResults[index].user.id);
+                                              widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .user
+                                                  .id);
                                     },
                                     child: Container(
                                       // height: MediaQuery.of(context).size.height * 0.22,
@@ -493,8 +498,11 @@ class _SearchResultState extends State<SearchResult> {
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            widget.getTherapistsSearchResults[index]
-                                                                        .user.storeName !=
+                                                            widget
+                                                                        .getTherapistsSearchResults[
+                                                                            index]
+                                                                        .user
+                                                                        .storeName !=
                                                                     null
                                                                 ? Text(
                                                                     '${widget.getTherapistsSearchResults[index].user.storeName}',
@@ -946,7 +954,33 @@ class _SearchResultState extends State<SearchResult> {
                                                                     onRatingUpdate:
                                                                         (rating) {},
                                                                   ),
-                                                            Text('(0)'),
+                                                            widget.getTherapistsSearchResults[index].noOfReviewsMembers !=
+                                                                        null &&
+                                                                    widget.getTherapistsSearchResults[index]
+                                                                            .noOfReviewsMembers !=
+                                                                        0
+                                                                ? Text(
+                                                                    '(${widget.getTherapistsSearchResults[index].noOfReviewsMembers})',
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            153,
+                                                                            153,
+                                                                            153,
+                                                                            1),
+                                                                        fontFamily:
+                                                                            ColorConstants.fontFamily),
+                                                                  )
+                                                                : Text(
+                                                                    '(0)',
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            153,
+                                                                            153,
+                                                                            153,
+                                                                            1),
+                                                                        fontFamily:
+                                                                            ColorConstants.fontFamily),
+                                                                  ),
                                                           ],
                                                         ),
                                                         SizedBox(

@@ -898,7 +898,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                 k++) {
               recommendedTherapistAddress.add(widget
                   .getRecommendedTherapists[i].user.addresses[k].distance
-                  .truncateToDouble());
+                  .truncateToDouble().toStringAsFixed(2));
               distanceRadius = recommendedTherapistAddress;
               print(
                   'Recommned Position values : ${distanceRadius[0]} && ${recommendedTherapistAddress.length}');
