@@ -374,7 +374,13 @@ class _SearchResultState extends State<SearchResult> {
                                       NavigationRouter
                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
                                               context,
-                                          widget.getTherapistsSearchResults[index].user.id);
+                                              widget
+                                                  .getTherapistsSearchResults[
+                                                      index]
+                                                  .user
+                                                  .id);
+                                      print(
+                                          'userId:  ${widget.getTherapistsSearchResults[index].user.id}');
                                     },
                                     child: Container(
                                       // height: MediaQuery.of(context).size.height * 0.22,

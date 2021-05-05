@@ -74,7 +74,7 @@ var therapistAddressDetails;
 var bannerImages;
 
 List<String> userBannerImages = [];
-List<TherapistSubCategory> userSubCategory = [];
+// List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
   final userID;
@@ -144,12 +144,12 @@ class _DetailPageListnerState extends State<DetailPageListner> {
           },
           child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
               builder: (context, state) {
-            if (state is GetTherapistId) {
-              return BookingDetailsCompletedScreenOne(
-                  state.getTherapistByIdModel, widget.userID);
-            } else if (state is GetTherapistTypeLoaderState) {
+            if (state is GetTherapistTypeLoaderState) {
               print('error somewhere');
               return buildLoading();
+            } else if (state is GetTherapistId) {
+              return BookingDetailsCompletedScreenOne(
+                  state.getTherapistByIdModel, widget.userID);
             }
           }),
         ),
@@ -204,18 +204,18 @@ class _BookingDetailsCompletedScreenOneState
     getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
-    getSubCategory();
+    // getSubCategory();
     /*   BlocProvider.of<TherapistTypeBloc>(context)
         .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
   }
 
-  getSubCategory() async {
+/*  getSubCategory() async {
     print(
         'arrayObjsText:${widget.getTherapistByIdModel.data.therapistSubCategories}');
     try {
       setState(() {
-        /*therapistSubCategories =
-            widget.getTherapistByIdModel.data.therapistSubCategories;*/
+        */ /*therapistSubCategories =
+            widget.getTherapistByIdModel.data.therapistSubCategories;*/ /*
         for (int i = 0;
             i < widget.getTherapistByIdModel.data.therapistSubCategories.length;
             i++) {
@@ -225,17 +225,17 @@ class _BookingDetailsCompletedScreenOneState
               .getTherapistByIdModel.data.therapistSubCategories[i]
               .toJson() as List<TherapistSubCategory>;
         }
-        /*  for (var item in therapistSubCategories) {
+        */ /*  for (var item in therapistSubCategories) {
           userSubCategory.add(item.subCategoryId.toString());
           userSubCategory.add(item.name);
           userSubCategory.add(item.sixtyMin.toString());
           userSubCategory.add(item.nintyMin.toString());
           userSubCategory.add(item.oneTwentyMin.toString());
           print('therapistSub:${item.name}');
-        }*/
+        }*/ /*
       });
     } catch (e) {}
-  }
+  }*/
 
   getBannerImages() async {
     try {
@@ -747,39 +747,80 @@ class _BookingDetailsCompletedScreenOneState
                               Row(
                                 children: [
                                   // widget.getTherapistByIdModel.data.
-                                  Text(
-                                    '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 14,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
-                                  RatingBar.builder(
-                                    initialRating: double.parse(widget
-                                        .getTherapistByIdModel
-                                        .reviewData
-                                        .ratingAvg),
-                                    ignoreGestures: true,
-                                    minRating: 1,
-                                    itemCount: 5,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemSize: 20,
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 1.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      size: 5,
-                                      color: Color.fromRGBO(255, 217, 0, 1),
-                                    ),
-                                  ),
-                                  Text(
-                                    '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers.toString()})',
-                                    style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 12,
-                                        fontFamily: 'NotoSansJP'),
-                                  ),
+                                  widget.getTherapistByIdModel.reviewData
+                                              .ratingAvg !=
+                                          null
+                                      ? Text(
+                                          '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14,
+                                              fontFamily: 'NotoSansJP'),
+                                        )
+                                      : Text(
+                                          '(0.0)',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14,
+                                              fontFamily: 'NotoSansJP'),
+                                        ),
+                                  widget.getTherapistByIdModel.reviewData
+                                              .ratingAvg !=
+                                          null
+                                      ? RatingBar.builder(
+                                          initialRating: double.parse(widget
+                                              .getTherapistByIdModel
+                                              .reviewData
+                                              .ratingAvg),
+                                          ignoreGestures: true,
+                                          minRating: 1,
+                                          itemCount: 5,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemSize: 20,
+                                          itemPadding: EdgeInsets.symmetric(
+                                              horizontal: 1.0),
+                                          itemBuilder: (context, _) => Icon(
+                                            Icons.star,
+                                            size: 5,
+                                            color:
+                                                Color.fromRGBO(255, 217, 0, 1),
+                                          ),
+                                        )
+                                      : RatingBar.builder(
+                                          initialRating: 0,
+                                          ignoreGestures: true,
+                                          minRating: 1,
+                                          itemCount: 5,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemSize: 20,
+                                          itemPadding: EdgeInsets.symmetric(
+                                              horizontal: 1.0),
+                                          itemBuilder: (context, _) => Icon(
+                                            Icons.star,
+                                            size: 5,
+                                            color:
+                                                Color.fromRGBO(255, 217, 0, 1),
+                                          ),
+                                        ),
+                                  widget.getTherapistByIdModel.reviewData
+                                              .noOfReviewsMembers !=
+                                          null
+                                      ? Text(
+                                          '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers.toString()})',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 12,
+                                              fontFamily: 'NotoSansJP'),
+                                        )
+                                      : Text(
+                                          '(0)',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 12,
+                                              fontFamily: 'NotoSansJP'),
+                                        ),
                                   Spacer(),
                                   Container(
                                     child: InkWell(
