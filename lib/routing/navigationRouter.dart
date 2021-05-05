@@ -59,6 +59,8 @@ import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatListSc
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/ChatScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchResult.dart';
+
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearch.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/detailPageSearchOne.dart';
@@ -74,6 +76,7 @@ import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/DisplayUserRev
 import 'package:gps_massageapp/serviceUser/ratingsAndReviewScreen/RatingsAndReviewUser.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterOTPScreen.dart';
 import 'package:gps_massageapp/serviceUser/register/RegisterUserScreen.dart';
+import 'package:gps_massageapp/serviceUser/homeScreen/Recommended.dart';
 
 class NavigationRouter {
   // Network dis connect handler class
@@ -194,7 +197,7 @@ class NavigationRouter {
   static void switchToRecommended(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return Recommend();
+          return Recommended();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -275,7 +278,7 @@ class NavigationRouter {
   static void switchToUserSearchResult(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (context, animation, anotherAnimation) {
-          return SearchResult();
+          return SearchResultScreen();
         },
         transitionDuration: Duration(milliseconds: 2000),
         transitionsBuilder: (context, animation, anotherAnimation, child) {

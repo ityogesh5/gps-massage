@@ -17,7 +17,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -25,8 +24,10 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
+
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
@@ -77,6 +78,7 @@ List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
   final userID;
+
   DetailBloc(this.userID);
 
   @override
@@ -99,7 +101,9 @@ class _DetailBlocState extends State<DetailBloc> {
 
 class DetailPageListner extends StatefulWidget {
   final userID;
+
   DetailPageListner(this.userID);
+
   @override
   _DetailPageListnerState createState() => _DetailPageListnerState();
 }
@@ -579,7 +583,7 @@ class _BookingDetailsCompletedScreenOneState
                         ),
                         SizedBox(width: 5),
                         Expanded(
-                          flex: 5,
+                          flex: 3,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -588,15 +592,27 @@ class _BookingDetailsCompletedScreenOneState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      widget
-                                          .getTherapistByIdModel.data.userName,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.left,
-                                    ),
+                                    widget.getTherapistByIdModel.data
+                                                .storeName !=
+                                            null
+                                        ? Text(
+                                            widget.getTherapistByIdModel.data
+                                                .storeName,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.left,
+                                          )
+                                        : Text(
+                                            widget.getTherapistByIdModel.data
+                                                .userName,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.left,
+                                          ),
                                     SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
@@ -748,7 +764,7 @@ class _BookingDetailsCompletedScreenOneState
                                     itemCount: 5,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
-                                    itemSize: 25,
+                                    itemSize: 20,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 1.0),
                                     itemBuilder: (context, _) => Icon(
@@ -1981,7 +1997,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   1, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -2554,7 +2571,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3132,7 +3150,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3740,7 +3759,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -4313,7 +4333,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                                   2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )

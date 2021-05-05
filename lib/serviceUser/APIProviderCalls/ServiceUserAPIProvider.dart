@@ -3,20 +3,17 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/UserBannerImagesModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/getTherapistDetail.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/DeleteSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/EditUserSubAddressModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUserAPIProvider {
@@ -29,7 +26,6 @@ class ServiceUserAPIProvider {
   static TherapistByIdModel _therapisyByIdModel = new TherapistByIdModel();
   static GetUserDetailsByIdModel _getUserDetailsByIdModel =
       new GetUserDetailsByIdModel();
-  static GetTherapistDetails therapistDetails = new GetTherapistDetails();
 
   static SearchTherapistResultsModel _searchTherapistResultsModel =
       new SearchTherapistResultsModel();
@@ -42,6 +38,9 @@ class ServiceUserAPIProvider {
 
   static EditUserSubAddressModel _editUserSubAddressModel =
       new EditUserSubAddressModel();
+
+  static RecommendedTherapistModel _recommendedTherapistModel =
+      new RecommendedTherapistModel();
 
   // get all therapist users
   static Future<TherapistUsersModel> getAllTherapistUsers(
@@ -60,10 +59,7 @@ class ServiceUserAPIProvider {
       print(e.toString());
       ProgressDialogBuilder.hideLoader(context);
     }
-    /*return (response.data).map((therapistUsers) {
-      print('Inserting >>> $therapistUsers');
-      //DBProvider.db.createTherapistUsers(therapistUsers);
-    }).toList();*/
+
     return listOfTherapistModel;
   }
 
@@ -225,27 +221,6 @@ class ServiceUserAPIProvider {
     return _deleteSubAddressModel;
   }
 
-  /*static Future<GetTherapistDetails> getTherapistDetails() async {
-    try {
-      final url = HealingMatchConstants.THERAPIST_USER_BY_ID_URL;
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'x-access-token': '${HealingMatchConstants.accessToken}'
-      };
-      final response = await http.post(url,
-          headers: headers,
-          body: json.encode({
-            "therapist_id": HealingMatchConstants.therapistId,
-          }));
-      final getUser = json.decode(response.body);
-      therapistDetails = GetTherapistDetails.fromJson(getUser);
-      print('Response body : ${response.body}');
-    } catch (e) {
-      print(e.toString());
-    }
-    return therapistDetails;
-  }*/
-
   // get home screen user banner images
   static Future<EditUserSubAddressModel> editUserSubAddress(
       BuildContext context,
@@ -294,7 +269,7 @@ class ServiceUserAPIProvider {
             "x-access-token": HealingMatchConstants.accessToken
           },
           body: json.encode({
-            "searchKeyword": HealingMatchConstants.searchKeyWordValue,
+            "keyword": HealingMatchConstants.searchKeyWordValue,
             "userAddress": HealingMatchConstants.searchUserAddress,
             "serviceType": HealingMatchConstants.serviceType,
             "serviceLocationCriteria": HealingMatchConstants.isLocationCriteria,
@@ -315,5 +290,28 @@ class ServiceUserAPIProvider {
       print('Exception Search API : ${e.toString()}');
     }
     return _searchTherapistResultsModel;
+  }
+
+  // get recommended therapist results
+  static Future<RecommendedTherapistModel> getRecommendedTherapists(
+      BuildContext context, int pageNumber, int pageSize) async {
+    try {
+      final url =
+          '${HealingMatchConstants.RECOMMENDED_THERAPISTS_LIST}?page=$pageNumber&size=$pageSize';
+      final response = await http.get(url, headers: {
+        "Content-Type": "application/json",
+        "x-access-token": HealingMatchConstants.accessToken
+      });
+      print('Search results Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final getRecommendedTherapistResponse = json.decode(response.body);
+        _recommendedTherapistModel =
+            RecommendedTherapistModel.fromJson(getRecommendedTherapistResponse);
+      }
+    } catch (e) {
+      print('Exception Search API : ${e.toString()}');
+    }
+    return _recommendedTherapistModel;
   }
 }

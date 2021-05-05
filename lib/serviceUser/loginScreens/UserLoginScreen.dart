@@ -5,8 +5,6 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -14,12 +12,10 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/redAsterisk.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 
 class UserLogin extends StatefulWidget {
   @override

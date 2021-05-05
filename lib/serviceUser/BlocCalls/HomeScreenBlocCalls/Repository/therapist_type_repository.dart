@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
@@ -21,7 +22,8 @@ abstract class GetTherapistTypeRepository {
 
   Future<TherapistByIdModel> getTherapistById(String accessToken, int userId);
 
-  Future<List<Rows>> getRecommendDetails(String accessToken);
+  Future<List<RecommendTherapistList>> getRecommendedTherapists(
+      String accessToken, int pageNumber, int pageSize);
 }
 
 class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
@@ -33,7 +35,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       int massageTypeValue, int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistListByType?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.THERAPIST_LIST_BY_TYPE}?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '$accessToken'
@@ -70,7 +72,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
       String accessToken, int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistList?page=$pageNumber&size=$pageSize';
+          '${HealingMatchConstants.THERAPIST_LIST_URL}?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'x-access-token': '${HealingMatchConstants.accessToken}'
@@ -121,28 +123,27 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
   }
 
   @override
-  Future<List<Rows>> getRecommendDetails(String accessToken) async {
+  Future<List<RecommendTherapistList>> getRecommendedTherapists(
+      String accessToken, int pageNumber, int pageSize) async {
     try {
       final url =
-          '${HealingMatchConstants.ON_PREMISE_USER_BASE_URL}/user/homeTherapistSuggestionList';
-
+          '${HealingMatchConstants.RECOMMENDED_THERAPISTS_LIST}?page=$pageNumber&size=$pageSize';
       Map<String, String> headers = {
         'Content-Type': 'application/json',
-        'x-access-token': '${HealingMatchConstants.accessToken}'
+        'x-access-token': '$accessToken'
       };
-      final response = await http.post(
-        url,
-        headers: headers,
-      );
+      final response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
-        final getRecommendedTherapists = json.decode(response.body);
-        List<Rows> getRecommedUser =
-            RecommenedTherapistListModel.fromJson(getRecommendedTherapists)
+        final recommendedTherapists = json.decode(response.body);
+        List<RecommendTherapistList> getRecommendedTherapists =
+            RecommendedTherapistModel.fromJson(recommendedTherapists)
                 .homeTherapistData
-                .rows;
-        print('getRecommedUser : ${response.body}');
-        return getRecommedUser;
+                .recommendedTherapistData;
+        print('RecommendedTherapistData : ${response.body}');
+        return getRecommendedTherapists;
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
