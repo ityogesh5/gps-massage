@@ -142,9 +142,7 @@ class GetTherapistTypeRepositoryImpl implements GetTherapistTypeRepository {
             RecommenedTherapistListModel.fromJson(getRecommendedTherapists)
                 .homeTherapistData
                 .rows;
-
         print('get Recommed therapist : ${response.body}');
-
         return getRecommedUser;
       }
     } catch (e) {}
