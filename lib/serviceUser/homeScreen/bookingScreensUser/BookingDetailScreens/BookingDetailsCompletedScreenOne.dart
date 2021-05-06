@@ -188,7 +188,8 @@ class _BookingDetailsCompletedScreenOneState
   var therapistAddress, userRegisteredAddress, userPlaceForMassage;
   bool shopLocationSelected = false;
 
-  List<TherapistList> therapistEstheticList = List();
+  List<TherapistList> therapistEsthetic = [];
+  List<TherapistList> therapistEstheticList = [];
   double ratingsValue = 4.0;
   var certificateUpload;
   var certificateUploadKeys;
@@ -227,22 +228,14 @@ class _BookingDetailsCompletedScreenOneState
 
   getEstheticData() async {
     try {
-      therapistEstheticList =
-          widget.getTherapistByIdModel.therapistEstheticList;
-      if (widget.getTherapistByIdModel.therapistEstheticList != null) {
-        for (int i = 0;
-            i < widget.getTherapistByIdModel.therapistEstheticList.length;
-            i++) {
-          estheticList =
-              widget.getTherapistByIdModel.therapistEstheticList[i].toJson();
+      therapistEsthetic = widget.getTherapistByIdModel.therapistEstheticList;
+      if (therapistEsthetic != null) {
+        for (var estheticList in therapistEsthetic) {
+          therapistEstheticList.add(estheticList);
         }
-        /*  for (var est in widget.getTherapistByIdModel.therapistEstheticList) {
-          estheticDropDownValues.add(est.name);
-        }*/
-
       }
-      print('estheticList:$estheticList}');
-      print('therapistEstheticList:$therapistEstheticList}');
+      print('estheticList:${therapistEstheticList}');
+      /*  print('therapistEstheticList:$therapistEstheticList}');*/
     } catch (e) {
       print(e.toString());
     }
@@ -997,6 +990,34 @@ class _BookingDetailsCompletedScreenOneState
                           : Container(),
                     ],
                   ),
+                ),
+                SizedBox(height: 7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    therapistEsthetic.length != 0
+                        ? Container(
+                            height: 38.0,
+                            width: MediaQuery.of(context).size.width -
+                                130.0, //200.0,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: therapistEstheticList.length,
+                                itemBuilder: (context, index) {
+                                  return WidgetAnimator(
+                                    Wrap(
+                                      children: [
+                                        Text(
+                                          "${therapistEstheticList[index].name}",
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          )
+                        : Container(),
+                  ],
                 ),
                 SizedBox(height: 7),
                 Padding(
@@ -4997,6 +5018,10 @@ class _BookingDetailsCompletedScreenOneState
       print('Therapist details fetch Exception : ${e.toString()}');
       return;
     }
+  }
+
+  Widget _myListView() {
+    return ListView.builder(itemBuilder: (context, index) {});
   }
 }
 
