@@ -190,6 +190,16 @@ class _BookingDetailsCompletedScreenOneState
 
   List<TherapistList> therapistEsthetic = [];
   List<TherapistList> therapistEstheticList = [];
+  List<TherapistList> therapistFitness = [];
+  List<TherapistList> therapistFitnessListList = [];
+  List<TherapistList> therapistOrteopathic = [];
+  List<TherapistList> therapistOrteopathicList = [];
+  List<TherapistList> therapistRelaxation = [];
+  List<TherapistList> therapistRelaxationList = [];
+  bool estheticStatus = false;
+  bool orteopathicStatus = false;
+  bool relaxationStatus = false;
+  bool fitnessStatus = false;
   double ratingsValue = 4.0;
   var certificateUpload;
   var certificateUploadKeys;
@@ -219,35 +229,45 @@ class _BookingDetailsCompletedScreenOneState
     // TODO: implement initState
     super.initState();
     getTherapistCertificate(widget.getTherapistByIdModel);
-    getTherapistDetails(widget.userID);
+    // getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
     getEstheticData();
-    getFitnessData();
   }
 
   getEstheticData() async {
     try {
       therapistEsthetic = widget.getTherapistByIdModel.therapistEstheticList;
+      /* therapistFitness = widget.getTherapistByIdModel.therapistFitnessListList;
+      therapistOrteopathic =
+          widget.getTherapistByIdModel.therapistOrteopathicList;
+      therapistRelaxation =
+          widget.getTherapistByIdModel.therapistRelaxationList;*/
+
       if (therapistEsthetic != null) {
         for (var estheticList in therapistEsthetic) {
           therapistEstheticList.add(estheticList);
+        }
+      }
+      /*  if (therapistOrteopathic != null) {
+        for (var orteopathicList in therapistOrteopathic) {
+          therapistOrteopathicList.add(orteopathicList);
+        }
+      }*/
+      /*if (therapistFitness != null) {
+        for (var relaxationList in therapistRelaxation) {
+          therapistRelaxationList.add(relaxationList);
+        }
+      }*/
+      if (therapistFitness != null) {
+        for (var fitnessList in therapistFitness) {
+          therapistFitnessListList.add(fitnessList);
         }
       }
       print('estheticList:${therapistEstheticList}');
       /*  print('therapistEstheticList:$therapistEstheticList}');*/
     } catch (e) {
       print(e.toString());
-    }
-  }
-
-  getFitnessData() async {
-    List<TherapistList> therapistFitnessListList;
-    print('therapistFitnessList:${therapistFitnessListList}');
-    for (var Fit in widget.getTherapistByIdModel.therapistFitnessListList) {
-      print('FitnesssubCategoryId:${Fit.subCategoryId}');
-      print('FitnesscategoryId:${Fit.categoryId}');
-      print('Fitnessname:${Fit.name}');
     }
   }
 
@@ -1318,6 +1338,201 @@ class _BookingDetailsCompletedScreenOneState
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          result != null && result.contains("エステ")
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      estheticStatus = !estheticStatus;
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                242, 242, 242, 1),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  102, 102, 102, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeOne.svg',
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              height: 29.81,
+                                              width: 27.61,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("接骨・整体")
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      orteopathicStatus = !orteopathicStatus;
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                242, 242, 242, 1),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  102, 102, 102, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeTwo.svg',
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              height: 29.81,
+                                              width: 27.61,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("リラクゼーション")
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      relaxationStatus = !relaxationStatus;
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                242, 242, 242, 1),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  102, 102, 102, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeThree.svg',
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              height: 29.81,
+                                              width: 27.61,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox(),
+                          result != null && result.contains("フィットネス")
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      fitnessStatus = !fitnessStatus;
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromRGBO(
+                                                242, 242, 242, 1),
+                                            border: Border.all(
+                                              color: Color.fromRGBO(
+                                                  102, 102, 102, 1),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: SvgPicture.asset(
+                                              'assets/images_gps/serviceTypeFour.svg',
+                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                              height: 29.81,
+                                              width: 27.61,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: estheticStatus,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 139.0,
+                        child: myListView(context),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    children: [
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           result != null && result.contains("エステ")
@@ -1571,48 +1786,6 @@ class _BookingDetailsCompletedScreenOneState
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       color: _massageValue == 0
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(217, 217, 217, 1),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("接骨・整体")
-                              ? Expanded(
-                                  child: Text(
-                                    HealingMatchConstants.searchOsthepaticTxt,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: _massageValue == 1
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(217, 217, 217, 1),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("リラクゼーション")
-                              ? Expanded(
-                                  child: Text(
-                                    HealingMatchConstants.searchRelaxationTxt,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: _massageValue == 2
-                                          ? Color.fromRGBO(0, 0, 0, 1)
-                                          : Color.fromRGBO(217, 217, 217, 1),
-                                    ),
-                                  ),
-                                )
-                              : SizedBox(),
-                          result != null && result.contains("フィットネス")
-                              ? Expanded(
-                                  child: Text(
-                                    HealingMatchConstants.searchFitnessTxt,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: _massageValue == 3
                                           ? Color.fromRGBO(0, 0, 0, 1)
                                           : Color.fromRGBO(217, 217, 217, 1),
                                     ),
@@ -5020,8 +5193,183 @@ class _BookingDetailsCompletedScreenOneState
     }
   }
 
-  Widget _myListView() {
-    return ListView.builder(itemBuilder: (context, index) {});
+  Widget myListView(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: therapistEstheticList.length,
+        itemBuilder: (context, index) {
+          return Container(
+            child: Row(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    therapistEstheticList[index].name.contains('ブライダル')
+                        ? Card(
+                            child: Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(242, 242, 242, 1),
+                                border: Border.all(
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/subCategory/esthetic/bridal.svg",
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    therapistEstheticList[index].name.contains('ブライダル')
+                        ? Text(
+                            'ブライダル',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    therapistEstheticList[index].name.contains('ボディ')
+                        ? Card(
+                            child: Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(242, 242, 242, 1),
+                                border: Border.all(
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/subCategory/esthetic/body.svg",
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    therapistEstheticList[index].name.contains('ボディ')
+                        ? Text(
+                            'ボディ',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    therapistEstheticList[index].name.contains('太もも・ヒップ')
+                        ? Card(
+                            child: Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(242, 242, 242, 1),
+                                border: Border.all(
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/subCategory/esthetic/thighsHips.svg",
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    therapistEstheticList[index].name.contains('太もも・ヒップ')
+                        ? Text(
+                            '太もも・ヒップ',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    therapistEstheticList[index].name.contains('hhhg')
+                        ? Card(
+                            child: Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color.fromRGBO(242, 242, 242, 1),
+                                border: Border.all(
+                                  color: Color.fromRGBO(102, 102, 102, 1),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: SvgPicture.asset(
+                                  "assets/images_gps/subCategory/esthetic/bridal.svg",
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    therapistEstheticList[index].name.contains('ブライダル')
+                        ? Text(
+                            'ブライダル',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 1),
+                            ),
+                          )
+                        : Container(),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 
