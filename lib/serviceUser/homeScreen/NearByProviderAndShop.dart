@@ -221,58 +221,63 @@ class _LoadProvidersPageState extends State<LoadProvidersPage> {
 
   getProvidersList(List<InitialTherapistData> getTherapistProfiles) async {
     List<dynamic> therapistAddress = new List();
-    if (this.mounted) {
-      setState(() {
-        therapistUsers = widget.getTherapistProfiles;
-        for (int i = 0; i < therapistUsers.length; i++) {
-          certificateUpload = therapistUsers[i].user.certificationUploads;
+    try {
+      if (this.mounted) {
+        setState(() {
+          therapistUsers = widget.getTherapistProfiles;
+          for (int i = 0; i < therapistUsers.length; i++) {
+            certificateUpload = therapistUsers[i].user.certificationUploads;
 
-          for (int j = 0; j < certificateUpload.length; j++) {
-            print('Certificate upload : ${certificateUpload[j].toJson()}');
-            certificateUploadKeys = certificateUpload[j].toJson();
-            certificateUploadKeys.remove('id');
-            certificateUploadKeys.remove('userId');
-            certificateUploadKeys.remove('createdAt');
-            certificateUploadKeys.remove('updatedAt');
-            print('Keys certificate : $certificateUploadKeys');
-          }
-
-          certificateUploadKeys.forEach((key, value) async {
-            if (certificateUploadKeys[key] != null) {
-              String jKey = getQualificationJPWords(key);
-              if (jKey == "はり師" ||
-                  jKey == "きゅう師" ||
-                  jKey == "鍼灸師" ||
-                  jKey == "あん摩マッサージ指圧師" ||
-                  jKey == "柔道整復師" ||
-                  jKey == "理学療法士") {
-                certificateImages["国家資格保有"] = "国家資格保有";
-              } else if (jKey == "国家資格取得予定（学生）") {
-                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-              } else if (jKey == "民間資格") {
-                certificateImages["民間資格"] = "民間資格";
-              } else if (jKey == "無資格") {
-                certificateImages["無資格"] = "無資格";
-              }
+            for (int j = 0; j < certificateUpload.length; j++) {
+              print('Certificate upload : ${certificateUpload[j].toJson()}');
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate : $certificateUploadKeys');
             }
-          });
-          if (certificateImages.length == 0) {
-            certificateImages["無資格"] = "無資格";
-          }
-          print('certificateImages data : $certificateImages');
 
-          for (int k = 0; k < therapistUsers[i].user.addresses.length; k++) {
-            therapistAddress.add(therapistUsers[i]
-                .user
-                .addresses[k]
-                .distance
-                .truncateToDouble().toStringAsFixed(2));
-            distanceRadius = therapistAddress;
-            print(
-                'Position values : ${distanceRadius[0]} && ${therapistAddress.length}');
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWords(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages');
+
+            for (int k = 0; k < therapistUsers[i].user.addresses.length; k++) {
+              therapistAddress.add(therapistUsers[i]
+                  .user
+                  .addresses[k]
+                  .distance
+                  .truncateToDouble()
+                  .toStringAsFixed(2));
+              distanceRadius = therapistAddress;
+              print(
+                  'Position values : ${distanceRadius[0]} && ${therapistAddress.length}');
+            }
           }
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 
@@ -1801,58 +1806,63 @@ class _LoadProvidersByTypeState extends State<LoadProvidersByType> {
   }
 
   getProvidersCertifications(List<TypeTherapistData> getTherapistByType) async {
-    if (this.mounted) {
-      setState(() {
-        for (int i = 0; i < getTherapistByType.length; i++) {
-          certificateUpload = getTherapistByType[i].user.certificationUploads;
-          for (int j = 0; j < certificateUpload.length; j++) {
-            print('Certificate upload : ${certificateUpload[j].toJson()}');
-            certificateUploadKeys = certificateUpload[j].toJson();
-            certificateUploadKeys.remove('id');
-            certificateUploadKeys.remove('userId');
-            certificateUploadKeys.remove('createdAt');
-            certificateUploadKeys.remove('updatedAt');
-            print('Keys certificate : $certificateUploadKeys');
-          }
-
-          certificateUploadKeys.forEach((key, value) async {
-            if (certificateUploadKeys[key] != null) {
-              String jKey = getQualificationJPWords(key);
-              if (jKey == "はり師" ||
-                  jKey == "きゅう師" ||
-                  jKey == "鍼灸師" ||
-                  jKey == "あん摩マッサージ指圧師" ||
-                  jKey == "柔道整復師" ||
-                  jKey == "理学療法士") {
-                certificateImages["国家資格保有"] = "国家資格保有";
-              } else if (jKey == "国家資格取得予定（学生）") {
-                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-              } else if (jKey == "民間資格") {
-                certificateImages["民間資格"] = "民間資格";
-              } else if (jKey == "無資格") {
-                certificateImages["無資格"] = "無資格";
-              }
+    try {
+      if (this.mounted) {
+        setState(() {
+          for (int i = 0; i < getTherapistByType.length; i++) {
+            certificateUpload = getTherapistByType[i].user.certificationUploads;
+            for (int j = 0; j < certificateUpload.length; j++) {
+              print('Certificate upload : ${certificateUpload[j].toJson()}');
+              certificateUploadKeys = certificateUpload[j].toJson();
+              certificateUploadKeys.remove('id');
+              certificateUploadKeys.remove('userId');
+              certificateUploadKeys.remove('createdAt');
+              certificateUploadKeys.remove('updatedAt');
+              print('Keys certificate : $certificateUploadKeys');
             }
-          });
-          if (certificateImages.length == 0) {
-            certificateImages["無資格"] = "無資格";
-          }
-          print('certificateImages data : $certificateImages');
 
-          for (int k = 0;
-              k < getTherapistByType[i].user.addresses.length;
-              k++) {
-            therapistTypeAddress.add(getTherapistByType[i]
-                .user
-                .addresses[k]
-                .distance
-                .truncateToDouble().toStringAsFixed(2));
-            distanceRadius = therapistTypeAddress;
-            print(
-                'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWords(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data : $certificateImages');
+
+            for (int k = 0;
+                k < getTherapistByType[i].user.addresses.length;
+                k++) {
+              therapistTypeAddress.add(getTherapistByType[i]
+                  .user
+                  .addresses[k]
+                  .distance
+                  .truncateToDouble()
+                  .toStringAsFixed(2));
+              distanceRadius = therapistTypeAddress;
+              print(
+                  'Position values : $distanceRadius && ${therapistTypeAddress.length}');
+            }
           }
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 

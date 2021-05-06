@@ -143,6 +143,10 @@ class HealingMatchConstants {
   static const String FETCH_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
 
+  // fetch therapist results
+  static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
