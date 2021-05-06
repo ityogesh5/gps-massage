@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
-import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,7 +97,7 @@ class _SplashScreenPageState extends State<SplashScreen>
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
-      providerLoggedOut =  value.getBool('isProviderLoggedOut');
+      providerLoggedOut = value.getBool('isProviderLoggedOut');
       print('User Register : $userRegistered');
       if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');

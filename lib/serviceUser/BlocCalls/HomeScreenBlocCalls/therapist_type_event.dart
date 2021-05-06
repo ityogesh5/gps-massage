@@ -32,7 +32,9 @@ class RefreshEvent extends TherapistTypeEvent {
 class DetailEvent extends TherapistTypeEvent {
   final accessToken;
   final userId;
+
   DetailEvent(this.accessToken, this.userId);
+
   @override
   // TODO: implement props
   List<Object> get props => [accessToken, userId];
@@ -40,8 +42,13 @@ class DetailEvent extends TherapistTypeEvent {
 
 class RecommendEvent extends TherapistTypeEvent {
   final accessToken;
-  RecommendEvent(this.accessToken);
+
+  final pageNumber;
+  final pageSize;
+
+  RecommendEvent(this.accessToken, this.pageNumber, this.pageSize);
+
   @override
   // TODO: implement props
-  List<Object> get props => [accessToken];
+  List<Object> get props => [accessToken, pageNumber, pageSize];
 }

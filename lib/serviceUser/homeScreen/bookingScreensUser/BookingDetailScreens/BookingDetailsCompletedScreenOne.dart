@@ -17,7 +17,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetUserDetails.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
@@ -25,8 +24,10 @@ import 'package:gps_massageapp/serviceUser/APIProviderCalls/ServiceUserAPIProvid
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
+
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
@@ -49,34 +50,15 @@ List<String> _options = [
   'カッピング（全身）',
   'リラクゼーション'
 ];
-double ratingsValue = 4.0;
-var certificateUpload;
-var certificateUploadKeys;
-Map<String, String> certificateImages = Map<String, String>();
-BoxDecoration boxDecoration = BoxDecoration(
-    gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color.fromRGBO(255, 255, 255, 1),
-          Color.fromRGBO(255, 255, 255, 1),
-        ]),
-    shape: BoxShape.rectangle,
-    border: Border.all(
-      color: Colors.grey[300],
-    ),
-    borderRadius: BorderRadius.circular(5.0),
-    color: Colors.grey[200]);
-String textChildren;
-var resultChildren, result;
-var therapistAddressDetails;
-var bannerImages;
 
 List<String> userBannerImages = [];
-List<TherapistSubCategory> userSubCategory = [];
+var bannerImages;
+
+// List<TherapistSubCategory> userSubCategory = [];
 
 class DetailBloc extends StatefulWidget {
   final userID;
+
   DetailBloc(this.userID);
 
   @override
@@ -99,7 +81,9 @@ class _DetailBlocState extends State<DetailBloc> {
 
 class DetailPageListner extends StatefulWidget {
   final userID;
+
   DetailPageListner(this.userID);
+
   @override
   _DetailPageListnerState createState() => _DetailPageListnerState();
 }
@@ -119,13 +103,21 @@ class _DetailPageListnerState extends State<DetailPageListner> {
           .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));
       print('AccessToken : ${HealingMatchConstants.accessToken}');
       print('UserId : ${widget.userID}');
-    } catch (e) {}
+      clearValues();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  clearValues() {
     try {
       if (userBannerImages != null) {
         userBannerImages.clear();
         bannerImages.clear();
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -140,14 +132,18 @@ class _DetailPageListnerState extends State<DetailPageListner> {
           },
           child: BlocBuilder<TherapistTypeBloc, TherapistTypeState>(
               builder: (context, state) {
-            if (state is GetTherapistId) {
-              return BookingDetailsCompletedScreenOne(
-                  state.getTherapistByIdModel, widget.userID);
-            } else if (state is GetTherapistTypeLoaderState) {
-              print('error somewhere');
-              return buildLoading();
-            }
-          }),
+                if (state is GetTherapistTypeLoaderState) {
+                  print('error somewhere');
+                  return buildLoading();
+                } else if (state is GetTherapistId) {
+                  return BookingDetailsCompletedScreenOne(
+                      state.getTherapistByIdModel, widget.userID);
+                } else
+                  return Text(
+                    "エラーが発生しました！",
+                    style: TextStyle(color: Colors.white),
+                  );
+              }),
         ),
       ),
     );
@@ -192,6 +188,31 @@ class _BookingDetailsCompletedScreenOneState
   var therapistAddress, userRegisteredAddress, userPlaceForMassage;
   bool shopLocationSelected = false;
 
+  List<TherapistList> therapistEstheticList = List();
+  double ratingsValue = 4.0;
+  var certificateUpload;
+  var certificateUploadKeys;
+  Map<String, String> certificateImages = Map<String, String>();
+  BoxDecoration boxDecoration = BoxDecoration(
+      gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromRGBO(255, 255, 255, 1),
+            Color.fromRGBO(255, 255, 255, 1),
+          ]),
+      shape: BoxShape.rectangle,
+      border: Border.all(
+        color: Colors.grey[300],
+      ),
+      borderRadius: BorderRadius.circular(5.0),
+      color: Colors.grey[200]);
+  String textChildren;
+  var resultChildren, result;
+  var therapistAddressDetails;
+  var estheticList;
+  List<String> estheticDropDownValues = List<String>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -200,37 +221,41 @@ class _BookingDetailsCompletedScreenOneState
     getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
-    getSubCategory();
-    /*   BlocProvider.of<TherapistTypeBloc>(context)
-        .add(DetailEvent(HealingMatchConstants.accessToken, widget.userID));*/
+    getEstheticData();
+    getFitnessData();
   }
 
-  getSubCategory() async {
-    print(
-        'arrayObjsText:${widget.getTherapistByIdModel.data.therapistSubCategories}');
+  getEstheticData() async {
     try {
-      setState(() {
-        /*therapistSubCategories =
-            widget.getTherapistByIdModel.data.therapistSubCategories;*/
+      therapistEstheticList =
+          widget.getTherapistByIdModel.therapistEstheticList;
+      if (widget.getTherapistByIdModel.therapistEstheticList != null) {
         for (int i = 0;
-            i < widget.getTherapistByIdModel.data.therapistSubCategories.length;
-            i++) {
-          print(
-              'subCat: ${widget.getTherapistByIdModel.data.therapistSubCategories[i].toJson()}');
-          userSubCategory = widget
-              .getTherapistByIdModel.data.therapistSubCategories[i]
-              .toJson() as List<TherapistSubCategory>;
+        i < widget.getTherapistByIdModel.therapistEstheticList.length;
+        i++) {
+          estheticList =
+              widget.getTherapistByIdModel.therapistEstheticList[i].toJson();
         }
-        /*  for (var item in therapistSubCategories) {
-          userSubCategory.add(item.subCategoryId.toString());
-          userSubCategory.add(item.name);
-          userSubCategory.add(item.sixtyMin.toString());
-          userSubCategory.add(item.nintyMin.toString());
-          userSubCategory.add(item.oneTwentyMin.toString());
-          print('therapistSub:${item.name}');
+        /*  for (var est in widget.getTherapistByIdModel.therapistEstheticList) {
+          estheticDropDownValues.add(est.name);
         }*/
-      });
-    } catch (e) {}
+
+      }
+      print('estheticList:$estheticList}');
+      print('therapistEstheticList:$therapistEstheticList}');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getFitnessData() async {
+    List<TherapistList> therapistFitnessListList;
+    print('therapistFitnessList:${therapistFitnessListList}');
+    for (var Fit in widget.getTherapistByIdModel.therapistFitnessListList) {
+      print('FitnesssubCategoryId:${Fit.subCategoryId}');
+      print('FitnesscategoryId:${Fit.categoryId}');
+      print('Fitnessname:${Fit.name}');
+    }
   }
 
   getBannerImages() async {
@@ -272,7 +297,9 @@ class _BookingDetailsCompletedScreenOneState
           print('Banner: ${userBannerImages}');
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   getServiceType() async {
@@ -283,7 +310,9 @@ class _BookingDetailsCompletedScreenOneState
       final uniqueJsonListType = jsonListType.toSet().toList();
       result = uniqueJsonListType.map((item) => jsonDecode(item)).toList();
       print('result: ${result}');
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
     try {
       textChildren = widget.getTherapistByIdModel.data.childrenMeasure;
       print('children: ${textChildren}');
@@ -292,8 +321,9 @@ class _BookingDetailsCompletedScreenOneState
       final uniqueJsonList = jsonList.toSet().toList();
       resultChildren = uniqueJsonList.map((item) => jsonDecode(item)).toList();
       print('resultChildren: ${resultChildren}');
-    } catch (e) {}
-    try {} catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   getTherapistCertificate(TherapistByIdModel getTherapistByIdModel) async {
@@ -303,8 +333,8 @@ class _BookingDetailsCompletedScreenOneState
         setState(() {
           if (getTherapistByIdModel.data.certificationUploads != null) {
             for (int j = 0;
-                j < getTherapistByIdModel.data.certificationUploads.length;
-                j++) {
+            j < getTherapistByIdModel.data.certificationUploads.length;
+            j++) {
               print(
                   'Certificate upload type : ${certificateUpload = getTherapistByIdModel.data.certificationUploads[j].toJson()}');
 
@@ -342,19 +372,23 @@ class _BookingDetailsCompletedScreenOneState
           print('certificateImages data type : $certificateImages');
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
     try {
       setState(() {
         if (getTherapistByIdModel.data.addresses != null) {
           for (int i = 0;
-              i < getTherapistByIdModel.data.addresses.length;
-              i++) {
+          i < getTherapistByIdModel.data.addresses.length;
+          i++) {
             therapistAddressDetails =
                 getTherapistByIdModel.data.addresses[i].address;
           }
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   String getQualificationJPWordsForType(String key) {
@@ -417,103 +451,103 @@ class _BookingDetailsCompletedScreenOneState
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        result.contains("エステ")
+                        (result != null && result.contains("エステ"))
                             ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeOne.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('エステ'),
-                                ],
-                              )
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeOne.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.01),
+                            Text('エステ'),
+                          ],
+                        )
                             : SizedBox(width: 5),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("接骨・整体")
+                        (result != null && result.contains("接骨・整体"))
                             ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeTwo.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('整骨・整体'),
-                                ],
-                              )
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeTwo.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.01),
+                            Text('整骨・整体'),
+                          ],
+                        )
                             : SizedBox(),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("リラクゼーション")
+                        (result != null && result.contains("リラクゼーション"))
                             ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeThree.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('リラクゼーション')
-                                ],
-                              )
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeThree.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.01),
+                            Text('リラクゼーション')
+                          ],
+                        )
                             : SizedBox(),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                        result.contains("フィットネス")
+                        (result != null && result.contains("フィットネス"))
                             ? Row(
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundColor: Colors.black45,
-                                    child: CircleAvatar(
-                                      maxRadius: 10,
-                                      backgroundColor:
-                                          Color.fromRGBO(255, 255, 255, 1),
-                                      child: SvgPicture.asset(
-                                          'assets/images_gps/serviceTypeFour.svg',
-                                          height: 15,
-                                          width: 15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.01),
-                                  Text('フィットネス')
-                                ],
-                              )
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 12,
+                              backgroundColor: Colors.black45,
+                              child: CircleAvatar(
+                                maxRadius: 10,
+                                backgroundColor:
+                                Color.fromRGBO(255, 255, 255, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/serviceTypeFour.svg',
+                                    height: 15,
+                                    width: 15),
+                              ),
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.01),
+                            Text('フィットネス')
+                          ],
+                        )
                             : SizedBox(),
                       ],
                     ),
@@ -529,57 +563,57 @@ class _BookingDetailsCompletedScreenOneState
                         Expanded(
                           flex: 1,
                           child: widget.getTherapistByIdModel.data
-                                      .uploadProfileImgUrl !=
-                                  null
+                              .uploadProfileImgUrl !=
+                              null
                               ? CachedNetworkImage(
-                                  imageUrl: widget.getTherapistByIdModel.data
-                                      .uploadProfileImgUrl,
-                                  filterQuality: FilterQuality.high,
-                                  fadeInCurve: Curves.easeInSine,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                  placeholder: (context, url) =>
-                                      SpinKitDoubleBounce(
-                                          color: Colors.lightGreenAccent),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.black12),
-                                      image: DecorationImage(
-                                          image: new AssetImage(
-                                              'assets/images_gps/placeholder_image.png'),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  width: 60.0,
-                                  height: 60.0,
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
+                            imageUrl: widget.getTherapistByIdModel.data
+                                .uploadProfileImgUrl,
+                            filterQuality: FilterQuality.high,
+                            fadeInCurve: Curves.easeInSine,
+                            imageBuilder: (context, imageProvider) =>
+                                Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.fitHeight,
-                                      image: new AssetImage(
-                                          'assets/images_gps/logo.png'),
-                                    ),
-                                  )),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                            placeholder: (context, url) =>
+                                SpinKitDoubleBounce(
+                                    color: Colors.lightGreenAccent),
+                            errorWidget: (context, url, error) =>
+                                Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black12),
+                                    image: DecorationImage(
+                                        image: new AssetImage(
+                                            'assets/images_gps/placeholder_image.png'),
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                          )
+                              : Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: new BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                shape: BoxShape.circle,
+                                image: new DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: new AssetImage(
+                                      'assets/images_gps/logo.png'),
+                                ),
+                              )),
                         ),
                         SizedBox(width: 5),
                         Expanded(
-                          flex: 5,
+                          flex: 3,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -588,9 +622,21 @@ class _BookingDetailsCompletedScreenOneState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      widget
-                                          .getTherapistByIdModel.data.userName,
+                                    widget.getTherapistByIdModel.data
+                                        .storeName !=
+                                        null
+                                        ? Text(
+                                      widget.getTherapistByIdModel.data
+                                          .storeName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.left,
+                                    )
+                                        : Text(
+                                      widget.getTherapistByIdModel.data
+                                          .userName,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 16,
@@ -599,62 +645,61 @@ class _BookingDetailsCompletedScreenOneState
                                     ),
                                     SizedBox(
                                         width:
-
-                                            MediaQuery.of(context).size.width *
-                                                0.02),
+                                        MediaQuery.of(context).size.width *
+                                            0.02),
                                     SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: [
                                           widget.getTherapistByIdModel.data
-                                                      .businessForm
-                                                      .contains(
-                                                          '施術店舗あり 施術従業員あり') ||
-                                                  widget.getTherapistByIdModel
-                                                      .data.businessForm
-                                                      .contains(
-                                                          '施術店舗あり 施術従業員なし（個人経営）') ||
-                                                  widget.getTherapistByIdModel
-                                                      .data.businessForm
-                                                      .contains(
-                                                          '施術店舗なし 施術従業員なし（個人)')
+                                              .businessForm
+                                              .contains(
+                                              '施術店舗あり 施術従業員あり') ||
+                                              widget.getTherapistByIdModel
+                                                  .data.businessForm
+                                                  .contains(
+                                                  '施術店舗あり 施術従業員なし（個人経営）') ||
+                                              widget.getTherapistByIdModel
+                                                  .data.businessForm
+                                                  .contains(
+                                                  '施術店舗なし 施術従業員なし（個人)')
                                               ? Visibility(
-                                                  visible: true,
-                                                  child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      decoration: BoxDecoration(
-                                                          gradient: LinearGradient(
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                              colors: [
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    1),
-                                                                Color.fromRGBO(
-                                                                    255,
-                                                                    255,
-                                                                    255,
-                                                                    1),
-                                                              ]),
-                                                          shape: BoxShape
-                                                              .rectangle,
-                                                          border: Border.all(
-                                                            color: Colors
-                                                                .grey[300],
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          color:
-                                                              Colors.grey[200]),
-                                                      child: Text('店舗')),
-                                                )
+                                            visible: true,
+                                            child: Container(
+                                                padding:
+                                                EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin: Alignment
+                                                            .topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              1),
+                                                          Color.fromRGBO(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              1),
+                                                        ]),
+                                                    shape: BoxShape
+                                                        .rectangle,
+                                                    border: Border.all(
+                                                      color: Colors
+                                                          .grey[300],
+                                                    ),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        5.0),
+                                                    color:
+                                                    Colors.grey[200]),
+                                                child: Text('店舗')),
+                                          )
                                               : Container(),
                                           SizedBox(
                                             width: 5,
@@ -669,7 +714,7 @@ class _BookingDetailsCompletedScreenOneState
                                                 decoration: BoxDecoration(
                                                     gradient: LinearGradient(
                                                         begin:
-                                                            Alignment.topCenter,
+                                                        Alignment.topCenter,
                                                         end: Alignment
                                                             .bottomCenter,
                                                         colors: [
@@ -683,8 +728,8 @@ class _BookingDetailsCompletedScreenOneState
                                                       color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
+                                                    BorderRadius.circular(
+                                                        5.0),
                                                     color: Colors.grey[200]),
                                                 child: Text('出張')),
                                           ),
@@ -701,7 +746,7 @@ class _BookingDetailsCompletedScreenOneState
                                                 decoration: BoxDecoration(
                                                     gradient: LinearGradient(
                                                         begin:
-                                                            Alignment.topCenter,
+                                                        Alignment.topCenter,
                                                         end: Alignment
                                                             .bottomCenter,
                                                         colors: [
@@ -715,8 +760,8 @@ class _BookingDetailsCompletedScreenOneState
                                                       color: Colors.grey[300],
                                                     ),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
+                                                    BorderRadius.circular(
+                                                        5.0),
                                                     color: Colors.grey[200]),
                                                 child: Text('コロナ対策実施有無')),
                                           ),
@@ -732,14 +777,26 @@ class _BookingDetailsCompletedScreenOneState
                               Row(
                                 children: [
                                   // widget.getTherapistByIdModel.data.
-                                  Text(
+                                  widget.getTherapistByIdModel.reviewData
+                                      .ratingAvg !=
+                                      null
+                                      ? Text(
                                     '(${widget.getTherapistByIdModel.reviewData.ratingAvg})',
                                     style: TextStyle(
                                         color: Colors.grey[400],
                                         fontSize: 14,
                                         fontFamily: 'NotoSansJP'),
+                                  )
+                                      : Text(
+                                    '(0.0)',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 14,
+                                        fontFamily: 'NotoSansJP'),
                                   ),
-                                  RatingBar.builder(
+                                  widget.getTherapistByIdModel.reviewData !=
+                                      null
+                                      ? RatingBar.builder(
                                     initialRating: double.parse(widget
                                         .getTherapistByIdModel
                                         .reviewData
@@ -749,17 +806,44 @@ class _BookingDetailsCompletedScreenOneState
                                     itemCount: 5,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
-                                    itemSize: 25,
-                                    itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemSize: 20,
+                                    itemPadding: EdgeInsets.symmetric(
+                                        horizontal: 1.0),
                                     itemBuilder: (context, _) => Icon(
                                       Icons.star,
                                       size: 5,
-                                      color: Color.fromRGBO(255, 217, 0, 1),
+                                      color:
+                                      Color.fromRGBO(255, 217, 0, 1),
+                                    ),
+                                  )
+                                      : RatingBar.builder(
+                                    initialRating: 0,
+                                    ignoreGestures: true,
+                                    minRating: 1,
+                                    itemCount: 5,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemSize: 20,
+                                    itemPadding: EdgeInsets.symmetric(
+                                        horizontal: 1.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      size: 5,
+                                      color:
+                                      Color.fromRGBO(255, 217, 0, 1),
                                     ),
                                   ),
-                                  Text(
-                                    '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers.toString()})',
+                                  widget.getTherapistByIdModel.reviewData !=
+                                      null
+                                      ? Text(
+                                    '(${widget.getTherapistByIdModel.reviewData.noOfReviewsMembers})',
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: 12,
+                                        fontFamily: 'NotoSansJP'),
+                                  )
+                                      : Text(
+                                    '(0)',
                                     style: TextStyle(
                                         color: Colors.grey[400],
                                         fontSize: 12,
@@ -827,89 +911,89 @@ class _BookingDetailsCompletedScreenOneState
                         children: [
                           resultChildren.length != 0
                               ? Container(
-                                  height: 38.0,
-                                  width: MediaQuery.of(context).size.width -
-                                      130.0, //200.0,
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: resultChildren.length,
-                                      itemBuilder: (context, index) {
-                                        String keys =
-                                            resultChildren.elementAt(index);
-                                        return WidgetAnimator(
-                                          Wrap(
-                                            children: [
-                                              Padding(
-                                                padding: index == 0
-                                                    ? const EdgeInsets.only(
-                                                        left: 0.0,
-                                                        top: 4.0,
-                                                        right: 4.0,
-                                                        bottom: 4.0)
-                                                    : const EdgeInsets.all(4.0),
-                                                child: Container(
-                                                  padding: EdgeInsets.all(5),
-                                                  decoration: boxDecoration,
-                                                  child: Text(
-                                                    keys, //Qualififcation
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
+                            height: 38.0,
+                            width: MediaQuery.of(context).size.width -
+                                130.0, //200.0,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: resultChildren.length,
+                                itemBuilder: (context, index) {
+                                  String keys =
+                                  resultChildren.elementAt(index);
+                                  return WidgetAnimator(
+                                    Wrap(
+                                      children: [
+                                        Padding(
+                                          padding: index == 0
+                                              ? const EdgeInsets.only(
+                                              left: 0.0,
+                                              top: 4.0,
+                                              right: 4.0,
+                                              bottom: 4.0)
+                                              : const EdgeInsets.all(4.0),
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            decoration: boxDecoration,
+                                            child: Text(
+                                              keys, //Qualififcation
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        );
-                                      }),
-                                )
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          )
                               : Container(),
                         ],
                       ),
                       SizedBox(height: 10),
                       certificateImages.length != 0
                           ? Container(
-                              height: 38.0,
-                              width: MediaQuery.of(context).size.width -
-                                  130.0, //200.0,
-                              child: ListView.builder(
-                                  // shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: certificateImages.length,
-                                  itemBuilder: (context, index) {
-                                    String key =
-                                        certificateImages.keys.elementAt(index);
-                                    return WidgetAnimator(
-                                      Wrap(
-                                        children: [
-                                          Padding(
-                                            padding: index == 0
-                                                ? const EdgeInsets.only(
-                                                    left: 0.0,
-                                                    top: 4.0,
-                                                    right: 4.0,
-                                                    bottom: 4.0)
-                                                : const EdgeInsets.all(4.0),
-                                            child: Container(
-                                              padding: EdgeInsets.all(5),
-                                              decoration: boxDecoration,
-                                              child: Text(
-                                                key,
-                                                //Qualififcation
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
+                        height: 38.0,
+                        width: MediaQuery.of(context).size.width -
+                            130.0, //200.0,
+                        child: ListView.builder(
+                          // shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: certificateImages.length,
+                            itemBuilder: (context, index) {
+                              String key =
+                              certificateImages.keys.elementAt(index);
+                              return WidgetAnimator(
+                                Wrap(
+                                  children: [
+                                    Padding(
+                                      padding: index == 0
+                                          ? const EdgeInsets.only(
+                                          left: 0.0,
+                                          top: 4.0,
+                                          right: 4.0,
+                                          bottom: 4.0)
+                                          : const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: boxDecoration,
+                                        child: Text(
+                                          key,
+                                          //Qualififcation
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  }),
-                            )
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      )
                           : Container(),
                     ],
                   ),
@@ -1215,30 +1299,40 @@ class _BookingDetailsCompletedScreenOneState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          GestureDetector(
+                          result != null && result.contains("エステ")
+                              ? GestureDetector(
                             onTap: () => setState(() {
                               _massageValue = 0;
-                              _massageValue != null ? _value = '' : _value;
+                              _massageValue != null
+                                  ? _value = ''
+                                  : _value;
                             }),
                             child: Column(
                               children: [
                                 Card(
-                                  elevation: _massageValue == 0 ? 4.0 : 0.0,
+                                  elevation:
+                                  _massageValue == 0 ? 4.0 : 0.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
                                   ),
                                   child: Container(
                                     height: 65,
                                     width: 65,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                      BorderRadius.circular(10),
                                       color: _massageValue == 0
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
+                                          ? Color.fromRGBO(
+                                          242, 242, 242, 1)
+                                          : Color.fromRGBO(
+                                          255, 255, 255, 1),
                                       border: Border.all(
                                         color: _massageValue == 0
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                            ? Color.fromRGBO(
+                                            102, 102, 102, 1)
+                                            : Color.fromRGBO(
+                                            228, 228, 228, 1),
                                       ),
                                     ),
                                     child: Padding(
@@ -1247,7 +1341,8 @@ class _BookingDetailsCompletedScreenOneState
                                         'assets/images_gps/serviceTypeOne.svg',
                                         color: _massageValue == 0
                                             ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
+                                            : Color.fromRGBO(
+                                            217, 217, 217, 1),
                                         height: 29.81,
                                         width: 27.61,
                                       ),
@@ -1256,32 +1351,43 @@ class _BookingDetailsCompletedScreenOneState
                                 ),
                               ],
                             ),
-                          ),
-                          GestureDetector(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("接骨・整体")
+                              ? GestureDetector(
                             onTap: () => setState(() {
                               _massageValue = 1;
-                              _massageValue != null ? _value = '' : _value;
+                              _massageValue != null
+                                  ? _value = ''
+                                  : _value;
                             }),
                             //onTap: () => setState(() => _massageValue = 1),
                             child: Column(
                               children: [
                                 Card(
-                                  elevation: _massageValue == 1 ? 4.0 : 0.0,
+                                  elevation:
+                                  _massageValue == 1 ? 4.0 : 0.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
                                   ),
                                   child: Container(
                                     height: 65,
                                     width: 65,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                      BorderRadius.circular(10),
                                       color: _massageValue == 1
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
+                                          ? Color.fromRGBO(
+                                          242, 242, 242, 1)
+                                          : Color.fromRGBO(
+                                          255, 255, 255, 1),
                                       border: Border.all(
                                         color: _massageValue == 1
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                            ? Color.fromRGBO(
+                                            102, 102, 102, 1)
+                                            : Color.fromRGBO(
+                                            228, 228, 228, 1),
                                       ),
                                     ),
                                     child: Padding(
@@ -1290,7 +1396,8 @@ class _BookingDetailsCompletedScreenOneState
                                         'assets/images_gps/serviceTypeTwo.svg',
                                         color: _massageValue == 1
                                             ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
+                                            : Color.fromRGBO(
+                                            217, 217, 217, 1),
                                         height: 33,
                                         width: 34,
                                       ),
@@ -1308,32 +1415,43 @@ class _BookingDetailsCompletedScreenOneState
                                       ), */
                               ],
                             ),
-                          ),
-                          GestureDetector(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("リラクゼーション")
+                              ? GestureDetector(
                             onTap: () => setState(() {
                               _massageValue = 2;
-                              _massageValue != null ? _value = '' : _value;
+                              _massageValue != null
+                                  ? _value = ''
+                                  : _value;
                             }),
                             // onTap: () => setState(() => _massageValue = 2),
                             child: Column(
                               children: [
                                 Card(
-                                  elevation: _massageValue == 2 ? 4.0 : 0.0,
+                                  elevation:
+                                  _massageValue == 2 ? 4.0 : 0.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
                                   ),
                                   child: Container(
                                     height: 65,
                                     width: 65,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                      BorderRadius.circular(10),
                                       color: _massageValue == 2
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
+                                          ? Color.fromRGBO(
+                                          242, 242, 242, 1)
+                                          : Color.fromRGBO(
+                                          255, 255, 255, 1),
                                       border: Border.all(
                                         color: _massageValue == 2
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                            ? Color.fromRGBO(
+                                            102, 102, 102, 1)
+                                            : Color.fromRGBO(
+                                            228, 228, 228, 1),
                                       ),
                                     ),
                                     child: Padding(
@@ -1342,7 +1460,8 @@ class _BookingDetailsCompletedScreenOneState
                                         'assets/images_gps/serviceTypeThree.svg',
                                         color: _massageValue == 2
                                             ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
+                                            : Color.fromRGBO(
+                                            217, 217, 217, 1),
                                         height: 25,
                                         width: 25,
                                       ),
@@ -1360,32 +1479,43 @@ class _BookingDetailsCompletedScreenOneState
                                       ), */
                               ],
                             ),
-                          ),
-                          GestureDetector(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("フィットネス")
+                              ? GestureDetector(
                             onTap: () => setState(() {
                               _massageValue = 3;
-                              _massageValue != null ? _value = '' : _value;
+                              _massageValue != null
+                                  ? _value = ''
+                                  : _value;
                             }),
                             // onTap: () => setState(() => _massageValue = 3),
                             child: Column(
                               children: [
                                 Card(
-                                  elevation: _massageValue == 3 ? 4.0 : 0.0,
+                                  elevation:
+                                  _massageValue == 3 ? 4.0 : 0.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0),
                                   ),
                                   child: Container(
                                     height: 65,
                                     width: 65,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                      BorderRadius.circular(10),
                                       color: _massageValue == 3
-                                          ? Color.fromRGBO(242, 242, 242, 1)
-                                          : Color.fromRGBO(255, 255, 255, 1),
+                                          ? Color.fromRGBO(
+                                          242, 242, 242, 1)
+                                          : Color.fromRGBO(
+                                          255, 255, 255, 1),
                                       border: Border.all(
                                         color: _massageValue == 3
-                                            ? Color.fromRGBO(102, 102, 102, 1)
-                                            : Color.fromRGBO(228, 228, 228, 1),
+                                            ? Color.fromRGBO(
+                                            102, 102, 102, 1)
+                                            : Color.fromRGBO(
+                                            228, 228, 228, 1),
                                       ),
                                     ),
                                     child: Padding(
@@ -1394,7 +1524,8 @@ class _BookingDetailsCompletedScreenOneState
                                         'assets/images_gps/serviceTypeFour.svg',
                                         color: _massageValue == 3
                                             ? Color.fromRGBO(0, 0, 0, 1)
-                                            : Color.fromRGBO(217, 217, 217, 1),
+                                            : Color.fromRGBO(
+                                            217, 217, 217, 1),
                                         height: 35,
                                         width: 27,
                                         fit: BoxFit.contain,
@@ -1404,13 +1535,15 @@ class _BookingDetailsCompletedScreenOneState
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                              : SizedBox(),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
+                          result != null && result.contains("エステ")
+                              ? Expanded(
                             child: Text(
                               HealingMatchConstants.searchEsteticTxt,
                               textAlign: TextAlign.center,
@@ -1421,8 +1554,10 @@ class _BookingDetailsCompletedScreenOneState
                                     : Color.fromRGBO(217, 217, 217, 1),
                               ),
                             ),
-                          ),
-                          Expanded(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("接骨・整体")
+                              ? Expanded(
                             child: Text(
                               HealingMatchConstants.searchOsthepaticTxt,
                               textAlign: TextAlign.center,
@@ -1433,8 +1568,10 @@ class _BookingDetailsCompletedScreenOneState
                                     : Color.fromRGBO(217, 217, 217, 1),
                               ),
                             ),
-                          ),
-                          Expanded(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("リラクゼーション")
+                              ? Expanded(
                             child: Text(
                               HealingMatchConstants.searchRelaxationTxt,
                               textAlign: TextAlign.center,
@@ -1445,8 +1582,10 @@ class _BookingDetailsCompletedScreenOneState
                                     : Color.fromRGBO(217, 217, 217, 1),
                               ),
                             ),
-                          ),
-                          Expanded(
+                          )
+                              : SizedBox(),
+                          result != null && result.contains("フィットネス")
+                              ? Expanded(
                             child: Text(
                               HealingMatchConstants.searchFitnessTxt,
                               textAlign: TextAlign.center,
@@ -1457,7 +1596,8 @@ class _BookingDetailsCompletedScreenOneState
                                     : Color.fromRGBO(217, 217, 217, 1),
                               ),
                             ),
-                          ),
+                          )
+                              : SizedBox(),
                         ],
                       )
                     ],
@@ -1982,7 +2122,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                               1, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -2555,7 +2696,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                               2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3133,7 +3275,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                               2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -3741,7 +3884,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                               2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -4314,7 +4458,8 @@ class _BookingDetailsCompletedScreenOneState
                                               spreadRadius:
                                               2, //extend the shadow
                                               offset: Offset(
-                                                0.0, // Move to right 10  horizontally
+                                                0.0,
+                                                // Move to right 10  horizontally
                                                 3.0, // Move to bottom 10 Vertically
                                               ),
                                             )
@@ -4553,128 +4698,79 @@ class _BookingDetailsCompletedScreenOneState
   }
 
   void openAddressListDialog() {
-    print('Entering...');
-    if (HealingMatchConstants.userAddressDetailsList != null) {
+    print('Entering... ${HealingMatchConstants.userAddressDetailsList.length}');
+    if (HealingMatchConstants.userAddressDetailsList.length != 0) {
       print(
           'Address length : ${HealingMatchConstants.userAddressDetailsList.length}');
       ProgressDialogBuilder.hideLoader(context);
-    }
-    AwesomeDialog dialog;
-    var address, placeForMassage;
-    dialog = AwesomeDialog(
-      context: context,
-      animType: AnimType.BOTTOMSLIDE,
-      dialogType: DialogType.INFO,
-      keyboardAware: true,
-      width: MediaQuery.of(context).size.width,
-      dismissOnTouchOutside: true,
-      showCloseIcon: false,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              '施術を受ける場所を選択してください。',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'NotoSansJP'),
-            ),
-            SizedBox(height: 10),
-            WidgetAnimator(
-              ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount:
-                  HealingMatchConstants.userAddressDetailsList.length,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return WidgetAnimator(
-                      Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.86,
-                            child: WidgetAnimator(
-                              TextFormField(
-                                //display the address
-                                readOnly: true,
-                                autofocus: false,
-                                enableInteractiveSelection: true,
-                                initialValue: HealingMatchConstants
-                                    .userAddressDetailsList[index].address,
-                                decoration: new InputDecoration(
-                                    filled: true,
-                                    fillColor:
-                                    ColorConstants.formFieldFillColor,
-                                    hintText:
-                                    '${HealingMatchConstants.userAddressDetailsList[index]}',
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[400], fontSize: 14),
-                                    focusColor: Colors.grey[100],
-                                    border: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    focusedBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    disabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    enabledBorder: HealingMatchConstants
-                                        .textFormInputBorder,
-                                    prefixIcon: GestureDetector(
-                                      onTap: () {
-                                        print(
-                                            'Address Type Container selected...');
-                                        _userDetailsFormKey.currentState.save();
-                                        setState(() {
-                                          address = HealingMatchConstants
-                                              .userAddressDetailsList[index]
-                                              .address;
-                                          placeForMassage =
-                                              HealingMatchConstants
-                                                  .userAddressDetailsList[index]
-                                                  .userPlaceForMassage;
-                                          shopLocationSelected = false;
-                                          userRegisteredAddress = address;
-                                          userPlaceForMassage = placeForMassage;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topCenter,
-                                                  end: Alignment.bottomCenter,
-                                                  colors: [
-                                                    Color.fromRGBO(
-                                                        255, 255, 255, 1),
-                                                    Color.fromRGBO(
-                                                        255, 255, 255, 1),
-                                                  ]),
-                                              shape: BoxShape.rectangle,
-                                              border: Border.all(
-                                                color: Colors.grey[100],
-                                              ),
-                                              borderRadius:
-                                              BorderRadius.circular(6.0),
-                                              color: Color.fromRGBO(
-                                                  255, 255, 255, 1),
-                                            ),
-                                            child: Text(
-                                              '${HealingMatchConstants.userAddressDetailsList[index].userPlaceForMassage}',
-                                              style: TextStyle(
-                                                color:
-                                                Color.fromRGBO(0, 0, 0, 1),
-                                              ),
-                                            )),
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                            Icons.check_circle_outline_outlined,
-                                            size: 30),
-                                        onPressed: () {
+      AwesomeDialog dialog;
+      var address, placeForMassage;
+      dialog = AwesomeDialog(
+        context: context,
+        animType: AnimType.BOTTOMSLIDE,
+        dialogType: DialogType.INFO,
+        keyboardAware: true,
+        width: MediaQuery.of(context).size.width,
+        dismissOnTouchOutside: true,
+        showCloseIcon: false,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                '施術を受ける場所を選択してください。',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansJP'),
+              ),
+              SizedBox(height: 10),
+              WidgetAnimator(
+                ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount:
+                    HealingMatchConstants.userAddressDetailsList.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return WidgetAnimator(
+                        Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.86,
+                              child: WidgetAnimator(
+                                TextFormField(
+                                  //display the address
+                                  readOnly: true,
+                                  autofocus: false,
+                                  enableInteractiveSelection: true,
+                                  initialValue: HealingMatchConstants
+                                      .userAddressDetailsList[index].address,
+                                  decoration: new InputDecoration(
+                                      filled: true,
+                                      fillColor:
+                                      ColorConstants.formFieldFillColor,
+                                      hintText:
+                                      '${HealingMatchConstants.userAddressDetailsList[index]}',
+                                      hintStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14),
+                                      focusColor: Colors.grey[100],
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      prefixIcon: GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              'Address Type Container selected...');
+                                          _userDetailsFormKey.currentState
+                                              .save();
                                           setState(() {
                                             address = HealingMatchConstants
                                                 .userAddressDetailsList[index]
@@ -4684,56 +4780,157 @@ class _BookingDetailsCompletedScreenOneState
                                                     .userAddressDetailsList[
                                                 index]
                                                     .userPlaceForMassage;
-
-                                            print(
-                                                'Selected Place and Address : $address\n$placeForMassage');
+                                            shopLocationSelected = false;
+                                            userRegisteredAddress = address;
+                                            userPlaceForMassage =
+                                                placeForMassage;
                                           });
-                                        })),
-                                style: TextStyle(color: Colors.black54),
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                              padding: EdgeInsets.all(8.0),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                      Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                    ]),
+                                                shape: BoxShape.rectangle,
+                                                border: Border.all(
+                                                  color: Colors.grey[100],
+                                                ),
+                                                borderRadius:
+                                                BorderRadius.circular(6.0),
+                                                color: Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                              ),
+                                              child: Text(
+                                                '${HealingMatchConstants.userAddressDetailsList[index].userPlaceForMassage}',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      0, 0, 0, 1),
+                                                ),
+                                              )),
+                                        ),
+                                      ),
+                                      suffixIcon: IconButton(
+                                          icon: Icon(
+                                              Icons
+                                                  .check_circle_outline_outlined,
+                                              size: 30),
+                                          onPressed: () {
+                                            setState(() {
+                                              address = HealingMatchConstants
+                                                  .userAddressDetailsList[index]
+                                                  .address;
+                                              placeForMassage =
+                                                  HealingMatchConstants
+                                                      .userAddressDetailsList[
+                                                  index]
+                                                      .userPlaceForMassage;
+
+                                              print(
+                                                  'Selected Place and Address : $address\n$placeForMassage');
+                                            });
+                                          })),
+                                  style: TextStyle(color: Colors.black54),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                        ],
-                      ),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            AnimatedButton(
-                text: 'Ok',
-                pressEvent: () {
-                  _userDetailsFormKey.currentState.save();
-                  if (address != null && placeForMassage != null) {
-                    if (this.mounted) {
-                      setState(() {
-                        shopLocationSelected = false;
-                        userRegisteredAddress = address;
-                        userPlaceForMassage = placeForMassage;
-                      });
-                    }
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              AnimatedButton(
+                  text: 'Ok',
+                  pressEvent: () {
+                    _userDetailsFormKey.currentState.save();
+                    if (address != null && placeForMassage != null) {
+                      if (this.mounted) {
+                        setState(() {
+                          shopLocationSelected = false;
+                          userRegisteredAddress = address;
+                          userPlaceForMassage = placeForMassage;
+                        });
+                      }
 
-                    dialog.dissmiss();
-                  } else {
-                    Toast.show("有効な住所を選択してください。", context,
-                        duration: 3,
-                        gravity: Toast.CENTER,
-                        backgroundColor: Colors.redAccent,
-                        textColor: Colors.white);
-                    if (this.mounted) {
-                      setState(() {
-                        address = null;
-                        placeForMassage = null;
-                      });
-                    }
+                      dialog.dissmiss();
+                    } else {
+                      Toast.show("有効な住所を選択してください。", context,
+                          duration: 3,
+                          gravity: Toast.CENTER,
+                          backgroundColor: Colors.redAccent,
+                          textColor: Colors.white);
+                      if (this.mounted) {
+                        setState(() {
+                          address = null;
+                          placeForMassage = null;
+                        });
+                      }
 
-                    return;
-                  }
-                })
-          ],
+                      return;
+                    }
+                  })
+            ],
+          ),
         ),
+      )..show();
+    } else {
+      print('Entering else !!');
+      openNoAddressDialog(context);
+    }
+  }
+
+  void openNoAddressDialog(BuildContext context) {
+    ProgressDialogBuilder.hideLoader(context);
+    AwesomeDialog dialog;
+    dialog = AwesomeDialog(
+      dialogBackgroundColor: Colors.red[200],
+      context: context,
+      animType: AnimType.RIGHSLIDE,
+      dialogType: DialogType.WARNING,
+      keyboardAware: true,
+      width: MediaQuery.of(context).size.width,
+      dismissOnTouchOutside: true,
+      showCloseIcon: false,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            '住所の情報！',
+            style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NotoSansJP'),
+          ),
+          SizedBox(height: 10),
+          Text(
+            '住所の値が見つかりません。住所を追加してください。', //住所の情報！
+            style: TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'NotoSansJP'),
+          ),
+          SizedBox(height: 10),
+          AnimatedButton(
+              text: 'Ok',
+              pressEvent: () {
+                dialog.dissmiss();
+              })
+        ],
       ),
     )..show();
   }
@@ -4818,136 +5015,136 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
   Widget build(BuildContext context) {
     return userBannerImages != null && userBannerImages.isNotEmpty
         ? Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                child: Column(children: [
-                  CarouselSlider(
-                    items: <Widget>[
-                      for (int i = 0; i < userBannerImages.length; i++)
-                        Container(
-                          child: Container(
-                            margin: EdgeInsets.all(5.0),
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12.0)),
-                                child: Stack(
-                                  children: <Widget>[
-                                    CachedNetworkImage(
-                                        width: 2000.0,
-                                        fit: BoxFit.cover,
-                                        imageUrl: userBannerImages[i],
-                                        placeholder: (context, url) =>
-                                            SpinKitWave(
-                                                color: Colors.lightBlueAccent),
-                                        errorWidget: (context, url, error) {
-                                          return CachedNetworkImage(
-                                            width: 2000.0,
-                                            fit: BoxFit.cover,
-                                            imageUrl:
-                                                'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-                                            placeholder: (context, url) =>
-                                                SpinKitWave(
-                                                    color:
-                                                        Colors.lightBlueAccent),
-                                          );
-                                        }),
-                                  ],
-                                )),
-                          ),
-                        )
-                    ],
-                    options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayCurve: Curves.easeInOutCubic,
-                        enlargeCenterPage: false,
-                        viewportFraction: 1.02,
-                        aspectRatio: 2.0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        }),
-                  ),
-                ]),
-              ),
-              Positioned(
-                  bottom: 5.0,
-                  left: 50.0,
-                  right: 50.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: userBannerImages.map((url) {
-                      int index = userBannerImages.indexOf(url);
-                      return Expanded(
-                        child: Container(
-                          width: 45.0,
-                          height: 4.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          child: Column(children: [
+            CarouselSlider(
+              items: <Widget>[
+                for (int i = 0; i < userBannerImages.length; i++)
+                  Container(
+                    child: Container(
+                      margin: EdgeInsets.all(5.0),
+                      child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(12.0)),
+                          child: Stack(
+                            children: <Widget>[
+                              CachedNetworkImage(
+                                  width: 2000.0,
+                                  fit: BoxFit.cover,
+                                  imageUrl: userBannerImages[i],
+                                  placeholder: (context, url) =>
+                                      SpinKitWave(
+                                          color: Colors.lightBlueAccent),
+                                  errorWidget: (context, url, error) {
+                                    return CachedNetworkImage(
+                                      width: 2000.0,
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                      'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+                                      placeholder: (context, url) =>
+                                          SpinKitWave(
+                                              color:
+                                              Colors.lightBlueAccent),
+                                    );
+                                  }),
+                            ],
+                          )),
+                    ),
+                  )
+              ],
+              options: CarouselOptions(
+                  autoPlay: true,
+                  autoPlayCurve: Curves.easeInOutCubic,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1.02,
+                  aspectRatio: 2.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }),
+            ),
+          ]),
+        ),
+        Positioned(
+            bottom: 5.0,
+            left: 50.0,
+            right: 50.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: userBannerImages.map((url) {
+                int index = userBannerImages.indexOf(url);
+                return Expanded(
+                  child: Container(
+                    width: 45.0,
+                    height: 4.0,
+                    margin: EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                            color: _current == index
-                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                                : Color.fromRGBO(0, 0, 0, 0.4),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  )),
-            ],
-          )
+                      color: _current == index
+                          ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                          : Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  ),
+                );
+              }).toList(),
+            )),
+      ],
+    )
         : Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Column(children: [
-                  CarouselSlider(
-                    items: dummyImageSliders,
-                    options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayCurve: Curves.easeInOutCubic,
-                        enlargeCenterPage: false,
-                        viewportFraction: 1.02,
-                        aspectRatio: 2.0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-                          });
-                        }),
-                  ),
-                ]),
-              ),
-              Positioned(
-                  bottom: 5.0,
-                  left: 50.0,
-                  right: 50.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: dummyBannerImages.map((url) {
-                      int index = dummyBannerImages.indexOf(url);
-                      return Expanded(
-                        child: Container(
-                          width: 45.0,
-                          height: 4.0,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Column(children: [
+            CarouselSlider(
+              items: dummyImageSliders,
+              options: CarouselOptions(
+                  autoPlay: true,
+                  autoPlayCurve: Curves.easeInOutCubic,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1.02,
+                  aspectRatio: 2.0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  }),
+            ),
+          ]),
+        ),
+        Positioned(
+            bottom: 5.0,
+            left: 50.0,
+            right: 50.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: dummyBannerImages.map((url) {
+                int index = dummyBannerImages.indexOf(url);
+                return Expanded(
+                  child: Container(
+                    width: 45.0,
+                    height: 4.0,
+                    margin: EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
 // shape: BoxShape.circle,
-                            color: _current == index
-                                ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
-                                : Color.fromRGBO(0, 0, 0, 0.4),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  )),
-            ],
-          );
+                      color: _current == index
+                          ? Colors.white //Color.fromRGBO(0, 0, 0, 0.9)
+                          : Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  ),
+                );
+              }).toList(),
+            )),
+      ],
+    );
   }
 }
 
@@ -4973,17 +5170,17 @@ final List<Widget> imageSliders = HealingMatchConstants.userBannerImages
 
 final List<Widget> dummyImageSliders = dummyBannerImages
     .map((item) => Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(item, fit: BoxFit.cover, width: 2000.0),
-                  ],
-                )),
-          ),
-        ))
+  child: Container(
+    margin: EdgeInsets.all(5.0),
+    child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        child: Stack(
+          children: <Widget>[
+            Image.network(item, fit: BoxFit.cover, width: 2000.0),
+          ],
+        )),
+  ),
+))
     .toList();
 
 class DetailPageError extends StatefulWidget {

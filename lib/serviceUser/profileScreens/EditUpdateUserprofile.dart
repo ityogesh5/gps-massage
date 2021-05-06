@@ -1440,7 +1440,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                           new InputDecoration(
                                                               contentPadding:
                                                                   EdgeInsets.all(
-                                                                      11.0),
+                                                                      8.0),
                                                               filled: true,
                                                               fillColor:
                                                                   ColorConstants
@@ -1475,7 +1475,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                                                     Container(
                                                                         padding:
                                                                             EdgeInsets.all(
-                                                                                8.0),
+                                                                                5.0),
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           gradient: LinearGradient(
