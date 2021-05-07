@@ -6,12 +6,16 @@ import 'package:http/http.dart' as http;
 
 abstract class GetSearchResultsRepository {
   Future<List<SearchList>> getSearchResultsByType(int pageNumber, int pageSize);
+
+  Future<List<SearchList>> getSearchResultsBySortType(
+      int pageNumber, int pageSize, int searchType);
 }
 
 class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
   @override
   Future<List<SearchList>> getSearchResultsByType(
       int pageNumber, int pageSize) async {
+    List<SearchList> searchResults;
     try {
       final url =
           '${HealingMatchConstants.FETCH_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
@@ -35,10 +39,9 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
       print('statusCode : ${response.statusCode}');
       if (response.statusCode == 200) {
         var searchResultData = json.decode(response.body);
-        List<SearchList> searchResults =
-            SearchTherapistResultsModel.fromJson(searchResultData)
-                .data
-                .searchList;
+        searchResults = SearchTherapistResultsModel.fromJson(searchResultData)
+            .data
+            .searchList;
         print('Search Results list:  $searchResults');
         return searchResults;
       } else {
@@ -48,5 +51,39 @@ class GetSearchResultsRepositoryImpl implements GetSearchResultsRepository {
     } catch (e) {
       print('Exception Search Results : ${e.toString()}');
     }
+    return searchResults;
+  }
+
+  @override
+  Future<List<SearchList>> getSearchResultsBySortType(
+      int pageNumber, int pageSize, int searchType) async {
+    List<SearchList> searchResults;
+    try {
+      final url =
+          '${HealingMatchConstants.FETCH_SORTED_THERAPIST_SEARCH_RESULTS}?page=$pageNumber&size=$pageSize';
+      final response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": HealingMatchConstants.accessToken
+          },
+          body: json.encode({
+            "type": searchType,
+          }));
+      print('Search results Body : ${response.body}');
+      print('statusCode : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        var searchResultData = json.decode(response.body);
+        searchResults = SearchTherapistResultsModel.fromJson(searchResultData)
+            .data
+            .searchList;
+        print('Search Type Results list:  $searchResults');
+      } else {
+        print('Error occurred!!! Search type response');
+        throw Exception();
+      }
+    } catch (e) {
+      print('Search type exception : ${e.toString()}');
+    }
+    return searchResults;
   }
 }

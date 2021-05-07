@@ -26,13 +26,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       } catch (e) {
         yield SearchErrorState(message: e.toString());
       }
-    } else if (event is CallSearchEvent) {
+    } else if (event is CallSearchByTypeEvent) {
       yield SearchLoadingState();
       try {
         List<SearchList> getTherapistsSearchResults =
-        await getSearchResultsRepository.getSearchResultsByType(
-            event.pageNumber, event.pageSize);
-        yield SearchLoadedState(
+            await getSearchResultsRepository.getSearchResultsBySortType(
+                event.pageNumber, event.pageSize, event.searchType);
+        yield SearchSortByDataLoadedState(
             getTherapistsSearchResults: getTherapistsSearchResults);
       } catch (e) {
         yield SearchErrorState(message: e.toString());

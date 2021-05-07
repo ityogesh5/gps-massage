@@ -248,8 +248,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                   physics: ClampingScrollPhysics(),
                   itemCount: widget.getRecommendedTherapists.length + 1,
                   itemBuilder: (context, index) {
-                    if (index ==
-                        widget.getRecommendedTherapists.length) {
+                    if (index == widget.getRecommendedTherapists.length) {
                       return _buildProgressIndicator();
                     } else {
                       return Container(
@@ -259,7 +258,8 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                           InkWell(
                             splashColor: Colors.lime,
                             onTap: () {
-                              var userID = widget.getRecommendedTherapists[index].user.id;
+                              var userID = widget
+                                  .getRecommendedTherapists[index].user.id;
                               NavigationRouter
                                   .switchToServiceUserBookingDetailsCompletedScreenOne(
                                       context, userID);
@@ -278,13 +278,15 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                     Expanded(
                                       child: Column(
                                         children: [
-                                          widget.getRecommendedTherapists[
+                                          widget
+                                                      .getRecommendedTherapists[
                                                           index]
                                                       .user
                                                       .uploadProfileImgUrl !=
                                                   null
                                               ? CachedNetworkImage(
-                                                  imageUrl: widget.getRecommendedTherapists[
+                                                  imageUrl: widget
+                                                      .getRecommendedTherapists[
                                                           index]
                                                       .user
                                                       .uploadProfileImgUrl,
@@ -300,13 +302,11 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                     decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                          image:
-                                                              imageProvider,
+                                                          image: imageProvider,
                                                           fit: BoxFit.cover),
                                                     ),
                                                   ),
-                                                  placeholder: (context,
-                                                          url) =>
+                                                  placeholder: (context, url) =>
                                                       SpinKitDoubleBounce(
                                                           color: Colors
                                                               .lightGreenAccent),
@@ -320,8 +320,8 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                             border: Border.all(
                                                                 color: Colors
                                                                     .black12),
-                                                            shape: BoxShape
-                                                                .circle,
+                                                            shape:
+                                                                BoxShape.circle,
                                                             image: new DecorationImage(
                                                                 fit: BoxFit
                                                                     .cover,
@@ -332,11 +332,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                               : new Container(
                                                   width: 80.0,
                                                   height: 80.0,
-                                                  decoration:
-                                                      new BoxDecoration(
+                                                  decoration: new BoxDecoration(
                                                     border: Border.all(
-                                                        color:
-                                                            Colors.black12),
+                                                        color: Colors.black12),
                                                     shape: BoxShape.circle,
                                                     image: new DecorationImage(
                                                         fit: BoxFit.cover,
@@ -344,7 +342,8 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                             'assets/images_gps/placeholder_image.png')),
                                                   )),
                                           SizedBox(height: 5),
-                                          distanceRadius != null && distanceRadius != 0
+                                          distanceRadius != null &&
+                                                  distanceRadius != 0
                                               ? FittedBox(
                                                   child: Text(
                                                     '${distanceRadius[index]}ｋｍ圏内',
@@ -375,25 +374,26 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                         children: [
                                           Row(
                                             children: [
-                                              widget.getRecommendedTherapists[
-                                                              index]
-                                                          .name !=
+                                              widget.getRecommendedTherapists[index]
+                                                          .user.storeName !=
                                                       null
                                                   ? Expanded(
                                                       child: Row(
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              '${widget.getRecommendedTherapists[index].name}',
-                                                              maxLines: widget.getRecommendedTherapists[index]
-                                                                          .name
+                                                              '${widget.getRecommendedTherapists[index].user.storeName}',
+                                                              maxLines: widget
+                                                                          .getRecommendedTherapists[
+                                                                              index]
+                                                                          .user
+                                                                          .storeName
                                                                           .length >
                                                                       15
                                                                   ? 2
                                                                   : 1,
                                                               style: TextStyle(
-                                                                  fontSize:
-                                                                      14,
+                                                                  fontSize: 14,
                                                                   color: Colors
                                                                       .black,
                                                                   fontWeight:
@@ -410,7 +410,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                           Flexible(
                                                             child: Text(
                                                               '${widget.getRecommendedTherapists[index].user.userName}',
-                                                              maxLines: widget.getRecommendedTherapists[index]
+                                                              maxLines: widget
+                                                                          .getRecommendedTherapists[
+                                                                              index]
                                                                           .user
                                                                           .userName
                                                                           .length >
@@ -418,8 +420,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                                   ? 2
                                                                   : 1,
                                                               style: TextStyle(
-                                                                  fontSize:
-                                                                      14,
+                                                                  fontSize: 14,
                                                                   color: Colors
                                                                       .black,
                                                                   fontWeight:
@@ -445,19 +446,22 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                widget.getRecommendedTherapists[
+                                                widget
+                                                            .getRecommendedTherapists[
                                                                 index]
                                                             .user
                                                             .businessForm
                                                             .contains(
                                                                 '施術店舗あり 施術従業員あり') ||
-                                                    widget.getRecommendedTherapists[
+                                                        widget
+                                                            .getRecommendedTherapists[
                                                                 index]
                                                             .user
                                                             .businessForm
                                                             .contains(
                                                                 '施術店舗あり 施術従業員なし（個人経営）') ||
-                                                    widget.getRecommendedTherapists[
+                                                        widget
+                                                            .getRecommendedTherapists[
                                                                 index]
                                                             .user
                                                             .businessForm
@@ -467,19 +471,18 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                         visible: true,
                                                         child: Container(
                                                             padding:
-                                                                EdgeInsets
-                                                                    .all(4),
-                                                            color:
-                                                                Colors.white,
-                                                            child:
-                                                                Text('店舗')),
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            color: Colors.white,
+                                                            child: Text('店舗')),
                                                       )
                                                     : Container(),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
                                                 Visibility(
-                                                  visible: widget.getRecommendedTherapists[
+                                                  visible: widget
+                                                      .getRecommendedTherapists[
                                                           index]
                                                       .user
                                                       .businessTrip,
@@ -493,7 +496,8 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                   width: 5,
                                                 ),
                                                 Visibility(
-                                                  visible: widget.getRecommendedTherapists[
+                                                  visible: widget
+                                                      .getRecommendedTherapists[
                                                           index]
                                                       .user
                                                       .coronaMeasure,
@@ -501,8 +505,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                       padding:
                                                           EdgeInsets.all(4),
                                                       color: Colors.white,
-                                                      child:
-                                                          Text('コロナ対策実施有無')),
+                                                      child: Text('コロナ対策実施有無')),
                                                 ),
                                               ],
                                             ),
@@ -512,8 +515,7 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                           ),
                                           Row(
                                             children: [
-                                              widget.getRecommendedTherapists[
-                                                              index]
+                                              widget.getRecommendedTherapists[index]
                                                           .reviewAvgData !=
                                                       null
                                                   ? Text(
@@ -542,14 +544,14 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                                 .underline,
                                                       ),
                                                     ),
-                                              widget.getRecommendedTherapists[
-                                                              index]
+                                              widget.getRecommendedTherapists[index]
                                                           .reviewAvgData !=
                                                       null
                                                   ? RatingBar.builder(
                                                       ignoreGestures: true,
-                                                      initialRating: double.parse(
-                                                          widget.getRecommendedTherapists[
+                                                      initialRating:
+                                                          double.parse(widget
+                                                              .getRecommendedTherapists[
                                                                   index]
                                                               .reviewAvgData),
                                                       minRating: 1,
@@ -558,13 +560,11 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                       allowHalfRating: true,
                                                       itemCount: 5,
                                                       itemSize: 22,
-                                                      itemPadding: EdgeInsets
-                                                          .symmetric(
-                                                              horizontal:
-                                                                  4.0),
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4.0),
                                                       itemBuilder:
-                                                          (context, _) =>
-                                                              Icon(
+                                                          (context, _) => Icon(
                                                         Icons.star,
                                                         size: 5,
                                                         color: Color.fromRGBO(
@@ -582,13 +582,11 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                       allowHalfRating: true,
                                                       itemCount: 5,
                                                       itemSize: 22,
-                                                      itemPadding: EdgeInsets
-                                                          .symmetric(
-                                                              horizontal:
-                                                                  4.0),
+                                                      itemPadding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 4.0),
                                                       itemBuilder:
-                                                          (context, _) =>
-                                                              Icon(
+                                                          (context, _) => Icon(
                                                         Icons.star,
                                                         size: 5,
                                                         color: Color.fromRGBO(
@@ -597,14 +595,34 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                       onRatingUpdate:
                                                           (rating) {},
                                                     ),
-                                              Text(
-                                                '(1518)',
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        153, 153, 153, 1),
-                                                    fontFamily: ColorConstants
-                                                        .fontFamily),
-                                              ),
+                                              widget
+                                                              .getRecommendedTherapists[
+                                                                  index]
+                                                              .noOfReviewsMembers !=
+                                                          null &&
+                                                      widget
+                                                              .getRecommendedTherapists[
+                                                                  index]
+                                                              .noOfReviewsMembers !=
+                                                          0
+                                                  ? Text(
+                                                      '(${widget.getRecommendedTherapists[index].noOfReviewsMembers})',
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                          fontFamily:
+                                                              ColorConstants
+                                                                  .fontFamily),
+                                                    )
+                                                  : Text(
+                                                      '(0)',
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              153, 153, 153, 1),
+                                                          fontFamily:
+                                                              ColorConstants
+                                                                  .fontFamily),
+                                                    ),
                                             ],
                                           ),
                                           SizedBox(
@@ -613,22 +631,20 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                           certificateImages.length != 0
                                               ? Container(
                                                   height: 38.0,
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width -
-                                                          130.0, //200.0,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      130.0, //200.0,
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      var userID =
-                                                          widget.getRecommendedTherapists[
-                                                                  index]
-                                                              .user
-                                                              .id;
+                                                      var userID = widget
+                                                          .getRecommendedTherapists[
+                                                              index]
+                                                          .user
+                                                          .id;
                                                       NavigationRouter
                                                           .switchToServiceUserBookingDetailsCompletedScreenOne(
-                                                              context,
-                                                              userID);
+                                                              context, userID);
                                                     },
                                                     child: ListView.builder(
                                                         shrinkWrap: true,
@@ -648,9 +664,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                             Wrap(
                                                               children: [
                                                                 Padding(
-                                                                  padding: index ==
-                                                                          0
-                                                                      ? const EdgeInsets.only(
+                                                                  padding: index == 0
+                                                                      ? const EdgeInsets
+                                                                              .only(
                                                                           left:
                                                                               0.0,
                                                                           top:
@@ -659,25 +675,25 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                                               4.0,
                                                                           bottom:
                                                                               4.0)
-                                                                      : const EdgeInsets.all(
+                                                                      : const EdgeInsets
+                                                                              .all(
                                                                           4.0),
                                                                   child:
                                                                       Container(
                                                                     padding:
-                                                                        EdgeInsets.all(
-                                                                            5),
+                                                                        EdgeInsets
+                                                                            .all(5),
                                                                     decoration:
                                                                         boxDecoration,
-                                                                    child:
-                                                                        Text(
+                                                                    child: Text(
                                                                       key,
                                                                       //Qualififcation
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:
                                                                             14,
-                                                                        color:
-                                                                            Colors.black,
+                                                                        color: Colors
+                                                                            .black,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -689,11 +705,11 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                   ),
                                                 )
                                               : Container(),
-                                          widget.getRecommendedTherapists[
-                                                              index]
+                                          widget.getRecommendedTherapists[index]
                                                           .lowestPrice !=
                                                       null &&
-                                              widget.getRecommendedTherapists[
+                                                  widget
+                                                          .getRecommendedTherapists[
                                                               index]
                                                           .lowestPrice !=
                                                       0
@@ -710,10 +726,9 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
                                                       '/${widget.getRecommendedTherapists[index].priceForMinute}',
                                                       style: TextStyle(
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .normal,
-                                                          color: Colors
-                                                              .grey[400],
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Colors.grey[400],
                                                           fontSize: 14),
                                                     )
                                                   ],
@@ -822,78 +837,82 @@ class _RecommendTherapistsState extends State<RecommendTherapists> {
 
   getCertificateValues(
       List<RecommendTherapistList> getRecommendedTherapists) async {
-    if (this.mounted) {
-      setState(() {
-        if (widget.getRecommendedTherapists != null &&
-            widget.getRecommendedTherapists.isNotEmpty) {
-          for (int i = 0; i < widget.getRecommendedTherapists.length; i++) {
-            if (widget.getRecommendedTherapists[i].user.storeType !=
-                    null &&
-                widget.getRecommendedTherapists[i].user.storeType !=
-                    '') {
-              var split = widget.getRecommendedTherapists[i].user.storeType
-                  .split(',');
-              final jsonList = split.map((item) => jsonEncode(item)).toList();
-              final uniqueJsonList = jsonList.toSet().toList();
-              final result =
-                  uniqueJsonList.map((item) => jsonDecode(item)).toList();
-              print('Map Duplicate type : $result');
-              storeTypeValues = {
-                for (int i = 0; i < result.length; i++) i: result[i]
-              };
-              print('Store type map values type : $storeTypeValues');
-            }
-            certificateUpload = widget.getRecommendedTherapists[i].user.certificationUploads;
-            for (int j = 0; j < certificateUpload.length; j++) {
-              print(
-                  'Certificate upload type : ${certificateUpload[j].toJson()}');
-              certificateUploadKeys = certificateUpload[j].toJson();
-              certificateUploadKeys.remove('id');
-              certificateUploadKeys.remove('userId');
-              certificateUploadKeys.remove('createdAt');
-              certificateUploadKeys.remove('updatedAt');
-              print('Keys certificate type : $certificateUploadKeys');
-            }
-
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWordsForType(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
-                }
+    try {
+      if (this.mounted) {
+        setState(() {
+          if (widget.getRecommendedTherapists != null &&
+              widget.getRecommendedTherapists.isNotEmpty) {
+            for (int i = 0; i < widget.getRecommendedTherapists.length; i++) {
+              if (widget.getRecommendedTherapists[i].user.storeType != null &&
+                  widget.getRecommendedTherapists[i].user.storeType != '') {
+                var split = widget.getRecommendedTherapists[i].user.storeType
+                    .split(',');
+                final jsonList = split.map((item) => jsonEncode(item)).toList();
+                final uniqueJsonList = jsonList.toSet().toList();
+                final result =
+                    uniqueJsonList.map((item) => jsonDecode(item)).toList();
+                print('Map Duplicate type : $result');
+                storeTypeValues = {
+                  for (int i = 0; i < result.length; i++) i: result[i]
+                };
+                print('Store type map values type : $storeTypeValues');
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
-            }
-            print('certificateImages data type : $certificateImages');
+              certificateUpload =
+                  widget.getRecommendedTherapists[i].user.certificationUploads;
+              for (int j = 0; j < certificateUpload.length; j++) {
+                print(
+                    'Certificate upload type : ${certificateUpload[j].toJson()}');
+                certificateUploadKeys = certificateUpload[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate type : $certificateUploadKeys');
+              }
 
-            for (int k = 0;
-                k <
-                    widget.getRecommendedTherapists[i].user.addresses.length;
-                k++) {
-              recommendedTherapistAddress.add(widget.getRecommendedTherapists[i].user.addresses[k].distance
-                  .truncateToDouble());
-              distanceRadius = recommendedTherapistAddress;
-              print(
-                  'Recommned Position values : ${distanceRadius[0]} && ${recommendedTherapistAddress.length}');
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWordsForType(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data type : $certificateImages');
+
+              for (int k = 0;
+                  k < widget.getRecommendedTherapists[i].user.addresses.length;
+                  k++) {
+                recommendedTherapistAddress.add(widget
+                    .getRecommendedTherapists[i].user.addresses[k].distance
+                    .truncateToDouble()
+                    .toStringAsFixed(2));
+                distanceRadius = recommendedTherapistAddress;
+                print(
+                    'Recommned Position values : ${distanceRadius[0]} && ${recommendedTherapistAddress.length}');
+              }
             }
+          } else {
+            print('List is empty');
           }
-        } else {
-          print('List is empty');
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception :${e.toString()}');
     }
   }
 

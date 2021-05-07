@@ -108,7 +108,8 @@ dependencies:
 
 
 
-#  flutter_line_login: ^0.2.0
+#  flutter_line_login: any
+
 
 
 dev_dependencies:

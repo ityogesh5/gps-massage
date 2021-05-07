@@ -141,6 +141,10 @@ class HealingMatchConstants {
   static const String FETCH_THERAPIST_SEARCH_RESULTS =
       ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
 
+  // fetch therapist results
+  static const String FETCH_SORTED_THERAPIST_SEARCH_RESULTS =
+      ON_PREMISE_USER_BASE_URL + '/search/searchServiceUser';
+
   //Common string
   static bool isInternetAvailable = false;
   static String registerProgressText = '登録中...';
@@ -397,9 +401,15 @@ class HealingMatchConstants {
   //User Token
   static String uAccessToken = '';
 
-  // LINE Login Channel ID
+  // LINE Login Channel ID && Credentials
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
+
+  static String lineUserID ;
+  static String lineAccessToken ;
+  static String lineUsername ;
+  static String lineUserProfileURL ;
+  static String lineUserProfileDetails ;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;

@@ -8,6 +8,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/InternetConnectivityHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
@@ -73,7 +74,7 @@ class _InitialSearchResultsScreenState
 
   initSearchBlocCall() {
     BlocProvider.of<SearchBloc>(context)
-        .add(CallSearchEvent(_pageNumber, _pageSize));
+        .add(FetchSearchResultsEvent(_pageNumber, _pageSize));
   }
 
   checkInternet() {
@@ -164,81 +165,89 @@ class _SearchResultState extends State<SearchResult> {
   }
 
   getSearchResults(List<SearchList> getTherapistsSearchResults) async {
-    if (this.mounted) {
-      setState(() {
-        formKeyList = List.generate(widget.getTherapistsSearchResults.length,
-            (index) => GlobalObjectKey<FormState>(index));
-        for (int i = 0; i < getTherapistsSearchResults.length; i++) {
-          if (getTherapistsSearchResults[i].user.certificationUploads != null) {
-            certificateUpload =
-                getTherapistsSearchResults[i].user.certificationUploads;
+    try {
+      if (this.mounted) {
+        setState(() {
+          formKeyList = List.generate(widget.getTherapistsSearchResults.length,
+              (index) => GlobalObjectKey<FormState>(index));
+          for (int i = 0; i < getTherapistsSearchResults.length; i++) {
+            if (getTherapistsSearchResults[i].user.certificationUploads !=
+                null) {
+              certificateUpload =
+                  getTherapistsSearchResults[i].user.certificationUploads;
 
-            for (int j = 0; j < certificateUpload.length; j++) {
-              print('Certificate upload : ${certificateUpload[j].toJson()}');
-              certificateUploadKeys = certificateUpload[j].toJson();
-              certificateUploadKeys.remove('id');
-              certificateUploadKeys.remove('userId');
-              certificateUploadKeys.remove('createdAt');
-              certificateUploadKeys.remove('updatedAt');
-              print('Keys certificate : $certificateUploadKeys');
-            }
-
-            certificateUploadKeys.forEach((key, value) async {
-              if (certificateUploadKeys[key] != null) {
-                String jKey = getQualificationJPWords(key);
-                if (jKey == "はり師" ||
-                    jKey == "きゅう師" ||
-                    jKey == "鍼灸師" ||
-                    jKey == "あん摩マッサージ指圧師" ||
-                    jKey == "柔道整復師" ||
-                    jKey == "理学療法士") {
-                  certificateImages["国家資格保有"] = "国家資格保有";
-                } else if (jKey == "国家資格取得予定（学生）") {
-                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-                } else if (jKey == "民間資格") {
-                  certificateImages["民間資格"] = "民間資格";
-                } else if (jKey == "無資格") {
-                  certificateImages["無資格"] = "無資格";
-                }
+              for (int j = 0; j < certificateUpload.length; j++) {
+                print('Certificate upload : ${certificateUpload[j].toJson()}');
+                certificateUploadKeys = certificateUpload[j].toJson();
+                certificateUploadKeys.remove('id');
+                certificateUploadKeys.remove('userId');
+                certificateUploadKeys.remove('createdAt');
+                certificateUploadKeys.remove('updatedAt');
+                print('Keys certificate : $certificateUploadKeys');
               }
-            });
-            if (certificateImages.length == 0) {
-              certificateImages["無資格"] = "無資格";
-            }
-            print('certificateImages data : $certificateImages');
-          }
-          for (int k = 0;
-              k < getTherapistsSearchResults[i].user.addresses.length;
-              k++) {
-            if (getTherapistsSearchResults[i].user.addresses != null) {
-              therapistAddress
-                  .add(getTherapistsSearchResults[i].user.addresses[k].address);
-              distanceOfTherapist.add(
-                  getTherapistsSearchResults[i].user.addresses[k].distance);
 
-              addressOfTherapists = therapistAddress;
-              distanceRadius = distanceOfTherapist;
-              print(
-                  'Position values : ${addressOfTherapists[0]} && ${therapistAddress.length}');
+              certificateUploadKeys.forEach((key, value) async {
+                if (certificateUploadKeys[key] != null) {
+                  String jKey = getQualificationJPWords(key);
+                  if (jKey == "はり師" ||
+                      jKey == "きゅう師" ||
+                      jKey == "鍼灸師" ||
+                      jKey == "あん摩マッサージ指圧師" ||
+                      jKey == "柔道整復師" ||
+                      jKey == "理学療法士") {
+                    certificateImages["国家資格保有"] = "国家資格保有";
+                  } else if (jKey == "国家資格取得予定（学生）") {
+                    certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                  } else if (jKey == "民間資格") {
+                    certificateImages["民間資格"] = "民間資格";
+                  } else if (jKey == "無資格") {
+                    certificateImages["無資格"] = "無資格";
+                  }
+                }
+              });
+              if (certificateImages.length == 0) {
+                certificateImages["無資格"] = "無資格";
+              }
+              print('certificateImages data : $certificateImages');
+            }
+            for (int k = 0;
+                k < getTherapistsSearchResults[i].user.addresses.length;
+                k++) {
+              if (getTherapistsSearchResults[i].user.addresses != null) {
+                therapistAddress.add(
+                    getTherapistsSearchResults[i].user.addresses[k].address);
+                distanceOfTherapist.add(getTherapistsSearchResults[i]
+                    .user
+                    .addresses[k]
+                    .distance
+                    .toStringAsFixed(2));
+
+                addressOfTherapists = therapistAddress;
+                distanceRadius = distanceOfTherapist;
+                print(
+                    'Position values : ${addressOfTherapists[0]} && ${therapistAddress.length}');
+              }
+            }
+            if (getTherapistsSearchResults[i].user.childrenMeasure != null &&
+                getTherapistsSearchResults[i].user.childrenMeasure.isNotEmpty) {
+              var childMeasureData =
+                  getTherapistsSearchResults[i].user.childrenMeasure.split(',');
+              final childrenMeasuresList =
+                  childMeasureData.map((item) => jsonEncode(item)).toList();
+              final uniquechildrenMeasuresList =
+                  childrenMeasuresList.toSet().toList();
+              childrenMeasures = uniquechildrenMeasuresList
+                  .map((item) => jsonDecode(item))
+                  .toList();
+              print('Children mEASURES values : $childrenMeasures');
+            } else {
+              print('Children measures is empty !!');
             }
           }
-          if (getTherapistsSearchResults[i].user.childrenMeasure != null &&
-              getTherapistsSearchResults[i].user.childrenMeasure.isNotEmpty) {
-            var childMeasureData =
-                getTherapistsSearchResults[i].user.childrenMeasure.split(',');
-            final childrenMeasuresList =
-                childMeasureData.map((item) => jsonEncode(item)).toList();
-            final uniquechildrenMeasuresList =
-                childrenMeasuresList.toSet().toList();
-            childrenMeasures = uniquechildrenMeasuresList
-                .map((item) => jsonDecode(item))
-                .toList();
-            print('Children mEASURES values : $childrenMeasures');
-          } else {
-            print('Children measures is empty !!');
-          }
-        }
-      });
+        });
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 
@@ -379,8 +388,6 @@ class _SearchResultState extends State<SearchResult> {
                                                       index]
                                                   .user
                                                   .id);
-                                      print(
-                                          'userId:  ${widget.getTherapistsSearchResults[index].user.id}');
                                     },
                                     child: Container(
                                       // height: MediaQuery.of(context).size.height * 0.22,
@@ -499,11 +506,14 @@ class _SearchResultState extends State<SearchResult> {
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            widget.getTherapistsSearchResults[index]
-                                                                        .name !=
+                                                            widget
+                                                                        .getTherapistsSearchResults[
+                                                                            index]
+                                                                        .user
+                                                                        .storeName !=
                                                                     null
                                                                 ? Text(
-                                                                    '${widget.getTherapistsSearchResults[index].name}',
+                                                                    '${widget.getTherapistsSearchResults[index].user.storeName}',
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             14,
@@ -952,7 +962,33 @@ class _SearchResultState extends State<SearchResult> {
                                                                     onRatingUpdate:
                                                                         (rating) {},
                                                                   ),
-                                                            Text('(1518)'),
+                                                            widget.getTherapistsSearchResults[index].noOfReviewsMembers !=
+                                                                        null &&
+                                                                    widget.getTherapistsSearchResults[index]
+                                                                            .noOfReviewsMembers !=
+                                                                        0
+                                                                ? Text(
+                                                                    '(${widget.getTherapistsSearchResults[index].noOfReviewsMembers})',
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            153,
+                                                                            153,
+                                                                            153,
+                                                                            1),
+                                                                        fontFamily:
+                                                                            ColorConstants.fontFamily),
+                                                                  )
+                                                                : Text(
+                                                                    '(0)',
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            153,
+                                                                            153,
+                                                                            153,
+                                                                            1),
+                                                                        fontFamily:
+                                                                            ColorConstants.fontFamily),
+                                                                  ),
                                                           ],
                                                         ),
                                                         SizedBox(
@@ -1293,8 +1329,12 @@ class _SearchResultChipsState extends State<SearchResultChips> {
               }
             }
           });
+          // Sort data BLOC FetchSearchResultsEvent by Type
+          /*BlocProvider.of<SearchBloc>(context)
+              .add(CallSearchByTypeEvent(_pageNumber, _pageSize,HealingMatchConstants.searchServiceType));*/
+
           BlocProvider.of<SearchBloc>(context)
-              .add(CallSearchEvent(_pageNumber, _pageSize));
+              .add(FetchSearchResultsEvent(_pageNumber, _pageSize));
           print('Access token : ${HealingMatchConstants.accessToken}');
           print(
               'Search Type value : ${HealingMatchConstants.searchServiceType}');

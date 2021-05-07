@@ -53,6 +53,7 @@ class Data {
 
 class SearchList {
   String ratingAvg;
+  dynamic noOfReviewsMembers;
   String leastPriceMin;
   int id;
   int userId;
@@ -69,6 +70,7 @@ class SearchList {
 
   SearchList(
       {this.ratingAvg,
+        this.noOfReviewsMembers,
         this.leastPriceMin,
         this.id,
         this.userId,
@@ -85,6 +87,7 @@ class SearchList {
 
   SearchList.fromJson(Map<String, dynamic> json) {
     ratingAvg = json['ratingAvg'];
+    noOfReviewsMembers = json['NoOfReviewsMembers'];
     leastPriceMin = json['leastPriceMin'];
     id = json['id'];
     userId = json['userId'];
@@ -103,6 +106,7 @@ class SearchList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ratingAvg'] = this.ratingAvg;
+    data['NoOfReviewsMembers'] = this.noOfReviewsMembers;
     data['leastPriceMin'] = this.leastPriceMin;
     data['id'] = this.id;
     data['userId'] = this.userId;
@@ -127,6 +131,7 @@ class User {
   String userName;
   dynamic uploadProfileImgUrl;
   String businessForm;
+  String storeName;
   String storeType;
   int coronameasure;
   int businesstrip;
@@ -141,6 +146,7 @@ class User {
         this.userName,
         this.uploadProfileImgUrl,
         this.businessForm,
+        this.storeName,
         this.storeType,
         this.coronameasure,
         this.businesstrip,
@@ -155,6 +161,7 @@ class User {
     userName = json['userName'];
     uploadProfileImgUrl = json['uploadProfileImgUrl'];
     businessForm = json['businessForm'];
+    storeName = json['storeName'];
     storeType = json['storeType'];
     coronameasure = json['coronameasure'];
     businesstrip = json['businesstrip '];
@@ -181,6 +188,7 @@ class User {
     data['userName'] = this.userName;
     data['uploadProfileImgUrl'] = this.uploadProfileImgUrl;
     data['businessForm'] = this.businessForm;
+    data['storeName'] = this.storeName;
     data['storeType'] = this.storeType;
     data['coronameasure'] = this.coronameasure;
     data['businesstrip '] = this.businesstrip;
@@ -204,7 +212,7 @@ class Addresses {
   double lon;
   Geomet geomet;
   String address;
-  dynamic distance;
+  double distance;
 
   Addresses({this.id, this.lat, this.lon, this.geomet, this.address,this.distance});
 
