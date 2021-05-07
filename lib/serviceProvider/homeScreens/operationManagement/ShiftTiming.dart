@@ -8,6 +8,8 @@ import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.d
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
+import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
+import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 
 class ShiftTiming extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class ShiftTiming extends StatefulWidget {
 
 class _ShiftTimingState extends State<ShiftTiming> {
   bool readonly = false;
-  var yearString, monthString, dateString;
+  var yearString, monthString;
   int _cyear;
   int _cmonth;
   int _currentDay;
@@ -26,12 +28,13 @@ class _ShiftTimingState extends State<ShiftTiming> {
   int daysToDisplay;
   int startTime;
   int endTime;
-  List<String> time = List<String>();
-  Map<String, DateTime> schedule = Map<String, DateTime>();
-  int min;
+  Map<DateTime, List<int>> events = Map<DateTime, List<int>>();
+  List<DateTime> timeRow = List<DateTime>();
+  List<FlutterWeekViewEvent> calendarEvents = List<FlutterWeekViewEvent>();
+  List<String> eventID = List<String>();
+  Map<DateTime, String> scheduleEventId = Map<DateTime, String>();
   bool status = false;
   GlobalKey key = new GlobalKey();
-  OverlayEntry _overlayEntry;
   Size buttonSize;
   Offset buttonPosition;
 
@@ -40,8 +43,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
     super.initState();
     startTime = 9;
     endTime = 20;
-    min = 0;
-    dateString = '';
     displayDay = today;
     _cyear = DateTime.now().year;
     _cmonth = DateTime.now().month;
@@ -50,8 +51,8 @@ class _ShiftTimingState extends State<ShiftTiming> {
     yearString = _cyear.toString();
     monthString = _cmonth.toString();
     daysToDisplay = totalDays(_cmonth, _cyear);
-    time.add(startTime.toString() + ": " + "00");
-    getTime();
+    timeBuilder(_cyear, _cmonth);
+    getEvents();
   }
 
   findButton(GlobalKey key) {
@@ -60,24 +61,40 @@ class _ShiftTimingState extends State<ShiftTiming> {
     buttonPosition = renderBox.localToGlobal(Offset.zero);
   }
 
-  getTime() {
-    for (int i = 0; i < 60; i++) {
-      /*  int y = int.tryParse(startTime.toStringAsFixed(2).split('.')[1]);
-      if (y == 45) {
-        startTime = startTime + 0.55;
-      } else {
-        startTime = startTime + 0.15;
-      }
- */
-
-      if (min == 45) {
-        min = 0;
-        startTime = startTime + 1;
-      } else {
-        min = min + 15;
-      }
-      time.add(startTime.toString() + ": " + min.toString());
+  timeBuilder(int year, int month) {
+    DateTime start =
+        DateTime(year, month, 1, 9, 0); //1st day is mentioned as dummy
+    if (timeRow != null) {
+      timeRow.clear();
     }
+    while (start.hour != endTime) {
+      timeRow.add(start);
+      start = start.add(Duration(minutes: 15));
+    }
+    //  print(timeRow);
+  }
+
+  getEvents() {
+    calendarEvents.addAll(HealingMatchConstants.events);
+    for (var event in calendarEvents) {
+      DateTime start = DateTime(event.start.year, event.start.month, 1,
+          event.start.hour, event.start.minute);
+      DateTime end = DateTime(event.start.year, event.start.month, 1,
+          event.end.hour, event.end.minute);
+
+      while (start.compareTo(end) < 0) {
+        if (events[start] == null) {
+          events[start] = [event.start.day - 1];
+        } else if (!(events[start].contains([event.start.day - 1]))) {
+          events[start].addAll([event.start.day - 1]);
+        }
+        scheduleEventId[DateTime(start.year, start.month, event.start.day - 1,
+            start.hour, start.minute, start.second)] = event.events.id;
+        start = start.add(Duration(minutes: 15));
+      }
+    }
+
+    print("h");
   }
 
   @override
@@ -127,6 +144,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               displayDay =
                                   DateTime(_cyear, _cmonth, _currentDay);
                               daysToDisplay = totalDays(_cmonth, _cyear);
+                              timeBuilder(_cyear, _cmonth);
                             });
                           },
                           value: yearString,
@@ -139,6 +157,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   DateTime(_cyear, _cmonth, _currentDay);
 
                               daysToDisplay = totalDays(_cmonth, _cyear);
+                              timeBuilder(_cyear, _cmonth);
                             });
                           },
                           dataSource: [
@@ -180,6 +199,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   DateTime(_cyear, _cmonth, _currentDay);
                               daysToDisplay = totalDays(_cmonth, _cyear);
                               _currentDay = 1;
+                              timeBuilder(_cyear, _cmonth);
                             });
                           },
                           value: monthString,
@@ -190,6 +210,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             setState(() {
                               daysToDisplay = totalDays(_cmonth, _cyear);
                               _currentDay = 1;
+                              timeBuilder(_cyear, _cmonth);
                             });
                           },
                           dataSource: [
@@ -270,7 +291,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                     Flexible(
                       fit: FlexFit.loose,
                       child: LazyDataTable(
-                        rows: 45,
+                        rows: timeRow.length,
                         columns: daysToDisplay,
                         tableTheme: LazyDataTableTheme(
                           columnHeaderColor: Color.fromRGBO(247, 247, 247, 1),
@@ -312,7 +333,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         rowHeaderBuilder: (i) {
                           return Center(
                             child: Text(
-                              "${time[i]}",
+                              timeRow[i].minute == 0
+                                  ? "${timeRow[i].hour}: 00"
+                                  : "${timeRow[i].hour}: ${timeRow[i].minute}",
                               style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold,
@@ -322,35 +345,51 @@ class _ShiftTimingState extends State<ShiftTiming> {
                           );
                         },
                         dataCellBuilder: (i, j) {
-                          if ((schedule.containsKey(time[i])) &&
-                              schedule[time[i]] ==
-                                  DateTime(_cyear, _cmonth, j)) {
+                          if (events.containsKey(timeRow[i]) &&
+                              events[timeRow[i]].contains(j)) {
                             return InkWell(
                                 onTap: () {
+                                  var eventId = scheduleEventId[DateTime(
+                                      timeRow[i].year,
+                                      timeRow[i].month,
+                                      j + 1,
+                                      timeRow[i].hour,
+                                      timeRow[i].minute,
+                                      timeRow[i].second)];
                                   setState(() {
-                                    schedule.remove(time[i]);
+                                    if (events[timeRow[i]].length == 1) {
+                                      events.remove(timeRow[i]);
+                                    } else {
+                                      events[timeRow[i]].remove(j);
+                                    }
                                   });
+                                  if (eventId != null) {
+                                    ServiceProviderApi.removeEvent(eventId);
+                                  }
                                 },
                                 child: Center(
                                     child: SvgPicture.asset(
                                   "assets/images_gps/X.svg",
                                   height: 20.0,
                                   width: 20.0,
-                                ) /* Text(
-                                  "X",
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'NotoSansJP',
-                                    color: Color.fromRGBO(193, 193, 193, 1),
-                                  ),
-                                ) */
-                                    ));
+                                )));
                           } else {
                             return InkWell(
                               onTap: () {
                                 setState(() {
-                                  schedule[time[i]] =
-                                      DateTime(_cyear, _cmonth, j);
+                                  if (events[timeRow[i]] == null) {
+                                    events[timeRow[i]] = [j];
+                                  } else {
+                                    events[timeRow[i]].addAll([j]);
+                                  }
+
+                                  ServiceProviderApi.createEvent(DateTime(
+                                      timeRow[i].year,
+                                      timeRow[i].month,
+                                      j + 1,
+                                      timeRow[i].hour,
+                                      timeRow[i].minute,
+                                      timeRow[i].second));
                                 });
                               },
                               child: Center(
@@ -358,12 +397,7 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                 "assets/images_gps/O.svg",
                                 height: 20.0,
                                 width: 20.0,
-                              ) /* Text(
-                                  "O",
-                                  style: TextStyle(
-                                      fontSize: 20.0, fontFamily: 'NotoSansJP'),
-                                ), */
-                                  ),
+                              )),
                             );
                           }
                         },
