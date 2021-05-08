@@ -27,7 +27,7 @@ class TherapistByIdModel {
   List<TherapistList> therapistEstheticList;
   List<TherapistList> therapistFitnessListList;
   List<TherapistList> therapistOrteopathicList;
-  List<dynamic> therapistRelaxationList;
+  List<TherapistList> therapistRelaxationList;
 
   factory TherapistByIdModel.fromJson(Map<String, dynamic> json) =>
       TherapistByIdModel(
@@ -43,8 +43,9 @@ class TherapistByIdModel {
         therapistOrteopathicList: List<TherapistList>.from(
             json["therapistOrteopathicList"]
                 .map((x) => TherapistList.fromJson(x))),
-        therapistRelaxationList:
-            List<dynamic>.from(json["therapistRelaxationList"].map((x) => x)),
+        therapistRelaxationList: List<TherapistList>.from(
+            json["therapistRelaxationList"]
+                .map((x) => TherapistList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,7 +59,7 @@ class TherapistByIdModel {
         "therapistOrteopathicList":
             List<dynamic>.from(therapistOrteopathicList.map((x) => x.toJson())),
         "therapistRelaxationList":
-            List<dynamic>.from(therapistRelaxationList.map((x) => x)),
+            List<dynamic>.from(therapistRelaxationList.map((x) => x.toJson())),
       };
 }
 
