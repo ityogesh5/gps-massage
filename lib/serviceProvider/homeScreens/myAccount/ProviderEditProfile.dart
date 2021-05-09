@@ -31,6 +31,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:geocoding/geocoding.dart';
+import 'package:toast/toast.dart';
+
 List<File> files = List<File>();
 
 class ProviderEditProfile extends StatefulWidget {
@@ -2430,7 +2433,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     if ((email == null || email.isEmpty)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
-        content: Text('あなたのメールアドレスを入力してください',
+        content: Text('メールアドレスを入力してください。',
             style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
@@ -2534,7 +2537,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //building Validation
-    if (buildingname == null || buildingname.isEmpty) {
+    /* if (buildingname == null || buildingname.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2547,7 +2550,7 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //building Validation
     if (buildingname.length > 20) {
@@ -2566,11 +2569,27 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
     }
 
     //roomno Validation
-    if (roomnumber == null || roomnumber.isEmpty) {
+    /*  if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
             Text('部屋番号を入力してください。', style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    } */
+
+    //roomno length Validation
+    if (roomnumber.length > 4) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('4文字の部屋番号を入力してください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
         action: SnackBarAction(
             onPressed: () {
               _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -2788,23 +2807,36 @@ class _ProviderEditProfileState extends State<ProviderEditProfile> {
         ',' +
         myState;
 
-    List<Placemark> userAddress =
-        await geolocator.placemarkFromAddress(address);
-    var userAddedAddressPlaceMark = userAddress[0];
-    Position addressPosition = userAddedAddressPlaceMark.position;
-    HealingMatchConstants.serviceProviderCurrentLatitude =
-        addressPosition.latitude;
-    HealingMatchConstants.serviceProviderCurrentLongitude =
-        addressPosition.longitude;
-    HealingMatchConstants.serviceProviderCity =
-        userAddedAddressPlaceMark.locality;
-    HealingMatchConstants.serviceProviderPrefecture =
-        userAddedAddressPlaceMark.administrativeArea;
-    HealingMatchConstants.serviceProviderAddress = address;
-    HealingMatchConstants.serviceProviderPrefecture = myState;
-    HealingMatchConstants.serviceProviderCity = myCity;
-    HealingMatchConstants.serviceProviderArea = manualAddresss;
-    updateProfile();
+    String query = Platform.isIOS ? myCity + ',' + myState : address;
+    try {
+      List<Location> locations =
+          await locationFromAddress(query, localeIdentifier: "ja_JP");
+      HealingMatchConstants.serviceProviderCurrentLatitude =
+          locations[0].latitude;
+      print("Lat: ${HealingMatchConstants.serviceProviderCurrentLatitude}");
+      HealingMatchConstants.serviceProviderCurrentLongitude =
+          locations[0].longitude;
+      print("Long : ${HealingMatchConstants.serviceProviderCurrentLongitude}");
+
+      HealingMatchConstants.serviceProviderAddress = address;
+      HealingMatchConstants.serviceProviderPrefecture = myState;
+      HealingMatchConstants.serviceProviderCity = myCity;
+      HealingMatchConstants.serviceProviderArea = manualAddresss;
+      updateProfile();
+    } catch (e) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('アドレスを確認して、もう一度お試しください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
+    }
   }
 
   void updateProfile() async {

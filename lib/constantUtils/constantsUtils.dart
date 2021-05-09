@@ -244,7 +244,9 @@ class HealingMatchConstants {
   static int providerRegisterStatus;
 
   static String idVerify = '';
+  static List<String> bankNameDropDownList = List<String>();
   static String bankName = '';
+  static String otherBankName = '';
   static String branchNumber = '';
   static String accountNumber = '';
   static String accountType = '';

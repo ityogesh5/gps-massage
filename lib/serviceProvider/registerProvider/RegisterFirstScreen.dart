@@ -1520,13 +1520,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                               TextSpan(
                                 text: HealingMatchConstants
                                     .registrationBuildingName,
-                                children: <InlineSpan>[
+                                /*  children: <InlineSpan>[
                                   TextSpan(
                                     text: '*',
                                     style: HealingMatchConstants
                                         .formHintTextStyleStar,
                                   ),
-                                ],
+                                ], */
                                 style: HealingMatchConstants.formLabelTextStyle,
                               ),
                             ),
@@ -1564,13 +1564,13 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
                                 TextSpan(
                                   text:
                                       HealingMatchConstants.registrationRoomNo,
-                                  children: <InlineSpan>[
+                                  /*  children: <InlineSpan>[
                                     TextSpan(
                                       text: '*',
                                       style: HealingMatchConstants
                                           .formHintTextStyleStar,
                                     ),
-                                  ],
+                                  ], */
                                   style:
                                       HealingMatchConstants.formLabelTextStyle,
                                 ),
@@ -2019,7 +2019,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     // Combination password
-    if (!passwordRegex.hasMatch(password)) {
+    /*  if (!passwordRegex.hasMatch(password)) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content: Text('パスワードには、大文字、小文字、数字、特殊文字を1つ含める必要があります。'),
@@ -2047,7 +2047,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
       ));
       return;
     }
-
+ */
     //confirm password Validation
     if (confirmpassword.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -2128,7 +2128,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //building Validation
-    if (buildingname == null || buildingname.isEmpty) {
+    /*  if (buildingname == null || buildingname.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2141,7 +2141,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //building Length Validation
     if (buildingname.length > 20) {
@@ -2160,7 +2160,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
     }
 
     //roomno Validation
-    if (roomnumber == null || roomnumber.isEmpty) {
+    /*   if (roomnumber == null || roomnumber.isEmpty) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: ColorConstants.snackBarColor,
         content:
@@ -2173,7 +2173,7 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
             textColor: Colors.white),
       ));
       return;
-    }
+    } */
 
     //roomno Validation
     if (roomnumber.length > 4) {
@@ -2249,22 +2249,23 @@ class _RegisterFirstScreenState extends State<RegisterProviderFirstScreen> {
           cityDropDownValues.indexOf(myCity) + 1;
       HealingMatchConstants.serviceProviderPrefectureID =
           stateDropDownValues.indexOf(myState) + 1;
-      Toast.show(
-          "Address Success ${locations[0].latitude} , ${locations[0].longitude}",
-          context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM,
-          backgroundColor: Colors.lime,
-          textColor: Colors.white);
+
       ProgressDialogBuilder.hideCommonProgressDialog(context);
       NavigationRouter.switchToServiceProviderSecondScreen(context);
     } catch (e) {
       ProgressDialogBuilder.hideCommonProgressDialog(context);
-      Toast.show("Address not got ", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.CENTER,
-          backgroundColor: Colors.red,
-          textColor: Colors.white);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: ColorConstants.snackBarColor,
+        content: Text('アドレスを確認して、もう一度お試しください。',
+            style: TextStyle(fontFamily: 'NotoSansJP')),
+        action: SnackBarAction(
+            onPressed: () {
+              _scaffoldKey.currentState.hideCurrentSnackBar();
+            },
+            label: 'はい',
+            textColor: Colors.white),
+      ));
+      return;
     }
   }
 

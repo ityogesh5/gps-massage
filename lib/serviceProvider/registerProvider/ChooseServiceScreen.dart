@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/progressDialogs/custom_dialog.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/estheticDropDownModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/fitnessDropDownModel.dart';
@@ -63,14 +64,14 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
     otherSelected = [false, false, false, false];
   }
 
-  void showProgressDialog() {
+  /*  void showProgressDialog() {
     _progressDialog.showProgressDialog(context,
         textToBeDisplayed: '読み込み中...', dismissAfter: Duration(seconds: 5));
   }
 
   void hideProgressDialog() {
     _progressDialog.dismissProgressDialog(context);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +120,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     ? InkWell(
                         onTap: () {
                           if (estheticDropDownValues.length == 0) {
-                            showProgressDialog();
+                            ProgressDialogBuilder.showCommonProgressDialog(
+                                context);
                             getEstheticList();
                           } else {
                             setState(() {
@@ -159,7 +161,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         ),
                                   onPressed: () {
                                     if (estheticDropDownValues.length == 0) {
-                                      showProgressDialog();
+                                      ProgressDialogBuilder
+                                          .showCommonProgressDialog(context);
                                       getEstheticList();
                                     } else {
                                       setState(() {
@@ -207,7 +210,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     ? InkWell(
                         onTap: () {
                           if (relaxationDropDownValues.length == 0) {
-                            showProgressDialog();
+                            ProgressDialogBuilder.showCommonProgressDialog(
+                                context);
                             getRelaxationList();
                           } else {
                             setState(() {
@@ -247,7 +251,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         ),
                                   onPressed: () {
                                     if (relaxationDropDownValues.length == 0) {
-                                      showProgressDialog();
+                                      ProgressDialogBuilder
+                                          .showCommonProgressDialog(context);
                                       getRelaxationList();
                                     } else {
                                       setState(() {
@@ -294,7 +299,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     ? InkWell(
                         onTap: () {
                           if (treatmentDropDownValues.length == 0) {
-                            showProgressDialog();
+                            ProgressDialogBuilder.showCommonProgressDialog(
+                                context);
                             getTreatmentList();
                           } else {
                             setState(() {
@@ -334,7 +340,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         ),
                                   onPressed: () {
                                     if (treatmentDropDownValues.length == 0) {
-                                      showProgressDialog();
+                                      ProgressDialogBuilder
+                                          .showCommonProgressDialog(context);
                                       getTreatmentList();
                                     } else {
                                       setState(() {
@@ -383,7 +390,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                     ? InkWell(
                         onTap: () {
                           if (fitnessDropDownValues.length == 0) {
-                            showProgressDialog();
+                            ProgressDialogBuilder.showCommonProgressDialog(
+                                context);
                             getFitnessList();
                           } else {
                             setState(() {
@@ -423,7 +431,8 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                         ),
                                   onPressed: () {
                                     if (fitnessDropDownValues.length == 0) {
-                                      showProgressDialog();
+                                      ProgressDialogBuilder
+                                          .showCommonProgressDialog(context);
                                       getFitnessList();
                                     } else {
                                       setState(() {
@@ -735,6 +744,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                                 setState(() {
+                                  otherValueText = otherValueText.toLowerCase();
                                   //Logic: check the value is empty
                                   if (otherValueText.isEmpty ||
                                       otherValueText == '') {
@@ -1625,7 +1635,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       estheticDropDownValues.insertAll(
           estheticDropDownValues.length - 1, otherEstheticDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         estheticStatus == 0 ? estheticStatus = 1 : estheticStatus = 0;
       });
     });
@@ -1645,7 +1655,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       relaxationDropDownValues.insertAll(
           relaxationDropDownValues.length - 1, otherRelaxationDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         relaxtionStatus == 0 ? relaxtionStatus = 1 : relaxtionStatus = 0;
       });
     });
@@ -1665,7 +1675,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       treatmentDropDownValues.insertAll(
           treatmentDropDownValues.length - 1, otherTreatmentDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         treatmentStatus == 0 ? treatmentStatus = 1 : treatmentStatus = 0;
       });
     });
@@ -1683,7 +1693,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
       fitnessDropDownValues.insertAll(
           fitnessDropDownValues.length - 1, otherFitnessDropDownValues);
       setState(() {
-        hideProgressDialog();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
         fitnessStatus == 0 ? fitnessStatus = 1 : fitnessStatus = 0;
       });
     });
@@ -1757,7 +1767,7 @@ class _ChooseServiceScreenState extends State<ChooseServiceScreen> {
   //get the id of the Message Value
   int getID(int index, int mindex) {
     int id;
-        if (mindex == 0) {
+    if (mindex == 0) {
       if ((estheticDropDownModel.data.length < estheticDropDownValues.length) &&
           (index > estheticDropDownModel.data.length - 2))
       //minus 2 for indexing and removing the others field out of equation

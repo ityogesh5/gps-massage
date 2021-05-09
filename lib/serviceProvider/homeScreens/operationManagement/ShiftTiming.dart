@@ -332,15 +332,30 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         ),
                         rowHeaderBuilder: (i) {
                           return Center(
-                            child: Text(
-                              timeRow[i].minute == 0
-                                  ? "${timeRow[i].hour}: 00"
-                                  : "${timeRow[i].hour}: ${timeRow[i].minute}",
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(158, 158, 158, 1),
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  timeRow[i].hour < 10
+                                      ? "0${timeRow[i].hour}"
+                                      : "${timeRow[i].hour}",
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(158, 158, 158, 1),
+                                  ),
+                                ),
+                                Text(
+                                  timeRow[i].minute == 0
+                                      ? ": 00"
+                                      : ": ${timeRow[i].minute}",
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(158, 158, 158, 1),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },

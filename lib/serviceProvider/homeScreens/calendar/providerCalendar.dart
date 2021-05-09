@@ -635,7 +635,6 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
     // print("Changed month: _currentDay");
   }
 
-
   Map<DateTime, List<dynamic>> eventBuilder() {
     eventDotHandler = Map<DateTime, List<dynamic>>();
     for (var event in events) {

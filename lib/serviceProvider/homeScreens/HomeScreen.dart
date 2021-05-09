@@ -547,12 +547,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                                   )
                                                                 : SvgPicture
                                                                     .asset(
-                                                                    "assets/images_gps/star_1.svg",
+                                                                    "assets/images_gps/star_colour.svg",
                                                                     height:
                                                                         13.0,
                                                                     width: 13.0,
-                                                                    color: Colors
-                                                                        .black,
                                                                   ), /*  new Icon(
                                                                 Icons.star,
                                                                 size: 20.0), */

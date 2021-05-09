@@ -99,7 +99,7 @@ class StatusCodeHelper {
     if (statusCode == 200) {
       Toast.show("正常にログインしました。", context,
           duration: Toast.LENGTH_LONG,
-          gravity: Toast.CENTER,
+          gravity: Toast.BOTTOM,
           backgroundColor: Colors.lime,
           textColor: Colors.white);
       print('Response Success!!');
@@ -108,7 +108,7 @@ class StatusCodeHelper {
       //ユーザーが見つかりません。
       Toast.show("ユーザーが見つかりません。", context,
           duration: 4,
-          gravity: Toast.CENTER,
+          gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
       print('User Not Found!!');
@@ -116,7 +116,7 @@ class StatusCodeHelper {
     } else if (statusCode == 401) {
       Toast.show("許可されていないユーザー。", context,
           duration: 4,
-          gravity: Toast.CENTER,
+          gravity: Toast.BOTTOM,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white);
       print('Unauthorized User!!');
