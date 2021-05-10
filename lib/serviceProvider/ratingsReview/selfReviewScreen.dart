@@ -312,12 +312,12 @@ class _LoadProviderReviewPageState extends State<LoadProviderReviewPage> {
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > therapistReviewList.ratingsCount-1
+                    icon: index > therapistReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,
                             width: 13.0,
-                           // color: Colors.black,
+                            // color: Colors.black,
                           )
                         : SvgPicture.asset(
                             "assets/images_gps/star_1.svg",
@@ -401,6 +401,7 @@ class LoadProviderReviewRatingsById extends StatefulWidget {
 
   LoadProviderReviewRatingsById({Key key, @required this.therapistReviewList})
       : super(key: key);
+
   @override
   _LoadProviderReviewRatingsByIdState createState() =>
       _LoadProviderReviewRatingsByIdState();
@@ -569,7 +570,7 @@ class _LoadProviderReviewRatingsByIdState
                     onPressed: () {},
                     padding: new EdgeInsets.all(0.0),
                     color: Colors.black,
-                    icon: index > therapistReviewList.ratingsCount-1
+                    icon: index > therapistReviewList.ratingsCount - 1
                         ? SvgPicture.asset(
                             "assets/images_gps/star_2.svg",
                             height: 13.0,

@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/favorite.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/pastReservations.dart';
@@ -27,11 +26,11 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(_handleTabSelection);
 
-    Loader.show(context, progressIndicator: SpinKitThreeBounce(color: Colors.lime));
+    Loader.show(context,
+        progressIndicator: SpinKitThreeBounce(color: Colors.lime));
     Future.delayed(Duration(seconds: 2), () {
       Loader.hide();
     });
-
   }
 
   buildUnSelectedTabBar(String title) {
@@ -164,15 +163,14 @@ class _ReservationAndFavouriteState extends State<ReservationAndFavourite>
         ),
       ),
       body: TabBarView(
-          physics: BouncingScrollPhysics(), //Disable Horizontal Swipe
-          controller: _tabController,
-          children: [
-            ReservationStatus(),
-            PastReservations(),
-            Favorite(),
-          ],
-        ),
-
+        physics: BouncingScrollPhysics(), //Disable Horizontal Swipe
+        controller: _tabController,
+        children: [
+          ReservationStatus(),
+          PastReservations(),
+          Favorite(),
+        ],
+      ),
     );
   }
 }

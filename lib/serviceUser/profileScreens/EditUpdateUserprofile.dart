@@ -31,7 +31,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<SharedPreferences> _sharedPreferences = SharedPreferences.getInstance();
 List<UpdateAddress> updateAddress = new List<UpdateAddress>();
 List<AddUserSubAddress> constantUserAddressValuesList =
-new List<AddUserSubAddress>();
+    new List<AddUserSubAddress>();
 
 var deletePosition, editPosition;
 var addressID;
@@ -244,7 +244,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   //finding Japanese characters in text regex
   RegExp regexJapanese =
-  RegExp(r'(/[一-龠]+|[ぁ-ゔ]+|[ァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤]+/u)');
+      RegExp(r'(/[一-龠]+|[ぁ-ゔ]+|[ァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤]+/u)');
 
   // Password combination
   /*r'^
@@ -305,74 +305,74 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                       children: [
                         _profileImage != null
                             ? InkWell(
-                          onTap: () {
-                            _showPicker(context, 0);
-                          },
-                          child: Container(
-                              width: 95.0,
-                              height: 95.0,
-                              decoration: new BoxDecoration(
-                                border: Border.all(color: Colors.black12),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new FileImage(_profileImage)),
-                              )),
-                        )
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: Container(
+                                    width: 95.0,
+                                    height: 95.0,
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.black12),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: new FileImage(_profileImage)),
+                                    )),
+                              )
                             : InkWell(
-                          onTap: () {
-                            _showPicker(context, 0);
-                          },
-                          child: HealingMatchConstants.userProfileImage !=
-                              null
-                              ? CachedNetworkImage(
-                            imageUrl: HealingMatchConstants
-                                .userProfileImage,
-                            filterQuality: FilterQuality.high,
-                            fadeInCurve: Curves.easeInSine,
-                            imageBuilder:
-                                (context, imageProvider) =>
-                                Container(
-                                  width: 95.0,
-                                  height: 95.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                            placeholder: (context, url) =>
-                                SpinKitDoubleBounce(
-                                    color: Colors.lightGreenAccent),
-                            errorWidget: (context, url, error) =>
-                                Container(
-                                  width: 95.0,
-                                  height: 95.0,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.black12),
-                                    image: DecorationImage(
-                                        image: new AssetImage(
-                                            'assets/images_gps/placeholder_image.png'),
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                          )
-                              : Container(
-                              width: 95.0,
-                              height: 95.0,
-                              decoration: new BoxDecoration(
-                                border:
-                                Border.all(color: Colors.black12),
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: new AssetImage(
-                                        'assets/images_gps/placeholder_image.png')),
-                              )),
-                        ),
+                                onTap: () {
+                                  _showPicker(context, 0);
+                                },
+                                child: HealingMatchConstants.userProfileImage !=
+                                        null
+                                    ? CachedNetworkImage(
+                                        imageUrl: HealingMatchConstants
+                                            .userProfileImage,
+                                        filterQuality: FilterQuality.high,
+                                        fadeInCurve: Curves.easeInSine,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            SpinKitDoubleBounce(
+                                                color: Colors.lightGreenAccent),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          width: 95.0,
+                                          height: 95.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.black12),
+                                            image: DecorationImage(
+                                                image: new AssetImage(
+                                                    'assets/images_gps/placeholder_image.png'),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 95.0,
+                                        height: 95.0,
+                                        decoration: new BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.black12),
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: new AssetImage(
+                                                  'assets/images_gps/placeholder_image.png')),
+                                        )),
+                              ),
                         Visibility(
                           visible: true,
                           child: Positioned(
@@ -423,11 +423,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                           ),
                         ),
                       ),
@@ -460,7 +460,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       decoration: new InputDecoration(
                                         filled: true,
                                         fillColor:
-                                        ColorConstants.formFieldFillColor,
+                                            ColorConstants.formFieldFillColor,
                                         labelText: '生年月日',
                                         hintText: '生年月日',
                                         hintStyle: TextStyle(
@@ -472,7 +472,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         suffixIcon: Icon(
                                           Icons.calendar_today,
                                           color:
-                                          Color.fromRGBO(211, 211, 211, 1),
+                                              Color.fromRGBO(211, 211, 211, 1),
                                         ),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
@@ -505,7 +505,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                   decoration: new InputDecoration(
                                     filled: true,
                                     fillColor:
-                                    ColorConstants.formFieldFillColor,
+                                        ColorConstants.formFieldFillColor,
                                     labelText: '年齢',
                                     labelStyle: TextStyle(
                                         color: Colors.grey[400],
@@ -680,11 +680,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                           maxLength: 10,
                           controller: phoneNumberController,
                           keyboardType:
-                          TextInputType.numberWithOptions(signed: true),
+                              TextInputType.numberWithOptions(signed: true),
                           onEditingComplete: () {
                             var phnNum = phoneNumberController.text.toString();
                             var userPhoneNumber =
-                            phnNum.replaceFirst(RegExp(r'^0+'), "");
+                                phnNum.replaceFirst(RegExp(r'^0+'), "");
                             print('Phone number after edit : $userPhoneNumber');
                             phoneNumberController.text = userPhoneNumber;
                             FocusScope.of(context).requestFocus(FocusNode());
@@ -700,11 +700,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                           ),
                           // validator: (value) => _validateEmail(value),
                         ),
@@ -732,11 +732,11 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             focusColor: Colors.grey[100],
                             border: HealingMatchConstants.textFormInputBorder,
                             focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                             enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
+                                HealingMatchConstants.textFormInputBorder,
                           ),
                           // validator: (value) => _validateEmail(value),
                         ),
@@ -756,7 +756,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                               Center(
                                 child: Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.85,
+                                      MediaQuery.of(context).size.width * 0.85,
                                   child: WidgetAnimator(
                                     DropDownFormField(
                                       filled: true,
@@ -816,33 +816,33 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         ),
                         _myCategoryPlaceForMassage == "その他（直接入力）"
                             ? Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: WidgetAnimator(
-                            TextFormField(
-                              controller: otherController,
-                              style: HealingMatchConstants.formTextStyle,
-                              decoration: InputDecoration(
-                                counterText: '',
-                                contentPadding:
-                                EdgeInsets.fromLTRB(6, 3, 6, 3),
-                                border: HealingMatchConstants
-                                    .textFormInputBorder,
-                                focusedBorder: HealingMatchConstants
-                                    .textFormInputBorder,
-                                disabledBorder: HealingMatchConstants
-                                    .textFormInputBorder,
-                                enabledBorder: HealingMatchConstants
-                                    .textFormInputBorder,
-                                filled: true,
-                                labelText: '登録する地点のカテゴリー (直接入力)',
-                                labelStyle: HealingMatchConstants
-                                    .formLabelTextStyle,
-                                fillColor:
-                                ColorConstants.formFieldFillColor,
-                              ),
-                            ),
-                          ),
-                        )
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                child: WidgetAnimator(
+                                  TextFormField(
+                                    controller: otherController,
+                                    style: HealingMatchConstants.formTextStyle,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                      border: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      focusedBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      disabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      enabledBorder: HealingMatchConstants
+                                          .textFormInputBorder,
+                                      filled: true,
+                                      labelText: '登録する地点のカテゴリー (直接入力)',
+                                      labelStyle: HealingMatchConstants
+                                          .formLabelTextStyle,
+                                      fillColor:
+                                          ColorConstants.formFieldFillColor,
+                                    ),
+                                  ),
+                                ),
+                              )
                             : Container(),
                         SizedBox(height: 10),
                         Container(
@@ -856,22 +856,22 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 Expanded(
                                   child: Center(
                                       child:
-                                      /*stateDropDownValues != null
+                                          /*stateDropDownValues != null
                                                 ? */
-                                      Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.39,
-                                        child: WidgetAnimator(
-                                          DropDownFormField(
-                                              hintText: '府県',
-                                              value: _myPrefecture,
-                                              onSaved: (value) {
-                                                setState(() {
-                                                  _myPrefecture = value;
-                                                });
-                                              },
-                                              onChanged: (value) {
-                                                /*setState(() {
+                                          Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.39,
+                                    child: WidgetAnimator(
+                                      DropDownFormField(
+                                          hintText: '府県',
+                                          value: _myPrefecture,
+                                          onSaved: (value) {
+                                            setState(() {
+                                              _myPrefecture = value;
+                                            });
+                                          },
+                                          onChanged: (value) {
+                                            /*setState(() {
                                               _myPrefecture = value;
                                               print(
                                                   'Prefecture value : ${_myPrefecture.toString()}');
@@ -884,28 +884,28 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                               _myCity = '';
                                               getCities(_prefId);
                                             });*/
-                                              },
-                                              dataSource: [_myPrefecture],
-                                              isList: true,
-                                              textField: 'display',
-                                              valueField: 'value'),
-                                        ),
-                                      )),
+                                          },
+                                          dataSource: [_myPrefecture],
+                                          isList: true,
+                                          textField: 'display',
+                                          valueField: 'value'),
+                                    ),
+                                  )),
                                 ),
                                 Expanded(
                                   child: Form(
                                       key: _cityKey,
                                       child:
-                                      /* cityDropDownValues != null
+                                          /* cityDropDownValues != null
                                                 ?*/
-                                      Container(
+                                          Container(
                                         width:
-                                        MediaQuery.of(context).size.width *
-                                            0.39,
+                                            MediaQuery.of(context).size.width *
+                                                0.39,
                                         child: WidgetAnimator(
                                           DropDownFormField(
                                               hintText:
-                                              readonly ? _myCity : '市',
+                                                  readonly ? _myCity : '市',
                                               value: _myCity,
                                               onSaved: (value) {
                                                 setState(() {
@@ -951,7 +951,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         decoration: new InputDecoration(
                                           filled: true,
                                           fillColor:
-                                          ColorConstants.formFieldFillColor,
+                                              ColorConstants.formFieldFillColor,
                                           labelText: '丁目, 番地',
                                           /*hintText: '都、県選 *',
                                   hintStyle: TextStyle(
@@ -981,7 +981,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                 child: Container(
                                   // height: MediaQuery.of(context).size.height * 0.07,
                                   width:
-                                  MediaQuery.of(context).size.width * 0.39,
+                                      MediaQuery.of(context).size.width * 0.39,
                                   child: WidgetAnimator(
                                     TextFormField(
                                       //enableInteractiveSelection: false,
@@ -992,7 +992,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                       decoration: new InputDecoration(
                                         filled: true,
                                         fillColor:
-                                        ColorConstants.formFieldFillColor,
+                                            ColorConstants.formFieldFillColor,
                                         labelText: '建物名',
                                         /*hintText: 'ビル名 *',
                                 hintStyle: TextStyle(
@@ -1042,7 +1042,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         decoration: new InputDecoration(
                                           filled: true,
                                           fillColor:
-                                          ColorConstants.formFieldFillColor,
+                                              ColorConstants.formFieldFillColor,
                                           labelText: '部屋番号',
                                           labelStyle: TextStyle(
                                               color: Colors.grey[400],
@@ -1076,126 +1076,126 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                     SizedBox(height: 15),
 
                     constantUserAddressValuesList != null ||
-                        HealingMatchConstants.userAddressesList != null
+                            HealingMatchConstants.userAddressesList != null
                         ? Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      child: WidgetAnimator(
-                        TextFormField(
-                          readOnly: true,
-                          enableInteractiveSelection: false,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            hintText: 'その他の登録場所',
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.add,
-                                  size: 28, color: Colors.black),
-                              onPressed: () {
-                                if (HealingMatchConstants
-                                    .userAddressesList.length ==
-                                    3) {
-                                  _scaffoldKey.currentState
-                                      .showSnackBar(SnackBar(
-                                    backgroundColor:
-                                    ColorConstants.snackBarColor,
-                                    duration: Duration(seconds: 3),
-                                    content: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                              'メインの地点以外に3箇所まで地点登録ができます。',
-                                              overflow:
-                                              TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                  'NotoSansJP')),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            _scaffoldKey.currentState
-                                                .hideCurrentSnackBar();
-                                          },
-                                          child: Text('はい',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily:
-                                                  'NotoSansJP',
-                                                  fontWeight:
-                                                  FontWeight.w500,
-                                                  decoration:
-                                                  TextDecoration
-                                                      .underline)),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                                } else {
-                                  _updateUserFormKey.currentState.save();
-                                  NavigationRouter
-                                      .switchToUserAddAddressScreen(
-                                      context, refreshPage);
-                                }
-                              },
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              TextFormField(
+                                readOnly: true,
+                                enableInteractiveSelection: false,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  hintText: 'その他の登録場所',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.add,
+                                        size: 28, color: Colors.black),
+                                    onPressed: () {
+                                      if (HealingMatchConstants
+                                              .userAddressesList.length ==
+                                          3) {
+                                        _scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          backgroundColor:
+                                              ColorConstants.snackBarColor,
+                                          duration: Duration(seconds: 3),
+                                          content: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child: Text(
+                                                    'メインの地点以外に3箇所まで地点登録ができます。',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NotoSansJP')),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  _scaffoldKey.currentState
+                                                      .hideCurrentSnackBar();
+                                                },
+                                                child: Text('はい',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'NotoSansJP',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline)),
+                                              ),
+                                            ],
+                                          ),
+                                        ));
+                                      } else {
+                                        _updateUserFormKey.currentState.save();
+                                        NavigationRouter
+                                            .switchToUserAddAddressScreen(
+                                                context, refreshPage);
+                                      }
+                                    },
+                                  ),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14),
+                                  focusColor: Colors.grey[100],
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                style: TextStyle(color: Colors.black54),
+                                // validator: (value) => _validateEmail(value),
+                              ),
                             ),
-                            hintStyle: TextStyle(
-                                color: Colors.grey[400], fontSize: 14),
-                            focusColor: Colors.grey[100],
-                            border:
-                            HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                            disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                          ),
-                          style: TextStyle(color: Colors.black54),
-                          // validator: (value) => _validateEmail(value),
-                        ),
-                      ),
-                    )
+                          )
                         : Container(
-                      // height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      child: WidgetAnimator(
-                        TextFormField(
-                          readOnly: true,
-                          enableInteractiveSelection: false,
-                          decoration: new InputDecoration(
-                            filled: true,
-                            fillColor: ColorConstants.formFieldFillColor,
-                            hintText: 'その他の登録場所',
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.add,
-                                  size: 28, color: Colors.black),
-                              onPressed: () {
-                                _updateUserFormKey.currentState.save();
-                                NavigationRouter
-                                    .switchToUserAddAddressScreen(
-                                    context, refreshPage);
-                              },
+                            // height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: WidgetAnimator(
+                              TextFormField(
+                                readOnly: true,
+                                enableInteractiveSelection: false,
+                                decoration: new InputDecoration(
+                                  filled: true,
+                                  fillColor: ColorConstants.formFieldFillColor,
+                                  hintText: 'その他の登録場所',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.add,
+                                        size: 28, color: Colors.black),
+                                    onPressed: () {
+                                      _updateUserFormKey.currentState.save();
+                                      NavigationRouter
+                                          .switchToUserAddAddressScreen(
+                                              context, refreshPage);
+                                    },
+                                  ),
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey[400], fontSize: 14),
+                                  focusColor: Colors.grey[100],
+                                  border:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  focusedBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  disabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                  enabledBorder:
+                                      HealingMatchConstants.textFormInputBorder,
+                                ),
+                                style: TextStyle(color: Colors.black54),
+                                // validator: (value) => _validateEmail(value),
+                              ),
                             ),
-                            hintStyle: TextStyle(
-                                color: Colors.grey[400], fontSize: 14),
-                            focusColor: Colors.grey[100],
-                            border:
-                            HealingMatchConstants.textFormInputBorder,
-                            focusedBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                            disabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
-                            enabledBorder:
-                            HealingMatchConstants.textFormInputBorder,
                           ),
-                          style: TextStyle(color: Colors.black54),
-                          // validator: (value) => _validateEmail(value),
-                        ),
-                      ),
-                    ),
                     SizedBox(height: 15),
                     Visibility(
                       visible: constantUserAddressValuesList != null &&
@@ -1214,165 +1214,165 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         child: SizedBox(height: 15)),
                     constantUserAddressValuesList != null
                         ? Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 12.0),
-                        child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount:
-                            constantUserAddressValuesList.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              bool isFocus = false;
-                              return WidgetAnimator(
-                                Column(
-                                  children: [
-                                    FittedBox(
-                                      child: Row(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      constantUserAddressValuesList.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    bool isFocus = false;
+                                    return WidgetAnimator(
+                                      Column(
                                         children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                                0.86,
-                                            child: WidgetAnimator(
-                                              TextFormField(
-                                                //display the address
-                                                readOnly: false,
-                                                autofocus: isFocus,
-                                                initialValue:
-                                                constantUserAddressValuesList[
-                                                index]
-                                                    .subAddress,
-                                                decoration:
-                                                new InputDecoration(
-                                                    filled: true,
-                                                    fillColor:
-                                                    ColorConstants
-                                                        .formFieldFillColor,
-                                                    hintText:
-                                                    '${constantUserAddressValuesList[index]}',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors
-                                                            .grey[
-                                                        400],
-                                                        fontSize: 14),
-                                                    focusColor: Colors
-                                                        .grey[100],
-                                                    border: HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    prefixIcon:
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(
-                                                          8.0),
-                                                      child:
-                                                      Container(
-                                                          padding:
-                                                          EdgeInsets.all(
-                                                              8.0),
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment.topCenter,
-                                                                end: Alignment.bottomCenter,
-                                                                colors: [
-                                                                  Color.fromRGBO(255, 255, 255, 1),
-                                                                  Color.fromRGBO(255, 255, 255, 1),
-                                                                ]),
-                                                            shape:
-                                                            BoxShape.rectangle,
-                                                            border:
-                                                            Border.all(
-                                                              color:
-                                                              Colors.grey[100],
-                                                            ),
-                                                            borderRadius:
-                                                            BorderRadius.circular(6.0),
-                                                            color: Color.fromRGBO(
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                1),
-                                                          ),
-                                                          child:
-                                                          Text(
-                                                            '${constantUserAddressValuesList[index].addressCategory}',
-                                                            style:
-                                                            TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  0,
-                                                                  0,
-                                                                  0,
-                                                                  1),
-                                                            ),
-                                                          )),
-                                                    ),
-                                                    suffixIcon:
-                                                    IconButton(
-                                                      icon: Icon(
-                                                          Icons.edit,
-                                                          size: 25,
-                                                          color: Colors
-                                                              .black),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          isFocus =
-                                                          true;
-                                                        });
-                                                        //Delete Value at index
-                                                        /*constantUserAddressValuesList
+                                          FittedBox(
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.86,
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
+                                                      //display the address
+                                                      readOnly: false,
+                                                      autofocus: isFocus,
+                                                      initialValue:
+                                                          constantUserAddressValuesList[
+                                                                  index]
+                                                              .subAddress,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                              filled: true,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
+                                                              hintText:
+                                                                  '${constantUserAddressValuesList[index]}',
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                  fontSize: 14),
+                                                              focusColor: Colors
+                                                                  .grey[100],
+                                                              border: HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                              focusedBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              disabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              enabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
+                                                                                8.0),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${constantUserAddressValuesList[index].addressCategory}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                0,
+                                                                                0,
+                                                                                1),
+                                                                          ),
+                                                                        )),
+                                                              ),
+                                                              suffixIcon:
+                                                                  IconButton(
+                                                                icon: Icon(
+                                                                    Icons.edit,
+                                                                    size: 25,
+                                                                    color: Colors
+                                                                        .black),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    isFocus =
+                                                                        true;
+                                                                  });
+                                                                  //Delete Value at index
+                                                                  /*constantUserAddressValuesList
                                                                     .removeAt(index);*/
-                                                        var position =
-                                                        constantUserAddressValuesList[
-                                                        index];
-                                                        print(
-                                                            'Position of other address : $position');
-                                                        /*openAddressEditDialog(
+                                                                  var position =
+                                                                      constantUserAddressValuesList[
+                                                                          index];
+                                                                  print(
+                                                                      'Position of other address : $position');
+                                                                  /*openAddressEditDialog(
                                                                       constantUserAddressValuesList[
                                                                               index]
                                                                           .subAddress,
                                                                       constantUserAddressValuesList
                                                                           .indexOf(
                                                                               position));*/
+                                                                },
+                                                              )),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black54),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          constantUserAddressValuesList[
+                                                                      index]
+                                                                  .subAddress =
+                                                              value;
+                                                        });
                                                       },
-                                                    )),
-                                                style: TextStyle(
-                                                    color:
-                                                    Colors.black54),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    constantUserAddressValuesList[
-                                                    index]
-                                                        .subAddress =
-                                                        value;
-                                                  });
-                                                },
-                                                // validator: (value) => _validateEmail(value),
-                                              ),
+                                                      // validator: (value) => _validateEmail(value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
+                                          SizedBox(height: 10),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
-                    )
+                                    );
+                                  }),
+                            ),
+                          )
                         : Container(),
                     Text(
                       'メインの地点以外に3箇所まで地点登録ができます',
@@ -1385,165 +1385,165 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
                     HealingMatchConstants.userAddressesList != null
                         ? Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 12.0),
-                        child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: HealingMatchConstants
-                                .userAddressesList.length,
-                            itemBuilder: (BuildContext ctxt, int index) {
-                              return WidgetAnimator(
-                                Column(
-                                  children: [
-                                    FittedBox(
-                                      child: Row(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 12.0),
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: HealingMatchConstants
+                                      .userAddressesList.length,
+                                  itemBuilder: (BuildContext ctxt, int index) {
+                                    return WidgetAnimator(
+                                      Column(
                                         children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                                0.86,
-                                            child: WidgetAnimator(
-                                              TextFormField(
-                                                //display the address
-                                                readOnly: true,
-                                                autofocus: false,
-                                                initialValue:
-                                                HealingMatchConstants
-                                                    .userAddressesList[
-                                                index]
-                                                    .address,
-                                                decoration:
-                                                new InputDecoration(
-                                                    filled: true,
-                                                    fillColor:
-                                                    ColorConstants
-                                                        .formFieldFillColor,
-                                                    hintText:
-                                                    '${HealingMatchConstants.userAddressesList[index]}',
-                                                    hintStyle: TextStyle(
-                                                        color: Colors
-                                                            .grey[
-                                                        400],
-                                                        fontSize: 14),
-                                                    focusColor: Colors
-                                                        .grey[100],
-                                                    border: HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
-                                                    prefixIcon:
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(
-                                                          8.0),
-                                                      child:
-                                                      Container(
-                                                          padding:
-                                                          EdgeInsets.all(
-                                                              8.0),
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                                begin: Alignment.topCenter,
-                                                                end: Alignment.bottomCenter,
-                                                                colors: [
-                                                                  Color.fromRGBO(255, 255, 255, 1),
-                                                                  Color.fromRGBO(255, 255, 255, 1),
-                                                                ]),
-                                                            shape:
-                                                            BoxShape.rectangle,
-                                                            border:
-                                                            Border.all(
-                                                              color:
-                                                              Colors.grey[100],
-                                                            ),
-                                                            borderRadius:
-                                                            BorderRadius.circular(6.0),
-                                                            color: Color.fromRGBO(
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                1),
-                                                          ),
-                                                          child:
-                                                          Text(
-                                                            '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
-                                                            style:
-                                                            TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  0,
-                                                                  0,
-                                                                  0,
-                                                                  1),
-                                                            ),
-                                                          )),
-                                                    ),
-                                                    suffixIcon:
-                                                    IconButton(
-                                                      icon: Icon(
-                                                          Icons
-                                                              .keyboard_arrow_down_sharp,
-                                                          size: 30,
-                                                          color: Colors
-                                                              .black),
-                                                      onPressed: () {
-                                                        //Delete Value at index
-                                                        /*constantUserAddressValuesList
+                                          FittedBox(
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.86,
+                                                  child: WidgetAnimator(
+                                                    TextFormField(
+                                                      //display the address
+                                                      readOnly: true,
+                                                      autofocus: false,
+                                                      initialValue:
+                                                          HealingMatchConstants
+                                                              .userAddressesList[
+                                                                  index]
+                                                              .address,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                              filled: true,
+                                                              fillColor:
+                                                                  ColorConstants
+                                                                      .formFieldFillColor,
+                                                              hintText:
+                                                                  '${HealingMatchConstants.userAddressesList[index]}',
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                  fontSize: 14),
+                                                              focusColor: Colors
+                                                                  .grey[100],
+                                                              border: HealingMatchConstants
+                                                                  .textFormInputBorder,
+                                                              focusedBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              disabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              enabledBorder:
+                                                                  HealingMatchConstants
+                                                                      .textFormInputBorder,
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                        padding:
+                                                                            EdgeInsets.all(
+                                                                                8.0),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                                Color.fromRGBO(255, 255, 255, 1),
+                                                                              ]),
+                                                                          shape:
+                                                                              BoxShape.rectangle,
+                                                                          border:
+                                                                              Border.all(
+                                                                            color:
+                                                                                Colors.grey[100],
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(6.0),
+                                                                          color: Color.fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          '${HealingMatchConstants.userAddressesList[index].userPlaceForMassage}',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color: Color.fromRGBO(
+                                                                                0,
+                                                                                0,
+                                                                                0,
+                                                                                1),
+                                                                          ),
+                                                                        )),
+                                                              ),
+                                                              suffixIcon:
+                                                                  IconButton(
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_down_sharp,
+                                                                    size: 30,
+                                                                    color: Colors
+                                                                        .black),
+                                                                onPressed: () {
+                                                                  //Delete Value at index
+                                                                  /*constantUserAddressValuesList
                                                                     .removeAt(index);*/
-                                                        var position =
-                                                        HealingMatchConstants
-                                                            .userAddressesList[
-                                                        index];
-                                                        print(
-                                                            'Position of sub edit list position : $position');
-                                                        print(
-                                                            'Position of sub edit list address : ${position.address}');
-                                                        openAddressEditDialog(
-                                                            position
-                                                                .address,
-                                                            HealingMatchConstants
-                                                                .userAddressesList
-                                                                .indexOf(
-                                                                position));
+                                                                  var position =
+                                                                      HealingMatchConstants
+                                                                              .userAddressesList[
+                                                                          index];
+                                                                  print(
+                                                                      'Position of sub edit list position : $position');
+                                                                  print(
+                                                                      'Position of sub edit list address : ${position.address}');
+                                                                  openAddressEditDialog(
+                                                                      position
+                                                                          .address,
+                                                                      HealingMatchConstants
+                                                                          .userAddressesList
+                                                                          .indexOf(
+                                                                              position));
+                                                                },
+                                                              )),
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.black54),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          HealingMatchConstants
+                                                              .userAddressesList[
+                                                                  index]
+                                                              .address = value;
+                                                        });
                                                       },
-                                                    )),
-                                                style: TextStyle(
-                                                    color:
-                                                    Colors.black54),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    HealingMatchConstants
-                                                        .userAddressesList[
-                                                    index]
-                                                        .address = value;
-                                                  });
-                                                },
-                                                // validator: (value) => _validateEmail(value),
-                                              ),
+                                                      // validator: (value) => _validateEmail(value),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
+                                          SizedBox(height: 10),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
-                    )
+                                    );
+                                  }),
+                            ),
+                          )
                         : Container(),
                     SizedBox(height: 10),
                     Padding(
@@ -1580,7 +1580,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                                         print(
                                             'Search distance : ${_mySearchRadiusDistance.toString()}');
                                         HealingMatchConstants
-                                            .searchDistanceRadius =
+                                                .searchDistanceRadius =
                                             _mySearchRadiusDistance;
                                       });
                                     },
@@ -1736,8 +1736,8 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                         print(
                             'Delete values :${_editAddressController.text} && $addressID');
                         var deleteSubAddress =
-                        ServiceUserAPIProvider.deleteUserSubAddress(
-                            context, addressID);
+                            ServiceUserAPIProvider.deleteUserSubAddress(
+                                context, addressID);
                         deleteSubAddress.then((value) {
                           if (value != null && value.status == 'success') {
                             print('Delete Success');
@@ -1745,7 +1745,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
                             dialog.dissmiss();
                             NavigationRouter
                                 .switchToServiceUserEditProfileScreen(
-                                context, widget.userProfileImage);
+                                    context, widget.userProfileImage);
                           }
                         }).catchError((onError) {
                           ProgressDialogBuilder.hideLoader(context);
@@ -1814,7 +1814,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   _imgFromGallery(int index) async {
     final pickedImage =
-    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
 
     setState(() {
       if (pickedImage != null) {
@@ -2299,7 +2299,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           _myPrefecture;
 
       List<Placemark> userAddress =
-      await geoLocator.placemarkFromAddress(manualUserAddress);
+          await geoLocator.placemarkFromAddress(manualUserAddress);
       userAddedAddressPlaceMark = userAddress[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
       HealingMatchConstants.mEditCurrentLatitude = addressPosition.latitude;
@@ -2309,7 +2309,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
       HealingMatchConstants.userEditAddress = manualUserAddress;
       print(
           'Manual Address lat lon : ${HealingMatchConstants.currentLatitude} && '
-              '${HealingMatchConstants.currentLongitude}');
+          '${HealingMatchConstants.currentLongitude}');
       print('Manual Place Json : ${userAddedAddressPlaceMark.toJson()}');
       print('Manual Address : ${HealingMatchConstants.userAddress}');
       print('Manual Modified Address : ${manualUserAddress.trim()}');
@@ -2358,7 +2358,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
     try {
       Uri updateProfile =
-      Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
+          Uri.parse(HealingMatchConstants.UPDATE_USER_DETAILS_URL);
       var request = http.MultipartRequest('POST', updateProfile);
       Map<String, String> headers = {
         "Content-Type": "application/json",
@@ -2409,7 +2409,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           print('Response Success : ${value.body.toString()}');
           final Map userDetailsResponse = json.decode(value.body);
           final profileUpdateResponseModel =
-          UserUpdateResponseModel.fromJson(userDetailsResponse);
+              UserUpdateResponseModel.fromJson(userDetailsResponse);
           HealingMatchConstants.editUserSubAddressList =
               profileUpdateResponseModel.subAddress;
           print(profileUpdateResponseModel.toJson());
@@ -2424,7 +2424,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
           print('Error Response inside : ${value.body}');
           final Map errorResponse = json.decode(value.body);
           final editErrorUpdateResponse =
-          UpdateErrorModel.fromJson(errorResponse);
+              UpdateErrorModel.fromJson(errorResponse);
           print('Error Message : ${editErrorUpdateResponse.message}');
           ProgressDialogBuilder.hideLoader(context);
 
@@ -2471,7 +2471,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
 
   getUserProfileData() async {
     List<AddUserSubAddress> deletedDataListSubAddress =
-    new List<AddUserSubAddress>();
+        new List<AddUserSubAddress>();
     try {
       HealingMatchConstants.userAddressesList.clear();
       print('Getting values...EPF');
@@ -2622,7 +2622,7 @@ class _UpdateServiceUserDetailsState extends State<UpdateServiceUserDetails> {
   void _getLatLngFromAddress(String subAddress, var position) async {
     try {
       List<Placemark> address =
-      await geoLocator.placemarkFromAddress(subAddress);
+          await geoLocator.placemarkFromAddress(subAddress);
 
       userAddedAddressPlaceMark = address[0];
       Position addressPosition = userAddedAddressPlaceMark.position;
@@ -2738,7 +2738,7 @@ class _AddAddressState extends State<AddAddress> {
       backgroundColor: Colors.grey[200],
       body: Center(
         child: new AnimatedContainer(
-          // Define how long the animation should take.
+            // Define how long the animation should take.
             duration: Duration(seconds: 3),
             // Provide an optional curve to make the animation feel smoother.
             curve: Curves.bounceIn,
@@ -2789,8 +2789,8 @@ class _AddAddressState extends State<AddAddress> {
                                     Center(
                                       child: Container(
                                         width:
-                                        MediaQuery.of(context).size.width *
-                                            0.85,
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
                                         child: WidgetAnimator(
                                           DropDownFormField(
                                             hintText: '登録する地点のカテゴリー *',
@@ -2850,17 +2850,17 @@ class _AddAddressState extends State<AddAddress> {
                                 visible: visible,
                                 child: Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.85,
+                                      MediaQuery.of(context).size.width * 0.85,
                                   height: containerHeight,
                                   child: WidgetAnimator(
                                     TextFormField(
                                       controller: otherController,
                                       style:
-                                      HealingMatchConstants.formTextStyle,
+                                          HealingMatchConstants.formTextStyle,
                                       decoration: InputDecoration(
                                         counterText: '',
                                         contentPadding:
-                                        EdgeInsets.fromLTRB(6, 3, 6, 3),
+                                            EdgeInsets.fromLTRB(6, 3, 6, 3),
                                         border: HealingMatchConstants
                                             .textFormInputBorder,
                                         focusedBorder: HealingMatchConstants
@@ -2875,7 +2875,7 @@ class _AddAddressState extends State<AddAddress> {
                                         labelStyle: HealingMatchConstants
                                             .formLabelTextStyle,*/
                                         fillColor:
-                                        ColorConstants.formFieldFillColor,
+                                            ColorConstants.formFieldFillColor,
                                       ),
                                     ),
                                   ),
@@ -2889,7 +2889,7 @@ class _AddAddressState extends State<AddAddress> {
                               ),
                               Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
@@ -2899,169 +2899,169 @@ class _AddAddressState extends State<AddAddress> {
                                       key: _addedPrefectureKey,
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Expanded(
                                             child: Center(
                                                 child:
-                                                addedAddressStateDropDownValues !=
-                                                    null
-                                                    ? Container(
-                                                  width: MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .width *
-                                                      0.39,
-                                                  child:
-                                                  WidgetAnimator(
-                                                    DropDownFormField(
-                                                        hintText:
-                                                        '府県',
-                                                        value:
-                                                        _myAddedPrefecture,
-                                                        onSaved:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedPrefecture =
-                                                                    value;
-                                                              });
-                                                        },
-                                                        onChanged:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedPrefecture =
-                                                                    value;
-                                                                print(
-                                                                    'Prefecture value : ${_myAddedPrefecture.toString()}');
-                                                                _addedAddressPrefId =
-                                                                    addedAddressStateDropDownValues.indexOf(value) +
-                                                                        1;
-                                                                print(
-                                                                    'prefID : ${_addedAddressPrefId.toString()}');
-                                                                addedAddressCityDropDownValues
-                                                                    .clear();
-                                                                _myAddedCity =
-                                                                '';
-                                                                _getAddedAddressCities(
-                                                                    _addedAddressPrefId);
-                                                              });
-                                                        },
-                                                        dataSource:
-                                                        addedAddressStateDropDownValues,
-                                                        isList: true,
-                                                        textField:
-                                                        'display',
-                                                        valueField:
-                                                        'value'),
-                                                  ),
-                                                )
-                                                    : Container(
-                                                  width: MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .width *
-                                                      0.39,
-                                                  child:
-                                                  WidgetAnimator(
-                                                    DropDownFormField(
-                                                        hintText:
-                                                        '府県',
-                                                        value:
-                                                        _myAddedPrefecture,
-                                                        onSaved:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedPrefecture =
-                                                                    value;
-                                                              });
-                                                        },
-                                                        dataSource: [],
-                                                        isList: true,
-                                                        textField:
-                                                        'display',
-                                                        valueField:
-                                                        'value'),
-                                                  ),
-                                                )),
+                                                    addedAddressStateDropDownValues !=
+                                                            null
+                                                        ? Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.39,
+                                                            child:
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                      print(
+                                                                          'Prefecture value : ${_myAddedPrefecture.toString()}');
+                                                                      _addedAddressPrefId =
+                                                                          addedAddressStateDropDownValues.indexOf(value) +
+                                                                              1;
+                                                                      print(
+                                                                          'prefID : ${_addedAddressPrefId.toString()}');
+                                                                      addedAddressCityDropDownValues
+                                                                          .clear();
+                                                                      _myAddedCity =
+                                                                          '';
+                                                                      _getAddedAddressCities(
+                                                                          _addedAddressPrefId);
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressStateDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
+                                                          )
+                                                        : Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.39,
+                                                            child:
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText:
+                                                                      '府県',
+                                                                  value:
+                                                                      _myAddedPrefecture,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedPrefecture =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
+                                                          )),
                                           ),
                                           SizedBox(width: 3),
                                           Expanded(
                                             child: Form(
                                                 key: _addedCityKey,
                                                 child:
-                                                addedAddressCityDropDownValues !=
-                                                    null
-                                                    ? Container(
-                                                  width: MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .width *
-                                                      0.39,
-                                                  child:
-                                                  WidgetAnimator(
-                                                    DropDownFormField(
-                                                        hintText: '市',
-                                                        value:
-                                                        _myAddedCity,
-                                                        onSaved:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedCity =
-                                                                    value;
-                                                              });
-                                                        },
-                                                        onChanged:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedCity =
-                                                                    value;
-                                                                //print(_myBldGrp.toString());
-                                                              });
-                                                        },
-                                                        dataSource:
-                                                        addedAddressCityDropDownValues,
-                                                        isList: true,
-                                                        textField:
-                                                        'display',
-                                                        valueField:
-                                                        'value'),
-                                                  ),
-                                                )
-                                                    : Container(
-                                                  width: MediaQuery.of(
-                                                      context)
-                                                      .size
-                                                      .width *
-                                                      0.39,
-                                                  child:
-                                                  WidgetAnimator(
-                                                    DropDownFormField(
-                                                        hintText: '市',
-                                                        value:
-                                                        _myAddedCity,
-                                                        onSaved:
-                                                            (value) {
-                                                          setState(
-                                                                  () {
-                                                                _myAddedCity =
-                                                                    value;
-                                                              });
-                                                        },
-                                                        dataSource: [],
-                                                        isList: true,
-                                                        textField:
-                                                        'display',
-                                                        valueField:
-                                                        'value'),
-                                                  ),
-                                                )),
+                                                    addedAddressCityDropDownValues !=
+                                                            null
+                                                        ? Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.39,
+                                                            child:
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                      //print(_myBldGrp.toString());
+                                                                    });
+                                                                  },
+                                                                  dataSource:
+                                                                      addedAddressCityDropDownValues,
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
+                                                          )
+                                                        : Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.39,
+                                                            child:
+                                                                WidgetAnimator(
+                                                              DropDownFormField(
+                                                                  hintText: '市',
+                                                                  value:
+                                                                      _myAddedCity,
+                                                                  onSaved:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _myAddedCity =
+                                                                          value;
+                                                                    });
+                                                                  },
+                                                                  dataSource: [],
+                                                                  isList: true,
+                                                                  textField:
+                                                                      'display',
+                                                                  valueField:
+                                                                      'value'),
+                                                            ),
+                                                          )),
                                           ),
                                         ],
                                       ),
@@ -3073,17 +3073,17 @@ class _AddAddressState extends State<AddAddress> {
                                         0.85,
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Expanded(
                                           child: Center(
                                             child: Container(
                                               // height: MediaQuery.of(context).size.height * 0.07,
                                               width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                                      .size
+                                                      .width *
                                                   0.39,
                                               height: containerHeight,
                                               child: WidgetAnimator(
@@ -3091,9 +3091,9 @@ class _AddAddressState extends State<AddAddress> {
                                                   //enableInteractiveSelection: false,
                                                   autofocus: false,
                                                   controller:
-                                                  addedUserAreaController,
+                                                      addedUserAreaController,
                                                   decoration:
-                                                  new InputDecoration(
+                                                      new InputDecoration(
                                                     filled: true,
                                                     fillColor: ColorConstants
                                                         .formFieldFillColor,
@@ -3105,21 +3105,21 @@ class _AddAddressState extends State<AddAddress> {
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
                                                         fontFamily:
-                                                        'NotoSansJP',
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
-                                                    Colors.grey[100],
+                                                        Colors.grey[100],
                                                     border: HealingMatchConstants
                                                         .textFormInputBorder,
                                                     focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                   ),
                                                   // validator: (value) => _validateEmail(value),
                                                 ),
@@ -3131,8 +3131,8 @@ class _AddAddressState extends State<AddAddress> {
                                           child: Container(
                                             // height: MediaQuery.of(context).size.height * 0.07,
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width *
+                                                    .size
+                                                    .width *
                                                 0.39,
                                             height: containerHeight,
                                             child: WidgetAnimator(
@@ -3141,7 +3141,7 @@ class _AddAddressState extends State<AddAddress> {
                                                 // keyboardType: TextInputType.number,
                                                 autofocus: false,
                                                 controller:
-                                                addedBuildingNameController,
+                                                    addedBuildingNameController,
                                                 decoration: new InputDecoration(
                                                   filled: true,
                                                   fillColor: ColorConstants
@@ -3159,14 +3159,14 @@ class _AddAddressState extends State<AddAddress> {
                                                   border: HealingMatchConstants
                                                       .textFormInputBorder,
                                                   focusedBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
                                                   disabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
                                                   enabledBorder:
-                                                  HealingMatchConstants
-                                                      .textFormInputBorder,
+                                                      HealingMatchConstants
+                                                          .textFormInputBorder,
                                                 ),
                                                 // validator: (value) => _validateEmail(value),
                                               ),
@@ -3182,17 +3182,17 @@ class _AddAddressState extends State<AddAddress> {
                                         0.85,
                                     child: Row(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Expanded(
                                           child: Center(
                                             child: Container(
                                               // height: MediaQuery.of(context).size.height * 0.07,
                                               width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                                      .size
+                                                      .width *
                                                   0.39,
                                               height: containerHeight,
                                               child: WidgetAnimator(
@@ -3201,9 +3201,9 @@ class _AddAddressState extends State<AddAddress> {
                                                   autofocus: false,
                                                   maxLength: 4,
                                                   controller:
-                                                  addedRoomNumberController,
+                                                      addedRoomNumberController,
                                                   decoration:
-                                                  new InputDecoration(
+                                                      new InputDecoration(
                                                     counterText: '',
                                                     filled: true,
                                                     fillColor: ColorConstants
@@ -3212,21 +3212,21 @@ class _AddAddressState extends State<AddAddress> {
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey[400],
                                                         fontFamily:
-                                                        'NotoSansJP',
+                                                            'NotoSansJP',
                                                         fontSize: 14),
                                                     focusColor:
-                                                    Colors.grey[100],
+                                                        Colors.grey[100],
                                                     border: HealingMatchConstants
                                                         .textFormInputBorder,
                                                     focusedBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     disabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                     enabledBorder:
-                                                    HealingMatchConstants
-                                                        .textFormInputBorder,
+                                                        HealingMatchConstants
+                                                            .textFormInputBorder,
                                                   ),
                                                   // validator: (value) => _validateEmail(value),
                                                 ),
@@ -3311,7 +3311,7 @@ class _AddAddressState extends State<AddAddress> {
   _addUserAddress() async {
     print(
         'Categories : $_myCategoryPlaceForMassage && ${HealingMatchConstants.userEditPlaceForMassage} '
-            '&& ${HealingMatchConstants.userEditPlaceForMassageOther}');
+        '&& ${HealingMatchConstants.userEditPlaceForMassageOther}');
 
     if (addedRoomNumberController.text.isEmpty ||
         _myCategoryPlaceForMassage.isEmpty ||
@@ -3436,7 +3436,7 @@ class _AddAddressState extends State<AddAddress> {
         _myAddedPrefecture;
     print('USER MANUAL ADDRESS : $manualAddedAddress');
     List<Placemark> userManualAddress =
-    await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
+        await addAddressgeoLocator.placemarkFromAddress(manualAddedAddress);
     userManualAddressPlaceMark = userManualAddress[0];
     Position addressPosition = userManualAddressPlaceMark.position;
     HealingMatchConstants.manualAddressCurrentLatitude =
@@ -3450,7 +3450,7 @@ class _AddAddressState extends State<AddAddress> {
 
     print(
         'Manual Address lat lon : ${HealingMatchConstants.manualAddressCurrentLatitude} && '
-            '${HealingMatchConstants.manualAddressCurrentLongitude}');
+        '${HealingMatchConstants.manualAddressCurrentLongitude}');
     print('Manual Place Json : ${userManualAddressPlaceMark.toJson()}');
     print('Manual Address : ${HealingMatchConstants.manualUserAddress}');
 

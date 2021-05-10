@@ -305,7 +305,7 @@ class _ProviderConfirmReservationScreenState
                 : Container(),
             index == 0
                 ? Positioned(
-                    top: 85.0,//88.0
+                    top: 85.0, //88.0
                     right: 10.0,
                     child: InkWell(
                       onTap: () {

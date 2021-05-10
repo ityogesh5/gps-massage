@@ -151,11 +151,15 @@ class _SearchResultState extends State<SearchResult> {
     borderRadius: BorderRadius.circular(8.0),
     color: Colors.white,
   );
-  var addressOfTherapists;
+  var addressOfTherapists, stateOfTherapist, cityOfTherapist;
   List<dynamic> therapistAddress = new List();
+  List<dynamic> therapistState = new List();
+  List<dynamic> therapistCity = new List();
   List<dynamic> distanceOfTherapist = new List();
+  List<dynamic> hasShop = new List();
   var distanceRadius;
   var childrenMeasures;
+  var isShop;
 
   @override
   void initState() {
@@ -216,16 +220,38 @@ class _SearchResultState extends State<SearchResult> {
               if (getTherapistsSearchResults[i].user.addresses != null) {
                 therapistAddress.add(
                     getTherapistsSearchResults[i].user.addresses[k].address);
+
+                therapistState.add(getTherapistsSearchResults[i]
+                    .user
+                    .addresses[k]
+                    .capitalAndPrefecture);
+
+                therapistCity.add(
+                    getTherapistsSearchResults[i].user.addresses[k].cityName);
+
                 distanceOfTherapist.add(getTherapistsSearchResults[i]
                     .user
                     .addresses[k]
                     .distance
                     .toStringAsFixed(2));
 
+                hasShop.add(getTherapistsSearchResults[i].user.isShop);
+                isShop = hasShop;
+
                 addressOfTherapists = therapistAddress;
+                stateOfTherapist = therapistState;
+                cityOfTherapist = therapistCity;
                 distanceRadius = distanceOfTherapist;
                 print(
                     'Position values : ${addressOfTherapists[0]} && ${therapistAddress.length}');
+
+                print(
+                    'State List values : ${stateOfTherapist[0]} && ${stateOfTherapist.length}');
+
+                print(
+                    'City List values : ${cityOfTherapist[0]} && ${cityOfTherapist.length}');
+
+                print('Has shop values : ${isShop[0]} && ${isShop.length}');
               }
             }
             if (getTherapistsSearchResults[i].user.childrenMeasure != null &&
@@ -611,56 +637,53 @@ class _SearchResultState extends State<SearchResult> {
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              Visibility(
-                                                                visible: widget
-                                                                        .getTherapistsSearchResults[
-                                                                            index]
-                                                                        .user
-                                                                        .businessForm
-                                                                        .contains(
-                                                                            '施術店舗あり 施術従業員あり') ||
-                                                                    widget
-                                                                        .getTherapistsSearchResults[
-                                                                            index]
-                                                                        .user
-                                                                        .businessForm
-                                                                        .contains(
-                                                                            '施術店舗あり 施術従業員なし（個人経営）') ||
-                                                                    widget
-                                                                        .getTherapistsSearchResults[
-                                                                            index]
-                                                                        .user
-                                                                        .businessForm
-                                                                        .contains(
-                                                                            '施術店舗なし 施術従業員なし（個人)'),
-                                                                child: Container(
-                                                                    decoration: BoxDecoration(
-                                                                        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
-                                                                          Colors
-                                                                              .white,
-                                                                          Colors
-                                                                              .white,
-                                                                        ]),
-                                                                        shape: BoxShape.rectangle,
-                                                                        border: Border.all(
-                                                                          color:
-                                                                              Colors.grey[300],
-                                                                        ),
-                                                                        borderRadius: BorderRadius.circular(5.0),
-                                                                        color: Colors.grey[200]),
-                                                                    padding: EdgeInsets.all(4),
-                                                                    child: Text(
-                                                                      '店舗',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            1),
-                                                                      ),
-                                                                    )),
-                                                              ),
+                                                              widget
+                                                                          .getTherapistsSearchResults[
+                                                                              index]
+                                                                          .user
+                                                                          .businessForm
+                                                                          .contains(
+                                                                              '施術店舗あり 施術従業員あり') ||
+                                                                      widget
+                                                                          .getTherapistsSearchResults[
+                                                                              index]
+                                                                          .user
+                                                                          .businessForm
+                                                                          .contains(
+                                                                              '施術店舗あり 施術従業員なし（個人経営）') ||
+                                                                      widget
+                                                                          .getTherapistsSearchResults[
+                                                                              index]
+                                                                          .user
+                                                                          .businessForm
+                                                                          .contains(
+                                                                              '施術店舗なし 施術従業員なし（個人)')
+                                                                  ? Visibility(
+                                                                      visible:
+                                                                          true,
+                                                                      child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                                Colors.white,
+                                                                                Colors.white,
+                                                                              ]),
+                                                                              shape: BoxShape.rectangle,
+                                                                              border: Border.all(
+                                                                                color: Colors.grey[300],
+                                                                              ),
+                                                                              borderRadius: BorderRadius.circular(5.0),
+                                                                              color: Colors.grey[200]),
+                                                                          padding: EdgeInsets.all(4),
+                                                                          child: Text(
+                                                                            '店舗',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Color.fromRGBO(0, 0, 0, 1),
+                                                                            ),
+                                                                          )),
+                                                                    )
+                                                                  : SizedBox
+                                                                      .shrink(),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
@@ -749,39 +772,32 @@ class _SearchResultState extends State<SearchResult> {
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(4),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                        gradient: LinearGradient(
-                                                                            begin: Alignment
-                                                                                .topCenter,
-                                                                            end: Alignment
-                                                                                .bottomCenter,
-                                                                            colors: [
-                                                                              Colors.white,
-                                                                              Colors.white,
-                                                                            ]),
-                                                                        shape: BoxShape
-                                                                            .rectangle,
-                                                                        border: Border
-                                                                            .all(
-                                                                          color:
-                                                                              Colors.grey[300],
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5.0),
-                                                                        color: Colors
-                                                                            .grey[200]),
-                                                                child: widget
-                                                                            .getTherapistsSearchResults[index]
-                                                                            .user
-                                                                            .genderOfService !=
-                                                                        null
-                                                                    ? Text(
+                                                              widget
+                                                                          .getTherapistsSearchResults[
+                                                                              index]
+                                                                          .user
+                                                                          .genderOfService !=
+                                                                      null
+                                                                  ? Container(
+                                                                      padding: widget.getTherapistsSearchResults[index].user.genderOfService !=
+                                                                              null
+                                                                          ? EdgeInsets.all(
+                                                                              4)
+                                                                          : EdgeInsets.all(
+                                                                              0),
+                                                                      decoration: BoxDecoration(
+                                                                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                                                                            Colors.white,
+                                                                            Colors.white,
+                                                                          ]),
+                                                                          shape: BoxShape.rectangle,
+                                                                          border: Border.all(
+                                                                            color:
+                                                                                Colors.grey[300],
+                                                                          ),
+                                                                          borderRadius: BorderRadius.circular(5.0),
+                                                                          color: Colors.grey[200]),
+                                                                      child: Text(
                                                                         '${widget.getTherapistsSearchResults[index].user.genderOfService}',
                                                                         style:
                                                                             TextStyle(
@@ -791,9 +807,8 @@ class _SearchResultState extends State<SearchResult> {
                                                                               0,
                                                                               1),
                                                                         ),
-                                                                      )
-                                                                    : Container(),
-                                                              ),
+                                                                      ))
+                                                                  : Container(),
                                                             ],
                                                           ),
                                                         ),
@@ -1097,7 +1112,10 @@ class _SearchResultState extends State<SearchResult> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  addressOfTherapists != null
+                                                  addressOfTherapists != null &&
+                                                          isShop[index] !=
+                                                              null &&
+                                                          isShop[index] == true
                                                       ? Flexible(
                                                           child: Container(
                                                             child: Text(
@@ -1110,13 +1128,24 @@ class _SearchResultState extends State<SearchResult> {
                                                             ),
                                                           ),
                                                         )
-                                                      : Text(
-                                                          '埼玉県浦和区高砂4丁目4',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
+                                                      : //Container(),
+                                                      cityOfTherapist != null &&
+                                                              stateOfTherapist !=
+                                                                  null
+                                                          ? Flexible(
+                                                              child: Container(
+                                                                child: Text(
+                                                                  '${cityOfTherapist[index] + ',' + '${stateOfTherapist[index]}'}',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : SizedBox.shrink(),
                                                   Spacer(),
                                                   distanceRadius != null &&
                                                           distanceRadius != 0

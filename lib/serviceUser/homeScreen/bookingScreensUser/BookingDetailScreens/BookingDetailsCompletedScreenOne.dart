@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'dart:core';
 import 'dart:ui';
-import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,7 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
-import 'package:gps_massageapp/customFavoriteButton/CustomHeartFavorite.dart';
 import 'package:gps_massageapp/customLibraryClasses/ListViewAnimation/ListAnimationClass.dart';
 import 'package:gps_massageapp/customLibraryClasses/customToggleButton/CustomToggleButton.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
@@ -27,11 +26,6 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
 import 'package:toast/toast.dart';
-
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_bloc.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
-import 'package:http/http.dart' as http;
 
 final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -226,10 +220,9 @@ class _BookingDetailsCompletedScreenOneState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getTherapistCertificate(widget.getTherapistByIdModel);
-    // getTherapistDetails(widget.userID);
+    getTherapistDetails(widget.userID);
     getServiceType();
     getBannerImages();
     getEstheticData();
@@ -359,46 +352,40 @@ class _BookingDetailsCompletedScreenOneState
               certificateUploadKeys.remove('updatedAt');
               print('Keys certificate type : $certificateUploadKeys');
             }
-          }
-          certificateUploadKeys.forEach((key, value) async {
-            if (certificateUploadKeys[key] != null) {
-              String jKey = getQualificationJPWordsForType(key);
-              if (jKey == "はり師" ||
-                  jKey == "きゅう師" ||
-                  jKey == "鍼灸師" ||
-                  jKey == "あん摩マッサージ指圧師" ||
-                  jKey == "柔道整復師" ||
-                  jKey == "理学療法士") {
-                certificateImages["国家資格保有"] = "国家資格保有";
-              } else if (jKey == "国家資格取得予定（学生）") {
-                certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
-              } else if (jKey == "民間資格") {
-                certificateImages["民間資格"] = "民間資格";
-              } else if (jKey == "無資格") {
-                certificateImages["無資格"] = "無資格";
+            certificateUploadKeys.forEach((key, value) async {
+              if (certificateUploadKeys[key] != null) {
+                String jKey = getQualificationJPWordsForType(key);
+                if (jKey == "はり師" ||
+                    jKey == "きゅう師" ||
+                    jKey == "鍼灸師" ||
+                    jKey == "あん摩マッサージ指圧師" ||
+                    jKey == "柔道整復師" ||
+                    jKey == "理学療法士") {
+                  certificateImages["国家資格保有"] = "国家資格保有";
+                } else if (jKey == "国家資格取得予定（学生）") {
+                  certificateImages["国家資格取得予定（学生）"] = "国家資格取得予定（学生）";
+                } else if (jKey == "民間資格") {
+                  certificateImages["民間資格"] = "民間資格";
+                } else if (jKey == "無資格") {
+                  certificateImages["無資格"] = "無資格";
+                }
+              }
+            });
+            if (certificateImages.length == 0) {
+              certificateImages["無資格"] = "無資格";
+            }
+            print('certificateImages data type : $certificateImages');
+            if (getTherapistByIdModel.data.addresses != null) {
+              for (int i = 0;
+                  i < getTherapistByIdModel.data.addresses.length;
+                  i++) {
+                therapistAddressDetails =
+                    getTherapistByIdModel.data.addresses[i].address;
               }
             }
-          });
-          if (certificateImages.length == 0) {
-            certificateImages["無資格"] = "無資格";
           }
-          print('certificateImages data type : $certificateImages');
         });
       }
-    } catch (e) {
-      print(e.toString());
-    }
-    try {
-      setState(() {
-        if (getTherapistByIdModel.data.addresses != null) {
-          for (int i = 0;
-              i < getTherapistByIdModel.data.addresses.length;
-              i++) {
-            therapistAddressDetails =
-                getTherapistByIdModel.data.addresses[i].address;
-          }
-        }
-      });
     } catch (e) {
       print(e.toString());
     }

@@ -32,6 +32,7 @@ class DetailPageSearchOne extends StatefulWidget {
   final userID;
 
   DetailPageSearchOne(this.userID);
+
   @override
   _DetailPageSearchOneState createState() => _DetailPageSearchOneState();
 }
