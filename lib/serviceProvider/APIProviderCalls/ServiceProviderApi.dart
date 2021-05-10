@@ -6,6 +6,7 @@ import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewa
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewCreateResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import "package:googleapis_auth/auth_io.dart";
 import "package:googleapis/calendar/v3.dart";
 import 'dart:developer';
@@ -254,6 +255,34 @@ class ServiceProviderApi {
       });
     } catch (e) {
       log('Error creating event $e');
+    }
+  }
+
+  static Future<ProviderDetailsResponseModel> getProfitandRatingApi() async {
+    //ProviderDetailsResponseModel therapistDetails;
+
+    try {
+      final url = HealingMatchConstants.THERAPIST_DETAILS_BY_ID;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "therapist_id": HealingMatchConstants.userId,
+          }));
+      if (response.statusCode == 200) {
+        var therapistData = json.decode(response.body);
+        ProviderDetailsResponseModel therapistDetails =
+            ProviderDetailsResponseModel.fromJson(therapistData);
+        return therapistDetails;
+      } else {
+        print('Error occurred!!! TypeMassages response');
+        throw Exception();
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
     }
   }
 }

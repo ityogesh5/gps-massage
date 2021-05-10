@@ -583,9 +583,7 @@ class _LoadProviderReviewRatingsByIdState
                             height: 13.0,
                             width: 13.0,
                             //color: Colors.black,
-                          ), /*  new Icon(
-                                                                Icons.star,
-                                                                size: 20.0), */
+                          ), 
                   )),
               onRatingUpdate: (rating) {
                 print(rating);

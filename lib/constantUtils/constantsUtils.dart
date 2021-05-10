@@ -92,6 +92,10 @@ class HealingMatchConstants {
   static const String USER_LIST_ID_URL =
       ON_PREMISE_USER_BASE_URL + '/user' + '/userbyId';
 
+  //get Therapist Details by ID
+  static const String THERAPIST_DETAILS_BY_ID =
+      ON_PREMISE_USER_BASE_URL + "/user" + "/therapistByIdProfit";
+
   // // get Users list By ID
   // static const String THERAPIST_USER_BY_ID_URL =
   //     ON_PREMISE_USER_BASE_URL + '/user' + '/therapistUserbyId';
