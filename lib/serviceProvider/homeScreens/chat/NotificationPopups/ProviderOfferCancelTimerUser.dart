@@ -75,7 +75,7 @@ class _ProviderOfferCancelTimerUserState
                 height: 18.0,
               ),
               buildBookingCard(),
-             /*  Text(
+              /*  Text(
                 '"コストが高すぎる"',
                 style: TextStyle(
                   fontSize: 14.0,

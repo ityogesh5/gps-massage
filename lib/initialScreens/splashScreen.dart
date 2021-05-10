@@ -31,14 +31,13 @@ class _SplashScreenPageState extends State<SplashScreen>
   bool providerRegistered = false;
 
   startTime() async {
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
     if (HealingMatchConstants.isInternetAvailable) {
       _navigateUser();
-      //NavigationRouter.switchToServiceUserBottomBar(context);
     } else {
       DialogHelper.showNoInternetConnectionDialog(context, SplashScreen());
     }
@@ -51,9 +50,9 @@ class _SplashScreenPageState extends State<SplashScreen>
     CheckInternetConnection.checkConnectivity(context);
     super.initState();
     animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 4));
+        vsync: this, duration: new Duration(seconds: 2));
     animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.easeInCirc);
+        parent: animationController, curve: Curves.slowMiddle);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -98,7 +97,7 @@ class _SplashScreenPageState extends State<SplashScreen>
       userRegistered = value.getBool('isUserRegister');
       providerRegistered = value.getBool('isProviderRegister');
       userLoggedOut = value.getBool('isUserLoggedOut');
-      providerLoggedOut =  value.getBool('isProviderLoggedOut');
+      providerLoggedOut = value.getBool('isProviderLoggedOut');
       print('User Register : $userRegistered');
       if (userLoggedIn != null && userLoggedIn) {
         print('Entering 1 loop !!');

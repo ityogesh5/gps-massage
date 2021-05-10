@@ -40,6 +40,9 @@ class Data {
     this.id,
     this.email,
     this.phoneNumber,
+    this.fcmToken,
+    this.lineBotUserId,
+    this.appleUserId,
     this.userName,
     this.gender,
     this.dob,
@@ -55,6 +58,9 @@ class Data {
   int id;
   String email;
   int phoneNumber;
+  String fcmToken;
+  dynamic lineBotUserId;
+  dynamic appleUserId;
   String userName;
   String gender;
   DateTime dob;
@@ -62,14 +68,17 @@ class Data {
   bool isTherapist;
   bool isVerified;
   String userOccupation;
-  dynamic uploadProfileImgUrl;
-  dynamic userSearchRadiusDistance;
+  String uploadProfileImgUrl;
+  int userSearchRadiusDistance;
   List<Address> addresses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
+        fcmToken: json["fcmToken"],
+        lineBotUserId: json["lineBotUserId "],
+        appleUserId: json["appleUserId "],
         userName: json["userName"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
@@ -87,6 +96,9 @@ class Data {
         "id": id,
         "email": email,
         "phoneNumber": phoneNumber,
+        "fcmToken ": fcmToken,
+        "lineBotUserId ": lineBotUserId,
+        "appleUserId ": appleUserId,
         "userName": userName,
         "gender": gender,
         "dob":
@@ -117,9 +129,9 @@ class Address {
     this.area,
     this.buildingName,
     this.postalCode,
+    this.geomet,
     this.lat,
     this.lon,
-    this.userSearchRadiusDistance,
     this.createdUser,
     this.updatedUser,
     this.isDefault,
@@ -133,7 +145,7 @@ class Address {
   String address;
   String userRoomNumber;
   String userPlaceForMassage;
-  dynamic otherAddressType;
+  String otherAddressType;
   String capitalAndPrefecture;
   dynamic capitalAndPrefectureId;
   String cityName;
@@ -141,9 +153,9 @@ class Address {
   String area;
   String buildingName;
   dynamic postalCode;
+  Geomet geomet;
   double lat;
-  dynamic lon;
-  dynamic userSearchRadiusDistance;
+  double lon;
   String createdUser;
   String updatedUser;
   bool isDefault;
@@ -157,21 +169,19 @@ class Address {
         address: json["address"],
         userRoomNumber:
             json["userRoomNumber"] == null ? null : json["userRoomNumber"],
-        userPlaceForMassage: json["userPlaceForMassage"] == null
-            ? null
-            : json["userPlaceForMassage"],
-        otherAddressType: json["otherAddressType"],
+        userPlaceForMassage: json["userPlaceForMassage"],
+        otherAddressType:
+            json["otherAddressType"] == null ? null : json["otherAddressType"],
         capitalAndPrefecture: json["capitalAndPrefecture"],
         capitalAndPrefectureId: json["capitalAndPrefectureId"],
         cityName: json["cityName"],
         citiesId: json["citiesId"],
-        area: json["area"] == null ? null : json["area"],
-        buildingName:
-            json["buildingName"] == null ? null : json["buildingName"],
+        area: json["area"],
+        buildingName: json["buildingName"],
         postalCode: json["postalCode"],
-        lat: json["lat"] == null ? null : json["lat"].toDouble(),
-        lon: json["lon"],
-        userSearchRadiusDistance: json["userSearchRadiusDistance"],
+        geomet: Geomet.fromJson(json["geomet"]),
+        lat: json["lat"].toDouble(),
+        lon: json["lon"].toDouble(),
         createdUser: json["createdUser"] == null ? null : json["createdUser"],
         updatedUser: json["updatedUser"] == null ? null : json["updatedUser"],
         isDefault: json["isDefault"],
@@ -185,23 +195,43 @@ class Address {
         "addressTypeSelection": addressTypeSelection,
         "address": address,
         "userRoomNumber": userRoomNumber == null ? null : userRoomNumber,
-        "userPlaceForMassage":
-            userPlaceForMassage == null ? null : userPlaceForMassage,
-        "otherAddressType": otherAddressType,
+        "userPlaceForMassage": userPlaceForMassage,
+        "otherAddressType": otherAddressType == null ? null : otherAddressType,
         "capitalAndPrefecture": capitalAndPrefecture,
         "capitalAndPrefectureId": capitalAndPrefectureId,
         "cityName": cityName,
         "citiesId": citiesId,
-        "area": area == null ? null : area,
-        "buildingName": buildingName == null ? null : buildingName,
+        "area": area,
+        "buildingName": buildingName,
         "postalCode": postalCode,
-        "lat": lat == null ? null : lat,
+        "geomet": geomet.toJson(),
+        "lat": lat,
         "lon": lon,
-        "userSearchRadiusDistance": userSearchRadiusDistance,
         "createdUser": createdUser == null ? null : createdUser,
         "updatedUser": updatedUser == null ? null : updatedUser,
         "isDefault": isDefault,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class Geomet {
+  Geomet({
+    this.type,
+    this.coordinates,
+  });
+
+  String type;
+  List<double> coordinates;
+
+  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
+        type: json["type"],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
       };
 }

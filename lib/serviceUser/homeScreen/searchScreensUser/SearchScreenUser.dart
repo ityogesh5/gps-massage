@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:date_util/date_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customradiobutton.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
@@ -34,6 +37,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   var _pageSize = 10;
   bool _isVisible = true;
   bool _addAddressVisible = false;
+  String _currentAddress = '';
+  Placemark currentLocationPlaceMark;
 
   NumberPicker dayPicker;
   int _cyear;
@@ -62,10 +67,11 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   var searchAddressLatitude, searchAddressLongitude;
 
-  List<Addresses> constantUserAddressValuesList = new List<Addresses>();
+  List<UserAddresses> constantUserAddressValuesList = new List<UserAddresses>();
   var constantUserAddressSize = new List();
   GlobalKey<ScaffoldState> _searchKey = new GlobalKey<ScaffoldState>();
   var differenceInTime;
+  Position _currentPosition;
 
   void initState() {
     super.initState();
@@ -106,7 +112,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                     children: [
                       Expanded(
                         child: Card(
-                          elevation: 4.0,
+                          elevation: 8.0,
                           margin: EdgeInsets.all(0.0),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -235,14 +241,20 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              maxRadius: 32,
-                              backgroundColor: Color.fromRGBO(200, 217, 33, 1),
-                              child: SvgPicture.asset(
-                                  'assets/images_gps/current_location.svg',
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  height: 30,
-                                  width: 30),
+                            GestureDetector(
+                              onTap: () {
+                                _getCurrentLocation();
+                              },
+                              child: CircleAvatar(
+                                maxRadius: 32,
+                                backgroundColor:
+                                    Color.fromRGBO(200, 217, 33, 1),
+                                child: SvgPicture.asset(
+                                    'assets/images_gps/current_location.svg',
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    height: 30,
+                                    width: 30),
+                              ),
                             ),
                             SizedBox(
                               height: 8,
@@ -287,7 +299,8 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
                                               null &&
                                           HealingMatchConstants
                                               .isUserRegistrationSkipped) {
-                                        return;
+                                        DialogHelper.showUserAddAddressDialog(
+                                            context);
                                       } else {
                                         NavigationRouter
                                             .switchToServiceUserViewProfileScreen(
@@ -1250,7 +1263,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
             ),
           ),
           Positioned(
-            top: 500.0,
+            top: 600.0,
             bottom: 100.0,
             right: 20.0,
             left: 0.0,
@@ -1443,34 +1456,41 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
   }
 
   getValidSearchFields() async {
-    showOverlayLoader();
-    _sharedPreferences.then((value) {
-      if (value != null) {
-        var userDetails = ServiceUserAPIProvider.getUserDetails(
-            context, HealingMatchConstants.serviceUserID);
-        userDetails.then((value) {
-          setState(() {
-            constantUserAddressValuesList = value.data.addresses;
-            for (var category in constantUserAddressValuesList) {
-              print(
-                  'List length search : ${constantUserAddressValuesList.length}');
+    ProgressDialogBuilder.showOverlayLoader(context);
+    if (HealingMatchConstants.isUserRegistrationSkipped != null &&
+        HealingMatchConstants.isUserRegistrationSkipped) {
+      ProgressDialogBuilder.hideLoader(context);
+      return;
+    } else {
+      _sharedPreferences.then((value) {
+        if (value != null) {
+          var userDetails = ServiceUserAPIProvider.getUserDetails(
+              context, HealingMatchConstants.serviceUserID);
+          userDetails.then((value) {
+            setState(() {
+              constantUserAddressValuesList = value.data.addresses;
+              for (var category in constantUserAddressValuesList) {
+                print(
+                    'List length search : ${constantUserAddressValuesList.length}');
 
-              var categoryData = category.userPlaceForMassage;
-              constantUserAddressSize.add(categoryData);
-              print(
-                  'Size of list category : ${constantUserAddressSize.length} && $categoryData');
-              hideLoader();
-            }
+                var categoryData = category.userPlaceForMassage;
+                constantUserAddressSize.add(categoryData);
+                print(
+                    'Size of list category : ${constantUserAddressSize.length} && $categoryData');
+
+                ProgressDialogBuilder.hideLoader(context);
+              }
+            });
+          }).catchError((onError) {
+            ProgressDialogBuilder.hideLoader(context);
+            print('Catch error search : $onError');
           });
-        }).catchError((onError) {
-          hideLoader();
-          print('Catch error search : $onError');
-        });
-      }
-    }).catchError((onError) {
-      hideLoader();
-      print('S_Pref Exception : $onError');
-    });
+        }
+      }).catchError((onError) {
+        ProgressDialogBuilder.hideLoader(context);
+        print('S_Pref Exception : $onError');
+      });
+    }
   }
 
   _getLatLngFromAddress(String userAddress) async {
@@ -1493,7 +1513,7 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
           HealingMatchConstants.searchAddressLongitude != null) {
         _getSearchResults();
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1529,13 +1549,12 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
 
   proceedToSearchResults() async {
     try {
-      showOverlayLoader();
       print(
           'User address proceed : ${HealingMatchConstants.searchUserAddress}');
       if (HealingMatchConstants.searchUserAddress != null) {
         _getLatLngFromAddress(HealingMatchConstants.searchUserAddress);
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         _searchKey.currentState.showSnackBar(SnackBar(
           backgroundColor: ColorConstants.snackBarColor,
           duration: Duration(seconds: 3),
@@ -1565,115 +1584,68 @@ class _SearchScreenUserState extends State<SearchScreenUser> {
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Exception in search criteria : ${e.toString()}');
     }
   }
 
   _getKeywordResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(
-            context, _pageNumber, _pageSize)
-        .then((value) {
-      if (value != null &&
-          value.status != null &&
-          value.data.searchList != null &&
-          value.data.searchList.length != 0) {
-        HealingMatchConstants.searchList = value.data.searchList;
-        print(
-            'Search List Length : ${HealingMatchConstants.searchList.length}');
-        NavigationRouter.switchToUserSearchResult(context);
-      } else {
-        hideLoader();
-        _searchKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 7),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _searchKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
-      }
-    }).catchError((onError) {
-      hideLoader();
-      print('Search catch error : ${onError.toString()}');
-    });
+    NavigationRouter.switchToUserSearchResult(context);
   }
 
   _getSearchResults() {
-    ServiceUserAPIProvider.getTherapistSearchResults(
-            context, _pageNumber, _pageSize)
-        .then((value) {
-      if (value != null &&
-          value.status != null &&
-          value.data.searchList != null &&
-          value.data.searchList.length != 0) {
-        HealingMatchConstants.searchList = value.data.searchList;
+    try {
+      ProgressDialogBuilder.hideLoader(context);
+      NavigationRouter.switchToUserSearchResult(context);
+    } catch (e) {
+      print('Search Exception before bloc : ${e.toString()}');
+    }
+  }
+
+  // Get current address from Latitude Longitude
+  _getCurrentLocation() async {
+    geoLocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      _currentPosition = position;
+      print('Current lat : ${_currentPosition.latitude}');
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print('Current Location exception : ${e.toString()}');
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      ProgressDialogBuilder.showOverlayLoader(context);
+      List<Placemark> p = await geoLocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      currentLocationPlaceMark = p[0];
+
+      HealingMatchConstants.currentLatitude = _currentPosition.latitude;
+      HealingMatchConstants.currentLongitude = _currentPosition.longitude;
+
+      _currentAddress =
+          '${currentLocationPlaceMark.locality},${currentLocationPlaceMark.subAdministrativeArea},${currentLocationPlaceMark.administrativeArea},${currentLocationPlaceMark.postalCode}'
+          ',${currentLocationPlaceMark.country}';
+      if (_currentAddress != null && _currentAddress.isNotEmpty) {
+        HealingMatchConstants.searchUserAddress = _currentAddress;
         print(
-            'Search List Length : ${HealingMatchConstants.searchList.length}');
-        NavigationRouter.switchToUserSearchResult(context);
+            'Current Search address : ${HealingMatchConstants.searchUserAddress} : '
+            '${HealingMatchConstants.currentLatitude} && '
+            '${HealingMatchConstants.currentLongitude}');
+        proceedToSearchResults();
       } else {
-        hideLoader();
-        _searchKey.currentState.showSnackBar(SnackBar(
-          backgroundColor: ColorConstants.snackBarColor,
-          duration: Duration(seconds: 7),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text('検索結果が見つかりません！他の値の入力で再試行してください。',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontFamily: 'NotoSansJP')),
-              ),
-              InkWell(
-                onTap: () {
-                  _searchKey.currentState.hideCurrentSnackBar();
-                },
-                child: Text('はい',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'NotoSansJP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.underline)),
-              ),
-            ],
-          ),
-        ));
+        ProgressDialogBuilder.hideLoader(context);
+        return null;
       }
-    }).catchError((onError) {
-      hideLoader();
-      print('Search catch error : ${onError.toString()}');
-    });
-  }
-
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
-
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
+    } catch (e) {
+      ProgressDialogBuilder.hideLoader(context);
+      print(e);
+    }
   }
 }

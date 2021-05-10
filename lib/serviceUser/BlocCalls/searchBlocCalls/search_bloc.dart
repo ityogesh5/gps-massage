@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
-import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/Repository/SearchResultsRepository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/searchBlocCalls/search_state.dart';
@@ -19,18 +18,25 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (event is FetchSearchResultsEvent) {
       yield SearchLoaderState();
       try {
-        List<TypeTherapistData> getTherapistsUsers =
+        List<SearchList> getTherapistsSearchResults =
             await getSearchResultsRepository.getSearchResultsByType(
-                event.accessToken,
-                event.massageTypeValue,
-                event.pageNumber,
-                event.pageSize);
-        yield SearchLoadedState(getTherapistsUsers: getTherapistsUsers);
+                event.pageNumber, event.pageSize);
+        yield SearchLoadedState(
+            getTherapistsSearchResults: getTherapistsSearchResults);
       } catch (e) {
         yield SearchErrorState(message: e.toString());
       }
-    } else if (event is RefreshSearchEvent) {
+    } else if (event is CallSearchByTypeEvent) {
       yield SearchLoadingState();
+      try {
+        List<SearchList> getTherapistsSearchResults =
+            await getSearchResultsRepository.getSearchResultsBySortType(
+                event.pageNumber, event.pageSize, event.searchType);
+        yield SearchSortByDataLoadedState(
+            getTherapistsSearchResults: getTherapistsSearchResults);
+      } catch (e) {
+        yield SearchErrorState(message: e.toString());
+      }
     }
   }
 }

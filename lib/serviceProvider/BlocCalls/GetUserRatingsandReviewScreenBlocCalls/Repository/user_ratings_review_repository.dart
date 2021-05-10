@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
-
 import 'package:http/http.dart' as http;
 
 abstract class GetUserReviewRepository {
@@ -17,8 +16,8 @@ class GetUserReviewRepositoryImpl implements GetUserReviewRepository {
   String accessToken;
 
   @override
-  Future<List<UserReviewList>> getUserReviewById(String accessToken,
-      int userId, int pageNumber, int pageSize) async {
+  Future<List<UserReviewList>> getUserReviewById(
+      String accessToken, int userId, int pageNumber, int pageSize) async {
     try {
       final url =
           'http://106.51.49.160:9094/api/review/userReviewMobileListbyId?page=$pageNumber&size=$pageSize';
@@ -31,8 +30,7 @@ class GetUserReviewRepositoryImpl implements GetUserReviewRepository {
           body: json.encode({
             "userId": userId,
           }));
-      print(
-          'Therapist repo token : $accessToken : UserId  : $userId');
+      print('Therapist repo token : $accessToken : UserId  : $userId');
       if (response.statusCode == 200) {
         var userData = json.decode(response.body);
         List<UserReviewList> usersReview =

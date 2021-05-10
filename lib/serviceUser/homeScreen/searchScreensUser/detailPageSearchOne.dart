@@ -29,6 +29,9 @@ double ratingsValue = 4.0;
 int _selectedIndex;
 
 class DetailPageSearchOne extends StatefulWidget {
+  final userID;
+
+  DetailPageSearchOne(this.userID);
   @override
   _DetailPageSearchOneState createState() => _DetailPageSearchOneState();
 }
@@ -48,11 +51,6 @@ class _DetailPageSearchOneState extends State<DetailPageSearchOne> {
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      /*    floatingActionButton: CircleAvatar(
-          maxRadius: 25,
-          backgroundColor: Colors.grey[100],
-          child: SvgPicture.asset('assets/images_gps/chat.svg',
-              height: 35, width: 35)),*/
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [

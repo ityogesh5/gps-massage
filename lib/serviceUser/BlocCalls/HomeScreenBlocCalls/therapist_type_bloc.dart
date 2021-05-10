@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistListByTypeModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/TherapistUsersModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/userDetails/GetTherapistDetails.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/Repository/therapist_type_repository.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
+import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommenedTherapistListModel.dart';
 import 'package:meta/meta.dart';
 
 class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
@@ -11,7 +15,7 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
   TherapistTypeBloc({@required this.getTherapistTypeRepository});
 
   @override
-  TherapistTypeState get initialState => GetTherapistTypeLoadingState();
+  TherapistTypeState get initialState => GetTherapistTypeLoaderState();
 
   @override
   Stream<TherapistTypeState> mapEventToState(TherapistTypeEvent event) async* {
@@ -24,13 +28,51 @@ class TherapistTypeBloc extends Bloc<TherapistTypeEvent, TherapistTypeState> {
                 event.massageTypeValue,
                 event.pageNumber,
                 event.pageSize);
+        List<RecommendTherapistList> getRecommendedTherapists =
+            await getTherapistTypeRepository.getRecommendedTherapists(
+                event.accessToken, event.pageNumber, event.pageSize);
         yield GetTherapistTypeLoadedState(
-            getTherapistsUsers: getTherapistsUsers);
+            getTherapistsUsers: getTherapistsUsers,
+            getRecommendedTherapists: getRecommendedTherapists);
       } catch (e) {
         yield GetTherapistTypeErrorState(message: e.toString());
       }
     } else if (event is RefreshEvent) {
-      yield GetTherapistTypeLoadingState();
+      yield GetTherapistTypeLoaderState();
+      try {
+        List<InitialTherapistData> getTherapistsUsers =
+            await getTherapistTypeRepository.getTherapistProfiles(
+                event.accessToken, event.pageNumber, event.pageSize);
+        List<RecommendTherapistList> getRecommendedTherapists =
+            await getTherapistTypeRepository.getRecommendedTherapists(
+                event.accessToken, event.pageNumber, event.pageSize);
+        yield GetTherapistLoadedState(
+            getTherapistsUsers: getTherapistsUsers,
+            getRecommendedTherapists: getRecommendedTherapists);
+      } catch (e) {
+        yield GetTherapistTypeErrorState(message: e.toString());
+      }
+    } else if (event is DetailEvent) {
+      yield GetTherapistTypeLoaderState();
+      try {
+        TherapistByIdModel getTherapistByIdModel =
+            await getTherapistTypeRepository.getTherapistById(
+                event.accessToken, event.userId);
+        yield GetTherapistId(getTherapistByIdModel: getTherapistByIdModel);
+      } catch (e) {
+        yield GetTherapistTypeErrorState(message: e.toString());
+      }
+    } else if (event is RecommendEvent) {
+      yield GetTherapistTypeLoaderState();
+      try {
+        List<RecommendTherapistList> getRecommendedTherapists =
+            await getTherapistTypeRepository.getRecommendedTherapists(
+                event.accessToken, event.pageNumber, event.pageSize);
+        yield GetRecommendTherapistLoadedState(
+            getRecommendedTherapists: getRecommendedTherapists);
+      } catch (e) {
+        yield GetTherapistTypeErrorState(message: e.toString());
+      }
     }
   }
 }

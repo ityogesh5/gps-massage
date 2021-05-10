@@ -1,33 +1,65 @@
 // To parse this JSON data, do
 //
-// final getTherapistDetails = getTherapistDetailsFromJson(jsonString);
+//     final therapistByIdModel = therapistByIdModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GetTherapistDetails getTherapistDetailsFromJson(String str) =>
-    GetTherapistDetails.fromJson(json.decode(str));
+TherapistByIdModel therapistByIdModelFromJson(String str) =>
+    TherapistByIdModel.fromJson(json.decode(str));
 
-String getTherapistDetailsToJson(GetTherapistDetails data) =>
+String therapistByIdModelToJson(TherapistByIdModel data) =>
     json.encode(data.toJson());
 
-class GetTherapistDetails {
-  GetTherapistDetails({
+class TherapistByIdModel {
+  TherapistByIdModel({
     this.status,
     this.data,
+    this.reviewData,
+    this.therapistEstheticList,
+    this.therapistFitnessListList,
+    this.therapistOrteopathicList,
+    this.therapistRelaxationList,
   });
 
   String status;
   Data data;
+  ReviewData reviewData;
+  List<TherapistList> therapistEstheticList;
+  List<TherapistList> therapistFitnessListList;
+  List<TherapistList> therapistOrteopathicList;
+  List<TherapistList> therapistRelaxationList;
 
-  factory GetTherapistDetails.fromJson(Map<String, dynamic> json) =>
-      GetTherapistDetails(
+  factory TherapistByIdModel.fromJson(Map<String, dynamic> json) =>
+      TherapistByIdModel(
         status: json["status"],
         data: Data.fromJson(json["data"]),
+        reviewData: ReviewData.fromJson(json["ReviewData"]),
+        therapistEstheticList: List<TherapistList>.from(
+            json["therapistEstheticList"]
+                .map((x) => TherapistList.fromJson(x))),
+        therapistFitnessListList: List<TherapistList>.from(
+            json["therapistFitnessListList"]
+                .map((x) => TherapistList.fromJson(x))),
+        therapistOrteopathicList: List<TherapistList>.from(
+            json["therapistOrteopathicList"]
+                .map((x) => TherapistList.fromJson(x))),
+        therapistRelaxationList: List<TherapistList>.from(
+            json["therapistRelaxationList"]
+                .map((x) => TherapistList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "data": data.toJson(),
+        "ReviewData": reviewData.toJson(),
+        "therapistEstheticList":
+            List<dynamic>.from(therapistEstheticList.map((x) => x.toJson())),
+        "therapistFitnessListList":
+            List<dynamic>.from(therapistFitnessListList.map((x) => x.toJson())),
+        "therapistOrteopathicList":
+            List<dynamic>.from(therapistOrteopathicList.map((x) => x.toJson())),
+        "therapistRelaxationList":
+            List<dynamic>.from(therapistRelaxationList.map((x) => x.toJson())),
       };
 }
 
@@ -66,13 +98,14 @@ class Data {
     this.genderOfService,
     this.childrenMeasure,
     this.customerId,
+    this.userSearchRadiusDistance,
+    this.isShop,
     this.createdAt,
     this.updatedAt,
     this.addresses,
     this.certificationUploads,
     this.bankDetails,
     this.banners,
-    this.therapistSubCategories,
   });
 
   int id;
@@ -103,18 +136,19 @@ class Data {
   String storeName;
   String storeType;
   int storePhone;
-  dynamic storeDescription;
+  String storeDescription;
   dynamic userOccupation;
   String genderOfService;
   String childrenMeasure;
   dynamic customerId;
+  dynamic userSearchRadiusDistance;
+  bool isShop;
   DateTime createdAt;
   DateTime updatedAt;
   List<Address> addresses;
   List<CertificationUpload> certificationUploads;
   List<BankDetail> bankDetails;
   List<Banner> banners;
-  List<dynamic> therapistSubCategories;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -150,6 +184,8 @@ class Data {
         genderOfService: json["genderOfService"],
         childrenMeasure: json["childrenMeasure"],
         customerId: json["customerId"],
+        userSearchRadiusDistance: json["userSearchRadiusDistance"],
+        isShop: json["isShop"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         addresses: List<Address>.from(
@@ -161,8 +197,6 @@ class Data {
             json["bankDetails"].map((x) => BankDetail.fromJson(x))),
         banners:
             List<Banner>.from(json["banners"].map((x) => Banner.fromJson(x))),
-        therapistSubCategories:
-            List<dynamic>.from(json["therapistSubCategories"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -200,6 +234,8 @@ class Data {
         "genderOfService": genderOfService,
         "childrenMeasure": childrenMeasure,
         "customerId": customerId,
+        "userSearchRadiusDistance": userSearchRadiusDistance,
+        "isShop": isShop,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
@@ -207,8 +243,6 @@ class Data {
             List<dynamic>.from(certificationUploads.map((x) => x.toJson())),
         "bankDetails": List<dynamic>.from(bankDetails.map((x) => x.toJson())),
         "banners": List<dynamic>.from(banners.map((x) => x.toJson())),
-        "therapistSubCategories":
-            List<dynamic>.from(therapistSubCategories.map((x) => x)),
       };
 }
 
@@ -228,9 +262,9 @@ class Address {
     this.area,
     this.buildingName,
     this.postalCode,
+    this.geomet,
     this.lat,
     this.lon,
-    this.userSearchRadiusDistance,
     this.createdUser,
     this.updatedUser,
     this.isDefault,
@@ -246,15 +280,15 @@ class Address {
   dynamic userPlaceForMassage;
   dynamic otherAddressType;
   String capitalAndPrefecture;
-  dynamic capitalAndPrefectureId;
+  int capitalAndPrefectureId;
   String cityName;
-  dynamic citiesId;
+  int citiesId;
   String area;
   String buildingName;
   dynamic postalCode;
+  Geomet geomet;
   double lat;
   double lon;
-  dynamic userSearchRadiusDistance;
   String createdUser;
   String updatedUser;
   bool isDefault;
@@ -276,9 +310,9 @@ class Address {
         area: json["area"],
         buildingName: json["buildingName"],
         postalCode: json["postalCode"],
+        geomet: Geomet.fromJson(json["geomet"]),
         lat: json["lat"].toDouble(),
         lon: json["lon"].toDouble(),
-        userSearchRadiusDistance: json["userSearchRadiusDistance"],
         createdUser: json["createdUser"],
         updatedUser: json["updatedUser"],
         isDefault: json["isDefault"],
@@ -301,14 +335,35 @@ class Address {
         "area": area,
         "buildingName": buildingName,
         "postalCode": postalCode,
+        "geomet": geomet.toJson(),
         "lat": lat,
         "lon": lon,
-        "userSearchRadiusDistance": userSearchRadiusDistance,
         "createdUser": createdUser,
         "updatedUser": updatedUser,
         "isDefault": isDefault,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class Geomet {
+  Geomet({
+    this.type,
+    this.coordinates,
+  });
+
+  String type;
+  List<double> coordinates;
+
+  factory Geomet.fromJson(Map<String, dynamic> json) => Geomet(
+        type: json["type"],
+        coordinates:
+            List<double>.from(json["coordinates"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
       };
 }
 
@@ -376,9 +431,9 @@ class Banner {
   int id;
   int userId;
   String bannerImageUrl1;
-  String bannerImageUrl2;
+  dynamic bannerImageUrl2;
   String bannerImageUrl3;
-  String bannerImageUrl4;
+  dynamic bannerImageUrl4;
   String bannerImageUrl5;
   DateTime createdAt;
   DateTime updatedAt;
@@ -431,9 +486,9 @@ class CertificationUpload {
   int id;
   int userId;
   dynamic acupuncturist;
-  dynamic moxibutionist;
+  String moxibutionist;
   dynamic acupuncturistAndMoxibustion;
-  String anmaMassageShiatsushi;
+  dynamic anmaMassageShiatsushi;
   dynamic judoRehabilitationTeacher;
   dynamic physicalTherapist;
   dynamic acquireNationalQualifications;
@@ -482,5 +537,128 @@ class CertificationUpload {
         "privateQualification5": privateQualification5,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class ReviewData {
+  ReviewData({
+    this.ratingAvg,
+    this.noOfReviewsMembers,
+  });
+
+  String ratingAvg;
+  int noOfReviewsMembers;
+
+  factory ReviewData.fromJson(Map<String, dynamic> json) => ReviewData(
+        ratingAvg: json["ratingAvg"],
+        noOfReviewsMembers: json["NoOfReviewsMembers"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ratingAvg": ratingAvg,
+        "NoOfReviewsMembers": noOfReviewsMembers,
+      };
+}
+
+class TherapistList {
+  TherapistList({
+    this.id,
+    this.userId,
+    this.categoryId,
+    this.subCategoryId,
+    this.name,
+    this.sixtyMin,
+    this.nintyMin,
+    this.oneTwentyMin,
+    this.oneFifityMin,
+    this.oneEightyMin,
+    this.createdAt,
+    this.updatedAt,
+    this.mstMassageCategory,
+    this.mstMassageSubCategory,
+  });
+
+  int id;
+  int userId;
+  int categoryId;
+  int subCategoryId;
+  String name;
+  int sixtyMin;
+  int nintyMin;
+  int oneTwentyMin;
+  int oneFifityMin;
+  int oneEightyMin;
+  DateTime createdAt;
+  DateTime updatedAt;
+  MstMassageCategory mstMassageCategory;
+  MstMassageCategory mstMassageSubCategory;
+
+  factory TherapistList.fromJson(Map<String, dynamic> json) => TherapistList(
+        id: json["id"],
+        userId: json["userId"],
+        categoryId: json["categoryId"],
+        subCategoryId: json["subCategoryId"],
+        name: json["name"],
+        sixtyMin: json["sixtyMin"],
+        nintyMin: json["nintyMin"],
+        oneTwentyMin: json["oneTwentyMin"],
+        oneFifityMin: json["oneFifityMin"],
+        oneEightyMin: json["oneEightyMin"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        mstMassageCategory:
+            MstMassageCategory.fromJson(json["mstMassageCategory"]),
+        mstMassageSubCategory:
+            MstMassageCategory.fromJson(json["mstMassageSubCategory"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "userId": userId,
+        "categoryId": categoryId,
+        "subCategoryId": subCategoryId,
+        "name": name,
+        "sixtyMin": sixtyMin,
+        "nintyMin": nintyMin,
+        "oneTwentyMin": oneTwentyMin,
+        "oneFifityMin": oneFifityMin,
+        "oneEightyMin": oneEightyMin,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "mstMassageCategory": mstMassageCategory.toJson(),
+        "mstMassageSubCategory": mstMassageSubCategory.toJson(),
+      };
+}
+
+class MstMassageCategory {
+  MstMassageCategory({
+    this.id,
+    this.value,
+    this.createdAt,
+    this.updatedAt,
+    this.categoryId,
+  });
+
+  int id;
+  String value;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int categoryId;
+
+  factory MstMassageCategory.fromJson(Map<String, dynamic> json) =>
+      MstMassageCategory(
+        id: json["id"],
+        value: json["value"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        categoryId: json["categoryId"] == null ? null : json["categoryId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "value": value,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "categoryId": categoryId == null ? null : categoryId,
       };
 }

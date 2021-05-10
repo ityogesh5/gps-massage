@@ -5,8 +5,6 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gps_massageapp/constantUtils/colorConstants.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/lineLoginHelper.dart';
@@ -14,7 +12,6 @@ import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper
 import 'package:gps_massageapp/constantUtils/helperClasses/statusCodeResponseHelper.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/login/loginResponseModel.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
-import 'package:gps_massageapp/utils/redAsterisk.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +23,6 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-
   var loginResponseModel = new LoginResponseModel();
   var addressResponse = new Address();
   bool passwordVisibility = true;
@@ -51,18 +47,7 @@ class _UserLoginState extends State<UserLogin> {
     // TODO: implement initState
     super.initState();
   }
-  showOverlayLoader() {
-    Loader.show(
-      context,
-      progressIndicator: SpinKitThreeBounce(color: Colors.lime),
-    );
-  }
 
-  hideLoader() {
-    Future.delayed(Duration(seconds: 0), () {
-      Loader.hide();
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -469,7 +454,7 @@ class _UserLoginState extends State<UserLogin> {
     }
 
     try {
-      showOverlayLoader();
+      ProgressDialogBuilder.showOverlayLoader(context);
 
       final url = HealingMatchConstants.LOGIN_USER_URL;
       final response = await http.post(url,
@@ -535,7 +520,8 @@ class _UserLoginState extends State<UserLogin> {
             value.setBool('userLoginSkipped', false);
             value.setBool('isProviderLoggedIn', false);
 
-            print('Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
+            print(
+                'Address place : ${userAddressData.userPlaceForMassage} : ${userAddressData.otherAddressType}');
           }
 
           print('ID: ${loginResponseModel.data.id}');
@@ -552,10 +538,10 @@ class _UserLoginState extends State<UserLogin> {
         });
         print('Is User verified : ${loginResponseModel.data.isVerified}');
         if (loginResponseModel.data.isVerified) {
-          hideLoader();
+          ProgressDialogBuilder.hideLoader(context);
           NavigationRouter.switchToServiceUserBottomBar(context);
         } else {
-          hideLoader();
+          ProgressDialogBuilder.hideLoader(context);
           Toast.show("許可されていないユーザー。", context,
               duration: 4,
               gravity: Toast.CENTER,
@@ -565,12 +551,12 @@ class _UserLoginState extends State<UserLogin> {
           return;
         }
       } else {
-        hideLoader();
+        ProgressDialogBuilder.hideLoader(context);
         print('Response Failure !!');
         return;
       }
     } catch (e) {
-      hideLoader();
+      ProgressDialogBuilder.hideLoader(context);
       print('Response catch error : ${e.toString()}');
       return;
     }

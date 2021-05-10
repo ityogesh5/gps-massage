@@ -18,7 +18,7 @@ class _UserInitialTutorialState extends State<UserInitialTutorial> {
     return Scaffold(
         floatingActionButton: tutorialBottomNavigationBar(),
         body: SafeArea(
-        /*   left: false,
+          /*   left: false,
           top: false,
           right: false, */
           bottom: false,

@@ -3,12 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
 import 'package:gps_massageapp/constantUtils/helperClasses/alertDialogHelper/dialogHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/bottomNavigationBar/curved_Naviagtion_Bar.dart';
+import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/bookingScreensUser/ReservationScreens/reservationAndFavourites.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/chatScreensUser/NoticeScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/homeScreen/searchScreensUser/SearchScreenUser.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/ViewProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gps_massageapp/routing/navigationRouter.dart';
 
 import 'HomeScreenUser.dart';
 
@@ -66,8 +66,8 @@ class _BottomBarUserState extends State<BottomBarUser> {
         backgroundColor: Colors.red.withOpacity(0),
         // Colors.red,
         color: Colors.white,
-        animationCurve: Curves.decelerate,
-        animationDuration: Duration(milliseconds: 200),
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
         items: <Widget>[
           SvgPicture.asset(
             "assets/images_gps/provicer_home_black.svg",
