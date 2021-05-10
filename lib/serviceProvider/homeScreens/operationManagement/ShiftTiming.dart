@@ -93,8 +93,6 @@ class _ShiftTimingState extends State<ShiftTiming> {
         start = start.add(Duration(minutes: 15));
       }
     }
-
-    print("h");
   }
 
   @override
