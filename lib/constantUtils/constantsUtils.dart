@@ -11,6 +11,7 @@ import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/ev
 import 'package:gps_massageapp/models/responseModels/serviceProvider/loginResponseModel.dart'
     as providerLogin;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/messageServicePriceModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/homeScreen/RecommendTherapistModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/profile/profileUpdateResponseModel.dart';
 import 'package:gps_massageapp/models/responseModels/serviceUser/searchModels/SearchTherapistResultsModel.dart';
@@ -102,6 +103,10 @@ class HealingMatchConstants {
   //get Therapist Details by ID
   static const String THERAPIST_DETAILS_BY_ID =
       ON_PREMISE_USER_BASE_URL + "/user" + "/therapistByIdProfit";
+
+  //save Provider Shift Timing
+  static const String THERAPIST_SHIFT_TIME_SAVE =
+      ON_PREMISE_USER_BASE_URL + "/storeServicetime" + "/storeServicetimeMange";
 
   // // get Users list By ID
   // static const String THERAPIST_USER_BY_ID_URL =
@@ -403,6 +408,7 @@ class HealingMatchConstants {
   static int serviceUserId;
   static int userId;
   static List<FlutterWeekViewEvent> events = List<FlutterWeekViewEvent>();
+  static List<StoreServiceTime> therapistDetails = List<StoreServiceTime>();
 
   //User Token
   static String uAccessToken = '';
@@ -411,11 +417,11 @@ class HealingMatchConstants {
   static const String clientLineChannelID = '1655556164';
   static const String demoLineChannelID = '1620019587';
 
-  static String lineUserID ;
-  static String lineAccessToken ;
-  static String lineUsername ;
-  static String lineUserProfileURL ;
-  static String lineUserProfileDetails ;
+  static String lineUserID;
+  static String lineAccessToken;
+  static String lineUsername;
+  static String lineUserProfileURL;
+  static String lineUserProfileDetails;
 
   // Profile Edit screen user
   static Uint8List userEditProfile;

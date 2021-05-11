@@ -56,8 +56,8 @@ class _ProviderCalendarState extends State<ProviderCalendar> {
   @override
   void initState() {
     super.initState();
-    HealingMatchConstants.isProviderHomePage = false;
 
+    HealingMatchConstants.isProviderHomePage = false;
     ServiceProviderApi.getCalEvents().then((value) {
       events.addAll(value);
       setState(() {

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/src/event.dart';
-import 'package:gps_massageapp/models/responseModels/serviceProvider/eventResponseModel.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/shiftTimeUpdateResponse.dart'
+    as shiftTimeUpdate;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/userReviewandRatingsResponseModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:gps_massageapp/models/responseModels/serviceProvider/providerReviewandRatingsViewResponseModel.dart';
@@ -182,7 +185,8 @@ class ServiceProviderApi {
   }
 
   //mark unavailable from xo calendar
-  /*  Future<bool> */ static createEvent(DateTime eventTime) async {
+  static Future<Event> createEvent(
+      DateTime eventTime, BuildContext context) async {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "cc971fe468280c2bb3c63dbdaffd886a5a781acd",
       "private_key":
@@ -220,20 +224,19 @@ class ServiceProviderApi {
     event.end = end;
 
     try {
-      calendar.events.insert(event, calendarId).then((value) {
+      Event addedEvent = await calendar.events.insert(event, calendarId);
+      return addedEvent;
+    /*  calendar.events.insert(event, calendarId).then((value) {
         print("ADDEDDD_________________${value.status}");
-        if (value.status == "confirmed") {
-          log('Event added in google calendar');
-        } else {
-          log("Unable to add event in google calendar");
-        }
-      });
+        return value;
+        // ProgressDialogBuilder.hideCommonProgressDialog(context);
+      }); */
     } catch (e) {
       log('Error creating event $e');
     }
   }
 
-  static removeEvent(String eventID) async {
+  static removeEvent(String eventID, BuildContext context) async {
     var accountCredentials = ServiceAccountCredentials.fromJson({
       "private_key_id": "cc971fe468280c2bb3c63dbdaffd886a5a781acd",
       "private_key":
@@ -251,7 +254,9 @@ class ServiceProviderApi {
 
     try {
       calendar.events.delete(calendarId, eventID).then((value) {
-        print("ADDEDDD_________________");
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+
+        print("Removed______");
       });
     } catch (e) {
       log('Error creating event $e');
@@ -276,10 +281,49 @@ class ServiceProviderApi {
         var therapistData = json.decode(response.body);
         ProviderDetailsResponseModel therapistDetails =
             ProviderDetailsResponseModel.fromJson(therapistData);
+        HealingMatchConstants.therapistDetails =
+            therapistDetails.data.storeServiceTimes;
         return therapistDetails;
       } else {
         print('Error occurred!!! TypeMassages response');
         throw Exception();
+      }
+    } catch (e) {
+      print('Exception : ${e.toString()}');
+    }
+  }
+
+  static saveShiftServiceTime(
+      List<StoreServiceTime> storeServiceTime, BuildContext context) async {
+    try {
+      final url = HealingMatchConstants.THERAPIST_SHIFT_TIME_SAVE;
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-access-token': '${HealingMatchConstants.accessToken}'
+      };
+      print(json.encode(storeServiceTime[0]));
+      final response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            //"storeServiceTime": json.encode(storeServiceTime)
+            "sunday": "[" + json.encode(storeServiceTime[0]) + "]",
+            "monday": "[" + json.encode(storeServiceTime[1]) + "]",
+            "tuesday": "[" + json.encode(storeServiceTime[2]) + "]",
+            "wednesday": "[" + json.encode(storeServiceTime[3]) + "]",
+            "thursday": "[" + json.encode(storeServiceTime[4]) + "]",
+            "friday": "[" + json.encode(storeServiceTime[5]) + "]",
+            "saturday": "[" + json.encode(storeServiceTime[6]) + "]",
+          }));
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        shiftTimeUpdate.ShiftTimeUpdateResponse shiftTimeUpdateResponse =
+            shiftTimeUpdate.ShiftTimeUpdateResponse.fromJson(data);
+        HealingMatchConstants.therapistDetails = shiftTimeUpdateResponse
+            .data.storeServiceTimes
+            .cast<StoreServiceTime>();
+        ProgressDialogBuilder.hideCommonProgressDialog(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
       }
     } catch (e) {
       print('Exception : ${e.toString()}');

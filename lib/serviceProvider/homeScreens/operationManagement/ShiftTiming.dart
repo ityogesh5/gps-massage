@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gps_massageapp/constantUtils/constantsUtils.dart';
-import 'package:gps_massageapp/customLibraryClasses/cardToolTips/showToolTip.dart';
+import 'package:gps_massageapp/constantUtils/helperClasses/progressDialogsHelper.dart';
+import 'package:gps_massageapp/customLibraryClasses/cardToolTips/timeSpinnerToolTip.dart';
 import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_switch.dart';
 import 'package:gps_massageapp/customLibraryClasses/dropdowns/dropDownServiceUserRegisterScreen.dart';
 import 'package:gps_massageapp/customLibraryClasses/flutterTimePickerSpinner/flutter_time_picker_spinner.dart';
 import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.dart';
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
+import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
 
 class ShiftTiming extends StatefulWidget {
@@ -34,9 +36,25 @@ class _ShiftTimingState extends State<ShiftTiming> {
   List<String> eventID = List<String>();
   Map<DateTime, String> scheduleEventId = Map<DateTime, String>();
   bool status = false;
-  GlobalKey key = new GlobalKey();
+  var refreshState;
+  GlobalKey sundayStartKey = new GlobalKey();
+  GlobalKey sundayEndKey = new GlobalKey();
+  GlobalKey mondayStartkey = new GlobalKey();
+  GlobalKey mondayEndKey = new GlobalKey();
+  GlobalKey tuesdayStartKey = new GlobalKey();
+  GlobalKey tuesdayEndKey = new GlobalKey();
+  GlobalKey wednedayStartKey = new GlobalKey();
+  GlobalKey wednesdayEndKey = new GlobalKey();
+  GlobalKey thursdayStartKey = new GlobalKey();
+  GlobalKey thursdayEndKey = new GlobalKey();
+  GlobalKey fridayStartKey = new GlobalKey();
+  GlobalKey fridayEndKey = new GlobalKey();
+  GlobalKey saturdayStartKey = new GlobalKey();
+  GlobalKey saturdayEndKey = new GlobalKey();
   Size buttonSize;
   Offset buttonPosition;
+  List<String> dayNames = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
+  List<StoreServiceTime> storeServiceTime = List<StoreServiceTime>();
 
   @override
   void initState() {
@@ -71,7 +89,31 @@ class _ShiftTimingState extends State<ShiftTiming> {
       timeRow.add(start);
       start = start.add(Duration(minutes: 15));
     }
-    //  print(timeRow);
+
+    //get start and End Time from Api
+    if (HealingMatchConstants.therapistDetails == null) {
+      buildInitialTime();
+    } else {
+      storeServiceTime.addAll(HealingMatchConstants.therapistDetails);
+    }
+  }
+
+  buildInitialTime() {
+    int i = 1;
+    DateTime defaultStart = DateTime(_cyear, _cmonth, 1, 0, 0, 0);
+    DateTime defaultEnd = DateTime(_cyear, _cmonth, 1, 24, 0, 0);
+    for (var day in dayNames) {
+      storeServiceTime.add(StoreServiceTime(
+        id: 0,
+        userId: HealingMatchConstants.userId,
+        weekDay: day,
+        dayInNumber: i,
+        startTime: defaultStart,
+        endTime: defaultEnd,
+        shopOpen: true,
+      ));
+      i = i + 1;
+    }
   }
 
   getEvents() {
@@ -377,7 +419,10 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                     }
                                   });
                                   if (eventId != null) {
-                                    ServiceProviderApi.removeEvent(eventId);
+                                    ProgressDialogBuilder
+                                        .showCommonProgressDialog(context);
+                                    ServiceProviderApi.removeEvent(
+                                        eventId, context);
                                   }
                                 },
                                 child: Center(
@@ -395,14 +440,28 @@ class _ShiftTimingState extends State<ShiftTiming> {
                                   } else {
                                     events[timeRow[i]].addAll([j]);
                                   }
-
-                                  ServiceProviderApi.createEvent(DateTime(
-                                      timeRow[i].year,
-                                      timeRow[i].month,
-                                      j + 1,
-                                      timeRow[i].hour,
-                                      timeRow[i].minute,
-                                      timeRow[i].second));
+                                  ProgressDialogBuilder
+                                      .showCommonProgressDialog(context);
+                                  ServiceProviderApi.createEvent(
+                                          DateTime(
+                                              timeRow[i].year,
+                                              timeRow[i].month,
+                                              j + 1,
+                                              timeRow[i].hour,
+                                              timeRow[i].minute,
+                                              timeRow[i].second),
+                                          context)
+                                      .then((value) {
+                                    scheduleEventId[DateTime(
+                                        timeRow[i].year,
+                                        timeRow[i].month,
+                                        j + 1,
+                                        timeRow[i].hour,
+                                        timeRow[i].minute,
+                                        timeRow[i].second)] = value.id;
+                                    ProgressDialogBuilder
+                                        .hideCommonProgressDialog(context);
+                                  });
                                 });
                               },
                               child: Center(
@@ -453,25 +512,27 @@ class _ShiftTimingState extends State<ShiftTiming> {
   }
 
   setDayTiming() {
-    bool monTimePicker = false;
-    bool tueTimePicker = false;
-    bool wedTimePicker = false;
-    bool thuTimePicker = false;
-    bool friTimePicker = false;
-    bool satTimePicker = false;
-    bool sunTimePicker = false;
-    DateTime _dateTime = DateTime.now();
+    TextStyle hourTextStyle = TextStyle(fontSize: 12.0);
+    TextStyle disabledHourTextStyle =
+        TextStyle(fontSize: 12.0, color: Colors.grey);
+    Color containerColor = Colors.grey[100];
     return showDialog(
         context: context,
         builder: (context) {
-          double width = MediaQuery.of(context).size.width;
           return StatefulBuilder(builder: (context, setState) {
+            refreshState = setState;
             return Dialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               elevation: 16,
               child: SingleChildScrollView(
                 child: Container(
+                  decoration: BoxDecoration(
+                    color:
+                        containerColor, //Colors.grey[100],//Color.fromRGBO(255, 255, 255, 1),
+                    borderRadius: BorderRadius.circular(20),
+                    // boxShadow: Color.fromRGBO(0, 0, 0, 0.16),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -504,129 +565,221 @@ class _ShiftTimingState extends State<ShiftTiming> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("月曜日"),
+                            Text("${storeServiceTime[0].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  monTimePicker = !monTimePicker;
-                                });
+                                if (storeServiceTime[0].shopOpen) {
+                                  showToolTip(
+                                      sundayStartKey,
+                                      storeServiceTime[0].startTime,
+                                      context,
+                                      0,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                      child: Text(
-                                    "12:30",
-                                    key: key,
-                                  )),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: sundayStartKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[0].startTime.hour < 10
+                                            ? "0${storeServiceTime[0].startTime.hour}"
+                                            : "${storeServiceTime[0].startTime.hour}",
+                                        style: storeServiceTime[0].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[0].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[0].startTime.minute}"
+                                            : ":${storeServiceTime[0].startTime.minute}",
+                                        style: storeServiceTime[0].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  monTimePicker = !monTimePicker;
-                                });
+                                if (storeServiceTime[0].shopOpen) {
+                                  showToolTip(
+                                      sundayEndKey,
+                                      storeServiceTime[0].endTime,
+                                      context,
+                                      0,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: sundayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[0].endTime.hour < 10
+                                            ? "0${storeServiceTime[0].endTime.hour}"
+                                            : "${storeServiceTime[0].endTime.hour}",
+                                        style: storeServiceTime[0].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[0].endTime.minute < 10
+                                            ? ":0${storeServiceTime[0].endTime.minute}"
+                                            : ":${storeServiceTime[0].endTime.minute}",
+                                        style: storeServiceTime[0].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[0].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[0].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        monTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("火曜日"),
+                            Text("${storeServiceTime[1].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  tueTimePicker = !tueTimePicker;
-                                });
+                                if (storeServiceTime[1].shopOpen) {
+                                  showToolTip(
+                                      mondayStartkey,
+                                      storeServiceTime[1].startTime,
+                                      context,
+                                      1,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: mondayStartkey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[1].startTime.hour < 10
+                                            ? "0${storeServiceTime[1].startTime.hour}"
+                                            : "${storeServiceTime[1].startTime.hour}",
+                                        style: storeServiceTime[1].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[1].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[1].startTime.minute}"
+                                            : ":${storeServiceTime[1].startTime.minute}",
+                                        style: storeServiceTime[1].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  tueTimePicker = !tueTimePicker;
-                                });
+                                if (storeServiceTime[1].shopOpen) {
+                                  showToolTip(
+                                      mondayEndKey,
+                                      storeServiceTime[1].endTime,
+                                      context,
+                                      1,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: mondayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[1].endTime.hour < 10
+                                            ? "0${storeServiceTime[1].endTime.hour}"
+                                            : "${storeServiceTime[1].endTime.hour}",
+                                        style: storeServiceTime[1].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[1].endTime.minute < 10
+                                            ? ":0${storeServiceTime[1].endTime.minute}"
+                                            : ":${storeServiceTime[1].endTime.minute}",
+                                        style: storeServiceTime[1].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[1].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[1].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        tueTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("水曜日"),
+                            Text("${storeServiceTime[2].weekDay}"),
                             InkWell(
                               onTap: () {
                                 /* setState(() {
@@ -635,20 +788,48 @@ class _ShiftTimingState extends State<ShiftTiming> {
                               },
                               child: InkWell(
                                 onTap: () {
-                                  findButton(key);
-                                  setState(() {
-                                    wedTimePicker = !wedTimePicker;
-                                  });
+                                  if (storeServiceTime[2].shopOpen) {
+                                    showToolTip(
+                                        tuesdayStartKey,
+                                        storeServiceTime[2].startTime,
+                                        context,
+                                        2,
+                                        true);
+                                  }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[400]),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Colors.white),
+                                    border: Border.all(color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: containerColor,
+                                  ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(child: Text("12:30")),
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Row(
+                                      key: tuesdayStartKey,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          storeServiceTime[2].startTime.hour <
+                                                  10
+                                              ? "0${storeServiceTime[2].startTime.hour}"
+                                              : "${storeServiceTime[2].startTime.hour}",
+                                          style: storeServiceTime[2].shopOpen
+                                              ? hourTextStyle
+                                              : disabledHourTextStyle,
+                                        ),
+                                        Text(
+                                          storeServiceTime[2].startTime.minute <
+                                                  10
+                                              ? ":0${storeServiceTime[2].startTime.minute}"
+                                              : ":${storeServiceTime[2].startTime.minute}",
+                                          style: storeServiceTime[2].shopOpen
+                                              ? hourTextStyle
+                                              : disabledHourTextStyle,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -656,275 +837,488 @@ class _ShiftTimingState extends State<ShiftTiming> {
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  wedTimePicker = !wedTimePicker;
-                                });
+                                if (storeServiceTime[2].shopOpen) {
+                                  showToolTip(
+                                      tuesdayEndKey,
+                                      storeServiceTime[2].endTime,
+                                      context,
+                                      2,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: tuesdayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[2].endTime.hour < 10
+                                            ? "0${storeServiceTime[2].endTime.hour}"
+                                            : "${storeServiceTime[2].endTime.hour}",
+                                        style: storeServiceTime[2].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[2].endTime.minute < 10
+                                            ? ":0${storeServiceTime[2].endTime.minute}"
+                                            : ":${storeServiceTime[2].endTime.minute}",
+                                        style: storeServiceTime[2].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[2].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[2].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        wedTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("木曜日"),
+                            Text("${storeServiceTime[3].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  thuTimePicker = !thuTimePicker;
-                                });
+                                if (storeServiceTime[3].shopOpen) {
+                                  showToolTip(
+                                      wednedayStartKey,
+                                      storeServiceTime[3].startTime,
+                                      context,
+                                      3,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: wednedayStartKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[3].startTime.hour < 10
+                                            ? "0${storeServiceTime[3].startTime.hour}"
+                                            : "${storeServiceTime[3].startTime.hour}",
+                                        style: storeServiceTime[3].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[3].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[3].startTime.minute}"
+                                            : ":${storeServiceTime[3].startTime.minute}",
+                                        style: storeServiceTime[3].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  thuTimePicker = !thuTimePicker;
-                                });
+                                if (storeServiceTime[3].shopOpen) {
+                                  showToolTip(
+                                      wednesdayEndKey,
+                                      storeServiceTime[3].endTime,
+                                      context,
+                                      3,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: wednesdayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[3].endTime.hour < 10
+                                            ? "0${storeServiceTime[3].endTime.hour}"
+                                            : "${storeServiceTime[3].endTime.hour}",
+                                        style: storeServiceTime[3].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[3].endTime.minute < 10
+                                            ? ":0${storeServiceTime[3].endTime.minute}"
+                                            : ":${storeServiceTime[3].endTime.minute}",
+                                        style: storeServiceTime[3].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[3].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[3].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        thuTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("金曜日"),
+                            Text("${storeServiceTime[4].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  friTimePicker = !friTimePicker;
-                                });
+                                if (storeServiceTime[4].shopOpen) {
+                                  showToolTip(
+                                      thursdayStartKey,
+                                      storeServiceTime[4].startTime,
+                                      context,
+                                      4,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: thursdayStartKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[4].startTime.hour < 10
+                                            ? "0${storeServiceTime[4].startTime.hour}"
+                                            : "${storeServiceTime[4].startTime.hour}",
+                                        style: storeServiceTime[4].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[4].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[4].startTime.minute}"
+                                            : ":${storeServiceTime[4].startTime.minute}",
+                                        style: storeServiceTime[4].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  friTimePicker = !friTimePicker;
-                                });
+                                if (storeServiceTime[4].shopOpen) {
+                                  showToolTip(
+                                      thursdayEndKey,
+                                      storeServiceTime[4].endTime,
+                                      context,
+                                      4,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: thursdayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[4].endTime.hour < 10
+                                            ? "0${storeServiceTime[4].endTime.hour}"
+                                            : "${storeServiceTime[4].endTime.hour}",
+                                        style: storeServiceTime[4].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[4].endTime.minute < 10
+                                            ? ":0${storeServiceTime[4].endTime.minute}"
+                                            : ":${storeServiceTime[4].endTime.minute}",
+                                        style: storeServiceTime[4].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[4].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[4].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        friTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("土曜日"),
+                            Text("${storeServiceTime[5].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  satTimePicker = !satTimePicker;
-                                });
+                                if (storeServiceTime[5].shopOpen) {
+                                  showToolTip(
+                                      fridayStartKey,
+                                      storeServiceTime[5].startTime,
+                                      context,
+                                      5,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: fridayStartKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[5].startTime.hour < 10
+                                            ? "0${storeServiceTime[5].startTime.hour}"
+                                            : "${storeServiceTime[5].startTime.hour}",
+                                        style: storeServiceTime[5].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[5].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[5].startTime.minute}"
+                                            : ":${storeServiceTime[5].startTime.minute}",
+                                        style: storeServiceTime[5].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  satTimePicker = !satTimePicker;
-                                });
+                                if (storeServiceTime[5].shopOpen) {
+                                  showToolTip(
+                                      fridayEndKey,
+                                      storeServiceTime[5].endTime,
+                                      context,
+                                      5,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: fridayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[5].endTime.hour < 10
+                                            ? "0${storeServiceTime[5].endTime.hour}"
+                                            : "${storeServiceTime[5].endTime.hour}",
+                                        style: storeServiceTime[5].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[5].endTime.minute < 10
+                                            ? ":0${storeServiceTime[5].endTime.minute}"
+                                            : ":${storeServiceTime[5].endTime.minute}",
+                                        style: storeServiceTime[5].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[5].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[5].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        satTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("日曜 日"),
+                            Text("${storeServiceTime[6].weekDay}"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  sunTimePicker = !sunTimePicker;
-                                });
+                                if (storeServiceTime[6].shopOpen) {
+                                  showToolTip(
+                                      saturdayStartKey,
+                                      storeServiceTime[6].startTime,
+                                      context,
+                                      6,
+                                      true);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: saturdayStartKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[6].startTime.hour < 10
+                                            ? "0${storeServiceTime[6].startTime.hour}"
+                                            : "${storeServiceTime[6].startTime.hour}",
+                                        style: storeServiceTime[6].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[6].startTime.minute <
+                                                10
+                                            ? ":0${storeServiceTime[6].startTime.minute}"
+                                            : ":${storeServiceTime[6].startTime.minute}",
+                                        style: storeServiceTime[6].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Text("~"),
                             InkWell(
                               onTap: () {
-                                findButton(key);
-                                setState(() {
-                                  sunTimePicker = !sunTimePicker;
-                                });
+                                if (storeServiceTime[6].shopOpen) {
+                                  showToolTip(
+                                      saturdayEndKey,
+                                      storeServiceTime[6].endTime,
+                                      context,
+                                      6,
+                                      false);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey[400]),
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: Colors.white),
+                                  border: Border.all(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: containerColor,
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text("12:30")),
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: Row(
+                                    key: saturdayEndKey,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        storeServiceTime[6].endTime.hour < 10
+                                            ? "0${storeServiceTime[6].endTime.hour}"
+                                            : "${storeServiceTime[6].endTime.hour}",
+                                        style: storeServiceTime[6].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                      Text(
+                                        storeServiceTime[6].endTime.minute < 10
+                                            ? ":0${storeServiceTime[6].endTime.minute}"
+                                            : ":${storeServiceTime[6].endTime.minute}",
+                                        style: storeServiceTime[6].shopOpen
+                                            ? hourTextStyle
+                                            : disabledHourTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             CustomSwitch(
                               activeColor: Colors.lime,
-                              value: status,
+                              value: storeServiceTime[6].shopOpen,
                               onChanged: (value) {
                                 print("VALUE : $value");
                                 setState(() {
-                                  status = value;
+                                  storeServiceTime[6].shopOpen = value;
                                 });
                               },
                             ),
                           ],
                         ),
-                        sunTimePicker
-                            ? Container(
-                                child: buildTimeController(_dateTime),
-                              )
-                            : Container(),
                         SizedBox(height: 15.0),
                         Container(
                           height: 45,
@@ -1081,6 +1475,36 @@ class _ShiftTimingState extends State<ShiftTiming> {
         });
   }
 
+  //Method called from ShowtoolTip to refresh the page after TimePicker is Selected
+  refreshPage(int index, DateTime newTime, bool isStart) {
+    refreshState(() {
+      isStart
+          ? storeServiceTime[index].startTime = newTime
+          : storeServiceTime[index].endTime = newTime;
+    });
+  }
+
+  void showToolTip(
+      var key, DateTime time, BuildContext context, int index, bool isStart) {
+    var width = MediaQuery.of(context).size.width - 10.0;
+    print(width);
+    ShowToolTip popup = ShowToolTip(context, refreshPage,
+        time: time,
+        index: index,
+        isStart: isStart,
+        textStyle: TextStyle(color: Colors.black),
+        height: 110,
+        width: MediaQuery.of(context).size.width * 0.73, //180,
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(8.0),
+        borderRadius: BorderRadius.circular(10.0));
+
+    /// show the popup for specific widget
+    popup.show(
+      widgetKey: key,
+    );
+  }
+
   buildButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1117,8 +1541,9 @@ class _ShiftTimingState extends State<ShiftTiming> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              ProgressDialogBuilder.showCommonProgressDialog(context);
+              ServiceProviderApi.saveShiftServiceTime(
+                  storeServiceTime, context);
             },
             //   minWidth: MediaQuery.of(context).size.width * 0.38,
             color: Color.fromRGBO(200, 217, 33, 1),
