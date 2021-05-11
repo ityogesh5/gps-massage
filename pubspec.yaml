@@ -104,7 +104,8 @@ dependencies:
   location: any
 
   googleapis: #Aswin Google Calendar Api
-  googleapis_auth: # Aswin Google Cloud Authentication 
+  googleapis_auth: # Aswin Google Cloud Authentication
+  readmore: any #Gowtham ReadMore
 
 
 

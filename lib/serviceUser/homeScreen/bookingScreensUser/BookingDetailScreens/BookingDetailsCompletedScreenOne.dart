@@ -32,6 +32,7 @@ import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapi
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_event.dart';
 import 'package:gps_massageapp/serviceUser/BlocCalls/HomeScreenBlocCalls/therapist_type_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:readmore/readmore.dart';
 
 final List<String> dummyBannerImages = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -1129,34 +1130,23 @@ class _BookingDetailsCompletedScreenOneState
                               fontSize: 16,
                               fontFamily: 'NotoSansJP'),
                         ),
-                        Padding(
+                      Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: RichText(
-                            textAlign: TextAlign.start,
-                            softWrap: true,
-                            text: new TextSpan(
-                              text: '${HealingMatchConstants.sampleText}',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.grey[400],
-                                  fontFamily: 'NotoSansJP'),
-                              children: <TextSpan>[
-                                new TextSpan(
-                                    text: 'もっとみる',
-                                    style: new TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontFamily: 'NotoSansJP',
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
+                          child:     ReadMoreText(
+            '${HealingMatchConstants.sampleText}',
+                  trimLines: 2,
+                  colorClickableText: Colors.pink,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: '...Show more',
+                  trimExpandedText: ' show less',
+                ),
                         ),
                       ],
                     ),
                   ),
                 ),
+
+
                 Row(children: <Widget>[
                   Expanded(
                       child: Padding(
@@ -57973,7 +57963,44 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                         }),
                   ),
                 ]),
+              ), Positioned(
+          top: 30.0,
+          left: 20.0,
+          right: 20.0,
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            CircleAvatar(
+              maxRadius: 18,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  size: 20,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
+            ),
+            Spacer(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CircleAvatar(
+                  maxRadius: 18,
+                  backgroundColor: Colors.white,
+                  child: CustomFavoriteButton(
+                      iconSize: 40,
+                      iconColor: Colors.red,
+                      valueChanged: (_isFavorite) {
+                        print('Is Favorite : $_isFavorite');
+                      }),
+                ),
+              ],
+            ),
+          ]),
+        ),
               Positioned(
                   bottom: 5.0,
                   left: 50.0,
@@ -58023,6 +58050,44 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                   ),
                 ]),
               ),
+               Positioned(
+          top: 30.0,
+          left: 20.0,
+          right: 20.0,
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            CircleAvatar(
+              maxRadius: 18,
+              backgroundColor: Colors.white,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  size: 20,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            Spacer(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CircleAvatar(
+                  maxRadius: 18,
+                  backgroundColor: Colors.white,
+                  child: CustomFavoriteButton(
+                      iconSize: 40,
+                      iconColor: Colors.red,
+                      valueChanged: (_isFavorite) {
+                        print('Is Favorite : $_isFavorite');
+                      }),
+                ),
+              ],
+            ),
+          ]),
+        ),
               Positioned(
                   bottom: 5.0,
                   left: 50.0,
