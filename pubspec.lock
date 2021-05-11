@@ -827,7 +827,7 @@ packages:
     source: hosted
     version: "1.0.0"
   simple_animations:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: simple_animations
       url: "https://pub.dartlang.org"
@@ -909,7 +909,7 @@ packages:
     source: hosted
     version: "0.9.6"
   supercharged:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: supercharged
       url: "https://pub.dartlang.org"

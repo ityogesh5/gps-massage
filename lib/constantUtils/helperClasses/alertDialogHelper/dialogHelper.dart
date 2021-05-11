@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gps_massageapp/customLibraryClasses/customSwitch/custom_dialog_switch.dart';
 import 'package:gps_massageapp/initialScreens/notificationPopup.dart';
 import 'package:gps_massageapp/routing/navigationRouter.dart';
 import 'package:gps_massageapp/serviceUser/profileScreens/DeleteSubAddressScreen.dart';
@@ -13,11 +12,6 @@ class DialogHelper {
   static Future<SharedPreferences> _sharedPreferences =
       SharedPreferences.getInstance();
 
-  static bool enableSwitch = false;
-
-  static void _toggle() {
-    enableSwitch = !enableSwitch;
-  }
 
   // notification popup
   static void showNotificationDialog(BuildContext context) {

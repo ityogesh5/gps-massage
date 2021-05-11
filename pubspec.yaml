@@ -105,8 +105,7 @@ dependencies:
 
   googleapis: #Aswin Google Calendar Api
   googleapis_auth: # Aswin Google Cloud Authentication 
-  simple_animations: ^2.2.3
-  supercharged: ^1.11.1
+
 
 
 
