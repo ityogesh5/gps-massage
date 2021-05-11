@@ -12,6 +12,7 @@ import 'package:gps_massageapp/customLibraryClasses/lazyTable/lazy_data_table.da
 import 'package:gps_massageapp/customLibraryClasses/providerEventCalendar/flutter_week_view.dart';
 import 'package:gps_massageapp/models/responseModels/serviceProvider/ProviderDetailsResponseModel.dart';
 import 'package:gps_massageapp/serviceProvider/APIProviderCalls/ServiceProviderApi.dart';
+import 'package:intl/intl.dart';
 
 class ShiftTiming extends StatefulWidget {
   @override
@@ -400,77 +401,90 @@ class _ShiftTimingState extends State<ShiftTiming> {
                           );
                         },
                         dataCellBuilder: (i, j) {
-                          if (events.containsKey(timeRow[i]) &&
-                              events[timeRow[i]].contains(j)) {
-                            return InkWell(
-                                onTap: () {
-                                  var eventId = scheduleEventId[DateTime(
-                                      timeRow[i].year,
-                                      timeRow[i].month,
-                                      j + 1,
-                                      timeRow[i].hour,
-                                      timeRow[i].minute,
-                                      timeRow[i].second)];
-                                  setState(() {
-                                    if (events[timeRow[i]].length == 1) {
-                                      events.remove(timeRow[i]);
-                                    } else {
-                                      events[timeRow[i]].remove(j);
-                                    }
-                                  });
-                                  if (eventId != null) {
-                                    ProgressDialogBuilder
-                                        .showCommonProgressDialog(context);
-                                    ServiceProviderApi.removeEvent(
-                                        eventId, context);
-                                  }
-                                },
-                                child: Center(
-                                    child: SvgPicture.asset(
-                                  "assets/images_gps/X.svg",
-                                  height: 20.0,
-                                  width: 20.0,
-                                )));
-                          } else {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (events[timeRow[i]] == null) {
-                                    events[timeRow[i]] = [j];
-                                  } else {
-                                    events[timeRow[i]].addAll([j]);
-                                  }
-                                  ProgressDialogBuilder
-                                      .showCommonProgressDialog(context);
-                                  ServiceProviderApi.createEvent(
-                                          DateTime(
-                                              timeRow[i].year,
-                                              timeRow[i].month,
-                                              j + 1,
-                                              timeRow[i].hour,
-                                              timeRow[i].minute,
-                                              timeRow[i].second),
-                                          context)
-                                      .then((value) {
-                                    scheduleEventId[DateTime(
+                          String dayName = DateFormat('EEEE')
+                              .format(DateTime(_cyear, _cmonth, j+1));
+                          //Get Japanese Day Name
+                          int dayIndex = getJaIndex(dayName);
+                          if (storeServiceTime[dayIndex].shopOpen) {
+                            if (events.containsKey(timeRow[i]) &&
+                                events[timeRow[i]].contains(j)) {
+                              return InkWell(
+                                  onTap: () {
+                                    var eventId = scheduleEventId[DateTime(
                                         timeRow[i].year,
                                         timeRow[i].month,
                                         j + 1,
                                         timeRow[i].hour,
                                         timeRow[i].minute,
-                                        timeRow[i].second)] = value.id;
+                                        timeRow[i].second)];
+                                    setState(() {
+                                      if (events[timeRow[i]].length == 1) {
+                                        events.remove(timeRow[i]);
+                                      } else {
+                                        events[timeRow[i]].remove(j);
+                                      }
+                                    });
+                                    if (eventId != null) {
+                                      ProgressDialogBuilder
+                                          .showCommonProgressDialog(context);
+                                      ServiceProviderApi.removeEvent(
+                                          eventId, context);
+                                    }
+                                  },
+                                  child: Center(
+                                      child: SvgPicture.asset(
+                                    "assets/images_gps/X.svg",
+                                    height: 20.0,
+                                    width: 20.0,
+                                  )));
+                            } else {
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (events[timeRow[i]] == null) {
+                                      events[timeRow[i]] = [j];
+                                    } else {
+                                      events[timeRow[i]].addAll([j]);
+                                    }
                                     ProgressDialogBuilder
-                                        .hideCommonProgressDialog(context);
+                                        .showCommonProgressDialog(context);
+                                    ServiceProviderApi.createEvent(
+                                            DateTime(
+                                                timeRow[i].year,
+                                                timeRow[i].month,
+                                                j + 1,
+                                                timeRow[i].hour,
+                                                timeRow[i].minute,
+                                                timeRow[i].second),
+                                            context)
+                                        .then((value) {
+                                      scheduleEventId[DateTime(
+                                          timeRow[i].year,
+                                          timeRow[i].month,
+                                          j + 1,
+                                          timeRow[i].hour,
+                                          timeRow[i].minute,
+                                          timeRow[i].second)] = value.id;
+                                      ProgressDialogBuilder
+                                          .hideCommonProgressDialog(context);
+                                    });
                                   });
-                                });
-                              },
-                              child: Center(
-                                  child: SvgPicture.asset(
-                                "assets/images_gps/O.svg",
-                                height: 20.0,
-                                width: 20.0,
-                              )),
-                            );
+                                },
+                                child: Center(
+                                    child: SvgPicture.asset(
+                                  "assets/images_gps/O.svg",
+                                  height: 20.0,
+                                  width: 20.0,
+                                )),
+                              );
+                            }
+                          } else {
+                            return Center(
+                                child: SvgPicture.asset(
+                              "assets/images_gps/X.svg",
+                              height: 20.0,
+                              width: 20.0,
+                            ));
                           }
                         },
                         cornerWidget: Center(
@@ -1503,6 +1517,32 @@ class _ShiftTimingState extends State<ShiftTiming> {
     popup.show(
       widgetKey: key,
     );
+  }
+
+  int getJaIndex(String day) {
+    switch (day) {
+      case 'Monday':
+        return 0;
+        break;
+      case 'Tuesday':
+        return 1;
+        break;
+      case 'Wednesday':
+        return 2;
+        break;
+      case 'Thursday':
+        return 3;
+        break;
+      case 'Friday':
+        return 4;
+        break;
+      case 'Saturday':
+        return 5;
+        break;
+      case 'Sunday':
+        return 6;
+        break;
+    }
   }
 
   buildButton() {

@@ -226,7 +226,7 @@ class ServiceProviderApi {
     try {
       Event addedEvent = await calendar.events.insert(event, calendarId);
       return addedEvent;
-    /*  calendar.events.insert(event, calendarId).then((value) {
+      /*  calendar.events.insert(event, calendarId).then((value) {
         print("ADDEDDD_________________${value.status}");
         return value;
         // ProgressDialogBuilder.hideCommonProgressDialog(context);
@@ -306,13 +306,13 @@ class ServiceProviderApi {
           headers: headers,
           body: json.encode({
             //"storeServiceTime": json.encode(storeServiceTime)
-            "sunday": "[" + json.encode(storeServiceTime[0]) + "]",
-            "monday": "[" + json.encode(storeServiceTime[1]) + "]",
-            "tuesday": "[" + json.encode(storeServiceTime[2]) + "]",
-            "wednesday": "[" + json.encode(storeServiceTime[3]) + "]",
-            "thursday": "[" + json.encode(storeServiceTime[4]) + "]",
-            "friday": "[" + json.encode(storeServiceTime[5]) + "]",
-            "saturday": "[" + json.encode(storeServiceTime[6]) + "]",
+            "monday": "[" + json.encode(storeServiceTime[0]) + "]",
+            "tuesday": "[" + json.encode(storeServiceTime[1]) + "]",
+            "wednesday": "[" + json.encode(storeServiceTime[2]) + "]",
+            "thursday": "[" + json.encode(storeServiceTime[3]) + "]",
+            "friday": "[" + json.encode(storeServiceTime[4]) + "]",
+            "saturday": "[" + json.encode(storeServiceTime[5]) + "]",
+            "sunday": "[" + json.encode(storeServiceTime[6]) + "]",
           }));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
